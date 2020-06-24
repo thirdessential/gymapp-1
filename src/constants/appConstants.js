@@ -23,6 +23,10 @@ export const notificationActions = {
   Accept:'Accept',
   Reject:'Reject'
 }
+
+export const storageKeys = {
+  PENDING_CALL:'PENDING_CALL'
+}
 export const webClientId = '284208119571-nt9fitb9l2o4qulefvju8gqeo7aaug01.apps.googleusercontent.com';
 
 export const videoTestMode = false;

@@ -5,6 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {connect} from "react-redux";
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
+
 const PushNotification = require("react-native-push-notification");
 
 const Stack = createStackNavigator();
@@ -26,17 +27,14 @@ import TrainerHomeScreen from "../screens/Auth/TrainerHomeScreen";
 import {updateAxiosToken} from "../API";
 import VideoCall from "../screens/App/VideoCall";
 import VideoTester from "../screens/App/VideoTester";
-import { navigationRef} from './RootNavigation';
-import {appPackageId, videoTestMode} from "../constants/appConstants";
-import LaunchApplication from 'react-native-bring-foreground';
+import {navigationRef} from './RootNavigation';
+import {storageKeys, videoTestMode} from "../constants/appConstants";
 import ChooseUserType from "../screens/Auth/ChooseUserType";
-import {configureFCMNotification, LocalNotification} from "../utils/notification";
+import {callHandler, configureFCMNotification, LocalNotification} from "../utils/notification";
+import {deleteFromStorage, readFromStorage, saveToStorage} from "../utils/utils";
+import ReceivingCall from "../screens/Call/ReceivingCall";
 
-messaging().setBackgroundMessageHandler(async remoteMessage => {
-  console.log('Remote Message handled in the background!', remoteMessage);
-  LocalNotification(remoteMessage.data)
-  LaunchApplication.open(appPackageId);
-});
+messaging().setBackgroundMessageHandler(callHandler);
 configureFCMNotification();
 
 const noHeader = {title: '', headerStyle: {height: 0}}
@@ -44,7 +42,9 @@ const noHeader = {title: '', headerStyle: {height: 0}}
 class App extends React.Component {
   state = {
     loading: true,
-    videoTestMode // set this to true to enter video testing mode,
+    videoTestMode, // set this to true to enter video testing mode,
+    receivingCall: true,
+    callData: {}
   }
 
   async componentDidMount() {
@@ -53,17 +53,32 @@ class App extends React.Component {
     setAuthenticated(false); // TODO: Remove this line and fix auth blacklisting
     this.authSubscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
     this.syncing = false;
-    // AppState.addEventListener("change", this._handleAppStateChange);
-    // messaging().onMessage(async remoteMessage => {
-    //   console.log("Remote message received", remoteMessage);
-    //   const {sessionId, agoraAppId, userEmail} = remoteMessage.data;
-    //   displayIncomingCall(sessionId, agoraAppId, userEmail);
-    // })
+    const callData = await readFromStorage(storageKeys.PENDING_CALL);
+    if (callData) {
+      deleteFromStorage(storageKeys.PENDING_CALL);
+      this.setState({
+        receivingCall: true,
+        callData
+      })
+      console.log("Set call data", callData);
+    }
+
+    AppState.addEventListener("change", this._handleAppStateChange);
+    messaging().onMessage(async remoteMessage => {
+      console.log("Remote message received in app", remoteMessage);
+      console.warn('henlo');
+      // const {sessionId, agoraAppId, userEmail} = remoteMessage.data;
+      // displayIncomingCall(sessionId, agoraAppId, userEmail);
+    })
 
   }
-  // _handleAppStateChange = nextAppState => {
-    // if(nextAppState==='active')     PushNotification.cancelAllLocalNotifications()
-  // };
+
+  _handleAppStateChange = nextAppState => {
+    if (nextAppState === 'active') {
+      // PushNotification.cancelAllLocalNotifications()
+    }
+  };
+
   onAuthStateChanged = async (user) => {
     const {authToken, setAuthenticated, syncFirebaseAuth} = this.props;
     console.log("Auth state changed", user);
@@ -98,61 +113,64 @@ class App extends React.Component {
       this.setState({loading: false});
   }
 
-  render() {
-    if (this.state.videoTestMode)
-      return (
-        <NavigationContainer ref={navigationRef}>
-          <Stack.Navigator screenOptions={{
-            headerShown: false
-          }}>
-            <Stack.Screen name={RouteNames.VideoTester} component={VideoTester}/>
-            <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
-          </Stack.Navigator>
-        </NavigationContainer>
-      )
+  videoTest = () => {
+    return (
+      <NavigationContainer ref={navigationRef}>
+        <Stack.Navigator screenOptions={{
+          headerShown: false
+        }}>
+          <Stack.Screen name={RouteNames.VideoTester} component={VideoTester}/>
+          <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    )
+  }
+  splashScreen = () => {
+    return (
+      <NavigationContainer ref={navigationRef}>
+        <Stack.Navigator screenOptions={{
+          headerShown: false
+        }}>
+          <Stack.Screen name={RouteNames.Splash} component={Splash}/>
+          <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    )
+  }
 
-    const {loading} = this.state;
-    const {authenticated, initialLogin} = this.props;
+  initialLoginUpScreen = () => {
+    return (
+      <NavigationContainer ref={navigationRef}>
+        <Stack.Navigator>
+          <Stack.Screen name="TrainerSignupDetails" component={TrainerSignupDetails}
+                        options={{title: 'Enter details'}}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    )
+  }
 
-    if (loading) {
-      return (
-        <NavigationContainer ref={navigationRef}>
-          <Stack.Navigator screenOptions={{
-            headerShown: false
-          }}>
-            <Stack.Screen name={RouteNames.Splash} component={Splash}/>
-            <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
-          </Stack.Navigator>
-        </NavigationContainer>
-      )
-    } else if (authenticated) {
-      if (initialLogin) return (
-        <NavigationContainer ref={navigationRef}>
-          <Stack.Navigator>
-            <Stack.Screen name="TrainerSignupDetails" component={TrainerSignupDetails}
-                          options={{title: 'Enter details'}}/>
-          </Stack.Navigator>
-        </NavigationContainer>
-      )
-      else
-        return (
-          <NavigationContainer ref={navigationRef}>
-            <Stack.Navigator>
-              <Stack.Screen name={RouteNames.UserListing} component={UserListing} options={{title: 'Overview'}}/>
-              <Stack.Screen name={RouteNames.Profile} component={Profile}/>
-              <Stack.Screen name={RouteNames.Packages} component={Packages}/>
-              <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
-            </Stack.Navigator>
-          </NavigationContainer>
-        );
-    } else return (
+  coreApplication = () => {
+    return (
+      <NavigationContainer ref={navigationRef}>
+        <Stack.Navigator>
+          <Stack.Screen name={RouteNames.UserListing} component={UserListing} options={{title: 'Overview'}}/>
+          <Stack.Screen name={RouteNames.Profile} component={Profile}/>
+          <Stack.Screen name={RouteNames.Packages} component={Packages}/>
+          <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
+
+  authFlow = () => {
+    return (
       <NavigationContainer ref={navigationRef}>
         <Stack.Navigator screenOptions={{
           headerStyle: {},
         }}
         >
           <Stack.Screen name={RouteNames.ChooseUserType} component={ChooseUserType} options={noHeader}/>
-          <Stack.Screen name={RouteNames.Login} component={LoginTwo} options={{title: ''}} />
+          <Stack.Screen name={RouteNames.Login} component={LoginTwo} options={{title: ''}}/>
           <Stack.Screen name={RouteNames.Signup} component={SignupTwo} options={{title: 'Sign up'}}/>
           <Stack.Screen name="Listings" component={Listings}/>
           <Stack.Screen name="signInWithRegisteredEmail" component={SignInWithRegisteredEmail}
@@ -162,11 +180,45 @@ class App extends React.Component {
                         options={{title: 'Enter details'}}/>
           <Stack.Screen name="TrainerHomeScreen" component={TrainerHomeScreen} options={{title: ''}}/>
           <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
-
         </Stack.Navigator>
-
       </NavigationContainer>
     );
+  }
+
+  callingScreen = () => {
+    return (
+      <NavigationContainer ref={navigationRef}>
+        <Stack.Navigator>
+          <Stack.Screen name={RouteNames.ReceivingCall} component={ReceivingCall} options={noHeader}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    )
+  }
+
+  render() {
+    console.log(this.state, 'lmao');
+    const {loading, videoTestMode, receivingCall, callData} = this.state;
+    const {authenticated, initialLogin,} = this.props;
+
+    if (loading) {
+      return <this.splashScreen/>
+    }
+
+    if (videoTestMode)
+      return <this.videoTest/>
+
+    if (receivingCall) {
+      return <this.callingScreen/>
+    }
+
+    if (authenticated) {
+      if (initialLogin)
+        return <this.initialLoginUpScreen/>
+      else
+        return <this.coreApplication/>
+    }
+
+    return <this.authFlow/>
   }
 }
 

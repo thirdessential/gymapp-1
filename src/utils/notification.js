@@ -1,12 +1,29 @@
-import {not} from "react-native-reanimated";
+import {saveToStorage} from "./utils";
 
 const PushNotification = require("react-native-push-notification");
 import messaging from '@react-native-firebase/messaging';
-import {notificationActions} from "../constants/appConstants";
 import RNExitApp from "react-native-exit-app";
+import LaunchApplication from "react-native-bring-foreground";
+
+import {appPackageId, notificationActions, storageKeys} from "../constants/appConstants";
 import {navigate} from "../navigation/RootNavigation";
 import RouteNames from "../navigation/RouteNames";
 import requestCameraAndAudioPermission from "./permission";
+
+export const callHandler = async (remoteMessage)=>{
+  console.log('Remote Message handled in the background!', remoteMessage);
+  const {data} = remoteMessage;
+  // For accepting calls directly from notification
+  LocalNotification(data);
+  const {agoraAppId,sessionId,userEmail} = data;
+  // Save to storage for in app Call UI
+  await saveToStorage(storageKeys.PENDING_CALL, {
+    agoraAppId,
+    sessionId,
+    userEmail
+  });
+  LaunchApplication.open(appPackageId);
+}
 
 export const configureFCMNotification = async () => {
   try {
