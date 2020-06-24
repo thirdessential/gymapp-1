@@ -25,14 +25,15 @@ import EmailVerification from "../screens/Auth/EmailVerification";
 import TrainerSignupDetails from "../screens/Auth/TrainerSignupDetails";
 import TrainerHomeScreen from "../screens/Auth/TrainerHomeScreen";
 import {updateAxiosToken} from "../API";
-import VideoCall from "../screens/App/VideoCall";
-import VideoTester from "../screens/App/VideoTester";
+import VideoCall from "../screens/Call/VideoCall";
+import VideoTester from "../screens/Call/VideoTester";
 import {navigationRef} from './RootNavigation';
 import {storageKeys, videoTestMode} from "../constants/appConstants";
 import ChooseUserType from "../screens/Auth/ChooseUserType";
 import {callHandler, configureFCMNotification, LocalNotification} from "../utils/notification";
 import {deleteFromStorage, readFromStorage, saveToStorage} from "../utils/utils";
-import ReceivingCall from "../screens/Call/ReceivingCall";
+import ReceivingCall from "../screens/Call/CallScreen";
+import CallScreen from "../screens/Call/CallScreen";
 
 messaging().setBackgroundMessageHandler(callHandler);
 configureFCMNotification();
@@ -43,39 +44,34 @@ class App extends React.Component {
   state = {
     loading: true,
     videoTestMode, // set this to true to enter video testing mode,
-    receivingCall: true,
-    callData: {}
   }
 
   async componentDidMount() {
     // this.props.resetUser();this.props.resetAuth()
-    const {setAuthenticated} = this.props;
+    const {setAuthenticated, setIncomingCall} = this.props;
     setAuthenticated(false); // TODO: Remove this line and fix auth blacklisting
     this.authSubscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
     this.syncing = false;
-    const callData = await readFromStorage(storageKeys.PENDING_CALL);
-    if (callData) {
-      deleteFromStorage(storageKeys.PENDING_CALL);
-      this.setState({
-        receivingCall: true,
-        callData
-      })
-      console.log("Set call data", callData);
-    }
-
+    await this.checkCallData();
     AppState.addEventListener("change", this._handleAppStateChange);
     messaging().onMessage(async remoteMessage => {
       console.log("Remote message received in app", remoteMessage);
-      console.warn('henlo');
-      // const {sessionId, agoraAppId, userEmail} = remoteMessage.data;
-      // displayIncomingCall(sessionId, agoraAppId, userEmail);
+      this.props.setIncomingCall(remoteMessage.data);
     })
+  }
 
+  checkCallData = async () => {
+    const callData = await readFromStorage(storageKeys.PENDING_CALL);
+    if (callData) {
+      deleteFromStorage(storageKeys.PENDING_CALL);
+      this.props.setIncomingCall(callData);
+      console.log("Set call data", callData);
+    }
   }
 
   _handleAppStateChange = nextAppState => {
     if (nextAppState === 'active') {
-      // PushNotification.cancelAllLocalNotifications()
+      this.checkCallData();
     }
   };
 
@@ -188,17 +184,19 @@ class App extends React.Component {
   callingScreen = () => {
     return (
       <NavigationContainer ref={navigationRef}>
-        <Stack.Navigator>
-          <Stack.Screen name={RouteNames.ReceivingCall} component={ReceivingCall} options={noHeader}/>
+        <Stack.Navigator screenOptions={{
+          headerShown: false
+        }}>
+          <Stack.Screen name={RouteNames.CallScreen} component={CallScreen}/>
+          <Stack.Screen name={RouteNames.VideoCall} component={VideoCall}/>
         </Stack.Navigator>
       </NavigationContainer>
     )
   }
 
   render() {
-    console.log(this.state, 'lmao');
-    const {loading, videoTestMode, receivingCall, callData} = this.state;
-    const {authenticated, initialLogin,} = this.props;
+    const {loading, videoTestMode} = this.state;
+    const {authenticated, initialLogin, callData, callActive} = this.props;
 
     if (loading) {
       return <this.splashScreen/>
@@ -206,8 +204,9 @@ class App extends React.Component {
 
     if (videoTestMode)
       return <this.videoTest/>
-
-    if (receivingCall) {
+    let tr = callData || callActive
+    console.log(tr)
+    if (Object.keys(callData).length !== 0 || callActive) {
       return <this.callingScreen/>
     }
 
@@ -225,14 +224,17 @@ class App extends React.Component {
 const mapStateToProps = (state) => ({
   authToken: state.user.authToken,
   authenticated: state.auth.authenticated,
-  initialLogin: state.user.initialLogin
+  initialLogin: state.user.initialLogin,
+  callActive: state.user.callActive,
+  callData: state.user.callData
 });
 
 const mapDispatchToProps = (dispatch) => ({
   resetAuth: () => dispatch(actionCreators.resetAuth()),
   resetUser: () => dispatch(actionCreators.resetUser()),
   setAuthenticated: (value) => dispatch(actionCreators.setAuthenticated(value)),
-  syncFirebaseAuth: (idToken, fcmToken) => dispatch(actionCreators.syncFirebaseAuth(idToken, fcmToken))
+  syncFirebaseAuth: (idToken, fcmToken) => dispatch(actionCreators.syncFirebaseAuth(idToken, fcmToken)),
+  setIncomingCall: callData => dispatch(actionCreators.setIncomingCall(callData))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

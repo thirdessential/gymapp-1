@@ -8,7 +8,10 @@ export {
   setAuthToken,
   resetUser,
   setUserType,
-  setInitialLoginOff
+  setInitialLoginOff,
+  setIncomingCall,
+  endCallAction as endCall,
+  setCallActive
 } from "./user.actions";
 
 export {

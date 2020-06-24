@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {callTimeout, videoFeedConfig} from "../../constants/appConstants";
 import strings from "../../constants/strings";
 import {customDelay} from "../../utils/utils";
+import * as actionCreators from "../../store/actions";
+import {connect} from "react-redux";
 
 const {Agora} = NativeModules;                  //Define Agora object as a native module
 
@@ -20,7 +22,6 @@ class VideoCall extends Component {
     super(props);
     const {params} = props.route;
     const {AppID, ChannelName, videoConfig = videoFeedConfig} = params;
-    console.log(videoConfig.width)
 
     this.state = {
       peerIds: [],                                //Array for storing connected peers
@@ -119,7 +120,10 @@ class VideoCall extends Component {
    */
   endCall() {
     RtcEngine.destroy();
-    this.props.navigation.pop();
+    const {navigation} = this.props;
+    if (navigation.canGoBack())
+      navigation.pop();
+    this.props.endCall();
   }
 
   /**
@@ -247,4 +251,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VideoCall;
+
+const mapStateToProps = (state) => ({
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  endCall: () => dispatch(actionCreators.endCall()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(VideoCall);

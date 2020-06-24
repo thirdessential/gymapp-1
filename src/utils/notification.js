@@ -10,18 +10,14 @@ import {navigate} from "../navigation/RootNavigation";
 import RouteNames from "../navigation/RouteNames";
 import requestCameraAndAudioPermission from "./permission";
 
-export const callHandler = async (remoteMessage)=>{
+export const callHandler = async (remoteMessage) => {
   console.log('Remote Message handled in the background!', remoteMessage);
   const {data} = remoteMessage;
   // For accepting calls directly from notification
   LocalNotification(data);
-  const {agoraAppId,sessionId,userEmail} = data;
+  // const {agoraAppId,sessionId,userEmail} = data;
   // Save to storage for in app Call UI
-  await saveToStorage(storageKeys.PENDING_CALL, {
-    agoraAppId,
-    sessionId,
-    userEmail
-  });
+  await saveToStorage(storageKeys.PENDING_CALL, data);
   LaunchApplication.open(appPackageId);
 }
 
@@ -51,14 +47,14 @@ export const configureFCMNotification = async () => {
 
 const handleNotification = async (notification) => {
   console.log("General Notification", notification);
-  if(notification.action===notificationActions.Reject){
+  if (notification.action === notificationActions.Reject) {
     PushNotification.cancelAllLocalNotifications();
     RNExitApp.exitApp();
   }
-  if(notification.action===notificationActions.Accept){
+  if (notification.action === notificationActions.Accept) {
     PushNotification.cancelAllLocalNotifications();
     console.log("Accepted call");
-    const {agoraAppId,sessionId,userEmail} = notification.payload;
+    const {agoraAppId, sessionId} = notification.payload;
     const permissionGranted = await requestCameraAndAudioPermission();
     if (!permissionGranted) return;
     navigate(RouteNames.VideoCall, {
@@ -72,7 +68,6 @@ const handleNotification = async (notification) => {
   }
 
 };
-
 
 
 export const LocalNotification = (data) => {
@@ -99,6 +94,6 @@ export const LocalNotification = (data) => {
     soundName: "ringer.mp3",
     number: 10,
     actions: `["${notificationActions.Accept}", "${notificationActions.Reject}"]`,
-    payload:data
+    payload: data
   });
 }
