@@ -17,6 +17,11 @@ export const videoFeedConfig = {
   bitrate: 600,
   FPS: 30
 }
+
+export const notificationActions = {
+  Accept:'Accept',
+  Reject:'Reject'
+}
 export const webClientId = '284208119571-nt9fitb9l2o4qulefvju8gqeo7aaug01.apps.googleusercontent.com';
 
 export const videoTestMode = false;
