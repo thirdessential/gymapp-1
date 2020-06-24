@@ -56,7 +56,7 @@ class App extends React.Component {
     AppState.addEventListener("change", this._handleAppStateChange);
     messaging().onMessage(async remoteMessage => {
       console.log("Remote message received in app", remoteMessage);
-      this.props.setIncomingCall(remoteMessage.data);
+      this.props.setIncomingCall(remoteMessage.data, true);
     })
   }
 
@@ -204,8 +204,7 @@ class App extends React.Component {
 
     if (videoTestMode)
       return <this.videoTest/>
-    let tr = callData || callActive
-    console.log(tr)
+
     if (Object.keys(callData).length !== 0 || callActive) {
       return <this.callingScreen/>
     }
@@ -234,7 +233,7 @@ const mapDispatchToProps = (dispatch) => ({
   resetUser: () => dispatch(actionCreators.resetUser()),
   setAuthenticated: (value) => dispatch(actionCreators.setAuthenticated(value)),
   syncFirebaseAuth: (idToken, fcmToken) => dispatch(actionCreators.syncFirebaseAuth(idToken, fcmToken)),
-  setIncomingCall: callData => dispatch(actionCreators.setIncomingCall(callData))
+  setIncomingCall: (callData, inAppCall) => dispatch(actionCreators.setIncomingCall(callData, inAppCall))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

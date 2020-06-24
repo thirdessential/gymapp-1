@@ -71,7 +71,7 @@ const handleNotification = async (notification) => {
 
 
 export const LocalNotification = (data) => {
-  const {userEmail} = data;
+  const {displayName} = data;
 
   PushNotification.localNotification({
     autoCancel: false, // (optional) default: true
@@ -83,12 +83,11 @@ export const LocalNotification = (data) => {
     priority: "high",
     visibility: "public",
     importance: "high",
-    // ticker:'testticker',
     allowWhileIdle: true,
     ignoreInForeground: false,
     // ongoing:true,
     /* iOS and Android properties */
-    title: `${userEmail} calling`,
+    title: `${displayName} calling`,
     message: "Accept call?",
     playSound: true,
     soundName: "ringer.mp3",

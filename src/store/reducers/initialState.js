@@ -10,6 +10,7 @@ export const userState = {
   userId: '',
   initialLogin: true,
   callActive: false,
+  inAppCall:false,
   callData: {}
 };
 

@@ -11,7 +11,8 @@ export {
   setInitialLoginOff,
   setIncomingCall,
   endCallAction as endCall,
-  setCallActive
+  setCallActive,
+  resetInAppCall
 } from "./user.actions";
 
 export {

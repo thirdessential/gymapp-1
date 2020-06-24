@@ -30,10 +30,11 @@ export const setAuthTokenAction = (authToken) => ({
   },
 });
 
-export const setIncomingCall = (callData) => ({
+export const setIncomingCall = (callData, inAppCall=false) => ({
   type: actionTypes.SET_INCOMING_CALL,
   payload: {
-    callData
+    callData,
+    inAppCall
   }
 });
 
@@ -49,6 +50,13 @@ export const endCall = () => ({
   payload: {
     callData: {},
     callActive: false
+  }
+})
+
+export const resetInAppCall = ()=> ({
+  type: actionTypes.END_CALL,
+  payload: {
+    inAppCall: false
   }
 })
 

@@ -26,10 +26,12 @@ class CallScreen extends Component {
 
   }
 
-  rejectCall = async() => {
+  rejectCall = async () => {
     PushNotification.cancelAllLocalNotifications();
     await this.props.endCall();
-    RNExitApp.exitApp();
+    if (this.props.inAppCall === false)
+      RNExitApp.exitApp();
+    else this.props.resetInAppCall();
   }
 
   acceptCall = async () => {
@@ -174,11 +176,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   callData: state.user.callData,
+  inAppCall: state.user.inAppCall
 });
 
 const mapDispatchToProps = (dispatch) => ({
   endCall: () => dispatch(actionCreators.endCall()),
-  setCallActive:()=>dispatch(actionCreators.setCallActive(true))
+  setCallActive: () => dispatch(actionCreators.setCallActive(true)),
+  resetInAppCall: ()=>dispatch(actionCreators.resetInAppCall())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CallScreen);
