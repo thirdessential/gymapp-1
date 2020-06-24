@@ -11,10 +11,9 @@ import requestCameraAndAudioPermission from "./permission";
 export const configureFCMNotification = async () => {
   try {
     let deviceToken = await messaging().getToken();
-    console.log("FCM token:", deviceToken);
     PushNotification.configure({
       onRegister: (token) => {
-        console.log("TOKEN:", token);
+        // console.log("TOKEN:", token);
       },
       onNotification: handleNotification,
       senderID: deviceToken,
@@ -60,7 +59,7 @@ const handleNotification = async (notification) => {
 
 
 export const LocalNotification = (data) => {
-  const {sessionId, agoraAppId, userEmail} = data;
+  const {userEmail} = data;
 
   PushNotification.localNotification({
     autoCancel: false, // (optional) default: true
@@ -72,7 +71,7 @@ export const LocalNotification = (data) => {
     priority: "high",
     visibility: "public",
     importance: "high",
-    ticker:'testticker',
+    // ticker:'testticker',
     allowWhileIdle: true,
     ignoreInForeground: false,
     // ongoing:true,

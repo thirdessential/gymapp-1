@@ -17,6 +17,7 @@ export const videoFeedConfig = {
   bitrate: 600,
   FPS: 30
 }
+export const appPackageId = 'com.thirdessential.fitnessfirst';
 
 export const notificationActions = {
   Accept:'Accept',
