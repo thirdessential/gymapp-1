@@ -6,9 +6,6 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "rel": "cd android && ./gradlew installRelease",
-    "release": "cd android && ./gradlew assembleRelease",
-    "clean": "cd android && ./gradlew clean",
     "test": "jest",
     "lint": "eslint ."
   },
@@ -33,7 +30,6 @@
     "react-native-elements": "^2.0.2",
     "react-native-flash-message": "^0.1.15",
     "react-native-gesture-handler": "^1.6.1",
-    "react-native-google-signin": "^2.1.1",
     "react-native-image-picker": "^2.3.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-material-dropdown": "^0.11.1",
