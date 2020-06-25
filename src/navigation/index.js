@@ -10,6 +10,7 @@ import * as actionCreators from '../store/actions';
 
 import RouteNames from "./RouteNames";
 import UserListing from "../screens/App/UserListing";
+import UserListingTwo from "../screens/App/UserListingTwo";
 import Profile from "../screens/App/Profile";
 import Packages from "../screens/App/Packages";
 import Splash from "../screens/Auth/Splash";
@@ -124,7 +125,9 @@ class App extends React.Component {
 
   render() {
     if (this.state.videoTestMode)
-      return (
+     { console.log('------------inside video test mode----')
+       return (
+       
         <NavigationContainer ref={navigationRef}>
           <Stack.Navigator screenOptions={{
             headerShown: false
@@ -134,11 +137,13 @@ class App extends React.Component {
           </Stack.Navigator>
         </NavigationContainer>
       )
+    }
 
     const {loading} = this.state;
     const {authenticated, initialLogin} = this.props;
 
     if (loading) {
+      console.log('--------inside loadin')
       return (
         <NavigationContainer ref={navigationRef}>
           <Stack.Navigator screenOptions={{
@@ -149,6 +154,7 @@ class App extends React.Component {
         </NavigationContainer>
       )
     } else if (authenticated) {
+      console.log('------------inside authenticated')
       if (initialLogin) return (
         <NavigationContainer ref={navigationRef}>
           <Stack.Navigator>
@@ -157,18 +163,26 @@ class App extends React.Component {
           </Stack.Navigator>
         </NavigationContainer>
       )
-      else
+      else{
+        console.log('-------------inside first return')
         return (
-          <NavigationContainer ref={navigationRef}>
-            <Stack.Navigator>
-              <Stack.Screen name={RouteNames.UserListing} component={UserListing} options={{title: 'Overview'}}/>
+          
+          <NavigationContainer ref={navigationRef} 
+        >
+            <Stack.Navigator screenOptions={{
+          headerStyle: {backgroundColor:'#F3F5F7' },
+        }}>
+            <Stack.Screen name={'UserListingTwo'} component={UserListingTwo} options={{title: 'Overview',headerTintColor:'Black' }} />
+              {/* <Stack.Screen name={RouteNames.UserListing} component={UserListing} options={{title: 'Overview'}}/> */}
               <Stack.Screen name={RouteNames.Profile} component={Profile}/>
               <Stack.Screen name={RouteNames.Packages} component={Packages}/>
               <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
             </Stack.Navigator>
           </NavigationContainer>
-        );
-    } else return (
+        );}
+    } else 
+   { console.log('inside sec return')
+      return (
       <NavigationContainer ref={navigationRef}>
         <Stack.Navigator screenOptions={{
           headerStyle: {},
@@ -187,7 +201,7 @@ class App extends React.Component {
         </Stack.Navigator>
 
       </NavigationContainer>
-    );
+    );}
   }
 }
 
