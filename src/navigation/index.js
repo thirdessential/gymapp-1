@@ -7,12 +7,14 @@ import messaging from '@react-native-firebase/messaging';
 // const PushNotification = require("react-native-push-notification");
 
 import * as actionCreators from '../store/actions';
+
 import VideoTest from './stacks/videoTestStack';
 import Splash from './stacks/splashStack';
 import InitialLogin from './stacks/initialLoginStack';
 import CoreApplication from './stacks/coreAppStack';
 import Auth from './stacks/authStack';
 import Calling from './stacks/callingStack';
+import HomeTab from './tabs/homeTab';
 
 import {updateAxiosToken} from "../API";
 
@@ -99,6 +101,7 @@ class App extends React.Component {
 
     if (loading)
       return <Splash/>
+    // return <HomeTab/>
     if (videoTestMode)
       return <VideoTest navigationRef={navigationRef}/>
     if (Object.keys(callData).length !== 0 || callActive) {
