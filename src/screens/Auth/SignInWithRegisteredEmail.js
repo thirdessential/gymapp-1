@@ -17,7 +17,7 @@ class SignInWithRegisteredEmail extends Component {
       height: '80%',
       email: '',
       password: ''
-
+``
     }
   }
 

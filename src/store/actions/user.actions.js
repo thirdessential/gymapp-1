@@ -2,6 +2,7 @@ import * as actionTypes from "./actionTypes";
 import {updateAxiosToken} from "../../API";
 import {userTypes} from "../../constants/appConstants";
 import {customDelay} from "../../utils/utils";
+import {signOutFirebase} from "../../API/firebaseMethods";
 // import SocketIOClient from 'socket.io-client';
 // import {CHANNELS, rootURL} from "../../constants/appConstants";
 
@@ -78,3 +79,10 @@ export const setAuthToken = (authToken) => {
 export const resetUser = () => ({
   type: actionTypes.RESET_USER,
 });
+
+export const signOutUser =  () => {
+  return async (dispatch) => {
+    dispatch(resetUser());
+    signOutFirebase();
+  };
+};
