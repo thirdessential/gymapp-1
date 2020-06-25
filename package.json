@@ -7,7 +7,10 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "irel": "cd android && ./gradlew installRelease",
+    "rel": "cd android && ./gradlew assembleRelease",
+    "clean": "cd android && ./gradlew clean"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.11.0",
@@ -26,8 +29,8 @@
     "react-native-24h-timepicker": "^1.1.0",
     "react-native-agora": "^2.9.0-alpha.1",
     "react-native-bring-foreground": "^0.0.3",
-    "react-native-callkeep": "^3.0.14",
     "react-native-elements": "^2.0.2",
+    "react-native-exit-app": "^1.1.0",
     "react-native-flash-message": "^0.1.15",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-image-picker": "^2.3.1",
@@ -36,6 +39,7 @@
     "react-native-numeric-input": "^1.8.3",
     "react-native-parallax-header": "^1.1.3",
     "react-native-progress": "^4.1.2",
+    "react-native-push-notification": "^3.5.2",
     "react-native-reanimated": "^1.9.0",
     "react-native-safe-area-context": "^3.0.5",
     "react-native-screens": "^2.9.0",

@@ -7,8 +7,11 @@ export const authState = {
 export const userState = {
   authToken: '',
   userType: userTypes.USER,
-  userId:'',
-  initialLogin:true
+  userId: '',
+  initialLogin: true,
+  callActive: false,
+  inAppCall:false,
+  callData: {}
 };
 
 export const appState = {
