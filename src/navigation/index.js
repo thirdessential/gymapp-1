@@ -125,7 +125,7 @@ class App extends React.Component {
 
   render() {
     if (this.state.videoTestMode)
-     { console.log('------------inside video test mode----')
+     { 
        return (
        
         <NavigationContainer ref={navigationRef}>
@@ -143,7 +143,6 @@ class App extends React.Component {
     const {authenticated, initialLogin} = this.props;
 
     if (loading) {
-      console.log('--------inside loadin')
       return (
         <NavigationContainer ref={navigationRef}>
           <Stack.Navigator screenOptions={{
@@ -154,7 +153,6 @@ class App extends React.Component {
         </NavigationContainer>
       )
     } else if (authenticated) {
-      console.log('------------inside authenticated')
       if (initialLogin) return (
         <NavigationContainer ref={navigationRef}>
           <Stack.Navigator>
@@ -164,7 +162,6 @@ class App extends React.Component {
         </NavigationContainer>
       )
       else{
-        console.log('-------------inside first return')
         return (
           
           <NavigationContainer ref={navigationRef} 
@@ -181,7 +178,7 @@ class App extends React.Component {
           </NavigationContainer>
         );}
     } else 
-   { console.log('inside sec return')
+   { 
       return (
       <NavigationContainer ref={navigationRef}>
         <Stack.Navigator screenOptions={{
