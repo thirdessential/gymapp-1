@@ -25,8 +25,6 @@ export const attemptGoogleAuth = async () => {
   }
 }
 
-
-
 export const registerWithEmail = async (email, password) => {
   try {
     const account = await auth()
@@ -56,3 +54,11 @@ export const signInWithEmail = async (email, password) => {
     return false;
   }
 }
+
+
+export const signOutFirebase = ()=> {
+  auth()
+    .signOut()
+    .then(() => console.log('User signed out!'));
+}
+

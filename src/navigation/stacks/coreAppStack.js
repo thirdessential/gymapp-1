@@ -12,14 +12,12 @@ const noHeader = {title: '', headerStyle: {height: 0}}
 
 const coreApplication = ({navigationRef}) => {
   return (
-    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
         <Stack.Screen name={RouteNames.HomeTab} component={HomeTab} options={{title: 'Home'}}/>
         <Stack.Screen name={RouteNames.Profile} component={Profile}/>
         <Stack.Screen name={RouteNames.Packages} component={Packages}/>
         <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
       </Stack.Navigator>
-    </NavigationContainer>
   );
 }
 

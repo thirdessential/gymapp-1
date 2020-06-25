@@ -11,10 +11,9 @@ import * as actionCreators from '../store/actions';
 import VideoTest from './stacks/videoTestStack';
 import Splash from './stacks/splashStack';
 import InitialLogin from './stacks/initialLoginStack';
-import CoreApplication from './stacks/coreAppStack';
 import Auth from './stacks/authStack';
 import Calling from './stacks/callingStack';
-import HomeTab from './tabs/homeTab';
+import RootDrawer from './drawer/rootDrawer';
 
 import {updateAxiosToken} from "../API";
 
@@ -22,6 +21,7 @@ import {navigationRef} from './RootNavigation';
 import {storageKeys, videoTestMode} from "../constants/appConstants";
 import {callHandler, configureFCMNotification} from "../utils/notification";
 import {deleteFromStorage, readFromStorage} from "../utils/utils";
+import RoundedFas from "../components/RoundedFas";
 
 messaging().setBackgroundMessageHandler(callHandler);
 configureFCMNotification();
@@ -101,7 +101,6 @@ class App extends React.Component {
 
     if (loading)
       return <Splash/>
-    // return <HomeTab/>
     if (videoTestMode)
       return <VideoTest navigationRef={navigationRef}/>
     if (Object.keys(callData).length !== 0 || callActive) {
@@ -111,7 +110,7 @@ class App extends React.Component {
       if (initialLogin)
         return <InitialLogin navigationRef={navigationRef}/>
       else
-        return <CoreApplication navigationRef={navigationRef}/>
+        return <RootDrawer navigationRef={navigationRef}/>
     }
     return <Auth navigationRef={navigationRef}/>
   }
