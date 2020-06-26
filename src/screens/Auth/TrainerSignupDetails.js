@@ -2,7 +2,7 @@ import React, {useState, Component} from 'react';
 import {Text, TouchableOpacity, StyleSheet, TextInput, View, Image, StatusBar} from 'react-native';
 import {addTrainerDetails} from '../../API';
 import ImagePicker from 'react-native-image-picker';
-import defaultPic from '../../../assets/male_pic_default.jpg';
+import defaultPic from '../../../assets/images/male_pic_default.jpg';
 import {uploadImage} from '../../API';
 import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";

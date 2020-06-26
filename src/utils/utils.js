@@ -3,13 +3,42 @@
 // import {CHANNELS, rootURL} from "../constants/appConstants";
 import {navigate} from '../navigation/RootNavigation';
 import RouteNames from "../navigation/RouteNames";
-// import requestCameraAndAudioPermission from "./permission";
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {makeCall} from "../API";
 
 export const validateResponseCode = (code) => {
   return Math.floor(code / 100) === 2;
 };
+
+export const saveToStorage = async (key, value) => {
+  try {
+    const jsonValue = JSON.stringify(value)
+    await AsyncStorage.setItem(key, jsonValue)
+    return true;
+  } catch (e) {
+    console.log("Storing data to storage failed", e);
+    return false;
+  }
+}
+
+export const readFromStorage = async (key) => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(key)
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    console.log("Reading data from storage failed", e);
+    return false;
+  }
+}
+export const deleteFromStorage = async (key) => {
+  try {
+    await AsyncStorage.removeItem(key);
+    return true;
+  } catch (exception) {
+    return false;
+  }
+}
 
 export const textSlicer = (text, length) => {
   if (!text) return "";

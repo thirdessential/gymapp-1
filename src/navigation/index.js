@@ -1,92 +1,63 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
-import {NavigationContainer} from '@react-navigation/native';
+import {AppState} from 'react-native';
 import {connect} from "react-redux";
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
 
-const Stack = createStackNavigator();
 import * as actionCreators from '../store/actions';
 
-import RouteNames from "./RouteNames";
-import UserListing from "../screens/App/UserListing";
-import UserListingTwo from "../screens/App/UserListingTwo";
-import Profile from "../screens/App/Profile";
-import Packages from "../screens/App/Packages";
-import Splash from "../screens/Auth/Splash";
-import Listings from "../screens/Auth/Listings";
+import VideoTest from './stacks/videoTestStack';
+import Splash from './stacks/splashStack';
+import InitialLogin from './stacks/initialLoginStack';
+import Auth from './stacks/authStack';
+import Calling from './stacks/callingStack';
+import RootDrawer from './drawer/rootDrawer';
 
-import SignInWithRegisteredEmail from "../screens/Auth/SignInWithRegisteredEmail";
-import EmailVerification from "../screens/Auth/EmailVerification";
-import TrainerSignupDetails from "../screens/Auth/TrainerSignupDetails";
-import TrainerHomeScreen from "../screens/Auth/TrainerHomeScreen";
 import {updateAxiosToken} from "../API";
-import VideoCall from "../screens/App/VideoCall";
-import VideoTester from "../screens/App/VideoTester";
-import {navigate, navigationRef} from './RootNavigation';
-import {videoTestMode} from "../constants/appConstants";
-import RNCallKeep from "react-native-callkeep";
-import LaunchApplication from 'react-native-bring-foreground';
-import {callKeepConfig, randomuuid} from "../utils/callKeep";
-import ChooseUserType from "../screens/Auth/ChooseUserType";
-import requestCameraAndAudioPermission from "../utils/permission";
-import ProfileTwo from '../screens/App/ProfileTwo';
-import SignupThree from '../screens/Auth/SignupThree';
-import LoginFour from '../screens/Auth/LoginFour';
 
-const displayIncomingCall = async (sessionId, agoraAppId, userName = 'user') => {
-  RNCallKeep.displayIncomingCall(randomuuid, 'user', userName);
-  global.sessionId = sessionId;
-  global.agoraAppId = agoraAppId;
-}
+import {navigationRef} from './RootNavigation';
+import {storageKeys, videoTestMode} from "../constants/appConstants";
+import {callHandler, configureFCMNotification} from "../utils/notification";
+import {deleteFromStorage, readFromStorage} from "../utils/utils";
+import RoundedFas from "../components/RoundedFas";
 
-
-messaging().setBackgroundMessageHandler(async remoteMessage => {
-  console.log('Remote Message handled in the background!', remoteMessage);
-  LaunchApplication.open('com.thirdessential.fitnessfirst');
-  const {sessionId, agoraAppId, userEmail} = remoteMessage.data;
-  displayIncomingCall(sessionId, agoraAppId, userEmail);
-});
-
-const onAnswerCallAction = async (data) => {
-  let {callUUID} = data;
-  RNCallKeep.backToForeground();
-  RNCallKeep.rejectCall(callUUID);
-
-  const permissionGranted = await requestCameraAndAudioPermission();
-  if (!permissionGranted) return;
-  navigate(RouteNames.VideoCall, {
-    AppID: global.agoraAppId,
-    ChannelName: global.sessionId
-  });
-};
-
-RNCallKeep.setup(callKeepConfig).then(accepted => {
-  RNCallKeep.addEventListener("answerCall", onAnswerCallAction)
-});
-
-
-const noHeader = {title: '', headerStyle: {height: 0}}
+messaging().setBackgroundMessageHandler(callHandler);
+configureFCMNotification();
 
 class App extends React.Component {
   state = {
     loading: true,
-    videoTestMode // set this to true to enter video testing mode,
+    videoTestMode, // set this to true to enter video testing mode,
   }
 
   async componentDidMount() {
     // this.props.resetUser();this.props.resetAuth()
-    const {setAuthenticated} = this.props;
+    const {setAuthenticated, setIncomingCall} = this.props;
     setAuthenticated(false); // TODO: Remove this line and fix auth blacklisting
     this.authSubscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
     this.syncing = false;
-
+    await this.checkCallData();
+    AppState.addEventListener("change", this._handleAppStateChange);
     messaging().onMessage(async remoteMessage => {
-      console.log("Remote message received", remoteMessage);
-      const {sessionId, agoraAppId, userEmail} = remoteMessage.data;
-      displayIncomingCall(sessionId, agoraAppId, userEmail);
+      console.log("Remote message received in app", remoteMessage);
+      this.props.setIncomingCall(remoteMessage.data, true);
     })
   }
+
+  checkCallData = async () => {
+    const callData = await readFromStorage(storageKeys.PENDING_CALL);
+    if (callData) {
+      deleteFromStorage(storageKeys.PENDING_CALL);
+      this.props.setIncomingCall(callData);
+      console.log("Set call data", callData);
+    }
+  }
+
+  _handleAppStateChange = nextAppState => {
+    if (nextAppState === 'active') {
+      this.checkCallData();
+    }
+  };
 
   onAuthStateChanged = async (user) => {
     const {authToken, setAuthenticated, syncFirebaseAuth} = this.props;
@@ -123,101 +94,40 @@ class App extends React.Component {
   }
 
   render() {
-    if (this.state.videoTestMode)
-     { 
-       return (
-       
-        <NavigationContainer ref={navigationRef}>
-          <Stack.Navigator screenOptions={{
-            headerShown: false
-          }}>
-            <Stack.Screen name={RouteNames.VideoTester} component={VideoTester}/>
-            <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
-          </Stack.Navigator>
-        </NavigationContainer>
-      )
+    const {loading, videoTestMode} = this.state;
+    const {authenticated, initialLogin, callData, callActive} = this.props;
+
+    if (loading)
+      return <Splash/>
+    if (videoTestMode)
+      return <VideoTest navigationRef={navigationRef}/>
+    if (Object.keys(callData).length !== 0 || callActive) {
+      return <Calling navigationRef={navigationRef}/>
     }
-
-    const {loading} = this.state;
-    const {authenticated, initialLogin} = this.props;
-
-    if (loading) {
-      return (
-        <NavigationContainer ref={navigationRef}>
-          <Stack.Navigator screenOptions={{
-            headerShown: false
-          }}>
-            <Stack.Screen name={RouteNames.Splash} component={Splash}/>
-          </Stack.Navigator>
-        </NavigationContainer>
-      )
-    } else if (!authenticated) {
-      if (initialLogin) return (
-        <NavigationContainer ref={navigationRef}>
-          <Stack.Navigator>
-            <Stack.Screen name="TrainerSignupDetails" component={TrainerSignupDetails}
-                          options={{title: 'Enter details'}}/>
-          </Stack.Navigator>
-        </NavigationContainer>
-      )
-      else{
-        return (
-          
-          <NavigationContainer ref={navigationRef} 
-        >
-            <Stack.Navigator screenOptions={{
-         }}
-        >
-            {/* <Stack.Screen name={'LoginFour'} component={LoginFour} options={{title: '',headerTintColor:'Black' }}  />
-            <Stack.Screen name={'SignupThree'} component={SignupThree} options={{title: '',headerTintColor:'Black' }}  /> */}
-            <Stack.Screen name={'UserListingTwo'} component={UserListingTwo} options={{title: 'Overview',headerTintColor:'Black' }} />
-            <Stack.Screen name={'ProfileTwo'} component={ProfileTwo}/>
-              {/* <Stack.Screen name={RouteNames.UserListing} component={UserListing} options={{title: 'Overview'}}/> */}
-              {/* <Stack.Screen name={RouteNames.Profile} component={Profile}/> */}
-              <Stack.Screen name={RouteNames.Packages} component={Packages}/>
-              <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
-            </Stack.Navigator>
-          </NavigationContainer>
-        );}
-    } else 
-   { 
-      return (
-      <NavigationContainer ref={navigationRef}>
-        <Stack.Navigator screenOptions={{
-          headerStyle: {},
-        }}
-        screenOptions={{
-          headerShown: false
-        }}
-        >
-          <Stack.Screen name={RouteNames.ChooseUserType} component={ChooseUserType} options={noHeader}/>
-          <Stack.Screen name={RouteNames.Login} component={LoginFour} options={{title: ''}} />
-          <Stack.Screen name={RouteNames.Signup} component={SignupThree} options={{title: 'Sign up'}}/>
-          <Stack.Screen name="Listings" component={Listings}/>
-          <Stack.Screen name="signInWithRegisteredEmail" component={SignInWithRegisteredEmail}
-                        options={{title: 'Sign in'}}/>
-          <Stack.Screen name="EmailVerification" component={EmailVerification} options={{title: ''}}/>
-          <Stack.Screen name="TrainerSignupDetails" component={TrainerSignupDetails}
-                        options={{title: 'Enter details'}}/>
-          <Stack.Screen name="TrainerHomeScreen" component={TrainerHomeScreen} options={{title: ''}}/>
-        </Stack.Navigator>
-
-      </NavigationContainer>
-    );}
+    if (authenticated) {
+      if (initialLogin)
+        return <InitialLogin navigationRef={navigationRef}/>
+      else
+        return <RootDrawer navigationRef={navigationRef}/>
+    }
+    return <Auth navigationRef={navigationRef}/>
   }
 }
 
 const mapStateToProps = (state) => ({
   authToken: state.user.authToken,
   authenticated: state.auth.authenticated,
-  initialLogin: state.user.initialLogin
+  initialLogin: state.user.initialLogin,
+  callActive: state.user.callActive,
+  callData: state.user.callData
 });
 
 const mapDispatchToProps = (dispatch) => ({
   resetAuth: () => dispatch(actionCreators.resetAuth()),
   resetUser: () => dispatch(actionCreators.resetUser()),
   setAuthenticated: (value) => dispatch(actionCreators.setAuthenticated(value)),
-  syncFirebaseAuth: (idToken, fcmToken) => dispatch(actionCreators.syncFirebaseAuth(idToken, fcmToken))
+  syncFirebaseAuth: (idToken, fcmToken) => dispatch(actionCreators.syncFirebaseAuth(idToken, fcmToken)),
+  setIncomingCall: (callData, inAppCall) => dispatch(actionCreators.setIncomingCall(callData, inAppCall))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

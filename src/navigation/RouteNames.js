@@ -10,6 +10,10 @@ const RouteNames = {
   Packages:'Packages',
   VideoCall:'VideoCall',
   VideoTester:'VideoTester',
+  Feed:'Feed',
+  HomeTab:'HomeTab',
+  CallScreen:'CallScreen',
+  Schedule:'Schedule',
 
   Login:'Login',
   Signup:'Signup'

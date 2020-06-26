@@ -7,3 +7,6 @@ export const SET_USER = 'SET_USER';
 export const GENERIC_USER_FIELD_SET = 'GENERIC_USER_FIELD_SET';
 export const SET_USER_TYPE = 'SET_USER_TYPE';
 export const SET_INITIAL_LOGIN_OFF = 'SET_INITIAL_LOGIN_OFF';
+export const SET_INCOMING_CALL = 'SET_INCOMING_CALL';
+export const SET_CALL_ACTIVE = 'SET_CALL_ACTIVE';
+export const END_CALL= 'END_CALL';
