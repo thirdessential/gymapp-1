@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, Text, FlatList} from 'react-native';
+import {View, StyleSheet, Text, FlatList, ScrollView} from 'react-native';
 import {connect} from "react-redux";
 import moment from "moment";
 import {Card} from 'native-base';
@@ -14,6 +14,14 @@ import CustomCalendar from '../../components/customCalendar';
 import Appointment from "../../components/Appointment";
 import {appTheme} from "../../constants/colors";
 
+import SelectableButtonGroup from '../../components/selectableButtonGroup';
+import {customDelay} from "../../utils/utils";
+import GenericText from "../../components/GenericText";
+import strings from "../../constants/strings";
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
+import appointment from "../../components/Appointment";
+
 class Schedule extends Component {
 
   state = {
@@ -21,67 +29,76 @@ class Schedule extends Component {
       start: moment(),
       end: moment().add(6, 'days')
     }],
-    selectedDate:Date.now()
-
+    selectedDate: Date.now(),
+    timeSlots: [
+      '10:00 am',
+      '11:00 am',
+      '12:00 pm',
+      '13:00 pm',
+      '14:00 pm',
+      '15:00 pm',
+      '16:00 pm',
+    ],
+    selectedTimeSlot: null,
+    appointments: [{
+      name: 'Jane Nikalson',
+      dpUrl: 'https://i.pinimg.com/originals/c5/a9/5f/c5a95f05b14e7f35abd07adf80bc3482.jpg',
+      time: '11:00 am'
+    }, {
+      name: 'Jane Nikalson',
+      dpUrl: 'https://i.pinimg.com/originals/c5/a9/5f/c5a95f05b14e7f35abd07adf80bc3482.jpg',
+      time: '11:00 am'
+    }, {
+      name: 'Jane Nikalson',
+      dpUrl: 'https://i.pinimg.com/originals/c5/a9/5f/c5a95f05b14e7f35abd07adf80bc3482.jpg',
+      time: '11:00 am'
+    }, {
+      name: 'Jane Nikalson',
+      dpUrl: 'https://i.pinimg.com/originals/c5/a9/5f/c5a95f05b14e7f35abd07adf80bc3482.jpg',
+      time: '11:00 am'
+    }]
   }
 
   onDateSelected = date => {
-    this.setState({selectedDate:date})
+    this.setState({selectedDate: date});
   }
 
-  renderAppointment = appointment => {
-
-    return (
-      <View style={styles.appointmentContainer}>
-        <Appointment/>
-      </View>
-    )
+  selectTimeSlot = async timeSlot => {
+    this.setState({selectedTimeSlot: timeSlot});
   }
 
   renderAppointments = (date) => {
-    const data = [
-      {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Item',
-      },
-      {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Item',
-      },
-      {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Third Item',
-      },
-    ];
-    return (
-      <View style={{margin:10,}}>
-      <Card style={{padding:10,paddingBottom:20, paddingTop:20,borderRadius:5}}>
-        <FlatList
-          data={data}
-          contentContainerStyle={styles.appointmentList}
-          renderItem={({item}) => <Appointment title={item.title}/>}
-        />
-      </Card>
+
+    return this.state.appointments.map((appointment, index) => (
+      <View key={index} style={styles.appointmentContainer}>
+        <Appointment  displayName={appointment.name} imageUrl={appointment.dpUrl} startTime={appointment.time}/>
       </View>
-    )
+    ))
   }
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.calendarContainer}>
-        <CustomCalendar
-          selectedDate={this.state.selectedDate}
-          onDateChange={this.onDateSelected}
-        />
+          <CustomCalendar
+            selectedDate={this.state.selectedDate}
+            onDateChange={this.onDateSelected}
+          />
         </View>
-
-        {/*<CalendarStripChooser*/}
-        {/*  dates={this.state.dates}*/}
-        {/*  onDateSelect={this.onDateSelected}*/}
-        {/*/>*/}
-        <this.renderAppointments/>
-      </View>
+        <View style={styles.buttonGroup}>
+          <SelectableButtonGroup
+            data={this.state.timeSlots}
+            selected={this.state.selectedTimeSlot}
+            onSelect={this.selectTimeSlot}
+          />
+        </View>
+        <View style={styles.headingContainer}>
+          <Text style={styles.heading}>{strings.APPOINTMENTS}</Text>
+        </View>
+        <View style={styles.appointmentList}>
+          <this.renderAppointments/>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -94,19 +111,29 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.lightBackground
 
   },
-  calendarContainer:{
-    paddingLeft:spacing.medium_lg,
-    paddingRight:spacing.medium_lg,
-    backgroundColor:appTheme.background
+  calendarContainer: {
+    paddingLeft: spacing.medium_lg,
+    paddingRight: spacing.medium_lg,
+    backgroundColor: appTheme.background
   },
-  appointmentList: {
-    // borderWidth: 1,
-    // borderColor: 'blac/k',
-    // borderRadius: 5,
-    // padding: spacing.medium_lg
-  },
+  appointmentList: {},
   appointmentContainer: {
-    padding: spacing.medium_lg
+    marginLeft: spacing.medium_sm,
+    marginRight: spacing.medium_sm
+  },
+  buttonGroup: {
+    marginLeft: spacing.medium,
+    marginRight: spacing.medium,
+    marginTop: spacing.large
+  },
+  headingContainer: {
+    margin: spacing.medium,
+    alignItems: 'center',
+  },
+  heading: {
+    color: 'white',
+    fontSize: fontSizes.h1,
+    fontFamily: fonts.PoppinsMedium
   }
 });
 

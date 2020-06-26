@@ -3,11 +3,14 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import colors from "../constants/colors";
+import colors, {appTheme} from "../constants/colors";
 import {StyleSheet, View} from "react-native";
 import {Card, Text} from 'native-base';
 import RoundedDP from "./RoundedDP";
 import {spacing} from "../constants/dimension";
+import GenericButton from "./GenericButton";
+import SelectableButton from "./selectableButton";
+import strings from "../constants/strings";
 
 const appointment = (props) => {
   return (
@@ -16,16 +19,21 @@ const appointment = (props) => {
         <RoundedDP
           size={60}
           border={true}
-
+          rounded={false}
+          url={props.imageUrl}
         />
         <View style={styles.appointmentDetails}>
           <Text style={styles.displayName}>{props.displayName}</Text>
           <Text style={styles.timeText}>{props.startTime}</Text>
         </View>
+        <View style={styles.actionButtonContainer}>
+          <SelectableButton selected={true} textContent={strings.CALL}/>
+        </View>
       </View>
-    </Card>
+     </Card>
   );
 }
+
 
 appointment.propTypes = {
   startTime: PropTypes.string.isRequired,
@@ -41,26 +49,33 @@ appointment.defaultProps = {
 
 const styles = StyleSheet.create({
   cardStyle: {
-    borderRadius: 20,
+    borderRadius: 6,
+    backgroundColor:appTheme.background,
+    borderColor:appTheme.background
   },
   container: {
     alignItems: 'center',
     flexDirection: 'row',
     padding: spacing.medium_sm,
     paddingLeft: spacing.medium,
-    paddingRight: spacing.medium
+    paddingRight: spacing.medium,
+    justifyContent: 'space-between'
   },
   appointmentDetails: {
     paddingLeft: spacing.medium
   },
   displayName: {
-    color: '#092532',
+    color: 'white',
     fontFamily: 'Poppins-SemiBold'
   },
   timeText: {
+    color:appTheme.grey,
     fontFamily: 'Poppins-Medium',
-    color: '#4f8a8b'
-
+  },
+  actionButtonContainer:{
+    // justifySelf:'flex-end'
+    marginLeft:'auto',
+    // padding:spacing.medium_sm
   }
 
 });

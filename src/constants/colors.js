@@ -7,10 +7,10 @@ const colors = {
 }
 
 const darkPallet = {
-  darkBlue: '#272f42',
+  darkBlue: '#2d2f45',
   lightBlue: '#384053',
   extraLightBlue: '#63687b',
-  greyBlue: '#444b5b',
+  greyBlue: '#686e80',
   hotPink: '#ea8380',
   skyBlue: '#829da8',
   orangeGradient: ['#f86676', '#fbb287']

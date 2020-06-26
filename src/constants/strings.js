@@ -22,7 +22,8 @@ const strings = {
   PROCEED:'Proceed',
   CALL:'Call',
   WAITING_FOR_USERS:'Waiting for user to join',
-  CALL_TIMEOUT:'Call timeout, ending call.'
+  CALL_TIMEOUT:'Call timeout, ending call.',
+  APPOINTMENTS:'Appointments'
 };
 
 export default strings;

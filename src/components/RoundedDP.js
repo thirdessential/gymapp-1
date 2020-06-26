@@ -9,19 +9,19 @@ import colors from "../constants/colors";
 import {spacing} from "../constants/dimension";
 
 const RoundedDP = (props) => {
-  const {url, size = spacing.thumbnail, border = false} = props;
+  const {url, size = spacing.thumbnail, border = false,rounded=true} = props;
   const imageStyle = {
     height: size,
     width: size,
-    borderRadius: size
+    borderRadius: rounded?size:6,
   }
   const containerStyle = {
     borderWidth: border ? 1 : 0,
-    borderRadius: size, // max radius, make it a circle
+    borderRadius: rounded?size:6,
     padding: 1
   }
   return (
-    <View style={[styles.container, containerStyle]}>
+    // <View style={[styles.container, containerStyle]}>
       <FastImage
         style={imageStyle}
         source={{
@@ -30,7 +30,7 @@ const RoundedDP = (props) => {
         }}
         resizeMode={FastImage.resizeMode.contain}
       />
-    </View>
+    // </View>
   );
 }
 
