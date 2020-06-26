@@ -4,8 +4,6 @@ import {connect} from "react-redux";
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
 
-// const PushNotification = require("react-native-push-notification");
-
 import * as actionCreators from '../store/actions';
 
 import VideoTest from './stacks/videoTestStack';

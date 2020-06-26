@@ -9,5 +9,6 @@ export const spacing = {
   space_40: 40,
   fasIcon:30,
   thumbnailMini:60,
-  thumbnail:90
+  thumbnail:90,
+  coverImageSize:250
 };
