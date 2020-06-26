@@ -5,7 +5,7 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native'
 import PropTypes from 'prop-types';
 
-import RoundedDP from '../RoundedDP';
+import Avatar from '../Avatar';
 import GenericText from "../GenericText";
 import {coachedPeople} from "../../constants/strings";
 import SlotPreview from "./SlotPreview";
@@ -17,7 +17,7 @@ const trainerThumb = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.roundedDPContainer}>
-        <RoundedDP
+        <Avatar
           url={props.dpUrl}
         />
       </View>

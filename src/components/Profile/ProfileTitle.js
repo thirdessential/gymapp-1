@@ -4,7 +4,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native'
 import PropTypes from 'prop-types';
-import RoundedDP from "../RoundedDP";
+import Avatar from "../Avatar";
 import GenericText from "../GenericText";
 import strings from "../../constants/strings";
 import {spacing} from "../../constants/dimension";
@@ -18,7 +18,7 @@ const ProfileTitle = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.dpContainer}>
-        <RoundedDP url={props.dpUrl} size={spacing.thumbnailMini} border={true}/>
+        <Avatar url={props.dpUrl} size={spacing.thumbnailMini} border={true}/>
       </View>
       <View style={styles.mainContent}>
         <View style={styles.nameContainer}>

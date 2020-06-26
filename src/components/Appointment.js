@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import colors, {appTheme} from "../constants/colors";
 import {StyleSheet, View} from "react-native";
 import {Card, Text} from 'native-base';
-import RoundedDP from "./RoundedDP";
+import Avatar from "./Avatar";
 import {spacing} from "../constants/dimension";
 import GenericButton from "./GenericButton";
 import SelectableButton from "./selectableButton";
@@ -16,7 +16,7 @@ const appointment = (props) => {
   return (
     <Card style={styles.cardStyle}>
       <View style={styles.container}>
-        <RoundedDP
+        <Avatar
           size={60}
           border={true}
           rounded={false}

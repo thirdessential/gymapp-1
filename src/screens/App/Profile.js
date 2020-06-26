@@ -6,14 +6,14 @@ import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native'
 import ReactNativeParallaxHeader from 'react-native-parallax-header';
 import {connect} from "react-redux";
 
-// import background from '../../assets/bg.jpg';
 import ProfileOverview from '../../components/Profile/ProfileOverview';
 import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
 import Splash from "../Auth/Splash";
 import requestCameraAndAudioPermission from "../../utils/permission";
-import {CHANNELS} from "../../constants/appConstants";
 import {initialiseVideoCall} from "../../utils/utils";
+import {screenHeight} from "react-native-calendars/src/expandableCalendar/commons";
+import {appTheme} from "../../constants/colors";
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -78,12 +78,6 @@ class Profile extends Component {
     )
   }
 
-  renderNavBar = () => (
-    <View style={styles.navContainer}>
-      {/*<Text style={styles.titleStyle}>Trainer Profile</Text>*/}
-    </View>
-  )
-
   render() {
     const {route, users} = this.props;
 
@@ -95,28 +89,20 @@ class Profile extends Component {
 
 
     return (
-      <View style={styles.container}>
+      // <View style={styles.container}>
         <ReactNativeParallaxHeader
-          headerMinHeight={20}
-          headerMaxHeight={400} //or screenheight *2/3
+          headerMinHeight={0}
+          headerMaxHeight={screenHeight*2/3} //or screenheight *2/3
           extraScrollHeight={20}
-          // navbarColor="white"
-          // title={name}
-          // alwaysShowTitle={false}
-          // titleStyle={styles.titleStyle}
+          navbarColor={appTheme.background}
           backgroundImage={{uri: displayPictureUrl}}
           backgroundImageScale={1.2}
-          // renderNavBar={this.renderNavBar}
           renderContent={this.renderContent}
           containerStyle={styles.container}
-          contentContainerStyle={styles.contentContainer}
-          innerContainerStyle={styles.container}
-          scrollViewProps={{
-            // onScrollBeginDrag: () => console.log('onScrollBeginDrag'),
-            // onScrollEndDrag: () => console.log('onScrollEndDrag'),
-          }}
+          // contentContainerStyle={styles.contentContainer}
+          // innerContainerStyle={styles.container}
         />
-      </View>
+      // </View>
     );
   }
 }
@@ -124,9 +110,10 @@ class Profile extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: appTheme.background
   },
   contentContainer: {
-    flexGrow: 1,
+    // flexGrow: 1,
   },
   navContainer: {
     height: HEADER_HEIGHT,
