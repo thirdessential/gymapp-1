@@ -21,6 +21,7 @@ const customCalendar = (props) => {
       hideExtraDays={true}
       firstDay={1}
       disableAllTouchEventsForDisabledDays={true}
+      enableSwipeMonths={true}
       theme={{
         calendarBackground: appTheme.background,
         textSectionTitleColor: 'white',

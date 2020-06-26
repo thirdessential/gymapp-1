@@ -1,11 +1,14 @@
+import React from "react";
+
 const colors = {
   appBlue: '#1177f3',
   bgGrey: '#f1f1f1',
   lightGrey: '#CEDCCE',
   darkGrey: '#A9A9A9',
   goldenStar: '#fddc68',
+  acceptGreen:'#4bd35f',
+  rejectRed:'#f7392e'
 }
-
 const darkPallet = {
   darkBlue: '#2d2f45',
   lightBlue: '#384053',
