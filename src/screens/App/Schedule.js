@@ -9,8 +9,10 @@ import {Card} from 'native-base';
 
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
-import CalendarStripChooser from '../../components/calendarStripChooser';
+// import CalendarStripChooser from '../../components/calendarStripChooser';
+import CustomCalendar from '../../components/customCalendar';
 import Appointment from "../../components/Appointment";
+import {appTheme} from "../../constants/colors";
 
 class Schedule extends Component {
 
@@ -19,11 +21,12 @@ class Schedule extends Component {
       start: moment(),
       end: moment().add(6, 'days')
     }],
+    selectedDate:Date.now()
 
   }
 
-  onDateSelected = data => {
-    console.log(data);
+  onDateSelected = date => {
+    this.setState({selectedDate:date})
   }
 
   renderAppointment = appointment => {
@@ -66,10 +69,17 @@ class Schedule extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <CalendarStripChooser
-          dates={this.state.dates}
-          onDateSelect={this.onDateSelected}
+        <View style={styles.calendarContainer}>
+        <CustomCalendar
+          selectedDate={this.state.selectedDate}
+          onDateChange={this.onDateSelected}
         />
+        </View>
+
+        {/*<CalendarStripChooser*/}
+        {/*  dates={this.state.dates}*/}
+        {/*  onDateSelect={this.onDateSelected}*/}
+        {/*/>*/}
         <this.renderAppointments/>
       </View>
     );
@@ -81,7 +91,13 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems:'center',
     // flex:1
+    backgroundColor: appTheme.lightBackground
 
+  },
+  calendarContainer:{
+    paddingLeft:spacing.medium_lg,
+    paddingRight:spacing.medium_lg,
+    backgroundColor:appTheme.background
   },
   appointmentList: {
     // borderWidth: 1,
