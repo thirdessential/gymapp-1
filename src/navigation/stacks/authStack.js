@@ -5,8 +5,8 @@ import RouteNames from "../RouteNames";
 import Stack from './stack';
 
 import ChooseUserType from "../../screens/Auth/ChooseUserType";
-import LoginTwo from "../../screens/Auth/LoginTwo";
-import SignupTwo from "../../screens/Auth/SignupTwo";
+import Login from "../../screens/Auth/Login";
+import Signup from "../../screens/Auth/Signup";
 import Listings from "../../screens/Auth/Listings";
 import SignInWithRegisteredEmail from "../../screens/Auth/SignInWithRegisteredEmail";
 import EmailVerification from "../../screens/Auth/EmailVerification";
@@ -14,18 +14,17 @@ import TrainerSignupDetails from "../../screens/Auth/TrainerSignupDetails";
 import TrainerHomeScreen from "../../screens/Auth/TrainerHomeScreen";
 // import VideoCall from "../../screens/Call/VideoCall";
 
-const noHeader = {title: '', headerStyle: {height: 0}}
+// const noHeader = {title: '', headerStyle: {height: 0}}
 
 const authStack = ({navigationRef}) => {
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator screenOptions={{
-        headerStyle: {},
-      }}
-      >
-        <Stack.Screen name={RouteNames.ChooseUserType} component={ChooseUserType} options={noHeader}/>
-        <Stack.Screen name={RouteNames.Login} component={LoginTwo} options={{title: ''}}/>
-        <Stack.Screen name={RouteNames.Signup} component={SignupTwo} options={{title: 'Sign up'}}/>
+        headerShown: false
+      }}>
+        <Stack.Screen name={RouteNames.ChooseUserType} component={ChooseUserType} />
+        <Stack.Screen name={RouteNames.Login} component={Login} options={{title: ''}}/>
+        <Stack.Screen name={RouteNames.Signup} component={Signup} options={{title: 'Sign up'}}/>
         <Stack.Screen name="Listings" component={Listings}/>
         <Stack.Screen name="signInWithRegisteredEmail" component={SignInWithRegisteredEmail}
                       options={{title: 'Sign in'}}/>

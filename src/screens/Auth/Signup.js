@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, ImageBackground, StatusBar } from 'react-native';
-import { attemptGoogleAuth, registerWithEmail } from '../../API/firebaseMethods';
+import { attemptGoogleAuth, registerWithEmail } from '../../API';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { CheckBox } from 'react-native-elements'
@@ -12,7 +12,7 @@ import FormElementThree from '../../components/Login/FormElementThree';
 import ActionButtonFour from '../../components/Login/ActionButtonFour';
 import LoginFooterTwo from '../../components/Login/LoginFooterTwo';
 import PasswordElementThree from '../../components/Login/PasswordElementThree';
-export default class SignupThree extends Component {
+export default class Signup extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -82,7 +82,7 @@ export default class SignupThree extends Component {
                                         </TouchableOpacity>}
                                         containerStyle={styles.checkBoxContainerStyle}
                                         checked={this.state.checked}
-                                        checkedColor="black"
+                                        checkedColor="white"
                                         onPress={() => {
                                             this.setState({ checked: !this.state.checked }), console.log(this.state.checked)
                                         }}

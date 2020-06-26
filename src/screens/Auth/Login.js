@@ -7,7 +7,9 @@ import ActionButtonFour from '../../components/Login/ActionButtonFour';
 import LoginFooterTwo from '../../components/Login/LoginFooterTwo';
 import bgImage from '../../../assets/bg_4.jpg';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-export default class LoginFour extends Component {
+import RouteNames from "../../navigation/RouteNames";
+import {attemptGoogleAuth} from "../../API";
+export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -63,7 +65,7 @@ export default class LoginFour extends Component {
 
                                 </View>
                                 <LoginFooterTwo content="Dont't have an account?  " clickableContent=" Sign up"
-                                    onPress={() => this.props.navigation.pop()} />
+                                    onPress={() => this.props.navigation.navigate(RouteNames.Signup)} />
                             </View>
                         </View>
                     </View>
