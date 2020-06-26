@@ -15,8 +15,8 @@ import requestCameraAndAudioPermission from "../../utils/permission";
 import RouteNames from "../../navigation/RouteNames";
 
 const {width} = Dimensions.get('window');
-import CallBackground from '../../../assets/callBg.jpg';
-import DefaultUser from '../../../assets/defaultUser.png';
+import CallBackground from '../../../assets/images/callBg.jpg';
+import DefaultUser from '../../../assets/images/defaultUser.png';
 
 import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";

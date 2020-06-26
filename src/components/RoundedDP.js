@@ -2,24 +2,33 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {View, Image, StyleSheet} from 'react-native'
+import FastImage from 'react-native-fast-image'
+import {View, StyleSheet} from 'react-native'
 import PropTypes from 'prop-types';
 import colors from "../constants/colors";
 import {spacing} from "../constants/dimension";
 
 const RoundedDP = (props) => {
-  const {url, size = spacing.thumbnail, border=false} = props;
-  const sizeStyle = {
+  const {url, size = spacing.thumbnail, border = false} = props;
+  const imageStyle = {
     height: size,
     width: size,
-    borderRadius: size / 2,
-    borderWidth: border?1:0
+    borderRadius: size
+  }
+  const containerStyle = {
+    borderWidth: border ? 1 : 0,
+    borderRadius: size, // max radius, make it a circle
+    padding: 1
   }
   return (
-    <View style={[styles.container, sizeStyle]}>
-      <Image
-        source={{uri: url}}
-        style={sizeStyle}
+    <View style={[styles.container, containerStyle]}>
+      <FastImage
+        style={imageStyle}
+        source={{
+          uri: url,
+          priority: FastImage.priority.normal,
+        }}
+        resizeMode={FastImage.resizeMode.contain}
       />
     </View>
   );
@@ -30,7 +39,7 @@ RoundedDP.propTypes = {
 };
 
 RoundedDP.defaultProps = { //testing, remove this later
-  url: Math.random()>0.5? 'https://i.ya-webdesign.com/images/people-standing-png-4.png':'https://www.pngitem.com/pimgs/m/28-288789_transparent-png-person-standing-standing-png-download.png'
+  url: Math.random() > 0.5 ? 'https://i.ya-webdesign.com/images/people-standing-png-4.png' : 'https://www.pngitem.com/pimgs/m/28-288789_transparent-png-person-standing-standing-png-download.png'
 }
 
 const styles = StyleSheet.create({

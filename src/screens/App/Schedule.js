@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet, Text, FlatList} from 'react-native';
 import {connect} from "react-redux";
 import moment from "moment";
+import {Card} from 'native-base';
 
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
@@ -50,11 +51,13 @@ class Schedule extends Component {
       },
     ];
     return (
-      <FlatList
-        data={data}
-        contentContainerStyle={styles.appointmentList}
-        renderItem={({item}) => <Appointment title={item.title}/>}
-      />
+      <Card>
+        <FlatList
+          data={data}
+          contentContainerStyle={styles.appointmentList}
+          renderItem={({item}) => <Appointment title={item.title}/>}
+        />
+      </Card>
     )
   }
 
@@ -78,10 +81,10 @@ const styles = StyleSheet.create({
     // flex:1
   },
   appointmentList: {
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 5,
-    padding: spacing.medium_lg
+    // borderWidth: 1,
+    // borderColor: 'blac/k',
+    // borderRadius: 5,
+    // padding: spacing.medium_lg
   },
   appointmentContainer: {
     padding: spacing.medium_lg
