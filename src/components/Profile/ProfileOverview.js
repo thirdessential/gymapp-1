@@ -55,12 +55,12 @@ const ProfileOverview = (props) => {
         </View>
       </View>
 
-      {/*<View style={styles.descriptionContainer}>*/}
-      {/*  <GenericText type={GenericText.types.titleBold}>{strings.POSTS}</GenericText>*/}
-      {/*  <View style={{height: 300}}>*/}
-      {/**/}
-      {/*  </View>*/}
-      {/*</View>*/}
+      <View style={styles.descriptionContainer}>
+        <GenericText type={GenericText.types.titleBold}>{strings.POSTS}</GenericText>
+        <View style={{height: 600}}>
+
+        </View>
+      </View>
 
     </View>
   );

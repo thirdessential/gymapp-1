@@ -9,22 +9,24 @@ import {
   ImageBackground
 } from 'react-native';
 import RNExitApp from "react-native-exit-app";
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const PushNotification = require("react-native-push-notification");
 import requestCameraAndAudioPermission from "../../utils/permission";
 import RouteNames from "../../navigation/RouteNames";
 
-const {width} = Dimensions.get('window');
-import CallBackground from '../../../assets/callBg.jpg';
-import DefaultUser from '../../../assets/defaultUser.png';
+import CallBackground from '../../../assets/images/callBackground.png';
+import DefaultUser from '../../../assets/images/defaultUser.png';
 
 import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";
+import {screenWidth} from "../../utils/screenDimensions";
+import colors, {appTheme} from "../../constants/colors";
+import {spacing} from "../../constants/dimension";
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
 
 class CallScreen extends Component {
-  clickEventListener = () => {
-
-  }
 
   rejectCall = async () => {
     PushNotification.cancelAllLocalNotifications();
@@ -48,37 +50,41 @@ class CallScreen extends Component {
       ChannelName: sessionId
     });
   }
+  callStart = () => (
+    <Icon name="call" color="white" size={30}/>
+  );
+  callEnd = () => (
+    <Icon name="call-end" color="white" size={30}/>
+  );
+
 
   render() {
     const {callData} = this.props;
-    const {dpUrl, displayName} = callData;
-    let imgSource = !dpUrl ? {uri: dpUrl} : DefaultUser;
-    return (
-      <ImageBackground source={CallBackground} style={{flex: 1}}>
-        <View style={styles.topBar}>
+    let {dpUrl, displayName} = callData;
+    let imgSource = !!dpUrl ? {uri: dpUrl} : DefaultUser;
+    if (!!!displayName) displayName = 'User';
 
-          <Text style={styles.title}>{displayName}</Text>
-          <Text style={styles.subText}>CALLING</Text>
+    return (
+      <ImageBackground source={CallBackground} style={styles.container}>
+
+        <View style={styles.imageContainer}>
+          <Image style={[styles.image]} source={imgSource}/>
         </View>
-        <TouchableOpacity style={[styles.btnStopCall, styles.shadow]} onPress={this.rejectCall}>
-          <Image style={styles.iconImg} source={{uri: "https://img.icons8.com/windows/32/000000/phone.png"}}/>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.btnStartCall, styles.shadow]} onPress={this.acceptCall}>
-          <Image style={styles.iconImg} source={{uri: "https://img.icons8.com/windows/32/000000/phone.png"}}/>
-        </TouchableOpacity>
-        <Image style={[styles.image]} source={imgSource}/>
-        <View style={styles.bottomBar}>
-          <TouchableOpacity style={[styles.btnAction, styles.shadow]} onPress={() => this.clickEventListener()}>
-            <Image style={styles.iconImg}
-                   source={{uri: "https://img.icons8.com/material-rounded/48/000000/speaker.png"}}/>
+        <View style={styles.textContent}>
+          <Text style={styles.text}>{displayName}</Text>
+        </View>
+        <View style={styles.buttonGroup}>
+          <TouchableOpacity
+            style={[styles.callButton, styles.shadow, {backgroundColor: colors.rejectRed}]}
+            activeOpacity={0.8}
+            onPress={this.rejectCall}>
+            <this.callEnd/>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.btnAction, styles.shadow]} onPress={() => this.clickEventListener()}>
-            <Image style={styles.iconImg}
-                   source={{uri: "https://img.icons8.com/material-outlined/48/000000/topic.png"}}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.btnAction, styles.shadow]} onPress={() => this.clickEventListener()}>
-            <Image style={styles.iconImg}
-                   source={{uri: "https://img.icons8.com/material-outlined/48/000000/block-microphone.png"}}/>
+          <TouchableOpacity
+            style={[styles.callButton, styles.shadow, {backgroundColor: colors.acceptGreen}]}
+            activeOpacity={0.8}
+            onPress={this.acceptCall}>
+            <this.callStart/>
           </TouchableOpacity>
         </View>
       </ImageBackground>
@@ -88,79 +94,38 @@ class CallScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  topBar: {
-    height: 140,
-    justifyContent: 'center',
-    padding: 20,
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   image: {
-    width,
-    height: 400,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: screenWidth / 1.8,
+    height: screenWidth / 1.8,
+    borderRadius: 8
   },
-  icon: {
+  imageContainer: {
+    margin: spacing.medium_sm,
+    flex: 4,
     alignItems: 'center',
-    justifyContent: 'center',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#e20e30',
-    marginTop: 250
+    justifyContent: 'center'
   },
-  bottomBar: {
+  buttonGroup: {
+    flex: 2,
+    width: screenWidth / 1.6,
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  textContent: {
+    flex: 0.1,
+    justifyContent: 'space-between',
     alignItems: 'center',
-    flex: 1,
   },
-  title: {
-    color: '#f0efef',
-    fontSize: 36,
-  },
-  subText: {
-    color: '#c8c8c8',
-    fontSize: 14,
-  },
-  iconImg: {
-    height: 32,
-    width: 32,
-    alignSelf: 'center'
-  },
-  btnStopCall: {
-    height: 65,
-    width: 65,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 32,
-    backgroundColor: "#FF0000",
-    position: 'absolute',
-    bottom: 160,
-    left: '20%',
-    zIndex: 1,
-  },
-  btnStartCall: {
-    height: 65,
-    width: 65,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 32,
-    backgroundColor: "green",
-    position: 'absolute',
-    bottom: 160,
-    right: '20%',
-    zIndex: 1,
-  },
-  btnAction: {
-    height: 45,
-    width: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 22,
-    backgroundColor: "#fff",
+  text: {
+    color: 'white',
+    fontSize: fontSizes.bigTitle,
+    fontFamily: fonts.MontserratMedium
   },
   shadow: {
     shadowColor: "#000",
@@ -171,7 +136,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 6.27,
     elevation: 10,
-  }
+  },
+  callButton: {
+    height: 65,
+    width: 65,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 35
+  },
 });
 
 const mapStateToProps = (state) => ({
@@ -182,7 +154,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   endCall: () => dispatch(actionCreators.endCall()),
   setCallActive: () => dispatch(actionCreators.setCallActive(true)),
-  resetInAppCall: ()=>dispatch(actionCreators.resetInAppCall())
+  resetInAppCall: () => dispatch(actionCreators.resetInAppCall())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CallScreen);
