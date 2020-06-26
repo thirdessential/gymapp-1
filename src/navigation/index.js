@@ -14,10 +14,6 @@ import UserListingTwo from "../screens/App/UserListingTwo";
 import Profile from "../screens/App/Profile";
 import Packages from "../screens/App/Packages";
 import Splash from "../screens/Auth/Splash";
-// import Login from "../screens/Auth/Login";
-// import SignUp from "../screens/Auth/Signup";
-import LoginTwo from "../screens/Auth/LoginTwo";
-import SignupTwo from "../screens/Auth/SignupTwo";
 import Listings from "../screens/Auth/Listings";
 
 import SignInWithRegisteredEmail from "../screens/Auth/SignInWithRegisteredEmail";
@@ -34,6 +30,9 @@ import LaunchApplication from 'react-native-bring-foreground';
 import {callKeepConfig, randomuuid} from "../utils/callKeep";
 import ChooseUserType from "../screens/Auth/ChooseUserType";
 import requestCameraAndAudioPermission from "../utils/permission";
+import ProfileTwo from '../screens/App/ProfileTwo';
+import SignupThree from '../screens/Auth/SignupThree';
+import LoginFour from '../screens/Auth/LoginFour';
 
 const displayIncomingCall = async (sessionId, agoraAppId, userName = 'user') => {
   RNCallKeep.displayIncomingCall(randomuuid, 'user', userName);
@@ -152,7 +151,7 @@ class App extends React.Component {
           </Stack.Navigator>
         </NavigationContainer>
       )
-    } else if (authenticated) {
+    } else if (!authenticated) {
       if (initialLogin) return (
         <NavigationContainer ref={navigationRef}>
           <Stack.Navigator>
@@ -167,11 +166,14 @@ class App extends React.Component {
           <NavigationContainer ref={navigationRef} 
         >
             <Stack.Navigator screenOptions={{
-          headerStyle: {backgroundColor:'#F3F5F7' },
-        }}>
+         }}
+        >
+            {/* <Stack.Screen name={'LoginFour'} component={LoginFour} options={{title: '',headerTintColor:'Black' }}  />
+            <Stack.Screen name={'SignupThree'} component={SignupThree} options={{title: '',headerTintColor:'Black' }}  /> */}
             <Stack.Screen name={'UserListingTwo'} component={UserListingTwo} options={{title: 'Overview',headerTintColor:'Black' }} />
+            <Stack.Screen name={'ProfileTwo'} component={ProfileTwo}/>
               {/* <Stack.Screen name={RouteNames.UserListing} component={UserListing} options={{title: 'Overview'}}/> */}
-              <Stack.Screen name={RouteNames.Profile} component={Profile}/>
+              {/* <Stack.Screen name={RouteNames.Profile} component={Profile}/> */}
               <Stack.Screen name={RouteNames.Packages} component={Packages}/>
               <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
             </Stack.Navigator>
@@ -184,10 +186,13 @@ class App extends React.Component {
         <Stack.Navigator screenOptions={{
           headerStyle: {},
         }}
+        screenOptions={{
+          headerShown: false
+        }}
         >
           <Stack.Screen name={RouteNames.ChooseUserType} component={ChooseUserType} options={noHeader}/>
-          <Stack.Screen name={RouteNames.Login} component={LoginTwo} options={{title: ''}} />
-          <Stack.Screen name={RouteNames.Signup} component={SignupTwo} options={{title: 'Sign up'}}/>
+          <Stack.Screen name={RouteNames.Login} component={LoginFour} options={{title: ''}} />
+          <Stack.Screen name={RouteNames.Signup} component={SignupThree} options={{title: 'Sign up'}}/>
           <Stack.Screen name="Listings" component={Listings}/>
           <Stack.Screen name="signInWithRegisteredEmail" component={SignInWithRegisteredEmail}
                         options={{title: 'Sign in'}}/>

@@ -20,7 +20,7 @@ class UserListingTwo extends Component {
 
   openTrainer = (trainerId) => {
     const { navigation } = this.props;
-    navigation.navigate(RouteNames.Profile, {
+    navigation.navigate('ProfileTwo', {
       userId: trainerId
     });
   }
@@ -34,7 +34,7 @@ class UserListingTwo extends Component {
     let { name, totalSlots = 0, usedSlots = 0, experience = 0, rating, displayPictureUrl } = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
 
-    if (userType === userTypes.USER) return (
+    if (!userType === userTypes.USER) return (
       <TouchableOpacity
         activeOpacity={0.7}
         style={styles.userContainer}
