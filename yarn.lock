@@ -4710,6 +4710,11 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
+lodash.debounce@4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+  integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
+
 lodash.isequal@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
@@ -5209,6 +5214,11 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "^1.2.5"
 
+moment@>=2.0.0, moment@^2.27.0:
+  version "2.27.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
+  integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -5283,6 +5293,11 @@ node-fetch@^2.2.0, node-fetch@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
   integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
+
+node-git-hooks@^1.0.1:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/node-git-hooks/-/node-git-hooks-1.0.3.tgz#138ed8e0ff6783fddf7fde58d88d399a9277b546"
+  integrity sha512-3RdcX3MUV60A9yUelOz/UiIpqYMgDD+/8lqCk3sQw7qo+0Qtv8Utviduqo3MdeW0y73bLW9nTXLCLSQBc/cFrg==
 
 node-int64@^0.4.0:
   version "0.4.0"
@@ -5818,6 +5833,13 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.4"
 
+prop-types@15.5.8:
+  version "15.5.8"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
+  integrity sha1-a3suFBCDvjjIWVqlH8VXdccZk5Q=
+  dependencies:
+    fbjs "^0.8.9"
+
 prop-types@^15.5.10, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
@@ -5916,6 +5938,16 @@ react-native-bring-foreground@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/react-native-bring-foreground/-/react-native-bring-foreground-0.0.3.tgz#8351f7726df2ebbae7ac914302790d33046b76be"
   integrity sha512-8Vzu6zUJ90Tvh+vHkb5hJrHzDPb08Z5MK0RxdX4VHRu1JYy2k3fM5H5hy6pZttHO0mMyJFxe/YVl7XLH5EqYCA==
+
+react-native-calendar-strip@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-calendar-strip/-/react-native-calendar-strip-2.0.6.tgz#d8636df0d554a9f2a36619acb9ea27114e387ce3"
+  integrity sha512-B4MumbjEYdaUNxgd7NJVnKn0oLjxS433bfrAWMgdFG3IW0P3VIkQvIEF8vE1wUL8YDAmwJ5n49cN4KCB6S9bvw==
+  dependencies:
+    moment ">=2.0.0"
+    node-git-hooks "^1.0.1"
+    prop-types "^15.6.0"
+    recyclerlistview "^3.0.0"
 
 react-native-elements@^2.0.2:
   version "2.0.2"
@@ -6251,6 +6283,15 @@ rechoir@^0.6.2:
   integrity sha1-hSBLVNuoLVdC4oyWdW70OvUOM4Q=
   dependencies:
     resolve "^1.1.6"
+
+recyclerlistview@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/recyclerlistview/-/recyclerlistview-3.0.0.tgz#72ef5ef0246cb851695698c37836001651e70b4f"
+  integrity sha512-t9AiPgwGkCwhCXJhrRj7UhEJ0kpiOkc4g89txurZs2crACg8zVStRRYk6tehECz2NQvmM9Gmp+apGBqie33++Q==
+  dependencies:
+    lodash.debounce "4.0.8"
+    prop-types "15.5.8"
+    ts-object-utils "0.0.5"
 
 redux-persist@^6.0.0:
   version "6.0.0"
@@ -7288,6 +7329,11 @@ tr46@^2.0.2:
   integrity sha512-3n1qG+/5kg+jrbTzwAykB5yRYtQCTqOGKq5U5PE3b0a1/mzo6snDhjGS0zJVJunO0NrT3Dg1MLy5TjWP/UJppg==
   dependencies:
     punycode "^2.1.1"
+
+ts-object-utils@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/ts-object-utils/-/ts-object-utils-0.0.5.tgz#95361cdecd7e52167cfc5e634c76345e90a26077"
+  integrity sha1-lTYc3s1+UhZ8/F5jTHY0XpCiYHc=
 
 tslib@^1.8.1, tslib@^1.9.3:
   version "1.13.0"

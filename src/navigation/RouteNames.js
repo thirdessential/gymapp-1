@@ -13,6 +13,7 @@ const RouteNames = {
   Feed:'Feed',
   HomeTab:'HomeTab',
   CallScreen:'CallScreen',
+  Schedule:'Schedule',
 
   Login:'Login',
   Signup:'Signup'
