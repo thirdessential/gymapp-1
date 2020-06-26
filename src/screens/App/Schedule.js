@@ -51,13 +51,15 @@ class Schedule extends Component {
       },
     ];
     return (
-      <Card>
+      <View style={{margin:10,}}>
+      <Card style={{padding:10,paddingBottom:20, paddingTop:20,borderRadius:5}}>
         <FlatList
           data={data}
           contentContainerStyle={styles.appointmentList}
           renderItem={({item}) => <Appointment title={item.title}/>}
         />
       </Card>
+      </View>
     )
   }
 
@@ -79,6 +81,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems:'center',
     // flex:1
+
   },
   appointmentList: {
     // borderWidth: 1,
