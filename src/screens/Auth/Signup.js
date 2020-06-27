@@ -7,7 +7,7 @@ import { CheckBox } from 'react-native-elements'
 import EmailValidation from '../../Validation/Email';
 import PasswordValidation from '../../Validation/Password';
 import { signInWithEmail } from '../../API/firebaseMethods';
-import bgImage from '../../../assets/bg_4.jpg';
+import bgImage from '../../../assets/bg.jpg';
 import FormElementThree from '../../components/Login/FormElementThree';
 import ActionButtonFour from '../../components/Login/ActionButtonFour';
 import LoginFooterTwo from '../../components/Login/LoginFooterTwo';
@@ -55,7 +55,7 @@ export default class Signup extends Component {
         return (
             <KeyboardAwareScrollView enableOnAndroid={true} contentContainerStyle={styles.contentContainer}>
                 <StatusBar backgroundColor='black' />
-                <ImageBackground source={bgImage} resizeMode="cover" blurRadius={0.3} style={styles.backgroundImage}>
+                <ImageBackground source={bgImage} resizeMode="cover" blurRadius={2} style={styles.backgroundImage}>
                     <View style={styles.container}>
                         <View style={styles.header}>
                             <Text style={styles.headerText}>Get Started</Text>
@@ -138,7 +138,8 @@ const styles = StyleSheet.create(
             marginLeft: 30
         },
         headerText: {
-            color: "#BCBCBF",
+            // color: "#BCBCBF",
+            color:'white',
             fontSize: 35,
             fontWeight: 'bold'
         },
@@ -189,6 +190,7 @@ const styles = StyleSheet.create(
         },
         termsOne: {
             fontSize: 16,
+            // color: '',
             color: '#BCBCBF'
         },
 
@@ -197,6 +199,7 @@ const styles = StyleSheet.create(
         },
         termTwo: {
             color: 'white',
-            fontSize: 16
+            fontSize: 16,
+            fontWeight:"bold"
         }
     });
