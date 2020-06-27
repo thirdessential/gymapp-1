@@ -10,6 +10,8 @@ const colors = {
   rejectRed:'#f7392e'
 }
 const darkPallet = {
+  extraDarkBlue:'#1e2029',
+  darkGrey:'#2b2d37',
   darkBlue: '#2d2f45',
   lightBlue: '#384053',
   extraLightBlue: '#63687b',
@@ -20,6 +22,7 @@ const darkPallet = {
 }
 
 export const appTheme = {
+  darkBackground:darkPallet.extraDarkBlue,
   background: darkPallet.darkBlue,
   gradient: darkPallet.orangeGradient,
   brightContent: darkPallet.hotPink,
@@ -27,6 +30,7 @@ export const appTheme = {
   content: darkPallet.extraLightBlue,
   lightContent: darkPallet.skyBlue,
   grey: darkPallet.greyBlue,
+  darkGrey:darkPallet.darkGrey
 }
 
 export default colors;

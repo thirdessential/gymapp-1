@@ -32,7 +32,7 @@ const ProfileHits = (props) => {
       </View>
 
       <View style={styles.hitContainer}>
-        <Hits count={props.programCount} property={strings.PROGRAMS}/>
+        <Hits count={props.programCount} property={strings.SLOTS}/>
       </View>
 
 

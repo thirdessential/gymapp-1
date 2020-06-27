@@ -9,11 +9,11 @@ import colors from "../constants/colors";
 import {spacing} from "../constants/dimension";
 
 const Avatar = (props) => {
-  const {url, size = spacing.thumbnail} = props;
+  const {url, size = spacing.thumbnail, roundedMultiplier=8}  = props;
   const imageStyle = {
     height: size,
     width: size,
-    borderRadius:size/8
+    borderRadius:size/roundedMultiplier
   }
   return (
       <FastImage

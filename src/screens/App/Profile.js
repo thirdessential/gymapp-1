@@ -92,8 +92,8 @@ class Profile extends Component {
 
     return (
       <ParallaxScrollView
-        backgroundColor={appTheme.background}
-        contentBackgroundColor={appTheme.background}
+        backgroundColor={appTheme.darkBackground}
+        contentBackgroundColor={appTheme.darkBackground}
         parallaxHeaderHeight={screenHeight * 2 / 3}
 
         renderForeground={() => (
@@ -119,7 +119,7 @@ class Profile extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: appTheme.background,
+    backgroundColor: appTheme.darkBackground,
     padding: 0,
 
     margin: 0

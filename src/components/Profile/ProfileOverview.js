@@ -20,6 +20,7 @@ import {toTitleCase} from "../../utils/utils";
 import Avatar from "../Avatar";
 import StarRating from "../StarRating";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import CallButton from '../callButton';
 
 const ProfileOverview = (props) => {
   const {hits} = props;
@@ -40,13 +41,7 @@ const ProfileOverview = (props) => {
           />
         </View>
         <View style={styles.callButtonContainer}>
-          <TouchableOpacity
-            style={[styles.callButton, styles.shadow, {backgroundColor: colors.acceptGreen}]}
-            activeOpacity={0.8}
-            onPress={props.initiateVideoCallCallback}
-          >
-            <Icon name="call" color="white" size={30}/>
-          </TouchableOpacity>
+          <CallButton onPress={props.initiateVideoCallCallback}/>
         </View>
         <View style={styles.avatarContainer}>
           <Avatar url={props.dpUrl} size={spacing.thumbnailMed}/>
@@ -120,7 +115,7 @@ ProfileOverview.defaultProps = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: appTheme.background,
+    backgroundColor: appTheme.darkBackground,
     width: '100%',
     borderRadius: 20,
     borderColor: 'transparent',
