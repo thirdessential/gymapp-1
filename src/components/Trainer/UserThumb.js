@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native'
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import PropTypes from 'prop-types';
 
 import Avatar from '../Avatar';
@@ -17,7 +17,7 @@ import ExpandingText from "../ExpandingText";
 
 const userThumb = (props) => {
   return (
-    <View>
+    <TouchableOpacity onPress={props.onPress}>
       <View style={styles.container}>
         <View style={styles.dpContainer}>
           <Avatar roundedMultiplier={4} size={spacing.thumbnailMini} url={props.dpUrl}/>
@@ -27,7 +27,7 @@ const userThumb = (props) => {
           <Text style={styles.location}>{toTitleCase(props.location)}</Text>
         </View>
         <View style={styles.callButtonContainer}>
-          <CallButton/>
+          <CallButton onPress={props.callClicked} />
         </View>
       </View>
 
@@ -42,7 +42,7 @@ const userThumb = (props) => {
         </View>
 
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

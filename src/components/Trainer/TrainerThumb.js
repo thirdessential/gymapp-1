@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native'
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import PropTypes from 'prop-types';
 import SelectableButton from '../selectableButton';
 import Avatar from '../Avatar';
@@ -21,36 +21,42 @@ import {appTheme} from "../../constants/colors";
 import {AirbnbRating} from "react-native-ratings";
 import Hits from "../Hits";
 import ProfileHits from "../Profile/ProfileHits";
+import PackagePreviewList from './PackagePreviewList';
 
 const trainerThumb = (props) => {
   return (
     <View>
-      <View style={styles.container}>
-        <View style={styles.dpContainer}>
-          <Avatar roundedMultiplier={4} size={spacing.thumbnailMini} url={props.dpUrl}/>
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.displayName}>{toTitleCase(props.name)}</Text>
-          <Text style={styles.location}>{toTitleCase(props.location)}</Text>
-        </View>
-        <View style={styles.callButtonContainer}>
-          <CallButton />
-        </View>
-      </View>
-
-      <View style={styles.extraContent}>
-        <View style={styles.experienceContainer}>
-
-          <ProfileHits
-            // followers={hits.followers}
-            transformations={ 5}
-            // rating={hits.rating}
-            // following={hits.following}
-            programCount={4}
-          />
-          <SelectableButton selected textContent={strings.FOLLOW}/>
+      <TouchableOpacity onPress={props.onPress} activeOpacity={0.7}>
+        <View style={styles.container}>
+          <View style={styles.dpContainer}>
+            <Avatar roundedMultiplier={4} size={spacing.thumbnailMini} url={props.dpUrl}/>
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.displayName}>{toTitleCase(props.name)}</Text>
+            <Text style={styles.location}>{toTitleCase(props.location)}</Text>
+          </View>
+          <View style={styles.callButtonContainer}>
+            <CallButton onPress={props.callClicked} size={25}/>
+          </View>
         </View>
 
+        <View style={styles.extraContent}>
+          <View style={styles.experienceContainer}>
+
+            <ProfileHits
+              // followers={hits.followers}
+              transformations={5}
+              // rating={hits.rating}
+              // following={hits.following}
+              programCount={4}
+            />
+            <SelectableButton selected textContent={strings.FOLLOW}/>
+          </View>
+        </View>
+      </TouchableOpacity>
+
+      <View style={styles.packageListContainer}>
+        <PackagePreviewList packages={props.packages}/>
       </View>
     </View>
   );
@@ -111,6 +117,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: spacing.small
   },
+  packageListContainer: {
+    width: '100%',
+    marginTop: spacing.small,
+    // backgroundColor:appTheme.grey,
+    padding: spacing.small,
+    zIndex: 100
+  },
   plan: {
     color: appTheme.brightContent,
     fontSize: fontSizes.h5,
@@ -129,7 +142,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.small,
   },
   experienceContainer: {
-    flexDirection:'row',
+    flexDirection: 'row',
     alignItems: 'center'
   }
 
