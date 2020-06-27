@@ -2,43 +2,55 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {View, StyleSheet} from 'react-native'
+import {View, StyleSheet, Text} from 'react-native'
 import PropTypes from 'prop-types';
-
+import SelectableButton from '../selectableButton';
 import Avatar from '../Avatar';
 import GenericText from "../GenericText";
-import {coachedPeople} from "../../constants/strings";
+import strings, {coachedPeople} from "../../constants/strings";
 import SlotPreview from "./SlotPreview";
 import StarRating from "../StarRating";
 
 import {spacing} from "../../constants/dimension";
+import {toTitleCase} from "../../utils/utils";
+import CallButton from "../callButton";
+import ExpandingText from "../ExpandingText";
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
+import {appTheme} from "../../constants/colors";
+import {AirbnbRating} from "react-native-ratings";
+import Hits from "../Hits";
+import ProfileHits from "../Profile/ProfileHits";
 
 const trainerThumb = (props) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.roundedDPContainer}>
-        <Avatar
-          url={props.dpUrl}
-        />
-      </View>
-      <View style={styles.nameContainer}>
-        <GenericText>{props.name}</GenericText>
-      </View>
-      <View style={styles.experienceContainer}>
-        <View style={styles.starContainer}>
-          <StarRating
-            rating={props.rating}
-          />
+    <View>
+      <View style={styles.container}>
+        <View style={styles.dpContainer}>
+          <Avatar roundedMultiplier={4} size={spacing.thumbnailMini} url={props.dpUrl}/>
         </View>
-        <GenericText
-          type={'light'}
-        >{coachedPeople(props.experience)}</GenericText>
+        <View style={styles.textContainer}>
+          <Text style={styles.displayName}>{toTitleCase(props.name)}</Text>
+          <Text style={styles.location}>{toTitleCase(props.location)}</Text>
+        </View>
+        <View style={styles.callButtonContainer}>
+          <CallButton />
+        </View>
       </View>
-      <View style={styles.slotPreviewContainer}>
-        <SlotPreview
-          remainingSlots={props.slots.remaining}
-          usedSlots={props.slots.used}
-        />
+
+      <View style={styles.extraContent}>
+        <View style={styles.experienceContainer}>
+
+          <ProfileHits
+            // followers={hits.followers}
+            transformations={ 5}
+            // rating={hits.rating}
+            // following={hits.following}
+            programCount={4}
+          />
+          <SelectableButton selected textContent={strings.FOLLOW}/>
+        </View>
+
       </View>
     </View>
   );
@@ -66,28 +78,59 @@ trainerThumb.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
-    alignItems: "center"
+    width: '100%',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-around'
   },
-  roundedDPContainer: {
+  displayName: {
+    color: 'white',
+    fontSize: fontSizes.h1,
+    fontFamily: fonts.PoppinsSemiBold
+  },
+  location: {
+    color: appTheme.grey,
+    fontSize: fontSizes.h3,
+    fontFamily: fonts.PoppinsMedium
+  },
+  dpContainer: {
     marginBottom: spacing.small
   },
-  nameContainer: {
+  textContainer: {
     paddingTop: spacing.small,
-    paddingBottom: spacing.small
-  },
-  experienceContainer: {
     paddingBottom: spacing.small,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
+    marginLeft: spacing.medium_lg,
   },
-  starContainer: {
-    marginRight: spacing.small
+  callButtonContainer: {
+    marginLeft: 'auto'
   },
-  slotPreviewContainer: {
+  extraContent: {
     flex: 1,
     width: '100%',
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginTop: spacing.small
+  },
+  plan: {
+    color: appTheme.brightContent,
+    fontSize: fontSizes.h5,
+    fontFamily: fonts.PoppinsRegular,
+    borderRadius: 8,
+    borderWidth: 0.5,
+    borderColor: appTheme.brightContent,
+    width: spacing.thumbnailMini,
+    textAlign: 'center'
+  },
+  bioContainer: {
+    marginLeft: spacing.medium_lg,
+    width: '60%'
+  },
+  rating: {
+    marginTop: spacing.small,
+  },
+  experienceContainer: {
+    flexDirection:'row',
+    alignItems: 'center'
   }
 
 

@@ -40,9 +40,7 @@ const ProfileOverview = (props) => {
             isDisabled={true}
           />
         </View>
-        <View style={styles.callButtonContainer}>
-          <CallButton onPress={props.initiateVideoCallCallback}/>
-        </View>
+
         <View style={styles.avatarContainer}>
           <Avatar url={props.dpUrl} size={spacing.thumbnailMed}/>
         </View>
@@ -61,9 +59,12 @@ const ProfileOverview = (props) => {
         <ExpandingText
           style={{color: 'white'}}>
           {props.description}</ExpandingText>
+        <View style={styles.callButtonContainer}>
+          <CallButton onPress={props.initiateVideoCallCallback}/>
+        </View>
       </View>
       {
-        props.userType !== userTypes.TRAINER && (
+        props.userType === userTypes.TRAINER && (
           <View style={styles.profileHitsContainer}>
             <ProfileHits
               // followers={hits.followers}
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
   },
   displayName: {
     color: 'white',
-    fontSize: fontSizes.midTitle,
+    fontSize: fontSizes.h0,
     fontFamily: fonts.MontserratMedium
   },
   location: {
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
   },
   rating: {
     marginTop: spacing.medium_sm,
-    marginLeft: -25 //accomodating for default margin of 25 in the package //TODO:change airbnb to rating import
+    // marginLeft: -25 //accomodating for default margin of 25 in the package //TODO:change airbnb to rating import
   },
   profileTitle: {},
   avatarContainer: {
@@ -152,7 +153,9 @@ const styles = StyleSheet.create({
     marginTop: spacing.medium_lg,
   },
   descriptionContainer: {
-    marginTop: spacing.medium_lg
+    marginTop: spacing.medium_lg,
+    flexDirection: 'row',
+    justifyContent:'space-between'
   },
   callButtonContainer: {
     // justifyContent: 'flex-end',
@@ -174,7 +177,8 @@ const styles = StyleSheet.create({
     width: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 35
+    borderRadius: 35,
+    marginLeft:'auto'
   },
 });
 

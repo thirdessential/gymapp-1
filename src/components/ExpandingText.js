@@ -40,7 +40,7 @@ ExpandingText.propTypes = {
 };
 
 ExpandingText.defaultProps = {
-  contentLength: 40
+  contentLength: 50
 }
 
 const styles = StyleSheet.create({

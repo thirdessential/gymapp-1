@@ -61,8 +61,10 @@ class UserListing extends Component {
               remaining: totalSlots - usedSlots,
               used: usedSlots
             }}
+            location={'Bangalore'}
             dpUrl={displayPictureUrl}
             experience={experience}
+            description={"No description provided for this trainer"}
             rating={rating}
           />
         )
