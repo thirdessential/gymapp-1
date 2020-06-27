@@ -74,8 +74,8 @@ class UserListing extends Component {
   renderHorizontalSeparatorView = () => <View style={styles.itemSeparatorHorizontal}/>
 
   render() {
-    let users= this.props.trainers;
-    if(users.length%2)
+    let users = this.props.trainers;
+    if (users.length % 2)
       users.push({});
     return (<>
         <StatusBar backgroundColor={colors.appBlue}/>

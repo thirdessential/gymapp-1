@@ -15,6 +15,7 @@ const strings = {
   SOCIAL:'Social',
   POSTS:'Posts',
   DURATION:'DURATION',
+  PROGRAMS:'Programs',
   WEEKS:'Weeks',
   PRICE:'PRICE',
   DESCRIPTION:'DESCRIPTION',

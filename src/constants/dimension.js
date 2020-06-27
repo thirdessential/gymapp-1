@@ -10,5 +10,6 @@ export const spacing = {
   fasIcon:30,
   thumbnailMini:60,
   thumbnail:90,
+  thumbnailMed:120,
   coverImageSize:250
 };
