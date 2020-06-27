@@ -14,6 +14,7 @@ const RouteNames = {
   HomeTab:'HomeTab',
   CallScreen:'CallScreen',
   Schedule:'Schedule',
+  ProfileEdit:'ProfileEdit',
 
   Login:'Login',
   Signup:'Signup'

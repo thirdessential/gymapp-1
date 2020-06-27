@@ -10,7 +10,6 @@ import Signup from "../../screens/Auth/Signup";
 import Listings from "../../screens/Auth/Listings";
 import SignInWithRegisteredEmail from "../../screens/Auth/SignInWithRegisteredEmail";
 import EmailVerification from "../../screens/Auth/EmailVerification";
-import TrainerSignupDetails from "../../screens/Auth/TrainerSignupDetails";
 import TrainerHomeScreen from "../../screens/Auth/TrainerHomeScreen";
 // import VideoCall from "../../screens/Call/VideoCall";
 
@@ -29,8 +28,6 @@ const authStack = ({navigationRef}) => {
         <Stack.Screen name="signInWithRegisteredEmail" component={SignInWithRegisteredEmail}
                       options={{title: 'Sign in'}}/>
         <Stack.Screen name="EmailVerification" component={EmailVerification} options={{title: ''}}/>
-        <Stack.Screen name="TrainerSignupDetails" component={TrainerSignupDetails}
-                      options={{title: 'Enter details'}}/>
         <Stack.Screen name="TrainerHomeScreen" component={TrainerHomeScreen} options={{title: ''}}/>
         {/*<Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>*/}
       </Stack.Navigator>

@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
 
 
   listContainer: {
-    // flex: 1,
+    flex: 1,
     justifyContent: 'center',
     alignItems: "center",
     backgroundColor: appTheme.darkBackground,

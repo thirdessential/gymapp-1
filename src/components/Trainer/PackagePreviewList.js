@@ -31,7 +31,7 @@ const packagePreviewList = (props) => {
       // style={styles.container}
       data={props.packages}
       renderItem={({item, index}) => renderPackagePreview(item, index)}
-      keyExtractor={(item, index) => index}
+      keyExtractor={(item, index) => index.toString()}
       // ItemSeparatorComponent={this.renderHorizontalSeparatorView}
     />
   );

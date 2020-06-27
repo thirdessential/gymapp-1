@@ -6,6 +6,7 @@ import UserListing from "../../screens/App/UserListing";
 import RouteNames from "../RouteNames";
 import colors, {appTheme} from "../../constants/colors";
 import Feed from "../../screens/App/Feed";
+import Schedule from "../../screens/App/Schedule";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -33,7 +34,7 @@ const homeTab = () => {
         }}/>
       <Tab.Screen
         name={RouteNames.Feed}
-        component={Feed}
+        component={Schedule} // for app demo
         options={{
           title: 'Feed',
           tabBarIcon: ({focused, color, size}) => {
