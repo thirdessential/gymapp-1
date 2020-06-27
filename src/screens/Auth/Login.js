@@ -5,7 +5,7 @@ import FormElementThree from '../../components/Login/FormElementThree';
 import PasswordElementThree from '../../components/Login/PasswordElementThree';
 import ActionButtonFour from '../../components/Login/ActionButtonFour';
 import LoginFooterTwo from '../../components/Login/LoginFooterTwo';
-import bgImage from '../../../assets/bg_4.jpg';
+import bgImage from '../../../assets/bg.jpg';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import RouteNames from "../../navigation/RouteNames";
 import {attemptGoogleAuth} from "../../API";
@@ -29,7 +29,7 @@ export default class Login extends Component {
         return (
             <KeyboardAwareScrollView enableOnAndroid={true} contentContainerStyle={styles.contentContainer}>
                 <StatusBar backgroundColor='black' />
-                <ImageBackground source={bgImage} resizeMode="cover" blurRadius={0.3} style={styles.backgroundImage}>
+                <ImageBackground source={bgImage} resizeMode="cover" blurRadius={2} style={styles.backgroundImage}>
                     <View style={styles.subContainer}>
                         <View style={styles.heading}>
                             <Text style={styles.headingElement}>Hello there,</Text>
@@ -103,7 +103,8 @@ const styles = StyleSheet.create(
             marginLeft: 30
         },
         headingElement: {
-            color: "#BCBCBF",
+            // color: "#BCBCBF",
+            color: "white",
             fontSize: 32,
             fontWeight: 'bold'
         },
@@ -129,8 +130,10 @@ const styles = StyleSheet.create(
         },
         forgotPassword: {
             color: '#BCBCBF',
+            // color:'#D1D8EB',
             marginBottom: 40,
-            fontSize: 20
+            fontSize: 20,
+            fontWeight:"bold"
         },
         footerOne: {
             flex: 1,
@@ -138,7 +141,8 @@ const styles = StyleSheet.create(
             alignItems: 'center'
         },
         footerText: {
-            color: '#BCBCBF',
+             color: '#BCBCBF',
+           
             fontSize: 18,
             fontWeight: 'bold'
         }

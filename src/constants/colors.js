@@ -15,6 +15,7 @@ const darkPallet = {
   extraLightBlue: '#63687b',
   greyBlue: '#686e80',
   hotPink: '#ea8380',
+  darkPink:'#DD3180',
   skyBlue: '#829da8',
   orangeGradient: ['#f86676', '#fbb287']
 }
@@ -27,6 +28,7 @@ export const appTheme = {
   content: darkPallet.extraLightBlue,
   lightContent: darkPallet.skyBlue,
   grey: darkPallet.greyBlue,
+  
 }
 
 export default colors;

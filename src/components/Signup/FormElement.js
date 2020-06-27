@@ -20,8 +20,8 @@ const styles = StyleSheet.create(
     {
         textInput: {
             marginTop: 10,
-            color: 'black',
-            fontSize: 18,
+            color: 'white',
+            fontSize: 22,
             borderBottomColor: 'grey',
             borderBottomWidth: 1,
             marginRight: 30
