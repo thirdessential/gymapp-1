@@ -7,22 +7,28 @@ import PropTypes from 'prop-types';
 import fontSizes from "../constants/fontSizes";
 import {textSlicer} from "../utils/utils";
 import strings from "../constants/strings";
-import colors from "../constants/colors";
+import colors, {appTheme} from "../constants/colors";
 
 const ExpandingText = (props) => {
-  const {children, contentLength} = props;
+  const {children, contentLength, style} = props;
   const [sliced, setSliced] = useState(children.length > contentLength);
 
   const buttonContent = sliced ? strings.SEE_MORE : strings.SEE_LESS;
+  let disabled = children.length<contentLength;
 
   return (
-    <TouchableOpacity onPress={() => setSliced(!sliced)} style={styles.container}>
-      <Text style={styles.textStyle}>
+    <TouchableOpacity disabled={disabled} onPress={() => setSliced(!sliced)} style={styles.container}>
+      <Text style={[styles.textStyle, style]}>
         {textSlicer(children, sliced ? contentLength : -1)}
         <Text> </Text>
-        <Text style={styles.buttonText}>
-          {buttonContent}
-        </Text>
+        {
+          !disabled && (
+            <Text style={styles.buttonText}>
+              {buttonContent}
+            </Text>
+          )
+        }
+
       </Text>
     </TouchableOpacity>
   );
@@ -34,7 +40,7 @@ ExpandingText.propTypes = {
 };
 
 ExpandingText.defaultProps = {
-  contentLength: 40
+  contentLength: 50
 }
 
 const styles = StyleSheet.create({
@@ -46,7 +52,7 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   buttonText: {
-    color: colors.appBlue
+    color: appTheme.brightContent
   }
 });
 

@@ -6,11 +6,14 @@ import {View, TouchableOpacity, StyleSheet, FlatList, Image, StatusBar} from 're
 import {connect} from "react-redux";
 
 import TrainerThumb from '../../components/Trainer/TrainerThumb';
-import colors from "../../constants/colors";
+import colors, {appTheme} from "../../constants/colors";
 import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
 import {userTypes} from "../../constants/appConstants";
 import UserThumb from "../../components/Trainer/UserThumb";
+import {spacing} from "../../constants/dimension";
+import requestCameraAndAudioPermission from "../../utils/permission";
+import {initialiseVideoCall} from "../../utils/utils";
 // import {rootURL} from "../../constants/appConstants";
 // import {initialiseSocket} from "../../utils/utils";
 
@@ -31,63 +34,78 @@ class UserListing extends Component {
     });
   }
 
-  renderUserThumb = (user, index) => {
+  callClicked = async (userId) => {
+    const permissionGranted = await requestCameraAndAudioPermission();
 
+    if (permissionGranted) {
+      await initialiseVideoCall(userId);
+    } else console.log("Cant initiate video call without permission");
+  }
+
+  renderUserThumb = (user, index) => {
     const {userType} = user;
-    if (!userType)
-      return <View style={[styles.userContainer, index % 2 !== 0 && styles.itemSeparatorVertical]}
-      />
     let {name, totalSlots = 0, usedSlots = 0, experience = 0, rating, displayPictureUrl} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
 
-    if (userType === userTypes.USER) return (
-      <TouchableOpacity
+    return (<View
         activeOpacity={0.7}
-        style={[styles.userContainer, index % 2 !== 0 && styles.itemSeparatorVertical]}
-        onPress={() => this.openTrainer(user._id)}
+        style={styles.userContainer}
+        // onPress={() => this.openTrainer(user._id)}
       >
-        <UserThumb
-          name={name}
-          dpUrl={displayPictureUrl}
-        />
-      </TouchableOpacity>
+        {
+          userType === userTypes.USER && (
+            <UserThumb
+              name={name || 'User'}
+              dpUrl={displayPictureUrl}
+              location={'Bangalore'}
+              plan={Math.random() > 0.5 ? 'Basic' : 'Advanced'}
+              description={"No description provided for this user"}
+              onPress={()=>this.openTrainer(user._id)}
+              callClicked={()=>this.callClicked(user._id)}
+            />
+          )
+        }
+        {
+          userType === userTypes.TRAINER && (
+            <TrainerThumb
+              name={name || 'Trainer'}
+              slots={{
+                remaining: totalSlots - usedSlots,
+                used: usedSlots
+              }}
+              location={'Bangalore'}
+              dpUrl={displayPictureUrl}
+              experience={experience}
+              description={"No description provided for this trainer"}
+              rating={rating}
+              packages={packages} //niche hai file ke
+              onPress={()=>this.openTrainer(user._id)}
+              callClicked={()=>this.callClicked(user._id)}
+
+            />
+          )
+        }
+      </View>
     )
-    else
-      return <TouchableOpacity
-        activeOpacity={0.7}
-        style={[styles.userContainer, index % 2 !== 0 && styles.itemSeparatorVertical]}
-        onPress={() => this.openTrainer(user._id)}
-      >
-        <TrainerThumb
-          name={name}
-          slots={{
-            remaining: totalSlots - usedSlots,
-            used: usedSlots
-          }}
-          dpUrl={displayPictureUrl}
-          experience={experience}
-          rating={rating}
-        />
-      </TouchableOpacity>
   }
 
   renderHorizontalSeparatorView = () => <View style={styles.itemSeparatorHorizontal}/>
 
   render() {
-    let users= this.props.trainers;
-    if(users.length%2)
-      users.push({});
+    let users = this.props.trainers;
+
     return (<>
-        <StatusBar backgroundColor={colors.appBlue}/>
-        <FlatList
-          contentContainerStyle={styles.container}
-          style={{flex: 1}}
-          data={users}
-          renderItem={({item, index}) => this.renderUserThumb(item, index)}
-          numColumns={2}
-          keyExtractor={(item, index) => item._id}
-          ItemSeparatorComponent={this.renderHorizontalSeparatorView}
-        />
+        <StatusBar backgroundColor={appTheme.background}/>
+        <View style={styles.listContainer}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            style={styles.container}
+            data={users}
+            renderItem={({item, index}) => this.renderUserThumb(item, index)}
+            keyExtractor={(item, index) => item._id}
+            ItemSeparatorComponent={this.renderHorizontalSeparatorView}
+          />
+        </View>
       </>
     );
   }
@@ -95,20 +113,36 @@ class UserListing extends Component {
 
 const styles = StyleSheet.create({
   container: {
+
+    width: '100%',
+    paddingLeft: spacing.large_lg,
+    paddingRight: spacing.large_lg,
+    paddingTop: spacing.large_lg,
+  },
+
+
+  listContainer: {
+    // flex: 1,
     justifyContent: 'center',
     alignItems: "center",
+    backgroundColor: appTheme.darkBackground,
+    width: '100%',
+    // borderRadius: 20,
+    // borderColor: 'transparent',
+    // borderBottomLeftRadius: 0,
+    // borderBottomRightRadius: 0,
+    // marginTop: spacing.large_lg,
+    // paddingLeft: spacing.large,
+    // paddingRight: spacing.large
   },
   itemSeparatorHorizontal: {
     height: 1,
-    borderLeftWidth: 1,
-    backgroundColor: colors.lightGrey,
-  },
-  itemSeparatorVertical: {
-    borderLeftWidth: 1,
-    borderLeftColor: colors.lightGrey
+    marginTop: spacing.medium,
+    marginBottom: spacing.medium,
+    backgroundColor: appTheme.grey,
   },
   userContainer: {
-    width: '50%',
+    width: '100%'
   }
 });
 
@@ -122,3 +156,36 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserListing);
+
+const packages = [
+  {
+    name: 'Weight Loss Program',
+    duration: 4,
+    price: 3500
+  },
+  {
+    name: 'Fat Gain Program',
+    duration: 4,
+    price: 3500
+  },
+  {
+    name: 'Weight Loss Program',
+    duration: 4,
+    price: 3500
+  },
+  {
+    name: 'Fat Gain Program',
+    duration: 4,
+    price: 3500
+  },
+  {
+    name: 'Weight Loss Program',
+    duration: 4,
+    price: 3500
+  },
+  {
+    name: 'Fat Gain Program',
+    duration: 4,
+    price: 3500
+  },
+]

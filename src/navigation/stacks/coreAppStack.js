@@ -9,14 +9,16 @@ import Packages from "../../screens/App/Packages";
 import VideoCall from "../../screens/Call/VideoCall";
 import HomeTab from '../tabs/homeTab';
 import Schedule  from "../../screens/App/Schedule";
+import {appTheme} from "../../constants/colors";
 const noHeader = {title: '', headerStyle: {height: 0}}
 
 const coreApplication = ({navigationRef}) => {
   return (
       <Stack.Navigator>
-        <Stack.Screen name={RouteNames.HomeTab} component={HomeTab} options={{title: 'Overview' ,headerStyle:{
-          }}}/>
-        <Stack.Screen name={RouteNames.Profile} component={Profile} options={{title:'',headerTransparent:true}}/>
+        <Stack.Screen name={RouteNames.HomeTab} component={HomeTab} options={{title: 'Overview' ,headerTintColor:appTheme.brightContent,headerStyle:{
+          backgroundColor:appTheme.darkGrey,
+            }}}/>
+        <Stack.Screen name={RouteNames.Profile} component={Profile} options={{title:'',headerTintColor:appTheme.brightContent,headerTransparent:true}}/>
         <Stack.Screen name={RouteNames.Packages} component={Packages}/>
         <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
         <Stack.Screen name={RouteNames.Schedule} component={Schedule} options={{title:'',headerTransparent:true}}/>

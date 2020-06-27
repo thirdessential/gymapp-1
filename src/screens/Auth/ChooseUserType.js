@@ -9,6 +9,7 @@ import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
 import RouteNames from "../../navigation/RouteNames";
 import {userTypes} from "../../constants/appConstants";
+import {appTheme} from "../../constants/colors";
 
 class ChooseUserType extends Component {
 
@@ -48,12 +49,13 @@ const styles = StyleSheet.create({
   },
   darkButton: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: appTheme.darkBackground,
     justifyContent: 'center',
     alignItems: 'center'
   },
   lightButton: {
     flex: 1,
+    backgroundColor: '#e4f9ff',
     justifyContent: 'center',
     alignItems: 'center'
   },

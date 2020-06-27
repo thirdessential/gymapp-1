@@ -5,6 +5,8 @@ import React from 'react';
 import {Text, StyleSheet, View} from 'react-native'
 import PropTypes from 'prop-types';
 import fontSizes from "../constants/fontSizes";
+import {appTheme} from "../constants/colors";
+import fonts from "../constants/fonts";
 
 const Hits = (props) => {
   const {count, property} = props;
@@ -28,14 +30,17 @@ Hits.propTypes = {
 
 const styles = StyleSheet.create({
   count:{
-    color:'black',
-    fontWeight:'bold',
-    fontSize:fontSizes.h2,
-    paddingLeft:0
+    color:'white',
+    fontSize:fontSizes.h0,
+    paddingLeft:0,
+    fontFamily:fonts.MontserratSemiBold
   },
   property:{
-    fontSize:fontSizes.h4,
-    paddingLeft:0
+    fontSize:fontSizes.h3,
+    paddingLeft:0,
+    color:'lightgrey',
+    fontFamily:fonts.MontserratMedium
+
   }
 });
 

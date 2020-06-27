@@ -4,7 +4,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 import UserListing from "../../screens/App/UserListing";
 import RouteNames from "../RouteNames";
-import colors from "../../constants/colors";
+import colors, {appTheme} from "../../constants/colors";
 import Feed from "../../screens/App/Feed";
 
 const Tab = createMaterialTopTabNavigator();
@@ -17,7 +17,8 @@ const homeTab = () => {
         activeTintColor: colors.appBlue,
         inactiveTintColor: 'gray',
         showIcon: true,
-        showLabel: false
+        showLabel: false,
+        style: { backgroundColor:appTheme.darkGrey },
       }}
     >
       <Tab.Screen

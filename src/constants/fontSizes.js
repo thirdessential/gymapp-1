@@ -1,5 +1,6 @@
 const size = {
   bigTitle:30,
+  midTitle:25,
   h0:22,
   h1: 18,
   h2: 16,
