@@ -100,7 +100,7 @@ class Profile extends Component {
           <FastImage
             style={{width: screenWidth, height: screenHeight}}
             source={{
-              uri: displayPictureUrl,
+              uri: defaultDP,
               priority: FastImage.priority.normal,
             }}
             resizeMode={FastImage.resizeMode.cover}

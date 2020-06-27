@@ -14,15 +14,21 @@ const ExpandingText = (props) => {
   const [sliced, setSliced] = useState(children.length > contentLength);
 
   const buttonContent = sliced ? strings.SEE_MORE : strings.SEE_LESS;
+  let disabled = children.length<contentLength;
 
   return (
-    <TouchableOpacity onPress={() => setSliced(!sliced)} style={styles.container}>
+    <TouchableOpacity disabled={disabled} onPress={() => setSliced(!sliced)} style={styles.container}>
       <Text style={[styles.textStyle, style]}>
         {textSlicer(children, sliced ? contentLength : -1)}
         <Text> </Text>
-        <Text style={styles.buttonText}>
-          {buttonContent}
-        </Text>
+        {
+          !disabled && (
+            <Text style={styles.buttonText}>
+              {buttonContent}
+            </Text>
+          )
+        }
+
       </Text>
     </TouchableOpacity>
   );

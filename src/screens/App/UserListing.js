@@ -48,6 +48,8 @@ class UserListing extends Component {
             name={name ||'User'}
             dpUrl={displayPictureUrl}
             location={'Bangalore'}
+            plan={Math.random()>0.5 ?'Basic':'Advanced'}
+            description={"No description provided for this user"}
           />
         )
       }
@@ -107,10 +109,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: appTheme.darkBackground,
     width: '100%',
-    borderRadius: 20,
-    borderColor: 'transparent',
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
+    // borderRadius: 20,
+    // borderColor: 'transparent',
+    // borderBottomLeftRadius: 0,
+    // borderBottomRightRadius: 0,
     // marginTop: spacing.large_lg,
     // paddingLeft: spacing.large,
     // paddingRight: spacing.large

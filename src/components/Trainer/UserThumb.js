@@ -13,19 +13,34 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import {toTitleCase} from "../../utils/utils";
 import {appTheme} from "../../constants/colors";
+import ExpandingText from "../ExpandingText";
 
 const userThumb = (props) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.dpContainer}>
-        <Avatar roundedMultiplier={4} size={spacing.thumbnailMini} url={props.dpUrl}/>
+    <View>
+      <View style={styles.container}>
+        <View style={styles.dpContainer}>
+          <Avatar roundedMultiplier={4} size={spacing.thumbnailMini} url={props.dpUrl}/>
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.displayName}>{toTitleCase(props.name)}</Text>
+          <Text style={styles.location}>{toTitleCase(props.location)}</Text>
+        </View>
+        <View style={styles.callButtonContainer}>
+          <CallButton/>
+        </View>
       </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.displayName}>{toTitleCase(props.name)}</Text>
-        <Text style={styles.location}>{toTitleCase(props.location)}</Text>
-      </View>
-      <View style={styles.callButtonContainer}>
-        <CallButton/>
+
+      <View style={styles.extraContent}>
+        {/*<View style={{width:spacing.thumbnailMini, alignContent:'center'}}>*/}
+
+        <Text style={styles.plan}>{props.plan}</Text>
+        <View style={styles.bioContainer}>
+          <ExpandingText
+            style={{color: 'white'}}>
+            {props.description}</ExpandingText>
+        </View>
+
       </View>
     </View>
   );
@@ -63,8 +78,28 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.small,
     marginLeft: spacing.medium_lg,
   },
-  callButtonContainer:{
+  callButtonContainer: {
     marginLeft: 'auto'
+  },
+  extraContent: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  plan: {
+    color: appTheme.brightContent,
+    fontSize: fontSizes.h5,
+    fontFamily: fonts.PoppinsRegular,
+    borderRadius: 8,
+    borderWidth: 0.5,
+    borderColor: appTheme.brightContent,
+    width: spacing.thumbnailMini ,
+    textAlign: 'center'
+  },
+  bioContainer:{
+    marginLeft:spacing.medium_lg,
+    width:'60%'
   }
 });
 
