@@ -9,28 +9,21 @@ import colors from "../constants/colors";
 import {spacing} from "../constants/dimension";
 
 const Avatar = (props) => {
-  const {url, size = spacing.thumbnail, border = false,rounded=false} = props;
+  const {url, size = spacing.thumbnail, roundedMultiplier=8}  = props;
   const imageStyle = {
     height: size,
     width: size,
-    borderRadius: rounded?size:6,
-  }
-  const containerStyle = {
-    borderWidth: border ? 1 : 0,
-    borderRadius: rounded?size:6,
-    padding: 1
+    borderRadius:size/roundedMultiplier
   }
   return (
-    // <View style={[styles.container, containerStyle]}>
       <FastImage
         style={imageStyle}
         source={{
           uri: url,
           priority: FastImage.priority.normal,
         }}
-        resizeMode={FastImage.resizeMode.contain}
+        resizeMode={FastImage.resizeMode.cover}
       />
-    // </View>
   );
 }
 

@@ -120,3 +120,12 @@ export const initialiseVideoCall = async (userId) => {
 // }
 
 export const customDelay = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
+
+export const toTitleCase = (str) => {
+  return str.replace(
+    /\w\S*/g,
+    function (txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    }
+  );
+}

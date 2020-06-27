@@ -3,8 +3,9 @@
  */
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native'
-import ReactNativeParallaxHeader from 'react-native-parallax-header';
+import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
+import FastImage from 'react-native-fast-image'
 
 import ProfileOverview from '../../components/Profile/ProfileOverview';
 import RouteNames from "../../navigation/RouteNames";
@@ -12,8 +13,8 @@ import * as actionCreators from '../../store/actions';
 import Splash from "../Auth/Splash";
 import requestCameraAndAudioPermission from "../../utils/permission";
 import {initialiseVideoCall} from "../../utils/utils";
-import {screenHeight} from "react-native-calendars/src/expandableCalendar/commons";
 import {appTheme} from "../../constants/colors";
+import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -58,23 +59,24 @@ class Profile extends Component {
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
 
     return (
-      <View style={styles.container}>
-        <ProfileOverview
-          name={name}
-          dpUrl={displayPictureUrl}
-          hits={{
-            transformations: experience,
-            rating: rating,
-            followers: 0,
-            following: 0
-          }}
-          description={"No description provided for this user"}
-          profileType={userType}
-          enrollCallback={this.enrollClicked}
-          initiateVideoCallCallback={this.callClicked}
-          userType={userType}
-        />
-      </View>
+      // <View style={styles.container}>
+      <ProfileOverview
+        name={name}
+        dpUrl={displayPictureUrl}
+        hits={{
+          transformations: experience,
+          programs:4
+          // followers: 0,
+          // following: 0
+        }}
+        rating={rating}
+        description={"No description provided for this user"}
+        profileType={userType}
+        enrollCallback={this.enrollClicked}
+        initiateVideoCallCallback={this.callClicked}
+        userType={userType}
+      />
+      // </View>
     )
   }
 
@@ -89,28 +91,40 @@ class Profile extends Component {
 
 
     return (
-      // <View style={styles.container}>
-        <ReactNativeParallaxHeader
-          headerMinHeight={0}
-          headerMaxHeight={screenHeight*2/3} //or screenheight *2/3
-          extraScrollHeight={20}
-          navbarColor={appTheme.background}
-          backgroundImage={{uri: displayPictureUrl}}
-          backgroundImageScale={1.2}
-          renderContent={this.renderContent}
-          containerStyle={styles.container}
-          // contentContainerStyle={styles.contentContainer}
-          // innerContainerStyle={styles.container}
-        />
-      // </View>
+      <ParallaxScrollView
+        backgroundColor={appTheme.darkBackground}
+        contentBackgroundColor={appTheme.darkBackground}
+        parallaxHeaderHeight={screenHeight * 2 / 3}
+
+        renderForeground={() => (
+          <FastImage
+            style={{width: screenWidth, height: screenHeight}}
+            source={{
+              uri: defaultDP,
+              priority: FastImage.priority.normal,
+            }}
+            resizeMode={FastImage.resizeMode.cover}
+          />
+        )}>
+        <this.renderContent/>
+      </ParallaxScrollView>
+
+    )
+    return (
+      <this.renderContent/>
+
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: appTheme.background
+    backgroundColor: appTheme.darkBackground,
+    padding: 0,
+
+    margin: 0
+    // flex: 1,
+    // backgroundColor: 'transparent'
   },
   contentContainer: {
     // flexGrow: 1,

@@ -9,18 +9,14 @@ import {Card} from 'native-base';
 
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
-// import CalendarStripChooser from '../../components/calendarStripChooser';
 import CustomCalendar from '../../components/customCalendar';
 import Appointment from "../../components/Appointment";
 import {appTheme} from "../../constants/colors";
 
 import SelectableButtonGroup from '../../components/selectableButtonGroup';
-import {customDelay} from "../../utils/utils";
-import GenericText from "../../components/GenericText";
 import strings from "../../constants/strings";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import appointment from "../../components/Appointment";
 
 class Schedule extends Component {
 

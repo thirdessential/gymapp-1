@@ -2,9 +2,9 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {StyleSheet, View} from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import PropTypes from 'prop-types';
-import GenericText from "../GenericText";
+import {AirbnbRating} from 'react-native-ratings';
 import strings from "../../constants/strings";
 import {spacing} from "../../constants/dimension";
 
@@ -13,54 +13,69 @@ import ProfileHits from './ProfileHits';
 import ExpandingText from "../ExpandingText";
 import RoundedFas from "../RoundedFas";
 import {userTypes} from "../../constants/appConstants";
+import colors, {appTheme} from "../../constants/colors";
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
+import {toTitleCase} from "../../utils/utils";
+import Avatar from "../Avatar";
+import StarRating from "../StarRating";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import CallButton from '../callButton';
 
 const ProfileOverview = (props) => {
   const {hits} = props;
   return (
     <View style={styles.container}>
-      <View style={styles.profileTitleContainer}>
-        <ProfileTitle
-          name={props.name}
-          dpUrl={props.dpUrl}
-          enrollCallback={ props.userType===userTypes.TRAINER?props.enrollCallback:null}
-          initiateVideoCallCallback={props.initiateVideoCallCallback}
-        />
+
+      <View style={styles.profileHeader}>
+        <View style={styles.profileTitle}>
+          <Text style={styles.displayName}>{toTitleCase(props.name)}</Text>
+          <Text style={styles.location}>{toTitleCase(props.location)}</Text>
+          <AirbnbRating
+            count={5}
+            showRating={false}
+            defaultRating={props.rating}
+            starContainerStyle={styles.rating}
+            size={12}
+            isDisabled={true}
+          />
+        </View>
+
+        <View style={styles.avatarContainer}>
+          <Avatar url={props.dpUrl} size={spacing.thumbnailMed}/>
+        </View>
+
+        {/*<ProfileTitle*/}
+        {/*  name={props.name}*/}
+        {/*  dpUrl={props.dpUrl}*/}
+        {/*  enrollCallback={props.userType === userTypes.TRAINER ? props.enrollCallback : null}*/}
+        {/*  initiateVideoCallCallback={props.initiateVideoCallCallback}*/}
+        {/*/>*/}
+      </View>
+
+
+      <View style={styles.descriptionContainer}>
+
+        <ExpandingText
+          style={{color: 'white'}}>
+          {props.description}</ExpandingText>
+        <View style={styles.callButtonContainer}>
+          <CallButton onPress={props.initiateVideoCallCallback}/>
+        </View>
       </View>
       {
         props.userType === userTypes.TRAINER && (
           <View style={styles.profileHitsContainer}>
             <ProfileHits
-              followers={hits.followers}
-              transformations={hits.transformations}
-              rating={hits.rating}
-              following={hits.following}
+              // followers={hits.followers}
+              transformations={hits.transformations || 5}
+              // rating={hits.rating}
+              // following={hits.following}
+              programCount={hits.programs}
             />
           </View>
         )
       }
-
-      <View style={styles.descriptionContainer}>
-        <ExpandingText>{props.description}</ExpandingText>
-      </View>
-
-      <View style={styles.descriptionContainer}>
-        <GenericText type={GenericText.types.titleBold}>{strings.SOCIAL}</GenericText>
-        <View style={styles.socialGroup}>
-          <View style={styles.socialContainer}>
-            <RoundedFas fas={'facebook-f'}/>
-          </View>
-          <View style={styles.socialContainer}>
-            <RoundedFas fas={'instagram'}/>
-          </View>
-        </View>
-      </View>
-
-      <View style={styles.descriptionContainer}>
-        <GenericText type={GenericText.types.titleBold}>{strings.POSTS}</GenericText>
-        <View style={{height: 600}}>
-
-        </View>
-      </View>
 
     </View>
   );
@@ -68,21 +83,23 @@ const ProfileOverview = (props) => {
 
 ProfileOverview.propTypes = {
   name: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired,
   dpUrl: PropTypes.string.isRequired,
   hits: PropTypes.shape({
-    followers: PropTypes.number.isRequired,
-    following: PropTypes.number.isRequired,
+    // followers: PropTypes.number.isRequired,
+    // following: PropTypes.number.isRequired,
     transformations: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
+    programs: PropTypes.number.isRequired
   }),
+  rating: PropTypes.number.isRequired,
   enrollCallback: PropTypes.func,
   initiateVideoCallCallback: PropTypes.func,
-  userType:PropTypes.string
-  // userOnline:PropTypes.bool
+  userType: PropTypes.string
 };
 
 ProfileOverview.defaultProps = {
   name: 'Sangeetha Thevar',
+  location: 'Bangalore',
   dpUrl: Math.random() > 0.5 ? 'https://i.ya-webdesign.com/images/people-standing-png-4.png' : 'https://www.pngitem.com/pimgs/m/28-288789_transparent-png-person-standing-standing-png-download.png',
   hits: {
     followers: 555,
@@ -99,26 +116,70 @@ ProfileOverview.defaultProps = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: appTheme.darkBackground,
+    width: '100%',
+    borderRadius: 20,
+    borderColor: 'transparent',
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    marginTop: -20,
+    paddingLeft: spacing.large,
+    paddingRight: spacing.large
   },
-  profileTitleContainer: {
-    marginTop: spacing.large,
+  displayName: {
+    color: 'white',
+    fontSize: fontSizes.h0,
+    fontFamily: fonts.MontserratMedium
   },
-  profileHitsContainer: {
-    marginTop: spacing.medium,
+  location: {
+    color: appTheme.grey,
+    fontSize: fontSizes.h1,
+    fontFamily: fonts.MontserratMedium
   },
-  descriptionContainer: {
-    marginLeft: spacing.medium_lg,
-    marginRight: spacing.medium_lg,
+  profileHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginTop: spacing.medium_lg
   },
-  socialGroup: {
-    flexDirection: 'row',
-    marginTop: spacing.medium
+  rating: {
+    marginTop: spacing.medium_sm,
+    // marginLeft: -25 //accomodating for default margin of 25 in the package //TODO:change airbnb to rating import
   },
-  socialContainer: {
-    marginRight: spacing.medium_lg
-  }
-
+  profileTitle: {},
+  avatarContainer: {
+    marginTop: -spacing.medium_lg - (spacing.thumbnailMed / 6) //Bring some of it out of container
+  },
+  profileHitsContainer: {
+    marginTop: spacing.medium_lg,
+  },
+  descriptionContainer: {
+    marginTop: spacing.medium_lg,
+    flexDirection: 'row',
+    justifyContent:'space-between'
+  },
+  callButtonContainer: {
+    // justifyContent: 'flex-end',
+    // backgroundColor: 'red',
+    // flex:1
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
+  },
+  callButton: {
+    height: 40,
+    width: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 35,
+    marginLeft:'auto'
+  },
 });
 
 export default ProfileOverview;

@@ -17,34 +17,36 @@ const ProfileHits = (props) => {
       horizontal={true}
       showsHorizontalScrollIndicator={false}
     >
-      <View style={styles.hitContainer}>
-        <Hits count={props.followers} property={strings.FOLLOWERS}/>
-      </View>
-      <View style={styles.separator}/>
+      {/*<View style={styles.hitContainer}>*/}
+      {/*  <Hits count={props.followers} property={strings.FOLLOWERS}/>*/}
+      {/*</View>*/}
+      {/*<View style={styles.separator}/>*/}
 
-      <View style={styles.hitContainer}>
-        <Hits count={props.following} property={strings.FOLLOWING}/>
-      </View>
-      <View style={styles.separator}/>
+      {/*<View style={styles.hitContainer}>*/}
+      {/*  <Hits count={props.following} property={strings.FOLLOWING}/>*/}
+      {/*</View>*/}
+      {/*<View style={styles.separator}/>*/}
 
       <View style={styles.hitContainer}>
         <Hits count={props.transformations} property={strings.TRANSFORMATIONS}/>
       </View>
-      <View style={styles.separator}/>
 
       <View style={styles.hitContainer}>
-        <Hits count={props.rating} property={strings.RATING}/>
+        <Hits count={props.programCount} property={strings.SLOTS}/>
       </View>
+
+
     </ScrollView>
 
   );
 }
 
 ProfileHits.propTypes = {
-  followers: PropTypes.number.isRequired,
-  following: PropTypes.number.isRequired,
+  // followers: PropTypes.number.isRequired,
+  // following: PropTypes.number.isRequired,
   transformations: PropTypes.number.isRequired,
-  rating: PropTypes.number.isRequired,
+  programCount:PropTypes.number.isRequired
+  // rating: PropTypes.number.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   hitContainer: {
-    marginLeft: spacing.medium_lg,
+    // marginLeft: spacing.medium_lg,
     marginRight: spacing.medium_lg
   },
   separator: {
