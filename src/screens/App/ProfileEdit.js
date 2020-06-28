@@ -7,7 +7,6 @@ import { uploadImage } from '../../API';
 import { connect } from "react-redux";
 import * as actionCreators from "../../store/actions";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import FormElement from '../../components/Signup/FormElement';
 import ActionButtonTwo from '../../components/Login/ActionButtonTwo';
 import { appTheme } from '../../constants/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
