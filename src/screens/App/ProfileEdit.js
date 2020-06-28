@@ -113,17 +113,17 @@ class ProfileEdit extends Component {
 
                     </View>
                     <View style={{ flex: 3, marginLeft: 30 }}>
-                        <SignupFormElement size={22} label="Name" onChangeText={(text) => { this.setState({ name: { text } }) }} />
+                        <SignupFormElement size={28} label="Name" onChangeText={(text) => { this.setState({ name: { text } }) }} />
                         <View style={styles.itemSeparatorHorizontal} />
 
-                        <SignupFormElement size={22} label="Height  (in cms)" maxLength={3} keyboardType='numeric'  onChangeText={(text) => { this.setState({ height: { text } }) }} />
+                        <SignupFormElement size={28} label="Height  (in cms)" maxLength={3} keyboardType='numeric'  onChangeText={(text) => { this.setState({ height: { text } }) }} />
                         <View style={styles.itemSeparatorHorizontal} />
                         
-                        <SignupFormElement size={22} label="Weight  (in kgs)" maxLength={3} keyboardType='numeric' onChangeText={(text) => { this.setState({ weight: { text } }) }} />
+                        <SignupFormElement size={28} label="Weight  (in kgs)" maxLength={3} keyboardType='numeric' onChangeText={(text) => { this.setState({ weight: { text } }) }} />
                         <View style={styles.itemSeparatorHorizontal} />
 
                        
-                            <SignupFormElement label="Bio" multiline={true} size={18} onChangeText={(text) => { this.setState({ bio: { text } }) }} />
+                            <SignupFormElement label="Bio" multiline={true} size={22} onChangeText={(text) => { this.setState({ bio: { text } }) }} />
                             <View style={styles.itemSeparatorHorizontal} />
                         
                     </View>

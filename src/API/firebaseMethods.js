@@ -16,6 +16,7 @@ export const attemptGoogleAuth = async () => {
     return auth().signInWithCredential(googleCredential);
   } catch (error) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      
     } else if (error.code === statusCodes.IN_PROGRESS) {
     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
     } else {

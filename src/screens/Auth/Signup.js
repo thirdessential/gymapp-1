@@ -1,17 +1,20 @@
-import React, {Component} from 'react';
-import {Text, View, TextInput, StyleSheet, TouchableOpacity, ImageBackground, StatusBar} from 'react-native';
-import {attemptGoogleAuth, registerWithEmail} from '../../API';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import React, { Component } from 'react';
+import { Text, View, TextInput, StyleSheet, TouchableOpacity, ImageBackground, StatusBar, Keyboard, ToastAndroid, Platform, AlertIOS } from 'react-native';
+import { attemptGoogleAuth, registerWithEmail } from '../../API';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {CheckBox} from 'react-native-elements'
+import { CheckBox } from 'react-native-elements'
 import EmailValidation from '../../Validation/Email';
 import PasswordValidation from '../../Validation/Password';
-import {signInWithEmail} from '../../API';
+import { signInWithEmail } from '../../API';
 import bgImage from '../../../assets/images/loginbg.jpg';
 import FormElementThree from '../../components/Login/FormElementThree';
 import ActionButtonFour from '../../components/Login/ActionButtonFour';
 import LoginFooterTwo from '../../components/Login/LoginFooterTwo';
 import PasswordElementThree from '../../components/Login/PasswordElementThree';
+import Loader from '../../components/Loader/Loader';
+
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -21,13 +24,22 @@ export default class Signup extends Component {
       password: '',
       emailError: null,
       passwordError: null,
-      checked: false
+      checked: false,
+      loading: false
+    }
+  }
+  showMessage(msg) {
+
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(msg, ToastAndroid.SHORT)
+    } else {
+      AlertIOS.alert(msg);
     }
   }
 
   validateInputs() {
-    this.setState({emailError: EmailValidation(this.state.email.text)})
-    this.setState({passwordError: PasswordValidation(this.state.password.text)})
+    this.setState({ emailError: EmailValidation(this.state.email) })
+    this.setState({ passwordError: PasswordValidation(this.state.password) })
 
     if (!this.state.checked)
       this.showMessage('kindly accept the terms and conditions')
@@ -37,39 +49,68 @@ export default class Signup extends Component {
   }
 
   async signUp() {
+    console.log('signup method is cald')
+    Keyboard.dismiss()
+    this.setState({ loading: true })
     if (this.validateInputs()) {
-      var result = await registerWithEmail(this.state.email.text, this.state.password.text);
 
+      var result = await registerWithEmail(this.state.email, this.state.password);
+      this.setState({ loading: false })
+      if (result) {
+
+      }
+      else
+        showMessage({
+          message: "Signup Failed..Try Again",
+          type: "danger",
+        });
       //call the signup api based on the role of user
     }
+    else
+      showMessage({
+        message: "Singup Failed",
+        type: "danger",
+      });
+
   }
 
   googleLogin = () => {
-    attemptGoogleAuth();
+    
+    this.setState({ loading: true })
+    let res = await attemptGoogleAuth();
+    this.setState({ loading: false })
+    if (result) {
+
+    }
+    else
+      showMessage({
+        message: "Signup Failed..Try Again",
+        type: "danger",
+      });
   }
 
-  async signIn() {
-    var result = await signInWithEmail(this.state.email.text, this.state.password.text);
-  }
+
 
   render() {
     return (
-      <KeyboardAwareScrollView enableOnAndroid={true} contentContainerStyle={styles.contentContainer}>
-        <StatusBar backgroundColor='black'/>
+      <KeyboardAwareScrollView enableOnAndroid={true} keyboardShouldPersistTaps={'handled'} contentContainerStyle={styles.contentContainer}>
+        <StatusBar backgroundColor='black' />
         <ImageBackground source={bgImage} resizeMode="cover" blurRadius={2} style={styles.backgroundImage}>
+          <Loader
+            loading={this.state.loading} />
           <View style={styles.container}>
             <View style={styles.header}>
               <Text style={styles.headerText}>Get Started</Text>
             </View>
             <View style={styles.subContainer}>
               <View style={styles.formElements}>
-                <FormElementThree placeholder="  Email" onChangeText={(text) => this.setState({email: text})}/>
+                <FormElementThree placeholder="  Email" onChangeText={(text) => this.setState({ email: text })} />
                 {!!this.state.emailError && (
                   <Text style={styles.formError}>{this.state.emailError}</Text>
                 )}
                 <PasswordElementThree placeholder="  Password" onChangeText={(text) => {
-                  this.setState({password: text})
-                }}/>
+                  this.setState({ password: text })
+                }} />
                 {!!this.state.passwordError && (
                   <Text style={styles.formError}>{this.state.passwordError}</Text>
                 )}
@@ -87,7 +128,7 @@ export default class Signup extends Component {
                     checked={this.state.checked}
                     checkedColor="white"
                     onPress={() => {
-                      this.setState({checked: !this.state.checked}), console.log(this.state.checked)
+                      this.setState({ checked: !this.state.checked }), console.log(this.state.checked)
                     }}
                   />
                   <ActionButtonFour label="Sign Up" onPress={() => this.signUp()}></ActionButtonFour>
@@ -104,12 +145,12 @@ export default class Signup extends Component {
                       name='google'
                       color='white'
                       size={40}
-                      style={{marginTop: 10}}
+                      style={{ marginTop: 10 }}
                     />
                   </TouchableOpacity>
                 </View>
                 <LoginFooterTwo content="Already have an account?  " clickableContent=" Sign in"
-                                onPress={() => this.props.navigation.pop()}/>
+                  onPress={() => this.props.navigation.pop()} />
               </View>
             </View>
           </View>
