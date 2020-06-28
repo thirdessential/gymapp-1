@@ -15,8 +15,20 @@ import {toTitleCase} from "../../utils/utils";
 import {appTheme} from "../../constants/colors";
 import ExpandingText from "../ExpandingText";
 import Hits from "../Hits";
+import HitsList from "../HitsList";
+import strings from "../../constants/strings";
 
 const userThumb = (props) => {
+  const hits = [
+    {
+      title: strings.POSTS,
+      count: props.postCount || 5
+    },
+    {
+      title: strings.SUBSCRIPTIONS,
+      count: props.subscriptionCount || 1
+    }
+  ]
   return (
     <TouchableOpacity onPress={props.onPress}>
       <View style={styles.container}>
@@ -32,19 +44,9 @@ const userThumb = (props) => {
 
       <View style={styles.extraContent}>
         <Text style={styles.plan}>{props.plan}</Text>
-        <View style={styles.bioContainer}>
-
           <View style={styles.hitsContainer}>
-
-            <View style={styles.hits}>
-              <Hits property={'Posts'} count={props.postCount} size={fontSizes.h1}/>
-            </View>
-            <View style={styles.hits}>
-              <Hits property={'Subscriptions'} count={props.subscriptionCount} size={fontSizes.h1}/>
-            </View>
+            <HitsList hits={hits} size={fontSizes.h1}/>
           </View>
-        </View>
-
       </View>
     </TouchableOpacity>
   );
@@ -86,16 +88,9 @@ const styles = StyleSheet.create({
     marginRight: 'auto'
   },
   hitsContainer: {
-    marginLeft: 'auto',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  hits: {
-    marginRight: spacing.medium_sm
+    marginLeft: spacing.medium_lg,
   },
   extraContent: {
-    // flex: 1,
-    // width: '100%',
     alignItems: 'center',
     flexDirection: 'row',
   },
@@ -109,9 +104,6 @@ const styles = StyleSheet.create({
     width: spacing.thumbnailMini,
     textAlign: 'center'
   },
-  bioContainer: {
-    marginLeft: spacing.medium_lg,
-  }
 });
 
 export default userThumb;

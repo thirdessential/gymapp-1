@@ -16,6 +16,7 @@ import {initialiseVideoCall} from "../../utils/utils";
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
+import {userTypes} from "../../constants/appConstants";
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -59,14 +60,24 @@ class Profile extends Component {
     )
     let {name, userType, experience, rating, displayPictureUrl} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
-    const hits = [
+    const userHits =  [
+      {
+        title: strings.POSTS,
+        count: 5
+      },
+      {
+        title: strings.SUBSCRIPTIONS,
+        count:  1
+      }
+    ]
+    const trainerHits = [
       {
         title: strings.POSTS,
         count:  5
       },
       {
         title: strings.MAKEOVERS,
-        count: 5
+        count: experience
       },
       {
         title: strings.PROGRAMS,
@@ -82,7 +93,7 @@ class Profile extends Component {
       <ProfileOverview
         name={name}
         dpUrl={displayPictureUrl}
-        hits={hits}
+        hits={userType===userTypes.TRAINER?trainerHits: userHits}
         rating={rating}
         description={"No description provided for this user"}
         profileType={userType}

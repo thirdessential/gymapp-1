@@ -13,6 +13,7 @@ const strings = {
   RATING:'Rating',
   SEE_MORE:'See more',
   SEE_LESS:'See less',
+  SUBSCRIPTIONS:'Subscriptions',
   SOCIAL:'Social',
   POSTS:'Posts',
   DURATION:'DURATION',

@@ -26,10 +26,10 @@ class UserListing extends Component {
     updateTrainers();
   }
 
-  openProfile = (trainerId) => {
+  openProfile = (userId) => {
     const {navigation} = this.props;
     navigation.navigate(RouteNames.Profile, {
-      userId: trainerId
+      userId: userId
     });
   }
 
@@ -42,8 +42,7 @@ class UserListing extends Component {
   }
 
   renderUserThumb = (user, index) => {
-    const {userType} = user;
-    let {name, totalSlots = 0, usedSlots = 0, experience = 0, rating, displayPictureUrl} = user;
+    let {name, totalSlots = 0, userType,usedSlots = 0, experience = 0, rating, displayPictureUrl} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
 
     return (
