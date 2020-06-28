@@ -9,7 +9,7 @@ import strings from "../../constants/strings";
 import {spacing} from "../../constants/dimension";
 
 import ProfileTitle from './ProfileTitle';
-import ProfileHits from './ProfileHits';
+import HitsList from '../HitsList';
 import ExpandingText from "../ExpandingText";
 import RoundedFas from "../RoundedFas";
 import {userTypes} from "../../constants/appConstants";
@@ -66,13 +66,7 @@ const ProfileOverview = (props) => {
       {
         props.userType === userTypes.TRAINER && (
           <View style={styles.profileHitsContainer}>
-            <ProfileHits
-              // followers={hits.followers}
-              transformations={hits.transformations || 5}
-              // rating={hits.rating}
-              // following={hits.following}
-              programCount={hits.programs}
-            />
+            <HitsList hits={props.hits}/>
           </View>
         )
       }
@@ -85,12 +79,12 @@ ProfileOverview.propTypes = {
   name: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   dpUrl: PropTypes.string.isRequired,
-  hits: PropTypes.shape({
+  // hits: PropTypes.shape({
     // followers: PropTypes.number.isRequired,
     // following: PropTypes.number.isRequired,
-    transformations: PropTypes.number.isRequired,
-    programs: PropTypes.number.isRequired
-  }),
+    // transformations: PropTypes.number.isRequired,
+    // programs: PropTypes.number.isRequired
+  // }),
   rating: PropTypes.number.isRequired,
   enrollCallback: PropTypes.func,
   initiateVideoCallCallback: PropTypes.func,

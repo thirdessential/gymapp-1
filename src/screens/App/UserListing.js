@@ -14,6 +14,7 @@ import UserThumb from "../../components/Trainer/UserThumb";
 import {spacing} from "../../constants/dimension";
 import requestCameraAndAudioPermission from "../../utils/permission";
 import {initialiseVideoCall} from "../../utils/utils";
+import FontAwesome from "react-native-vector-icons/Feather";
 // import {rootURL} from "../../constants/appConstants";
 // import {initialiseSocket} from "../../utils/utils";
 
@@ -21,13 +22,11 @@ const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-pi
 
 class UserListing extends Component {
   async componentDidMount() {
-    const {updateTrainers, authToken} = this.props;
+    const {updateTrainers, navigation} = this.props;
     updateTrainers();
-    // global.socket = await initialiseSocket(authToken);
-    // console.log(global.socket)
   }
 
-  openTrainer = (trainerId) => {
+  openProfile = (trainerId) => {
     const {navigation} = this.props;
     navigation.navigate(RouteNames.Profile, {
       userId: trainerId
@@ -47,21 +46,18 @@ class UserListing extends Component {
     let {name, totalSlots = 0, usedSlots = 0, experience = 0, rating, displayPictureUrl} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
 
-    return (<View
-        activeOpacity={0.7}
-        style={styles.userContainer}
-        // onPress={() => this.openTrainer(user._id)}
-      >
+    return (
+      <View style={styles.userContainer}>
         {
           userType === userTypes.USER && (
             <UserThumb
-              name={name || 'User'}
+              name={name|| 'User'}
               dpUrl={displayPictureUrl}
               location={'Bangalore'}
               plan={Math.random() > 0.5 ? 'Basic' : 'Advanced'}
-              description={"No description provided for this user"}
-              onPress={()=>this.openTrainer(user._id)}
-              callClicked={()=>this.callClicked(user._id)}
+              onPress={() => this.openProfile(user._id)}
+              postCount={Math.floor(Math.random() * 10)}
+              subscriptionCount={Math.floor(Math.random()*2)}
             />
           )
         }
@@ -79,8 +75,8 @@ class UserListing extends Component {
               description={"No description provided for this trainer"}
               rating={rating}
               packages={packages} //niche hai file ke
-              onPress={()=>this.openTrainer(user._id)}
-              callClicked={()=>this.callClicked(user._id)}
+              onPress={() => this.openProfile(user._id)}
+              callClicked={() => this.callClicked(user._id)}
 
             />
           )
@@ -113,14 +109,12 @@ class UserListing extends Component {
 
 const styles = StyleSheet.create({
   container: {
-
     width: '100%',
     paddingLeft: spacing.large_lg,
     paddingRight: spacing.large_lg,
     paddingTop: spacing.large_lg,
+    backgroundColor: appTheme.darkBackground,
   },
-
-
   listContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -137,8 +131,8 @@ const styles = StyleSheet.create({
   },
   itemSeparatorHorizontal: {
     height: 1,
-    marginTop: spacing.medium,
-    marginBottom: spacing.medium,
+    marginTop: spacing.medium_lg,
+    marginBottom: spacing.medium_lg,
     backgroundColor: appTheme.grey,
   },
   userContainer: {

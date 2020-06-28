@@ -14,6 +14,7 @@ import fonts from "../../constants/fonts";
 import {toTitleCase} from "../../utils/utils";
 import {appTheme} from "../../constants/colors";
 import ExpandingText from "../ExpandingText";
+import Hits from "../Hits";
 
 const userThumb = (props) => {
   return (
@@ -26,19 +27,22 @@ const userThumb = (props) => {
           <Text style={styles.displayName}>{toTitleCase(props.name)}</Text>
           <Text style={styles.location}>{toTitleCase(props.location)}</Text>
         </View>
-        <View style={styles.callButtonContainer}>
-          <CallButton onPress={props.callClicked} />
-        </View>
+
       </View>
 
       <View style={styles.extraContent}>
-        {/*<View style={{width:spacing.thumbnailMini, alignContent:'center'}}>*/}
-
         <Text style={styles.plan}>{props.plan}</Text>
         <View style={styles.bioContainer}>
-          <ExpandingText
-            style={{color: 'white'}}>
-            {props.description}</ExpandingText>
+
+          <View style={styles.hitsContainer}>
+
+            <View style={styles.hits}>
+              <Hits property={'Posts'} count={props.postCount} size={fontSizes.h1}/>
+            </View>
+            <View style={styles.hits}>
+              <Hits property={'Subscriptions'} count={props.subscriptionCount} size={fontSizes.h1}/>
+            </View>
+          </View>
         </View>
 
       </View>
@@ -49,7 +53,9 @@ const userThumb = (props) => {
 userThumb.propTypes = {
   name: PropTypes.string.isRequired,
   dpUrl: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired
+  location: PropTypes.string.isRequired,
+  postCount: PropTypes.number.isRequired,
+  subscriptionCount: PropTypes.number.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -71,19 +77,25 @@ const styles = StyleSheet.create({
     fontFamily: fonts.PoppinsMedium
   },
   dpContainer: {
-    marginBottom: spacing.small
+    // marginBottom: spacing.small
   },
   textContainer: {
     paddingTop: spacing.small,
-    paddingBottom: spacing.small,
+    // paddingBottom: spacing.small,
     marginLeft: spacing.medium_lg,
+    marginRight: 'auto'
   },
-  callButtonContainer: {
-    marginLeft: 'auto'
+  hitsContainer: {
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  hits: {
+    marginRight: spacing.medium_sm
   },
   extraContent: {
-    flex: 1,
-    width: '100%',
+    // flex: 1,
+    // width: '100%',
     alignItems: 'center',
     flexDirection: 'row',
   },
@@ -94,12 +106,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 0.5,
     borderColor: appTheme.brightContent,
-    width: spacing.thumbnailMini ,
+    width: spacing.thumbnailMini,
     textAlign: 'center'
   },
-  bioContainer:{
-    marginLeft:spacing.medium_lg,
-    width:'60%'
+  bioContainer: {
+    marginLeft: spacing.medium_lg,
   }
 });
 

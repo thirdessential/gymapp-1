@@ -9,6 +9,7 @@ const strings = {
   FOLLOWERS:'Followers',
   FOLLOWING:'Following',
   TRANSFORMATIONS:'Transformations',
+  MAKEOVERS:'Makeovers',
   RATING:'Rating',
   SEE_MORE:'See more',
   SEE_LESS:'See less',

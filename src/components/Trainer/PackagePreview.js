@@ -17,10 +17,8 @@ const packagePreview = (props) => {
   return (
     <View style={styles.container}>
         <Text style={styles.title}>{props.title}</Text>
-        <Text style={styles.duration}>{props.duration} Weeks</Text>
+        <Text style={styles.duration}>{props.duration} {strings.WEEKS}</Text>
         <Text style={styles.price}>Rs {props.price}</Text>
-        {/*<Text>{props.title}</Text>*/}
-        {/*<Text>{props.title}</Text>*/}
     </View>
   );
 }
@@ -34,15 +32,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: "center",
-    // borderWidth:2,
     backgroundColor:appTheme.background,
-    // borderColor:appTheme.brightContent,
     borderRadius:10,
     padding:spacing.medium_sm,
-    width:120
-    // height:30,
-    // width:30,
-    // backgroundColor:'aqua'
+    width:120,
+    borderColor:appTheme.grey,
+    borderWidth:1,
   },
   title:{
     color:'white',
