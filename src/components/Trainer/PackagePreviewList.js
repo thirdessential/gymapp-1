@@ -4,12 +4,10 @@
 import React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native'
 import PropTypes from 'prop-types';
-import CustomProgressBar from "../CustomProgressBar";
-import GenericText from "../GenericText";
-import strings from "../../constants/strings";
+
 import PackagePreview from './PackagePreview';
 
-import {spacing, spacing as dimension} from "../../constants/dimension";
+import {spacing} from "../../constants/dimension";
 
 const renderPackagePreview = (packageData, index) => {
   return (
@@ -28,11 +26,9 @@ const packagePreviewList = (props) => {
     <FlatList
       showsHorizontalScrollIndicator={false}
       horizontal={true}
-      // style={styles.container}
       data={props.packages}
       renderItem={({item, index}) => renderPackagePreview(item, index)}
       keyExtractor={(item, index) => index.toString()}
-      // ItemSeparatorComponent={this.renderHorizontalSeparatorView}
     />
   );
 }
@@ -42,14 +38,8 @@ packagePreviewList.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: "center"
-  },
   packageContainer:{
-    marginRight:spacing.medium_lg
+    marginRight:spacing.medium
   }
 });
 

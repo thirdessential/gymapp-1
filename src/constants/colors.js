@@ -9,7 +9,7 @@ const colors = {
   acceptGreen:'#4bd35f',
   rejectRed:'#f7392e'
 }
-const darkPallet = {
+export const darkPallet = {
   extraDarkBlue:'#1e2029',
   darkGrey:'#2b2d37',
   darkBlue: '#2d2f45',
@@ -18,19 +18,35 @@ const darkPallet = {
   greyBlue: '#686e80',
   hotPink: '#ea8380',
   skyBlue: '#829da8',
-  orangeGradient: ['#f86676', '#fbb287']
+  orangeGradient: ['#f86676', '#fbb287'],
+  pink:'#DD3180',
+  gradients:{
+    pink:['#ff4760', '#f4007f'],
+    blue:['#8400e4', '#7c00d3'],
+    purple:['#b300eb', '#8a00d3'],
+  }
+}
+
+export const getRandomGradient = ()=> {
+  const gradients = Object.keys(darkPallet.gradients);
+  const gradientCount = gradients.length;
+  const index = Math.floor(Math.random()*gradientCount) ;
+  return darkPallet.gradients[ gradients[index]];
 }
 
 export const appTheme = {
   darkBackground:darkPallet.extraDarkBlue,
   background: darkPallet.darkBlue,
-  gradient: darkPallet.orangeGradient,
   brightContent: darkPallet.hotPink,
   lightBackground: darkPallet.lightBlue,
   content: darkPallet.extraLightBlue,
   lightContent: darkPallet.skyBlue,
   grey: darkPallet.greyBlue,
-  darkGrey:darkPallet.darkGrey
+  darkGrey:darkPallet.darkGrey,
+  gradient: darkPallet.orangeGradient,
+  secondaryGradient:darkPallet.gradients.pink,
+  tertiaryGradient:darkPallet.gradients.blue,
+  quaternaryGradient:darkPallet.gradients.purple
 }
 
 export default colors;

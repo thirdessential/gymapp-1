@@ -101,11 +101,7 @@ class Schedule extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    // justifyContent: 'center',
-    // alignItems:'center',
-    // flex:1
     backgroundColor: appTheme.lightBackground
-
   },
   calendarContainer: {
     paddingLeft: spacing.medium_lg,

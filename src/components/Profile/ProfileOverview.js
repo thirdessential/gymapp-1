@@ -9,7 +9,7 @@ import strings from "../../constants/strings";
 import {spacing} from "../../constants/dimension";
 
 import ProfileTitle from './ProfileTitle';
-import ProfileHits from './ProfileHits';
+import HitsList from '../HitsList';
 import ExpandingText from "../ExpandingText";
 import RoundedFas from "../RoundedFas";
 import {userTypes} from "../../constants/appConstants";
@@ -31,26 +31,24 @@ const ProfileOverview = (props) => {
         <View style={styles.profileTitle}>
           <Text style={styles.displayName}>{toTitleCase(props.name)}</Text>
           <Text style={styles.location}>{toTitleCase(props.location)}</Text>
-          <AirbnbRating
-            count={5}
-            showRating={false}
-            defaultRating={props.rating}
-            starContainerStyle={styles.rating}
-            size={12}
-            isDisabled={true}
-          />
+          {
+            props.userType===userTypes.TRAINER && (
+              <AirbnbRating
+                count={5}
+                showRating={false}
+                defaultRating={props.rating}
+                starContainerStyle={styles.rating}
+                size={12}
+                isDisabled={true}
+              />
+            )
+          }
         </View>
 
         <View style={styles.avatarContainer}>
           <Avatar url={props.dpUrl} size={spacing.thumbnailMed}/>
         </View>
 
-        {/*<ProfileTitle*/}
-        {/*  name={props.name}*/}
-        {/*  dpUrl={props.dpUrl}*/}
-        {/*  enrollCallback={props.userType === userTypes.TRAINER ? props.enrollCallback : null}*/}
-        {/*  initiateVideoCallCallback={props.initiateVideoCallCallback}*/}
-        {/*/>*/}
       </View>
 
 
@@ -59,24 +57,14 @@ const ProfileOverview = (props) => {
         <ExpandingText
           style={{color: 'white'}}>
           {props.description}</ExpandingText>
-        <View style={styles.callButtonContainer}>
-          <CallButton onPress={props.initiateVideoCallCallback}/>
-        </View>
-      </View>
-      {
-        props.userType === userTypes.TRAINER && (
-          <View style={styles.profileHitsContainer}>
-            <ProfileHits
-              // followers={hits.followers}
-              transformations={hits.transformations || 5}
-              // rating={hits.rating}
-              // following={hits.following}
-              programCount={hits.programs}
-            />
-          </View>
-        )
-      }
 
+      </View>
+          <View style={styles.profileHitsContainer}>
+            <HitsList hits={props.hits}/>
+            <View style={styles.callButtonContainer}>
+              <CallButton onPress={props.initiateVideoCallCallback}/>
+            </View>
+          </View>
     </View>
   );
 }
@@ -85,12 +73,6 @@ ProfileOverview.propTypes = {
   name: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   dpUrl: PropTypes.string.isRequired,
-  hits: PropTypes.shape({
-    // followers: PropTypes.number.isRequired,
-    // following: PropTypes.number.isRequired,
-    transformations: PropTypes.number.isRequired,
-    programs: PropTypes.number.isRequired
-  }),
   rating: PropTypes.number.isRequired,
   enrollCallback: PropTypes.func,
   initiateVideoCallCallback: PropTypes.func,
@@ -151,6 +133,7 @@ const styles = StyleSheet.create({
   },
   profileHitsContainer: {
     marginTop: spacing.medium_lg,
+    flexDirection:'row'
   },
   descriptionContainer: {
     marginTop: spacing.medium_lg,
@@ -158,28 +141,8 @@ const styles = StyleSheet.create({
     justifyContent:'space-between'
   },
   callButtonContainer: {
-    // justifyContent: 'flex-end',
-    // backgroundColor: 'red',
-    // flex:1
   },
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-    elevation: 10,
-  },
-  callButton: {
-    height: 40,
-    width: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 35,
-    marginLeft:'auto'
-  },
+
 });
 
 export default ProfileOverview;

@@ -11,18 +11,24 @@ import {
 import CoreApp from '../stacks/coreAppStack';
 import Settings from "../../screens/App/Settings";
 import {signOutFirebase} from "../../API/firebaseMethods";
+import {appTheme} from "../../constants/colors";
+import Packages from "../../screens/App/Packages";
 
 const Drawer = createDrawerNavigator();
-
+const MyTheme = {
+  colors: {
+    primary: appTheme.darkBackground,
+  },
+};
 const rootDrawer = ({navigationRef}) => {
   return (
-    <NavigationContainer ref={navigationRef}>
+    <NavigationContainer theme={MyTheme} ref={navigationRef}>
       <Drawer.Navigator initialRouteName="Home"
                         drawerType={'slide'}
                         drawerContent={CustomDrawerContent}
       >
         <Drawer.Screen name="Home" component={CoreApp}/>
-        <Drawer.Screen name="Settings" component={Settings}/>
+        <Drawer.Screen name="Packages" component={Packages}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );
@@ -31,8 +37,8 @@ const rootDrawer = ({navigationRef}) => {
 
 function CustomDrawerContent(props) {
   return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
+    <DrawerContentScrollView {...props} style={{backgroundColor:appTheme.background}}>
+      <DrawerItemList {...props} labelStyle={{color:'white'}}/>
       {/*<DrawerItem*/}
       {/*  label="Sign Out"*/}
       {/*  onPress={() => signOutFirebase()}*/}

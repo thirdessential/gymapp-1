@@ -15,6 +15,8 @@ import requestCameraAndAudioPermission from "../../utils/permission";
 import {initialiseVideoCall} from "../../utils/utils";
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from '../../utils/screenDimensions';
+import strings from "../../constants/strings";
+import {userTypes} from "../../constants/appConstants";
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -50,6 +52,7 @@ class Profile extends Component {
   renderContent = () => {
     const {route, users} = this.props;
 
+
     const {userId} = route.params;
     const user = users[userId];
     if (!user) return (
@@ -57,18 +60,40 @@ class Profile extends Component {
     )
     let {name, userType, experience, rating, displayPictureUrl} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
-
+    const userHits =  [
+      {
+        title: strings.POSTS,
+        count: 5
+      },
+      {
+        title: strings.SUBSCRIPTIONS,
+        count:  1
+      }
+    ]
+    const trainerHits = [
+      {
+        title: strings.POSTS,
+        count:  5
+      },
+      {
+        title: strings.MAKEOVERS,
+        count: experience
+      },
+      {
+        title: strings.PROGRAMS,
+        count: 4
+      },
+      {
+        title: strings.SLOTS,
+        count: 3
+      }
+    ]
     return (
       // <View style={styles.container}>
       <ProfileOverview
         name={name}
         dpUrl={displayPictureUrl}
-        hits={{
-          transformations: experience,
-          programs:4
-          // followers: 0,
-          // following: 0
-        }}
+        hits={userType===userTypes.TRAINER?trainerHits: userHits}
         rating={rating}
         description={"No description provided for this user"}
         profileType={userType}

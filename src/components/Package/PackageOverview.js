@@ -2,57 +2,82 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {useState} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native'
+import {ImageBackground, LayoutAnimation, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import PropTypes from 'prop-types';
-import GenericText from "../GenericText";
-import strings, {priceBuilder} from "../../constants/strings";
+import strings from "../../constants/strings";
 import {spacing} from "../../constants/dimension";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import MainContent from './PackageMainContent';
-import colors from "../../constants/colors";
-import GenericButton from "../GenericButton";
+import fonts from "../../constants/fonts";
+import fontSizes from "../../constants/fontSizes";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Entypo from "react-native-vector-icons/Entypo";
+import {getRandomImage} from "../../constants/images";
+import {appTheme, darkPallet} from "../../constants/colors";
+
+const toggleAnimation = (callback, value) => {
+  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  callback(value)
+}
 
 const PackageOverview = (props) => {
   const [collapsed, setCollapsed] = useState(true);
   const chevron = !collapsed ? 'chevron-up' : 'chevron-down';
+  const [imageSrc] = useState(getRandomImage());
   return (
-    <TouchableOpacity activeOpacity={0.9} onPress={() => setCollapsed(!collapsed)}>
-      <View style={styles.titleContainer}>
-        <View style={styles.titleTextContainer}>
-          <GenericText type={GenericText.types.heading}>{props.title.toUpperCase()}</GenericText>
-        </View>
-        <View style={styles.chevronContainer}>
+    <TouchableOpacity activeOpacity={0.9} onPress={() => toggleAnimation(setCollapsed, !collapsed)}>
+      <ImageBackground
+        style={styles.container}
+        blurRadius={4}
+        borderRadius={12}
+        source={imageSrc}>
+        <View style={[styles.textContainer, {flexDirection: 'row', justifyContent: 'space-between'}]}>
+          <Text style={styles.title}>{props.title}</Text>
           <FontAwesome
             name={chevron}
-            color={'black'}
-            size={10}
+            color={'white'}
+            size={12}
+            style={{marginTop: spacing.small}}
           />
         </View>
-      </View>
-      {
-        !collapsed && (
-          <View style={styles.mainContentContainer}>
-            <MainContent
-              title={props.title}
-              duration={props.duration}
-              price={props.price}
-              description={props.description}
-            />
-            <View style={styles.orderContainer}>
+        {
+          !collapsed && (
+            <>
               <View style={styles.textContainer}>
-                <GenericText type={GenericText.types.title}>{priceBuilder(props.price)}</GenericText>
+                <Text style={styles.description}>{props.description}</Text>
               </View>
-              <View style={styles.buttonContainer}>
-                <GenericButton textContent={strings.PROCEED}/>
+              <View style={styles.textContainer}>
+                <Text style={styles.subtitle}>{props.sessionCount} {strings.SESSIONS}</Text>
               </View>
-            </View>
-          </View>
-        )
-      }
-      {
-        collapsed && <View style={styles.separator}/>
-      }
+            </>
+          )
+        }
+        <View style={styles.subtitleContainer}>
+          <Text style={styles.subtitle}>{props.duration} {strings.WEEKS}</Text>
+          <Text style={styles.price}>{strings.RUPEE} {props.price}</Text>
+          {
+            props.enrollCallback && !collapsed && (
+              <TouchableOpacity style={styles.enrollButton}>
+                <Text style={styles.enroll}>{strings.ENROLL}</Text>
+              </TouchableOpacity>
+            )
+          }
+          {
+            props.editCallback && !collapsed && (
+              <TouchableOpacity
+                style={styles.enrollButton}
+                onPress={props.editCallback}
+                hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}
+              >
+                <Entypo
+                  name={'edit'}
+                  color={'white'}
+                  size={24}
+                />
+              </TouchableOpacity>
+            )
+          }
+        </View>
+      </ImageBackground>
     </TouchableOpacity>
   );
 }
@@ -66,39 +91,55 @@ PackageOverview.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row'
+  container: {
+    padding: spacing.medium,
+    borderRadius: 12,
+    paddingLeft: spacing.large,
+    paddingRight: spacing.large,
+    // justifyContent:'center'
   },
-  titleTextContainer: {
-    width: 300,
+  textContainer: {
+    marginBottom: spacing.medium_sm
   },
-  chevronContainer: {
-    paddingTop: spacing.small
+  title: {
+    color: 'white',
+    fontFamily: fonts.RobotoRegular,
+    fontSize: fontSizes.h0
   },
-  separator: {
-    borderBottomWidth: 1,
-    paddingTop: spacing.medium,
-    borderBottomColor: colors.lightGrey,
-  },
-  mainContentContainer: {
-    marginTop: spacing.medium,
-    borderTopWidth: 1,
-    borderTopColor: colors.lightGrey,
-    paddingBottom: spacing.medium_sm
-  },
-  orderContainer: {
-    justifyContent: 'space-around',
+  subtitleContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: colors.lightGrey,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.lightGrey,
-    paddingTop: spacing.medium,
-    paddingBottom: spacing.medium,
-    marginTop: spacing.medium_sm
-  }
+    justifyContent: 'space-between'
+  },
+  subtitle: {
+    color: 'white',
+    fontFamily: fonts.RobotoRegular,
+    fontSize: fontSizes.h2
+  },
+  price: {
+    color: 'white',
+    fontFamily: fonts.RobotoBold,
+    fontSize: fontSizes.h1
+  },
+  description: {
+    color: 'white',
+    fontFamily: fonts.RobotoRegular,
+    fontSize: fontSizes.h2
+  },
+  enrollButton: {
+    // backgroundColor:darkPallet.pink,
 
+    // padding:spacing.small,
+    // borderRadius: 10
+  },
+  enroll: {
+    color: 'white',
+    // borderRadius: 5,
+    // borderWidth:1,
+    // padding:5,
+    // borderColor:appTheme.brightContent,
+    fontFamily: fonts.RobotoBold,
+    fontSize: fontSizes.h1
+  }
 });
 
 export default PackageOverview;
