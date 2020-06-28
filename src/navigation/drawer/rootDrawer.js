@@ -12,6 +12,7 @@ import CoreApp from '../stacks/coreAppStack';
 import Settings from "../../screens/App/Settings";
 import {signOutFirebase} from "../../API/firebaseMethods";
 import {appTheme} from "../../constants/colors";
+import Packages from "../../screens/App/Packages";
 
 const Drawer = createDrawerNavigator();
 const MyTheme = {
@@ -27,7 +28,7 @@ const rootDrawer = ({navigationRef}) => {
                         drawerContent={CustomDrawerContent}
       >
         <Drawer.Screen name="Home" component={CoreApp}/>
-        <Drawer.Screen name="Settings" component={Settings}/>
+        <Drawer.Screen name="Packages" component={Packages}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );

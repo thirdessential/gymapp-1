@@ -9,6 +9,7 @@ import PackageOverview from '../../components/Package/PackageOverview';
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
 import {appTheme} from "../../constants/colors";
+import RouteNames from "../../navigation/RouteNames";
 
 class Packages extends Component {
 
@@ -121,7 +122,7 @@ class Packages extends Component {
           price={price}
           description={description}
           // enrollCallback={this.packageSelected}
-          editCallback={()=>{}}
+          editCallback={()=>{this.props.navigation.navigate(RouteNames.PackageEdit)}}
         />
       </View>
     )

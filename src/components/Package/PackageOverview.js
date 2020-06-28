@@ -10,6 +10,7 @@ import {spacing} from "../../constants/dimension";
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Entypo from "react-native-vector-icons/Entypo";
 import {getRandomImage} from "../../constants/images";
 import {appTheme, darkPallet} from "../../constants/colors";
 
@@ -62,9 +63,13 @@ const PackageOverview = (props) => {
           }
           {
             props.editCallback && !collapsed && (
-              <TouchableOpacity style={styles.enrollButton}>
-                <FontAwesome
-                  name={'pencil'}
+              <TouchableOpacity
+                style={styles.enrollButton}
+                onPress={props.editCallback}
+                hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}
+              >
+                <Entypo
+                  name={'edit'}
                   color={'white'}
                   size={24}
                 />
@@ -122,6 +127,7 @@ const styles = StyleSheet.create({
   },
   enrollButton: {
     // backgroundColor:darkPallet.pink,
+
     // padding:spacing.small,
     // borderRadius: 10
   },
