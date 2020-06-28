@@ -50,7 +50,7 @@ const trainerThumb = (props) => {
         </View>
 
         <View style={styles.extraContent}>
-          <HitsList hits={hits} size={fontSizes.h1}/>
+          <HitsList hits={hits} size={fontSizes.h3}/>
         </View>
 
       </TouchableOpacity>

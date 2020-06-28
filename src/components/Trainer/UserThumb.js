@@ -31,7 +31,7 @@ const userThumb = (props) => {
   ]
   return (
     <TouchableOpacity onPress={props.onPress}>
-      <View style={styles.container}>
+      <View style={styles.titleContent}>
         <View style={styles.dpContainer}>
           <Avatar roundedMultiplier={4} size={spacing.thumbnailMini} url={props.dpUrl}/>
         </View>
@@ -44,9 +44,9 @@ const userThumb = (props) => {
 
       <View style={styles.extraContent}>
         <Text style={styles.plan}>{props.plan}</Text>
-          <View style={styles.hitsContainer}>
-            <HitsList hits={hits} size={fontSizes.h1}/>
-          </View>
+        <View style={styles.hitsContainer}>
+          <HitsList hits={hits} size={fontSizes.h3}/>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -61,7 +61,7 @@ userThumb.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  titleContent: {
     flex: 1,
     width: '100%',
     alignItems: 'center',

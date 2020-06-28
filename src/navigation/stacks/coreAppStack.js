@@ -26,23 +26,21 @@ const hamburgerButton = ()=> (
   </TouchableOpacity>
 )
 
-const coreApplication = ({navigationRef}) => {
+const coreApplication = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen name={RouteNames.Packages} component={Packages}/>
+
       <Stack.Screen name={RouteNames.HomeTab} component={HomeTab} options={{
         title: 'Overview',
         headerTintColor: appTheme.brightContent,
         headerStyle: {
           backgroundColor: appTheme.darkGrey,
-          // height:60,
-          // paddingLeft:spacing.medium_sm
         },
-        // headerTransparent:true,
         headerLeft: hamburgerButton
       }}/>
       <Stack.Screen name={RouteNames.Profile} component={Profile}
                     options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
-      <Stack.Screen name={RouteNames.Packages} component={Packages}/>
       <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
       <Stack.Screen name={RouteNames.Schedule} component={Schedule} options={{title: '', headerTransparent: true}}/>
 
