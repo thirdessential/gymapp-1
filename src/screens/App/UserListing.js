@@ -15,15 +15,15 @@ import {spacing} from "../../constants/dimension";
 import requestCameraAndAudioPermission from "../../utils/permission";
 import {initialiseVideoCall} from "../../utils/utils";
 import FontAwesome from "react-native-vector-icons/Feather";
-// import {rootURL} from "../../constants/appConstants";
-// import {initialiseSocket} from "../../utils/utils";
+import {getMyInfo} from "../../API";
 
 const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 class UserListing extends Component {
-  async componentDidMount() {
-    const {updateTrainers, navigation} = this.props;
+  componentDidMount() {
+    const {updateTrainers, } = this.props;
     updateTrainers();
+    getMyInfo();
   }
 
   openProfile = (userId) => {

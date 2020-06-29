@@ -26,7 +26,6 @@ export const dateToString = time => {
   let prependedZeroToHours = hours >= 10 ? '' : '0';
   let minutes = dateObj.getMinutes();
   let prependedZeroToMinutes = minutes >= 10 ? '' : '0';
-  // if(minutes===0) prependedZeroToMinutes+='0';
 
   return `${prependedZeroToHours}${hours}${prependedZeroToMinutes}${minutes}`;
 }
@@ -103,51 +102,6 @@ export const initialiseVideoCall = async (userId) => {
     ChannelName: sessionId
   })
 }
-
-// export const initialiseSocket = (authToken) => {
-//   if (authToken === '') {
-//     console.log("Cannot initialise a socket without auth token. exiting");
-//     return false;
-//   }
-//   const socket = SocketIOClient(rootURL);
-//   // socket.authToken = authToken/;
-//   socket.on('connect', function (data) {
-//     // console.log(socket)
-//     socket.emit(CHANNELS.STORE_CLIENT_INFO, {authToken});
-//   });
-//   socket.on(CHANNELS.INITIATE_VIDEO_CALL, data => {
-//     const {sessionID} = data;
-// navigate(RouteNames.VideoCall, {
-//     AppID: 'de359ae21a884e08a18e38476b54ccea',
-//     ChannelName: sessionID
-//   }
-// )
-//   })
-//   socket.on(CHANNELS.CONFIRM_VIDEO_CALL, data => {
-//     const {sessionID} = data;
-//     showMessage({
-//       message: "Receive call?",
-//       type: "info",
-//       description: "You are getting a call from a user",
-//       autoHide: false,
-//       onPress: async () => {
-//         const permissionGranted = await requestCameraAndAudioPermission();
-//         if (!permissionGranted) {
-//           console.log("Cant initiate video call without permission")
-//           return;
-//         }
-//         navigate(RouteNames.VideoCall, {
-//             AppID: 'de359ae21a884e08a18e38476b54ccea',
-//             ChannelName: sessionID
-//           }
-//         )
-//       }
-//     });
-//   })
-//
-//
-//   return socket;
-// }
 
 export const customDelay = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
 
