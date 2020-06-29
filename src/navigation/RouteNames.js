@@ -16,6 +16,7 @@ const RouteNames = {
   CallScreen:'CallScreen',
   Schedule:'Schedule',
   ProfileEdit:'ProfileEdit',
+  SlotEdit:'SlotEdit',
 
   Login:'Login',
   Signup:'Signup'

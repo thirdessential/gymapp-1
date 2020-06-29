@@ -4,16 +4,18 @@ import {NavigationContainer} from "@react-navigation/native";
 import Stack from './stack';
 import RouteNames from "../RouteNames";
 import Profile from "../../screens/App/Profile";
-import Packages from "../../screens/App/Packages";
+import Packages from "../../screens/App/PackageList";
 import PackageEdit from "../../screens/App/PackageEdit";
 import VideoCall from "../../screens/Call/VideoCall";
 import HomeTab from '../tabs/homeTab';
 import Schedule from "../../screens/App/Schedule";
+
 import {appTheme} from "../../constants/colors";
 import {TouchableOpacity} from "react-native";
 import FontAwesome from "react-native-vector-icons/Feather";
 import {spacing} from "../../constants/dimension";
 import {openDrawer} from "../RootNavigation";
+import SlotEdit from "../../screens/App/SlotList";
 
 const noHeader = {title: '', headerStyle: {height: 0}}
 
@@ -30,6 +32,7 @@ const hamburgerButton = ()=> (
 const coreApplication = () => {
   return (
     <Stack.Navigator>
+
       <Stack.Screen name={RouteNames.HomeTab} component={HomeTab} options={{
         title: 'Overview',
         headerTintColor: appTheme.brightContent,
@@ -45,9 +48,9 @@ const coreApplication = () => {
       <Stack.Screen name={RouteNames.Packages} component={Packages}
                     options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
       <Stack.Screen name={RouteNames.PackageEdit} component={PackageEdit}
-                    options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}
-      />
-
+                    options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
+      <Stack.Screen name={RouteNames.SlotEdit} component={SlotEdit}
+                    options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
 
     </Stack.Navigator>
   );

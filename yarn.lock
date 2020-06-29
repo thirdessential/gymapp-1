@@ -6294,6 +6294,10 @@ react-native-vector-icons@^6.6.0:
     prop-types "^15.6.2"
     yargs "^13.2.2"
 
+"react-native-weekday-picker@https://github.com/Yatanvesh/react-native-weekday-picker":
+  version "0.0.2"
+  resolved "https://github.com/Yatanvesh/react-native-weekday-picker#ea283e8e37132dc1796df622c400e500a3e0e738"
+
 react-native-windows@^0.62.0-preview.1:
   version "0.62.0-preview.17"
   resolved "https://registry.yarnpkg.com/react-native-windows/-/react-native-windows-0.62.0-preview.17.tgz#3fb05b327e287af5717751e99b57e147965fb69d"

@@ -22,28 +22,28 @@ class Packages extends Component {
     price: '',
     description: '',
     sessionCount: '',
-    sessionsPerWeek: '',
-    duration: '0'
+    // sessionsPerWeek: '',
+    // duration: '0'
   }
 
   onTitleChange = (title) => this.setState({title});
 
-  setDuration = (sessionCount, sessionsPerWeek) => {
-    if (parseInt(sessionsPerWeek) && parseInt(sessionCount)) {
-      let duration = Math.floor(sessionCount / sessionsPerWeek);
-      this.setState({duration: duration.toString()});
-    }
-  }
+  // setDuration = (sessionCount, sessionsPerWeek) => {
+  //   if (parseInt(sessionsPerWeek) && parseInt(sessionCount)) {
+  //     let duration = Math.floor(sessionCount / sessionsPerWeek);
+  //     this.setState({duration: duration.toString()});
+  //   }
+  // }
   sessionCountChange = (sessionCount) => {
-    const {sessionsPerWeek} = this.state;
-    this.setDuration(sessionCount, sessionsPerWeek);
+    // const {sessionsPerWeek} = this.state;
+    // this.setDuration(sessionCount, sessionsPerWeek);
     this.setState({sessionCount});
   }
-  sessionsPerWeekChange = (sessionsPerWeek) => {
-    let {sessionCount} = this.state;
-    this.setDuration(sessionCount, sessionsPerWeek);
-    this.setState({sessionsPerWeek});
-  }
+  // sessionsPerWeekChange = (sessionsPerWeek) => {
+  //   let {sessionCount} = this.state;
+  //   this.setDuration(sessionCount, sessionsPerWeek);
+  //   this.setState({sessionsPerWeek});
+  // }
   priceChange = (price) => {
     this.setState({price:price.replace(/\D+/g, '')});
   }
@@ -55,7 +55,6 @@ class Packages extends Component {
   }
   savePackage = ()=>{
     this.props.navigation.goBack()
-
   }
   cancelEdit= ()=>{
     this.props.navigation.goBack()
@@ -79,23 +78,25 @@ class Packages extends Component {
             <TextInput
               keyboardType={'numeric'}
               style={styles.contentInput}
+              placeholder={strings.NO_OF_SESSIONS}
+              placeholderTextColor={appTheme.grey}
               onChangeText={this.sessionCountChange}
               value={this.state.sessionCount}
             />
           </View>
-          <View style={styles.inputRow}>
-            <Text style={styles.title}>Sessions/Week</Text>
-            <TextInput
-              keyboardType={'numeric'}
-              style={styles.contentInput}
-              onChangeText={this.sessionsPerWeekChange}
-              value={this.state.sessionsPerWeek}
-            />
-          </View>
-          <View style={styles.inputRow}>
-            <Text style={styles.title}>{strings.DURATION}</Text>
-            <Text style={styles.greyText}>{this.state.duration} {strings.WEEKS}</Text>
-          </View>
+          {/*<View style={styles.inputRow}>*/}
+          {/*  <Text style={styles.title}>Sessions/Week</Text>*/}
+          {/*  <TextInput*/}
+          {/*    keyboardType={'numeric'}*/}
+          {/*    style={styles.contentInput}*/}
+          {/*    onChangeText={this.sessionsPerWeekChange}*/}
+          {/*    value={this.state.sessionsPerWeek}*/}
+          {/*  />*/}
+          {/*</View>*/}
+          {/*<View style={styles.inputRow}>*/}
+          {/*  <Text style={styles.title}>{strings.DURATION}</Text>*/}
+          {/*  <Text style={styles.greyText}>{this.state.duration} {strings.WEEKS}</Text>*/}
+          {/*</View>*/}
           <View style={styles.inputRow}>
             <Text style={styles.title}>{strings.DESCRIPTION}</Text>
             <TextInput

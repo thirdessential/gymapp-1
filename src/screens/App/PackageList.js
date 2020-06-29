@@ -11,7 +11,7 @@ import * as actionCreators from "../../store/actions";
 import {appTheme} from "../../constants/colors";
 import RouteNames from "../../navigation/RouteNames";
 
-class Packages extends Component {
+class PackageList extends Component {
 
   state = {
     packages: [
@@ -129,11 +129,6 @@ class Packages extends Component {
   }
 
   render() {
-    // const {route, users} = this.props;
-    // const {userId} = route.params;
-
-    // const {packages} = users[userId];
-
 
     return (
       <FlatList
@@ -169,4 +164,4 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Packages);
+export default connect(mapStateToProps, mapDispatchToProps)(PackageList);

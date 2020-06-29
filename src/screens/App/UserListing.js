@@ -76,7 +76,6 @@ class UserListing extends Component {
               packages={packages} //niche hai file ke
               onPress={() => this.openProfile(user._id)}
               callClicked={() => this.callClicked(user._id)}
-
             />
           )
         }
@@ -153,32 +152,32 @@ export default connect(mapStateToProps, mapDispatchToProps)(UserListing);
 const packages = [
   {
     name: 'Weight Loss Program',
-    duration: 4,
+    sessionCount: 15,
     price: 3500
   },
   {
     name: 'Fat Gain Program',
-    duration: 4,
+    sessionCount: 15,
     price: 3500
   },
   {
     name: 'Weight Loss Program',
-    duration: 4,
+    sessionCount: 15,
     price: 3500
   },
   {
     name: 'Fat Gain Program',
-    duration: 4,
+    sessionCount: 15,
     price: 3500
   },
   {
     name: 'Weight Loss Program',
-    duration: 4,
+    sessionCount: 15,
     price: 3500
   },
   {
     name: 'Fat Gain Program',
-    duration: 4,
+    sessionCount: 15,
     price: 3500
   },
 ]

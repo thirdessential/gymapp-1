@@ -36,7 +36,7 @@ const selectableButton = (props) => {
 }
 
 selectableButton.propTypes = {
-  textContent: PropTypes.string.isRequired,
+  // textContent: PropTypes.string.isRequired,
   onPress: PropTypes.func
 };
 

@@ -11,6 +11,36 @@ export const validateResponseCode = (code) => {
   return Math.floor(code / 100) === 2;
 };
 
+export const formattedTime = date => {
+  let dateObj = new Date(date);
+  const hours = dateObj.getHours();
+  const minutes = dateObj.getMinutes();
+  const AM_PM = hours >= 12 ? 'PM' : 'AM';
+  let minZero = minutes===0?'0':'' ;
+  return `${hours}:${minutes}${minZero} ${AM_PM}`;
+}
+
+export const dateToString = time => {
+  let dateObj = new Date(time);
+  let hours = dateObj.getHours();
+  let prependedZeroToHours = hours >= 10 ? '' : '0';
+  let minutes = dateObj.getMinutes();
+  let prependedZeroToMinutes = minutes >= 10 ? '' : '0';
+  // if(minutes===0) prependedZeroToMinutes+='0';
+
+  return `${prependedZeroToHours}${hours}${prependedZeroToMinutes}${minutes}`;
+}
+
+export const stringToDate = time => {
+  const hours = parseInt(time.slice(0, 2));
+  const minutes = parseInt(time.slice(2));
+  let dateObj = new Date();
+  dateObj.setHours(hours);
+  dateObj.setMinutes(minutes);
+  return dateObj;
+}
+
+
 export const saveToStorage = async (key, value) => {
   try {
     const jsonValue = JSON.stringify(value)

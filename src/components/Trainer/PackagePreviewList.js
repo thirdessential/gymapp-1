@@ -13,7 +13,7 @@ const renderPackagePreview = (packageData, index) => {
   return (
     <View style={styles.packageContainer} key={index}>
       <PackagePreview
-        duration={packageData.duration}
+        count={packageData.sessionCount}
         title={packageData.name}
         price={packageData.price}
       />

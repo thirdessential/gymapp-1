@@ -8,6 +8,7 @@ const strings = {
   RUPEE:'₹',
   FOLLOW : 'Follow',
   ENROLL : 'Enroll',
+  NO_OF_SESSIONS:'Number of Sessions',
   SESSIONS:'Sessions',
   FOLLOWERS:'Followers',
   PLAN_DESCRIPTION:'Plan description',
