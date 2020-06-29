@@ -76,7 +76,6 @@ class UserListing extends Component {
               packages={packages} //niche hai file ke
               onPress={() => this.openProfile(user._id)}
               callClicked={() => this.callClicked(user._id)}
-
             />
           )
         }

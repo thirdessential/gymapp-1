@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: spacing.small,
-    marginLeft:spacing.small
+    marginLeft: spacing.small
   },
   packageListContainer: {
     width: '100%',

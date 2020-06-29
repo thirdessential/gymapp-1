@@ -22,9 +22,9 @@ class SelectableButtonGroup extends React.Component {
   }
 
   render() {
-
+    const {containerStyle } = this.props;
     return (
-      <View style={styles.container}>
+      <View style={[styles.default, containerStyle]}>
       <FlatList
         // style={styles.container}
         data={this.props.data}
@@ -45,7 +45,7 @@ SelectableButtonGroup.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  default: {
     backgroundColor:appTheme.content,
     borderRadius:6,
     padding:spacing.medium_sm,
