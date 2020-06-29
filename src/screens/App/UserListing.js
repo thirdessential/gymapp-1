@@ -14,7 +14,6 @@ import UserThumb from "../../components/Trainer/UserThumb";
 import {spacing} from "../../constants/dimension";
 import requestCameraAndAudioPermission from "../../utils/permission";
 import {initialiseVideoCall} from "../../utils/utils";
-import FontAwesome from "react-native-vector-icons/Feather";
 import {getMyInfo} from "../../API";
 
 const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';

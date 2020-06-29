@@ -9,11 +9,14 @@ export const userState = {
   userType: userTypes.USER,
   userId: '',
   initialLogin: true,
+
+};
+
+export const callState = {
   callActive: false,
   inAppCall:false,
   callData: {}
-};
-
+}
 export const appState = {
   trainers: [], // trainer listing
   users: { // detailed user info

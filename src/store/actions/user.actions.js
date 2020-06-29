@@ -1,10 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import {updateAxiosToken} from "../../API";
 import {userTypes} from "../../constants/appConstants";
-import {customDelay} from "../../utils/utils";
 import {signOutFirebase} from "../../API/firebaseMethods";
-// import SocketIOClient from 'socket.io-client';
-// import {CHANNELS, rootURL} from "../../constants/appConstants";
 
 export const genericUserFieldSetter = (payload) => ({ // TODO: refactor this function into multiple specific setters
   type: actionTypes.GENERIC_USER_FIELD_SET,
@@ -30,44 +27,6 @@ export const setAuthTokenAction = (authToken) => ({
     authToken
   },
 });
-
-export const setIncomingCall = (callData, inAppCall=false) => ({
-  type: actionTypes.SET_INCOMING_CALL,
-  payload: {
-    callData,
-    inAppCall
-  }
-});
-
-export const setCallActive = (value) => ({
-  type: actionTypes.SET_CALL_ACTIVE,
-  payload: {
-    callActive: value
-  }
-});
-
-export const endCall = () => ({
-  type: actionTypes.END_CALL,
-  payload: {
-    callData: {},
-    callActive: false
-  }
-})
-
-export const resetInAppCall = ()=> ({
-  type: actionTypes.END_CALL,
-  payload: {
-    inAppCall: false
-  }
-})
-
-export const endCallAction = () => {
-  return async (dispatch) => {
-    await dispatch(endCall());
-    await customDelay(100); //allow it to change state
-    return true;
-  };
-};
 
 export const setAuthToken = (authToken) => {
   return async (dispatch) => {

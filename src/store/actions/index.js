@@ -9,11 +9,14 @@ export {
   resetUser,
   setUserType,
   setInitialLoginOff,
+} from "./user.actions";
+
+export {
   setIncomingCall,
   endCallAction as endCall,
   setCallActive,
   resetInAppCall
-} from "./user.actions";
+} from './call.actions';
 
 export {
   setTrainers,

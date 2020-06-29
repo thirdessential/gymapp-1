@@ -118,8 +118,8 @@ const mapStateToProps = (state) => ({
   authToken: state.user.authToken,
   authenticated: state.auth.authenticated,
   initialLogin: state.user.initialLogin,
-  callActive: state.user.callActive,
-  callData: state.user.callData
+  callActive: state.call.callActive,
+  callData: state.call.callData
 });
 
 const mapDispatchToProps = (dispatch) => ({
