@@ -16,7 +16,6 @@ const PasswordElementThree = (props) => {
             setIsPasswordHidden(false)
         else
             setIsPasswordHidden(true)
-        console.log(JSON.stringify(isPasswordHidden))
     }
 
     return (

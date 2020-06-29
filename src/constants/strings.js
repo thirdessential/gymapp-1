@@ -26,7 +26,9 @@ const strings = {
   CALL:'Call',
   WAITING_FOR_USERS:'Waiting for user to join',
   CALL_TIMEOUT:'Call timeout, ending call.',
-  APPOINTMENTS:'Appointments'
+  APPOINTMENTS:'Appointments',
+  SIGNUP_FAILED:'Signup Failed..Try Again',
+  LOGIN_FAILED:'Login Failed..Try Again'
 };
 
 export default strings;

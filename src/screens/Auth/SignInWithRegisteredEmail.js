@@ -1,11 +1,11 @@
-import React, {useState, Component} from 'react';
-import {Text, View, TextInput, Button, ScrollView, KeyboardAvoidingView} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import React, { useState, Component } from 'react';
+import { Text, View, TextInput, Button, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Feather from 'react-native-vector-icons/Feather';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {login} from '../../API';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { login } from '../../API';
 import * as actionCreators from "../../store/actions";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import { signInWithEmail } from '../../API/firebaseMethods';
 
 class SignInWithRegisteredEmail extends Component {
@@ -17,7 +17,7 @@ class SignInWithRegisteredEmail extends Component {
       height: '80%',
       email: '',
       password: ''
-``
+        ``
     }
   }
 
@@ -28,7 +28,6 @@ class SignInWithRegisteredEmail extends Component {
         isPasswordHidded: !prevState.isPasswordHidded
       })
     );
-    console.log(JSON.stringify(this.state.isPasswordHidded))
   }
 
   async signIn() {
@@ -44,9 +43,8 @@ class SignInWithRegisteredEmail extends Component {
     // }
 
     // var result = await login(temail, tpassword);
-    var result = await signInWithEmail(this.state.email.text,this.state.password.text);
+    var result = await signInWithEmail(this.state.email.text, this.state.password.text);
 
-    console.log('-------------' + result);
     // if (result) {
     //   this.props.setAuthToken(result.token);
     //   this.props.setAuthenticated(true);
@@ -60,13 +58,13 @@ class SignInWithRegisteredEmail extends Component {
   render() {
     return (
 
-      <KeyboardAwareScrollView enableOnAndroid={true} contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+      <KeyboardAwareScrollView enableOnAndroid={true} contentContainerStyle={{ flexGrow: 1, backgroundColor: 'white' }}>
 
-        <View style={{flex: 1, marginLeft: 20, marginRight: 20, justifyContent: 'center', marginTop: 20}}>
+        <View style={{ flex: 1, marginLeft: 20, marginRight: 20, justifyContent: 'center', marginTop: 20 }}>
 
 
-          <View style={{flex: 1, justifyContent: 'space-evenly', marginBottom: 20}}>
-            <Text style={{fontSize: 18}}>Email</Text>
+          <View style={{ flex: 1, justifyContent: 'space-evenly', marginBottom: 20 }}>
+            <Text style={{ fontSize: 18 }}>Email</Text>
             <TextInput
               placeholder="Your email"
               placeholderTextColor="grey"
@@ -80,12 +78,11 @@ class SignInWithRegisteredEmail extends Component {
               }}
               autoCapitalize="none"
               onChangeText={(text) => {
-                this.setState({email: {text}})
-                console.log(this.state.email)
+                this.setState({ email: { text } })
               }}
             />
-            <Text style={{fontSize: 18, marginTop: 15}}>Password</Text>
-            <View style={{flexDirection: 'row'}}>
+            <Text style={{ fontSize: 18, marginTop: 15 }}>Password</Text>
+            <View style={{ flexDirection: 'row' }}>
               <TextInput
 
                 placeholder="Your password"
@@ -101,12 +98,11 @@ class SignInWithRegisteredEmail extends Component {
                 autoCapitalize="none"
                 secureTextEntry={this.state.isPasswordHidded}
                 onChangeText={(text) => {
-                  this.setState({password: {text}});
-                  console.log(this.state.password)
+                  this.setState({ password: { text } });
                 }}
               />
               <TouchableOpacity
-                style={{marginTop: 20, marginRight: 10}}
+                style={{ marginTop: 20, marginRight: 10 }}
                 onPress={() => this.changePasswordVisibility()}>
                 <Feather
                   name={this.state.icon}
@@ -115,10 +111,8 @@ class SignInWithRegisteredEmail extends Component {
                 />
               </TouchableOpacity>
             </View>
-
-
-            <TouchableOpacity style={{alignItems: 'flex-end'}}>
-              <Text style={{color: 'blue'}}>Forgot password?</Text>
+            <TouchableOpacity style={{ alignItems: 'flex-end' }}>
+              <Text style={{ color: 'blue' }}>Forgot password?</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => this.signIn()} style={{
@@ -129,12 +123,12 @@ class SignInWithRegisteredEmail extends Component {
               marginLeft: "35%",
               padding: 5
             }}>
-              <Text style={{color: 'white', fontSize: 22, marginLeft: 10, marginRight: 10}}>Sign in</Text>
+              <Text style={{ color: 'white', fontSize: 22, marginLeft: 10, marginRight: 10 }}>Sign in</Text>
             </TouchableOpacity>
 
           </View>
 
-          <View style={{flex: 3, justifyContent: 'center', alignItems: 'center', marginLeft: 20, marginRight: 20}}>
+          <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center', marginLeft: 20, marginRight: 20 }}>
             <View style={{
               flex: 1,
               flexDirection: 'column',
@@ -142,21 +136,21 @@ class SignInWithRegisteredEmail extends Component {
               alignItems: 'center',
               marginBottom: 20
             }}>
-              <Text style={{fontSize: 16}}>By proceeding further, you are agreeing to our </Text>
+              <Text style={{ fontSize: 16 }}>By proceeding further, you are agreeing to our </Text>
               <TouchableOpacity style={{}}>
-                <Text style={{color: 'blue', fontSize: 17}}>terms & conditions</Text>
+                <Text style={{ color: 'blue', fontSize: 17 }}>terms & conditions</Text>
               </TouchableOpacity>
             </View>
 
-            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start'}}>
-              <Text style={{fontSize: 16}}>Don't have an account? </Text>
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-start' }}>
+              <Text style={{ fontSize: 16 }}>Don't have an account? </Text>
               <TouchableOpacity onPress={() => {
                 this.props.navigation.navigate('Signup')
               }}>
-                <Text style={{color: 'blue', fontSize: 17}}> Sign up</Text>
+                <Text style={{ color: 'blue', fontSize: 17 }}> Sign up</Text>
               </TouchableOpacity>
             </View>
-            <View style={{flex: 2}}></View>
+            <View style={{ flex: 2 }}></View>
 
 
           </View>

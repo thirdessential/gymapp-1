@@ -11,6 +11,8 @@ import RouteNames from "../../navigation/RouteNames";
 import { attemptGoogleAuth, signInWithEmail } from "../../API";
 import Loader from '../../components/Loader/Loader';
 import { showMessage, hideMessage } from "react-native-flash-message";
+import strings from '../../constants/strings';
+import { string } from 'prop-types';
 
 export default class Login extends Component {
   constructor(props) {
@@ -31,15 +33,13 @@ export default class Login extends Component {
       this.setState({ googleLoading: true });
     else
       showMessage({
-        message: "Signup Failed..Try Again",
+        message: strings.LOGIN_FAILED,
         type: "danger",
       });
   }
   signIn = async () => {
-
     Keyboard.dismiss()
     this.setState({ loading: true })
-    console.log(this.state.email)
     var result = await signInWithEmail(this.state.email, this.state.password);
     this.setState({ loading: false })
     if (result) {
@@ -47,11 +47,19 @@ export default class Login extends Component {
     }
     else
       showMessage({
-        message: "Login Failed..Try Again",
+        message:string.LOGIN_FAILED,
         type: "danger",
       });
   }
-
+  setEmail=(text)=>{
+    this.setState({email:text})
+  }
+  setPassword=(text)=>{
+    this.setState({password:text})
+  }
+  navigateToSignup=()=>{
+    this.props.navigation.navigate(RouteNames.Signup)
+  }
   render() {
     return (
       <KeyboardAwareScrollView enableOnAndroid={true} keyboardShouldPersistTaps={'handled'} contentContainerStyle={styles.contentContainer}>
@@ -60,24 +68,18 @@ export default class Login extends Component {
           <Loader
             loading={this.state.loading} />
           <View style={styles.subContainer}>
-
             <View style={styles.heading}>
               <Text style={styles.headingElement}>Hello there,</Text>
               <Text style={styles.headingElement}>Welcome back</Text>
             </View>
             <View style={styles.secSubContainer}>
               <View style={styles.FormElement}>
-                <FormElementThree placeholder="  Email" onChangeText={(text) => this.setState({ email: text })} />
-                <PasswordElementThree placeholder="  Password" onChangeText={(text) => {
-                  this.setState({ password: text })
-                }} />
+                <FormElementThree placeholder="  Email" onChangeText={(text) => this.setEmail(text)} />
+                <PasswordElementThree placeholder="  Password" onChangeText={(text) => this.setPassword(text)} />
               </View>
-
               <View style={styles.ActionButton}>
                 <ActionButtonFour label="SIGN IN" onPress={() => this.signIn()}></ActionButtonFour>
               </View>
-
-
               <View style={styles.thirdSubContent}>
                 <View style={{ flex: 1 }}>
                   <TouchableOpacity>
@@ -105,10 +107,8 @@ export default class Login extends Component {
                       </TouchableOpacity>
                     )
                   }
-
                 </View>
-                <LoginFooterTwo content="Dont't have an account?  " clickableContent=" Sign up"
-                  onPress={() => this.props.navigation.navigate(RouteNames.Signup)} />
+                <LoginFooterTwo content="Dont't have an account?  " clickableContent=" Sign up" onPress={() => this.navigateToSignup()} />
               </View>
             </View>
           </View>
@@ -122,9 +122,7 @@ const styles = StyleSheet.create(
     contentContainer: {
       flexGrow: 1,
       backgroundColor: 'black',
-
       width: "100%"
-
     },
     backgroundImage: {
       flex: 1,
@@ -146,7 +144,6 @@ const styles = StyleSheet.create(
       marginLeft: 30
     },
     headingElement: {
-      // color: "#BCBCBF",
       color: "white",
       fontSize: 32,
       fontWeight: 'bold'
@@ -173,7 +170,6 @@ const styles = StyleSheet.create(
     },
     forgotPassword: {
       color: '#BCBCBF',
-      // color:'#D1D8EB',
       marginBottom: 40,
       fontSize: 20,
       fontWeight: "bold"
@@ -185,7 +181,6 @@ const styles = StyleSheet.create(
     },
     footerText: {
       color: '#BCBCBF',
-
       fontSize: 18,
       fontWeight: 'bold'
     },

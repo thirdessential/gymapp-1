@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, StyleSheet, TouchableOpacity, ImageBackground, StatusBar, Keyboard, ToastAndroid, Platform, AlertIOS } from 'react-native';
-import { attemptGoogleAuth, registerWithEmail } from '../../API';
+import { AlertIOS, ImageBackground, Keyboard, Platform, StatusBar, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { CheckBox } from 'react-native-elements';
+import { showMessage } from "react-native-flash-message";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { CheckBox } from 'react-native-elements'
-import EmailValidation from '../../Validation/Email';
-import PasswordValidation from '../../Validation/Password';
-import { signInWithEmail } from '../../API';
 import bgImage from '../../../assets/images/loginbg.jpg';
-import FormElementThree from '../../components/Login/FormElementThree';
+import { attemptGoogleAuth, registerWithEmail } from '../../API';
+import Loader from '../../components/Loader/Loader';
 import ActionButtonFour from '../../components/Login/ActionButtonFour';
+import FormElementThree from '../../components/Login/FormElementThree';
 import LoginFooterTwo from '../../components/Login/LoginFooterTwo';
 import PasswordElementThree from '../../components/Login/PasswordElementThree';
-import Loader from '../../components/Loader/Loader';
-
-import { showMessage, hideMessage } from "react-native-flash-message";
+import strings from '../../constants/strings';
+import EmailValidation from '../../Validation/Email';
+import PasswordValidation from '../../Validation/Password';
 
 export default class Signup extends Component {
   constructor(props) {
@@ -49,7 +48,6 @@ export default class Signup extends Component {
   }
 
   async signUp() {
-    console.log('signup method is cald')
     Keyboard.dismiss()
     this.setState({ loading: true })
     if (this.validateInputs()) {
@@ -61,13 +59,13 @@ export default class Signup extends Component {
       }
       else
         showMessage({
-          message: "Signup Failed..Try Again",
+          message: strings.SIGNUP_FAILED,
           type: "danger",
         });
     }
     else
       showMessage({
-        message: "Singup Failed",
+        message: strings.SIGNUP_FAILED,
         type: "danger",
       });
 
@@ -83,11 +81,16 @@ export default class Signup extends Component {
     }
     else
       showMessage({
-        message: "Signup Failed..Try Again",
+        message: strings.SIGNUP_FAILED,
         type: "danger",
       });
   }
-
+setEmail=(text)=>{
+  this.setState({email:text})
+}
+setPassword=(text)=>{
+  this.setState({password:text})
+}
 
 
   render() {
@@ -103,13 +106,11 @@ export default class Signup extends Component {
             </View>
             <View style={styles.subContainer}>
               <View style={styles.formElements}>
-                <FormElementThree placeholder="  Email" onChangeText={(text) => this.setState({ email: text })} />
+                <FormElementThree placeholder="  Email" onChangeText={(text)=>this.setEmail(text)} />
                 {!!this.state.emailError && (
                   <Text style={styles.formError}>{this.state.emailError}</Text>
                 )}
-                <PasswordElementThree placeholder="  Password" onChangeText={(text) => {
-                  this.setState({ password: text })
-                }} />
+                <PasswordElementThree placeholder="  Password" onChangeText={(text) => this.setPassword(text)} />
                 {!!this.state.passwordError && (
                   <Text style={styles.formError}>{this.state.passwordError}</Text>
                 )}
@@ -126,9 +127,7 @@ export default class Signup extends Component {
                     containerStyle={styles.checkBoxContainerStyle}
                     checked={this.state.checked}
                     checkedColor="white"
-                    onPress={() => {
-                      this.setState({ checked: !this.state.checked }), console.log(this.state.checked)
-                    }}
+                    onPress={() => this.setState({ checked: !this.state.checked }) }
                   />
                   <ActionButtonFour label="Sign Up" onPress={() => this.signUp()}></ActionButtonFour>
                 </View>
