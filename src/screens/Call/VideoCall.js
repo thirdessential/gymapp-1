@@ -25,7 +25,7 @@ class VideoCall extends Component {
 
     this.state = {
       peerIds: [],                                //Array for storing connected peers
-      uid: Math.floor(Math.random() * 100),       //Generate a UID for local user
+      uid: Math.floor(Math.random() * 1000000),       //Generate a UID for local user
       appid: AppID,                    //Enter the App ID generated from the Agora Website
       channelName: ChannelName,        //Channel Name for the current session
       vidMute: false,                             //State variable for Video Mute
