@@ -64,7 +64,6 @@ export default class Signup extends Component {
           message: "Signup Failed..Try Again",
           type: "danger",
         });
-      //call the signup api based on the role of user
     }
     else
       showMessage({
@@ -74,7 +73,7 @@ export default class Signup extends Component {
 
   }
 
-  googleLogin =  async () => {
+  googleSignup =  async () => {
     
     this.setState({ loading: true })
     let res = await attemptGoogleAuth();
@@ -139,7 +138,7 @@ export default class Signup extends Component {
                 <Text style={styles.alternateOptionsText}>Or Continue with </Text>
                 <View style={styles.googleIcon}>
                   <TouchableOpacity onPress={() => {
-                    this.googleLogin()
+                    this.googleSignup()
                   }}>
                     <FontAwesome
                       name='google'
