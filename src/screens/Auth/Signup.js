@@ -74,7 +74,7 @@ export default class Signup extends Component {
 
   }
 
-  googleLogin = () => {
+  googleLogin =  async () => {
     
     this.setState({ loading: true })
     let res = await attemptGoogleAuth();

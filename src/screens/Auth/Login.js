@@ -8,7 +8,7 @@ import LoginFooterTwo from '../../components/Login/LoginFooterTwo';
 import bgImage from '../../../assets/images/loginbg.jpg';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import RouteNames from "../../navigation/RouteNames";
-import { attemptGoogleAuth,signInWithEmail } from "../../API";
+import { attemptGoogleAuth, signInWithEmail } from "../../API";
 import Loader from '../../components/Loader/Loader';
 import { showMessage, hideMessage } from "react-native-flash-message";
 
@@ -24,26 +24,32 @@ export default class Login extends Component {
   }
 
   googleLogin = async () => {
+    this.setState({ loading: true })
     let res = await attemptGoogleAuth();
+    this.setState({ loading: false })
     if (res)
       this.setState({ googleLoading: true });
+    else
+      showMessage({
+        message: "Signup Failed..Try Again",
+        type: "danger",
+      });
   }
   signIn = async () => {
 
     Keyboard.dismiss()
-    this.setState({loading:true})
+    this.setState({ loading: true })
     console.log(this.state.email)
-     var result = await signInWithEmail(this.state.email, this.state.password);
-    this.setState({loading:false})
-    if(result)
-      {
+    var result = await signInWithEmail(this.state.email, this.state.password);
+    this.setState({ loading: false })
+    if (result) {
 
-      }
+    }
     else
-    showMessage({
-      message: "Login Failed..Try Again",
-      type: "danger",
-    });
+      showMessage({
+        message: "Login Failed..Try Again",
+        type: "danger",
+      });
   }
 
   render() {
@@ -51,10 +57,10 @@ export default class Login extends Component {
       <KeyboardAwareScrollView enableOnAndroid={true} keyboardShouldPersistTaps={'handled'} contentContainerStyle={styles.contentContainer}>
         <StatusBar backgroundColor='black' />
         <ImageBackground source={bgImage} resizeMode="cover" blurRadius={2} style={styles.backgroundImage}>
-        <Loader
-          loading={this.state.loading} />
+          <Loader
+            loading={this.state.loading} />
           <View style={styles.subContainer}>
-         
+
             <View style={styles.heading}>
               <Text style={styles.headingElement}>Hello there,</Text>
               <Text style={styles.headingElement}>Welcome back</Text>
@@ -183,6 +189,6 @@ const styles = StyleSheet.create(
       fontSize: 18,
       fontWeight: 'bold'
     },
-    
+
   }
 );
