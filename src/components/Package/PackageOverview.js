@@ -45,14 +45,16 @@ const PackageOverview = (props) => {
               <View style={styles.textContainer}>
                 <Text style={styles.description}>{props.description}</Text>
               </View>
-              <View style={styles.textContainer}>
-                <Text style={styles.subtitle}>{props.sessionCount} {strings.SESSIONS}</Text>
-              </View>
+              {/*<View style={styles.textContainer}>*/}
+              {/*  <Text style={styles.subtitle}>{props.sessionCount} {strings.SESSIONS}</Text>*/}
+              {/*</View>*/}
             </>
           )
         }
         <View style={styles.subtitleContainer}>
-          <Text style={styles.subtitle}>{props.duration} {strings.WEEKS}</Text>
+          {/*<Text style={styles.subtitle}>{props.duration} {strings.WEEKS}</Text>*/}
+          <Text style={styles.subtitle}>{props.sessionCount} {strings.SESSIONS}</Text>
+
           <Text style={styles.price}>{strings.RUPEE} {props.price}</Text>
           {
             props.enrollCallback && !collapsed && (

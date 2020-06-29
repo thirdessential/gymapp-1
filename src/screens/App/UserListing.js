@@ -153,32 +153,32 @@ export default connect(mapStateToProps, mapDispatchToProps)(UserListing);
 const packages = [
   {
     name: 'Weight Loss Program',
-    duration: 4,
+    sessionCount: 15,
     price: 3500
   },
   {
     name: 'Fat Gain Program',
-    duration: 4,
+    sessionCount: 15,
     price: 3500
   },
   {
     name: 'Weight Loss Program',
-    duration: 4,
+    sessionCount: 15,
     price: 3500
   },
   {
     name: 'Fat Gain Program',
-    duration: 4,
+    sessionCount: 15,
     price: 3500
   },
   {
     name: 'Weight Loss Program',
-    duration: 4,
+    sessionCount: 15,
     price: 3500
   },
   {
     name: 'Fat Gain Program',
-    duration: 4,
+    sessionCount: 15,
     price: 3500
   },
 ]

@@ -16,48 +16,48 @@ const packagePreview = (props) => {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.title}>{props.title}</Text>
-        <Text style={styles.duration}>{props.duration} {strings.WEEKS}</Text>
+      <Text style={styles.title}>{props.title}</Text>
+      <View>
+        <Text style={styles.session}>{props.count} {strings.SESSIONS}</Text>
         <Text style={styles.price}>Rs {props.price}</Text>
+      </View>
     </View>
   );
 }
 
-packagePreview.propTypes = {
-
-};
+packagePreview.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: "center",
-    backgroundColor:appTheme.background,
-    borderRadius:10,
-    padding:spacing.medium_sm,
-    width:120,
-    borderColor:appTheme.grey,
-    borderWidth:1,
+    backgroundColor: appTheme.background,
+    borderRadius: 10,
+    padding: spacing.medium_sm,
+    width: 120,
+    borderColor: appTheme.grey,
+    borderWidth: 1,
   },
-  title:{
-    color:'white',
-    fontSize:fontSizes.h2,
-    textAlign:'center',
-    marginBottom:spacing.medium_sm,
-    fontFamily:fonts.MontserratMedium,
+  title: {
+    color: 'white',
+    fontSize: fontSizes.h2,
+    textAlign: 'center',
+    marginBottom: spacing.medium_sm,
+    fontFamily: fonts.MontserratMedium,
   },
-  duration:{
-    color:'grey',
-    fontSize:fontSizes.h4,
-    textAlign:'center',
-    marginBottom:spacing.medium_sm,
-    fontFamily:fonts.MontserratMedium,
-  }  ,
-  price:{
-    color:appTheme.brightContent,
-    fontSize:fontSizes.h3,
-    textAlign:'center',
-    fontFamily:fonts.MontserratSemiBold,
+  session: {
+    color: 'grey',
+    fontSize: fontSizes.h4,
+    textAlign: 'center',
+    marginBottom: spacing.medium_sm,
+    fontFamily: fonts.MontserratMedium,
+  },
+  price: {
+    color: appTheme.brightContent,
+    fontSize: fontSizes.h3,
+    textAlign: 'center',
+    fontFamily: fonts.MontserratSemiBold,
   }
 });
 
