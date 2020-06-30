@@ -21,6 +21,7 @@ import Avatar from "../Avatar";
 import StarRating from "../StarRating";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import CallButton from '../callButton';
+import PostCard from './PostCard';
 
 const ProfileOverview = (props) => {
   const {hits} = props;
@@ -65,6 +66,12 @@ const ProfileOverview = (props) => {
               <CallButton onPress={props.initiateVideoCallCallback}/>
             </View>
           </View>
+
+<View style={{backgroundColor:"#fff", borderRadius:15}}>
+
+<PostCard/>
+</View>
+
     </View>
   );
 }
@@ -133,7 +140,8 @@ const styles = StyleSheet.create({
   },
   profileHitsContainer: {
     marginTop: spacing.medium_lg,
-    flexDirection:'row'
+    flexDirection:'row',
+    marginBottom:spacing.medium_lg
   },
   descriptionContainer: {
     marginTop: spacing.medium_lg,
