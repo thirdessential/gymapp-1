@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View,FlatList} from 'react-native'
 import PropTypes from 'prop-types';
 import {AirbnbRating} from 'react-native-ratings';
 import strings from "../../constants/strings";
@@ -21,7 +21,16 @@ import Avatar from "../Avatar";
 import StarRating from "../StarRating";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import CallButton from '../callButton';
-import PostCard from './PostCard';
+import PostCardList from './PostCardList';
+
+
+
+
+
+
+
+
+
 
 const ProfileOverview = (props) => {
   const {hits} = props;
@@ -67,10 +76,16 @@ const ProfileOverview = (props) => {
             </View>
           </View>
 
-<View style={{backgroundColor:"#fff", borderRadius:15}}>
 
-<PostCard/>
+
+<View>
+<PostCardList/>
 </View>
+
+
+
+
+
 
     </View>
   );
