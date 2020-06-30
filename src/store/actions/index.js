@@ -24,3 +24,7 @@ export {
   updateTrainers,
   setUser
 } from "./app.actions";
+
+export {
+  createPackage
+} from './trainer.actions'

@@ -11,18 +11,17 @@ import {appTheme} from "../../constants/colors";
 const packageFlatList = (props) => {
 
   const renderPlan = (plan) => {
-    const {title, sessionCount, sessionsPerWeek, price, description} = plan;
+    const {title, noOfSessions, sessionsPerWeek, price, description, _id} = plan;
     return (
       <View style={styles.packageContainer}>
         <PackageOverview
           title={title}
-          duration={sessionCount / sessionsPerWeek}
-          sessionCount={sessionCount}
+          sessionCount={noOfSessions}
           sessionsPerWeek={sessionsPerWeek}
           price={price}
           description={description}
           editCallback={() => {
-            props.editCallBack(2)
+            props.editCallBack(_id)
           }}
         />
       </View>

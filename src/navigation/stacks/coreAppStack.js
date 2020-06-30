@@ -16,6 +16,7 @@ import FontAwesome from "react-native-vector-icons/Feather";
 import {spacing} from "../../constants/dimension";
 import {openDrawer} from "../RootNavigation";
 import SlotEdit from "../../screens/App/SlotList";
+import PackageList from "../../screens/App/PackageList";
 
 const noHeader = {title: '', headerStyle: {height: 0}}
 
@@ -32,6 +33,7 @@ const hamburgerButton = ()=> (
 const coreApplication = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen name="PackageList" component={PackageList} options={{title: '', headerTransparent: true}}/>
 
       <Stack.Screen name={RouteNames.HomeTab} component={HomeTab} options={{
         title: 'Overview',

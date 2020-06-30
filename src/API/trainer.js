@@ -3,7 +3,7 @@ import {validateResponseCode} from "../utils/utils";
 
 export const createPackage = async ({title, noOfSessions, price, description}) => {
   try {
-    let response = await axios.post(`/package/createPackage`, {
+    let response = await axios.post(`/package/create`, {
       title,
       noOfSessions,
       price,

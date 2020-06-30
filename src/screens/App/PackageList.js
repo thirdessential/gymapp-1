@@ -25,7 +25,7 @@ class PackageList extends Component {
         // duration:4,
         price: 6500,
         description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
+        noOfSessions: 15,
         sessionsPerWeek: 3
       },
       {
@@ -33,7 +33,7 @@ class PackageList extends Component {
         // duration:4,
         price: 6500,
         description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
+        noOfSessions: 15,
         sessionsPerWeek: 3
       },
       {
@@ -41,7 +41,7 @@ class PackageList extends Component {
         // duration:4,
         price: 6500,
         description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
+        noOfSessions: 15,
         sessionsPerWeek: 3
       },
       {
@@ -49,7 +49,7 @@ class PackageList extends Component {
         // duration:4,
         price: 6500,
         description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
+        noOfSessions: 15,
         sessionsPerWeek: 3
       },
       {
@@ -57,7 +57,7 @@ class PackageList extends Component {
         // duration:4,
         price: 6500,
         description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
+        noOfSessions: 15,
         sessionsPerWeek: 3
       },
       {
@@ -65,7 +65,7 @@ class PackageList extends Component {
         // duration:4,
         price: 6500,
         description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
+        noOfSessions: 15,
         sessionsPerWeek: 3
       },
 
@@ -74,7 +74,7 @@ class PackageList extends Component {
         // duration:4,
         price: 6500,
         description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
+        noOfSessions: 15,
         sessionsPerWeek: 3
       },
       {
@@ -82,18 +82,19 @@ class PackageList extends Component {
         // duration:4,
         price: 6500,
         description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
+        noOfSessions: 15,
         sessionsPerWeek: 3
       },
     ]
   }
 
-  editPackage = id => {
-    this.props.navigation.navigate(RouteNames.PackageEdit);
+  editPackage = packageId => {
+    this.props.navigation.navigate(RouteNames.PackageEdit,{
+      packageId
+    });
   }
   createPackage = () => {
     this.props.navigation.navigate(RouteNames.PackageEdit);
-
   }
 
   addButton = () => (
@@ -117,7 +118,7 @@ class PackageList extends Component {
         </View>
 
         <PackageFlatList
-          packages={this.state.packages}
+          packages={this.props.packages}
           editCallBack={this.editPackage}
         />
         <this.addButton/>
@@ -136,6 +137,7 @@ const styles = StyleSheet.create({
     paddingLeft: spacing.large,
     paddingRight: spacing.large,
     paddingBottom: spacing.medium_sm,
+    marginBottom:spacing.medium_sm,
     backgroundColor: appTheme.background,
     alignItems: 'center'
   },

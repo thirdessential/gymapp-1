@@ -13,3 +13,4 @@ export const SET_INCOMING_CALL = 'SET_INCOMING_CALL';
 export const SET_CALL_ACTIVE = 'SET_CALL_ACTIVE';
 export const END_CALL= 'END_CALL';
 export const SET_PACKAGES = 'SET_PACKAGES';
+export const UPDATE_PACKAGE = 'UPDATE_PACKAGE';
