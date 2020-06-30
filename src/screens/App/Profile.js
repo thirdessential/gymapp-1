@@ -22,7 +22,6 @@ import {getRandomImage} from "../../constants/images";
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
 const NAV_BAR_HEIGHT = HEADER_HEIGHT - STATUS_BAR_HEIGHT;
-const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 class Profile extends Component {
 
@@ -63,7 +62,7 @@ class Profile extends Component {
       <View style={styles.container}/>
     )
     let {name, userType, experience, rating, displayPictureUrl} = user;
-    if (!displayPictureUrl) displayPictureUrl = defaultDP;
+    if (!displayPictureUrl) displayPictureUrl = this.state.bgImage;
     const userHits = [
       {
         title: strings.POSTS,
@@ -116,7 +115,7 @@ class Profile extends Component {
     const user = users[userId];
     if (!user) return <Splash/>;
     let {displayPictureUrl} = user;
-    if (!displayPictureUrl) displayPictureUrl = defaultDP;
+    if (!displayPictureUrl) displayPictureUrl = this.state.bgImage;
 
 
     return (

@@ -2,17 +2,13 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native'
+import {StyleSheet} from 'react-native'
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
 import FastImage from 'react-native-fast-image'
 
 import ProfileOverview from '../../components/Profile/ProfileOverview';
-import RouteNames from "../../navigation/RouteNames";
-import * as actionCreators from '../../store/actions';
-import Splash from "../Auth/Splash";
-import requestCameraAndAudioPermission from "../../utils/permission";
-import {initialiseVideoCall} from "../../utils/utils";
+
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
@@ -22,33 +18,32 @@ import {getRandomImage} from "../../constants/images";
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
 const NAV_BAR_HEIGHT = HEADER_HEIGHT - STATUS_BAR_HEIGHT;
-const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 class MyProfile extends Component {
 
-  state={
-    bgImage:getRandomImage()
+  state = {
+    bgImage: getRandomImage()
   }
 
   renderContent = () => {
     const user = this.props.userData;
 
     let {name, userType, experience, rating, displayPictureUrl} = user;
-    if (!displayPictureUrl) displayPictureUrl = defaultDP;
-    const userHits =  [
+    if (!displayPictureUrl) displayPictureUrl = this.state.bgImage;
+    const userHits = [
       {
         title: strings.POSTS,
         count: 5
       },
       {
         title: strings.SUBSCRIPTIONS,
-        count:  1
+        count: 1
       }
     ]
     const trainerHits = [
       {
         title: strings.POSTS,
-        count:  5
+        count: 5
       },
       {
         title: strings.MAKEOVERS,
@@ -67,7 +62,7 @@ class MyProfile extends Component {
       <ProfileOverview
         name={name}
         dpUrl={displayPictureUrl}
-        hits={userType===userTypes.TRAINER?trainerHits: userHits}
+        hits={userType === userTypes.TRAINER ? trainerHits : userHits}
         rating={rating}
         description={"No description provided for this user"}
         profileType={userType}
@@ -148,10 +143,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  userData:state.user.userData
+  userData: state.user.userData
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);
