@@ -14,8 +14,16 @@ export {
   listTrainers,
   updateUserInfo,
   getUserInfo,
-  getMyInfo
+  getMyInfo,
 } from './user';
+
+export {
+  createPackage,
+  getPackage,
+  updatePackage,
+  deletePackage,
+  createSlot
+} from './trainer';
 
 export {
   uploadImage

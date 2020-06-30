@@ -14,15 +14,20 @@ import UserThumb from "../../components/Trainer/UserThumb";
 import {spacing} from "../../constants/dimension";
 import requestCameraAndAudioPermission from "../../utils/permission";
 import {initialiseVideoCall} from "../../utils/utils";
-import {getMyInfo} from "../../API";
+import {createPackage, createSlot, deletePackage, getMyInfo, getPackage, updatePackage} from "../../API";
 
 const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 class UserListing extends Component {
+
   componentDidMount() {
     const {updateTrainers, } = this.props;
-    updateTrainers();
-    getMyInfo();
+    // updateTrainers();
+    createSlot({time:'1130',duration:30,daysOfWeek:["MON","TUE","WED"],})
+
+
+
+
   }
 
   openProfile = (userId) => {
