@@ -100,6 +100,9 @@ class SlotList extends Component {
     return (
       <KeyboardAwareScrollView style={styles.container}>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{strings.SLOTS}</Text>
+        </View>
 
         <View style={styles.listContainer}>
           <this.renderSlots/>
@@ -123,7 +126,21 @@ const styles = StyleSheet.create({
   },
   slotContainer: {
     marginBottom: spacing.large
-  }
+  },
+  titleContainer: {
+    paddingTop: spacing.medium_sm,
+    paddingLeft: spacing.large,
+    paddingRight: spacing.large,
+    paddingBottom: spacing.medium_sm,
+    marginBottom:spacing.medium_lg,
+    backgroundColor: appTheme.darkBackground,
+    alignItems: 'center'
+  },
+  title: {
+    color: 'white',
+    fontSize: fontSizes.h0,
+    fontFamily: fonts.PoppinsRegular
+  },
 });
 
 const mapStateToProps = (state) => ({});
