@@ -21,7 +21,6 @@ export const syncFirebaseAuth = (idToken, fcmToken) => {
         result = await API.firebaseTrainerAuth(idToken, fcmToken);
 
       if (result) {
-        // console.log(result);
         const {userId, authToken, userType} = result;
         dispatch(setAuthToken(authToken));
         dispatch(genericUserFieldSetter({
