@@ -14,16 +14,15 @@ import UserThumb from "../../components/Trainer/UserThumb";
 import {spacing} from "../../constants/dimension";
 import requestCameraAndAudioPermission from "../../utils/permission";
 import {initialiseVideoCall} from "../../utils/utils";
-import FontAwesome from "react-native-vector-icons/Feather";
-// import {rootURL} from "../../constants/appConstants";
-// import {initialiseSocket} from "../../utils/utils";
 
 const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 class UserListing extends Component {
-  async componentDidMount() {
-    const {updateTrainers, navigation} = this.props;
-    updateTrainers();
+
+  componentDidMount() {
+    const {updateTrainers,updateUserData } = this.props;
+    // updateTrainers();
+    updateUserData()
   }
 
   openProfile = (userId) => {
@@ -145,6 +144,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateTrainers: () => dispatch(actionCreators.updateTrainers()),
+  updateUserData: ()=> dispatch(actionCreators.updateUserData())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserListing);

@@ -86,7 +86,6 @@ const PackageOverview = (props) => {
 
 PackageOverview.propTypes = {
   title: PropTypes.string.isRequired,
-  duration: PropTypes.number.isRequired,
   price: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired,
   callback: PropTypes.func

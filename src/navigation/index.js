@@ -101,7 +101,7 @@ class App extends React.Component {
       return <Splash/>
     if (videoTestMode)
       return <VideoTest navigationRef={navigationRef}/>
-    if (Object.keys(callData).length !== 0 || callActive) {
+    if (callData &&  Object.keys(callData).length !== 0 || callActive) {
       return <Calling navigationRef={navigationRef}/>
     }
     if (authenticated) {
@@ -118,8 +118,8 @@ const mapStateToProps = (state) => ({
   authToken: state.user.authToken,
   authenticated: state.auth.authenticated,
   initialLogin: state.user.initialLogin,
-  callActive: state.user.callActive,
-  callData: state.user.callData
+  callActive: state.call.callActive,
+  callData: state.call.callData
 });
 
 const mapDispatchToProps = (dispatch) => ({

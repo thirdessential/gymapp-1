@@ -1,6 +1,6 @@
 import React, { useState, Component } from 'react';
 import { Text, TouchableOpacity, StyleSheet, TextInput, View, Image, StatusBar } from 'react-native';
-import { addTrainerDetails } from '../../API';
+import { updateUserInfo } from '../../API';
 import ImagePicker from 'react-native-image-picker';
 import defaultPic from '../../../assets/images/male_pic_default.jpg';
 import { uploadImage } from '../../API';
@@ -56,7 +56,7 @@ class ProfileEdit extends Component {
 
     submit = async () => {
 
-        var result = await addTrainerDetails(this.state.name.text);
+        var result = await updateUserInfo(this.state.name.text);
         if (result) {
             console.log('addTrainerdetails----------' + result)
             this.props.setInitialLoginOff();
