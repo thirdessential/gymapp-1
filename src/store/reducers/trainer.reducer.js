@@ -7,7 +7,7 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SET_PACKAGES:
       return updateObject(state, action.payload);
-    case actionTypes.UPDATE_PACKAGE:
+    case actionTypes.UPDATE_PACKAGE: {
       const {packageData} = action.payload;
       let packages = [...state.packages];
       let filteredPackages = packages.filter(packageObj => packageObj._id === packageData._id);
@@ -17,6 +17,14 @@ const reducer = (state = initialState, action) => {
         packages = packages.map(packageObj => packageObj._id === packageData._id ? packageData : packageObj); //update the package
       }
       return updateObject(state, {packages});
+    }
+    case actionTypes.REMOVE_PACKAGE: {
+      const {packageId} = action.payload;
+      let packages = [...state.packages];
+      let filteredPackages = packages.filter(packageObj => packageObj._id !== packageId);
+      return updateObject(state, {packages:filteredPackages});
+    }
+
     default:
       return state;
   }

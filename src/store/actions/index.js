@@ -26,5 +26,6 @@ export {
 } from "./app.actions";
 
 export {
-  createPackage
+  createPackage,
+  deletePackage
 } from './trainer.actions'

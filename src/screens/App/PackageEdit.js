@@ -47,11 +47,12 @@ class Packages extends Component {
   }
   descriptionChange = (description) => this.setState({description});
 
-  deletePackage = () => {
+  deletePackage = async () => {
+    this.props.deletePackage(this.state._id);
     this.props.navigation.goBack()
   }
   savePackage = async () => {
-    await this.props.createPackage(this.state)
+    this.props.createPackage(this.state)
     this.props.navigation.goBack()
   }
   cancelEdit = () => {
@@ -112,13 +113,18 @@ class Packages extends Component {
               size={22}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonContainer} onPress={this.deletePackage}>
-            <FontAwesome
-              name={'trash'}
-              color={colors.rejectRed}
-              size={22}
-            />
-          </TouchableOpacity>
+          {
+            this.state._id && (
+              <TouchableOpacity style={styles.buttonContainer} onPress={this.deletePackage}>
+                <FontAwesome
+                  name={'trash'}
+                  color={colors.rejectRed}
+                  size={22}
+                />
+              </TouchableOpacity>
+            )
+          }
+
           <TouchableOpacity style={styles.buttonContainer} onPress={this.savePackage}>
             <FontAwesome
               name={'check'}
@@ -207,7 +213,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  createPackage: (packageData) => dispatch(actionCreators.createPackage(packageData))
+  createPackage: (packageData) => dispatch(actionCreators.createPackage(packageData)),
+  deletePackage: packageId => dispatch(actionCreators.deletePackage(packageId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Packages);
