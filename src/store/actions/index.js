@@ -27,5 +27,6 @@ export {
 
 export {
   createPackage,
-  deletePackage
+  deletePackage,
+  createSlots
 } from './trainer.actions'

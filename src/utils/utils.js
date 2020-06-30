@@ -16,7 +16,7 @@ export const formattedTime = date => {
   const hours = dateObj.getHours();
   const minutes = dateObj.getMinutes();
   const AM_PM = hours >= 12 ? 'PM' : 'AM';
-  let minZero = minutes===0?'0':'' ;
+  let minZero = minutes === 0 ? '0' : '';
   return `${hours}:${minutes}${minZero} ${AM_PM}`;
 }
 
@@ -112,4 +112,17 @@ export const toTitleCase = (str) => {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     }
   );
+}
+// coolest snippet i ever found, felt i should link source
+// https://www.tutorialspoint.com/most-efficient-method-to-groupby-on-an-array-of-objects-in-javascript
+export const groupBy = (objectArray, property) => { // coolest snippet i ever found, felt i should link source
+  return objectArray.reduce((acc, obj) => {
+    const key = obj[property];
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    // Add object to list for given key's value
+    acc[key].push(obj);
+    return acc;
+  }, {});
 }

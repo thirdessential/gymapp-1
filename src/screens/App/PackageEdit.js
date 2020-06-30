@@ -124,7 +124,6 @@ class Packages extends Component {
               </TouchableOpacity>
             )
           }
-
           <TouchableOpacity style={styles.buttonContainer} onPress={this.savePackage}>
             <FontAwesome
               name={'check'}
@@ -132,7 +131,6 @@ class Packages extends Component {
               size={22}
             />
           </TouchableOpacity>
-
         </View>
       </KeyboardAwareScrollView>
     );

@@ -107,8 +107,8 @@ class UserListing extends Component {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    paddingLeft: spacing.large_lg,
-    paddingRight: spacing.large_lg,
+    paddingLeft: spacing.medium,
+    paddingRight: spacing.medium,
     paddingTop: spacing.large_lg,
     backgroundColor: appTheme.darkBackground,
   },
@@ -118,13 +118,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: appTheme.darkBackground,
     width: '100%',
-    // borderRadius: 20,
-    // borderColor: 'transparent',
-    // borderBottomLeftRadius: 0,
-    // borderBottomRightRadius: 0,
-    // marginTop: spacing.large_lg,
-    // paddingLeft: spacing.large,
-    // paddingRight: spacing.large
   },
   itemSeparatorHorizontal: {
     height: 1,

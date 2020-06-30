@@ -15,78 +15,8 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
 import FontAwesome from 'react-native-vector-icons/Entypo';
-
+import BarButton from '../../components/BarButton';
 class PackageList extends Component {
-
-  state = {
-    packages: [
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-    ]
-  }
 
   editPackage = packageId => {
     this.props.navigation.navigate(RouteNames.PackageEdit,{
@@ -99,14 +29,7 @@ class PackageList extends Component {
 
   addButton = () => (
     <View style={styles.addButtonContainer}>
-      <TouchableOpacity onPress={this.createPackage}>
-        <FontAwesome
-          name="plus"
-          color={'white'}
-          size={30}
-          style={{backgroundColor: appTheme.lightBackground, borderRadius: 200, padding: spacing.small}}
-        />
-      </TouchableOpacity>
+      <BarButton onPress={this.createPackage}/>
     </View>
   )
 
@@ -148,9 +71,7 @@ const styles = StyleSheet.create({
   },
   addButtonContainer: {
     paddingTop: spacing.medium_sm,
-    // paddingLeft: spacing.large,
-    // paddingRight: spacing.large,
-    paddingBottom: spacing.small,
+    paddingBottom: spacing.medium_sm,
     backgroundColor: appTheme.background,
     alignItems: 'center'
   }

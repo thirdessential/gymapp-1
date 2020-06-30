@@ -37,6 +37,7 @@ export const createPackage = (packageData) => {
     }
   };
 };
+
 export const removePackage = (packageId) => ({
   type: actionTypes.REMOVE_PACKAGE,
   payload: {
@@ -58,6 +59,39 @@ export const deletePackage = (packageId) => {
       }
     } catch (error) {
       console.log("Trainer package deletion failed", error);
+      return false;
+    }
+  };
+};
+
+
+export const setSlots = (slots) => ({
+  type: actionTypes.SET_SLOTS,
+  payload: {
+    slots
+  },
+});
+
+
+export const createSlots = (slotArray) => {
+  return async (dispatch, getState) => {
+    let oldSlots = getState().trainer.slots;
+    try {
+      dispatch(setSlots(slotArray));
+      let slots = await API.syncSlots(slotArray);
+      if (slots) {
+        console.log('slots created', slots);
+        dispatch(setSlots(slots));
+        return true;
+      } else {
+        //TODO: finish this rollback by showing error
+        console.log("Trainer slot creation failed", slots);
+        dispatch(setSlots(oldSlots));
+        return false;
+      }
+    } catch (error) {
+      console.log("Trainer slot creation failed", error);
+      dispatch(setSlots(oldSlots));
       return false;
     }
   };
