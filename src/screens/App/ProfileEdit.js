@@ -11,6 +11,7 @@ import ActionButtonTwo from '../../components/Login/ActionButtonTwo';
 import { appTheme } from '../../constants/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import SignupFormElement from '../../components/Signup/SIgnupFormElement';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 class ProfileEdit extends Component {
 
@@ -108,11 +109,16 @@ class ProfileEdit extends Component {
                         <SignupFormElement size={28} label="Height  (in cms)" maxLength={3} keyboardType='numeric' onChangeText={(text) => { this.setState({ height: { text } }) }} />
                         <View style={styles.itemSeparatorHorizontal} />
                         <SignupFormElement size={28} label="Weight  (in kgs)" maxLength={3} keyboardType='numeric' onChangeText={(text) => { this.setState({ weight: { text } }) }} />
+                        
                         <View style={styles.itemSeparatorHorizontal} />
+                        
                         <SignupFormElement label="Bio" multiline={true} size={22} onChangeText={(text) => { this.setState({ bio: { text } }) }} />
                         <View style={styles.itemSeparatorHorizontal} />
+                        <KeyboardSpacer/>
                     </View>
+                    <KeyboardSpacer />
                 </KeyboardAwareScrollView>
+               
             </>
         );
     }
