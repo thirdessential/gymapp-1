@@ -22,8 +22,10 @@ const reducer = (state = initialState, action) => {
       const {packageId} = action.payload;
       let packages = [...state.packages];
       let filteredPackages = packages.filter(packageObj => packageObj._id !== packageId);
-      return updateObject(state, {packages:filteredPackages});
+      return updateObject(state, {packages: filteredPackages});
     }
+    case actionTypes.SET_SLOTS:
+      return updateObject(state, action.payload);
 
     default:
       return state;

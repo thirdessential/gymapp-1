@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import {spacing} from "../constants/dimension";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {appTheme} from "../constants/colors";
+import colors, {appTheme} from "../constants/colors";
 import WeekdayPicker from "react-native-weekday-picker";
 import fontSizes from "../constants/fontSizes";
 import fonts from "../constants/fonts";
@@ -16,6 +16,7 @@ import {formattedTime, stringToDate} from "../utils/utils";
 import strings from "../constants/strings";
 import SelectableButtonGroup from "./selectableButtonGroup";
 import {allowedDurations, WEEK_DAYS} from "../constants/appConstants";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const slot = (props) => {
   const [show, setShow] = useState(false);
@@ -51,39 +52,37 @@ const slot = (props) => {
     props.onDaysChange(days);
   }
 
+  const Title = () => (
+    <View style={styles.titleContainer}>
+      <Text style={styles.time}>Slot {props.index}</Text>
+      <TouchableOpacity onPress={props.onDelete} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+      >
+        <FontAwesome
+          name={'trash'}
+          color={colors.rejectRed}
+          size={22}
+        />
+      </TouchableOpacity>
+    </View>
+  )
+
   return (
     <View style={styles.container}>
-      <Text style={styles.time}>Slot {props.index}</Text>
-
+      <Title/>
       <TouchableOpacity style={styles.timeContainer} onPress={() => setShow(!show)}>
-        {/*<Ion*/}
-        {/*  name='md-time'*/}
-        {/*  color={'white'}*/}
-        {/*  style={styles.timeIcon}*/}
-        {/*  size={fontSizes.h0}*/}
-        {/*/>*/}
         <Text style={styles.title}>Time : </Text>
         <Text style={styles.time}>{formattedTime(timeObj)}</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity style={styles.timeContainer}>
-        {/*<Material*/}
-        {/*  name='timer-sand'*/}
-        {/*  color={'white'}*/}
-        {/*  style={styles.timeIcon}*/}
-        {/*  size={fontSizes.h0}*/}
-        {/*/>*/}
+      <View style={styles.timeContainer}>
         <Text style={styles.title}>Duration : </Text>
-
         <SelectableButtonGroup
-          containerStyle={{backgroundColor: 'transparent', padding: 0,marginBottom:spacing.small}}
+          containerStyle={styles.buttonGroup}
+          activeStyle={styles.activeButton}
           data={allowedDurations}
           selected={props.duration}
           onSelect={props.onDurationChange}
         />
-
-      </TouchableOpacity>
-
+      </View>
       <WeekdayPicker
         days={mapDaysToBooleans(props.days)}
         onChange={onDaysChanged}
@@ -93,7 +92,6 @@ const slot = (props) => {
         activeBackgroundColor={'white'}
         textColor={'black'}
       />
-
       {
         show && (
           <DateTimePicker
@@ -125,6 +123,10 @@ const styles = StyleSheet.create({
     paddingRight: spacing.large,
     margin: 2,
     backgroundColor: appTheme.darkBackground
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   timeContainer: {
     flexDirection: 'row',
@@ -163,6 +165,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: 'white'
+  },
+  buttonGroup: {
+    backgroundColor: 'transparent',
+    padding: 0,
+    marginBottom: spacing.small
+  },
+  activeButton:{
   }
 });
 

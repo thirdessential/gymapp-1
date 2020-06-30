@@ -63,13 +63,9 @@ export const deletePackage = async (packageId) => {
   }
 }
 
-export const createSlot = async ({time, daysOfWeek, duration}) => {
+export const syncSlots = async (slotArray) => {
   try {
-    let response = await axios.post(`/slot/create`, {
-      time,
-      daysOfWeek,
-      duration
-    });
+    let response = await axios.post(`/slot/createOrUpdate`, slotArray);
     if (validateResponseCode(response.status)) {
       return response.data;
     } else

@@ -15,3 +15,4 @@ export const END_CALL= 'END_CALL';
 export const SET_PACKAGES = 'SET_PACKAGES';
 export const UPDATE_PACKAGE = 'UPDATE_PACKAGE';
 export const REMOVE_PACKAGE = 'REMOVE_PACKAGE';
+export const SET_SLOTS = 'SET_SLOTS';

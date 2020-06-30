@@ -22,7 +22,7 @@ export {
   getPackage,
   updatePackage,
   deletePackage,
-  createSlot
+  syncSlots
 } from './trainer';
 
 export {

@@ -61,7 +61,7 @@ class Packages extends Component {
 
   render() {
     return (
-      <KeyboardAwareScrollView style={styles.container}>
+      <KeyboardAwareScrollView style={styles.container} enableOnAndroid={true} keyboardShouldPersistTaps={'handled'} >
         <StatusBar backgroundColor={appTheme.darkBackground}/>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Title</Text>
@@ -124,7 +124,6 @@ class Packages extends Component {
               </TouchableOpacity>
             )
           }
-
           <TouchableOpacity style={styles.buttonContainer} onPress={this.savePackage}>
             <FontAwesome
               name={'check'}
@@ -132,7 +131,6 @@ class Packages extends Component {
               size={22}
             />
           </TouchableOpacity>
-
         </View>
       </KeyboardAwareScrollView>
     );

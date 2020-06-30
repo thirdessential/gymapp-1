@@ -12,7 +12,7 @@ import fontSizes from "../../constants/fontSizes";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Entypo from "react-native-vector-icons/Entypo";
 import {getRandomImage} from "../../constants/images";
-import {appTheme, darkPallet} from "../../constants/colors";
+import colors, {appTheme, darkPallet} from "../../constants/colors";
 
 const toggleAnimation = (callback, value) => {
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -23,6 +23,31 @@ const PackageOverview = (props) => {
   const [collapsed, setCollapsed] = useState(true);
   const chevron = !collapsed ? 'chevron-up' : 'chevron-down';
   const [imageSrc] = useState(getRandomImage());
+
+  const EditButtons = ()=> (
+    <View style={styles.editContainer}>
+      <TouchableOpacity
+        style={styles.enrollButton}
+        onPress={props.editCallback}
+        hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+      >
+        <Entypo
+          name={'edit'}
+          color={'white'}
+          size={24}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity style={{marginLeft:spacing.medium}} onPress={props.deleteCallback} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+      >
+        <FontAwesome
+          name={'trash'}
+          color={colors.rejectRed}
+          size={25}
+        />
+      </TouchableOpacity>
+    </View>
+  )
+
   return (
     <TouchableOpacity activeOpacity={0.9} onPress={() => toggleAnimation(setCollapsed, !collapsed)}>
       <ImageBackground
@@ -45,14 +70,10 @@ const PackageOverview = (props) => {
               <View style={styles.textContainer}>
                 <Text style={styles.description}>{props.description}</Text>
               </View>
-              {/*<View style={styles.textContainer}>*/}
-              {/*  <Text style={styles.subtitle}>{props.sessionCount} {strings.SESSIONS}</Text>*/}
-              {/*</View>*/}
             </>
           )
         }
         <View style={styles.subtitleContainer}>
-          {/*<Text style={styles.subtitle}>{props.duration} {strings.WEEKS}</Text>*/}
           <Text style={styles.subtitle}>{props.sessionCount} {strings.SESSIONS}</Text>
 
           <Text style={styles.price}>{strings.RUPEE} {props.price}</Text>
@@ -65,19 +86,10 @@ const PackageOverview = (props) => {
           }
           {
             props.editCallback && !collapsed && (
-              <TouchableOpacity
-                style={styles.enrollButton}
-                onPress={props.editCallback}
-                hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}
-              >
-                <Entypo
-                  name={'edit'}
-                  color={'white'}
-                  size={24}
-                />
-              </TouchableOpacity>
+              <EditButtons/>
             )
           }
+
         </View>
       </ImageBackground>
     </TouchableOpacity>
@@ -140,6 +152,9 @@ const styles = StyleSheet.create({
     // borderColor:appTheme.brightContent,
     fontFamily: fonts.RobotoBold,
     fontSize: fontSizes.h1
+  },
+  editContainer: {
+    flexDirection: 'row'
   }
 });
 

@@ -20,9 +20,8 @@ const packageFlatList = (props) => {
           sessionsPerWeek={sessionsPerWeek}
           price={price}
           description={description}
-          editCallback={() => {
-            props.editCallBack(_id)
-          }}
+          editCallback={() => props.editCallback(_id)}
+          deleteCallback={() => props.deleteCallback(_id)}
         />
       </View>
     )

@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, FlatList, Text, TouchableOpacity} from 'react-native'
+import {View, StyleSheet, FlatList, Text, TouchableOpacity, LayoutAnimation} from 'react-native'
 import {connect} from "react-redux";
 
 import PackageOverview from '../../components/Package/PackageOverview';
@@ -15,78 +15,8 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
 import FontAwesome from 'react-native-vector-icons/Entypo';
-
+import BarButton from '../../components/BarButton';
 class PackageList extends Component {
-
-  state = {
-    packages: [
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        noOfSessions: 15,
-        sessionsPerWeek: 3
-      },
-    ]
-  }
 
   editPackage = packageId => {
     this.props.navigation.navigate(RouteNames.PackageEdit,{
@@ -99,16 +29,14 @@ class PackageList extends Component {
 
   addButton = () => (
     <View style={styles.addButtonContainer}>
-      <TouchableOpacity onPress={this.createPackage}>
-        <FontAwesome
-          name="plus"
-          color={'white'}
-          size={30}
-          style={{backgroundColor: appTheme.lightBackground, borderRadius: 200, padding: spacing.small}}
-        />
-      </TouchableOpacity>
+      <BarButton onPress={this.createPackage}/>
     </View>
   )
+
+  deletePackage = (packageId)=> {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    this.props.deletePackage(packageId);
+  }
 
   render() {
     return (
@@ -119,7 +47,8 @@ class PackageList extends Component {
 
         <PackageFlatList
           packages={this.props.packages}
-          editCallBack={this.editPackage}
+          editCallback={this.editPackage}
+          deleteCallback={this.deletePackage}
         />
         <this.addButton/>
       </View>
@@ -148,9 +77,7 @@ const styles = StyleSheet.create({
   },
   addButtonContainer: {
     paddingTop: spacing.medium_sm,
-    // paddingLeft: spacing.large,
-    // paddingRight: spacing.large,
-    paddingBottom: spacing.small,
+    paddingBottom: spacing.medium_sm,
     backgroundColor: appTheme.background,
     alignItems: 'center'
   }
@@ -160,6 +87,8 @@ const mapStateToProps = (state) => ({
   packages: state.trainer.packages
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  deletePackage: packageId => dispatch(actionCreators.deletePackage(packageId))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PackageList);

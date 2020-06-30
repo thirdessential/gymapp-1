@@ -10,6 +10,7 @@ export const userState = {
   userId: '',
   initialLogin: true,
   userName:'',
+  userData:null
 };
 
 export const callState = {
