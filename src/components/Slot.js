@@ -76,7 +76,7 @@ const slot = (props) => {
         <Text style={styles.title}>Duration : </Text>
 
         <SelectableButtonGroup
-          containerStyle={{backgroundColor: 'transparent', padding: 0}}
+          containerStyle={{backgroundColor: 'transparent', padding: 0,marginBottom:spacing.small}}
           data={allowedDurations}
           selected={props.duration}
           onSelect={props.onDurationChange}
