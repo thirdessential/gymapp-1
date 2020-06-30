@@ -42,7 +42,7 @@ export const resetUser = () => ({
   type: actionTypes.RESET_USER,
 });
 
-export const signOutUser =  () => {
+export const signOutUser = () => {
   return async (dispatch) => {
     dispatch(resetUser());
     signOutFirebase();
@@ -57,20 +57,27 @@ export const setUserName = (userName) => ({
   },
 });
 
+export const setUserData = (userData) => ({
+  type: actionTypes.SET_USER_DATA,
+  payload: {
+    userData
+  },
+});
+
 export const updateUserData = () => {
   return async (dispatch) => {
     try {
       let {user} = await API.getMyInfo();
-      if(!user) throw new Error("No user returned");
-
+      if (!user) throw new Error("No user returned");
+      dispatch(setUserData(user));
       let {name} = user;
-      if(!!name)
+      if (!!name)
         dispatch(setUserName(name));
 
-      if(user.userType===userTypes.TRAINER){
+      if (user.userType === userTypes.TRAINER) {
         const {packages} = user;
         // if(packages)
-          dispatch(setPackages(packages));
+        dispatch(setPackages(packages));
       }
 
     } catch (error) {

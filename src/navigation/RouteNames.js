@@ -7,6 +7,7 @@ const RouteNames = {
 
   UserListing:'UserListing',
   Profile:'Profile',
+  MyProfile:'MyProfile',
   Packages:'Packages',
   PackageEdit:'PackageEdit',
   VideoCall:'VideoCall',

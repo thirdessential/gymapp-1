@@ -12,8 +12,8 @@ import FormElementThree from '../../components/Login/FormElementThree';
 import LoginFooterTwo from '../../components/Login/LoginFooterTwo';
 import PasswordElementThree from '../../components/Login/PasswordElementThree';
 import strings from '../../constants/strings';
-import EmailValidation from '../../Validation/Email';
-import PasswordValidation from '../../Validation/Password';
+import EmailValidation from '../../utils/validation/Email';
+import PasswordValidation from '../../utils/validation/Password';
 
 export default class Signup extends Component {
   constructor(props) {

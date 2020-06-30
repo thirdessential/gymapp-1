@@ -7,6 +7,8 @@ import RouteNames from "../RouteNames";
 import colors, {appTheme} from "../../constants/colors";
 import Feed from "../../screens/App/Feed";
 import Schedule from "../../screens/App/Schedule";
+import Profile from "../../screens/App/Profile";
+import MyProfile from "../../screens/App/MyProfile";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -34,11 +36,22 @@ const homeTab = () => {
         }}/>
       <Tab.Screen
         name={RouteNames.Feed}
-        component={Schedule} // for app demo
+        component={Schedule}
         options={{
           title: 'Feed',
           tabBarIcon: ({focused, color, size}) => {
             let iconName = focused ? 'ios-people' : 'ios-people';
+            return <Ionicons name={iconName} size={20} color={color}/>;
+          },
+        }}
+      />
+      <Tab.Screen
+        name={RouteNames.MyProfile}
+        component={MyProfile}
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({focused, color, size}) => {
+            let iconName = focused ? 'md-person' : 'md-person';
             return <Ionicons name={iconName} size={20} color={color}/>;
           },
         }}

@@ -24,60 +24,31 @@ const HEADER_HEIGHT = 64;
 const NAV_BAR_HEIGHT = HEADER_HEIGHT - STATUS_BAR_HEIGHT;
 const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
-class Profile extends Component {
+class MyProfile extends Component {
 
-  state = {
+  state={
     bgImage:getRandomImage()
-  }
-  componentDidMount() {
-    const {route, setUser} = this.props;
-    const {userId} = route.params;
-    setUser(userId);
-  }
-
-  enrollClicked = () => {
-    const {navigation, route} = this.props;
-    const {userId} = route.params;
-    navigation.navigate(RouteNames.Packages, {
-      userId
-    });
-  }
-
-  callClicked = async () => {
-    const {route} = this.props;
-    const {userId} = route.params;
-    const permissionGranted = await requestCameraAndAudioPermission();
-
-    if (permissionGranted) {
-      await initialiseVideoCall(userId);
-    } else console.log("Cant initiate video call without permission");
   }
 
   renderContent = () => {
-    const {route, users} = this.props;
+    const user = this.props.userData;
 
-
-    const {userId} = route.params;
-    const user = users[userId];
-    if (!user) return (
-      <View style={styles.container}/>
-    )
     let {name, userType, experience, rating, displayPictureUrl} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
-    const userHits = [
+    const userHits =  [
       {
         title: strings.POSTS,
         count: 5
       },
       {
         title: strings.SUBSCRIPTIONS,
-        count: 1
+        count:  1
       }
     ]
     const trainerHits = [
       {
         title: strings.POSTS,
-        count: 5
+        count:  5
       },
       {
         title: strings.MAKEOVERS,
@@ -93,16 +64,13 @@ class Profile extends Component {
       }
     ]
     return (
-      // <View style={styles.container}>
       <ProfileOverview
         name={name}
         dpUrl={displayPictureUrl}
-        hits={userType === userTypes.TRAINER ? trainerHits : userHits}
+        hits={userType===userTypes.TRAINER?trainerHits: userHits}
         rating={rating}
         description={"No description provided for this user"}
         profileType={userType}
-        enrollCallback={this.enrollClicked}
-        initiateVideoCallCallback={this.callClicked}
         userType={userType}
       />
       // </View>
@@ -110,14 +78,11 @@ class Profile extends Component {
   }
 
   render() {
-    const {route, users} = this.props;
 
-    const {userId} = route.params;
-    const user = users[userId];
-    if (!user) return <Splash/>;
-    let {displayPictureUrl} = user;
+    const {userData} = this.props;
+    console.log(userData)
+    let {displayPictureUrl} = userData;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
-
 
     return (
       <ParallaxScrollView
@@ -128,7 +93,7 @@ class Profile extends Component {
           <FastImage
             style={{width: screenWidth, height: screenHeight}}
             // source={{
-            //   uri: defaultDP,
+            //   uri: displayPictureUrl,
             //   priority: FastImage.priority.normal,
             // }}
             source={this.state.bgImage}
@@ -137,7 +102,12 @@ class Profile extends Component {
         )}>
         <this.renderContent/>
       </ParallaxScrollView>
+
     )
+    return (
+      <this.renderContent/>
+
+    );
   }
 }
 
@@ -145,16 +115,23 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: appTheme.darkBackground,
     padding: 0,
+
     margin: 0
+    // flex: 1,
+    // backgroundColor: 'transparent'
   },
   contentContainer: {
+    // flexGrow: 1,
   },
   navContainer: {
     height: HEADER_HEIGHT,
+    // alignItems: 'center',
     justifyContent: 'center',
+    // marginHorizontal: 10,
   },
   statusBar: {
     height: STATUS_BAR_HEIGHT,
+    // backgroundColor: 'transparent',
   },
   navBar: {
     height: NAV_BAR_HEIGHT,
@@ -171,12 +148,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  trainers: state.app.trainers,
-  users: state.app.users
+  userData:state.user.userData
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setUser: (userId) => dispatch(actionCreators.setUser(userId))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);

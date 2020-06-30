@@ -32,7 +32,7 @@ const ProfileOverview = (props) => {
           <Text style={styles.displayName}>{toTitleCase(props.name)}</Text>
           <Text style={styles.location}>{toTitleCase(props.location)}</Text>
           {
-            props.userType===userTypes.TRAINER && (
+            props.userType === userTypes.TRAINER && (
               <AirbnbRating
                 count={5}
                 showRating={false}
@@ -44,27 +44,25 @@ const ProfileOverview = (props) => {
             )
           }
         </View>
-
         <View style={styles.avatarContainer}>
           <Avatar url={props.dpUrl} size={spacing.thumbnailMed}/>
         </View>
-
       </View>
-
-
       <View style={styles.descriptionContainer}>
-
         <ExpandingText
           style={{color: 'white'}}>
           {props.description}</ExpandingText>
-
       </View>
-          <View style={styles.profileHitsContainer}>
-            <HitsList hits={props.hits}/>
+      <View style={styles.profileHitsContainer}>
+        <HitsList hits={props.hits}/>
+        {
+          props.initiateVideoCallCallback && (
             <View style={styles.callButtonContainer}>
               <CallButton onPress={props.initiateVideoCallCallback}/>
             </View>
-          </View>
+          )
+        }
+      </View>
     </View>
   );
 }
@@ -133,15 +131,14 @@ const styles = StyleSheet.create({
   },
   profileHitsContainer: {
     marginTop: spacing.medium_lg,
-    flexDirection:'row'
+    flexDirection: 'row'
   },
   descriptionContainer: {
     marginTop: spacing.medium_lg,
     flexDirection: 'row',
-    justifyContent:'space-between'
+    justifyContent: 'space-between'
   },
-  callButtonContainer: {
-  },
+  callButtonContainer: {},
 
 });
 
