@@ -15,21 +15,21 @@ import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 class ProfileEdit extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      bio: '',
-      image: null,
-      height: 0,
-      weight: 0
-    }
+  state = {
+    name: '',
+    bio: '',
+    image: null,
+    height: 0,
+    weight: 0
+  }
+
+  componentDidMount() {
+    this.props.updateUserData();
   }
 
   pickImage = () => {
     const options = {};
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
 
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -50,28 +50,24 @@ class ProfileEdit extends Component {
   submitPhoto = async (path, token) => {
     let result = await uploadImage(path, token);
     if (result)
-      console.log('image insettion successful')
+      console.log('image insertion successful')
     else
       console.log('image insertion failed')
   }
 
   submit = async () => {
-
     var result = await updateUserInfo(this.state.name.text);
     if (result) {
       this.props.setInitialLoginOff();
     }
   }
-  goBack = async () => {
-
-  }
-  renderHorizontalSeparatorView = () => <View style={styles.itemSeparatorHorizontal}/>
 
   render() {
     return (
       <>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
-        <KeyboardAwareScrollView enableOnAndroid={true} contentContainerStyle={styles.contentContainer}>
+        <KeyboardAwareScrollView enableOnAndroid={true} contentContainerStyle={styles.contentContainer}
+                                 keyboardShouldPersistTaps={'handled'}>
           <View style={{
             flex: 0.5,
             flexDirection: 'row',
@@ -167,7 +163,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setAuthenticated: (value) => dispatch(actionCreators.setAuthenticated(value)),
-  setInitialLoginOff: () => dispatch(actionCreators.setInitialLoginOff())
+  setInitialLoginOff: () => dispatch(actionCreators.setInitialLoginOff()),
+  updateUserData: () => dispatch(actionCreators.updateUserData())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileEdit);
