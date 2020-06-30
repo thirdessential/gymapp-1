@@ -9,6 +9,7 @@ export {
   resetUser,
   setUserType,
   setInitialLoginOff,
+  updateUserData
 } from "./user.actions";
 
 export {

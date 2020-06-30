@@ -6,6 +6,7 @@ import auth from "./auth.reducer";
 import user from "./user.reducer";
 import call from "./call.reducer";
 import app from "./app.reducer";
+import trainer from './trainer.reducer';
 import {callState} from "./initialState";
 
 
@@ -36,7 +37,8 @@ const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, auth),
   user,
   app,
-  call
+  call,
+  trainer
 });
 
 export default persistReducer(rootPersistConfig, rootReducer);

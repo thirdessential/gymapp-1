@@ -9,6 +9,7 @@ const strings = {
   FOLLOW : 'Follow',
   ENROLL : 'Enroll',
   NO_OF_SESSIONS:'Number of Sessions',
+  MY_PACKAGES:'My Packages',
   SESSIONS:'Sessions',
   FOLLOWERS:'Followers',
   PLAN_DESCRIPTION:'Plan description',

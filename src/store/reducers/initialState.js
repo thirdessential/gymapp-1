@@ -9,7 +9,7 @@ export const userState = {
   userType: userTypes.USER,
   userId: '',
   initialLogin: true,
-
+  userName:'',
 };
 
 export const callState = {
@@ -17,10 +17,14 @@ export const callState = {
   inAppCall:false,
   callData: {}
 }
+
 export const appState = {
   trainers: [], // trainer listing
   users: { // detailed user info
-
-  }
+  },
 }
 
+export const trainerState = {
+  packages:[],
+  slots:[]
+}

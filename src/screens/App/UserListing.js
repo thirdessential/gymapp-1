@@ -14,20 +14,15 @@ import UserThumb from "../../components/Trainer/UserThumb";
 import {spacing} from "../../constants/dimension";
 import requestCameraAndAudioPermission from "../../utils/permission";
 import {initialiseVideoCall} from "../../utils/utils";
-import {createPackage, createSlot, deletePackage, getMyInfo, getPackage, updatePackage} from "../../API";
 
 const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 class UserListing extends Component {
 
   componentDidMount() {
-    const {updateTrainers, } = this.props;
+    const {updateTrainers,updateUserData } = this.props;
     // updateTrainers();
-    createSlot({time:'1130',duration:30,daysOfWeek:["MON","TUE","WED"],})
-
-
-
-
+    updateUserData()
   }
 
   openProfile = (userId) => {
@@ -149,6 +144,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateTrainers: () => dispatch(actionCreators.updateTrainers()),
+  updateUserData: ()=> dispatch(actionCreators.updateUserData())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserListing);

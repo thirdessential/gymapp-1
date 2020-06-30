@@ -101,7 +101,7 @@ class App extends React.Component {
       return <Splash/>
     if (videoTestMode)
       return <VideoTest navigationRef={navigationRef}/>
-    if (Object.keys(callData).length !== 0 || callActive) {
+    if (callData &&  Object.keys(callData).length !== 0 || callActive) {
       return <Calling navigationRef={navigationRef}/>
     }
     if (authenticated) {

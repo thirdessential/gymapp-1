@@ -2,6 +2,9 @@ import * as actionTypes from "./actionTypes";
 import {updateAxiosToken} from "../../API";
 import {userTypes} from "../../constants/appConstants";
 import {signOutFirebase} from "../../API/firebaseMethods";
+import * as API from "../../API";
+import {setTrainers} from "./app.actions";
+import {setPackages} from "./trainer.actions";
 
 export const genericUserFieldSetter = (payload) => ({ // TODO: refactor this function into multiple specific setters
   type: actionTypes.GENERIC_USER_FIELD_SET,
@@ -43,5 +46,35 @@ export const signOutUser =  () => {
   return async (dispatch) => {
     dispatch(resetUser());
     signOutFirebase();
+  };
+};
+
+
+export const setUserName = (userName) => ({
+  type: actionTypes.SET_USER_NAME,
+  payload: {
+    userName
+  },
+});
+
+export const updateUserData = () => {
+  return async (dispatch) => {
+    try {
+      let {user} = await API.getMyInfo();
+      if(!user) throw new Error("No user returned");
+
+      let {name} = user;
+      if(!!name)
+        dispatch(setUserName(name));
+
+      if(user.userType===userTypes.TRAINER){
+        const {packages} = user;
+        // if(packages)
+          dispatch(setPackages(packages));
+      }
+
+    } catch (error) {
+      console.log("User info update failed", error);
+    }
   };
 };
