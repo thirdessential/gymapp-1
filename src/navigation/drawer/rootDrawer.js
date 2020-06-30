@@ -13,6 +13,7 @@ import Settings from "../../screens/App/Settings";
 import {signOutFirebase} from "../../API/firebaseMethods";
 import {appTheme} from "../../constants/colors";
 import PackageList from "../../screens/App/PackageList";
+import SlotList from "../../screens/App/SlotList";
 
 const Drawer = createDrawerNavigator();
 const MyTheme = {
@@ -29,6 +30,7 @@ const rootDrawer = ({navigationRef}) => {
       >
         <Drawer.Screen name="Home" component={CoreApp}/>
         <Drawer.Screen name="PackageList" component={PackageList}/>
+        <Drawer.Screen name="Slots" component={SlotList}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );

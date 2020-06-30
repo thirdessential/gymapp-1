@@ -6,7 +6,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import bgImage from '../../../assets/images/loginbg.jpg';
 import { attemptGoogleAuth, registerWithEmail } from '../../API';
-import Loader from '../../components/Loader/Loader';
+import Loader from '../../components/Loader';
 import ActionButtonFour from '../../components/Login/ActionButtonFour';
 import FormElementThree from '../../components/Login/FormElementThree';
 import LoginFooterTwo from '../../components/Login/LoginFooterTwo';

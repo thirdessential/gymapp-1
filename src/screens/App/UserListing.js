@@ -21,7 +21,7 @@ class UserListing extends Component {
 
   componentDidMount() {
     const {updateTrainers,updateUserData } = this.props;
-    // updateTrainers();
+    updateTrainers();
     updateUserData()
   }
 

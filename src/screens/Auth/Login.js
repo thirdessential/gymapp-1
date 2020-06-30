@@ -9,8 +9,8 @@ import bgImage from '../../../assets/images/loginbg.jpg';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import RouteNames from "../../navigation/RouteNames";
 import { attemptGoogleAuth, signInWithEmail } from "../../API";
-import Loader from '../../components/Loader/Loader';
-import { showMessage, hideMessage } from "react-native-flash-message";
+import Loader from '../../components/Loader';
+import { showMessage } from "react-native-flash-message";
 import strings from '../../constants/strings';
 import { string } from 'prop-types';
 

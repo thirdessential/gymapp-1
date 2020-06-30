@@ -33,7 +33,6 @@ const hamburgerButton = ()=> (
 const coreApplication = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="PackageList" component={PackageList} options={{title: '', headerTransparent: true}}/>
 
       <Stack.Screen name={RouteNames.HomeTab} component={HomeTab} options={{
         title: 'Overview',
@@ -49,6 +48,8 @@ const coreApplication = () => {
       <Stack.Screen name={RouteNames.Schedule} component={Schedule} options={{title: '', headerTransparent: true}}/>
       <Stack.Screen name={RouteNames.Packages} component={Packages}
                     options={{title: 'My Packages', headerTintColor: appTheme.brightContent}}/>
+      <Stack.Screen name="PackageList" component={PackageList} options={{title: '', headerTransparent: true}}/>
+
       <Stack.Screen name={RouteNames.PackageEdit} component={PackageEdit}
                     options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
       <Stack.Screen name={RouteNames.SlotEdit} component={SlotEdit}
