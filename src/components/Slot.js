@@ -70,24 +70,19 @@ const slot = (props) => {
     <View style={styles.container}>
       <Title/>
       <TouchableOpacity style={styles.timeContainer} onPress={() => setShow(!show)}>
-
         <Text style={styles.title}>Time : </Text>
         <Text style={styles.time}>{formattedTime(timeObj)}</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity style={styles.timeContainer}>
-
+      <View style={styles.timeContainer}>
         <Text style={styles.title}>Duration : </Text>
-
         <SelectableButtonGroup
-          containerStyle={{backgroundColor: 'transparent', padding: 0, marginBottom: spacing.small}}
+          containerStyle={styles.buttonGroup}
+          activeStyle={styles.activeButton}
           data={allowedDurations}
           selected={props.duration}
           onSelect={props.onDurationChange}
         />
-
-      </TouchableOpacity>
-
+      </View>
       <WeekdayPicker
         days={mapDaysToBooleans(props.days)}
         onChange={onDaysChanged}
@@ -97,7 +92,6 @@ const slot = (props) => {
         activeBackgroundColor={'white'}
         textColor={'black'}
       />
-
       {
         show && (
           <DateTimePicker
@@ -171,6 +165,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: 'white'
+  },
+  buttonGroup: {
+    backgroundColor: 'transparent',
+    padding: 0,
+    marginBottom: spacing.small
+  },
+  activeButton:{
   }
 });
 

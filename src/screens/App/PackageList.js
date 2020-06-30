@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, FlatList, Text, TouchableOpacity} from 'react-native'
+import {View, StyleSheet, FlatList, Text, TouchableOpacity, LayoutAnimation} from 'react-native'
 import {connect} from "react-redux";
 
 import PackageOverview from '../../components/Package/PackageOverview';
@@ -33,6 +33,11 @@ class PackageList extends Component {
     </View>
   )
 
+  deletePackage = (packageId)=> {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    this.props.deletePackage(packageId);
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -42,7 +47,8 @@ class PackageList extends Component {
 
         <PackageFlatList
           packages={this.props.packages}
-          editCallBack={this.editPackage}
+          editCallback={this.editPackage}
+          deleteCallback={this.deletePackage}
         />
         <this.addButton/>
       </View>
@@ -81,6 +87,8 @@ const mapStateToProps = (state) => ({
   packages: state.trainer.packages
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  deletePackage: packageId => dispatch(actionCreators.deletePackage(packageId))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PackageList);

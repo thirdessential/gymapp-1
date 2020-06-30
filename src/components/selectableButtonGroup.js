@@ -11,48 +11,48 @@ import SelectableButton from "./selectableButton";
 import Appointment from "./Appointment";
 import {Card} from "native-base";
 
-class SelectableButtonGroup extends React.Component {
+const selectableButtonGroup = (props) => {
 
-
-  renderButton = (text) => {
+  const renderButton = (text) => {
     return <SelectableButton
       textContent={text}
-      onPress={() => this.props.onSelect(text)}
-      selected={this.props.selected === text}/>
+      onPress={() => props.onSelect(text)}
+      selected={props.selected === text}
+      activeStyle={props.activeStyle}
+    />
   }
 
-  render() {
-    const {containerStyle } = this.props;
-    return (
-      <View style={[styles.default, containerStyle]}>
+  const {containerStyle} = props;
+  return (
+    <View style={[styles.default, containerStyle]}>
       <FlatList
         // style={styles.container}
-        data={this.props.data}
+        data={props.data}
         horizontal={true}
         // contentContainerStyle={styles.appointmentList}
-        renderItem={({item}) => this.renderButton(item)}
+        renderItem={({item}) => renderButton(item)}
         keyExtractor={(item, index) => index.toString()}
         showsHorizontalScrollIndicator={false}
       />
-      </View>
-    )
-  }
+    </View>
+  )
+
 }
 
-SelectableButtonGroup.propTypes = {
+selectableButtonGroup.propTypes = {
   // textContent: PropTypes.string.isRequired,
   // callback: PropTypes.func
 };
 
 const styles = StyleSheet.create({
   default: {
-    backgroundColor:appTheme.content,
-    borderRadius:6,
-    padding:spacing.medium_sm,
-    paddingLeft:spacing.medium_sm,
-    paddingRight:spacing.medium_sm
+    backgroundColor: appTheme.content,
+    borderRadius: 6,
+    padding: spacing.medium_sm,
+    paddingLeft: spacing.medium_sm,
+    paddingRight: spacing.medium_sm
   },
 
 });
 
-export default SelectableButtonGroup;
+export default selectableButtonGroup;
