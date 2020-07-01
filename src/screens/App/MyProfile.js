@@ -26,7 +26,7 @@ class MyProfile extends Component {
     bgImage: getRandomImage()
   }
 
-  editProfile= ()=>{
+  editProfile = () => {
     this.props.navigation.navigate(RouteNames.ProfileEdit);
   }
 
@@ -81,7 +81,6 @@ class MyProfile extends Component {
   render() {
 
     const {userData} = this.props;
-    console.log(userData)
     let {displayPictureUrl} = userData;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
 

@@ -1,0 +1,50 @@
+import {DrawerContentScrollView, DrawerItemList} from "@react-navigation/drawer";
+import {appTheme} from "../../constants/colors";
+import {StyleSheet, Text, View} from "react-native";
+import * as React from "react";
+import store from '../../store/configureStore';
+import Avatar from "../../components/Avatar";
+import {spacing} from "../../constants/dimension";
+import fonts from "../../constants/fonts";
+
+function CustomDrawerContent(props) {
+  const userData = store.getState().user.userData;
+  const {name,displayPictureUrl} = userData;
+  return (
+    <DrawerContentScrollView {...props} style={{backgroundColor: appTheme.background}}>
+      <View style={styles.container}>
+
+        <Avatar url={displayPictureUrl} />
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{name}</Text>
+
+        </View>
+      </View>
+      <DrawerItemList {...props} labelStyle={{color: 'white'}}/>
+      {/*<DrawerItem*/}
+      {/*  label="Sign Out"*/}
+      {/*  onPress={() => signOutFirebase()}*/}
+      {/*/>*/}
+    </DrawerContentScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop:spacing.thumbnailMini,
+    marginBottom:spacing.large_lg,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  titleContainer:{
+    marginTop:spacing.medium_sm
+  },
+  title: {
+    color: 'white',
+    fontFamily:fonts.MontserratMedium,
+    fontSize: 18,
+  },
+});
+
+
+export default CustomDrawerContent;
