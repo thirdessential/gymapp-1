@@ -2,24 +2,19 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {StyleSheet, Text, View} from 'react-native'
 import PropTypes from 'prop-types';
 import {AirbnbRating} from 'react-native-ratings';
-import strings from "../../constants/strings";
 import {spacing} from "../../constants/dimension";
 
-import ProfileTitle from './ProfileTitle';
 import HitsList from '../HitsList';
 import ExpandingText from "../ExpandingText";
-import RoundedFas from "../RoundedFas";
 import {userTypes} from "../../constants/appConstants";
 import colors, {appTheme} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import {toTitleCase} from "../../utils/utils";
 import Avatar from "../Avatar";
-import StarRating from "../StarRating";
-import Icon from "react-native-vector-icons/MaterialIcons";
 import CallButton from '../callButton';
 
 const ProfileOverview = (props) => {
@@ -139,7 +134,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   callButtonContainer: {},
-
 });
 
 export default ProfileOverview;
