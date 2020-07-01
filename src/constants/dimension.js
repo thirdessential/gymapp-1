@@ -9,6 +9,7 @@ export const spacing = {
   space_40: 40,
   fasIcon:30,
   thumbnailMini:60,
+  thumbnailMiniPlus:65,
   thumbnailSmall:70,
   thumbnail:90,
   thumbnailMed:120,
