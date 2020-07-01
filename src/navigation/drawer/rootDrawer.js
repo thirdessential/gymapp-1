@@ -12,7 +12,7 @@ import CoreApp from '../stacks/coreAppStack';
 import Settings from "../../screens/App/Settings";
 import {signOutFirebase} from "../../API/firebaseMethods";
 import {appTheme} from "../../constants/colors";
-import PackageList from "../../screens/App/PackageList";
+import PackageStack from '../stacks/PackageStack';
 import SlotList from "../../screens/App/SlotList";
 
 const Drawer = createDrawerNavigator();
@@ -29,7 +29,7 @@ const rootDrawer = ({navigationRef}) => {
                         drawerContent={CustomDrawerContent}
       >
         <Drawer.Screen name="Home" component={CoreApp}/>
-        <Drawer.Screen name="PackageList" component={PackageList}/>
+        <Drawer.Screen name="PackageList" component={PackageStack}/>
         <Drawer.Screen name="Slots" component={SlotList}/>
       </Drawer.Navigator>
     </NavigationContainer>

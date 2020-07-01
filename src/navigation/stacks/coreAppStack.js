@@ -36,11 +36,12 @@ const coreApplication = () => {
     <Stack.Navigator>
 
       <Stack.Screen name={RouteNames.HomeTab} component={HomeTab} options={{
-        title: 'Overview',
+        title: '',
         headerTintColor: appTheme.brightContent,
         headerStyle: {
           backgroundColor: appTheme.darkGrey,
         },
+        headerTransparent:true,
         headerLeft: hamburgerButton
       }}/>
       <Stack.Screen name={RouteNames.Profile} component={Profile}
@@ -50,13 +51,10 @@ const coreApplication = () => {
       <Stack.Screen name={RouteNames.Packages} component={Packages}
                     options={{title: 'My Packages', headerTintColor: appTheme.brightContent}}/>
       <Stack.Screen name="PackageList" component={PackageList} options={{title: '', headerTransparent: true}}/>
-
       <Stack.Screen name={RouteNames.PackageEdit} component={PackageEdit}
                     options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
       <Stack.Screen name={RouteNames.SlotEdit} component={SlotEdit}
                     options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
-      <Stack.Screen name={RouteNames.ProfileEdit} component={ProfileEdit}
-                    options={{title: 'Enter details'}}/>
     </Stack.Navigator>
   );
 }

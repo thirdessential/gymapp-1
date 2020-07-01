@@ -82,15 +82,18 @@ class ProfileEdit extends Component {
       this.setState({imageUploading: false});
     } else {
       this.setState({imageUploading: false, image: null});
-
     }
   }
 
   submit = async () => {
-    var result = await updateUserInfo(this.state.name);
+    const {navigation, setInitialLoginOff, updateUserData} = this.props;
+    const result = await updateUserInfo(this.state.name);
+    updateUserData();
     if (result) {
-      this.props.setInitialLoginOff();
+      setInitialLoginOff();
     }
+    if (navigation.canGoBack())
+      navigation.goBack();
   }
 
   render() {
@@ -161,7 +164,7 @@ class ProfileEdit extends Component {
               this.state.renderCross && (<TouchableOpacity
                   style={{marginRight: 60}}
                   onPress={() => {
-                    this.goBack()
+                    this.props.navigation.goBack()
                   }}>
                   <FontAwesome
                     name="times-circle-o"

@@ -8,7 +8,7 @@ import colors, {appTheme} from "../../constants/colors";
 import Feed from "../../screens/App/Feed";
 import Schedule from "../../screens/App/Schedule";
 import Profile from "../../screens/App/Profile";
-import MyProfile from "../../screens/App/MyProfile";
+import MyProfileStack from '../stacks/myProfileStack';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -47,7 +47,7 @@ const homeTab = () => {
       />
       <Tab.Screen
         name={RouteNames.MyProfile}
-        component={MyProfile}
+        component={MyProfileStack}
         options={{
           title: 'Profile',
           tabBarIcon: ({focused, color, size}) => {
