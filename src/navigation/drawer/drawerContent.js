@@ -1,4 +1,5 @@
-import {DrawerContentScrollView, DrawerItemList} from "@react-navigation/drawer";
+import {DrawerContentScrollView, DrawerItemList,  DrawerItem
+} from "@react-navigation/drawer";
 import {appTheme} from "../../constants/colors";
 import {StyleSheet, Text, View} from "react-native";
 import * as React from "react";
@@ -6,6 +7,7 @@ import store from '../../store/configureStore';
 import Avatar from "../../components/Avatar";
 import {spacing} from "../../constants/dimension";
 import fonts from "../../constants/fonts";
+import {signOutUser} from "../../store/actions/user.actions";
 
 function CustomDrawerContent(props) {
   const userData = store.getState().user.userData;
@@ -13,18 +15,17 @@ function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props} style={{backgroundColor: appTheme.background}}>
       <View style={styles.container}>
-
         <Avatar url={displayPictureUrl} />
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{name}</Text>
-
         </View>
       </View>
       <DrawerItemList {...props} labelStyle={{color: 'white'}}/>
-      {/*<DrawerItem*/}
-      {/*  label="Sign Out"*/}
-      {/*  onPress={() => signOutFirebase()}*/}
-      {/*/>*/}
+      <DrawerItem
+        label="Sign Out"
+        labelStyle={{color: 'white'}}
+        onPress={() => store.dispatch(signOutUser())}
+      />
     </DrawerContentScrollView>
   );
 }

@@ -38,16 +38,6 @@ export const setAuthToken = (authToken) => {
   };
 };
 
-export const resetUser = () => ({
-  type: actionTypes.RESET_USER,
-});
-
-export const signOutUser = () => {
-  return async (dispatch) => {
-    dispatch(resetUser());
-    signOutFirebase();
-  };
-};
 
 
 export const setUserName = (userName) => ({
@@ -85,5 +75,18 @@ export const updateUserData = () => {
       console.log("User info update failed", error);
       return false;
     }
+  };
+};
+
+
+export const resetApp = () => ({
+  type: actionTypes.RESET_APP,
+});
+
+
+export const signOutUser = () => {
+  return async (dispatch) => {
+    signOutFirebase();
+    dispatch(resetApp());
   };
 };

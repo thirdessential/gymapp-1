@@ -41,3 +41,10 @@ export const setUser = (userId) => {
   };
 };
 
+export const resetApp = ()=>  ({
+  type: actionTypes.SET_USER,
+  payload: {
+    user
+  }
+});
+
