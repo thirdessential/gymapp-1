@@ -41,7 +41,7 @@ class UserListing extends Component {
   }
 
   renderUserThumb = (user, index) => {
-    let {name, totalSlots = 0, userType,usedSlots = 0, experience = 0, rating, displayPictureUrl} = user;
+    let {name, totalSlots = 0, userType,usedSlots = 0, experience = 0, rating, displayPictureUrl, packages} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
 
     return (
@@ -142,35 +142,35 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserListing);
 
-const packages = [
-  {
-    name: 'Weight Loss Program',
-    sessionCount: 15,
-    price: 3500
-  },
-  {
-    name: 'Fat Gain Program',
-    sessionCount: 15,
-    price: 3500
-  },
-  {
-    name: 'Weight Loss Program',
-    sessionCount: 15,
-    price: 3500
-  },
-  {
-    name: 'Fat Gain Program',
-    sessionCount: 15,
-    price: 3500
-  },
-  {
-    name: 'Weight Loss Program',
-    sessionCount: 15,
-    price: 3500
-  },
-  {
-    name: 'Fat Gain Program',
-    sessionCount: 15,
-    price: 3500
-  },
-]
+// const packages = [
+//   {
+//     name: 'Weight Loss Program',
+//     sessionCount: 15,
+//     price: 3500
+//   },
+//   {
+//     name: 'Fat Gain Program',
+//     sessionCount: 15,
+//     price: 3500
+//   },
+//   {
+//     name: 'Weight Loss Program',
+//     sessionCount: 15,
+//     price: 3500
+//   },
+//   {
+//     name: 'Fat Gain Program',
+//     sessionCount: 15,
+//     price: 3500
+//   },
+//   {
+//     name: 'Weight Loss Program',
+//     sessionCount: 15,
+//     price: 3500
+//   },
+//   {
+//     name: 'Fat Gain Program',
+//     sessionCount: 15,
+//     price: 3500
+//   },
+// ]

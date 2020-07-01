@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import PropTypes from 'prop-types';
 import {AirbnbRating} from 'react-native-ratings';
 import {spacing} from "../../constants/dimension";
@@ -16,6 +16,7 @@ import fonts from "../../constants/fonts";
 import {toTitleCase} from "../../utils/utils";
 import Avatar from "../Avatar";
 import CallButton from '../callButton';
+import Entypo from "react-native-vector-icons/Entypo";
 
 const ProfileOverview = (props) => {
   const {hits} = props;
@@ -24,10 +25,27 @@ const ProfileOverview = (props) => {
 
       <View style={styles.profileHeader}>
         <View style={styles.profileTitle}>
+          <View style={{flexDirection:'row'}}>
+
           <Text style={styles.displayName}>{toTitleCase(props.name)}</Text>
+          {props.editCallback && (
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={props.editCallback}
+              hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+            >
+              <Entypo
+                name={'edit'}
+                color={'white'}
+                size={18}
+              />
+            </TouchableOpacity>
+          )}
+          </View>
           <Text style={styles.location}>{toTitleCase(props.location)}</Text>
           {
             props.userType === userTypes.TRAINER && (
+              <View style={ {alignItems:'flex-start'}}>
               <AirbnbRating
                 count={5}
                 showRating={false}
@@ -36,6 +54,7 @@ const ProfileOverview = (props) => {
                 size={12}
                 isDisabled={true}
               />
+              </View>
             )
           }
         </View>
@@ -134,6 +153,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   callButtonContainer: {},
+  editButton:{
+
+    marginLeft:spacing.small,
+    padding:spacing.small,
+  }
 });
 
 export default ProfileOverview;

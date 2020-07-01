@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = (state) => ({
-  inAppCall:state.call.inAppCall
+  inAppCall: state.call.inAppCall
 });
 
 const mapDispatchToProps = (dispatch) => ({

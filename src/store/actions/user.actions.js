@@ -79,9 +79,11 @@ export const updateUserData = () => {
         // if(packages)
         dispatch(setPackages(packages));
       }
+      return user;
 
     } catch (error) {
       console.log("User info update failed", error);
+      return false;
     }
   };
 };

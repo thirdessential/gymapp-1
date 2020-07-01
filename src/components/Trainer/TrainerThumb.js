@@ -54,10 +54,14 @@ const trainerThumb = (props) => {
         </View>
 
       </TouchableOpacity>
+      {
+        props.packages && props.packages.length>0 && (
+          <View style={styles.packageListContainer}>
+            <PackagePreviewList packages={props.packages}/>
+          </View>
+        )
+      }
 
-      <View style={styles.packageListContainer}>
-        <PackagePreviewList packages={props.packages}/>
-      </View>
     </View>
   );
 }

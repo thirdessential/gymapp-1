@@ -14,6 +14,7 @@ import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
 import {userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
+import RouteNames from "../../navigation/RouteNames";
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -23,6 +24,10 @@ class MyProfile extends Component {
 
   state = {
     bgImage: getRandomImage()
+  }
+
+  editProfile= ()=>{
+    this.props.navigation.navigate(RouteNames.ProfileEdit);
   }
 
   renderContent = () => {
@@ -67,6 +72,7 @@ class MyProfile extends Component {
         description={"No description provided for this user"}
         profileType={userType}
         userType={userType}
+        editCallback={this.editProfile}
       />
       // </View>
     )

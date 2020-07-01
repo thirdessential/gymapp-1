@@ -3,7 +3,7 @@ import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 const ActionButtonTwo = (props) => {
   return (
-    <TouchableOpacity style={[styles.Button,{backgroundColor:props.color,width:props.width}]} {...props}>
+    <TouchableOpacity activeOpacity={0.9} style={[styles.Button,{backgroundColor:props.color,width:props.width}]} {...props}>
       <Text style={styles.label}>{props.label}</Text>
     </TouchableOpacity>
   );

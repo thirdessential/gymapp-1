@@ -17,6 +17,7 @@ import {spacing} from "../../constants/dimension";
 import {openDrawer} from "../RootNavigation";
 import SlotEdit from "../../screens/App/SlotList";
 import PackageList from "../../screens/App/PackageList";
+import ProfileEdit from "../../screens/App/ProfileEdit";
 
 const noHeader = {title: '', headerStyle: {height: 0}}
 
@@ -54,7 +55,8 @@ const coreApplication = () => {
                     options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
       <Stack.Screen name={RouteNames.SlotEdit} component={SlotEdit}
                     options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
-
+      <Stack.Screen name={RouteNames.ProfileEdit} component={ProfileEdit}
+                    options={{title: 'Enter details'}}/>
     </Stack.Navigator>
   );
 }
