@@ -79,7 +79,7 @@ const PackageOverview = (props) => {
           <Text style={styles.price}>{strings.RUPEE} {props.price}</Text>
           {
             props.enrollCallback && !collapsed && (
-              <TouchableOpacity style={styles.enrollButton}>
+              <TouchableOpacity style={styles.enrollButton} onPress={props.enrollCallback}>
                 <Text style={styles.enroll}>{strings.ENROLL}</Text>
               </TouchableOpacity>
             )

@@ -41,7 +41,7 @@ class UserListing extends Component {
   }
 
   renderUserThumb = (user, index) => {
-    let {name, totalSlots = 0, userType,usedSlots = 0, experience = 0, rating, displayPictureUrl, packages} = user;
+    let {name, totalSlots = 0, userType,usedSlots = 0, experience = 0, rating, displayPictureUrl, packages, city} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
 
     return (
@@ -51,7 +51,7 @@ class UserListing extends Component {
             <UserThumb
               name={name|| 'User'}
               dpUrl={displayPictureUrl}
-              location={'Bangalore'}
+              location={city}
               plan={Math.random() > 0.5 ? 'Basic' : 'Advanced'}
               onPress={() => this.openProfile(user._id)}
               postCount={Math.floor(Math.random() * 10)}
@@ -67,7 +67,7 @@ class UserListing extends Component {
                 remaining: totalSlots - usedSlots,
                 used: usedSlots
               }}
-              location={'Bangalore'}
+              location={city}
               dpUrl={displayPictureUrl}
               experience={experience}
               description={"No description provided for this trainer"}
@@ -97,6 +97,7 @@ class UserListing extends Component {
             renderItem={({item, index}) => this.renderUserThumb(item, index)}
             keyExtractor={(item, index) => item._id}
             ItemSeparatorComponent={this.renderHorizontalSeparatorView}
+            ListFooterComponent={this.renderHorizontalSeparatorView}
           />
         </View>
       </>
@@ -109,7 +110,8 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingLeft: spacing.medium,
     paddingRight: spacing.medium,
-    paddingTop: spacing.large_lg,
+    paddingTop: spacing.space_40,
+    paddingBottom: spacing.medium,
     backgroundColor: appTheme.darkBackground,
   },
   listContainer: {
@@ -118,6 +120,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: appTheme.darkBackground,
     width: '100%',
+    // paddingTop:spacing.large,
   },
   itemSeparatorHorizontal: {
     height: 1,

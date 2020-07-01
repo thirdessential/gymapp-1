@@ -97,7 +97,7 @@ class ProfileEdit extends Component {
   }
 
   render() {
-
+console.log(this.state)
     return (
       <>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
@@ -120,7 +120,7 @@ class ProfileEdit extends Component {
                 <Image source={defaultPic} style={styles.imageDimensions}/>
               }
               {
-                this.state.imageUri && (
+                !!this.state.imageUri && (
                   <FastImage
                     style={styles.imageDimensions}
                     source={{

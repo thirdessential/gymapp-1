@@ -17,6 +17,8 @@ import {toTitleCase} from "../../utils/utils";
 import Avatar from "../Avatar";
 import CallButton from '../callButton';
 import Entypo from "react-native-vector-icons/Entypo";
+import PackageFlatList from "../Trainer/PackageFlatList";
+import strings from "../../constants/strings";
 
 const ProfileOverview = (props) => {
   const {hits} = props;
@@ -77,6 +79,20 @@ const ProfileOverview = (props) => {
           )
         }
       </View>
+      {
+        props.packages &&  props.packages.length>0 && (
+          <View style={styles.packageListContainer}>
+            <View style={styles.sectionTitleContainer}>
+              <Text style={styles.sectionTitle}>{strings.PACKAGES}</Text>
+            </View>
+
+            <PackageFlatList
+              packages={props.packages}
+              enrollCallback={props.enrollCallback}
+            />
+          </View>
+        )
+      }
     </View>
   );
 }
@@ -90,22 +106,6 @@ ProfileOverview.propTypes = {
   initiateVideoCallCallback: PropTypes.func,
   userType: PropTypes.string
 };
-
-ProfileOverview.defaultProps = {
-  name: 'Sangeetha Thevar',
-  location: 'Bangalore',
-  dpUrl: Math.random() > 0.5 ? 'https://i.ya-webdesign.com/images/people-standing-png-4.png' : 'https://www.pngitem.com/pimgs/m/28-288789_transparent-png-person-standing-standing-png-download.png',
-  hits: {
-    followers: 555,
-    following: 19,
-    transformations: 161,
-    rating: 4.6,
-  },
-  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sapien neque, auctor sit amet odio sit amet, euismod placerat augue. Aenean molestie est neque, quis commodo leo semper sit amet. Mauris nec neque et ex posuere viverra. Sed auctor faucibus nisi sit amet varius. Nullam lacinia, nulla sed pulvinar scelerisque, est libero pulvinar ligula, et auctor eros ipsum vel tortor. Vivamus massa neque, ullamcorper in purus at, placerat euismod est. Aliquam sodales neque et malesuada finibus. Aliquam libero tortor, venenatis sit amet dapibus ac, rhoncus in quam. Pellentesque pretium eros justo, nec accumsan dolor facilisis sed. Sed et augue ut lorem rhoncus ultrices. Duis condimentum aliquet finibus. Praesent iaculis justo ut elit feugiat ultricies. Nulla consequat diam elit, a auctor urna convallis gravida. Nulla facilisi. Sed porttitor pulvinar sapien sed venenatis.',
-  speciality: ['Fat-loss', 'Transformation', 'General well being'],
-  profileType: 'TRAINER',
-  // userOnline:false
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -137,7 +137,6 @@ const styles = StyleSheet.create({
   },
   rating: {
     marginTop: spacing.medium_sm,
-    // marginLeft: -25 //accomodating for default margin of 25 in the package //TODO:change airbnb to rating import
   },
   profileTitle: {},
   avatarContainer: {
@@ -154,10 +153,20 @@ const styles = StyleSheet.create({
   },
   callButtonContainer: {},
   editButton:{
-
     marginLeft:spacing.small,
     padding:spacing.small,
-  }
+  },
+  packageListContainer:{
+  },
+  sectionTitleContainer:{
+    marginTop:spacing.medium_lg,
+    marginBottom:spacing.medium_sm
+  },
+  sectionTitle: {
+    color: 'white',
+    fontSize: fontSizes.h2,
+    fontFamily: fonts.MontserratMedium
+  },
 });
 
 export default ProfileOverview;

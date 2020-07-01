@@ -19,6 +19,7 @@ import RouteNames from "../../navigation/RouteNames";
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
 const NAV_BAR_HEIGHT = HEADER_HEIGHT - STATUS_BAR_HEIGHT;
+const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 class MyProfile extends Component {
 
@@ -33,8 +34,8 @@ class MyProfile extends Component {
   renderContent = () => {
     const user = this.props.userData;
 
-    let {name, userType, experience, rating, displayPictureUrl} = user;
-    if (!displayPictureUrl) displayPictureUrl = this.state.bgImage;
+    let {name, userType, experience, rating, displayPictureUrl, city} = user;
+    if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const userHits = [
       {
         title: strings.POSTS,
@@ -73,6 +74,7 @@ class MyProfile extends Component {
         profileType={userType}
         userType={userType}
         editCallback={this.editProfile}
+        location={city}
       />
       // </View>
     )
@@ -82,7 +84,7 @@ class MyProfile extends Component {
 
     const {userData} = this.props;
     let {displayPictureUrl} = userData;
-    if (!displayPictureUrl) displayPictureUrl = defaultDP;
+    // if (!displayPictureUrl) displayPictureUrl = defaultDP;
 
     return (
       <ParallaxScrollView

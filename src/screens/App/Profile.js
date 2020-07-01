@@ -22,12 +22,14 @@ import {getRandomImage} from "../../constants/images";
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
 const NAV_BAR_HEIGHT = HEADER_HEIGHT - STATUS_BAR_HEIGHT;
+const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 class Profile extends Component {
 
   state = {
-    bgImage:getRandomImage()
+    bgImage: getRandomImage()
   }
+
   componentDidMount() {
     const {route, setUser} = this.props;
     const {userId} = route.params;
@@ -35,11 +37,12 @@ class Profile extends Component {
   }
 
   enrollClicked = () => {
-    const {navigation, route} = this.props;
-    const {userId} = route.params;
-    navigation.navigate(RouteNames.Packages, {
-      userId
-    });
+    // const {navigation, route} = this.props;
+    // const {userId} = route.params;
+    //
+    // navigation.navigate(RouteNames.Packages, {
+    //   userId
+    // });
   }
 
   callClicked = async () => {
@@ -55,14 +58,13 @@ class Profile extends Component {
   renderContent = () => {
     const {route, users} = this.props;
 
-
     const {userId} = route.params;
     const user = users[userId];
     if (!user) return (
       <View style={styles.container}/>
     )
-    let {name, userType, experience, rating, displayPictureUrl} = user;
-    if (!displayPictureUrl) displayPictureUrl = this.state.bgImage;
+    let {name, userType, experience, rating, displayPictureUrl, packages, city} = user;
+    if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const userHits = [
       {
         title: strings.POSTS,
@@ -103,6 +105,8 @@ class Profile extends Component {
         enrollCallback={this.enrollClicked}
         initiateVideoCallCallback={this.callClicked}
         userType={userType}
+        packages={userType === userTypes.TRAINER ? packages : null}
+        location={city}
       />
       // </View>
     )
@@ -146,8 +150,7 @@ const styles = StyleSheet.create({
     padding: 0,
     margin: 0
   },
-  contentContainer: {
-  },
+  contentContainer: {},
   navContainer: {
     height: HEADER_HEIGHT,
     justifyContent: 'center',
@@ -171,7 +174,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   trainers: state.app.trainers,
-  users: state.app.users
+  users: state.app.users,
 });
 
 const mapDispatchToProps = (dispatch) => ({
