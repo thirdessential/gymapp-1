@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: appTheme.darkBackground,
     width: '100%',
-    // paddingTop:spacing.large,
+    paddingTop:spacing.large,
   },
   itemSeparatorHorizontal: {
     height: 1,

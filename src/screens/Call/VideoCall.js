@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {View, StyleSheet, NativeModules, ScrollView, Text, TouchableOpacity} from 'react-native';
 import {RtcEngine, AgoraView} from 'react-native-agora';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import cuid from 'cuid';
 
 import {callTimeout, videoFeedConfig} from "../../constants/appConstants";
 import strings from "../../constants/strings";
@@ -29,7 +28,7 @@ class VideoCall extends Component {
 
     this.state = {
       peerIds: [],                                //Array for storing connected peers
-      uid: cuid(),                                //Generate a UID for local user
+      uid: Math.floor(Math.random()*100000),                                //Generate a UID for local user
       appid: AppID,                               //Enter the App ID generated from the Agora Website
       channelName: ChannelName,                   //Channel Name for the current session
       vidMute: false,                             //State variable for Video Mute
