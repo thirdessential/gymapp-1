@@ -55,16 +55,18 @@ class MyProfile extends Component {
           editCallback={this.editProfile}
           location={city}
         />
-        <View style={{flex: 1, marginTop: spacing.medium_lg}}>
-          <TrainerInfo
-            packages={packages}
-            slots={slots}
-            enrollCallback={this.enrollClicked}
-          />
-        </View>
-
+        {
+          userType === userTypes.TRAINER && (
+            <View style={{flex: 1, marginTop: spacing.medium_lg}}>
+              <TrainerInfo
+                packages={packages}
+                slots={slots}
+                enrollCallback={this.enrollClicked}
+              />
+            </View>
+          )
+        }
       </>
-      // </View>
     )
   }
 

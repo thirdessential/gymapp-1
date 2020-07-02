@@ -105,7 +105,7 @@ class Profile extends Component {
           location={city}
         />
         {
-          userType === userTypes.TRAINER && (
+            userType === userTypes.TRAINER && (
             <View style={{flex: 1, marginTop: spacing.medium_lg}}>
               <TrainerInfo
                 packages={packages}
