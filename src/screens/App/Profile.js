@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import FastImage from 'react-native-fast-image'
 
 import ProfileOverview from '../../components/Profile/ProfileOverview';
+import TrainerInfo from '../../components/Trainer/TrainerInfoTabView'
 import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
 import Splash from "../Auth/Splash";
@@ -18,6 +19,8 @@ import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
 import {userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
+import {spacing} from "../../constants/dimension";
+
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -94,21 +97,32 @@ class Profile extends Component {
       }
     ]
     return (
-      // <View style={styles.container}>
-      <ProfileOverview
-        name={name}
-        dpUrl={displayPictureUrl}
-        hits={userType === userTypes.TRAINER ? trainerHits : userHits}
-        rating={rating}
-        description={ !!bio?bio:strings.NO_DESC}
-        profileType={userType}
-        enrollCallback={this.enrollClicked}
-        initiateVideoCallCallback={this.callClicked}
-        userType={userType}
-        packages={userType === userTypes.TRAINER ? packages : null}
-        location={city}
-      />
-      // </View>
+      <View style={styles.container}>
+
+        <ProfileOverview
+          name={name}
+          dpUrl={displayPictureUrl}
+          hits={userType === userTypes.TRAINER ? trainerHits : userHits}
+          rating={rating}
+          description={!!bio ? bio : strings.NO_DESC}
+          profileType={userType}
+          initiateVideoCallCallback={this.callClicked}
+          userType={userType}
+          location={city}
+        />
+        {
+          userType === userTypes.TRAINER && (
+            <View style={{flex: 1, marginTop: spacing.medium_lg}}>
+              <TrainerInfo
+                packages={packages}
+                enrollCallback={this.enrollClicked}
+              />
+            </View>
+
+          )
+        }
+
+      </View>
     )
   }
 
@@ -146,9 +160,10 @@ class Profile extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: appTheme.darkBackground,
-    padding: 0,
-    margin: 0
+    // backgroundColor: appTheme.darkBackground,
+    // padding: 0,
+    // margin: 0
+    flex: 1
   },
   contentContainer: {},
   navContainer: {

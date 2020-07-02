@@ -79,20 +79,6 @@ const ProfileOverview = (props) => {
           )
         }
       </View>
-      {
-        props.packages &&  props.packages.length>0 && (
-          <View style={styles.packageListContainer}>
-            <View style={styles.sectionTitleContainer}>
-              <Text style={styles.sectionTitle}>{strings.PACKAGES}</Text>
-            </View>
-
-            <PackageFlatList
-              packages={props.packages}
-              enrollCallback={props.enrollCallback}
-            />
-          </View>
-        )
-      }
     </View>
   );
 }
@@ -101,7 +87,7 @@ ProfileOverview.propTypes = {
   name: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   dpUrl: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
+  rating: PropTypes.number,
   enrollCallback: PropTypes.func,
   initiateVideoCallCallback: PropTypes.func,
   userType: PropTypes.string
@@ -158,15 +144,7 @@ const styles = StyleSheet.create({
   },
   packageListContainer:{
   },
-  sectionTitleContainer:{
-    marginTop:spacing.medium_lg,
-    marginBottom:spacing.medium_sm
-  },
-  sectionTitle: {
-    color: 'white',
-    fontSize: fontSizes.h2,
-    fontFamily: fonts.MontserratMedium
-  },
+
 });
 
 export default ProfileOverview;

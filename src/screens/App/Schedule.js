@@ -129,8 +129,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = (dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Schedule);
+// const mapStateToProps = (state) => ({});
+//
+// const mapDispatchToProps = (dispatch) => ({});
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(Schedule);
+export default Schedule;

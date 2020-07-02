@@ -34,7 +34,6 @@ const hamburgerButton = ()=> (
 const coreApplication = () => {
   return (
     <Stack.Navigator>
-
       <Stack.Screen name={RouteNames.HomeTab} component={HomeTab} options={{
         title: '',
         headerTintColor: appTheme.brightContent,

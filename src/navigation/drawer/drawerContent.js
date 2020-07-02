@@ -8,11 +8,13 @@ import Avatar from "../../components/Avatar";
 import {spacing} from "../../constants/dimension";
 import fonts from "../../constants/fonts";
 import {signOutUser} from "../../store/actions/user.actions";
+import {userTypes} from "../../constants/appConstants";
+import RouteNames from "../RouteNames";
 const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 function CustomDrawerContent(props) {
   const userData = store.getState().user.userData;
-  let {name,displayPictureUrl} = userData;
+  let {name,displayPictureUrl, userType} = userData;
   if(!displayPictureUrl) displayPictureUrl = defaultDP
   return (
     <DrawerContentScrollView {...props} style={{backgroundColor: appTheme.background}}>
@@ -23,6 +25,24 @@ function CustomDrawerContent(props) {
         </View>
       </View>
       <DrawerItemList {...props} labelStyle={{color: 'white'}}/>
+      {
+        userType===userTypes.TRAINER && (
+          <DrawerItem
+            label="My Packages"
+            labelStyle={{color: 'white'}}
+            onPress={() => props.navigation.navigate(RouteNames.Packages)}
+          />
+        )
+      }
+      {
+        userType===userTypes.TRAINER && (
+          <DrawerItem
+            label="My Slots"
+            labelStyle={{color: 'white'}}
+            onPress={() => props.navigation.navigate(RouteNames.SlotEdit)}
+          />
+        )
+      }
       <DrawerItem
         label="Sign Out"
         labelStyle={{color: 'white'}}
