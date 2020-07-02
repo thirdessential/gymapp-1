@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ActionButtonTwo from '../../components/Login/ActionButtonTwo';
-import {appTheme} from '../../constants/colors';
+import colors, {appTheme} from '../../constants/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import SignupFormElement from '../../components/Signup/SIgnupFormElement';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
@@ -17,6 +17,7 @@ import fonts from "../../constants/fonts";
 import FastImage from "react-native-fast-image";
 import {spacing} from "../../constants/dimension";
 import {getRandomImage} from "../../constants/images";
+import Ion from "react-native-vector-icons/Ionicons";
 
 class ProfileEdit extends Component {
 
@@ -25,7 +26,7 @@ class ProfileEdit extends Component {
     bio: '',
     imageUri: null,
     imageUploading: false,
-    renderCross: false
+    renderCheck: true
   }
 
   async componentDidMount() {
@@ -39,7 +40,14 @@ class ProfileEdit extends Component {
     }
     const {} = this.props;
     if (navigation.canGoBack())
-      this.setState({renderCross: true});
+      this.setState({renderCheck: false});
+
+    this.unsubscribe = navigation.addListener('blur', e => {
+      this.submit();
+    });
+  }
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   setLocalState = (userData) => {
@@ -86,14 +94,12 @@ class ProfileEdit extends Component {
   }
 
   submit = async () => {
-    const {navigation, setInitialLoginOff, updateUserData} = this.props;
+    const { setInitialLoginOff, updateUserData} = this.props;
     const result = await updateUserInfo(this.state.name, this.state.bio);
     updateUserData();
     if (result) {
       setInitialLoginOff();
     }
-    if (navigation.canGoBack())
-      navigation.goBack();
   }
 
   render() {
@@ -160,33 +166,17 @@ class ProfileEdit extends Component {
 
           <View style={styles.bottomBar}>
             {
-              this.state.renderCross && (<TouchableOpacity
-                  style={{marginRight: 60}}
-                  onPress={() => {
-                    this.props.navigation.goBack()
-                  }}>
+              this.state.renderCheck && (
+                <TouchableOpacity onPress={this.submit}>
                   <FontAwesome
-                    name="times-circle-o"
-                    color="grey"
-                    size={40}
+                    name="check"
+                    color={colors.acceptGreen}
+                    size={30}
                   />
                 </TouchableOpacity>
               )
             }
-            {
-              !this.state.renderCross && <View/>
-            }
-            <TouchableOpacity
-              style={{marginLeft: 60}}
-              onPress={() => {
-                this.submit()
-              }}>
-              <FontAwesome
-                name="check-circle-o"
-                color='#DD3180'
-                size={40}
-              />
-            </TouchableOpacity>
+
           </View>
           <KeyboardSpacer/>
         </KeyboardAwareScrollView>
@@ -219,7 +209,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MontserratMedium
   },
   bottomBar: {
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     flexDirection: 'row',
     marginRight: spacing.large,
     marginLeft: spacing.large,
