@@ -40,7 +40,7 @@ const slotsByTime = (props) => {
   )
 
   const renderSlot = slot => (
-    <View style={styles.slotContainer}>
+    <View style={styles.slotContainer} key={slot.dayOfWeek}>
       <MiniSlotCard day={slot.dayOfWeek} duration={slot.duration} startTime={militaryTimeToString(slot.time)}/>
     </View>
   )

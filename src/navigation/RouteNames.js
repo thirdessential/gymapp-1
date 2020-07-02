@@ -18,6 +18,7 @@ const RouteNames = {
   Schedule:'Schedule',
   ProfileEdit:'ProfileEdit',
   SlotEdit:'SlotEdit',
+  Enroll:'Enroll',
 
   Login:'Login',
   Signup:'Signup'

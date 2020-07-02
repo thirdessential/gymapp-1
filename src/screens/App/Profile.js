@@ -39,12 +39,12 @@ class Profile extends Component {
   }
 
   enrollClicked = () => {
-    // const {navigation, route} = this.props;
-    // const {userId} = route.params;
-    //
-    // navigation.navigate(RouteNames.Packages, {
-    //   userId
-    // });
+    const {navigation, route} = this.props;
+    const {userId} = route.params;
+
+    navigation.navigate(RouteNames.Enroll, {
+      userId
+    });
   }
 
   callClicked = async () => {

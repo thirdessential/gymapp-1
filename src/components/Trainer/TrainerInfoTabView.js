@@ -13,7 +13,7 @@ import fonts from "../../constants/fonts";
 import SlotsByTime from "./SlotsByTime";
 
 const Packages = (props) => (
-  <View>
+  <View style={{flex:1}}>
     <View style={styles.sectionTitleContainer}>
       <Text style={styles.sectionTitle}>{strings.PACKAGES}</Text>
     </View>
@@ -26,7 +26,7 @@ const Packages = (props) => (
 )
 
 const Slots = (props) => (
-  <View>
+  <View style={{marginBottom:spacing.large}}>
     <View style={styles.sectionTitleContainer}>
       <Text style={styles.sectionTitle}>{strings.SLOTS}</Text>
     </View>

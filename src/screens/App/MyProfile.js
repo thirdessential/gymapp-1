@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native'
+import {StyleSheet, View} from 'react-native'
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
 import FastImage from 'react-native-fast-image'
@@ -16,6 +16,8 @@ import {userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
 import RouteNames from "../../navigation/RouteNames";
 import {generateTrainerHits, generateUserHits} from "../../utils/utils";
+import {spacing} from "../../constants/dimension";
+import TrainerInfo from "../../components/Trainer/TrainerInfoTabView";
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -35,23 +37,33 @@ class MyProfile extends Component {
   renderContent = () => {
     const user = this.props.userData;
 
-    let {name, userType, experience, rating, displayPictureUrl, city, bio, packages,slots} = user;
+    let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
-    const hits = userType === userTypes.TRAINER?
-      generateTrainerHits({transformation:experience, slot:slots.length, program:packages.length }):
+    const hits = userType === userTypes.TRAINER ?
+      generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length}) :
       generateUserHits({});
     return (
-      <ProfileOverview
-        name={name}
-        dpUrl={displayPictureUrl}
-        hits={hits}
-        rating={rating}
-        description={ !!bio?bio:strings.NO_DESC}
-        profileType={userType}
-        userType={userType}
-        editCallback={this.editProfile}
-        location={city}
-      />
+      <>
+        <ProfileOverview
+          name={name}
+          dpUrl={displayPictureUrl}
+          hits={hits}
+          rating={rating}
+          description={!!bio ? bio : strings.NO_DESC}
+          profileType={userType}
+          userType={userType}
+          editCallback={this.editProfile}
+          location={city}
+        />
+        <View style={{flex: 1, marginTop: spacing.medium_lg}}>
+          <TrainerInfo
+            packages={packages}
+            slots={slots}
+            enrollCallback={this.enrollClicked}
+          />
+        </View>
+
+      </>
       // </View>
     )
   }

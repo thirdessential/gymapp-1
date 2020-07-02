@@ -25,20 +25,22 @@ class SlotList extends Component {
   }
 
   componentDidMount() {
-    const {navigation, createSlots, slots} = this.props;
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
-    this.unsubscribeFocus = navigation.addListener('focus', e => {
-      if (slots && slots.length > 0) {
-        const localSlots = this.mapSlotsToLocal(slots);
-        this.setState({slots: localSlots});
-      }
-    })
+    const {slots} = this.getUser();
 
-    this.unsubscribeBlur = navigation.addListener('blur', e => {
-      createSlots(this.state.slots);
-    });
+
+    if (slots && slots.length > 0) {
+      const localSlots = this.mapSlotsToLocal(slots);
+      this.setState({slots: localSlots});
+    }
   }
+  getUser = ()=> {
+    const {route, users} = this.props;
+    const {userId} = route.params;
+    return users[userId];
+  }
+
 
   mapSlotsToLocal = (slots) => {
     const localSlots = [];
@@ -54,52 +56,8 @@ class SlotList extends Component {
     return localSlots;
   }
 
-  componentWillUnmount() {
-    this.unsubscribeFocus();
-    this.unsubscribeBlur();
-  }
-
-  updateSlot = (slotId, updatedSlot) => {
-    let slots = this.state.slots.map(slot => slot._id === slotId ? updatedSlot : slot);
-    this.setState({slots});
-  }
-  getSlot = (slotId) => {
-    const filteredSlots = this.state.slots.filter(slot => slot._id === slotId);
-    if (filteredSlots.length === 0)
-      return null;
-    return {...filteredSlots[0]};
-  }
-  handleTimeChange = (slotId, time) => {
-    const slot = this.getSlot(slotId);
-    slot.time = dateToString(time);
-    this.updateSlot(slotId, slot);
-  }
-  handleDurationChange = (slotId, duration) => {
-    const slot = this.getSlot(slotId);
-    slot.duration = duration;
-    this.updateSlot(slotId, slot);
-  }
-  handleDaysChange = (slotId, days) => {
-    const slot = this.getSlot(slotId);
-    slot.days = days;
-    this.updateSlot(slotId, slot);
-  }
-  deleteSlot = (slotId) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    const filteredSlots = this.state.slots.filter(slot => slot._id !== slotId);
-    this.setState({slots: filteredSlots});
-  }
-  createSlot = () => {
-    const slot = {
-      _id: cuid(),
-      duration: 60,
-      time: '1000',
-      days: [WEEK_DAYS.MON, WEEK_DAYS.TUE, WEEK_DAYS.WED]
-    }
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    const slots = [...this.state.slots];
-    slots.push(slot);
-    this.setState({slots});
+  enroll = (slotId)=>{
+    console.log("enrolled", slotId);
   }
 
   renderSlots = () => {
@@ -110,10 +68,7 @@ class SlotList extends Component {
           duration={slot.duration}
           index={index + 1}
           time={slot.time}
-          onTimeChange={(time) => this.handleTimeChange(slot._id, time)}
-          onDurationChange={duration => this.handleDurationChange(slot._id, duration)}
-          onDaysChange={days => this.handleDaysChange(slot._id, days)}
-          onDelete={() => this.deleteSlot(slot._id)}
+          onEnroll={()=>this.enroll(slot._id)}
         />
       </View>
     ))
@@ -124,15 +79,12 @@ class SlotList extends Component {
       <KeyboardAwareScrollView style={styles.container}>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{strings.MY_SLOTS}</Text>
+          <Text style={styles.title}>{strings.SLOTS}</Text>
         </View>
-
         <View style={styles.listContainer}>
           <this.renderSlots/>
         </View>
-        <View style={styles.addButtonContainer}>
-          <BarButton onPress={this.createSlot}/>
-        </View>
+
       </KeyboardAwareScrollView>
     );
   }
@@ -144,7 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.background,
   },
   listContainer: {
-    justifyContent: 'center',
+    // justifyContent: 'center',
     marginLeft: spacing.medium_lg,
     marginRight: spacing.medium_lg,
     flex: 1,
@@ -176,11 +128,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  slots: state.trainer.slots
+  users: state.app.users,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  createSlots: (slotArray) => dispatch(actionCreators.createSlots(slotArray)),
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlotList);
