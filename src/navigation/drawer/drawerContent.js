@@ -14,7 +14,7 @@ const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-pi
 
 function CustomDrawerContent(props) {
   const userData = store.getState().user.userData;
-  let {name,displayPictureUrl, userType} = userData;
+  let {name='',displayPictureUrl, userType} = userData;
   if(!displayPictureUrl) displayPictureUrl = defaultDP
   return (
     <DrawerContentScrollView {...props} style={{backgroundColor: appTheme.background}}>

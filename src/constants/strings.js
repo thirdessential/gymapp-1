@@ -10,6 +10,7 @@ const strings = {
   ENROLL : 'Enroll',
   NO_OF_SESSIONS:'Number of Sessions',
   MY_PACKAGES:'My Packages',
+  MY_SLOTS:'My Slots',
   PACKAGES:'Packages',
   SESSIONS:'Sessions',
   FOLLOWERS:'Followers',

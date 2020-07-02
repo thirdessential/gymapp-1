@@ -6,6 +6,7 @@ import RouteNames from "../navigation/RouteNames";
 import AsyncStorage from '@react-native-community/async-storage';
 
 import {makeCall} from "../API";
+import strings from "../constants/strings";
 
 export const validateResponseCode = (code) => {
   return Math.floor(code / 100) === 2;
@@ -126,3 +127,33 @@ export const groupBy = (objectArray, property) => { // coolest snippet i ever fo
     return acc;
   }, {});
 }
+
+export const generateTrainerHits = ({post, transformation, program, slot}) => ([
+  {
+    title: strings.POSTS,
+    count: post || 0
+  },
+  {
+    title: strings.MAKEOVERS,
+    count: transformation || 0
+  },
+  {
+    title: strings.PROGRAMS,
+    count: program || 0
+  },
+  {
+    title: strings.SLOTS,
+    count: slot || 0
+  }
+]);
+
+export const generateUserHits = ({post, subscription}) => ([
+  {
+    title: strings.POSTS,
+    count: post || 0
+  },
+  {
+    title: strings.SUBSCRIPTIONS,
+    count: subscription || 0
+  }
+])

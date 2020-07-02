@@ -51,8 +51,8 @@ class ProfileEdit extends Component {
   }
 
   setLocalState = (userData) => {
-    const {name, displayPictureUrl} = userData;
-    this.setState({name, imageUri: displayPictureUrl});
+    const {name='', displayPictureUrl,bio=''} = userData;
+    this.setState({name, imageUri: displayPictureUrl,bio});
   }
 
   setName = (name) => {
@@ -159,7 +159,7 @@ class ProfileEdit extends Component {
             <TextInput style={styles.textInput} value={this.state.name} onChangeText={this.setName}/>
             <View style={styles.itemSeparatorHorizontal}/>
             <Text style={styles.label}>Bio</Text>
-            <TextInput style={styles.textInput} multiline={true} onChangeText={this.setBio}/>
+            <TextInput style={styles.textInput} value={this.state.bio} multiline={true} onChangeText={this.setBio}/>
             <View style={styles.itemSeparatorHorizontal}/>
             <KeyboardSpacer/>
           </View>

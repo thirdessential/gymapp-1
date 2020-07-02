@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, LayoutAnimation} from 'react-native'
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
 import FastImage from 'react-native-fast-image'
@@ -11,9 +11,8 @@ import ProfileOverview from '../../components/Profile/ProfileOverview';
 import TrainerInfo from '../../components/Trainer/TrainerInfoTabView'
 import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
-import Splash from "../Auth/Splash";
 import requestCameraAndAudioPermission from "../../utils/permission";
-import {initialiseVideoCall} from "../../utils/utils";
+import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
@@ -58,51 +57,46 @@ class Profile extends Component {
     } else console.log("Cant initiate video call without permission");
   }
 
-  renderContent = () => {
-    const {route, users} = this.props;
+  loader = () => (
+    <View style={styles.contentContainer}>
+      <ActivityIndicator color={appTheme.lightContent} size={50}/>
+    </View>
+  )
 
+  getUser = ()=> {
+    const {route, users} = this.props;
     const {userId} = route.params;
-    const user = users[userId];
-    if (!user) return (
-      <View style={styles.container}/>
-    )
-    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio} = user;
+    return users[userId];
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    const {route, users} = nextProps;
+    const {userId} = route.params;
+    const nextUser = users[userId];
+    const currentUser = this.getUser();
+
+    if(nextUser && !currentUser){
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); // fancy hack
+    }
+    return true;
+  }
+
+  renderContent = () => {
+    const user = this.getUser();
+    if (!user)
+      return this.loader();
+
+    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
-    const userHits = [
-      {
-        title: strings.POSTS,
-        count: 5
-      },
-      {
-        title: strings.SUBSCRIPTIONS,
-        count: 1
-      }
-    ]
-    const trainerHits = [
-      {
-        title: strings.POSTS,
-        count: 5
-      },
-      {
-        title: strings.MAKEOVERS,
-        count: experience
-      },
-      {
-        title: strings.PROGRAMS,
-        count: 4
-      },
-      {
-        title: strings.SLOTS,
-        count: 3
-      }
-    ]
+    const hits = userType === userTypes.TRAINER ?
+      generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length}) :
+      generateUserHits({});
     return (
       <View style={styles.container}>
-
         <ProfileOverview
           name={name}
           dpUrl={displayPictureUrl}
-          hits={userType === userTypes.TRAINER ? trainerHits : userHits}
+          hits={hits}
           rating={rating}
           description={!!bio ? bio : strings.NO_DESC}
           profileType={userType}
@@ -118,24 +112,13 @@ class Profile extends Component {
                 enrollCallback={this.enrollClicked}
               />
             </View>
-
           )
         }
-
       </View>
     )
   }
 
   render() {
-    const {route, users} = this.props;
-
-    const {userId} = route.params;
-    const user = users[userId];
-    if (!user) return <Splash/>;
-    let {displayPictureUrl} = user;
-    if (!displayPictureUrl) displayPictureUrl = this.state.bgImage;
-
-
     return (
       <ParallaxScrollView
         backgroundColor={appTheme.darkBackground}
@@ -160,12 +143,14 @@ class Profile extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: appTheme.darkBackground,
-    // padding: 0,
-    // margin: 0
     flex: 1
   },
-  contentContainer: {},
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: screenHeight / 3
+  },
   navContainer: {
     height: HEADER_HEIGHT,
     justifyContent: 'center',

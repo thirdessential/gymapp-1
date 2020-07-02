@@ -2,7 +2,16 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, TouchableOpacity, StyleSheet, FlatList, Image, StatusBar} from 'react-native'
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+  Image,
+  StatusBar,
+  ActivityIndicator,
+  LayoutAnimation
+} from 'react-native'
 import {connect} from "react-redux";
 
 import TrainerThumb from '../../components/Trainer/TrainerThumb';
@@ -13,14 +22,14 @@ import {userTypes} from "../../constants/appConstants";
 import UserThumb from "../../components/Trainer/UserThumb";
 import {spacing} from "../../constants/dimension";
 import requestCameraAndAudioPermission from "../../utils/permission";
-import {initialiseVideoCall} from "../../utils/utils";
+import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
 
 const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 class UserListing extends Component {
 
   componentDidMount() {
-    const {updateTrainers,updateUserData } = this.props;
+    const {updateTrainers, updateUserData} = this.props;
     updateTrainers();
     updateUserData();
   }
@@ -41,7 +50,7 @@ class UserListing extends Component {
   }
 
   renderUserThumb = (user, index) => {
-    let {name, totalSlots = 0, userType,usedSlots = 0, experience = 0, rating, displayPictureUrl, packages, city} = user;
+    let {name, userType, experience = 0, rating, displayPictureUrl, packages, city, slots} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
 
     return (
@@ -49,13 +58,12 @@ class UserListing extends Component {
         {
           userType === userTypes.USER && (
             <UserThumb
-              name={name|| 'User'}
+              name={name || 'User'}
               dpUrl={displayPictureUrl}
               location={city}
               plan={Math.random() > 0.5 ? 'Basic' : 'Advanced'}
               onPress={() => this.openProfile(user._id)}
-              postCount={Math.floor(Math.random() * 10)}
-              subscriptionCount={Math.floor(Math.random()*2)}
+              hits={generateUserHits({})}
             />
           )
         }
@@ -63,13 +71,9 @@ class UserListing extends Component {
           userType === userTypes.TRAINER && (
             <TrainerThumb
               name={name || 'Trainer'}
-              slots={{
-                remaining: totalSlots - usedSlots,
-                used: usedSlots
-              }}
               location={city}
+              hits={generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length})}
               dpUrl={displayPictureUrl}
-              experience={experience}
               description={"No description provided for this trainer"}
               rating={rating}
               packages={packages} //niche hai file ke
@@ -82,11 +86,16 @@ class UserListing extends Component {
     )
   }
 
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if (nextProps.users.length !== this.props.users.length)
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    return true;
+  }
+
   renderHorizontalSeparatorView = () => <View style={styles.itemSeparatorHorizontal}/>
 
   render() {
-    let users = this.props.trainers;
-
+    const {users} = this.props;
     return (<>
         <StatusBar backgroundColor={appTheme.background}/>
         <View style={styles.listContainer}>
@@ -97,8 +106,13 @@ class UserListing extends Component {
             renderItem={({item, index}) => this.renderUserThumb(item, index)}
             keyExtractor={(item, index) => item._id}
             ItemSeparatorComponent={this.renderHorizontalSeparatorView}
-            ListFooterComponent={this.renderHorizontalSeparatorView}
+            ListFooterComponent={() => <View style={{height: 100}}/>}
           />
+          {
+            users.length === 0 && (
+              <ActivityIndicator style={{position: 'absolute'}} color={appTheme.lightContent} size={50}/>
+            )
+          }
         </View>
       </>
     );
@@ -134,13 +148,13 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  trainers: state.app.trainers,
+  users: state.app.trainers,
   authToken: state.user.authToken,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   updateTrainers: () => dispatch(actionCreators.updateTrainers()),
-  updateUserData: ()=> dispatch(actionCreators.updateUserData())
+  updateUserData: () => dispatch(actionCreators.updateUserData())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserListing);

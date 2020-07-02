@@ -4,7 +4,7 @@ import {userTypes} from "../../constants/appConstants";
 import {signOutFirebase} from "../../API/firebaseMethods";
 import * as API from "../../API";
 import {setTrainers} from "./app.actions";
-import {setPackages} from "./trainer.actions";
+import {setPackages, setSlots} from "./trainer.actions";
 
 export const genericUserFieldSetter = (payload) => ({ // TODO: refactor this function into multiple specific setters
   type: actionTypes.GENERIC_USER_FIELD_SET,
@@ -65,9 +65,10 @@ export const updateUserData = () => {
         dispatch(setUserName(name));
 
       if (user.userType === userTypes.TRAINER) {
-        const {packages} = user;
+        const {packages, slots} = user;
         // if(packages)
         dispatch(setPackages(packages));
+        dispatch(setSlots(slots));
       }
       return user;
 

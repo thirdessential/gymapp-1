@@ -25,6 +25,7 @@ class SlotList extends Component {
   }
 
   componentDidMount() {
+
     const {slots, navigation, createSlots} = this.props;
     if (slots && slots.length > 0) {
       const localSlots = this.mapSlotsToLocal(slots);
@@ -119,8 +120,9 @@ class SlotList extends Component {
       <KeyboardAwareScrollView style={styles.container}>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{strings.SLOTS}</Text>
+          <Text style={styles.title}>{strings.MY_SLOTS}</Text>
         </View>
+
         <View style={styles.listContainer}>
           <this.renderSlots/>
         </View>
@@ -135,12 +137,13 @@ class SlotList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: appTheme.background,
+    backgroundColor: appTheme.darkBackground,
   },
   listContainer: {
     justifyContent: 'center',
     marginLeft: spacing.medium_lg,
     marginRight: spacing.medium_lg,
+    flex:1,
   },
   slotContainer: {
     marginBottom: spacing.medium_lg
@@ -150,8 +153,8 @@ const styles = StyleSheet.create({
     paddingLeft: spacing.large,
     paddingRight: spacing.large,
     paddingBottom: spacing.medium_sm,
-    marginBottom: spacing.medium_lg,
-    backgroundColor: appTheme.darkBackground,
+    marginBottom: spacing.medium_sm,
+    backgroundColor: appTheme.background,
     alignItems: 'center'
   },
   title: {
@@ -162,8 +165,9 @@ const styles = StyleSheet.create({
   addButtonContainer: {
     paddingTop: spacing.medium,
     paddingBottom: spacing.medium_sm,
-    backgroundColor: appTheme.background,
-    alignItems: 'center'
+    // backgroundColor: appTheme.background,
+    alignItems: 'center',
+
   }
 });
 

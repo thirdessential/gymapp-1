@@ -15,6 +15,7 @@ import strings from "../../constants/strings";
 import {userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
 import RouteNames from "../../navigation/RouteNames";
+import {generateTrainerHits, generateUserHits} from "../../utils/utils";
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -34,41 +35,16 @@ class MyProfile extends Component {
   renderContent = () => {
     const user = this.props.userData;
 
-    let {name, userType, experience, rating, displayPictureUrl, city, bio} = user;
+    let {name, userType, experience, rating, displayPictureUrl, city, bio, packages,slots} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
-    const userHits = [
-      {
-        title: strings.POSTS,
-        count: 5
-      },
-      {
-        title: strings.SUBSCRIPTIONS,
-        count: 1
-      }
-    ]
-    const trainerHits = [
-      {
-        title: strings.POSTS,
-        count: 5
-      },
-      {
-        title: strings.MAKEOVERS,
-        count: experience
-      },
-      {
-        title: strings.PROGRAMS,
-        count: 4
-      },
-      {
-        title: strings.SLOTS,
-        count: 3
-      }
-    ]
+    const hits = userType === userTypes.TRAINER?
+      generateTrainerHits({transformation:experience, slot:slots.length, program:packages.length }):
+      generateUserHits({});
     return (
       <ProfileOverview
         name={name}
         dpUrl={displayPictureUrl}
-        hits={userType === userTypes.TRAINER ? trainerHits : userHits}
+        hits={hits}
         rating={rating}
         description={ !!bio?bio:strings.NO_DESC}
         profileType={userType}

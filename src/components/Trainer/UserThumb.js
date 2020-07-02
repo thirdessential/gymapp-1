@@ -19,16 +19,6 @@ import HitsList from "../HitsList";
 import strings from "../../constants/strings";
 
 const userThumb = (props) => {
-  const hits = [
-    {
-      title: strings.POSTS,
-      count: props.postCount || 5
-    },
-    {
-      title: strings.SUBSCRIPTIONS,
-      count: props.subscriptionCount || 1
-    }
-  ]
   return (
     <TouchableOpacity onPress={props.onPress}>
       <View style={styles.titleContent}>
@@ -45,7 +35,7 @@ const userThumb = (props) => {
       <View style={styles.extraContent}>
         <Text style={styles.plan}>{props.plan}</Text>
         <View style={styles.hitsContainer}>
-          <HitsList hits={hits} size={fontSizes.h3}/>
+          <HitsList hits={props.hits} size={fontSizes.h3}/>
         </View>
       </View>
     </TouchableOpacity>
@@ -56,8 +46,6 @@ userThumb.propTypes = {
   name: PropTypes.string.isRequired,
   dpUrl: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
-  postCount: PropTypes.number.isRequired,
-  subscriptionCount: PropTypes.number.isRequired
 };
 
 const styles = StyleSheet.create({

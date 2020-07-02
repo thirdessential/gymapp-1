@@ -15,6 +15,7 @@ export const listTrainers = async () => {
 }
 
 export const updateUserInfo = async (name, bio) => {
+
   try {
     let response = await axios.put('/user', {
       name,
