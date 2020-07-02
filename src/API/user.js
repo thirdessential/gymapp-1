@@ -14,10 +14,11 @@ export const listTrainers = async () => {
   }
 }
 
-export const updateUserInfo = async (name) => {
+export const updateUserInfo = async (name, bio) => {
   try {
     let response = await axios.put('/user', {
-      name: name
+      name,
+      bio
     });
     if (validateResponseCode(response.status)) {
       return response.data;

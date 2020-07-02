@@ -87,7 +87,7 @@ class ProfileEdit extends Component {
 
   submit = async () => {
     const {navigation, setInitialLoginOff, updateUserData} = this.props;
-    const result = await updateUserInfo(this.state.name);
+    const result = await updateUserInfo(this.state.name, this.state.bio);
     updateUserData();
     if (result) {
       setInitialLoginOff();
@@ -97,7 +97,6 @@ class ProfileEdit extends Component {
   }
 
   render() {
-console.log(this.state)
     return (
       <>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
@@ -153,9 +152,9 @@ console.log(this.state)
             <Text style={styles.label}>Name</Text>
             <TextInput style={styles.textInput} value={this.state.name} onChangeText={this.setName}/>
             <View style={styles.itemSeparatorHorizontal}/>
-            {/*<Text style={styles.label}>Bio</Text>*/}
-            {/*<TextInput style={styles.textInput} multiline={true} onChangeText={this.setBio}/>*/}
-            {/*<View style={styles.itemSeparatorHorizontal}/>*/}
+            <Text style={styles.label}>Bio</Text>
+            <TextInput style={styles.textInput} multiline={true} onChangeText={this.setBio}/>
+            <View style={styles.itemSeparatorHorizontal}/>
             <KeyboardSpacer/>
           </View>
 

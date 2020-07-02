@@ -16,6 +16,7 @@ const strings = {
   PLAN_DESCRIPTION:'Plan description',
   FOLLOWING:'Following',
   TRANSFORMATIONS:'Transformations',
+  NO_DESC:"No description provided for this user",
   MAKEOVERS:'Makeovers',
   RATING:'Rating',
   SEE_MORE:'See more',

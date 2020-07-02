@@ -34,7 +34,7 @@ class MyProfile extends Component {
   renderContent = () => {
     const user = this.props.userData;
 
-    let {name, userType, experience, rating, displayPictureUrl, city} = user;
+    let {name, userType, experience, rating, displayPictureUrl, city, bio} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const userHits = [
       {
@@ -70,7 +70,7 @@ class MyProfile extends Component {
         dpUrl={displayPictureUrl}
         hits={userType === userTypes.TRAINER ? trainerHits : userHits}
         rating={rating}
-        description={"No description provided for this user"}
+        description={ !!bio?bio:strings.NO_DESC}
         profileType={userType}
         userType={userType}
         editCallback={this.editProfile}
