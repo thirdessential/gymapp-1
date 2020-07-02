@@ -1,15 +1,22 @@
-import * as React from "react";
-import {Text, View} from "react-native";
-import {appTheme} from "../../constants/colors";
+import React, { Component } from 'react'
+import { Text, StyleSheet, View } from 'react-native'
+import CreatePost from '../../components/Profile/CreatePost'
+import PostCardList from '../../components/Profile/PostCardList'
+import CommentList from '../../components/Profile/CommentList'
+import colors, {appTheme} from "../../constants/colors";
 
-class Feed extends React.Component {
+export default class Feed extends Component {
   render() {
     return (
-      <View style={{flex: 1, backgroundColor:appTheme.darkBackground ,justifyContent: 'center', alignItems: 'center'}}>
-        {/*<Text>Feed</Text>*/}
+      <View style={{flex:1}}>
+        <CreatePost/>
+        <PostCardList/>
+        <CommentList/>
       </View>
-    );
+    )
   }
 }
 
-export default Feed;
+const styles = StyleSheet.create({
+  container:{flex: 1, backgroundColor:appTheme.darkBackground ,justifyContent: 'center', alignItems: 'center'}
+})

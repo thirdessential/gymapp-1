@@ -5,8 +5,20 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import HitCounter from "./HitCounter";
 import size from "../../constants/fontSizes";
 import colors from "../../constants/colors";
+import CommentList from "./CommentList";
+
+
+
 
 export default class PostCard extends Component {
+
+constructor(props){
+  super(props)
+  this.state={
+    status:false
+  }
+}
+
   render() {
     return (
       <View style={styles.mainContainer}>
@@ -81,14 +93,10 @@ export default class PostCard extends Component {
           <View style={{ flex: 1 }}></View>
           <View style={styles.buttonSubContainer}>
             <View style={{ flex: 1 }}>
-              <TouchableOpacity style={styles.button}>
-                <FontAwesome name="comment" color="#fff" size={spacing.large} />
-
-                <Text style={{ color: "#fff", fontSize: size.h1 }}>Cheer</Text>
-              </TouchableOpacity>
+              
             </View>
             <View style={{ flex: 1 }}>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity  style={styles.button}>
                 <FontAwesome name="comment" color="#fff" size={spacing.large} />
 
                 <Text style={{ color: "#fff", fontSize: size.h1 }}>
@@ -98,6 +106,9 @@ export default class PostCard extends Component {
             </View>
           </View>
         </View>
+
+
+
       </View>
     );
   }
