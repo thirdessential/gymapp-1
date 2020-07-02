@@ -5,7 +5,6 @@ import React, {Component} from 'react';
 import {View, StyleSheet, FlatList, Text, TouchableOpacity, LayoutAnimation} from 'react-native'
 import {connect} from "react-redux";
 
-import PackageOverview from '../../components/Package/PackageOverview';
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
 import colors, {appTheme} from "../../constants/colors";
@@ -14,7 +13,6 @@ import PackageFlatList from "../../components/Trainer/PackageFlatList";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
-import FontAwesome from 'react-native-vector-icons/Entypo';
 import BarButton from '../../components/BarButton';
 
 class PackageList extends Component {

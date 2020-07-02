@@ -14,6 +14,7 @@ import MyProfileStack from '../stacks/myProfileStack';
 import PackageStack from "../stacks/PackageStack";
 import {userTypes} from "../../constants/appConstants";
 import SlotList from "../../screens/App/SlotList";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -63,12 +64,26 @@ const homeTab = (props) => {
             options={{
               title: 'Packages',
               tabBarIcon: ({focused, color, size}) => {
-                let iconName = focused ? 'ios-construct' : 'ios-construct';
-                return <Ionicons name={iconName} size={20} color={color}/>;
+                let iconName = focused ? 'list' : 'list';
+                return <FontAwesome name={iconName} size={20} color={color}/>;
               },
             }}/>
         )
       }
+      {/*{*/}
+      {/*  userType === userTypes.USER && (*/}
+      {/*    <Tab.Screen*/}
+      {/*      name={RouteNames.Schedule}*/}
+      {/*      component={Schedule}*/}
+      {/*      options={{*/}
+      {/*        title: 'Schedule',*/}
+      {/*        tabBarIcon: ({focused, color, size}) => {*/}
+      {/*          let iconName = focused ? 'calendar-o' : 'calendar';*/}
+      {/*          return <FontAwesome name={iconName} size={20} color={color}/>;*/}
+      {/*        },*/}
+      {/*      }}/>*/}
+      {/*  )*/}
+      {/*}*/}
 
       <Tab.Screen
         name={RouteNames.Feed}
@@ -76,8 +91,8 @@ const homeTab = (props) => {
         options={{
           title: 'Feed',
           tabBarIcon: ({focused, color, size}) => {
-            let iconName = focused ? 'ios-people' : 'ios-people';
-            return <Ionicons name={iconName} size={20} color={color}/>;
+            let iconName = focused ? 'table' : 'table';
+            return <FontAwesome name={iconName} size={20} color={color}/>;
           },
         }}
       />

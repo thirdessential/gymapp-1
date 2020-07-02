@@ -10,7 +10,7 @@ import PackageFlatList from "./PackageFlatList";
 import {spacing} from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import Schedule from "../../screens/App/Schedule";
+import SlotsByTime from "./SlotsByTime";
 
 const Packages = (props) => (
   <View>
@@ -25,21 +25,30 @@ const Packages = (props) => (
   </View>
 )
 
+const Slots = (props) => (
+  <View>
+    <View style={styles.sectionTitleContainer}>
+      <Text style={styles.sectionTitle}>{strings.SLOTS}</Text>
+    </View>
+    <SlotsByTime slots={props.slots}/>
+  </View>
+)
+
 const initialLayout = {width: screenWidth};
 
 const Routes = {
-  Packages:'Packages',
-  Posts:'Posts',
-  Appointment:'Appointment'
+  Packages: 'Packages',
+  Posts: 'Posts',
+  Slots: 'Slots'
 }
 
 function TrainerInfo(props) {
-  const {packages, enrollCallback} = props;
+  const {packages, enrollCallback, slots} = props;
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {key: Routes.Packages, title: 'Packages'},
-    {key: Routes.Posts, title: 'Posts'},
-    {key: Routes.Appointment, title: 'Appointment',},
+    // {key: Routes.Posts, title: 'Posts'},
+    {key: Routes.Slots, title: 'Slots',},
   ]);
 
   const renderScene = (props) => {
@@ -47,6 +56,8 @@ function TrainerInfo(props) {
     switch (route.key) {
       case Routes.Packages:
         return <Packages packages={packages} enrollCallback={enrollCallback}/>;
+      case Routes.Slots:
+        return <Slots slots={slots}/>
       // case Routes.Appointment:
       //   return <Schedule/>
       default:
@@ -81,13 +92,13 @@ function TrainerInfo(props) {
 const getTabBarIcon = (props) => {
 
   const {route} = props
-  switch(route.key){
-    case(Routes.Appointment):
+  switch (route.key) {
+    case(Routes.Slots):
       return <FontAwesome name='calendar' size={22} color={'white'}/>;
     case(Routes.Packages):
       return <FontAwesome name='list' size={22} color={'white'}/>
-    case(Routes.Posts):
-      return <FontAwesome name='table' size={22} color={'white'}/>
+    // case(Routes.Posts):
+    //   return <FontAwesome name='table' size={22} color={'white'}/>
 
   }
 

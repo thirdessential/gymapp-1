@@ -75,3 +75,16 @@ export const syncSlots = async (slotArray) => {
     return false;
   }
 }
+
+export const getGroupedSlots = async () => {
+  try {
+    let response = await axios.get(`/trainer/mySlots`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

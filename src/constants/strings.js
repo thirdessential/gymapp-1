@@ -7,6 +7,7 @@ const strings = {
   PACKAGE_NAME:'Package Name',
   RUPEE:'₹',
   FOLLOW : 'Follow',
+  BOOK:'Book',
   ENROLL : 'Enroll',
   NO_OF_SESSIONS:'Number of Sessions',
   MY_PACKAGES:'My Packages',

@@ -25,14 +25,17 @@ class SlotList extends Component {
   }
 
   componentDidMount() {
+    const {navigation, createSlots, slots} = this.props;
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
-    const {slots, navigation, createSlots} = this.props;
-    if (slots && slots.length > 0) {
-      const localSlots = this.mapSlotsToLocal(slots);
-      this.setState({slots: localSlots});
-    }
+    this.unsubscribeFocus = navigation.addListener('focus', e => {
+      if (slots && slots.length > 0) {
+        const localSlots = this.mapSlotsToLocal(slots);
+        this.setState({slots: localSlots});
+      }
+    })
 
-    this.unsubscribe = navigation.addListener('blur', e => {
+    this.unsubscribeBlur = navigation.addListener('blur', e => {
       createSlots(this.state.slots);
     });
   }
@@ -52,7 +55,8 @@ class SlotList extends Component {
   }
 
   componentWillUnmount() {
-    this.unsubscribe();
+    this.unsubscribeFocus();
+    this.unsubscribeBlur();
   }
 
   updateSlot = (slotId, updatedSlot) => {
@@ -143,7 +147,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: spacing.medium_lg,
     marginRight: spacing.medium_lg,
-    flex:1,
+    flex: 1,
   },
   slotContainer: {
     marginBottom: spacing.medium_lg

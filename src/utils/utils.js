@@ -21,6 +21,15 @@ export const formattedTime = date => {
   return `${hours}:${minutes}${minZero} ${AM_PM}`;
 }
 
+export const militaryTimeToString = time => {
+  const suffix = time >= 1200 ? 'PM' : 'AM';
+  return `${time.slice(0, 2)}:${time.slice(2)} ${suffix}`;
+}
+
+export const stringToMilitaryTime = str =>{
+  return `${str.slice(0,2)}${str.slice(3,5)}`;
+}
+
 export const dateToString = time => {
   let dateObj = new Date(time);
   let hours = dateObj.getHours();
@@ -156,4 +165,4 @@ export const generateUserHits = ({post, subscription}) => ([
     title: strings.SUBSCRIPTIONS,
     count: subscription || 0
   }
-])
+]);

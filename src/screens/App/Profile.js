@@ -109,6 +109,7 @@ class Profile extends Component {
             <View style={{flex: 1, marginTop: spacing.medium_lg}}>
               <TrainerInfo
                 packages={packages}
+                slots={slots}
                 enrollCallback={this.enrollClicked}
               />
             </View>
