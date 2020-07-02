@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native'
+import {StyleSheet, View} from 'react-native'
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
 import FastImage from 'react-native-fast-image'
@@ -14,10 +14,15 @@ import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
 import {userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
+import RouteNames from "../../navigation/RouteNames";
+import {generateTrainerHits, generateUserHits} from "../../utils/utils";
+import {spacing} from "../../constants/dimension";
+import TrainerInfo from "../../components/Trainer/TrainerInfoTabView";
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
 const NAV_BAR_HEIGHT = HEADER_HEIGHT - STATUS_BAR_HEIGHT;
+const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 class MyProfile extends Component {
 
@@ -25,59 +30,51 @@ class MyProfile extends Component {
     bgImage: getRandomImage()
   }
 
+  editProfile = () => {
+    this.props.navigation.navigate(RouteNames.ProfileEdit);
+  }
+
   renderContent = () => {
     const user = this.props.userData;
 
-    let {name, userType, experience, rating, displayPictureUrl} = user;
-    if (!displayPictureUrl) displayPictureUrl = this.state.bgImage;
-    const userHits = [
-      {
-        title: strings.POSTS,
-        count: 5
-      },
-      {
-        title: strings.SUBSCRIPTIONS,
-        count: 1
-      }
-    ]
-    const trainerHits = [
-      {
-        title: strings.POSTS,
-        count: 5
-      },
-      {
-        title: strings.MAKEOVERS,
-        count: experience
-      },
-      {
-        title: strings.PROGRAMS,
-        count: 4
-      },
-      {
-        title: strings.SLOTS,
-        count: 3
-      }
-    ]
+    let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots} = user;
+    if (!displayPictureUrl) displayPictureUrl = defaultDP;
+    const hits = userType === userTypes.TRAINER ?
+      generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length}) :
+      generateUserHits({});
     return (
-      <ProfileOverview
-        name={name}
-        dpUrl={displayPictureUrl}
-        hits={userType === userTypes.TRAINER ? trainerHits : userHits}
-        rating={rating}
-        description={"No description provided for this user"}
-        profileType={userType}
-        userType={userType}
-      />
-      // </View>
+      <>
+        <ProfileOverview
+          name={name}
+          dpUrl={displayPictureUrl}
+          hits={hits}
+          rating={rating}
+          description={!!bio ? bio : strings.NO_DESC}
+          profileType={userType}
+          userType={userType}
+          editCallback={this.editProfile}
+          location={city}
+        />
+        {
+          userType === userTypes.TRAINER && (
+            <View style={{flex: 1, marginTop: spacing.medium_lg}}>
+              <TrainerInfo
+                packages={packages}
+                slots={slots}
+                enrollCallback={this.enrollClicked}
+              />
+            </View>
+          )
+        }
+      </>
     )
   }
 
   render() {
 
     const {userData} = this.props;
-    console.log(userData)
     let {displayPictureUrl} = userData;
-    if (!displayPictureUrl) displayPictureUrl = defaultDP;
+    // if (!displayPictureUrl) displayPictureUrl = defaultDP;
 
     return (
       <ParallaxScrollView

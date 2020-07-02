@@ -52,29 +52,40 @@ const slot = (props) => {
     props.onDaysChange(days);
   }
 
+  const MultiButton = () => {
+    if (props.onDelete)
+      return (
+        <TouchableOpacity onPress={props.onDelete} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+          <FontAwesome
+            name={'trash'}
+            color={colors.rejectRed}
+            size={22}
+          />
+        </TouchableOpacity>
+      )
+    if(props.onEnroll)
+      return (
+        <TouchableOpacity onPress={props.onEnroll} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+          <FontAwesome
+            name={'check'}
+            color={colors.acceptGreen}
+            size={22}
+          />
+        </TouchableOpacity>
+      )
+    return null;
+  }
+
   const Title = () => (
     <View style={styles.titleContainer}>
       <Text style={styles.time}>Slot {props.index}</Text>
-      <TouchableOpacity onPress={props.onDelete} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
-      >
-        <FontAwesome
-          name={'trash'}
-          color={colors.rejectRed}
-          size={22}
-        />
-      </TouchableOpacity>
+      <MultiButton/>
     </View>
   )
 
-  return (
-    <View style={styles.container}>
-      <Title/>
-      <TouchableOpacity style={styles.timeContainer} onPress={() => setShow(!show)}>
-        <Text style={styles.title}>Time : </Text>
-        <Text style={styles.time}>{formattedTime(timeObj)}</Text>
-      </TouchableOpacity>
-      <View style={styles.timeContainer}>
-        <Text style={styles.title}>Duration : </Text>
+  const ButtonGroup = () => {
+    if (props.onDurationChange)
+      return (
         <SelectableButtonGroup
           containerStyle={styles.buttonGroup}
           activeStyle={styles.activeButton}
@@ -82,11 +93,25 @@ const slot = (props) => {
           selected={props.duration}
           onSelect={props.onDurationChange}
         />
+      )
+    return <Text style={styles.time}> {props.duration}</Text>
+
+  }
+  return (
+    <View style={styles.container}>
+      <Title/>
+      <TouchableOpacity disabled={!props.onTimeChange} style={styles.timeContainer} onPress={() => setShow(!show)}>
+        <Text style={styles.title}>Time : </Text>
+        <Text style={styles.time}>{formattedTime(timeObj)}</Text>
+      </TouchableOpacity>
+      <View style={styles.timeContainer}>
+        <Text style={styles.title}>Duration : </Text>
+        <ButtonGroup/>
       </View>
       <WeekdayPicker
         days={mapDaysToBooleans(props.days)}
         onChange={onDaysChanged}
-        // style={styles.picker}
+        disabled={!props.onDaysChange}
         dayStyle={styles.day}
         dayInactiveStyle={styles.dayInactive}
         activeBackgroundColor={'white'}
@@ -171,8 +196,7 @@ const styles = StyleSheet.create({
     padding: 0,
     marginBottom: spacing.small
   },
-  activeButton:{
-  }
+  activeButton: {}
 });
 
 export default slot;

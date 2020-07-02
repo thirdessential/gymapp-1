@@ -5,7 +5,6 @@ import React, {Component} from 'react';
 import {View, StyleSheet, FlatList, Text, TouchableOpacity, LayoutAnimation} from 'react-native'
 import {connect} from "react-redux";
 
-import PackageOverview from '../../components/Package/PackageOverview';
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
 import colors, {appTheme} from "../../constants/colors";
@@ -14,12 +13,12 @@ import PackageFlatList from "../../components/Trainer/PackageFlatList";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
-import FontAwesome from 'react-native-vector-icons/Entypo';
 import BarButton from '../../components/BarButton';
+
 class PackageList extends Component {
 
   editPackage = packageId => {
-    this.props.navigation.navigate(RouteNames.PackageEdit,{
+    this.props.navigation.navigate(RouteNames.PackageEdit, {
       packageId
     });
   }
@@ -33,7 +32,7 @@ class PackageList extends Component {
     </View>
   )
 
-  deletePackage = (packageId)=> {
+  deletePackage = (packageId) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     this.props.deletePackage(packageId);
   }
@@ -44,12 +43,13 @@ class PackageList extends Component {
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{strings.MY_PACKAGES}</Text>
         </View>
-
-        <PackageFlatList
-          packages={this.props.packages}
-          editCallback={this.editPackage}
-          deleteCallback={this.deletePackage}
-        />
+        <View style={styles.listContainer}>
+          <PackageFlatList
+            packages={this.props.packages}
+            editCallback={this.editPackage}
+            deleteCallback={this.deletePackage}
+          />
+        </View>
         <this.addButton/>
       </View>
     );
@@ -60,15 +60,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: appTheme.darkBackground,
+
   },
   titleContainer: {
     paddingTop: spacing.medium_sm,
     paddingLeft: spacing.large,
     paddingRight: spacing.large,
     paddingBottom: spacing.medium_sm,
-    marginBottom:spacing.medium_sm,
+    marginBottom: spacing.medium_sm,
     backgroundColor: appTheme.background,
     alignItems: 'center'
+  },
+  listContainer:{
+    marginLeft:spacing.medium_lg,
+    marginRight:spacing.medium_lg,
+    flex:1
   },
   title: {
     color: 'white',

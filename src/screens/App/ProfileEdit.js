@@ -1,5 +1,5 @@
 import React, {useState, Component} from 'react';
-import {Text, TouchableOpacity, StyleSheet, TextInput, View, Image, StatusBar} from 'react-native';
+import {Text, TouchableOpacity, StyleSheet, TextInput, View, Image, StatusBar, ActivityIndicator} from 'react-native';
 import {updateUserInfo} from '../../API';
 import ImagePicker from 'react-native-image-picker';
 import defaultPic from '../../../assets/images/male_pic_default.jpg';
@@ -8,23 +8,59 @@ import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ActionButtonTwo from '../../components/Login/ActionButtonTwo';
-import {appTheme} from '../../constants/colors';
+import colors, {appTheme} from '../../constants/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import SignupFormElement from '../../components/Signup/SIgnupFormElement';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
+import FastImage from "react-native-fast-image";
+import {spacing} from "../../constants/dimension";
+import {getRandomImage} from "../../constants/images";
+import Ion from "react-native-vector-icons/Ionicons";
 
 class ProfileEdit extends Component {
 
   state = {
     name: '',
     bio: '',
-    image: null,
-    height: 0,
-    weight: 0
+    imageUri: null,
+    imageUploading: false,
+    renderCheck: true
   }
 
-  componentDidMount() {
-    this.props.updateUserData();
+  async componentDidMount() {
+    const {userData, updateUserData, navigation} = this.props;
+    if (userData) {
+      this.setLocalState(userData);
+      updateUserData();
+    } else {
+      let result = await updateUserData();
+      this.setLocalState(result);
+    }
+    const {} = this.props;
+    if (navigation.canGoBack())
+      this.setState({renderCheck: false});
+
+    this.unsubscribe = navigation.addListener('blur', e => {
+      this.submit();
+    });
+  }
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  setLocalState = (userData) => {
+    const {name='', displayPictureUrl,bio=''} = userData;
+    this.setState({name, imageUri: displayPictureUrl,bio});
+  }
+
+  setName = (name) => {
+    this.setState({name})
+  }
+
+  setBio = (bio) => {
+    this.setState({bio});
   }
 
   pickImage = () => {
@@ -40,7 +76,7 @@ class ProfileEdit extends Component {
       } else {
         console.log('image url', response.uri);
         this.setState({
-          image: response.uri,
+          imageUri: response.uri,
         });
         this.submitPhoto(response.path, this.props.authToken);
       }
@@ -48,17 +84,21 @@ class ProfileEdit extends Component {
   };
 
   submitPhoto = async (path, token) => {
+    this.setState({imageUploading: true});
     let result = await uploadImage(path, token);
-    if (result)
-      console.log('image insertion successful')
-    else
-      console.log('image insertion failed')
+    if (result) {
+      this.setState({imageUploading: false});
+    } else {
+      this.setState({imageUploading: false, image: null});
+    }
   }
 
   submit = async () => {
-    var result = await updateUserInfo(this.state.name.text);
+    const { setInitialLoginOff, updateUserData} = this.props;
+    const result = await updateUserInfo(this.state.name, this.state.bio);
+    updateUserData();
     if (result) {
-      this.props.setInitialLoginOff();
+      setInitialLoginOff();
     }
   }
 
@@ -74,65 +114,69 @@ class ProfileEdit extends Component {
             marginLeft: 30,
             marginRight: 30,
             marginTop: 20,
-            justifyContent: "space-evenly"
+            justifyContent: "center"
           }}>
-
-            <TouchableOpacity
-              style={{marginRight: 60}}
-              onPress={() => {
-                this.goBack()
-              }}>
-              <FontAwesome
-                name="times-circle-o"
-                color="grey"
-                size={40}
-              ></FontAwesome>
-            </TouchableOpacity>
             <Text style={{fontSize: 28, color: 'white'}}>Edit Profile</Text>
-
-            <TouchableOpacity
-              style={{marginLeft: 60}}
-              onPress={() => {
-                this.submit()
-              }}>
-              <FontAwesome
-                name="check-circle-o"
-                color='#DD3180'
-                size={40}
-              ></FontAwesome>
-            </TouchableOpacity>
-
           </View>
-          <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', marginLeft: 30, marginRight: 30}}>
-            {!this.state.image && <Image source={defaultPic} style={{width: 200, height: 200, borderRadius: 100}}/>}
-            {this.state.image &&
-            <Image source={{uri: this.state.image}} style={{width: 200, height: 200, borderRadius: 100}}/>}
-            <View style={{postion: 'absolute', alignItems: 'center', bottom: 45, width: "55%"}}>
-              <ActionButtonTwo onPress={() => this.pickImage()} label="Update Picture" color='#DD3180'/>
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginLeft: 30, marginRight: 30}}>
+            <View style={styles.imageContainer}>
+              {
+                !this.state.imageUri &&
+                <Image source={defaultPic} style={styles.imageDimensions}/>
+              }
+              {
+                !!this.state.imageUri && (
+                  <FastImage
+                    style={styles.imageDimensions}
+                    source={{
+                      uri: this.state.imageUri,
+                      priority: FastImage.priority.normal,
+                    }}
+                    resizeMode={FastImage.resizeMode.cover}
+                  />
+                )
+              }
+              {
+                this.state.imageUploading && (
+                  <View style={[styles.imageDimensions, styles.loader]}>
+                    <ActivityIndicator size={50} color={'white'}/>
+                  </View>
+                )
+              }
             </View>
+            <View style={{alignItems: 'center', bottom: 45, width: "55%"}}>
+              {
+                !this.state.imageUploading && (
+                  <ActionButtonTwo onPress={this.pickImage} label="Update" color='#DD3180'/>
+                )
+              }
+            </View>
+
+
           </View>
           <View style={{flex: 3, marginLeft: 30}}>
-            <SignupFormElement size={28} label="Name" onChangeText={(text) => {
-              this.setState({name: {text}})
-            }}/>
+            <Text style={styles.label}>Name</Text>
+            <TextInput style={styles.textInput} value={this.state.name} onChangeText={this.setName}/>
             <View style={styles.itemSeparatorHorizontal}/>
-            <SignupFormElement size={28} label="Height  (in cms)" maxLength={3} keyboardType='numeric'
-                               onChangeText={(text) => {
-                                 this.setState({height: {text}})
-                               }}/>
-            <View style={styles.itemSeparatorHorizontal}/>
-            <SignupFormElement size={28} label="Weight  (in kgs)" maxLength={3} keyboardType='numeric'
-                               onChangeText={(text) => {
-                                 this.setState({weight: {text}})
-                               }}/>
-
-            <View style={styles.itemSeparatorHorizontal}/>
-
-            <SignupFormElement label="Bio" multiline={true} size={22} onChangeText={(text) => {
-              this.setState({bio: {text}})
-            }}/>
+            <Text style={styles.label}>Bio</Text>
+            <TextInput style={styles.textInput} value={this.state.bio} multiline={true} onChangeText={this.setBio}/>
             <View style={styles.itemSeparatorHorizontal}/>
             <KeyboardSpacer/>
+          </View>
+
+          <View style={styles.bottomBar}>
+            {
+              this.state.renderCheck && (
+                <TouchableOpacity onPress={this.submit}>
+                  <FontAwesome
+                    name="check"
+                    color={colors.acceptGreen}
+                    size={30}
+                  />
+                </TouchableOpacity>
+              )
+            }
+
           </View>
           <KeyboardSpacer/>
         </KeyboardAwareScrollView>
@@ -150,15 +194,44 @@ const styles = StyleSheet.create({
   itemSeparatorHorizontal: {
     height: 1,
     borderLeftWidth: 1,
-    backgroundColor: "#363636",
+    backgroundColor: appTheme.grey,
     marginTop: 5,
     marginBottom: 20,
     marginRight: 30
+  },
+  label: {
+    color: 'grey',
+    fontSize: fontSizes.h2
+  },
+  textInput: {
+    color: 'white',
+    fontSize: fontSizes.h1,
+    fontFamily: fonts.MontserratMedium
+  },
+  bottomBar: {
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    marginRight: spacing.large,
+    marginLeft: spacing.large,
+    marginBottom: spacing.medium
+  },
+  imageDimensions: {
+    width: 200,
+    height: 200,
+    borderRadius: 100
+  },
+  loader: {
+    position: 'absolute',
+    backgroundColor: appTheme.grey + '9e',
+    zIndex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 
 })
 const mapStateToProps = (state) => ({
-  authToken: state.user.authToken
+  authToken: state.user.authToken,
+  userData: state.user.userData
 });
 
 const mapDispatchToProps = (dispatch) => ({

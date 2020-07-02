@@ -12,6 +12,9 @@ const packageFlatList = (props) => {
 
   const renderPlan = (plan) => {
     const {title, noOfSessions, sessionsPerWeek, price, description, _id} = plan;
+    const editCallback = props.editCallback ? () => props.editCallback(_id) : null;
+    const deleteCallback = props.deleteCallback ? () => props.deleteCallback(_id) : null;
+    const enrollCallback = props.enrollCallback ? () => props.enrollCallback(_id) : null;
     return (
       <View style={styles.packageContainer}>
         <PackageOverview
@@ -20,8 +23,9 @@ const packageFlatList = (props) => {
           sessionsPerWeek={sessionsPerWeek}
           price={price}
           description={description}
-          editCallback={() => props.editCallback(_id)}
-          deleteCallback={() => props.deleteCallback(_id)}
+          editCallback={editCallback}
+          deleteCallback={deleteCallback}
+          enrollCallback={enrollCallback}
         />
       </View>
     )
@@ -45,8 +49,6 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     justifyContent: 'center',
-    marginLeft: spacing.medium_lg,
-    marginRight: spacing.medium_lg,
   },
   packageContainer: {
     marginTop: spacing.medium_sm,

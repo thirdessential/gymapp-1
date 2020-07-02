@@ -4,6 +4,9 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, TextInput, Text, TouchableOpacity, StatusBar} from 'react-native'
 import {connect} from "react-redux";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Ion from "react-native-vector-icons/Ionicons";
 
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
@@ -11,9 +14,7 @@ import colors, {appTheme} from "../../constants/colors";
 import strings from "../../constants/strings";
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Ion from "react-native-vector-icons/Ionicons";
+import {validatePackage} from "../../utils/validators";
 
 class Packages extends Component {
 
@@ -26,11 +27,11 @@ class Packages extends Component {
 
   componentDidMount() {
     const {route} = this.props;
-    if (route.params){
+    if (route.params) {
       const {packageId} = route.params;
       if (packageId) {
         const filteredPackages = this.props.packages.filter(packageData => packageData._id === packageId);
-        if(filteredPackages.length!==0)
+        if (filteredPackages.length !== 0)
           this.setState({...filteredPackages[0]});
       }
     }
@@ -60,8 +61,9 @@ class Packages extends Component {
   }
 
   render() {
+    const inputsValid = validatePackage(this.state);
     return (
-      <KeyboardAwareScrollView style={styles.container} enableOnAndroid={true} keyboardShouldPersistTaps={'handled'} >
+      <KeyboardAwareScrollView style={styles.container} enableOnAndroid={true} keyboardShouldPersistTaps={'handled'}>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Title</Text>
@@ -124,10 +126,10 @@ class Packages extends Component {
               </TouchableOpacity>
             )
           }
-          <TouchableOpacity style={styles.buttonContainer} onPress={this.savePackage}>
+          <TouchableOpacity style={styles.buttonContainer} disabled={!inputsValid} onPress={this.savePackage}>
             <FontAwesome
               name={'check'}
-              color={colors.acceptGreen}
+              color={inputsValid? colors.acceptGreen: colors.darkGrey}
               size={22}
             />
           </TouchableOpacity>

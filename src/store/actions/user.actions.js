@@ -4,7 +4,7 @@ import {userTypes} from "../../constants/appConstants";
 import {signOutFirebase} from "../../API/firebaseMethods";
 import * as API from "../../API";
 import {setTrainers} from "./app.actions";
-import {setPackages} from "./trainer.actions";
+import {setPackages, setSlots} from "./trainer.actions";
 
 export const genericUserFieldSetter = (payload) => ({ // TODO: refactor this function into multiple specific setters
   type: actionTypes.GENERIC_USER_FIELD_SET,
@@ -38,16 +38,6 @@ export const setAuthToken = (authToken) => {
   };
 };
 
-export const resetUser = () => ({
-  type: actionTypes.RESET_USER,
-});
-
-export const signOutUser = () => {
-  return async (dispatch) => {
-    dispatch(resetUser());
-    signOutFirebase();
-  };
-};
 
 
 export const setUserName = (userName) => ({
@@ -75,13 +65,29 @@ export const updateUserData = () => {
         dispatch(setUserName(name));
 
       if (user.userType === userTypes.TRAINER) {
-        const {packages} = user;
+        const {packages, slots} = user;
         // if(packages)
         dispatch(setPackages(packages));
+        dispatch(setSlots(slots));
       }
+      return user;
 
     } catch (error) {
       console.log("User info update failed", error);
+      return false;
     }
+  };
+};
+
+
+export const resetApp = () => ({
+  type: actionTypes.RESET_APP,
+});
+
+
+export const signOutUser = () => {
+  return async (dispatch) => {
+    signOutFirebase();
+    dispatch(resetApp());
   };
 };

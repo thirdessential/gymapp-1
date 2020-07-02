@@ -1,5 +1,5 @@
 export const rootURL = 'https://te-gym-api.herokuapp.com';
-// export const rootURL = 'http://192.168.43.224:3001';
+// export const rootURL = 'http://192.168.0.105:3001';
 export const userTypes = {
   USER: 'USER',
   TRAINER: 'TRAINER'

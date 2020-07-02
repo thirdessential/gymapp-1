@@ -18,24 +18,7 @@ import HitsList from "../HitsList";
 import PackagePreviewList from './PackagePreviewList';
 
 const trainerThumb = (props) => {
-  const hits = [
-    {
-      title: strings.POSTS,
-      count: props.postCount || 5
-    },
-    {
-      title: strings.MAKEOVERS,
-      count: 5
-    },
-    {
-      title: strings.PROGRAMS,
-      count: 4
-    },
-    {
-      title: strings.SLOTS,
-      count: 3
-    }
-  ]
+
   return (
     <View>
       <TouchableOpacity onPress={props.onPress} activeOpacity={0.7}>
@@ -50,26 +33,25 @@ const trainerThumb = (props) => {
         </View>
 
         <View style={styles.extraContent}>
-          <HitsList hits={hits} size={fontSizes.h3}/>
+          <HitsList hits={props.hits} size={fontSizes.h3}/>
         </View>
 
       </TouchableOpacity>
+      {
+        props.packages && props.packages.length > 0 && (
+          <View style={styles.packageListContainer}>
+            <PackagePreviewList packages={props.packages}/>
+          </View>
+        )
+      }
 
-      <View style={styles.packageListContainer}>
-        <PackagePreviewList packages={props.packages}/>
-      </View>
     </View>
   );
 }
 
 trainerThumb.propTypes = {
   name: PropTypes.string.isRequired,
-  experience: PropTypes.number.isRequired,
   dpUrl: PropTypes.string.isRequired,
-  slots: PropTypes.shape({
-    used: PropTypes.number.isRequired,
-    remaining: PropTypes.number.isRequired
-  }),
   rating: PropTypes.number.isRequired
 };
 

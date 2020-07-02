@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, NativeModules, ScrollView, Text, Dimensions, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, NativeModules, ScrollView, Text, TouchableOpacity} from 'react-native';
 import {RtcEngine, AgoraView} from 'react-native-agora';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import cuid from 'cuid';
+
 import {callTimeout, videoFeedConfig} from "../../constants/appConstants";
 import strings from "../../constants/strings";
 import {customDelay} from "../../utils/utils";
 import * as actionCreators from "../../store/actions";
 import {connect} from "react-redux";
+import {screenHeight, screenWidth} from "../../utils/screenDimensions";
+import {appTheme} from "../../constants/colors";
 
 const {Agora} = NativeModules;                  //Define Agora object as a native module
 
@@ -25,9 +29,9 @@ class VideoCall extends Component {
 
     this.state = {
       peerIds: [],                                //Array for storing connected peers
-      uid: Math.floor(Math.random() * 1000000),       //Generate a UID for local user
-      appid: AppID,                    //Enter the App ID generated from the Agora Website
-      channelName: ChannelName,        //Channel Name for the current session
+      uid: cuid(),                                //Generate a UID for local user
+      appid: AppID,                               //Enter the App ID generated from the Agora Website
+      channelName: ChannelName,                   //Channel Name for the current session
       vidMute: false,                             //State variable for Video Mute
       audMute: false,                             //State variable for Audio Mute
       joinSucceed: false,                         //State variable for storing success
@@ -148,23 +152,23 @@ class VideoCall extends Component {
   videoView() {
     const localVideoStyle = this.state.peerIds.length > 0 ? styles.localVideoStyle : {flex: 1};
     return (
-      <View style={{flex: 1}}>
+      <View style={styles.container}>
         {
           this.state.peerIds.length > 1
             ? <View style={{flex: 1}}>
-              <View style={{height: dimensions.height * 3 / 4 - 50}}>
+              <View style={{height: screenHeight * 3 / 4 - 50}}>
                 <AgoraView style={{flex: 1}}
                            remoteUid={this.state.peerIds[0]} mode={1} key={this.state.peerIds[0]}/>
               </View>
-              <View style={{height: dimensions.height / 4}}>
+              <View style={{height: screenHeight / 4}}>
                 <ScrollView horizontal={true} decelerationRate={0}
-                            snapToInterval={dimensions.width / 2} snapToAlignment={'center'}
-                            style={{width: dimensions.width, height: dimensions.height / 4}}>
+                            snapToInterval={screenWidth / 2} snapToAlignment={'center'}
+                            style={{width: screenWidth, height: screenHeight / 4}}>
                   {
                     this.state.peerIds.slice(1).map((data) => (
-                      <TouchableOpacity style={{width: dimensions.width / 2, height: dimensions.height / 4}}
+                      <TouchableOpacity style={{width: screenWidth / 2, height: screenHeight / 4}}
                                         onPress={() => this.peerClick(data)} key={data}>
-                        <AgoraView style={{width: dimensions.width / 2, height: dimensions.height / 4}}
+                        <AgoraView style={{width: screenWidth / 2, height: screenHeight/ 4}}
                                    remoteUid={data} mode={1} key={data}/>
                       </TouchableOpacity>
                     ))
@@ -173,7 +177,7 @@ class VideoCall extends Component {
               </View>
             </View>
             : this.state.peerIds.length > 0
-            ? <View style={{height: dimensions.height - 50}}>
+            ? <View style={{height: screenHeight - 50}}>
               <AgoraView style={{flex: 1}}
                          remoteUid={this.state.peerIds[0]} mode={1}/>
             </View>
@@ -215,12 +219,13 @@ class VideoCall extends Component {
   }
 }
 
-let dimensions = {                                            //get dimensions of the device to use in view styles
-  width: Dimensions.get('window').width,
-  height: Dimensions.get('window').height,
-};
-
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    height: screenHeight,
+    width: screenWidth,
+    backgroundColor: appTheme.darkBackground
+  },
   buttonBar: {
     height: 50,
     backgroundColor: '#0093E9',
@@ -253,7 +258,7 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = (state) => ({
-  inAppCall:state.call.inAppCall
+  inAppCall: state.call.inAppCall
 });
 
 const mapDispatchToProps = (dispatch) => ({
