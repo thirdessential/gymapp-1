@@ -1,8 +1,9 @@
 import React from "react";
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
-import {appTheme} from "../constants/colors";
+import colors, {appTheme} from "../constants/colors";
+import moment from "moment";
 
-
+const format = "YYYY-MM-DD"
 const customCalendar = (props) => {
 
   const {selectedDate = Date(), onDateChange} = props;
@@ -11,8 +12,13 @@ const customCalendar = (props) => {
   const selected = new Date(selectedDate);
   const dateString = selected.toISOString().split('T')[0];
   markedDates[dateString] = {selected: true, selectedColor: appTheme.brightContent};
+  // props.dates.map(date => {
+    // const dateString = moment(date).format(format);
+
+    // markedDates[dateString] = { marked:true, disabled:true, selectedColor: appTheme.brightContent}
+  // })
   const nextMonth = new Date();
-  nextMonth.setMonth(nextMonth.getMonth()+1)
+  nextMonth.setMonth(nextMonth.getMonth() + 1)
   return (
     <Calendar
 

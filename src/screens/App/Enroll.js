@@ -15,13 +15,14 @@ import fonts from "../../constants/fonts";
 
 import {WEEK_DAYS} from "../../constants/appConstants";
 import Slot from "../../components/Slot";
-import {dateToString, groupBy} from "../../utils/utils";
+import {dateToString, findMissingDays, groupBy} from "../../utils/utils";
 import BarButton from "../../components/BarButton";
 
 class SlotList extends Component {
 
   state = {
-    slots: []
+    slots: [],
+    selectedDays: {}
   }
 
   componentDidMount() {
@@ -29,13 +30,17 @@ class SlotList extends Component {
 
     const {slots} = this.getUser();
 
-
     if (slots && slots.length > 0) {
       const localSlots = this.mapSlotsToLocal(slots);
-      this.setState({slots: localSlots});
+      const selectedDays = {};
+      localSlots.map(slot => {
+        selectedDays[slot._id] = [];
+      });
+      this.setState({selectedDays, slots: localSlots});
     }
   }
-  getUser = ()=> {
+
+  getUser = () => {
     const {route, users} = this.props;
     const {userId} = route.params;
     return users[userId];
@@ -56,19 +61,29 @@ class SlotList extends Component {
     return localSlots;
   }
 
-  enroll = (slotId)=>{
-    console.log("enrolled", slotId);
+  enroll = (slotId) => {
+    console.log("enrolled", slotId, this.state.selectedDays[slotId]);
+  }
+
+  changeActiveDays = (slotId, days) => {
+    const selectedDays = {...this.state.selectedDays};
+    Object.keys(selectedDays).map(day=> selectedDays[day]=[]);
+    selectedDays[slotId] = days;
+    this.setState({selectedDays});
   }
 
   renderSlots = () => {
     return this.state.slots.map((slot, index) => (
       <View key={slot._id} style={styles.slotContainer}>
         <Slot
-          days={slot.days}
+          days={this.state.selectedDays[slot._id]}
+          disabledDays={findMissingDays(slot.days)}
           duration={slot.duration}
           index={index + 1}
           time={slot.time}
-          onEnroll={()=>this.enroll(slot._id)}
+          onEnroll={() => this.enroll(slot._id)}
+          enrollDisabled={this.state.selectedDays[slot._id].length===0}
+          onDaysChange={(days) => this.changeActiveDays(slot._id, days)}
         />
       </View>
     ))

@@ -6,7 +6,6 @@ export {
 
 export {
   setAuthToken,
-  resetUser,
   setUserType,
   setInitialLoginOff,
   updateUserData
@@ -20,9 +19,10 @@ export {
 } from './call.actions';
 
 export {
-  setTrainers,
-  updateTrainers,
-  setUser
+  setUserList,
+  updateUsersList,
+  setUser,
+  updateGlobalSlots
 } from "./app.actions";
 
 export {

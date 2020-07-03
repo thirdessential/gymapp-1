@@ -11,10 +11,11 @@ export {
 } from './firebaseMethods';
 
 export {
-  listTrainers,
+  listUsers,
   updateUserInfo,
   getUserInfo,
   getMyInfo,
+  getGlobalSlots
 } from './user';
 
 export {

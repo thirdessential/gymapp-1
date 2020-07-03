@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import {makeCall} from "../API";
 import strings from "../constants/strings";
+import {WEEK_DAYS} from "../constants/appConstants";
 
 export const validateResponseCode = (code) => {
   return Math.floor(code / 100) === 2;
@@ -22,12 +23,20 @@ export const formattedTime = date => {
 }
 
 export const militaryTimeToString = time => {
+  if (!time) return '';
   const suffix = time >= 1200 ? 'PM' : 'AM';
   return `${time.slice(0, 2)}:${time.slice(2)} ${suffix}`;
 }
 
-export const stringToMilitaryTime = str =>{
-  return `${str.slice(0,2)}${str.slice(3,5)}`;
+export const findMissingDays = days => {
+  let AllDays = Object.values(WEEK_DAYS);
+  return AllDays.filter(x => !days.includes(x));
+}
+
+export const formatTimeArray = array => array.map(time => militaryTimeToString(time));
+
+export const stringToMilitaryTime = str => {
+  return `${str.slice(0, 2)}${str.slice(3, 5)}`;
 }
 
 export const dateToString = time => {

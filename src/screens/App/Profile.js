@@ -174,7 +174,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  trainers: state.app.trainers,
   users: state.app.users,
 });
 

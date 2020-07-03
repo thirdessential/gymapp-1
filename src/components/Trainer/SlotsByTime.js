@@ -11,11 +11,10 @@ import {spacing, spacing as dimension} from "../../constants/dimension";
 import {appTheme} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import {formattedTime, groupBy, militaryTimeToString, stringToMilitaryTime} from "../../utils/utils";
+import {formattedTime, formatTimeArray, groupBy, militaryTimeToString, stringToMilitaryTime} from "../../utils/utils";
 import SelectableButtonGroup from "../selectableButtonGroup";
 import MiniSlotCard from "../MiniSlotCard";
 
-const formatTimeArray = array => array.map(time => militaryTimeToString(time));
 
 const slotsByTime = (props) => {
   const {slots} = props;

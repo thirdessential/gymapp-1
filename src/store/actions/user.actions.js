@@ -3,7 +3,7 @@ import {updateAxiosToken} from "../../API";
 import {userTypes} from "../../constants/appConstants";
 import {signOutFirebase} from "../../API/firebaseMethods";
 import * as API from "../../API";
-import {setTrainers} from "./app.actions";
+import {setUserList} from "./app.actions";
 import {setPackages, setSlots} from "./trainer.actions";
 
 export const genericUserFieldSetter = (payload) => ({ // TODO: refactor this function into multiple specific setters
@@ -37,8 +37,6 @@ export const setAuthToken = (authToken) => {
     updateAxiosToken(authToken);
   };
 };
-
-
 
 export const setUserName = (userName) => ({
   type: actionTypes.SET_USER_NAME,
