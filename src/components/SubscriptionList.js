@@ -18,12 +18,12 @@ const subscriptionList = (props) => {
   const RenderClients = () => {
     return props.subscriptions.map((subscription, index) => {
       const user = subscription.subscribedBy;
-      const {name, city} = user;
+      const {name, city,_id} = user;
       const {totalSessions, heldSessions} = subscription;
       const sessions = `${heldSessions}/${totalSessions}`;
       return (
         <View key={index} style={styles.appointmentContainer}>
-          <ClientCard displayName={name} location={city} imageUrl={defaultDP} sessions={sessions}/>
+          <ClientCard callCallback={()=>props.callCallback(_id)} displayName={name} location={city} imageUrl={defaultDP} sessions={sessions}/>
         </View>
       )
     })

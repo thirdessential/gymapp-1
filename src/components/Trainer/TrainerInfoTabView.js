@@ -40,8 +40,7 @@ const Subscriptions = (props) => (
     <View style={styles.sectionTitleContainer}>
       <Text style={styles.sectionTitle}>{strings.SUBSCRIPTIONS}</Text>
     </View>
-    <SubscriptionList subscriptions={props.subscriptions}
-                      />
+    <SubscriptionList subscriptions={props.subscriptions} callCallback={props.callCallback}/>
   </View>
 )
 
@@ -55,7 +54,7 @@ const Routes = {
 }
 
 function TrainerInfo(props) {
-  const {packages, enrollCallback, slots, bookCallback, subscriptions} = props;
+  const {packages, enrollCallback, slots, bookCallback, subscriptions, callCallback} = props;
   const [index, setIndex] = React.useState(0);
   const routeArray = [
     {key: Routes.Packages, title: 'Packages'},
@@ -74,7 +73,7 @@ function TrainerInfo(props) {
       case Routes.Slots:
         return <Slots slots={slots} bookCallback={bookCallback ? bookCallback : null}/>;
       case Routes.Subscriptions:
-        return <Subscriptions subscriptions={subscriptions}/>
+        return <Subscriptions subscriptions={subscriptions} callCallback={callCallback}/>
       // case Routes.Appointment:
       //   return <Schedule/>
       default:

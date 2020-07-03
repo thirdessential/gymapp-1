@@ -15,10 +15,11 @@ import strings from "../../constants/strings";
 import {userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
 import RouteNames from "../../navigation/RouteNames";
-import {generateTrainerHits, generateUserHits} from "../../utils/utils";
+import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
 import {spacing} from "../../constants/dimension";
 import TrainerInfo from "../../components/Trainer/TrainerInfoTabView";
 import * as actionCreators from "../../store/actions";
+import requestCameraAndAudioPermission from "../../utils/permission";
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -33,6 +34,14 @@ class MyProfile extends Component {
   componentDidMount() {
     const {syncSubscriptions} = this.props;
     syncSubscriptions()
+  }
+
+  callClicked = async (userId) => {
+    const permissionGranted = await requestCameraAndAudioPermission();
+
+    if (permissionGranted) {
+      await initialiseVideoCall(userId);
+    } else console.log("Cant initiate video call without permission");
   }
 
   editProfile = () => {
@@ -68,6 +77,7 @@ class MyProfile extends Component {
                 slots={slots}
                 enrollCallback={this.enrollClicked}
                 subscriptions={this.props.subscriptions}
+                callCallback={this.callClicked}
               />
             </View>
           )

@@ -98,7 +98,6 @@ class Schedule extends Component {
   }
 
   render() {
-    this.getSelectedSlots();
     return (
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.calendarContainer}>
