@@ -13,14 +13,75 @@ import colors, { appTheme } from "../../constants/colors";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import size from "../../constants/fontSizes";
+import Touch from 'react-native-touch';
+import {CreatePostAction} from '../../store/actions/postAction'
+import {connect} from 'react-redux';
 
-export default class CreatePost extends Component {
+
+export  class CreatePost extends Component {
   constructor(props) {
     super(props);
     this.state = {
       image: null,
+      status:false,
+      postText:""
     };
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.forgetPassword !== this.props.forgetPassword) {
+      const {response} = this.props.forgetPassword;
+      const {statusCode, message, token} = response;
+      if (statusCode === 200) {
+        Alert.alert(
+          '',
+          message,
+
+          [
+            {
+              text: 'Ok',
+              onPress: () => this.props.navigation.navigate('Login'),
+            },
+          ],
+          {cancelable: false},
+        );
+
+        this.setState({showLoader: false});
+      } else {
+        this.setState({showLoader: false});
+        alert(message);
+      }
+    }
+  }
+
+
+
+
+  postSubmit=()=>{
+  
+    const { image, postText} = this.state
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJyYWh1bGNzaXAxQGdtYWlsLmNvbSIsInVzZXJUeXBlIjoiVVNFUiIsInVzZXJJZCI6IkJCMzAyQ1p6d3RialNCQU82RmNDZ0N4QkxubDEiLCJpYXQiOjE1OTM3Mjc1Mjd9.Gug1lcvUSmDsBtYYa-izA34iRRmpyjwufAoE-3xM1ac"
+
+    const data = {
+        mediaContent: image,
+        textContent:postText,
+
+      };
+      this.props.CreatePostAction(data,token);
+
+console.log("Post Button " ,data)
+
+  }
+
+
+
+
+
+
+open=()=>{
+   this.setState({status:true})
+}
+
 
   pickImage = () => {
     const options = {};
@@ -34,9 +95,10 @@ export default class CreatePost extends Component {
       } else if (response.customButton) {
         console.log("User tapped custom button: ", response.customButton);
       } else {
-        console.log("image url", response.uri);
+        console.log("image url ------------------------------", response.uri);
         this.setState({
           image: response.uri,
+          status:false
         });
       }
     });
@@ -50,15 +112,39 @@ export default class CreatePost extends Component {
       >
         <View style={styles.firstRow}>
           <View style={styles.textInputContainer}>
-            <View style={{ flex: 3 }}>
+            
+            
+            
+          <View style={{ flex: 3,backgroundColor:"" ,}}>
+          
+            <Touch
+                pointerEvents = {"box-none"}
+                style={{ color: 'red',padding:10}}
+                activeOpacity={0.7}
+                onPress= {this.open}
+                disabled={false}
+            >
+                
               <TextInput
                 multiline={true}
                 placeholder="What are you up to ?"
                 placeholderTextColor={colors.darkGrey}
                 underlineColorAndroid="transparent"
                 style={styles.TextInput}
+                onChangeText={postText =>
+                    this.setState({postText})
+                  }
+                  value={this.state.postText}
+
               />
+               
+                
+             
+            </Touch>
             </View>
+
+             
+           
             <View style={styles.iconBox}>
               <TouchableOpacity>
                 <FontAwesome name="trophy" size={spacing.large} color="#fff" />
@@ -80,20 +166,53 @@ export default class CreatePost extends Component {
             )}
           </View>
 
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button}>
-              <Text style={{ color: "#fff", fontSize: size.h1 }}> CANCEL</Text>
-            </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}> POST</Text>
-            </TouchableOpacity>
-          </View>
+
+
+{ 
+
+this.state.status ? ( <View style={styles.buttonContainer}>
+    <TouchableOpacity onPress={()=>{this.setState({status:false})}} style={styles.button}>
+      <Text style={{ color: "#fff", fontSize: size.h1 }}> CANCEL</Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity onPress={this.postSubmit} style={styles.button}>
+      <Text style={styles.buttonText}> POST</Text>
+    </TouchableOpacity>
+  </View>):(null)
+}
+
+
+         
         </View>
       </KeyboardAwareScrollView>
     );
   }
 }
+
+
+
+
+
+
+
+
+const mapStateToProps = state => {
+    return {
+        postCreateReducer: state.postCreateReducer,
+    };
+  };
+  
+  export default connect(
+    mapStateToProps,
+    {CreatePostAction},
+  )(CreatePost);
+  
+
+
+
+
+
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -110,7 +229,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     marginBottom: 0,
-    elevation: spacing.medium_sm,
+   
   },
   TextInput: {
     color: colors.darkGrey,
@@ -129,7 +248,7 @@ const styles = StyleSheet.create({
   imageBox: {
     flex: 1,
 marginTop:spacing.medium_sm,
-    marginBottom: spacing.medium_lg,
+marginBottom: spacing.medium_lg,
     justifyContent: "center",
     alignItems: "center",
     elevation: spacing.medium_sm,

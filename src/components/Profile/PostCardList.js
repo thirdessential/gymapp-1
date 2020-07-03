@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Text, StyleSheet, View, FlatList } from "react-native";
 import PostCard from "./PostCard";
 import { spacing } from "../../constants/dimension";
+import {postActionList} from '../../store/actions/postAction'
+import {connect} from 'react-redux';
+
 
 // Demo Data
 
@@ -39,29 +42,80 @@ data = [
 ];
 
 const renderPostCard = (data, index) => {
+
+
+
   return (
     <View style={styles.renderPostCard} key={data.id}>
       <PostCard
-        profilePicUri={data.profilePicUri}
-        title={data.title}
-        bio={data.bio}
-        discription={data.discription}
-        postPicUri={data.postPicUri}
-        like={data.like}
-        calorie={data.calorie}
-        comment={data.comment}
-        timeStatus={data.timeStatus}
+        profilePicUri={data.contentURL}
+        title={data.createdBy}
+        bio={data.createdBy}
+        discription={data.textContent}
+        postPicUri={data.contentURL}
+        like={data.likes}
+        calorie={data.likes}
+        comment={data.shares}
+        timeStatus={data.contentType}
       />
     </View>
   );
 };
 
-export default class PostCardList extends Component {
+export  class PostCardList extends Component {
+
+  constructor(props){
+    super(props)
+    this.state={
+      status:false,
+      posts:[]
+    }
+  }
+  
+  async componentDidUpdate(prevProps, prevState) {
+    if (prevProps.postReducer !== this.props.postReducer) {
+      const response = this.props.postReducer;
+  
+   
+      
+  const { posts } = response
+  this.setState({posts:posts})
+  const { textContent, contentURL, } = posts
+  console.log("Checking the response new ",posts)
+  
+  
+      // if (statusCode === 200) {
+      //   this.setState({
+      //     ActivityIndicatorStatus: false,
+      //   });
+  
+      //   this.setState({totalData: userData});
+      // } else {
+      //   alert(responseMessage);
+      // }
+    }
+  }
+  
+  
+  
+  
+  async componentDidMount() {
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJyYWh1bGNzaXAxQGdtYWlsLmNvbSIsInVzZXJUeXBlIjoiVVNFUiIsInVzZXJJZCI6IkJCMzAyQ1p6d3RialNCQU82RmNDZ0N4QkxubDEiLCJpYXQiOjE1OTM3Mjc1Mjd9.Gug1lcvUSmDsBtYYa-izA34iRRmpyjwufAoE-3xM1ac"
+  
+    this.props.postActionList(token);
+    
+  }
+  
+
+
   render() {
+
+    console.log("Posts posts posts",this.state.posts)
+
     return (
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={data}
+        data={this.state.posts}
         renderItem={({ item, index }) => renderPostCard(item, index)}
       />
     );
@@ -73,3 +127,19 @@ const styles = StyleSheet.create({
     marginBottom: spacing.medium_sm,
   },
 });
+
+
+
+
+
+const mapStateToProps = state => {
+  return {
+    postReducer: state.postReducer,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  {postActionList},
+)(PostCardList);
+
