@@ -26,7 +26,8 @@ const reducer = (state = initialState, action) => {
     }
     case actionTypes.SET_SLOTS:
       return updateObject(state, action.payload);
-
+    case actionTypes.SET_MY_SUBSCRIPTIONS:
+      return updateObject(state, action.payload);
     default:
       return state;
   }

@@ -25,7 +25,7 @@ export {
   updatePackage,
   deletePackage,
   syncSlots,
-  getGroupedSlots
+  getMySubscriptions
 } from './trainer';
 
 export {

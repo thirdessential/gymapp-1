@@ -63,12 +63,13 @@ const slot = (props) => {
           />
         </TouchableOpacity>
       )
-    if(props.onEnroll)
+    if (props.onEnroll)
       return (
-        <TouchableOpacity disabled={props.enrollDisabled} onPress={props.onEnroll} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+        <TouchableOpacity disabled={props.enrollDisabled} onPress={props.onEnroll}
+                          hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
           <FontAwesome
             name={'check'}
-            color={props.enrollDisabled?appTheme.darkGrey: colors.appBlue}
+            color={props.enrollDisabled ? appTheme.darkGrey : colors.appBlue}
             size={22}
           />
         </TouchableOpacity>
@@ -111,8 +112,7 @@ const slot = (props) => {
       <WeekdayPicker
         days={mapDaysToBooleans(props.days)}
         onChange={onDaysChanged}
-        disabledDays={mapDaysToBooleans(props.disabledDays)}
-        // disabled={!props.onDaysChange}
+        disabledDays={props.disabledDays ? mapDaysToBooleans(props.disabledDays) : []}
         dayStyle={styles.day}
         dayInactiveStyle={styles.dayInactive}
         dayDisableStyle={styles.dayDisable}
@@ -193,11 +193,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white'
   },
-  dayDisable:{
+  dayDisable: {
     borderRadius: 8,
     borderWidth: 1,
-    borderColor:appTheme.darkGrey,
-    backgroundColor:appTheme.darkGrey
+    borderColor: appTheme.darkGrey,
+    backgroundColor: appTheme.darkGrey
   },
   buttonGroup: {
     backgroundColor: 'transparent',

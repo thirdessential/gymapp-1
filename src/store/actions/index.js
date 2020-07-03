@@ -29,5 +29,6 @@ export {
 export {
   createPackage,
   deletePackage,
-  createSlots
+  createSlots,
+  syncSubscriptions
 } from './trainer.actions'

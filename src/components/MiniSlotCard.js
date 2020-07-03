@@ -32,8 +32,14 @@ const slot = (props) => {
           <Text style={styles.startTime}>{props.startTime}</Text>
           <Text style={styles.timeText}>{props.duration} Min</Text>
         </View>
+
         <View style={styles.actionButtonContainer}>
-          <SelectableButton selected={true} textContent={strings.BOOK} textStyle={styles.buttonText}/>
+          {
+            props.bookCallback && (
+              <SelectableButton onPress={props.bookCallback} selected={true} textContent={strings.BOOK} textStyle={styles.buttonText}/>
+
+            )
+          }
         </View>
       </View>
     </Card>
@@ -44,7 +50,7 @@ const slot = (props) => {
 slot.propTypes = {
   startTime: PropTypes.string.isRequired,
   day: PropTypes.string.isRequired,
-  duration: PropTypes.string.isRequired
+  duration: PropTypes.number.isRequired
 };
 
 slot.defaultProps = {

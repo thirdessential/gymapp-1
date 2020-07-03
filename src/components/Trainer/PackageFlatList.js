@@ -25,7 +25,7 @@ const packageFlatList = (props) => {
           description={description}
           editCallback={editCallback}
           deleteCallback={deleteCallback}
-          enrollCallback={()=>enrollCallback(_id)}
+          enrollCallback={enrollCallback}
         />
       </View>
     )

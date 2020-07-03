@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
+import {sub} from "react-native-reanimated";
 
 export const setPackages = (packages) => ({
   type: actionTypes.SET_PACKAGES,
@@ -72,7 +73,6 @@ export const setSlots = (slots) => ({
   },
 });
 
-
 export const createSlots = (slotArray) => {
   return async (dispatch, getState) => {
     let oldSlots = getState().trainer.slots;
@@ -96,3 +96,25 @@ export const createSlots = (slotArray) => {
     }
   };
 };
+
+export const setSubscriptions = (subscriptions) => ({
+  type: actionTypes.SET_MY_SUBSCRIPTIONS,
+  payload: {
+    subscriptions
+  },
+});
+
+
+export const syncSubscriptions = () => {
+  return async (dispatch, getState) => {
+    try {
+      let subscriptions = await API.getMySubscriptions();
+      console.log(subscriptions);
+      dispatch(setSubscriptions(subscriptions));
+    } catch (error) {
+      console.log("Trainer subs update failed", error);
+      return false;
+    }
+  };
+};
+

@@ -57,13 +57,17 @@ class Profile extends Component {
     } else console.log("Cant initiate video call without permission");
   }
 
+  bookClicked = async (day,time) => {
+    console.log('booked', day,time)
+  }
+
   loader = () => (
     <View style={styles.contentContainer}>
       <ActivityIndicator color={appTheme.lightContent} size={50}/>
     </View>
   )
 
-  getUser = ()=> {
+  getUser = () => {
     const {route, users} = this.props;
     const {userId} = route.params;
     return users[userId];
@@ -75,7 +79,7 @@ class Profile extends Component {
     const nextUser = users[userId];
     const currentUser = this.getUser();
 
-    if(nextUser && !currentUser){
+    if (nextUser && !currentUser) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); // fancy hack
     }
     return true;
@@ -94,7 +98,7 @@ class Profile extends Component {
     return (
       <View style={styles.container}>
         <ProfileOverview
-          name={name}
+          name={name||'User'}
           dpUrl={displayPictureUrl}
           hits={hits}
           rating={rating}
@@ -105,12 +109,13 @@ class Profile extends Component {
           location={city}
         />
         {
-            userType === userTypes.TRAINER && (
+          userType === userTypes.TRAINER && (
             <View style={{flex: 1, marginTop: spacing.medium_lg}}>
               <TrainerInfo
                 packages={packages}
                 slots={slots}
                 enrollCallback={this.enrollClicked}
+                bookCallback={this.bookClicked}
               />
             </View>
           )

@@ -18,6 +18,7 @@ import RouteNames from "../../navigation/RouteNames";
 import {generateTrainerHits, generateUserHits} from "../../utils/utils";
 import {spacing} from "../../constants/dimension";
 import TrainerInfo from "../../components/Trainer/TrainerInfoTabView";
+import * as actionCreators from "../../store/actions";
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -28,6 +29,10 @@ class MyProfile extends Component {
 
   state = {
     bgImage: getRandomImage()
+  }
+  componentDidMount() {
+    const {syncSubscriptions} = this.props;
+    syncSubscriptions()
   }
 
   editProfile = () => {
@@ -62,6 +67,7 @@ class MyProfile extends Component {
                 packages={packages}
                 slots={slots}
                 enrollCallback={this.enrollClicked}
+                subscriptions={this.props.subscriptions}
               />
             </View>
           )
@@ -140,9 +146,14 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  userData: state.user.userData
+  userData: state.user.userData,
+  subscriptions: state.trainer.subscriptions
+
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions())
+
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);

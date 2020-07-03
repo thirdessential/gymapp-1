@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Ionicons from "react-native-vector-icons/Ionicons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import store from '../../store/configureStore';
 
@@ -14,7 +15,6 @@ import MyProfileStack from '../stacks/myProfileStack';
 import PackageStack from "../stacks/PackageStack";
 import {userTypes} from "../../constants/appConstants";
 import SlotList from "../../screens/App/SlotList";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -85,17 +85,28 @@ const homeTab = (props) => {
         )
       }
 
-      <Tab.Screen
-        name={RouteNames.Feed}
-        component={Feed}
-        options={{
-          title: 'Feed',
-          tabBarIcon: ({focused, color, size}) => {
-            let iconName = focused ? 'table' : 'table';
-            return <FontAwesome name={iconName} size={20} color={color}/>;
-          },
-        }}
-      />
+      {/*<Tab.Screen*/}
+      {/*  name={RouteNames.Feed}*/}
+      {/*  component={Feed}*/}
+      {/*  options={{*/}
+      {/*    title: 'Feed',*/}
+      {/*    tabBarIcon: ({focused, color, size}) => {*/}
+      {/*      let iconName = focused ? 'table' : 'table';*/}
+      {/*      return <FontAwesome name={iconName} size={20} color={color}/>;*/}
+      {/*    },*/}
+      {/*  }}*/}
+      {/*/>*/}
+      {/*<Tab.Screen*/}
+      {/*  name={RouteNames.MyClients}*/}
+      {/*  component={MyClients}*/}
+      {/*  options={{*/}
+      {/*    title: 'My Clients',*/}
+      {/*    tabBarIcon: ({focused, color, size}) => {*/}
+      {/*      let iconName = focused ? 'eye' : 'eye';*/}
+      {/*      return <FontAwesome name={iconName} size={20} color={color}/>;*/}
+      {/*    },*/}
+      {/*  }}*/}
+      {/*/>*/}
       <Tab.Screen
         name={RouteNames.MyProfile}
         component={MyProfileStack}

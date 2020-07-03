@@ -15,7 +15,7 @@ import fonts from "../../constants/fonts";
 
 import {WEEK_DAYS} from "../../constants/appConstants";
 import Slot from "../../components/Slot";
-import {dateToString, groupBy} from "../../utils/utils";
+import {dateToString, findMissingDays, groupBy} from "../../utils/utils";
 import BarButton from "../../components/BarButton";
 
 class SlotList extends Component {
@@ -42,8 +42,8 @@ class SlotList extends Component {
   refreshSlots = () => {
     const {slots} = this.props;
     if (slots && slots.length > 0) {
+      // const filteredSlots = slots.filter(slot=>slot.subscriptionId===null);
       const localSlots = this.mapSlotsToLocal(slots);
-      console.log(localSlots, slots)
       this.setState({slots: localSlots});
     }
   }

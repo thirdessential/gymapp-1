@@ -12,6 +12,7 @@ const strings = {
   NO_OF_SESSIONS:'Number of Sessions',
   MY_PACKAGES:'My Packages',
   MY_SLOTS:'My Slots',
+  MY_CLIENTS:'My Clients',
   PACKAGES:'Packages',
   SESSIONS:'Sessions',
   FOLLOWERS:'Followers',

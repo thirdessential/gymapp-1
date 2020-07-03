@@ -27,5 +27,6 @@ export const appState = {
 
 export const trainerState = {
   packages: [],
-  slots: []
+  slots: [],
+  subscriptions:[]
 }
