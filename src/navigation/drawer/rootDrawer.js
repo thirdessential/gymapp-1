@@ -25,7 +25,7 @@ const rootDrawer = (props) => {
                         drawerContent={CustomDrawerContent}
       >
         <Drawer.Screen name="Home" component={CoreApp}/>
-        <Drawer.Screen name="Edit Profile" component={ProfileEdit}/>
+        {/*<Drawer.Screen name="Edit Profile" component={ProfileEdit}/>*/}
       </Drawer.Navigator>
     </NavigationContainer>
   );

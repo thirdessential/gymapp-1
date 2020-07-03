@@ -70,20 +70,20 @@ const homeTab = (props) => {
             }}/>
         )
       }
-      {/*{*/}
-      {/*  userType === userTypes.USER && (*/}
-      {/*    <Tab.Screen*/}
-      {/*      name={RouteNames.Schedule}*/}
-      {/*      component={Schedule}*/}
-      {/*      options={{*/}
-      {/*        title: 'Schedule',*/}
-      {/*        tabBarIcon: ({focused, color, size}) => {*/}
-      {/*          let iconName = focused ? 'calendar-o' : 'calendar';*/}
-      {/*          return <FontAwesome name={iconName} size={20} color={color}/>;*/}
-      {/*        },*/}
-      {/*      }}/>*/}
-      {/*  )*/}
-      {/*}*/}
+      {
+        userType === userTypes.USER && (
+          <Tab.Screen
+            name={RouteNames.Schedule}
+            component={Schedule}
+            options={{
+              title: 'Schedule',
+              tabBarIcon: ({focused, color, size}) => {
+                let iconName = focused ? 'calendar-o' : 'calendar';
+                return <FontAwesome name={iconName} size={20} color={color}/>;
+              },
+            }}/>
+        )
+      }
 
       <Tab.Screen
         name={RouteNames.Feed}

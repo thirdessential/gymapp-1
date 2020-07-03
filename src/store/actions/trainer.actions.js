@@ -77,11 +77,11 @@ export const createSlots = (slotArray) => {
   return async (dispatch, getState) => {
     let oldSlots = getState().trainer.slots;
     try {
-      dispatch(setSlots(slotArray));
+      // dispatch(setSlots(slotArray));
       let slots = await API.syncSlots(slotArray);
       if (slots) {
         console.log('slots created', slots);
-        dispatch(setSlots(slots));
+        dispatch(setSlots(slots)); //TODO:Enable this after api change
         return true;
       } else {
         //TODO: finish this rollback by showing error
