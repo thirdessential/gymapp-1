@@ -36,3 +36,13 @@ export const WEEK_DAYS = {
   SAT: 'SAT',
 };
 export const allowedDurations = [30, 45, 60];
+
+export const dpDimension = {
+  width:400,
+  height:400
+}
+
+export const coverDimension = {
+  height:1000,
+  width:1000
+}
