@@ -9,7 +9,7 @@ import {appPackageId, notificationActions, storageKeys} from "../constants/appCo
 import {navigate} from "../navigation/RootNavigation";
 import RouteNames from "../navigation/RouteNames";
 import requestCameraAndAudioPermission from "./permission";
-
+import { showMessage, hideMessage } from "react-native-flash-message";
 export const callHandler = async (remoteMessage) => {
   console.log('Remote Message handled in the background!', remoteMessage);
   const {data} = remoteMessage;
@@ -94,5 +94,19 @@ export const LocalNotification = (data) => {
     number: 10,
     actions: `["${notificationActions.Accept}", "${notificationActions.Reject}"]`,
     payload: data
+  });
+}
+
+export const showSuccess = message => {
+  showMessage({
+    message: message,
+    type: "success",
+  });
+}
+
+export const showError = message => {
+  showMessage({
+    message: message,
+    type: "danger",
   });
 }

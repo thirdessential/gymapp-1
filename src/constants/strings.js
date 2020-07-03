@@ -38,7 +38,9 @@ const strings = {
   CALL_TIMEOUT:'Call timeout, ending call.',
   APPOINTMENTS:'Appointments',
   SIGNUP_FAILED:'Signup Failed..Try Again',
-  LOGIN_FAILED:'Login Failed..Try Again'
+  LOGIN_FAILED:'Login Failed..Try Again',
+  SLOT_BOOKING_SUCCESS:"Slot booked!",
+  SLOT_BOOKING_ERROR:'Unable to book slot, try again'
 };
 
 export default strings;

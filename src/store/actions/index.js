@@ -8,7 +8,8 @@ export {
   setAuthToken,
   setUserType,
   setInitialLoginOff,
-  updateUserData
+  updateUserData,
+  subscribePackage
 } from "./user.actions";
 
 export {

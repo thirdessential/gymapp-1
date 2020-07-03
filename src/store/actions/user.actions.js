@@ -3,7 +3,7 @@ import {updateAxiosToken} from "../../API";
 import {userTypes} from "../../constants/appConstants";
 import {signOutFirebase} from "../../API/firebaseMethods";
 import * as API from "../../API";
-import {setUserList} from "./app.actions";
+import {setUser, setUserList} from "./app.actions";
 import {setPackages, setSlots} from "./trainer.actions";
 
 export const genericUserFieldSetter = (payload) => ({ // TODO: refactor this function into multiple specific setters
@@ -72,6 +72,19 @@ export const updateUserData = () => {
 
     } catch (error) {
       console.log("User info update failed", error);
+      return false;
+    }
+  };
+};
+
+export const subscribePackage = (trainerId, packageId, time, days) => {
+  return async (dispatch) => {
+    try {
+      let result = await API.subscribeToPackage(trainerId, packageId, time, days);
+      dispatch(setUser(trainerId));
+      return !!result.success;
+    } catch (error) {
+      console.log("Subscription failed", error);
       return false;
     }
   };

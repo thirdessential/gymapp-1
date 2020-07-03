@@ -38,12 +38,12 @@ class Profile extends Component {
     setUser(userId);
   }
 
-  enrollClicked = () => {
+  enrollClicked = (packageId) => {
     const {navigation, route} = this.props;
     const {userId} = route.params;
-
     navigation.navigate(RouteNames.Enroll, {
-      userId
+      userId,
+      packageId
     });
   }
 

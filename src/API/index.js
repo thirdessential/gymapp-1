@@ -15,7 +15,8 @@ export {
   updateUserInfo,
   getUserInfo,
   getMyInfo,
-  getGlobalSlots
+  getGlobalSlots,
+  subscribeToPackage
 } from './user';
 
 export {

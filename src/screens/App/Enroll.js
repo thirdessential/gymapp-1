@@ -13,16 +13,15 @@ import strings from "../../constants/strings";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 
-import {WEEK_DAYS} from "../../constants/appConstants";
 import Slot from "../../components/Slot";
-import {dateToString, findMissingDays, groupBy} from "../../utils/utils";
-import BarButton from "../../components/BarButton";
+import { findMissingDays, groupBy} from "../../utils/utils";
+import {showError, showSuccess} from "../../utils/notification";
 
-class SlotList extends Component {
+class Enroll extends Component {
 
   state = {
     slots: [],
-    selectedDays: {}
+    selectedDays: {},
   }
 
   componentDidMount() {
@@ -31,7 +30,8 @@ class SlotList extends Component {
     const {slots} = this.getUser();
 
     if (slots && slots.length > 0) {
-      const localSlots = this.mapSlotsToLocal(slots);
+      const filteredSlots = slots.filter(slot=>slot.subscriptionId===null);
+      const localSlots = this.mapSlotsToLocal(filteredSlots);
       const selectedDays = {};
       localSlots.map(slot => {
         selectedDays[slot._id] = [];
@@ -61,13 +61,20 @@ class SlotList extends Component {
     return localSlots;
   }
 
-  enroll = (slotId) => {
-    console.log("enrolled", slotId, this.state.selectedDays[slotId]);
+  enroll = async (time, days) => {
+    const {route, navigation} = this.props;
+    const {userId, packageId} = route.params;
+    let result = await this.props.subscribePackage(userId, packageId, time, days);
+    if (result){
+      showSuccess(strings.SLOT_BOOKING_SUCCESS);
+      navigation.goBack(); //TODO:go to my slots screen
+    }
+    else showError(strings.SLOT_BOOKING_ERROR);
   }
 
   changeActiveDays = (slotId, days) => {
     const selectedDays = {...this.state.selectedDays};
-    Object.keys(selectedDays).map(day=> selectedDays[day]=[]);
+    Object.keys(selectedDays).map(day => selectedDays[day] = []);
     selectedDays[slotId] = days;
     this.setState({selectedDays});
   }
@@ -81,8 +88,8 @@ class SlotList extends Component {
           duration={slot.duration}
           index={index + 1}
           time={slot.time}
-          onEnroll={() => this.enroll(slot._id)}
-          enrollDisabled={this.state.selectedDays[slot._id].length===0}
+          onEnroll={() => this.enroll(slot.time, this.state.selectedDays[slot._id])}
+          enrollDisabled={this.state.selectedDays[slot._id].length === 0}
           onDaysChange={(days) => this.changeActiveDays(slot._id, days)}
         />
       </View>
@@ -136,16 +143,18 @@ const styles = StyleSheet.create({
   addButtonContainer: {
     paddingTop: spacing.medium,
     paddingBottom: spacing.medium_sm,
-    // backgroundColor: appTheme.background,
     alignItems: 'center',
-
   }
 });
 
 const mapStateToProps = (state) => ({
-  users: state.app.users,
+  users: state.app.users
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  subscribePackage: (trainerId, packageId, time, days) => dispatch(actionCreators.subscribePackage(trainerId, packageId, time, days))
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(SlotList);
+export default connect(mapStateToProps, mapDispatchToProps)(Enroll);
+
+

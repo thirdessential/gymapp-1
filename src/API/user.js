@@ -69,3 +69,19 @@ export const getGlobalSlots = async ()=> {
     return false;
   }
 }
+
+export const subscribeToPackage =  async (trainerId, packageId,time,days)=> {
+  try {
+    let response = await axios.post(`/subscription/${trainerId}/${packageId}`,{
+      time,
+      days
+    });
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
