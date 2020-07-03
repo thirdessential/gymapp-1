@@ -7,13 +7,18 @@ const strings = {
   PACKAGE_NAME:'Package Name',
   RUPEE:'₹',
   FOLLOW : 'Follow',
+  BOOK:'Book',
   ENROLL : 'Enroll',
   NO_OF_SESSIONS:'Number of Sessions',
+  MY_PACKAGES:'My Packages',
+  MY_SLOTS:'My Slots',
+  PACKAGES:'Packages',
   SESSIONS:'Sessions',
   FOLLOWERS:'Followers',
   PLAN_DESCRIPTION:'Plan description',
   FOLLOWING:'Following',
   TRANSFORMATIONS:'Transformations',
+  NO_DESC:"No description provided for this user",
   MAKEOVERS:'Makeovers',
   RATING:'Rating',
   SEE_MORE:'See more',
@@ -31,7 +36,9 @@ const strings = {
   CALL:'Call',
   WAITING_FOR_USERS:'Waiting for user to join',
   CALL_TIMEOUT:'Call timeout, ending call.',
-  APPOINTMENTS:'Appointments'
+  APPOINTMENTS:'Appointments',
+  SIGNUP_FAILED:'Signup Failed..Try Again',
+  LOGIN_FAILED:'Login Failed..Try Again'
 };
 
 export default strings;

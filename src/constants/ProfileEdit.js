@@ -1,17 +1,15 @@
-import React, { useState, Component } from 'react';
-import { Text, TouchableOpacity, StyleSheet, TextInput, View, Image, StatusBar } from 'react-native';
-import { addTrainerDetails } from '../../API';
+import React, { Component } from 'react';
+import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import defaultPic from '../../../assets/images/male_pic_default.jpg';
-import { uploadImage } from '../../API';
-import { connect } from "react-redux";
-import * as actionCreators from "../../store/actions";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import FormElement from '../../components/Signup/FormElement';
-import ActionButtonTwo from '../../components/Login/ActionButtonTwo';
-import { appTheme } from '../../constants/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { connect } from "react-redux";
+import defaultPic from '../../../assets/images/male_pic_default.jpg';
+import { addTrainerDetails, uploadImage } from '../../API';
+import ActionButtonTwo from '../../components/Login/ActionButtonTwo';
 import SignupFormElement from '../../components/Signup/SIgnupFormElement';
+import { appTheme } from '../../constants/colors';
+import * as actionCreators from "../../store/actions";
 
 class ProfileEdit extends Component {
 
@@ -27,8 +25,6 @@ class ProfileEdit extends Component {
     pickImage = () => {
         const options = {};
         ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
-
             if (response.didCancel) {
                 console.log('User cancelled image picker');
             } else if (response.error) {
@@ -44,7 +40,6 @@ class ProfileEdit extends Component {
             }
         });
     };
-
     submitPhoto = async (path, token) => {
         let result = await uploadImage(path, token);
         if (result)
@@ -52,30 +47,23 @@ class ProfileEdit extends Component {
         else
             console.log('image insertion failed')
     }
-
     submit = async () => {
 
         var result = await addTrainerDetails(this.state.name.text);
         if (result) {
-            console.log('addTrainerdetails----------' + result)
             this.props.setInitialLoginOff();
-        } else
-            console.log('addTrainerdetails----------' + result)
+        }
     }
     goBack = async () => {
 
     }
     renderHorizontalSeparatorView = () => <View style={styles.itemSeparatorHorizontal} />
-
     render() {
-
-
         return (
             <>
                 <StatusBar backgroundColor={appTheme.background} />
                 <KeyboardAwareScrollView enableOnAndroid={true} contentContainerStyle={styles.contentContainer}>
                     <View style={{ flex: 0.5, flexDirection: 'row', marginLeft: 30, marginRight: 30, marginTop: 20, justifyContent: "space-evenly" }}>
-
                         <TouchableOpacity
                             style={{ marginRight: 60 }}
                             onPress={() => { this.goBack() }}>
@@ -85,11 +73,7 @@ class ProfileEdit extends Component {
                                 size={40}
                             ></FontAwesome>
                         </TouchableOpacity>
-
                         <Text style={{ fontSize: 28, color: 'white' }}>Edit Profile</Text>
-
-
-
                         <TouchableOpacity
                             style={{ marginLeft: 60 }}
                             onPress={() => { this.submit() }}>
@@ -99,41 +83,23 @@ class ProfileEdit extends Component {
                                 size={40}
                             ></FontAwesome>
                         </TouchableOpacity>
-
                     </View>
                     <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', marginLeft: 30, marginRight: 30 }}>
-
                         {!this.state.image && <Image source={defaultPic} style={{ width: 200, height: 200, borderRadius: 100 }} />}
                         {this.state.image &&
                             <Image source={{ uri: this.state.image }} style={{ width: 200, height: 200, borderRadius: 100 }} />}
                         <View style={{ postion: 'absolute', alignItems: 'center', bottom: 45, width: "55%" }}>
                             <ActionButtonTwo onPress={() => this.pickImage()} label="Update Picture" color='#DD3180' />
                         </View>
-
                     </View>
                     <View style={{ flex: 3, marginLeft: 30 }}>
-                        {/* <FormElement placeholder="Name" onChangeText={(text) => {
-                            this.setState({ name: { text } })
-                        }} /> */}
-                        {/* <Text style={{color:'grey',fontSize:20}}>Name</Text>
-                        <TextInput style={{fontSize:22,marginLeft:10,color:'white'}} onChangeText={(text) => {this.setState({ name: { text } })}}></TextInput>
-                        <View style={styles.itemSeparatorHorizontal}/> */}
-
                         <SignupFormElement size={22} label="Name" onChangeText={(text) => { this.setState({ name: { text } }) }} />
                         <View style={styles.itemSeparatorHorizontal} />
-                        {/* <FormElement placeholder="Bio" multiline={true} onChangeText={(text) => {
-                            this.setState({ bio: { text } })
-                        }} /> */}
-                        {/* <Text style={{color:'grey',fontSize:20}}>Bio</Text>
-                        <TextInput style={{fontSize:22,marginLeft:10,color:'white'}} multiline={true} onChangeText={(text) => {this.setState({ bio: { text } })}}></TextInput>
-                        <View style={styles.itemSeparatorHorizontal}/> */}
-                        <View style={{marginTop:40}}>
+                        <View style={{ marginTop: 40 }}>
                             <SignupFormElement label="Bio" multiline={true} size={18} onChangeText={(text) => { this.setState({ bio: { text } }) }} />
                             <View style={styles.itemSeparatorHorizontal} />
                         </View>
                     </View>
-
-
                 </KeyboardAwareScrollView>
             </>
         );
@@ -144,7 +110,6 @@ const styles = StyleSheet.create({
     contentContainer: {
         flexGrow: 1,
         backgroundColor: appTheme.background,
-
     },
     itemSeparatorHorizontal: {
         height: 1,
@@ -153,14 +118,10 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginRight: 30
     }
-
 })
-
-
 const mapStateToProps = (state) => ({
     authToken: state.user.authToken
 });
-
 const mapDispatchToProps = (dispatch) => ({
     setAuthenticated: (value) => dispatch(actionCreators.setAuthenticated(value)),
     setInitialLoginOff: () => dispatch(actionCreators.setInitialLoginOff())

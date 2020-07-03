@@ -2,142 +2,56 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, FlatList} from 'react-native'
+import {View, StyleSheet, FlatList, Text, TouchableOpacity, LayoutAnimation} from 'react-native'
 import {connect} from "react-redux";
 
-import PackageOverview from '../../components/Package/PackageOverview';
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
-import {appTheme} from "../../constants/colors";
+import colors, {appTheme} from "../../constants/colors";
 import RouteNames from "../../navigation/RouteNames";
+import PackageFlatList from "../../components/Trainer/PackageFlatList";
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
+import strings from "../../constants/strings";
+import BarButton from '../../components/BarButton';
 
 class PackageList extends Component {
 
-  state = {
-    packages: [
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
-        sessionsPerWeek: 3
-      },
-      {
-        title: 'Weight loss plan',
-        // duration:4,
-        price: 6500,
-        description: 'this is the description of the package this is the description of the package this is the description of the package this is the description of the package this is the description of the package',
-        sessionCount: 15,
-        sessionsPerWeek: 3
-      },
-    ]
+  editPackage = packageId => {
+    this.props.navigation.navigate(RouteNames.PackageEdit, {
+      packageId
+    });
+  }
+  createPackage = () => {
+    this.props.navigation.navigate(RouteNames.PackageEdit);
   }
 
-  packageSelected = () => {
-    console.log("package selected");
-  }
+  addButton = () => (
+    <View style={styles.addButtonContainer}>
+      <BarButton onPress={this.createPackage}/>
+    </View>
+  )
 
-  renderPlan = (plan) => {
-    const {title, sessionCount, sessionsPerWeek, price, description} = plan;
-    return (
-      <View style={styles.packageContainer}>
-        <PackageOverview
-          title={title}
-          duration={sessionCount / sessionsPerWeek}
-          sessionCount={sessionCount}
-          sessionsPerWeek={sessionsPerWeek}
-          price={price}
-          description={description}
-          // enrollCallback={this.packageSelected}
-          editCallback={()=>{this.props.navigation.navigate(RouteNames.PackageEdit)}}
-        />
-      </View>
-    )
+  deletePackage = (packageId) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    this.props.deletePackage(packageId);
   }
 
   render() {
-
     return (
-      <FlatList
-        contentContainerStyle={styles.listContainer}
-        style={styles.container}
-        data={this.state.packages}
-        renderItem={({item}) => this.renderPlan(item)}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      <View style={styles.container}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{strings.MY_PACKAGES}</Text>
+        </View>
+        <View style={styles.listContainer}>
+          <PackageFlatList
+            packages={this.props.packages}
+            editCallback={this.editPackage}
+            deleteCallback={this.deletePackage}
+          />
+        </View>
+        <this.addButton/>
+      </View>
     );
   }
 }
@@ -146,22 +60,41 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: appTheme.darkBackground,
+
   },
-  listContainer: {
-    justifyContent: 'center',
-    marginLeft: spacing.medium_lg,
-    marginRight: spacing.medium_lg,
+  titleContainer: {
+    paddingTop: spacing.medium_sm,
+    paddingLeft: spacing.large,
+    paddingRight: spacing.large,
+    paddingBottom: spacing.medium_sm,
+    marginBottom: spacing.medium_sm,
+    backgroundColor: appTheme.background,
+    alignItems: 'center'
   },
-  packageContainer: {
-    marginTop: spacing.medium_sm,
-    marginBottom: spacing.medium_sm
+  listContainer:{
+    marginLeft:spacing.medium_lg,
+    marginRight:spacing.medium_lg,
+    flex:1
+  },
+  title: {
+    color: 'white',
+    fontSize: fontSizes.h0,
+    fontFamily: fonts.PoppinsRegular
+  },
+  addButtonContainer: {
+    paddingTop: spacing.medium_sm,
+    paddingBottom: spacing.medium_sm,
+    backgroundColor: appTheme.background,
+    alignItems: 'center'
   }
 });
 
 const mapStateToProps = (state) => ({
-  users: state.app.users
+  packages: state.trainer.packages
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  deletePackage: packageId => dispatch(actionCreators.deletePackage(packageId))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PackageList);

@@ -7,16 +7,18 @@ const customCalendar = (props) => {
 
   const {selectedDate = Date(), onDateChange} = props;
 
-  const markedDate = {};
+  const markedDates = {};
   const selected = new Date(selectedDate);
   const dateString = selected.toISOString().split('T')[0];
-  markedDate[dateString] = {selected: true, selectedColor: appTheme.brightContent};
-
+  markedDates[dateString] = {selected: true, selectedColor: appTheme.brightContent};
+  const nextMonth = new Date();
+  nextMonth.setMonth(nextMonth.getMonth()+1)
   return (
     <Calendar
 
-      markedDates={markedDate}
+      markedDates={markedDates}
       minDate={Date()}
+      maxDate={nextMonth}
       onDayPress={({dateString}) => onDateChange(dateString)}
       hideExtraDays={true}
       firstDay={1}

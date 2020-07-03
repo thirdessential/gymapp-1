@@ -7,6 +7,7 @@ const RouteNames = {
 
   UserListing:'UserListing',
   Profile:'Profile',
+  MyProfile:'MyProfile',
   Packages:'Packages',
   PackageEdit:'PackageEdit',
   VideoCall:'VideoCall',
@@ -17,6 +18,7 @@ const RouteNames = {
   Schedule:'Schedule',
   ProfileEdit:'ProfileEdit',
   SlotEdit:'SlotEdit',
+  Enroll:'Enroll',
 
   Login:'Login',
   Signup:'Signup'

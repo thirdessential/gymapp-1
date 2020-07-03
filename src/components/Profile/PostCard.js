@@ -8,18 +8,24 @@ import colors from "../../constants/colors";
 import CommentList from "./CommentList";
 
 
-
-
 export default class PostCard extends Component {
 
 constructor(props){
   super(props)
   this.state={
-    status:false
+    status:false,
+    
   }
 }
 
+
+
+
+
+
+
   render() {
+
     return (
       <View style={styles.mainContainer}>
         <View style={styles.topRow}>
@@ -114,6 +120,8 @@ constructor(props){
   }
 }
 
+
+
 const styles = StyleSheet.create({
   mainContainer: {
     padding: spacing.medium_sm,
@@ -187,3 +195,5 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
+
+

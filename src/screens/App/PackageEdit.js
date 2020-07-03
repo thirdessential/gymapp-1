@@ -4,6 +4,9 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, TextInput, Text, TouchableOpacity, StatusBar} from 'react-native'
 import {connect} from "react-redux";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Ion from "react-native-vector-icons/Ionicons";
 
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
@@ -11,9 +14,7 @@ import colors, {appTheme} from "../../constants/colors";
 import strings from "../../constants/strings";
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Ion from "react-native-vector-icons/Ionicons";
+import {validatePackage} from "../../utils/validators";
 
 class Packages extends Component {
 
@@ -21,49 +22,49 @@ class Packages extends Component {
     title: 'Sample Title',
     price: '',
     description: '',
-    sessionCount: '',
-    // sessionsPerWeek: '',
-    // duration: '0'
+    noOfSessions: '',
+  }
+
+  componentDidMount() {
+    const {route} = this.props;
+    if (route.params) {
+      const {packageId} = route.params;
+      if (packageId) {
+        const filteredPackages = this.props.packages.filter(packageData => packageData._id === packageId);
+        if (filteredPackages.length !== 0)
+          this.setState({...filteredPackages[0]});
+      }
+    }
   }
 
   onTitleChange = (title) => this.setState({title});
 
-  // setDuration = (sessionCount, sessionsPerWeek) => {
-  //   if (parseInt(sessionsPerWeek) && parseInt(sessionCount)) {
-  //     let duration = Math.floor(sessionCount / sessionsPerWeek);
-  //     this.setState({duration: duration.toString()});
-  //   }
-  // }
-  sessionCountChange = (sessionCount) => {
-    // const {sessionsPerWeek} = this.state;
-    // this.setDuration(sessionCount, sessionsPerWeek);
-    this.setState({sessionCount});
+  sessionCountChange = (noOfSessions) => {
+    this.setState({noOfSessions});
   }
-  // sessionsPerWeekChange = (sessionsPerWeek) => {
-  //   let {sessionCount} = this.state;
-  //   this.setDuration(sessionCount, sessionsPerWeek);
-  //   this.setState({sessionsPerWeek});
-  // }
+
   priceChange = (price) => {
-    this.setState({price:price.replace(/\D+/g, '')});
+    this.setState({price: price.replace(/\D+/g, '')});
   }
   descriptionChange = (description) => this.setState({description});
 
-  deletePackage = ()=>{
-    this.props.navigation.goBack()
-
-  }
-  savePackage = ()=>{
+  deletePackage = async () => {
+    this.props.deletePackage(this.state._id);
     this.props.navigation.goBack()
   }
-  cancelEdit= ()=>{
+  savePackage = async () => {
+    this.props.createPackage(this.state)
+    this.props.navigation.goBack()
+  }
+  cancelEdit = () => {
     this.props.navigation.goBack()
   }
 
   render() {
+    const inputsValid = validatePackage(this.state);
     return (
-      <KeyboardAwareScrollView style={styles.container}>
-        <StatusBar backgroundColor={appTheme.darkBackground} />
+      <KeyboardAwareScrollView style={styles.container} enableOnAndroid={true} keyboardShouldPersistTaps={'handled'}>
+        <StatusBar backgroundColor={appTheme.darkBackground}/>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Title</Text>
           <TextInput
@@ -81,22 +82,9 @@ class Packages extends Component {
               placeholder={strings.NO_OF_SESSIONS}
               placeholderTextColor={appTheme.grey}
               onChangeText={this.sessionCountChange}
-              value={this.state.sessionCount}
+              value={this.state.noOfSessions.toString()}
             />
           </View>
-          {/*<View style={styles.inputRow}>*/}
-          {/*  <Text style={styles.title}>Sessions/Week</Text>*/}
-          {/*  <TextInput*/}
-          {/*    keyboardType={'numeric'}*/}
-          {/*    style={styles.contentInput}*/}
-          {/*    onChangeText={this.sessionsPerWeekChange}*/}
-          {/*    value={this.state.sessionsPerWeek}*/}
-          {/*  />*/}
-          {/*</View>*/}
-          {/*<View style={styles.inputRow}>*/}
-          {/*  <Text style={styles.title}>{strings.DURATION}</Text>*/}
-          {/*  <Text style={styles.greyText}>{this.state.duration} {strings.WEEKS}</Text>*/}
-          {/*</View>*/}
           <View style={styles.inputRow}>
             <Text style={styles.title}>{strings.DESCRIPTION}</Text>
             <TextInput
@@ -127,22 +115,24 @@ class Packages extends Component {
               size={22}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonContainer} onPress={this.deletePackage}>
-            <FontAwesome
-              name={'trash'}
-              color={colors.rejectRed}
-              size={22}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonContainer} onPress={this.savePackage}>
+          {
+            this.state._id && (
+              <TouchableOpacity style={styles.buttonContainer} onPress={this.deletePackage}>
+                <FontAwesome
+                  name={'trash'}
+                  color={colors.rejectRed}
+                  size={22}
+                />
+              </TouchableOpacity>
+            )
+          }
+          <TouchableOpacity style={styles.buttonContainer} disabled={!inputsValid} onPress={this.savePackage}>
             <FontAwesome
               name={'check'}
-              color={colors.acceptGreen}
+              color={inputsValid? colors.acceptGreen: colors.darkGrey}
               size={22}
             />
           </TouchableOpacity>
-
-
         </View>
       </KeyboardAwareScrollView>
     );
@@ -155,7 +145,7 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.background,
   },
   titleContainer: {
-    flex:1,
+    flex: 1,
     paddingTop: spacing.thumbnailMini,
     paddingLeft: spacing.large,
     paddingRight: spacing.large,
@@ -198,32 +188,34 @@ const styles = StyleSheet.create({
   inputRow: {
     marginTop: spacing.medium_lg,
   },
-  buttonRow:{
-    flex:1,
-    flexDirection:'row',
-    justifyContent:'space-around',
+  buttonRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     marginTop: spacing.medium_lg,
     paddingLeft: spacing.large,
     paddingRight: spacing.large,
     paddingBottom: spacing.small,
-    marginBottom:spacing.large_lg
+    marginBottom: spacing.large_lg
   },
-  buttonContainer:{
-    height:60,
-    width:60,
+  buttonContainer: {
+    height: 60,
+    width: 60,
     borderRadius: 60,
     backgroundColor: appTheme.darkBackground,
-    alignItems:'center',
+    alignItems: 'center',
     justifyContent: 'center'
-
   }
 });
 
 const mapStateToProps = (state) => ({
-  users: state.app.users
+  packages: state.trainer.packages
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  createPackage: (packageData) => dispatch(actionCreators.createPackage(packageData)),
+  deletePackage: packageId => dispatch(actionCreators.deletePackage(packageId))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Packages);
 

@@ -16,6 +16,9 @@ import FontAwesome from "react-native-vector-icons/Feather";
 import {spacing} from "../../constants/dimension";
 import {openDrawer} from "../RootNavigation";
 import SlotEdit from "../../screens/App/SlotList";
+import PackageList from "../../screens/App/PackageList";
+import ProfileEdit from "../../screens/App/ProfileEdit";
+import Enroll from "../../screens/App/Enroll";
 
 const noHeader = {title: '', headerStyle: {height: 0}}
 
@@ -32,26 +35,21 @@ const hamburgerButton = ()=> (
 const coreApplication = () => {
   return (
     <Stack.Navigator>
-
       <Stack.Screen name={RouteNames.HomeTab} component={HomeTab} options={{
-        title: 'Overview',
+        title: '',
         headerTintColor: appTheme.brightContent,
         headerStyle: {
           backgroundColor: appTheme.darkGrey,
         },
+        headerTransparent:true,
         headerLeft: hamburgerButton
       }}/>
       <Stack.Screen name={RouteNames.Profile} component={Profile}
                     options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
+      <Stack.Screen name={RouteNames.Enroll} component={Enroll}
+                    options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
       <Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>
       <Stack.Screen name={RouteNames.Schedule} component={Schedule} options={{title: '', headerTransparent: true}}/>
-      <Stack.Screen name={RouteNames.Packages} component={Packages}
-                    options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
-      <Stack.Screen name={RouteNames.PackageEdit} component={PackageEdit}
-                    options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
-      <Stack.Screen name={RouteNames.SlotEdit} component={SlotEdit}
-                    options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
-
     </Stack.Navigator>
   );
 }

@@ -8,8 +8,11 @@ import call from "./call.reducer";
 import app from "./app.reducer";
 import trainer from './trainer.reducer';
 import {callState} from "./initialState";
+import * as actionTypes from "../actions/actionTypes";
 import postReducer from './postReducer'
 import postCreateReducer from './postCreateReducer'
+
+
 const authPersistConfig = {
   key: 'auth',
   storage: AsyncStorage
@@ -33,7 +36,7 @@ const rootPersistConfig = {
 
 
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   auth: persistReducer(authPersistConfig, auth),
   user,
   app,
@@ -42,5 +45,12 @@ const rootReducer = combineReducers({
   postReducer,
   postCreateReducer
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === actionTypes.RESET_APP) {
+    state = undefined
+  }
+  return appReducer(state, action)
+}
 
 export default persistReducer(rootPersistConfig, rootReducer);

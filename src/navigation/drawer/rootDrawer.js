@@ -1,18 +1,14 @@
 import * as React from 'react';
-import {Button, View} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem
-} from '@react-navigation/drawer';
+
 
 import CoreApp from '../stacks/coreAppStack';
-import Settings from "../../screens/App/Settings";
-import {signOutFirebase} from "../../API/firebaseMethods";
 import {appTheme} from "../../constants/colors";
-import PackageList from "../../screens/App/PackageList";
+import PackageStack from '../stacks/PackageStack';
+import CustomDrawerContent from "./drawerContent";
+import ProfileEdit from "../../screens/App/ProfileEdit";
+import {userTypes} from "../../constants/appConstants";
 
 const Drawer = createDrawerNavigator();
 const MyTheme = {
@@ -20,7 +16,8 @@ const MyTheme = {
     primary: appTheme.darkBackground,
   },
 };
-const rootDrawer = ({navigationRef}) => {
+const rootDrawer = (props) => {
+  const {navigationRef, userType} = props;
   return (
     <NavigationContainer theme={MyTheme} ref={navigationRef}>
       <Drawer.Navigator initialRouteName="Home"
@@ -28,24 +25,14 @@ const rootDrawer = ({navigationRef}) => {
                         drawerContent={CustomDrawerContent}
       >
         <Drawer.Screen name="Home" component={CoreApp}/>
-        <Drawer.Screen name="PackageList" component={PackageList}/>
+        <Drawer.Screen name="Edit Profile" component={ProfileEdit}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );
 }
 
 
-function CustomDrawerContent(props) {
-  return (
-    <DrawerContentScrollView {...props} style={{backgroundColor:appTheme.background}}>
-      <DrawerItemList {...props} labelStyle={{color:'white'}}/>
-      {/*<DrawerItem*/}
-      {/*  label="Sign Out"*/}
-      {/*  onPress={() => signOutFirebase()}*/}
-      {/*/>*/}
-    </DrawerContentScrollView>
-  );
-}
+
 
 export default rootDrawer;
 

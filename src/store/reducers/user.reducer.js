@@ -12,11 +12,9 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, action.payload);
     case actionTypes.GENERIC_USER_FIELD_SET:
       return updateObject(state, action.payload);
-    case actionTypes.SET_INCOMING_CALL:
+    case actionTypes.SET_USER_DATA:
       return updateObject(state, action.payload);
-    case actionTypes.END_CALL:
-      return updateObject(state, action.payload);
-    case actionTypes.SET_CALL_ACTIVE:
+      case actionTypes.SET_USER_NAME:
       return updateObject(state, action.payload);
     case actionTypes.RESET_USER:
       return initialState;

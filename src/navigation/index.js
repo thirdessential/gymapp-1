@@ -95,20 +95,20 @@ class App extends React.Component {
 
   render() {
     const {loading, videoTestMode} = this.state;
-    const {authenticated, initialLogin, callData, callActive} = this.props;
+    const {authenticated, initialLogin, callData, callActive, userType} = this.props;
 
     if (loading)
       return <Splash/>
     if (videoTestMode)
       return <VideoTest navigationRef={navigationRef}/>
-    if (Object.keys(callData).length !== 0 || callActive) {
+    if (callData &&  Object.keys(callData).length !== 0 || callActive) {
       return <Calling navigationRef={navigationRef}/>
     }
     if (authenticated) {
       if (initialLogin)
         return <InitialLogin navigationRef={navigationRef}/>
       else
-        return <RootDrawer navigationRef={navigationRef}/>
+        return <RootDrawer userType={userType} navigationRef={navigationRef}/>
     }
     return <Auth navigationRef={navigationRef}/>
   }
@@ -118,8 +118,9 @@ const mapStateToProps = (state) => ({
   authToken: state.user.authToken,
   authenticated: state.auth.authenticated,
   initialLogin: state.user.initialLogin,
-  callActive: state.user.callActive,
-  callData: state.user.callData
+  callActive: state.call.callActive,
+  callData: state.call.callData,
+  userType:state.user.userType
 });
 
 const mapDispatchToProps = (dispatch) => ({

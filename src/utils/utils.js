@@ -6,6 +6,7 @@ import RouteNames from "../navigation/RouteNames";
 import AsyncStorage from '@react-native-community/async-storage';
 
 import {makeCall} from "../API";
+import strings from "../constants/strings";
 
 export const validateResponseCode = (code) => {
   return Math.floor(code / 100) === 2;
@@ -16,8 +17,17 @@ export const formattedTime = date => {
   const hours = dateObj.getHours();
   const minutes = dateObj.getMinutes();
   const AM_PM = hours >= 12 ? 'PM' : 'AM';
-  let minZero = minutes===0?'0':'' ;
+  let minZero = minutes === 0 ? '0' : '';
   return `${hours}:${minutes}${minZero} ${AM_PM}`;
+}
+
+export const militaryTimeToString = time => {
+  const suffix = time >= 1200 ? 'PM' : 'AM';
+  return `${time.slice(0, 2)}:${time.slice(2)} ${suffix}`;
+}
+
+export const stringToMilitaryTime = str =>{
+  return `${str.slice(0,2)}${str.slice(3,5)}`;
 }
 
 export const dateToString = time => {
@@ -26,7 +36,6 @@ export const dateToString = time => {
   let prependedZeroToHours = hours >= 10 ? '' : '0';
   let minutes = dateObj.getMinutes();
   let prependedZeroToMinutes = minutes >= 10 ? '' : '0';
-  // if(minutes===0) prependedZeroToMinutes+='0';
 
   return `${prependedZeroToHours}${hours}${prependedZeroToMinutes}${minutes}`;
 }
@@ -104,51 +113,6 @@ export const initialiseVideoCall = async (userId) => {
   })
 }
 
-// export const initialiseSocket = (authToken) => {
-//   if (authToken === '') {
-//     console.log("Cannot initialise a socket without auth token. exiting");
-//     return false;
-//   }
-//   const socket = SocketIOClient(rootURL);
-//   // socket.authToken = authToken/;
-//   socket.on('connect', function (data) {
-//     // console.log(socket)
-//     socket.emit(CHANNELS.STORE_CLIENT_INFO, {authToken});
-//   });
-//   socket.on(CHANNELS.INITIATE_VIDEO_CALL, data => {
-//     const {sessionID} = data;
-// navigate(RouteNames.VideoCall, {
-//     AppID: 'de359ae21a884e08a18e38476b54ccea',
-//     ChannelName: sessionID
-//   }
-// )
-//   })
-//   socket.on(CHANNELS.CONFIRM_VIDEO_CALL, data => {
-//     const {sessionID} = data;
-//     showMessage({
-//       message: "Receive call?",
-//       type: "info",
-//       description: "You are getting a call from a user",
-//       autoHide: false,
-//       onPress: async () => {
-//         const permissionGranted = await requestCameraAndAudioPermission();
-//         if (!permissionGranted) {
-//           console.log("Cant initiate video call without permission")
-//           return;
-//         }
-//         navigate(RouteNames.VideoCall, {
-//             AppID: 'de359ae21a884e08a18e38476b54ccea',
-//             ChannelName: sessionID
-//           }
-//         )
-//       }
-//     });
-//   })
-//
-//
-//   return socket;
-// }
-
 export const customDelay = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
 
 export const toTitleCase = (str) => {
@@ -159,3 +123,46 @@ export const toTitleCase = (str) => {
     }
   );
 }
+// coolest snippet i ever found, felt i should link source
+// https://www.tutorialspoint.com/most-efficient-method-to-groupby-on-an-array-of-objects-in-javascript
+export const groupBy = (objectArray, property) => { // coolest snippet i ever found, felt i should link source
+  return objectArray.reduce((acc, obj) => {
+    const key = obj[property];
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    // Add object to list for given key's value
+    acc[key].push(obj);
+    return acc;
+  }, {});
+}
+
+export const generateTrainerHits = ({post, transformation, program, slot}) => ([
+  {
+    title: strings.POSTS,
+    count: post || 0
+  },
+  {
+    title: strings.MAKEOVERS,
+    count: transformation || 0
+  },
+  {
+    title: strings.PROGRAMS,
+    count: program || 0
+  },
+  {
+    title: strings.SLOTS,
+    count: slot || 0
+  }
+]);
+
+export const generateUserHits = ({post, subscription}) => ([
+  {
+    title: strings.POSTS,
+    count: post || 0
+  },
+  {
+    title: strings.SUBSCRIPTIONS,
+    count: subscription || 0
+  }
+]);

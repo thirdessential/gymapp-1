@@ -17,6 +17,7 @@ import SelectableButtonGroup from '../../components/selectableButtonGroup';
 import strings from "../../constants/strings";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
+import MiniSlotCard from "../../components/MiniSlotCard";
 
 class Schedule extends Component {
 
@@ -92,6 +93,9 @@ class Schedule extends Component {
           <Text style={styles.heading}>{strings.APPOINTMENTS}</Text>
         </View>
         <View style={styles.appointmentList}>
+          {/*<View style={styles.appointmentContainer}>*/}
+          {/*  <MiniSlotCard  day={'Su'} duration={60} startTime={'11:30 AM'}/>*/}
+          {/*</View>*/}
           <this.renderAppointments/>
         </View>
       </ScrollView>

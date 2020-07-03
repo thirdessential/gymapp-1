@@ -1,8 +1,5 @@
 export {
   updateAxiosToken,
-  registerTrainer,
-  registerUser,
-  login,
   firebaseTrainerAuth,
   firebaseUserAuth
 } from './auth';
@@ -15,9 +12,19 @@ export {
 
 export {
   listTrainers,
-  addTrainerDetails,
-  getUserInfo
+  updateUserInfo,
+  getUserInfo,
+  getMyInfo,
 } from './user';
+
+export {
+  createPackage,
+  getPackage,
+  updatePackage,
+  deletePackage,
+  syncSlots,
+  getGroupedSlots
+} from './trainer';
 
 export {
   uploadImage

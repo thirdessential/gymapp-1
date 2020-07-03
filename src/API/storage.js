@@ -12,7 +12,7 @@ export const uploadImage = async (path, token) => {
 
     const uploadData = [
       {
-        name: "image",
+        name: "mediaContent",
         filename: path,
         type: "image/" + fileExtension,
         data: RNFetchBlob.wrap(path),
@@ -29,9 +29,8 @@ export const uploadImage = async (path, token) => {
     );
     console.log(response.data);
     return response.data;
-  }catch (e) {
+  } catch (e) {
     console.log("error", e);
     return false;
   }
 };
-

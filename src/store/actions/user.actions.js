@@ -1,10 +1,10 @@
 import * as actionTypes from "./actionTypes";
 import {updateAxiosToken} from "../../API";
 import {userTypes} from "../../constants/appConstants";
-import {customDelay} from "../../utils/utils";
 import {signOutFirebase} from "../../API/firebaseMethods";
-// import SocketIOClient from 'socket.io-client';
-// import {CHANNELS, rootURL} from "../../constants/appConstants";
+import * as API from "../../API";
+import {setTrainers} from "./app.actions";
+import {setPackages, setSlots} from "./trainer.actions";
 
 export const genericUserFieldSetter = (payload) => ({ // TODO: refactor this function into multiple specific setters
   type: actionTypes.GENERIC_USER_FIELD_SET,
@@ -31,44 +31,6 @@ export const setAuthTokenAction = (authToken) => ({
   },
 });
 
-export const setIncomingCall = (callData, inAppCall=false) => ({
-  type: actionTypes.SET_INCOMING_CALL,
-  payload: {
-    callData,
-    inAppCall
-  }
-});
-
-export const setCallActive = (value) => ({
-  type: actionTypes.SET_CALL_ACTIVE,
-  payload: {
-    callActive: value
-  }
-});
-
-export const endCall = () => ({
-  type: actionTypes.END_CALL,
-  payload: {
-    callData: {},
-    callActive: false
-  }
-})
-
-export const resetInAppCall = ()=> ({
-  type: actionTypes.END_CALL,
-  payload: {
-    inAppCall: false
-  }
-})
-
-export const endCallAction = () => {
-  return async (dispatch) => {
-    await dispatch(endCall());
-    await customDelay(100); //allow it to change state
-    return true;
-  };
-};
-
 export const setAuthToken = (authToken) => {
   return async (dispatch) => {
     dispatch(setAuthTokenAction(authToken));
@@ -76,13 +38,56 @@ export const setAuthToken = (authToken) => {
   };
 };
 
-export const resetUser = () => ({
-  type: actionTypes.RESET_USER,
+
+
+export const setUserName = (userName) => ({
+  type: actionTypes.SET_USER_NAME,
+  payload: {
+    userName
+  },
 });
 
-export const signOutUser =  () => {
+export const setUserData = (userData) => ({
+  type: actionTypes.SET_USER_DATA,
+  payload: {
+    userData
+  },
+});
+
+export const updateUserData = () => {
   return async (dispatch) => {
-    dispatch(resetUser());
+    try {
+      let {user} = await API.getMyInfo();
+      if (!user) throw new Error("No user returned");
+      dispatch(setUserData(user));
+      let {name} = user;
+      if (!!name)
+        dispatch(setUserName(name));
+
+      if (user.userType === userTypes.TRAINER) {
+        const {packages, slots} = user;
+        // if(packages)
+        dispatch(setPackages(packages));
+        dispatch(setSlots(slots));
+      }
+      return user;
+
+    } catch (error) {
+      console.log("User info update failed", error);
+      return false;
+    }
+  };
+};
+
+
+export const resetApp = () => ({
+  type: actionTypes.RESET_APP,
+});
+
+
+export const signOutUser = () => {
+  return async (dispatch) => {
     signOutFirebase();
+    dispatch(resetApp());
   };
 };

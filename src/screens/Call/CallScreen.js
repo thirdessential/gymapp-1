@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  callData: state.user.callData,
-  inAppCall: state.user.inAppCall
+  callData: state.call.callData,
+  inAppCall: state.call.inAppCall
 });
 
 const mapDispatchToProps = (dispatch) => ({
