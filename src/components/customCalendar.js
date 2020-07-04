@@ -2,6 +2,7 @@ import React from "react";
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import colors, {appTheme} from "../constants/colors";
 import moment from "moment";
+import fonts from "../constants/fonts";
 
 const format = "YYYY-MM-DD"
 const customCalendar = (props) => {
@@ -40,14 +41,14 @@ const customCalendar = (props) => {
         disabledArrowColor: appTheme.grey,
         monthTextColor: appTheme.lightContent,
         indicatorColor: 'blue',
-        textDayFontFamily: 'monospace',
-        textMonthFontFamily: 'monospace',
+        textDayFontFamily: fonts.PoppinsSemiBold,
+        textMonthFontFamily: fonts.RobotoRegular,
         textDayHeaderFontFamily: 'monospace',
         textDayFontWeight: '300',
         textMonthFontWeight: 'bold',
         textDayHeaderFontWeight: '300',
         textDayFontSize: 16,
-        textMonthFontSize: 16,
+        textMonthFontSize: 18,
         textDayHeaderFontSize: 16
       }}
     />

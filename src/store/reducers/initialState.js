@@ -22,7 +22,7 @@ export const callState = {
 export const appState = {
   userList: [], // user listing TODO:Rename this
   users: {},// detailed user info for each user
-  globalSlots: {}, // globally available slots, and its metadata
+  globalSlots: null, // globally available slots, and its metadata
 }
 
 export const trainerState = {

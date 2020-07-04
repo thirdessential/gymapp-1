@@ -77,6 +77,7 @@ class Schedule extends Component {
 
   updateSelectedTime = () => {
     const {globalSlots} = this.props;
+    if (!globalSlots) return;
 
     const day = this.getSelectedDay();
     const {times} = globalSlots[day][0];
@@ -96,12 +97,15 @@ class Schedule extends Component {
 
   renderSlots = () => {
     const {globalSlots} = this.props;
+    if (!globalSlots) return null;
     const day = this.getSelectedDay();
+    if (!globalSlots[day]) return null;
     const {slots} = globalSlots[day][0];
+    if (!slots) return null;
     const filteredSlots = slots.filter(slot => slot.time === this.state.selectedTime);
     return filteredSlots.map((slot, index) => {
       const {duration, trainerId} = slot;
-      const {name ,displayPictureUrl, city} = trainerId;
+      const {name, displayPictureUrl, city} = trainerId;
       return (
         <View key={index} style={styles.appointmentContainer}>
           <GlobalSlot
@@ -116,8 +120,11 @@ class Schedule extends Component {
 
   renderTimeButtonGroup = () => {
     const {globalSlots} = this.props;
+    if (!globalSlots) return null;
+
     const day = this.getSelectedDay();
-    const {times} = globalSlots[day][0];
+    const {times} = globalSlots[day] && globalSlots[day][0];
+    if (!times) return null;
     return (
       <View style={styles.buttonGroup}>
         <SelectableButtonGroup
@@ -144,7 +151,7 @@ class Schedule extends Component {
           <Text style={styles.heading}>{strings.AVAILABLE_SLOTS}</Text>
         </View>
         {/*<View style={styles.slotList}>*/}
-          <this.renderSlots/>
+        <this.renderSlots/>
         {/*</View>*/}
       </ScrollView>
     );
@@ -172,7 +179,7 @@ const styles = StyleSheet.create({
   },
   headingContainer: {
     margin: spacing.medium,
-    marginBottom:spacing.small,
+    marginBottom: spacing.small,
     alignItems: 'center',
   },
   heading: {

@@ -11,6 +11,7 @@ import {spacing} from "../constants/dimension";
 import GenericButton from "./GenericButton";
 import SelectableButton from "./selectableButton";
 import strings from "../constants/strings";
+import fontSizes from "../constants/fontSizes";
 
 const globalSlot = (props) => {
   return (
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
   timeText: {
     color:appTheme.grey,
     fontFamily: 'Poppins-Medium',
+    fontSize:fontSizes.h3
   },
   actionButtonContainer:{
     alignSelf:'flex-end',
