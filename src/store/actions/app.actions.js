@@ -51,8 +51,8 @@ export const setGlobalSlots  = (globalSlots) => ({
 export const updateGlobalSlots = () => {
   return async (dispatch) => {
     try {
-      let slotData = await API.getGlobalSlots();
-      dispatch(setGlobalSlots(slotData));
+      let {availableSlots} = await API.getGlobalSlots();
+      dispatch(setGlobalSlots(availableSlots));
     } catch (error) {
       console.log("Global slot update failed", error);
     }

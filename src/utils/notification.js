@@ -9,7 +9,8 @@ import {appPackageId, notificationActions, storageKeys} from "../constants/appCo
 import {navigate} from "../navigation/RootNavigation";
 import RouteNames from "../navigation/RouteNames";
 import requestCameraAndAudioPermission from "./permission";
-import { showMessage, hideMessage } from "react-native-flash-message";
+import {showMessage, hideMessage} from "react-native-flash-message";
+
 export const callHandler = async (remoteMessage) => {
   console.log('Remote Message handled in the background!', remoteMessage);
   const {data} = remoteMessage;
@@ -17,8 +18,11 @@ export const callHandler = async (remoteMessage) => {
   LocalNotification(data);
   // const {agoraAppId,sessionId,userEmail} = data;
   // Save to storage for in app Call UI
-  await saveToStorage(storageKeys.PENDING_CALL, data);
-  LaunchApplication.open(appPackageId);
+  if (data.type === 'call') {
+    await saveToStorage(storageKeys.PENDING_CALL, data);
+    LaunchApplication.open(appPackageId);
+  }
+
 }
 
 export const configureFCMNotification = async () => {
@@ -54,13 +58,18 @@ const handleNotification = async (notification) => {
   if (notification.action === notificationActions.Accept) {
     PushNotification.cancelAllLocalNotifications();
     console.log("Accepted call");
-    const {agoraAppId, sessionId} = notification.payload;
-    const permissionGranted = await requestCameraAndAudioPermission();
-    if (!permissionGranted) return;
-    navigate(RouteNames.VideoCall, {
-      AppID: agoraAppId,
-      ChannelName: sessionId
-    });
+    const {agoraAppId, sessionId, type} = notification.payload;
+    if (type === 'call') {
+      const permissionGranted = await requestCameraAndAudioPermission();
+      if (!permissionGranted) return;
+      navigate(RouteNames.VideoCall, {
+        AppID: agoraAppId,
+        ChannelName: sessionId
+      });
+    } else {
+      console.log("Handle other types of notifications here")
+    }
+
   }
   if (notification.foreground) {
     console.log("Handled notification in App");

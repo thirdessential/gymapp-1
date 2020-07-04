@@ -4,7 +4,9 @@ export const priceBuilder = (price) => `PRICE: ${price} INR`;
 
 const strings = {
   SLOTS : 'Slots',
+  AVAILABLE_SLOTS:'Available Slots',
   PACKAGE_NAME:'Package Name',
+  MINS:'Mins',
   RUPEE:'₹',
   FOLLOW : 'Follow',
   BOOK:'Book',

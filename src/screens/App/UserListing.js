@@ -33,7 +33,6 @@ class UserListing extends Component {
     const {updateUsersList, updateUserData,updateGlobalSlots} = this.props;
     updateUsersList();
     updateUserData();
-    updateGlobalSlots()
   }
 
   openProfile = (userId) => {
@@ -156,7 +155,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   updateUsersList: () => dispatch(actionCreators.updateUsersList()),
   updateUserData: () => dispatch(actionCreators.updateUserData()),
-  updateGlobalSlots:()=>dispatch(actionCreators.updateGlobalSlots())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserListing);

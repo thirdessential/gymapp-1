@@ -8,7 +8,7 @@ import colors, {appTheme} from "../constants/colors";
 import {spacing} from "../constants/dimension";
 
 import SelectableButton from "./selectableButton";
-import Appointment from "./Appointment";
+import Appointment from "./GlobalSlot";
 import {Card} from "native-base";
 
 const selectableButtonGroup = (props) => {

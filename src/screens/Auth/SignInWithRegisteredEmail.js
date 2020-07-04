@@ -67,6 +67,7 @@ class SignInWithRegisteredEmail extends Component {
             <Text style={{ fontSize: 18 }}>Email</Text>
             <TextInput
               placeholder="Your email"
+              keyboardType={'email-address'}
               placeholderTextColor="grey"
               style={{
                 marginTop: 10,
