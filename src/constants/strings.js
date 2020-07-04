@@ -12,6 +12,7 @@ const strings = {
   RUPEE: '₹',
   FOLLOW: 'Follow',
   BOOK: 'Book',
+  EDIT_COVER:'Edit Cover',
   ENROLL: 'Enroll',
   NO_OF_SESSIONS: 'Number of Sessions',
   MY_PACKAGES: 'My Packages',

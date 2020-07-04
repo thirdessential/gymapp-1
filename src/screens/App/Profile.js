@@ -35,6 +35,7 @@ class Profile extends Component {
   componentDidMount() {
     const {route, setUser} = this.props;
     const {userId} = route.params;
+
     setUser(userId);
   }
 
@@ -43,14 +44,14 @@ class Profile extends Component {
     const {userId} = route.params;
     const user = this.getUser();
 
-    let {name,packages} = user;
-    const filteredPackages = packages.filter(packageData=> packageData._id===packageId);
-    if(filteredPackages&& filteredPackages.length>0){
+    let {name, packages} = user;
+    const filteredPackages = packages.filter(packageData => packageData._id === packageId);
+    if (filteredPackages && filteredPackages.length > 0) {
       const sessionCount = filteredPackages[0].noOfSessions;
       navigation.navigate(RouteNames.Enroll, {
         userId,
         packageId,
-        trainerName:name,
+        trainerName: name,
         sessionCount
       });
     }
@@ -66,8 +67,8 @@ class Profile extends Component {
     } else console.log("Cant initiate video call without permission");
   }
 
-  bookClicked = async (day,time) => {
-    console.log('booked', day,time)
+  bookClicked = async (day, time) => {
+    console.log('booked', day, time)
   }
 
   loader = () => (
@@ -90,6 +91,10 @@ class Profile extends Component {
 
     if (nextUser && !currentUser) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); // fancy hack
+      let {wallImageUrl} = nextUser;
+      if (!!wallImageUrl) {
+        this.setState({bgImage: {uri: wallImageUrl}});
+      }
     }
     return true;
   }
@@ -107,7 +112,7 @@ class Profile extends Component {
     return (
       <View style={styles.container}>
         <ProfileOverview
-          name={name||'User'}
+          name={name || 'User'}
           dpUrl={displayPictureUrl}
           hits={hits}
           rating={rating}
@@ -142,10 +147,6 @@ class Profile extends Component {
         renderForeground={() => (
           <FastImage
             style={{width: screenWidth, height: screenHeight}}
-            // source={{
-            //   uri: defaultDP,
-            //   priority: FastImage.priority.normal,
-            // }}
             source={this.state.bgImage}
             resizeMode={FastImage.resizeMode.cover}
           />

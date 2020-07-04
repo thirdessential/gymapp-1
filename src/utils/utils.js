@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {makeCall} from "../API";
 import strings from "../constants/strings";
 import {WEEK_DAYS} from "../constants/appConstants";
+import ImagePicker from "react-native-image-picker";
 
 export const validateResponseCode = (code) => {
   return Math.floor(code / 100) === 2;
@@ -34,7 +35,7 @@ export const findMissingDays = days => {
 }
 
 export const formatTimeArray = array => {
-  if(!array)return [];
+  if (!array) return [];
   return array.map(time => militaryTimeToString(time));
 }
 
@@ -128,7 +129,7 @@ export const initialiseVideoCall = async (userId) => {
 export const customDelay = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
 
 export const toTitleCase = (str) => {
-  if(!str)return ''
+  if (!str) return ''
   return str.replace(
     /\w\S*/g,
     function (txt) {
@@ -179,3 +180,8 @@ export const generateUserHits = ({post, subscription}) => ([
     count: subscription || 0
   }
 ]);
+
+export const pickImage = async (callback) => {
+  const options = {};
+  ImagePicker.showImagePicker(options, callback);
+}

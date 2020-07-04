@@ -106,10 +106,9 @@ export const setSubscriptions = (subscriptions) => ({
 
 
 export const syncSubscriptions = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     try {
       let subscriptions = await API.getMySubscriptions();
-      console.log(subscriptions);
       dispatch(setSubscriptions(subscriptions));
     } catch (error) {
       console.log("Trainer subs update failed", error);

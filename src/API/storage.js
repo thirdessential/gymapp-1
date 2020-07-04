@@ -1,16 +1,17 @@
 import RNFetchBlob from "rn-fetch-blob";
 import ImageResizer from "react-native-image-resizer";
 
-import {dpDimension, rootURL} from "../constants/appConstants";
+import {dpDimension, imageTypes, rootURL} from "../constants/appConstants";
 import {getOSPath} from "../utils/utils";
 
 const getFileExtension = (path) => path.slice(((path.lastIndexOf(".") - 1) >>> 0) + 2);
 
-export const uploadImage = async (path, token) => {
+export const uploadImage = async (path, token, imageType = imageTypes.AVATAR) => {
   try {
     let fileExtension = getFileExtension(path);
     console.log("Uploading from ", path);
-    let compressedPath = await compressImage(path, dpDimension);
+    let compressedPath = await compressImage(path, imageType.dimension);
+    const url = imageType.type === imageTypes.AVATAR.type ? '/user/displayImage' : '/user/wallImage';
 
     const uploadData = [
       {
@@ -22,7 +23,7 @@ export const uploadImage = async (path, token) => {
     ];
     let response = await RNFetchBlob.fetch(
       "PUT",
-      rootURL + '/user/displayImage',
+      rootURL + url,
       {
         Authorization: "Bearer " + token,
         "Content-Type": "multipart/form-data",

@@ -38,18 +38,26 @@ export const WEEK_DAYS = {
 };
 export const allowedDurations = [30, 45, 60];
 
-export const dpDimension = {
-  width:400,
-  height:400
+export const imageTypes = {
+  AVATAR: {
+    type: 'AVATAR',
+    dimension: {
+      width: 400,
+      height: 400
+    }
+  },
+  COVER: {
+    type: 'COVER',
+    dimension: {
+      height: 1000,
+      width: 1000
+    }
+  }
 }
 
-export const coverDimension = {
-  height:1000,
-  width:1000
-}
 
-export const remoteMessageTypes ={
-  CALL:'call',
-  APPOINTMENT:"appointmentNotification",
-  SESSION:'sessionNotification'
+export const remoteMessageTypes = {
+  CALL: 'call',
+  APPOINTMENT: "appointmentNotification",
+  SESSION: 'sessionNotification'
 }

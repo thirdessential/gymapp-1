@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
 import FastImage from 'react-native-fast-image'
@@ -12,14 +12,16 @@ import ProfileOverview from '../../components/Profile/ProfileOverview';
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
-import {userTypes} from "../../constants/appConstants";
+import {imageTypes, userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
 import RouteNames from "../../navigation/RouteNames";
-import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
+import {generateTrainerHits, generateUserHits, initialiseVideoCall, pickImage} from "../../utils/utils";
 import {spacing} from "../../constants/dimension";
 import TrainerInfo from "../../components/Trainer/TrainerInfoTabView";
 import * as actionCreators from "../../store/actions";
 import requestCameraAndAudioPermission from "../../utils/permission";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import {uploadImage} from "../../API";
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -31,11 +33,15 @@ class MyProfile extends Component {
   state = {
     bgImage: getRandomImage()
   }
+
   componentDidMount() {
-    const {syncSubscriptions, updateUserData} = this.props;
+    const {syncSubscriptions, updateUserData,userData} = this.props;
+    let {wallImageUrl} = userData;
+    if (!!wallImageUrl) {
+      this.setState({bgImage:{uri:wallImageUrl}});
+    }
     syncSubscriptions();
     updateUserData();
-
   }
 
   callClicked = async (userId) => {
@@ -49,6 +55,31 @@ class MyProfile extends Component {
   editProfile = () => {
     this.props.navigation.navigate(RouteNames.ProfileEdit);
   }
+
+  editCover = () => {
+    pickImage(async response => {
+      if (!response.uri) return;
+      console.log('image url', response.uri);
+      this.setState({
+        bgImage: {uri:response.uri},
+      });
+
+      await uploadImage(response.path,this.props.authToken,imageTypes.COVER);
+    });
+  }
+
+  renderCoverEdit = () => (
+    <TouchableOpacity
+      hitSlop={{top: 40, bottom: 40, left: 40, right: 40}}
+      onPress={this.editCover} style={styles.coverEditButton}>
+      <FontAwesome
+        name={'camera'}
+        color={'white'}
+        size={20}
+      />
+      <Text style={styles.coverText}>{strings.EDIT_COVER}</Text>
+    </TouchableOpacity>
+  )
 
   renderContent = () => {
     const user = this.props.userData;
@@ -89,28 +120,23 @@ class MyProfile extends Component {
   }
 
   render() {
-
-    const {userData} = this.props;
-    let {displayPictureUrl} = userData;
-    // if (!displayPictureUrl) displayPictureUrl = defaultDP;
-
     return (
       <ParallaxScrollView
         backgroundColor={appTheme.darkBackground}
         contentBackgroundColor={appTheme.darkBackground}
         parallaxHeaderHeight={screenHeight * 2 / 3}
         renderForeground={() => (
-          <FastImage
-            style={{width: screenWidth, height: screenHeight}}
-            // source={{
-            //   uri: displayPictureUrl,
-            //   priority: FastImage.priority.normal,
-            // }}
-            source={this.state.bgImage}
-            resizeMode={FastImage.resizeMode.cover}
-          />
+          <>
+            <this.renderCoverEdit/>
+            <FastImage
+              style={{width: screenWidth, height: screenHeight}}
+              source={this.state.bgImage}
+              resizeMode={FastImage.resizeMode.cover}
+            />
+          </>
         )}>
         <this.renderContent/>
+
       </ParallaxScrollView>
 
     )
@@ -155,12 +181,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
   },
+  coverEditButton: {
+    position: 'absolute',
+    left: spacing.medium_lg,
+    bottom: spacing.large_lg,
+    zIndex: 100,
+    flexDirection: 'row',
+    backgroundColor: '#11111188',
+    padding: spacing.small,
+    borderRadius: 3
+  },
+  coverText: {
+    color: 'white',
+    marginLeft: spacing.medium_sm
+  }
 });
 
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
-  subscriptions: state.trainer.subscriptions
-
+  subscriptions: state.trainer.subscriptions,
+  authToken: state.user.authToken,
 });
 
 const mapDispatchToProps = (dispatch) => ({
