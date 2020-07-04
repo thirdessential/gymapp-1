@@ -96,6 +96,8 @@ class SlotList extends Component {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const filteredSlots = this.state.slots.filter(slot => slot._id !== slotId);
     this.setState({slots: filteredSlots});
+    this.props.createSlots(filteredSlots);
+
   }
   createSlot = () => {
     const slot = {
