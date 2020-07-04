@@ -50,7 +50,6 @@ class Schedule extends Component {
   }
 
   componentDidMount() {
-
     const {navigation} = this.props;
     this.refreshGlobalState();
     this.updateLocalState();

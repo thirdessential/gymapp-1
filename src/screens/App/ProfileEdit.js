@@ -10,14 +10,12 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ActionButtonTwo from '../../components/Login/ActionButtonTwo';
 import colors, {appTheme} from '../../constants/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import SignupFormElement from '../../components/Signup/SIgnupFormElement';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import FastImage from "react-native-fast-image";
 import {spacing} from "../../constants/dimension";
-import {getRandomImage} from "../../constants/images";
-import Ion from "react-native-vector-icons/Ionicons";
+
 
 class ProfileEdit extends Component {
 

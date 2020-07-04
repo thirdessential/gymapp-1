@@ -2,10 +2,13 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, LayoutAnimation} from 'react-native'
+import {View, StyleSheet, ActivityIndicator, LayoutAnimation} from 'react-native'
+import {createImageProgress} from 'react-native-image-progress';
+import FastImage from 'react-native-fast-image';
+
+const Image = createImageProgress(FastImage);
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
-import FastImage from 'react-native-fast-image'
 
 import ProfileOverview from '../../components/Profile/ProfileOverview';
 import TrainerInfo from '../../components/Trainer/TrainerInfoTabView'
@@ -37,6 +40,15 @@ class Profile extends Component {
     const {userId} = route.params;
 
     setUser(userId);
+
+    const userData = this.getUser();
+    if (userData) {
+      let {wallImageUrl} = userData;
+      if (!!wallImageUrl) {
+        this.setState({bgImage: {uri: wallImageUrl}});
+      }
+    }
+
   }
 
   enrollClicked = (packageId) => {
@@ -141,11 +153,11 @@ class Profile extends Component {
   render() {
     return (
       <ParallaxScrollView
-        backgroundColor={appTheme.darkBackground}
+        backgroundColor={appTheme.background}
         contentBackgroundColor={appTheme.darkBackground}
         parallaxHeaderHeight={screenHeight * 2 / 3}
         renderForeground={() => (
-          <FastImage
+          <Image
             style={{width: screenWidth, height: screenHeight}}
             source={this.state.bgImage}
             resizeMode={FastImage.resizeMode.cover}

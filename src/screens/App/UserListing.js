@@ -23,16 +23,21 @@ import UserThumb from "../../components/Trainer/UserThumb";
 import {spacing} from "../../constants/dimension";
 import requestCameraAndAudioPermission from "../../utils/permission";
 import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
-import {getAllSlots} from "../../API";
 
 const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 class UserListing extends Component {
 
   componentDidMount() {
-    const {updateUsersList, updateUserData,updateGlobalSlots} = this.props;
-    updateUsersList();
+    const {updateUsersList, updateUserData, navigation} = this.props;
     updateUserData();
+    this.unsubscribeFocus = navigation.addListener('focus', e => {
+      updateUsersList();
+    })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeFocus()
   }
 
   openProfile = (userId) => {
@@ -135,7 +140,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: appTheme.darkBackground,
     width: '100%',
-    paddingTop:spacing.large,
+    paddingTop: spacing.large,
   },
   itemSeparatorHorizontal: {
     height: 1,

@@ -5,8 +5,10 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
-import FastImage from 'react-native-fast-image'
+import {createImageProgress} from 'react-native-image-progress';
+import FastImage from 'react-native-fast-image';
 
+const Image = createImageProgress(FastImage);
 import ProfileOverview from '../../components/Profile/ProfileOverview';
 
 import {appTheme} from "../../constants/colors";
@@ -35,13 +37,20 @@ class MyProfile extends Component {
   }
 
   componentDidMount() {
-    const {syncSubscriptions, updateUserData,userData} = this.props;
+    const {syncSubscriptions, updateUserData, userData, navigation} = this.props;
+    this.unsubscribeFocus = navigation.addListener('focus', e => {
+      updateUserData();
+    })
     let {wallImageUrl} = userData;
     if (!!wallImageUrl) {
-      this.setState({bgImage:{uri:wallImageUrl}});
+      this.setState({bgImage: {uri: wallImageUrl}});
     }
     syncSubscriptions();
     updateUserData();
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeFocus();
   }
 
   callClicked = async (userId) => {
@@ -61,10 +70,10 @@ class MyProfile extends Component {
       if (!response.uri) return;
       console.log('image url', response.uri);
       this.setState({
-        bgImage: {uri:response.uri},
+        bgImage: {uri: response.uri},
       });
 
-      await uploadImage(response.path,this.props.authToken,imageTypes.COVER);
+      await uploadImage(response.path, this.props.authToken, imageTypes.COVER);
     });
   }
 
@@ -128,7 +137,7 @@ class MyProfile extends Component {
         renderForeground={() => (
           <>
             <this.renderCoverEdit/>
-            <FastImage
+            <Image
               style={{width: screenWidth, height: screenHeight}}
               source={this.state.bgImage}
               resizeMode={FastImage.resizeMode.cover}
@@ -206,8 +215,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions()),
   updateUserData: () => dispatch(actionCreators.updateUserData()),
-
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);
