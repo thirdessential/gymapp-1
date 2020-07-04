@@ -1,22 +1,22 @@
 import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
 
-export const setTrainers = (trainers) => ({
-  type: actionTypes.SET_TRAINERS,
+export const setUserList = (userList) => ({
+  type: actionTypes.SET_USER_LIST,
   payload: {
-    trainers
+    userList
   },
 });
 
-export const updateTrainers = () => {
-  return async (dispatch, getState) => {
+export const updateUsersList = () => {
+  return async (dispatch) => {
     try {
-      let {trainers} = await API.listTrainers();
-      if(trainers){
-        dispatch(setTrainers(trainers));
+      let {trainers} = await API.listUsers();
+      if (trainers) {
+        dispatch(setUserList(trainers));
       }
     } catch (error) {
-      console.log("Trainer update failed", error);
+      console.log("user list update failed", error);
     }
   };
 };
@@ -32,19 +32,29 @@ export const setUser = (userId) => {
   return async (dispatch, getState) => {
     try {
       let {user} = await API.getUserInfo(userId);
-      if(user){
+      if (user) {
         dispatch(setUserAction(user));
       }
     } catch (error) {
-      console.log("User update failed", error);
+      console.log("UserData update failed", error);
     }
   };
 };
 
-export const resetApp = ()=>  ({
-  type: actionTypes.SET_USER,
+export const setGlobalSlots  = (globalSlots) => ({
+  type: actionTypes.SET_GLOBAL_SLOTS,
   payload: {
-    user
+    globalSlots
   }
 });
 
+export const updateGlobalSlots = () => {
+  return async (dispatch) => {
+    try {
+      let {availableSlots} = await API.getGlobalSlots();
+      dispatch(setGlobalSlots(availableSlots));
+    } catch (error) {
+      console.log("Global slot update failed", error);
+    }
+  };
+};

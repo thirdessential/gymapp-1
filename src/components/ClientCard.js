@@ -12,7 +12,7 @@ import GenericButton from "./GenericButton";
 import SelectableButton from "./selectableButton";
 import strings from "../constants/strings";
 
-const appointment = (props) => {
+const client = (props) => {
   return (
     <Card style={styles.cardStyle}>
       <View style={styles.container}>
@@ -24,28 +24,21 @@ const appointment = (props) => {
         />
         <View style={styles.appointmentDetails}>
           <Text style={styles.displayName}>{props.displayName}</Text>
-          <Text style={styles.timeText}>{props.startTime}</Text>
+          <Text style={styles.timeText}>{props.location}</Text>
+          <Text style={styles.timeText}> {props.sessions} { strings.SESSIONS} </Text>
         </View>
         <View style={styles.actionButtonContainer}>
-          <SelectableButton selected={true} textContent={strings.CALL}/>
+          <SelectableButton onPress={props.callCallback} selected={true} textContent={strings.CALL}/>
         </View>
       </View>
-     </Card>
+    </Card>
   );
 }
 
 
-appointment.propTypes = {
-  startTime: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
-  imageUrl: PropTypes.string.isRequired
-};
+client.propTypes = {
 
-appointment.defaultProps = {
-  displayName: 'Yash Shrivastav',
-  startTime: '5:20 PM',
-  imageUrl: 'sd'
-}
+};
 
 const styles = StyleSheet.create({
   cardStyle: {
@@ -80,4 +73,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default appointment;
+export default client;

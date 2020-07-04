@@ -6,6 +6,7 @@ const RouteNames = {
   ChooseUserType:'ChooseUserType',
 
   UserListing:'UserListing',
+  MyClients:'MyClients',
   Profile:'Profile',
   MyProfile:'MyProfile',
   Packages:'Packages',

@@ -15,7 +15,7 @@ import fonts from "../../constants/fonts";
 
 import {WEEK_DAYS} from "../../constants/appConstants";
 import Slot from "../../components/Slot";
-import {dateToString, groupBy} from "../../utils/utils";
+import {dateToString, findMissingDays, groupBy} from "../../utils/utils";
 import BarButton from "../../components/BarButton";
 
 class SlotList extends Component {
@@ -28,16 +28,24 @@ class SlotList extends Component {
     const {navigation, createSlots, slots} = this.props;
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
+    this.refreshSlots();
     this.unsubscribeFocus = navigation.addListener('focus', e => {
-      if (slots && slots.length > 0) {
-        const localSlots = this.mapSlotsToLocal(slots);
-        this.setState({slots: localSlots});
-      }
+      this.refreshSlots(); // TODO:Make it fire only for first time
     })
 
-    this.unsubscribeBlur = navigation.addListener('blur', e => {
-      createSlots(this.state.slots);
+    this.unsubscribeBlur = navigation.addListener('blur', async e => {
+      await createSlots(this.state.slots);
+      this.refreshSlots();
     });
+  }
+
+  refreshSlots = () => {
+    const {slots} = this.props;
+    if (slots && slots.length > 0) {
+      // const filteredSlots = slots.filter(slot=>slot.subscriptionId===null);
+      const localSlots = this.mapSlotsToLocal(slots);
+      this.setState({slots: localSlots});
+    }
   }
 
   mapSlotsToLocal = (slots) => {
@@ -88,6 +96,8 @@ class SlotList extends Component {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const filteredSlots = this.state.slots.filter(slot => slot._id !== slotId);
     this.setState({slots: filteredSlots});
+    this.props.createSlots(filteredSlots);
+
   }
   createSlot = () => {
     const slot = {

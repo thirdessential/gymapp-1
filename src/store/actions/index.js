@@ -6,10 +6,10 @@ export {
 
 export {
   setAuthToken,
-  resetUser,
   setUserType,
   setInitialLoginOff,
-  updateUserData
+  updateUserData,
+  subscribePackage
 } from "./user.actions";
 
 export {
@@ -20,13 +20,15 @@ export {
 } from './call.actions';
 
 export {
-  setTrainers,
-  updateTrainers,
-  setUser
+  setUserList,
+  updateUsersList,
+  setUser,
+  updateGlobalSlots
 } from "./app.actions";
 
 export {
   createPackage,
   deletePackage,
-  createSlots
+  createSlots,
+  syncSubscriptions
 } from './trainer.actions'

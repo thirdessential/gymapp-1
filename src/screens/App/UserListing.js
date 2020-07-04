@@ -29,9 +29,15 @@ const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-pi
 class UserListing extends Component {
 
   componentDidMount() {
-    const {updateTrainers, updateUserData} = this.props;
-    updateTrainers();
+    const {updateUsersList, updateUserData, navigation} = this.props;
     updateUserData();
+    this.unsubscribeFocus = navigation.addListener('focus', e => {
+      updateUsersList();
+    })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeFocus()
   }
 
   openProfile = (userId) => {
@@ -87,7 +93,7 @@ class UserListing extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if (nextProps.users.length !== this.props.users.length)
+    if (nextProps.userList.length !== this.props.userList.length)
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     return true;
   }
@@ -95,21 +101,21 @@ class UserListing extends Component {
   renderHorizontalSeparatorView = () => <View style={styles.itemSeparatorHorizontal}/>
 
   render() {
-    const {users} = this.props;
+    const {userList} = this.props;
     return (<>
         <StatusBar backgroundColor={appTheme.background}/>
         <View style={styles.listContainer}>
           <FlatList
             showsVerticalScrollIndicator={false}
             style={styles.container}
-            data={users}
+            data={userList}
             renderItem={({item, index}) => this.renderUserThumb(item, index)}
             keyExtractor={(item, index) => item._id}
             ItemSeparatorComponent={this.renderHorizontalSeparatorView}
             ListFooterComponent={() => <View style={{height: 100}}/>}
           />
           {
-            users.length === 0 && (
+            userList.length === 0 && (
               <ActivityIndicator style={{position: 'absolute'}} color={appTheme.lightContent} size={50}/>
             )
           }
@@ -134,7 +140,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: appTheme.darkBackground,
     width: '100%',
-    paddingTop:spacing.large,
+    paddingTop: spacing.large,
   },
   itemSeparatorHorizontal: {
     height: 1,
@@ -148,46 +154,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  users: state.app.trainers,
-  authToken: state.user.authToken,
+  userList: state.app.userList,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateTrainers: () => dispatch(actionCreators.updateTrainers()),
-  updateUserData: () => dispatch(actionCreators.updateUserData())
+  updateUsersList: () => dispatch(actionCreators.updateUsersList()),
+  updateUserData: () => dispatch(actionCreators.updateUserData()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserListing);
-
-// const packages = [
-//   {
-//     name: 'Weight Loss Program',
-//     sessionCount: 15,
-//     price: 3500
-//   },
-//   {
-//     name: 'Fat Gain Program',
-//     sessionCount: 15,
-//     price: 3500
-//   },
-//   {
-//     name: 'Weight Loss Program',
-//     sessionCount: 15,
-//     price: 3500
-//   },
-//   {
-//     name: 'Fat Gain Program',
-//     sessionCount: 15,
-//     price: 3500
-//   },
-//   {
-//     name: 'Weight Loss Program',
-//     sessionCount: 15,
-//     price: 3500
-//   },
-//   {
-//     name: 'Fat Gain Program',
-//     sessionCount: 15,
-//     price: 3500
-//   },
-// ]

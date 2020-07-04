@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
+import {sub} from "react-native-reanimated";
 
 export const setPackages = (packages) => ({
   type: actionTypes.SET_PACKAGES,
@@ -72,16 +73,15 @@ export const setSlots = (slots) => ({
   },
 });
 
-
 export const createSlots = (slotArray) => {
   return async (dispatch, getState) => {
     let oldSlots = getState().trainer.slots;
     try {
-      dispatch(setSlots(slotArray));
+      // dispatch(setSlots(slotArray));
       let slots = await API.syncSlots(slotArray);
       if (slots) {
         console.log('slots created', slots);
-        dispatch(setSlots(slots));
+        dispatch(setSlots(slots)); //TODO:Enable this after api change
         return true;
       } else {
         //TODO: finish this rollback by showing error
@@ -96,3 +96,24 @@ export const createSlots = (slotArray) => {
     }
   };
 };
+
+export const setSubscriptions = (subscriptions) => ({
+  type: actionTypes.SET_MY_SUBSCRIPTIONS,
+  payload: {
+    subscriptions
+  },
+});
+
+
+export const syncSubscriptions = () => {
+  return async (dispatch) => {
+    try {
+      let subscriptions = await API.getMySubscriptions();
+      dispatch(setSubscriptions(subscriptions));
+    } catch (error) {
+      console.log("Trainer subs update failed", error);
+      return false;
+    }
+  };
+};
+

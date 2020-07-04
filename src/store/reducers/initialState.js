@@ -9,23 +9,24 @@ export const userState = {
   userType: userTypes.USER,
   userId: '',
   initialLogin: true,
-  userName:'',
-  userData:null
+  userName: '',
+  userData: null
 };
 
 export const callState = {
   callActive: false,
-  inAppCall:false,
+  inAppCall: false,
   callData: {}
 }
 
 export const appState = {
-  trainers: [], // trainer listing
-  users: { // detailed user info
-  },
+  userList: [], // user listing TODO:Rename this
+  users: {},// detailed user info for each user
+  globalSlots: null, // globally available slots, and its metadata
 }
 
 export const trainerState = {
-  packages:[],
-  slots:[]
+  packages: [],
+  slots: [],
+  subscriptions:[]
 }

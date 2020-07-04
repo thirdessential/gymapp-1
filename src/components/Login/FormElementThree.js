@@ -3,7 +3,8 @@ import {  StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 const FormElementThree = (props) =>{
 return(
-    <TextInput placeholder={props.placeholder} style={styles.textInput}   placeholderTextColor="#D1D8EB"  {...props}></TextInput>
+    <TextInput placeholder={props.placeholder} style={styles.textInput}                keyboardType={'email-address'}
+               placeholderTextColor="#D1D8EB"  {...props}></TextInput>
 );
 }
 const styles = StyleSheet.create(

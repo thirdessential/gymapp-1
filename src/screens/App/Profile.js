@@ -2,10 +2,13 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, LayoutAnimation} from 'react-native'
+import {View, StyleSheet, ActivityIndicator, LayoutAnimation} from 'react-native'
+import {createImageProgress} from 'react-native-image-progress';
+import FastImage from 'react-native-fast-image';
+
+const Image = createImageProgress(FastImage);
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
-import FastImage from 'react-native-fast-image'
 
 import ProfileOverview from '../../components/Profile/ProfileOverview';
 import TrainerInfo from '../../components/Trainer/TrainerInfoTabView'
@@ -35,16 +38,35 @@ class Profile extends Component {
   componentDidMount() {
     const {route, setUser} = this.props;
     const {userId} = route.params;
+
     setUser(userId);
+
+    const userData = this.getUser();
+    if (userData) {
+      let {wallImageUrl} = userData;
+      if (!!wallImageUrl) {
+        this.setState({bgImage: {uri: wallImageUrl}});
+      }
+    }
+
   }
 
-  enrollClicked = () => {
+  enrollClicked = (packageId) => {
     const {navigation, route} = this.props;
     const {userId} = route.params;
+    const user = this.getUser();
 
-    navigation.navigate(RouteNames.Enroll, {
-      userId
-    });
+    let {name, packages} = user;
+    const filteredPackages = packages.filter(packageData => packageData._id === packageId);
+    if (filteredPackages && filteredPackages.length > 0) {
+      const sessionCount = filteredPackages[0].noOfSessions;
+      navigation.navigate(RouteNames.Enroll, {
+        userId,
+        packageId,
+        trainerName: name,
+        sessionCount
+      });
+    }
   }
 
   callClicked = async () => {
@@ -57,13 +79,17 @@ class Profile extends Component {
     } else console.log("Cant initiate video call without permission");
   }
 
+  bookClicked = async (day, time) => {
+    console.log('booked', day, time)
+  }
+
   loader = () => (
     <View style={styles.contentContainer}>
       <ActivityIndicator color={appTheme.lightContent} size={50}/>
     </View>
   )
 
-  getUser = ()=> {
+  getUser = () => {
     const {route, users} = this.props;
     const {userId} = route.params;
     return users[userId];
@@ -75,8 +101,12 @@ class Profile extends Component {
     const nextUser = users[userId];
     const currentUser = this.getUser();
 
-    if(nextUser && !currentUser){
+    if (nextUser && !currentUser) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); // fancy hack
+      let {wallImageUrl} = nextUser;
+      if (!!wallImageUrl) {
+        this.setState({bgImage: {uri: wallImageUrl}});
+      }
     }
     return true;
   }
@@ -94,7 +124,7 @@ class Profile extends Component {
     return (
       <View style={styles.container}>
         <ProfileOverview
-          name={name}
+          name={name || 'User'}
           dpUrl={displayPictureUrl}
           hits={hits}
           rating={rating}
@@ -105,12 +135,13 @@ class Profile extends Component {
           location={city}
         />
         {
-            userType === userTypes.TRAINER && (
+          userType === userTypes.TRAINER && (
             <View style={{flex: 1, marginTop: spacing.medium_lg}}>
               <TrainerInfo
                 packages={packages}
                 slots={slots}
                 enrollCallback={this.enrollClicked}
+                bookCallback={this.bookClicked}
               />
             </View>
           )
@@ -122,16 +153,12 @@ class Profile extends Component {
   render() {
     return (
       <ParallaxScrollView
-        backgroundColor={appTheme.darkBackground}
+        backgroundColor={appTheme.background}
         contentBackgroundColor={appTheme.darkBackground}
         parallaxHeaderHeight={screenHeight * 2 / 3}
         renderForeground={() => (
-          <FastImage
+          <Image
             style={{width: screenWidth, height: screenHeight}}
-            // source={{
-            //   uri: defaultDP,
-            //   priority: FastImage.priority.normal,
-            // }}
             source={this.state.bgImage}
             resizeMode={FastImage.resizeMode.cover}
           />
@@ -174,7 +201,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  trainers: state.app.trainers,
   users: state.app.users,
 });
 

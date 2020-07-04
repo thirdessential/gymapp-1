@@ -11,9 +11,10 @@ import {spacing} from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import SlotsByTime from "./SlotsByTime";
+import SubscriptionList from "../SubscriptionList";
 
 const Packages = (props) => (
-  <View style={{flex:1}}>
+  <View style={{flex: 1}}>
     <View style={styles.sectionTitleContainer}>
       <Text style={styles.sectionTitle}>{strings.PACKAGES}</Text>
     </View>
@@ -26,11 +27,20 @@ const Packages = (props) => (
 )
 
 const Slots = (props) => (
-  <View style={{marginBottom:spacing.large}}>
+  <View style={{marginBottom: spacing.large}}>
     <View style={styles.sectionTitleContainer}>
       <Text style={styles.sectionTitle}>{strings.SLOTS}</Text>
     </View>
-    <SlotsByTime slots={props.slots}/>
+    <SlotsByTime slots={props.slots} bookCallback={props.bookCallback ? props.bookCallback : null}/>
+  </View>
+)
+
+const Subscriptions = (props) => (
+  <View style={{marginBottom: spacing.large}}>
+    <View style={styles.sectionTitleContainer}>
+      <Text style={styles.sectionTitle}>{strings.SUBSCRIPTIONS}</Text>
+    </View>
+    <SubscriptionList subscriptions={props.subscriptions} callCallback={props.callCallback}/>
   </View>
 )
 
@@ -39,17 +49,21 @@ const initialLayout = {width: screenWidth};
 const Routes = {
   Packages: 'Packages',
   Posts: 'Posts',
-  Slots: 'Slots'
+  Slots: 'Slots',
+  Subscriptions: 'Subscriptions'
 }
 
 function TrainerInfo(props) {
-  const {packages, enrollCallback, slots} = props;
+  const {packages, enrollCallback, slots, bookCallback, subscriptions, callCallback} = props;
   const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
+  const routeArray = [
     {key: Routes.Packages, title: 'Packages'},
     // {key: Routes.Posts, title: 'Posts'},
     {key: Routes.Slots, title: 'Slots',},
-  ]);
+  ];
+  if (subscriptions) routeArray.push({key: Routes.Subscriptions, title: 'Subscriptions'})
+
+  const [routes] = React.useState(routeArray);
 
   const renderScene = (props) => {
     const {route} = props;
@@ -57,7 +71,9 @@ function TrainerInfo(props) {
       case Routes.Packages:
         return <Packages packages={packages} enrollCallback={enrollCallback}/>;
       case Routes.Slots:
-        return <Slots slots={slots}/>
+        return <Slots slots={slots} bookCallback={bookCallback ? bookCallback : null}/>;
+      case Routes.Subscriptions:
+        return <Subscriptions subscriptions={subscriptions} callCallback={callCallback}/>
       // case Routes.Appointment:
       //   return <Schedule/>
       default:
@@ -97,6 +113,9 @@ const getTabBarIcon = (props) => {
       return <FontAwesome name='calendar' size={22} color={'white'}/>;
     case(Routes.Packages):
       return <FontAwesome name='list' size={22} color={'white'}/>
+    case(Routes.Subscriptions):
+      return <FontAwesome name='eye' size={22} color={'white'}/>
+
     // case(Routes.Posts):
     //   return <FontAwesome name='table' size={22} color={'white'}/>
 

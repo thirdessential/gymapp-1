@@ -11,10 +11,13 @@ export {
 } from './firebaseMethods';
 
 export {
-  listTrainers,
+  listUsers,
   updateUserInfo,
   getUserInfo,
   getMyInfo,
+  getGlobalSlots,
+  subscribeToPackage,
+  bookAppointment
 } from './user';
 
 export {
@@ -23,7 +26,7 @@ export {
   updatePackage,
   deletePackage,
   syncSlots,
-  getGroupedSlots
+  getMySubscriptions
 } from './trainer';
 
 export {

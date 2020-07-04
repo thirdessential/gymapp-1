@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import {makeCall} from "../API";
 import strings from "../constants/strings";
+import {WEEK_DAYS} from "../constants/appConstants";
+import ImagePicker from "react-native-image-picker";
 
 export const validateResponseCode = (code) => {
   return Math.floor(code / 100) === 2;
@@ -22,12 +24,23 @@ export const formattedTime = date => {
 }
 
 export const militaryTimeToString = time => {
+  if (!time) return '';
   const suffix = time >= 1200 ? 'PM' : 'AM';
   return `${time.slice(0, 2)}:${time.slice(2)} ${suffix}`;
 }
 
-export const stringToMilitaryTime = str =>{
-  return `${str.slice(0,2)}${str.slice(3,5)}`;
+export const findMissingDays = days => {
+  let AllDays = Object.values(WEEK_DAYS);
+  return AllDays.filter(x => !days.includes(x));
+}
+
+export const formatTimeArray = array => {
+  if (!array) return [];
+  return array.map(time => militaryTimeToString(time));
+}
+
+export const stringToMilitaryTime = str => {
+  return `${str.slice(0, 2)}${str.slice(3, 5)}`;
 }
 
 export const dateToString = time => {
@@ -116,6 +129,7 @@ export const initialiseVideoCall = async (userId) => {
 export const customDelay = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
 
 export const toTitleCase = (str) => {
+  if (!str) return ''
   return str.replace(
     /\w\S*/g,
     function (txt) {
@@ -166,3 +180,8 @@ export const generateUserHits = ({post, subscription}) => ([
     count: subscription || 0
   }
 ]);
+
+export const pickImage = async (callback) => {
+  const options = {};
+  ImagePicker.showImagePicker(options, callback);
+}

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Ionicons from "react-native-vector-icons/Ionicons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import store from '../../store/configureStore';
 
@@ -14,22 +15,31 @@ import MyProfileStack from '../stacks/myProfileStack';
 import PackageStack from "../stacks/PackageStack";
 import {userTypes} from "../../constants/appConstants";
 import SlotList from "../../screens/App/SlotList";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import {ActivityIndicator, View} from "react-native";
 
 const Tab = createMaterialTopTabNavigator();
+
+const bgView = () => (
+  <View style={{backgroundColor: appTheme.darkBackground, flex: 1, justifyContent:'center',alignItems:'center'}}>
+    <ActivityIndicator size={40} color={appTheme.lightContent}/>
+  </View>)
+;
 
 const homeTab = (props) => {
   const userData = store.getState().user.userData;
   let {userType} = userData;
   return (
     <Tab.Navigator
+      lazy={true}
+      lazyPreloadDistance={1}
+      lazyPlaceholder={bgView}
       tabBarPosition={'bottom'}
       tabBarOptions={{
         activeTintColor: colors.appBlue,
         inactiveTintColor: 'gray',
         showIcon: true,
         showLabel: false,
-        style: { backgroundColor:appTheme.darkGrey },
+        style: {backgroundColor: appTheme.darkGrey},
       }}
     >
       <Tab.Screen
@@ -70,32 +80,43 @@ const homeTab = (props) => {
             }}/>
         )
       }
-      {/*{*/}
-      {/*  userType === userTypes.USER && (*/}
-      {/*    <Tab.Screen*/}
-      {/*      name={RouteNames.Schedule}*/}
-      {/*      component={Schedule}*/}
-      {/*      options={{*/}
-      {/*        title: 'Schedule',*/}
-      {/*        tabBarIcon: ({focused, color, size}) => {*/}
-      {/*          let iconName = focused ? 'calendar-o' : 'calendar';*/}
-      {/*          return <FontAwesome name={iconName} size={20} color={color}/>;*/}
-      {/*        },*/}
-      {/*      }}/>*/}
-      {/*  )*/}
-      {/*}*/}
+      {
+        userType === userTypes.USER && (
+          <Tab.Screen
+            name={RouteNames.Schedule}
+            component={Schedule}
+            options={{
+              title: 'Schedule',
+              tabBarIcon: ({focused, color, size}) => {
+                let iconName = focused ? 'calendar-o' : 'calendar';
+                return <FontAwesome name={iconName} size={20} color={color}/>;
+              },
+            }}/>
+        )
+      }
 
-      <Tab.Screen
-        name={RouteNames.Feed}
-        component={Feed}
-        options={{
-          title: 'Feed',
-          tabBarIcon: ({focused, color, size}) => {
-            let iconName = focused ? 'table' : 'table';
-            return <FontAwesome name={iconName} size={20} color={color}/>;
-          },
-        }}
-      />
+      {/*<Tab.Screen*/}
+      {/*  name={RouteNames.Feed}*/}
+      {/*  component={Feed}*/}
+      {/*  options={{*/}
+      {/*    title: 'Feed',*/}
+      {/*    tabBarIcon: ({focused, color, size}) => {*/}
+      {/*      let iconName = focused ? 'table' : 'table';*/}
+      {/*      return <FontAwesome name={iconName} size={20} color={color}/>;*/}
+      {/*    },*/}
+      {/*  }}*/}
+      {/*/>*/}
+      {/*<Tab.Screen*/}
+      {/*  name={RouteNames.MyClients}*/}
+      {/*  component={MyClients}*/}
+      {/*  options={{*/}
+      {/*    title: 'My Clients',*/}
+      {/*    tabBarIcon: ({focused, color, size}) => {*/}
+      {/*      let iconName = focused ? 'eye' : 'eye';*/}
+      {/*      return <FontAwesome name={iconName} size={20} color={color}/>;*/}
+      {/*    },*/}
+      {/*  }}*/}
+      {/*/>*/}
       <Tab.Screen
         name={RouteNames.MyProfile}
         component={MyProfileStack}

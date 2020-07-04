@@ -1,21 +1,19 @@
 export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
 export const SET_AUTHENTICATED = 'SET_AUTHENTICATED';
-export const SET_TRAINERS = 'SET_TRAINERS';
+export const SET_USER_LIST = 'SET_TRAINERS';
 export const SET_USER = 'SET_USER';
 export const SET_USER_NAME = 'SET_USER_NAME';
-export const SET_USER_DATA=  'SET_USER_DATA';
+export const SET_USER_DATA = 'SET_USER_DATA';
 export const GENERIC_USER_FIELD_SET = 'GENERIC_USER_FIELD_SET';
 export const SET_USER_TYPE = 'SET_USER_TYPE';
 export const SET_INITIAL_LOGIN_OFF = 'SET_INITIAL_LOGIN_OFF';
 export const SET_INCOMING_CALL = 'SET_INCOMING_CALL';
 export const SET_CALL_ACTIVE = 'SET_CALL_ACTIVE';
-export const END_CALL= 'END_CALL';
+export const END_CALL = 'END_CALL';
 export const SET_PACKAGES = 'SET_PACKAGES';
 export const UPDATE_PACKAGE = 'UPDATE_PACKAGE';
 export const REMOVE_PACKAGE = 'REMOVE_PACKAGE';
 export const SET_SLOTS = 'SET_SLOTS';
-
-// export const RESET_AUTH = 'RESET_AUTH';
-// export const RESET_USER = 'RESET_USER';
-// export const RESET_APP = 'RESET_APP';
+export const SET_MY_SUBSCRIPTIONS = 'SET_MY_SUBSCRIPTIONS';
+export const SET_GLOBAL_SLOTS = 'SET_GLOBAL_SLOTS';
 export const RESET_APP = 'RESET_APP';

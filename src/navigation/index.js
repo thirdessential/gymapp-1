@@ -16,8 +16,8 @@ import RootDrawer from './drawer/rootDrawer';
 import {updateAxiosToken} from "../API";
 
 import {navigationRef} from './RootNavigation';
-import {storageKeys, videoTestMode} from "../constants/appConstants";
-import {callHandler, configureFCMNotification} from "../utils/notification";
+import {remoteMessageTypes, storageKeys, videoTestMode} from "../constants/appConstants";
+import {callHandler, configureFCMNotification, showInfo} from "../utils/notification";
 import {deleteFromStorage, readFromStorage} from "../utils/utils";
 import RoundedFas from "../components/RoundedFas";
 
@@ -40,7 +40,19 @@ class App extends React.Component {
     AppState.addEventListener("change", this._handleAppStateChange);
     messaging().onMessage(async remoteMessage => {
       console.log("Remote message received in app", remoteMessage);
-      this.props.setIncomingCall(remoteMessage.data, true);
+      const {data} = remoteMessage;
+      switch (data.type) {
+        case remoteMessageTypes.CALL:
+          this.props.setIncomingCall(remoteMessage.data, true);
+          break;
+        case remoteMessageTypes.APPOINTMENT:
+          const {content} = data;
+          if (!!content)
+            showInfo(content);
+          break;
+        default:break;
+
+      }
     })
   }
 
@@ -101,7 +113,7 @@ class App extends React.Component {
       return <Splash/>
     if (videoTestMode)
       return <VideoTest navigationRef={navigationRef}/>
-    if (callData &&  Object.keys(callData).length !== 0 || callActive) {
+    if (callData && Object.keys(callData).length !== 0 || callActive) {
       return <Calling navigationRef={navigationRef}/>
     }
     if (authenticated) {
@@ -120,7 +132,7 @@ const mapStateToProps = (state) => ({
   initialLogin: state.user.initialLogin,
   callActive: state.call.callActive,
   callData: state.call.callData,
-  userType:state.user.userType
+  userType: state.user.userType
 });
 
 const mapDispatchToProps = (dispatch) => ({

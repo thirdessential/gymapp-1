@@ -25,6 +25,11 @@ function CustomDrawerContent(props) {
         </View>
       </View>
       <DrawerItemList {...props} labelStyle={{color: 'white'}}/>
+      <DrawerItem
+        label="Edit Profile"
+        labelStyle={{color: 'white'}}
+        onPress={() => props.navigation.navigate(RouteNames.ProfileEdit)}
+      />
       {
         userType===userTypes.TRAINER && (
           <DrawerItem

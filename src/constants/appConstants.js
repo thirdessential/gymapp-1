@@ -1,4 +1,5 @@
-export const rootURL = 'https://te-gym-api.herokuapp.com';
+// export const rootURL = 'https://te-gym-api.herokuapp.com';
+export const rootURL = 'https://fitness-first-services.herokuapp.com';
 // export const rootURL = 'http://192.168.0.105:3001';
 export const userTypes = {
   USER: 'USER',
@@ -36,3 +37,27 @@ export const WEEK_DAYS = {
   SAT: 'SAT',
 };
 export const allowedDurations = [30, 45, 60];
+
+export const imageTypes = {
+  AVATAR: {
+    type: 'AVATAR',
+    dimension: {
+      width: 400,
+      height: 400
+    }
+  },
+  COVER: {
+    type: 'COVER',
+    dimension: {
+      height: 1000,
+      width: 1000
+    }
+  }
+}
+
+
+export const remoteMessageTypes = {
+  CALL: 'call',
+  APPOINTMENT: "appointmentNotification",
+  SESSION: 'sessionNotification'
+}

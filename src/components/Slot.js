@@ -12,7 +12,7 @@ import colors, {appTheme} from "../constants/colors";
 import WeekdayPicker from "react-native-weekday-picker";
 import fontSizes from "../constants/fontSizes";
 import fonts from "../constants/fonts";
-import {formattedTime, stringToDate} from "../utils/utils";
+import {findMissingDays, formattedTime, stringToDate} from "../utils/utils";
 import strings from "../constants/strings";
 import SelectableButtonGroup from "./selectableButtonGroup";
 import {allowedDurations, WEEK_DAYS} from "../constants/appConstants";
@@ -63,16 +63,6 @@ const slot = (props) => {
           />
         </TouchableOpacity>
       )
-    if(props.onEnroll)
-      return (
-        <TouchableOpacity onPress={props.onEnroll} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
-          <FontAwesome
-            name={'check'}
-            color={colors.acceptGreen}
-            size={22}
-          />
-        </TouchableOpacity>
-      )
     return null;
   }
 
@@ -111,9 +101,10 @@ const slot = (props) => {
       <WeekdayPicker
         days={mapDaysToBooleans(props.days)}
         onChange={onDaysChanged}
-        disabled={!props.onDaysChange}
+        disabledDays={props.disabledDays ? mapDaysToBooleans(props.disabledDays) : []}
         dayStyle={styles.day}
         dayInactiveStyle={styles.dayInactive}
+        dayDisableStyle={styles.dayDisable}
         activeBackgroundColor={'white'}
         textColor={'black'}
       />
@@ -190,6 +181,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: 'white'
+  },
+  dayDisable: {
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: appTheme.darkGrey,
+    backgroundColor: appTheme.darkGrey
   },
   buttonGroup: {
     backgroundColor: 'transparent',

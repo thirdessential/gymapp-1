@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, Text, FlatList, ScrollView} from 'react-native';
+import {View, StyleSheet, Text, FlatList, ScrollView, LayoutAnimation, TouchableOpacity} from 'react-native';
 import {connect} from "react-redux";
 import moment from "moment";
 import {Card} from 'native-base';
@@ -10,33 +10,26 @@ import {Card} from 'native-base';
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
 import CustomCalendar from '../../components/customCalendar';
-import Appointment from "../../components/Appointment";
+import GlobalSlot from "../../components/GlobalSlot";
 import {appTheme} from "../../constants/colors";
 
 import SelectableButtonGroup from '../../components/selectableButtonGroup';
-import strings from "../../constants/strings";
+import strings, {appointmentErrorBuilder, appointmentSuccessBuilder} from "../../constants/strings";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import MiniSlotCard from "../../components/MiniSlotCard";
+import {formatTimeArray, militaryTimeToString, stringToMilitaryTime} from "../../utils/utils";
+import {WEEK_DAYS} from "../../constants/appConstants";
+import {bookAppointment} from "../../API";
+import {showError, showSuccess} from "../../utils/notification";
+import RouteNames from "../../navigation/RouteNames";
 
 class Schedule extends Component {
 
   state = {
-    dates: [{
-      start: moment(),
-      end: moment().add(6, 'days')
-    }],
     selectedDate: Date.now(),
-    timeSlots: [
-      '10:00 am',
-      '11:00 am',
-      '12:00 pm',
-      '13:00 pm',
-      '14:00 pm',
-      '15:00 pm',
-      '16:00 pm',
-    ],
-    selectedTimeSlot: null,
+    selectedSlots: [],
+    selectedTime: null,
     appointments: [{
       name: 'Jane Nikalson',
       dpUrl: 'https://i.pinimg.com/originals/c5/a9/5f/c5a95f05b14e7f35abd07adf80bc3482.jpg',
@@ -56,21 +49,113 @@ class Schedule extends Component {
     }]
   }
 
-  onDateSelected = date => {
-    this.setState({selectedDate: date});
+  componentDidMount() {
+    const {navigation} = this.props;
+    this.refreshGlobalState();
+    this.updateLocalState();
+    this.unsubscribe = navigation.addListener('focus', e => {
+      this.refreshGlobalState();
+    });
   }
 
-  selectTimeSlot = async timeSlot => {
-    this.setState({selectedTimeSlot: timeSlot});
+  getSelectedDay = () => {
+    const date = new Date(this.state.selectedDate);
+    return Object.keys(WEEK_DAYS)[date.getDay()];
   }
 
-  renderAppointments = (date) => {
+  refreshGlobalState = async () => {
+    const {updateGlobalSlots} = this.props;
+    await updateGlobalSlots();
+    this.updateLocalState();
+  }
 
-    return this.state.appointments.map((appointment, index) => (
-      <View key={index} style={styles.appointmentContainer}>
-        <Appointment  displayName={appointment.name} imageUrl={appointment.dpUrl} startTime={appointment.time}/>
+  updateLocalState = () => {
+    const {globalSlots} = this.props;
+
+    if (globalSlots) {
+      this.updateSelectedTime();
+    }
+  }
+
+  updateSelectedTime = () => {
+    const {globalSlots} = this.props;
+    if (!globalSlots) return;
+
+    const day = this.getSelectedDay();
+    const {times} = globalSlots[day][0];
+    if (times && times.length > 0)
+      this.setState({selectedTime: times[0]})
+  }
+
+  onDateSelected = async date => {
+    await this.setState({selectedDate: date});
+    this.updateSelectedTime();
+  }
+
+  selectTime = async time => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({selectedTime: stringToMilitaryTime(time)});
+  }
+
+  bookAppointment = async (trainerId, day, time) => {
+    let response = await bookAppointment(trainerId, day, time);
+    if (response.success)
+      showSuccess(response.message);
+    else showError(response.message);
+  }
+
+  openProfile = (userId) => {
+    const {navigation} = this.props;
+    navigation.navigate(RouteNames.Profile, {
+      userId: userId
+    });
+  }
+
+  renderSlots = () => {
+    const {globalSlots} = this.props;
+    if (!globalSlots) return null;
+    const day = this.getSelectedDay();
+    if (!globalSlots[day]) return null;
+    const {slots} = globalSlots[day][0];
+    if (!slots) return null;
+    const filteredSlots = slots.filter(slot => slot.time === this.state.selectedTime);
+    return filteredSlots.map((slot, index) => {
+      const {duration, trainerId, dayOfWeek, time} = slot;
+      const {name, displayPictureUrl, city} = trainerId;
+      return (
+        <TouchableOpacity
+          onPress={()=>this.openProfile(trainerId._id)}
+          activeOpacity={0.8}
+          key={index}
+          style={styles.appointmentContainer}>
+          <GlobalSlot
+            displayName={name}
+            imageUrl={displayPictureUrl}
+            location={city}
+            duration={duration}
+            bookCallback={() => this.bookAppointment(trainerId._id, time, dayOfWeek)}
+          />
+        </TouchableOpacity>
+      )
+    })
+  }
+
+  renderTimeButtonGroup = () => {
+    const {globalSlots} = this.props;
+    if (!globalSlots) return null;
+
+    const day = this.getSelectedDay();
+    const {times} = globalSlots[day] && globalSlots[day][0];
+    if (!times) return null;
+    return (
+      <View style={styles.buttonGroup}>
+        <SelectableButtonGroup
+          data={formatTimeArray(times)}
+          selected={militaryTimeToString(this.state.selectedTime)}
+          onSelect={this.selectTime}
+        />
       </View>
-    ))
+    )
   }
 
   render() {
@@ -79,25 +164,15 @@ class Schedule extends Component {
         <View style={styles.calendarContainer}>
           <CustomCalendar
             selectedDate={this.state.selectedDate}
+            dates={this.state.dates}
             onDateChange={this.onDateSelected}
           />
         </View>
-        <View style={styles.buttonGroup}>
-          <SelectableButtonGroup
-            data={this.state.timeSlots}
-            selected={this.state.selectedTimeSlot}
-            onSelect={this.selectTimeSlot}
-          />
-        </View>
+        <this.renderTimeButtonGroup/>
         <View style={styles.headingContainer}>
-          <Text style={styles.heading}>{strings.APPOINTMENTS}</Text>
+          <Text style={styles.heading}>{strings.AVAILABLE_SLOTS}</Text>
         </View>
-        <View style={styles.appointmentList}>
-          {/*<View style={styles.appointmentContainer}>*/}
-          {/*  <MiniSlotCard  day={'Su'} duration={60} startTime={'11:30 AM'}/>*/}
-          {/*</View>*/}
-          <this.renderAppointments/>
-        </View>
+        <this.renderSlots/>
       </ScrollView>
     );
   }
@@ -112,7 +187,7 @@ const styles = StyleSheet.create({
     paddingRight: spacing.medium_lg,
     backgroundColor: appTheme.background
   },
-  appointmentList: {},
+  slotList: {},
   appointmentContainer: {
     marginLeft: spacing.medium_sm,
     marginRight: spacing.medium_sm
@@ -124,6 +199,7 @@ const styles = StyleSheet.create({
   },
   headingContainer: {
     margin: spacing.medium,
+    marginBottom: spacing.small,
     alignItems: 'center',
   },
   heading: {
@@ -133,8 +209,31 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  globalSlots: state.app.globalSlots
+});
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  updateGlobalSlots: () => dispatch(actionCreators.updateGlobalSlots())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Schedule);
+
+//Code to enable disable specific days, wip
+// if (days && days.length > 0) {
+// let validDates = [];
+// days.map(day => {
+//
+//   const start = moment(),
+//     end = moment().add(35, 'days'),
+//     dayToInt = Object.keys(WEEK_DAYS).indexOf(day);
+//   const current = start.clone();
+//   while (current.day(7 + dayToInt).isBefore(end)) {
+//     validDates.push(current.clone());
+//   }
+// })
+// validDates.sort((d1,d2)=> d1>d2);
+// console.log(validDates.map(m => m.format('LLLL')));
+// console.log(validDates.length)
+// this.setState({dates:validDates});
+// }
