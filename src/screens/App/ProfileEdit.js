@@ -95,11 +95,11 @@ class ProfileEdit extends Component {
 
   submit = async () => {
     const { setInitialLoginOff, updateUserData} = this.props;
-    const result = await updateUserInfo(this.state.name, this.state.bio);
-    updateUserData();
-    if (result) {
+    updateUserInfo(this.state.name, this.state.bio);
+    // updateUserData();
+    // if (result) {
       setInitialLoginOff();
-    }
+    // }
   }
 
   render() {

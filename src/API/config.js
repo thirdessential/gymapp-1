@@ -5,9 +5,11 @@ import {rootURL} from '../constants/appConstants';
 const instance = axios.create({
   baseURL: rootURL
 });
+const isDebuggingEnabled = (typeof atob !== 'undefined');
 
 instance.interceptors.request.use(function (config) {
-  console.log("API Request", config);
+
+  isDebuggingEnabled && console.log("API Request", config);
   return config;
 }, function (error) {
   console.log("API Request error", error);
@@ -15,10 +17,11 @@ instance.interceptors.request.use(function (config) {
 });
 
 instance.interceptors.response.use(function (response) {
-  console.log("API Response", response);
+  // isDebuggingEnabled && console.log("API Request", config);
+  isDebuggingEnabled && console.log("API Response", response);
   return response;
 }, function (error) {
-  if(error.response &&  error.response.status === 401)
+  if (error.response && error.response.status === 401)
     console.log("Unauthorized");
   console.log("API Response error", error);
   return Promise.reject(error);

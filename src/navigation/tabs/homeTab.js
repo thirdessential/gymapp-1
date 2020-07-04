@@ -15,21 +15,31 @@ import MyProfileStack from '../stacks/myProfileStack';
 import PackageStack from "../stacks/PackageStack";
 import {userTypes} from "../../constants/appConstants";
 import SlotList from "../../screens/App/SlotList";
+import {ActivityIndicator, View} from "react-native";
 
 const Tab = createMaterialTopTabNavigator();
+
+const bgView = () => (
+  <View style={{backgroundColor: appTheme.darkBackground, flex: 1, justifyContent:'center',alignItems:'center'}}>
+    <ActivityIndicator size={40} color={appTheme.lightContent}/>
+  </View>)
+;
 
 const homeTab = (props) => {
   const userData = store.getState().user.userData;
   let {userType} = userData;
   return (
     <Tab.Navigator
+      lazy={true}
+      lazyPreloadDistance={1}
+      lazyPlaceholder={bgView}
       tabBarPosition={'bottom'}
       tabBarOptions={{
         activeTintColor: colors.appBlue,
         inactiveTintColor: 'gray',
         showIcon: true,
         showLabel: false,
-        style: { backgroundColor:appTheme.darkGrey },
+        style: {backgroundColor: appTheme.darkGrey},
       }}
     >
       <Tab.Screen
