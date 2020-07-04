@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, NativeModules, ScrollView, Text, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, NativeModules, ScrollView, Text, TouchableOpacity, BackHandler} from 'react-native';
 import {RtcEngine, AgoraView} from 'react-native-agora';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -10,6 +10,7 @@ import * as actionCreators from "../../store/actions";
 import {connect} from "react-redux";
 import {screenHeight, screenWidth} from "../../utils/screenDimensions";
 import {appTheme} from "../../constants/colors";
+import RouteNames from "../../navigation/RouteNames";
 
 const {Agora} = NativeModules;                  //Define Agora object as a native module
 
@@ -28,7 +29,7 @@ class VideoCall extends Component {
 
     this.state = {
       peerIds: [],                                //Array for storing connected peers
-      uid: Math.floor(Math.random()*100000),                                //Generate a UID for local user
+      uid: Math.floor(Math.random() * 100000),                                //Generate a UID for local user
       appid: AppID,                               //Enter the App ID generated from the Agora Website
       channelName: ChannelName,                   //Channel Name for the current session
       vidMute: false,                             //State variable for Video Mute
@@ -67,6 +68,9 @@ class VideoCall extends Component {
   componentDidMount() {
     // setTimeout(this.handleCallTimeout, callTimeout);
 
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', function () {
+      return true;
+    });
     RtcEngine.on('userJoined', (data) => {
       const {peerIds} = this.state;             //Get currrent peer IDs
       if (peerIds.indexOf(data.uid) === -1) {     //If new user has joined
@@ -89,6 +93,10 @@ class VideoCall extends Component {
     });
     RtcEngine.joinChannel(this.state.channelName, this.state.uid);  //Join Channel
     RtcEngine.enableAudio();                                        //Enable the audio
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
   }
 
   /**
@@ -167,7 +175,7 @@ class VideoCall extends Component {
                     this.state.peerIds.slice(1).map((data) => (
                       <TouchableOpacity style={{width: screenWidth / 2, height: screenHeight / 4}}
                                         onPress={() => this.peerClick(data)} key={data}>
-                        <AgoraView style={{width: screenWidth / 2, height: screenHeight/ 4}}
+                        <AgoraView style={{width: screenWidth / 2, height: screenHeight / 4}}
                                    remoteUid={data} mode={1} key={data}/>
                       </TouchableOpacity>
                     ))
@@ -180,7 +188,7 @@ class VideoCall extends Component {
               <AgoraView style={{flex: 1}}
                          remoteUid={this.state.peerIds[0]} mode={1}/>
             </View>
-            : <Text style={{textAlign: 'center'}}>{this.state.infoText}</Text>
+            : <Text style={styles.headerText}>{this.state.infoText}</Text>
         }
         {
           !this.state.vidMute                                              //view for local video
@@ -253,6 +261,11 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     borderRadius: 0,
   },
+  headerText: {
+    textAlign: 'center',
+    color: 'white',
+    padding: 2
+  }
 });
 
 
