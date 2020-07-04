@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, Text, FlatList, ScrollView, LayoutAnimation} from 'react-native';
+import {View, StyleSheet, Text, FlatList, ScrollView, LayoutAnimation, TouchableOpacity} from 'react-native';
 import {connect} from "react-redux";
 import moment from "moment";
 import {Card} from 'native-base';
@@ -14,12 +14,15 @@ import GlobalSlot from "../../components/GlobalSlot";
 import {appTheme} from "../../constants/colors";
 
 import SelectableButtonGroup from '../../components/selectableButtonGroup';
-import strings from "../../constants/strings";
+import strings, {appointmentErrorBuilder, appointmentSuccessBuilder} from "../../constants/strings";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import MiniSlotCard from "../../components/MiniSlotCard";
 import {formatTimeArray, militaryTimeToString, stringToMilitaryTime} from "../../utils/utils";
 import {WEEK_DAYS} from "../../constants/appConstants";
+import {bookAppointment} from "../../API";
+import {showError, showSuccess} from "../../utils/notification";
+import RouteNames from "../../navigation/RouteNames";
 
 class Schedule extends Component {
 
@@ -95,6 +98,20 @@ class Schedule extends Component {
     this.setState({selectedTime: stringToMilitaryTime(time)});
   }
 
+  bookAppointment = async (trainerId, day, time) => {
+    let response = await bookAppointment(trainerId, day, time);
+    if (response.success)
+      showSuccess(response.message);
+    else showError(response.message);
+  }
+
+  openProfile = (userId) => {
+    const {navigation} = this.props;
+    navigation.navigate(RouteNames.Profile, {
+      userId: userId
+    });
+  }
+
   renderSlots = () => {
     const {globalSlots} = this.props;
     if (!globalSlots) return null;
@@ -104,16 +121,22 @@ class Schedule extends Component {
     if (!slots) return null;
     const filteredSlots = slots.filter(slot => slot.time === this.state.selectedTime);
     return filteredSlots.map((slot, index) => {
-      const {duration, trainerId} = slot;
+      const {duration, trainerId, dayOfWeek, time} = slot;
       const {name, displayPictureUrl, city} = trainerId;
       return (
-        <View key={index} style={styles.appointmentContainer}>
+        <TouchableOpacity
+          onPress={()=>this.openProfile(trainerId._id)}
+          activeOpacity={0.8}
+          key={index}
+          style={styles.appointmentContainer}>
           <GlobalSlot
             displayName={name}
             imageUrl={displayPictureUrl}
             location={city}
-            duration={duration}/>
-        </View>
+            duration={duration}
+            bookCallback={() => this.bookAppointment(trainerId._id, time, dayOfWeek)}
+          />
+        </TouchableOpacity>
       )
     })
   }
@@ -150,9 +173,7 @@ class Schedule extends Component {
         <View style={styles.headingContainer}>
           <Text style={styles.heading}>{strings.AVAILABLE_SLOTS}</Text>
         </View>
-        {/*<View style={styles.slotList}>*/}
         <this.renderSlots/>
-        {/*</View>*/}
       </ScrollView>
     );
   }
