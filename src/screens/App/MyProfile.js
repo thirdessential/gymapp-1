@@ -32,8 +32,10 @@ class MyProfile extends Component {
     bgImage: getRandomImage()
   }
   componentDidMount() {
-    const {syncSubscriptions} = this.props;
-    syncSubscriptions()
+    const {syncSubscriptions, updateUserData} = this.props;
+    syncSubscriptions();
+    updateUserData();
+
   }
 
   callClicked = async (userId) => {
@@ -162,7 +164,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions())
+  syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions()),
+  updateUserData: () => dispatch(actionCreators.updateUserData()),
+
 
 });
 

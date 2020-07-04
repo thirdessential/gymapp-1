@@ -33,7 +33,10 @@ export const findMissingDays = days => {
   return AllDays.filter(x => !days.includes(x));
 }
 
-export const formatTimeArray = array => array.map(time => militaryTimeToString(time));
+export const formatTimeArray = array => {
+  if(!array)return [];
+  return array.map(time => militaryTimeToString(time));
+}
 
 export const stringToMilitaryTime = str => {
   return `${str.slice(0, 2)}${str.slice(3, 5)}`;

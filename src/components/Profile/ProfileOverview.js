@@ -19,6 +19,7 @@ import CallButton from '../callButton';
 import Entypo from "react-native-vector-icons/Entypo";
 import PackageFlatList from "../Trainer/PackageFlatList";
 import strings from "../../constants/strings";
+import {screenWidth} from "../../utils/screenDimensions";
 
 const ProfileOverview = (props) => {
   const {hits} = props;
@@ -27,35 +28,34 @@ const ProfileOverview = (props) => {
 
       <View style={styles.profileHeader}>
         <View style={styles.profileTitle}>
-          <View style={{flexDirection:'row'}}>
-
-          <Text style={styles.displayName}>{toTitleCase(props.name)}</Text>
-          {props.editCallback && (
-            <TouchableOpacity
-              style={styles.editButton}
-              onPress={props.editCallback}
-              hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
-            >
-              <Entypo
-                name={'edit'}
-                color={'white'}
-                size={18}
-              />
-            </TouchableOpacity>
-          )}
+          <View style={styles.titleContainer}>
+            <Text style={styles.displayName}>{toTitleCase(props.name)}</Text>
+            {props.editCallback && (
+              <TouchableOpacity
+                style={styles.editButton}
+                onPress={props.editCallback}
+                hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+              >
+                <Entypo
+                  name={'edit'}
+                  color={'white'}
+                  size={18}
+                />
+              </TouchableOpacity>
+            )}
           </View>
           <Text style={styles.location}>{toTitleCase(props.location)}</Text>
           {
             props.userType === userTypes.TRAINER && (
-              <View style={ {alignItems:'flex-start'}}>
-              <AirbnbRating
-                count={5}
-                showRating={false}
-                defaultRating={props.rating}
-                starContainerStyle={styles.rating}
-                size={12}
-                isDisabled={true}
-              />
+              <View style={{alignItems: 'flex-start'}}>
+                <AirbnbRating
+                  count={5}
+                  showRating={false}
+                  defaultRating={props.rating}
+                  starContainerStyle={styles.rating}
+                  size={12}
+                  isDisabled={true}
+                />
               </View>
             )
           }
@@ -106,10 +106,14 @@ const styles = StyleSheet.create({
     paddingLeft: spacing.large,
     paddingRight: spacing.large
   },
+  titleContainer: {
+    flexDirection: 'row',
+    width: screenWidth / 2.5,
+  },
   displayName: {
     color: 'white',
     fontSize: fontSizes.h0,
-    fontFamily: fonts.MontserratMedium
+    fontFamily: fonts.MontserratMedium,
   },
   location: {
     color: appTheme.grey,
@@ -138,12 +142,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   callButtonContainer: {},
-  editButton:{
-    marginLeft:spacing.small,
-    padding:spacing.small,
+  editButton: {
+    marginLeft: spacing.small,
+    padding: spacing.small,
   },
-  packageListContainer:{
-  },
+  packageListContainer: {},
 
 });
 
