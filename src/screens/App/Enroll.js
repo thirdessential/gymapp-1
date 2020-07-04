@@ -2,26 +2,40 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, StatusBar, Text, LayoutAnimation} from 'react-native'
+import {
+  View,
+  StyleSheet,
+  StatusBar,
+  Text,
+  LayoutAnimation,
+  TouchableOpacity,
+  ScrollView,
+  FlatList,
+  ActivityIndicator
+} from 'react-native'
 import {connect} from "react-redux";
 import cuid from 'cuid';
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {appTheme} from "../../constants/colors";
-import strings from "../../constants/strings";
+import colors, {appTheme} from "../../constants/colors";
+import strings, {subscribedSuccessBuilder} from "../../constants/strings";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 
 import Slot from "../../components/Slot";
-import { findMissingDays, groupBy} from "../../utils/utils";
+import {findMissingDays, groupBy} from "../../utils/utils";
 import {showError, showSuccess} from "../../utils/notification";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 class Enroll extends Component {
 
   state = {
     slots: [],
     selectedDays: {},
+    selectedTime: '',
+    selectedSlotId: '',
+    subscribeLoading: false
   }
 
   componentDidMount() {
@@ -30,7 +44,7 @@ class Enroll extends Component {
     const {slots} = this.getUser();
 
     if (slots && slots.length > 0) {
-      const filteredSlots = slots.filter(slot=>slot.subscriptionId===null);
+      const filteredSlots = slots.filter(slot => slot.subscriptionId === null);
       const localSlots = this.mapSlotsToLocal(filteredSlots);
       const selectedDays = {};
       localSlots.map(slot => {
@@ -46,7 +60,6 @@ class Enroll extends Component {
     return users[userId];
   }
 
-
   mapSlotsToLocal = (slots) => {
     const localSlots = [];
     const slotsByTime = groupBy(slots, 'time');
@@ -61,44 +74,83 @@ class Enroll extends Component {
     return localSlots;
   }
 
-  enroll = async (time, days) => {
+  enroll = async () => {
+    this.setState({subscribeLoading: true});
     const {route, navigation} = this.props;
-    const {userId, packageId} = route.params;
-    let result = await this.props.subscribePackage(userId, packageId, time, days);
-    if (result){
-      showSuccess(strings.SLOT_BOOKING_SUCCESS);
+    const {userId, packageId, trainerName, sessionCount} = route.params;
+    const {selectedDays, selectedTime, selectedSlotId} = this.state;
+    const days = selectedDays[selectedSlotId];
+
+    let result = await this.props.subscribePackage(userId, packageId, selectedTime, days);
+    this.setState({subscribeLoading: false});
+    if (result) {
+      showSuccess(subscribedSuccessBuilder(trainerName, sessionCount));
       navigation.goBack(); //TODO:go to my slots screen
-    }
-    else showError(strings.SLOT_BOOKING_ERROR);
+    } else showError(strings.SLOT_BOOKING_ERROR);
   }
 
-  changeActiveDays = (slotId, days) => {
+  changeActiveDays = (slotId, days, selectedTime) => {
     const selectedDays = {...this.state.selectedDays};
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     Object.keys(selectedDays).map(day => selectedDays[day] = []);
     selectedDays[slotId] = days;
-    this.setState({selectedDays});
+    this.setState({selectedDays, selectedTime, selectedSlotId: slotId});
   }
 
+  renderSlot = (slot, index) => (
+    <View style={styles.slotContainer}>
+      <Slot
+        days={this.state.selectedDays[slot._id]}
+        disabledDays={findMissingDays(slot.days)}
+        duration={slot.duration}
+        index={index + 1}
+        time={slot.time}
+        // onEnroll={() => this.enroll(slot.time, this.state.selectedDays[slot._id])}
+        // enrollDisabled={this.state.selectedDays[slot._id].length === 0}
+        onDaysChange={(days) => this.changeActiveDays(slot._id, days, slot.time)}
+      />
+    </View>
+  )
+
   renderSlots = () => {
-    return this.state.slots.map((slot, index) => (
-      <View key={slot._id} style={styles.slotContainer}>
-        <Slot
-          days={this.state.selectedDays[slot._id]}
-          disabledDays={findMissingDays(slot.days)}
-          duration={slot.duration}
-          index={index + 1}
-          time={slot.time}
-          onEnroll={() => this.enroll(slot.time, this.state.selectedDays[slot._id])}
-          enrollDisabled={this.state.selectedDays[slot._id].length === 0}
-          onDaysChange={(days) => this.changeActiveDays(slot._id, days)}
-        />
-      </View>
-    ))
+    return (
+      <FlatList
+        data={this.state.slots || []}
+        renderItem={({item, index}) => this.renderSlot(item, index)}
+        keyExtractor={item => item.time}
+      />);
+
   }
+
+  fab = () => {
+    const {selectedDays, selectedSlotId} = this.state;
+    const days = selectedDays[selectedSlotId];
+    if (!days || days.length === 0)
+      return null;
+    return (
+      <TouchableOpacity style={[styles.fab, styles.fabPosition]} onPress={this.enroll}>
+        {
+          this.state.subscribeLoading && (
+            <ActivityIndicator size={28} color={'white'}/>
+          )
+        }
+        {
+          !this.state.subscribeLoading && (
+            <FontAwesome
+              name={'check'}
+              color={'white'}
+              size={22}
+            />
+          )
+        }
+      </TouchableOpacity>
+    );
+  };
 
   render() {
     return (
-      <KeyboardAwareScrollView style={styles.container}>
+      <View style={styles.container}>
+
         <StatusBar backgroundColor={appTheme.darkBackground}/>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{strings.SLOTS}</Text>
@@ -106,8 +158,8 @@ class Enroll extends Component {
         <View style={styles.listContainer}>
           <this.renderSlots/>
         </View>
-
-      </KeyboardAwareScrollView>
+        <this.fab/>
+      </View>
     );
   }
 }
@@ -144,7 +196,28 @@ const styles = StyleSheet.create({
     paddingTop: spacing.medium,
     paddingBottom: spacing.medium_sm,
     alignItems: 'center',
-  }
+  },
+  fab: {
+    height: spacing.thumbnailMini,
+    width: spacing.thumbnailMini,
+    borderRadius: spacing.thumbnailMini / 2,
+    elevation: 4,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.acceptGreen,
+  },
+  fabPosition: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+  },
+  fabText: {
+    fontSize: 40,
+    alignContent: "center",
+    textAlign: "center",
+    color: "white",
+    lineHeight: 50,
+  },
 });
 
 const mapStateToProps = (state) => ({

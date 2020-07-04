@@ -41,10 +41,19 @@ class Profile extends Component {
   enrollClicked = (packageId) => {
     const {navigation, route} = this.props;
     const {userId} = route.params;
-    navigation.navigate(RouteNames.Enroll, {
-      userId,
-      packageId
-    });
+    const user = this.getUser();
+
+    let {name,packages} = user;
+    const filteredPackages = packages.filter(packageData=> packageData._id===packageId);
+    if(filteredPackages&& filteredPackages.length>0){
+      const sessionCount = filteredPackages[0].noOfSessions;
+      navigation.navigate(RouteNames.Enroll, {
+        userId,
+        packageId,
+        trainerName:name,
+        sessionCount
+      });
+    }
   }
 
   callClicked = async () => {

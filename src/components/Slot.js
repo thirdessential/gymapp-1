@@ -63,17 +63,6 @@ const slot = (props) => {
           />
         </TouchableOpacity>
       )
-    if (props.onEnroll)
-      return (
-        <TouchableOpacity disabled={props.enrollDisabled} onPress={props.onEnroll}
-                          hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
-          <FontAwesome
-            name={'check'}
-            color={props.enrollDisabled ? appTheme.darkGrey : colors.appBlue}
-            size={22}
-          />
-        </TouchableOpacity>
-      )
     return null;
   }
 

@@ -1,7 +1,7 @@
 export const coachedPeople = (amount)=> `Coached ${amount} people`;
 export const durationBuilder = (duration) => `DURATION: ${duration} Weeks`;
 export const priceBuilder = (price) => `PRICE: ${price} INR`;
-
+export const subscribedSuccessBuilder = (trainerName, sessionCount) => `Successfully subscribed to ${trainerName} for ${sessionCount} sessions`
 const strings = {
   SLOTS : 'Slots',
   AVAILABLE_SLOTS:'Available Slots',
@@ -27,6 +27,7 @@ const strings = {
   SEE_MORE:'See more',
   SEE_LESS:'See less',
   SUBSCRIPTIONS:'Subscriptions',
+  SUBSCRIBE:'Subscribe',
   SOCIAL:'Social',
   POSTS:'Posts',
   DURATION:'Duration',
