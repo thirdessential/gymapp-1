@@ -12,16 +12,18 @@ const callingScreen = ({navigationRef}) => {
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
         <Stack.Screen
-          name={RouteNames.CallScreen} component={CallScreen}
-          options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
+          name={RouteNames.CallScreen}
+          component={CallScreen}
+          options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}
         />
         <Stack.Screen
-          name={RouteNames.VideoCall} component={VideoCall}
+          name={RouteNames.VideoCall}
+          component={VideoCall}
           options={{
             headerTransparent: true,
             headerLeft: () => null,
             title: ''
-          }}/>
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

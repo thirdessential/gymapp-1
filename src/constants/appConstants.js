@@ -47,3 +47,9 @@ export const coverDimension = {
   height:1000,
   width:1000
 }
+
+export const remoteMessageTypes ={
+  CALL:'call',
+  APPOINTMENT:"appointmentNotification",
+  SESSION:'sessionNotification'
+}
