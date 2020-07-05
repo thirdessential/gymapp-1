@@ -15,10 +15,9 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import {toTitleCase} from "../../utils/utils";
 import Avatar from "../Avatar";
-import CallButton from '../callButton';
+import CallButton from '../CallButton';
 import Entypo from "react-native-vector-icons/Entypo";
-import PackageFlatList from "../Trainer/PackageFlatList";
-import strings from "../../constants/strings";
+
 import {screenWidth} from "../../utils/screenDimensions";
 
 const ProfileOverview = (props) => {

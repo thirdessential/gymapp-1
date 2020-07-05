@@ -59,7 +59,7 @@ class PackageList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: appTheme.darkBackground,
+    backgroundColor: appTheme.background,
 
   },
   titleContainer: {
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     paddingRight: spacing.large,
     paddingBottom: spacing.medium_sm,
     marginBottom: spacing.medium_sm,
-    backgroundColor: appTheme.background,
+    backgroundColor: appTheme.darkBackground,
     alignItems: 'center'
   },
   listContainer:{
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   addButtonContainer: {
     paddingTop: spacing.medium_sm,
     paddingBottom: spacing.medium_sm,
-    backgroundColor: appTheme.background,
+    backgroundColor: appTheme.darkBackground,
     alignItems: 'center'
   }
 });

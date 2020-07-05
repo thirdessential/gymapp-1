@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {View, StyleSheet} from 'react-native'
+import {View, StyleSheet, TouchableOpacity} from 'react-native'
 
 import {spacing} from "../constants/dimension";
 import {appTheme} from "../constants/colors";
@@ -22,9 +22,9 @@ const subscriptionList = (props) => {
       const {totalSessions, heldSessions} = subscription;
       const sessions = `${heldSessions}/${totalSessions}`;
       return (
-        <View key={index} style={styles.appointmentContainer}>
+        <TouchableOpacity activeOpacity={0.7} onPress={()=>props.onProfilePress(_id)} key={index} style={styles.appointmentContainer}>
           <ClientCard callCallback={()=>props.callCallback(_id)} displayName={name} location={city} imageUrl={defaultDP} sessions={sessions}/>
-        </View>
+        </TouchableOpacity>
       )
     })
   }

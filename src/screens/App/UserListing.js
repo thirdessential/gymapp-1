@@ -10,7 +10,7 @@ import {
   Image,
   StatusBar,
   ActivityIndicator,
-  LayoutAnimation
+  LayoutAnimation, Text
 } from 'react-native'
 import {connect} from "react-redux";
 
@@ -23,6 +23,9 @@ import UserThumb from "../../components/Trainer/UserThumb";
 import {spacing} from "../../constants/dimension";
 import requestCameraAndAudioPermission from "../../utils/permission";
 import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
+import strings from "../../constants/strings";
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
 
 const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
@@ -106,6 +109,9 @@ class UserListing extends Component {
     const {userList} = this.props;
     return (<>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Overview</Text>
+        </View>
         <View style={styles.listContainer}>
           <FlatList
             showsVerticalScrollIndicator={false}
@@ -114,7 +120,8 @@ class UserListing extends Component {
             renderItem={({item, index}) => this.renderUserThumb(item, index)}
             keyExtractor={(item, index) => item._id}
             ItemSeparatorComponent={this.renderHorizontalSeparatorView}
-            ListFooterComponent={() => <View style={{height: 100}}/>}
+            ListHeaderComponent={()=><View style={{height:spacing.large}}/>}
+            ListFooterComponent={() => <View style={{height: spacing.large_lg}}/>}
           />
           {
             userList.length === 0 && (
@@ -132,9 +139,21 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingLeft: spacing.medium,
     paddingRight: spacing.medium,
-    paddingTop: spacing.space_40,
     paddingBottom: spacing.medium,
     backgroundColor: appTheme.background,
+  },
+  titleContainer: {
+    paddingTop: spacing.medium_sm,
+    paddingLeft: spacing.large,
+    paddingRight: spacing.large,
+    paddingBottom: spacing.medium_sm,
+    backgroundColor: appTheme.darkBackground,
+    alignItems: 'center',
+  },
+  title: {
+    color: 'white',
+    fontSize: fontSizes.h0,
+    fontFamily: fonts.PoppinsRegular
   },
   listContainer: {
     flex: 1,
@@ -142,7 +161,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: appTheme.background,
     width: '100%',
-    paddingTop: spacing.large,
+    // paddingTop: spacing.large,
   },
   itemSeparatorHorizontal: {
     height: 1,

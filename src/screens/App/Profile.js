@@ -138,7 +138,6 @@ class Profile extends Component {
         />
         {
           userType === userTypes.TRAINER && (
-            <View style={{flex: 1}}>
               <TrainerInfo
                 packages={packages}
                 slots={slots}
@@ -146,7 +145,6 @@ class Profile extends Component {
                 bookCallback={this.bookClicked}
                 initialRouteName={initialRouteName}
               />
-            </View>
           )
         }
       </View>

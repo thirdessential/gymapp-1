@@ -11,6 +11,8 @@ import {spacing} from "../constants/dimension";
 import GenericButton from "./GenericButton";
 import SelectableButton from "./selectableButton";
 import strings from "../constants/strings";
+import CallButton from "./CallButton";
+import fontSizes from "../constants/fontSizes";
 
 const client = (props) => {
   return (
@@ -28,7 +30,7 @@ const client = (props) => {
           <Text style={styles.timeText}> {props.sessions} { strings.SESSIONS} </Text>
         </View>
         <View style={styles.actionButtonContainer}>
-          <SelectableButton onPress={props.callCallback} selected={true} textContent={strings.CALL}/>
+          <CallButton size={26} onPress={props.callCallback}/>
         </View>
       </View>
     </Card>
@@ -43,8 +45,9 @@ client.propTypes = {
 const styles = StyleSheet.create({
   cardStyle: {
     borderRadius: 6,
-    backgroundColor:appTheme.background,
-    borderColor:appTheme.background
+    backgroundColor:appTheme.darkBackground,
+    borderColor:appTheme.background,
+    elevation:11
   },
   container: {
     alignItems: 'center',
@@ -63,12 +66,12 @@ const styles = StyleSheet.create({
   },
   timeText: {
     color:appTheme.grey,
+    fontSize:fontSizes.h3,
     fontFamily: 'Poppins-Medium',
   },
   actionButtonContainer:{
-    // justifySelf:'flex-end'
+    alignSelf:'flex-end',
     marginLeft:'auto',
-    // padding:spacing.medium_sm
   }
 
 });

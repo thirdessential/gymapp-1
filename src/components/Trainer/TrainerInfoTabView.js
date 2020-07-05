@@ -36,19 +36,10 @@ const Slots = (props) => (
   </View>
 )
 
-const Subscriptions = (props) => (
-  <View style={{marginBottom: spacing.large}}>
-    <View style={styles.sectionTitleContainer}>
-      <Text style={styles.sectionTitle}>{strings.SUBSCRIPTIONS}</Text>
-    </View>
-    <SubscriptionList subscriptions={props.subscriptions} callCallback={props.callCallback}/>
-  </View>
-)
-
 const initialLayout = {width: screenWidth};
 
 function TrainerInfo(props) {
-  const {packages, enrollCallback, slots, bookCallback, subscriptions, callCallback, initialRouteName = TabRoutes.Packages} = props;
+  const {packages, enrollCallback, slots, bookCallback, subscriptions, callCallback, onProfilePress, initialRouteName = TabRoutes.Packages} = props;
   const [index, setIndex] = React.useState(Object.keys(TabRoutes).indexOf(initialRouteName));
   const routeArray = [
     {key: TabRoutes.Packages, title: 'Packages'},
@@ -67,7 +58,16 @@ function TrainerInfo(props) {
       case TabRoutes.Slots:
         return <Slots slots={slots} bookCallback={bookCallback ? bookCallback : null}/>;
       case TabRoutes.Subscriptions:
-        return <Subscriptions subscriptions={subscriptions} callCallback={callCallback}/>
+        return (
+          <View style={{marginBottom: spacing.large}}>
+            <View style={styles.sectionTitleContainer}>
+              <Text style={styles.sectionTitle}>{strings.SUBSCRIPTIONS}</Text>
+            </View>
+            <SubscriptionList subscriptions={subscriptions}
+                              onProfilePress={onProfilePress}
+                              callCallback={callCallback}/>
+          </View>
+        )
       default:
         return null;
     }
@@ -79,7 +79,11 @@ function TrainerInfo(props) {
       renderScene={renderScene}
       onIndexChange={setIndex}
       initialLayout={initialLayout}
-      sceneContainerStyle={{paddingLeft: spacing.medium_lg, paddingRight: spacing.medium_lg, backgroundColor:appTheme.lightBackground}}
+      sceneContainerStyle={{
+        paddingLeft: spacing.medium_lg,
+        paddingRight: spacing.medium_lg,
+        backgroundColor: appTheme.lightBackground
+      }}
       renderTabBar={props =>
         <TabBar
           {...props}

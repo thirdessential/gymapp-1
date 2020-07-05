@@ -22,7 +22,6 @@ const slotsByTime = (props) => {
 
   const [groupedSlots] = useState(groupBy(slots, 'time'));
   const [selectedTime, setSelectedTime] = useState(Object.keys(groupedSlots)[0]);
-console.log(groupedSlots)
   const changeSelectedTime = (time) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setSelectedTime(stringToMilitaryTime(time));
@@ -37,6 +36,12 @@ console.log(groupedSlots)
       />
     </View>
   )
+  const getSubscriberName = slot => {
+    const {subscriptionId} = slot;
+    if(!subscriptionId)return null;
+    const {name} = subscriptionId.subscribedBy;
+    return !!name?name:null;
+  }
 
   const renderSlot = (slot,index) => (
     // keys can sometimes not be unique TODO:Backend changes
@@ -45,6 +50,7 @@ console.log(groupedSlots)
         bookCallback={props.bookCallback ? () => props.bookCallback(slot.dayOfWeek, slot.time) : null}
         day={slot.dayOfWeek}
         duration={slot.duration}
+        subscribedBy={getSubscriberName(slot)}
         startTime={militaryTimeToString(slot.time)}/>
     </View>
   )

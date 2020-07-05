@@ -90,6 +90,13 @@ class MyProfile extends Component {
     </TouchableOpacity>
   )
 
+  openProfile = (userId)=>{
+    const {navigation} = this.props;
+    navigation.navigate(RouteNames.Profile, {
+      userId: userId
+    });
+  }
+
   renderContent = () => {
     const user = this.props.userData;
 
@@ -113,15 +120,15 @@ class MyProfile extends Component {
         />
         {
           userType === userTypes.TRAINER && (
-            <View style={{flex: 1, marginTop: spacing.medium_lg}}>
               <TrainerInfo
                 packages={packages}
                 slots={slots}
                 enrollCallback={this.enrollClicked}
                 subscriptions={this.props.subscriptions}
+                onProfilePress={this.openProfile}
                 callCallback={this.callClicked}
+                bookCallback={()=>{}}
               />
-            </View>
           )
         }
       </>
@@ -131,8 +138,8 @@ class MyProfile extends Component {
   render() {
     return (
       <ParallaxScrollView
-        backgroundColor={appTheme.background}
-        contentBackgroundColor={appTheme.background}
+        backgroundColor={appTheme.lightBackground}
+        contentBackgroundColor={appTheme.lightBackground}
         parallaxHeaderHeight={screenHeight * 2 / 3}
         renderForeground={() => (
           <>
@@ -151,7 +158,6 @@ class MyProfile extends Component {
     )
     return (
       <this.renderContent/>
-
     );
   }
 }
@@ -162,7 +168,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
   },
-
   titleStyle: {
     color: 'white',
     fontWeight: 'bold',

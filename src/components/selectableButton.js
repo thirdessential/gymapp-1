@@ -10,14 +10,14 @@ import LinearGradient from "react-native-linear-gradient";
 import fontSizes from "../constants/fontSizes";
 
 const selectableButton = (props) => {
-  const {textContent, selected, activeStyle, textStyle} = props;
+  const {textContent, selected, activeStyle, textStyle, disabled} = props;
 
   return (
-    <TouchableOpacity activeOpacity={0.7}  {...props} >
+    <TouchableOpacity disabled={disabled} activeOpacity={0.7}  {...props} >
       {
         selected && (
           <LinearGradient
-            colors={appTheme.gradient}
+            colors={disabled?appTheme.disabledGradient: appTheme.gradient}
             style={[styles.container, activeStyle]}
             start={{x: 0, y: 0}} end={{x: 1, y: 0}}>
             <Text style={[styles.textContentStyle, textStyle]}>{textContent}</Text>
