@@ -38,8 +38,9 @@ const slotsByTime = (props) => {
     </View>
   )
 
-  const renderSlot = slot => (
-    <View style={styles.slotContainer} key={slot.dayOfWeek}>
+  const renderSlot = (slot,index) => (
+    // keys can sometimes not be unique TODO:Backend changes
+    <View style={styles.slotContainer} key={slot.dayOfWeek + index}>
       <MiniSlotCard
         bookCallback={props.bookCallback ? () => props.bookCallback(slot.dayOfWeek, slot.time) : null}
         day={slot.dayOfWeek}
@@ -52,7 +53,7 @@ const slotsByTime = (props) => {
       <ButtonGroup/>
       <View style={styles.listContainer}>
         {
-          groupedSlots[selectedTime].map(slot => renderSlot(slot))
+          groupedSlots[selectedTime].map((slot,index) => renderSlot(slot,index))
         }
       </View>
     </View>

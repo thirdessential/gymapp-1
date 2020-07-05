@@ -16,7 +16,7 @@ import {connect} from "react-redux";
 
 import TrainerThumb from '../../components/Trainer/TrainerThumb';
 import colors, {appTheme} from "../../constants/colors";
-import RouteNames from "../../navigation/RouteNames";
+import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
 import {userTypes} from "../../constants/appConstants";
 import UserThumb from "../../components/Trainer/UserThumb";
@@ -40,10 +40,11 @@ class UserListing extends Component {
     this.unsubscribeFocus()
   }
 
-  openProfile = (userId) => {
+  openProfile = (userId, initialRouteName=TabRoutes.Packages) => {
     const {navigation} = this.props;
     navigation.navigate(RouteNames.Profile, {
-      userId: userId
+      userId: userId,
+      initialRouteName
     });
   }
 
@@ -82,8 +83,9 @@ class UserListing extends Component {
               dpUrl={displayPictureUrl}
               description={"No description provided for this trainer"}
               rating={rating}
-              packages={packages} //niche hai file ke
+              packages={packages}
               onPress={() => this.openProfile(user._id)}
+              onPackagePress={()=>this.openProfile(user._id, TabRoutes.Packages)}
               callClicked={() => this.callClicked(user._id)}
             />
           )
