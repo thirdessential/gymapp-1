@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
+import FastImage from "react-native-fast-image";
 
 export const setUserList = (userList) => ({
   type: actionTypes.SET_USER_LIST,
@@ -8,12 +9,26 @@ export const setUserList = (userList) => ({
   },
 });
 
+export const setUserFromUserList = (userList = null) => ({
+  type: actionTypes.SET_USER_FROM_USER_LIST,
+  payload: {
+    userList
+  },
+})
+
 export const updateUsersList = () => {
   return async (dispatch) => {
     try {
       let {trainers} = await API.listUsers();
       if (trainers) {
-        dispatch(setUserList(trainers));
+        await dispatch(setUserList(trainers)); // await probably has no effect
+        dispatch(setUserFromUserList(trainers));
+        const wallPreloadData = [];
+        trainers.map(user => {
+          if (!!user.wallImageUrl)
+            wallPreloadData.push({uri: user.wallImageUrl});
+        });
+        FastImage.preload(wallPreloadData); //TODO: Check if this actually works?
       }
     } catch (error) {
       console.log("user list update failed", error);
@@ -41,7 +56,7 @@ export const setUser = (userId) => {
   };
 };
 
-export const setGlobalSlots  = (globalSlots) => ({
+export const setGlobalSlots = (globalSlots) => ({
   type: actionTypes.SET_GLOBAL_SLOTS,
   payload: {
     globalSlots

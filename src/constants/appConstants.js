@@ -49,8 +49,8 @@ export const imageTypes = {
   COVER: {
     type: 'COVER',
     dimension: {
-      height: 1000,
-      width: 1000
+      height: 700,
+      width: 800
     }
   }
 }
