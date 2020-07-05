@@ -39,7 +39,7 @@ const slot = (props) => {
             }
           </View>
           <Text style={styles.timeText}>{props.duration} Min</Text>
-          {props.subscribedBy && !props.bookCallback(
+          {props.subscribedBy && !props.bookCallback && (
             <Text style={styles.displayName}>{strings.ALLOTTED_TO}{props.subscribedBy}</Text>
           )}
         </View>
@@ -48,7 +48,8 @@ const slot = (props) => {
           {
             props.bookCallback && !props.subscribedBy && (
               <SelectableButton
-                onPress={()=>{}}
+                onPress={() => {
+                }}
                 selected={true}
                 textContent={!!props.subscribedBy ? strings.BOOKED : strings.BOOK}
                 textStyle={styles.buttonText}/>

@@ -127,7 +127,7 @@ class MyProfile extends Component {
                 subscriptions={this.props.subscriptions}
                 onProfilePress={this.openProfile}
                 callCallback={this.callClicked}
-                bookCallback={()=>{}}
+                // bookCallback={()=>}
               />
           )
         }
