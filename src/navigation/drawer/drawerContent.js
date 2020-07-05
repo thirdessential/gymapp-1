@@ -8,16 +8,15 @@ import Avatar from "../../components/Avatar";
 import {spacing} from "../../constants/dimension";
 import fonts from "../../constants/fonts";
 import {signOutUser} from "../../store/actions/user.actions";
-import {userTypes} from "../../constants/appConstants";
+import {defaultDP, userTypes} from "../../constants/appConstants";
 import RouteNames from "../RouteNames";
-const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 function CustomDrawerContent(props) {
   const userData = store.getState().user.userData;
   let {name='',displayPictureUrl, userType} = userData;
   if(!displayPictureUrl) displayPictureUrl = defaultDP
   return (
-    <DrawerContentScrollView {...props} style={{backgroundColor: appTheme.background}}>
+    <DrawerContentScrollView {...props} style={{backgroundColor: appTheme.darkBackground}}>
       <View style={styles.container}>
         <Avatar url={displayPictureUrl} />
         <View style={styles.titleContainer}>

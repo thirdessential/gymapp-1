@@ -138,7 +138,7 @@ class Profile extends Component {
         />
         {
           userType === userTypes.TRAINER && (
-            <View style={{flex: 1, marginTop: spacing.medium_lg}}>
+            <View style={{flex: 1}}>
               <TrainerInfo
                 packages={packages}
                 slots={slots}
@@ -157,7 +157,7 @@ class Profile extends Component {
     return (
       <ParallaxScrollView
         backgroundColor={appTheme.background}
-        contentBackgroundColor={appTheme.darkBackground}
+        contentBackgroundColor={appTheme.lightBackground}
         parallaxHeaderHeight={screenHeight * 2 / 3}
         renderForeground={() => (
           <Image
@@ -182,20 +182,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: screenHeight / 3
   },
-  navContainer: {
-    height: HEADER_HEIGHT,
-    justifyContent: 'center',
-  },
-  statusBar: {
-    height: STATUS_BAR_HEIGHT,
-  },
-  navBar: {
-    height: NAV_BAR_HEIGHT,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-  },
+
   titleStyle: {
     color: 'white',
     fontWeight: 'bold',

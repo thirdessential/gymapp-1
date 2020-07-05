@@ -96,7 +96,7 @@ ProfileOverview.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: appTheme.darkBackground,
+    backgroundColor: appTheme.background,
     width: '100%',
     borderRadius: 20,
     borderColor: 'transparent',
@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0,
     marginTop: -20,
     paddingLeft: spacing.large,
-    paddingRight: spacing.large
+    paddingRight: spacing.large,
+    paddingBottom:spacing.medium_lg
   },
   titleContainer: {
     flexDirection: 'row',

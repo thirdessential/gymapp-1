@@ -131,8 +131,8 @@ class MyProfile extends Component {
   render() {
     return (
       <ParallaxScrollView
-        backgroundColor={appTheme.darkBackground}
-        contentBackgroundColor={appTheme.darkBackground}
+        backgroundColor={appTheme.background}
+        contentBackgroundColor={appTheme.background}
         parallaxHeaderHeight={screenHeight * 2 / 3}
         renderForeground={() => (
           <>
@@ -158,33 +158,11 @@ class MyProfile extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: appTheme.darkBackground,
-    padding: 0,
-
-    margin: 0
-    // flex: 1,
-    // backgroundColor: 'transparent'
+    backgroundColor: appTheme.background,
   },
   contentContainer: {
-    // flexGrow: 1,
   },
-  navContainer: {
-    height: HEADER_HEIGHT,
-    // alignItems: 'center',
-    justifyContent: 'center',
-    // marginHorizontal: 10,
-  },
-  statusBar: {
-    height: STATUS_BAR_HEIGHT,
-    // backgroundColor: 'transparent',
-  },
-  navBar: {
-    height: NAV_BAR_HEIGHT,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-  },
+
   titleStyle: {
     color: 'white',
     fontWeight: 'bold',

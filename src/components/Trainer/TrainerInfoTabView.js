@@ -79,12 +79,12 @@ function TrainerInfo(props) {
       renderScene={renderScene}
       onIndexChange={setIndex}
       initialLayout={initialLayout}
-      sceneContainerStyle={{paddingLeft: spacing.medium_lg, paddingRight: spacing.medium_lg}}
+      sceneContainerStyle={{paddingLeft: spacing.medium_lg, paddingRight: spacing.medium_lg, backgroundColor:appTheme.lightBackground}}
       renderTabBar={props =>
         <TabBar
           {...props}
-          style={{backgroundColor: appTheme.background}}
-          indicatorStyle={{backgroundColor: appTheme.grey}}
+          style={{backgroundColor: appTheme.darkBackground}}
+          indicatorStyle={{backgroundColor: appTheme.lightContent}}
           renderIcon={
             props => getTabBarIcon(props)
           }

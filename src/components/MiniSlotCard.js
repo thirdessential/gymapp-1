@@ -62,8 +62,9 @@ slot.defaultProps = {
 const styles = StyleSheet.create({
   cardStyle: {
     borderRadius: 6,
-    backgroundColor: appTheme.background,
-    borderColor: appTheme.background
+    backgroundColor: appTheme.darkBackground,
+    borderColor: appTheme.darkBackground,
+    elevation:5
   },
   container: {
     alignItems: 'center',

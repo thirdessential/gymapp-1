@@ -105,7 +105,7 @@ class UserListing extends Component {
   render() {
     const {userList} = this.props;
     return (<>
-        <StatusBar backgroundColor={appTheme.background}/>
+        <StatusBar backgroundColor={appTheme.darkBackground}/>
         <View style={styles.listContainer}>
           <FlatList
             showsVerticalScrollIndicator={false}
@@ -134,13 +134,13 @@ const styles = StyleSheet.create({
     paddingRight: spacing.medium,
     paddingTop: spacing.space_40,
     paddingBottom: spacing.medium,
-    backgroundColor: appTheme.darkBackground,
+    backgroundColor: appTheme.background,
   },
   listContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: "center",
-    backgroundColor: appTheme.darkBackground,
+    backgroundColor: appTheme.background,
     width: '100%',
     paddingTop: spacing.large,
   },

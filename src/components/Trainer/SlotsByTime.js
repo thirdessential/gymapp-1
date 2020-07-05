@@ -22,7 +22,7 @@ const slotsByTime = (props) => {
 
   const [groupedSlots] = useState(groupBy(slots, 'time'));
   const [selectedTime, setSelectedTime] = useState(Object.keys(groupedSlots)[0]);
-
+console.log(groupedSlots)
   const changeSelectedTime = (time) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setSelectedTime(stringToMilitaryTime(time));

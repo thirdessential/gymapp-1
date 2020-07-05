@@ -45,7 +45,7 @@ const packageFlatList = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: appTheme.darkBackground,
+    // backgroundColor: appTheme.darkBackground,
   },
   listContainer: {
     justifyContent: 'center',
