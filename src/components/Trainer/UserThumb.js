@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 import Avatar from '../Avatar';
 import GenericText from "../GenericText";
-import CallButton from '../callButton';
+import CallButton from '../CallButton';
 import {spacing} from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";

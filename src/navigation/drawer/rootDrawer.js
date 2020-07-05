@@ -17,22 +17,21 @@ const MyTheme = {
   },
 };
 const rootDrawer = (props) => {
-  const {navigationRef, userType} = props;
+  const {navigationRef} = props;
   return (
     <NavigationContainer theme={MyTheme} ref={navigationRef}>
       <Drawer.Navigator initialRouteName="Home"
                         drawerType={'slide'}
                         drawerContent={CustomDrawerContent}
+                        drawerStyle={{
+                          width: 240
+                        }}
       >
         <Drawer.Screen name="Home" component={CoreApp}/>
-        {/*<Drawer.Screen name="Edit Profile" component={ProfileEdit}/>*/}
       </Drawer.Navigator>
     </NavigationContainer>
   );
 }
-
-
-
 
 export default rootDrawer;
 

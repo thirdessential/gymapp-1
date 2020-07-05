@@ -1,8 +1,8 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React from 'react';
-import {StyleSheet, TouchableOpacity,} from 'react-native'
+import React, {useState} from 'react';
+import {ActivityIndicator, StyleSheet, TouchableOpacity,} from 'react-native'
 import PropTypes from 'prop-types';
 
 import colors from "../constants/colors";
@@ -10,14 +10,23 @@ import colors from "../constants/colors";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 const callButton = (props) => {
-  const {type = 'Accept', size=30} = props; // TODO: make reject red button here
+  const [loading, setLoading] = useState(false);
+  const {type = 'Accept', size = 30} = props; // TODO: make reject red button here
+
+  const onPress = () => {
+    props.onPress();
+    setLoading(true);
+    setTimeout(() => setLoading(false), 3000);
+  }
   return (
     <TouchableOpacity
       style={[styles.callButton, styles.shadow, {backgroundColor: colors.acceptGreen}]}
       activeOpacity={0.7}
-      onPress={props.onPress}
+      disabled={loading}
+      onPress={onPress}
     >
-      <Icon name="call" color="white" size={size}/>
+      {!loading && <Icon name="call" color="white" size={size}/>}
+      {loading && <ActivityIndicator color={"white"} size={size}/>}
     </TouchableOpacity>
   )
 }

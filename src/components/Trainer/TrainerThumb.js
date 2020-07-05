@@ -40,7 +40,7 @@ const trainerThumb = (props) => {
       {
         props.packages && props.packages.length > 0 && (
           <View style={styles.packageListContainer}>
-            <PackagePreviewList packages={props.packages}/>
+            <PackagePreviewList onPackagePress={props.onPackagePress} packages={props.packages}/>
           </View>
         )
       }

@@ -6,6 +6,13 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SET_USER_LIST:
       return updateObject(state, action.payload);
+    case actionTypes.SET_USER_FROM_USER_LIST: {
+      let {userList} = action.payload;
+      if (!userList) userList = state.userList;
+      const users = {...state.users};
+      userList.map(user => users[user._id] = user); //extract each user from list and set it
+      return updateObject(state, {users});
+    }
     case actionTypes.SET_USER:
       const {user} = action.payload;
       const users = {...state.users};

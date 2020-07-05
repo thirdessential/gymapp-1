@@ -46,8 +46,8 @@ export const compressImage = async (uri, dimensions) => {
     if (extension === "jpg") extension = "jpeg"; //Imageresizer demands this
     if (extension !== "jpeg" && extension !== "png") {
       //We have something other than jpg or png, maybe a bmp?
-      console.log("Compressor changing extension to png from", extension);
-      extension = "png";
+      console.log("Compressor changing extension to jpg from", extension);
+      extension = "jpg";
     }
     let compressedImage = await ImageResizer.createResizedImage(
       uri,

@@ -19,7 +19,7 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import MiniSlotCard from "../../components/MiniSlotCard";
 import {formatTimeArray, militaryTimeToString, stringToMilitaryTime} from "../../utils/utils";
-import {WEEK_DAYS} from "../../constants/appConstants";
+import {defaultDP, WEEK_DAYS} from "../../constants/appConstants";
 import {bookAppointment} from "../../API";
 import {showError, showSuccess} from "../../utils/notification";
 import RouteNames from "../../navigation/RouteNames";
@@ -30,23 +30,6 @@ class Schedule extends Component {
     selectedDate: Date.now(),
     selectedSlots: [],
     selectedTime: null,
-    appointments: [{
-      name: 'Jane Nikalson',
-      dpUrl: 'https://i.pinimg.com/originals/c5/a9/5f/c5a95f05b14e7f35abd07adf80bc3482.jpg',
-      time: '11:00 am'
-    }, {
-      name: 'Jane Nikalson',
-      dpUrl: 'https://i.pinimg.com/originals/c5/a9/5f/c5a95f05b14e7f35abd07adf80bc3482.jpg',
-      time: '11:00 am'
-    }, {
-      name: 'Jane Nikalson',
-      dpUrl: 'https://i.pinimg.com/originals/c5/a9/5f/c5a95f05b14e7f35abd07adf80bc3482.jpg',
-      time: '11:00 am'
-    }, {
-      name: 'Jane Nikalson',
-      dpUrl: 'https://i.pinimg.com/originals/c5/a9/5f/c5a95f05b14e7f35abd07adf80bc3482.jpg',
-      time: '11:00 am'
-    }]
   }
 
   componentDidMount() {
@@ -111,6 +94,14 @@ class Schedule extends Component {
     });
   }
 
+  getUser = (userId) => {
+    const {users} = this.props;
+    const user = users[userId];
+    if (!user)
+      return {}; // TODO: make api call to update him
+    return user;
+  }
+
   renderSlots = () => {
     const {globalSlots} = this.props;
     if (!globalSlots) return null;
@@ -121,10 +112,11 @@ class Schedule extends Component {
     const filteredSlots = slots.filter(slot => slot.time === this.state.selectedTime);
     return filteredSlots.map((slot, index) => {
       const {duration, trainerId, dayOfWeek, time} = slot;
-      const {name, displayPictureUrl, city} = trainerId;
+      let {name, displayPictureUrl, city} = this.getUser(trainerId);
+      if(!displayPictureUrl) displayPictureUrl=defaultDP;
       return (
         <TouchableOpacity
-          onPress={()=>this.openProfile(trainerId._id)}
+          onPress={() => this.openProfile(trainerId)}
           activeOpacity={0.8}
           key={index}
           style={styles.appointmentContainer}>
@@ -133,7 +125,7 @@ class Schedule extends Component {
             imageUrl={displayPictureUrl}
             location={city}
             duration={duration}
-            bookCallback={() => this.bookAppointment(trainerId._id, time, dayOfWeek)}
+            bookCallback={() => this.bookAppointment(trainerId, time, dayOfWeek)}
           />
         </TouchableOpacity>
       )
@@ -210,7 +202,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  globalSlots: state.app.globalSlots
+  globalSlots: state.app.globalSlots,
+  users: state.app.users
 });
 
 const mapDispatchToProps = (dispatch) => ({

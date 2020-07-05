@@ -7,18 +7,22 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import {StyleSheet, View} from "react-native";
 import {Card, Text} from 'native-base';
 
-import {appTheme} from "../constants/colors";
+import colors, {appTheme} from "../constants/colors";
 import {spacing} from "../constants/dimension";
 import SelectableButton from "./selectableButton";
 import strings from "../constants/strings";
 import fonts from "../constants/fonts";
 import fontSizes from "../constants/fontSizes";
+import {color} from "react-native-reanimated";
 
 let daysMapping = {'SUN': 'Su', 'MON': 'M', 'TUE': 'Tu', 'WED': 'W', 'THU': 'Th', 'FRI': 'F', 'SAT': 'Sa'};
 
 const slot = (props) => {
+  const disabled = props.bookCallback && props.subscribedBy;
+  const cardDisabledStyle = disabled ? {backgroundColor: appTheme.darkGrey, borderColor: appTheme.darkGrey} : {};
+
   return (
-    <Card style={styles.cardStyle}>
+    <Card style={[styles.cardStyle, cardDisabledStyle]}>
       <View style={styles.container}>
         <View style={styles.dayContainer}>
           <FontAwesome
@@ -29,15 +33,26 @@ const slot = (props) => {
           <Text style={styles.day}>{daysMapping[props.day]}</Text>
         </View>
         <View style={styles.slotDetails}>
-          <Text style={styles.startTime}>{props.startTime}</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={styles.startTime}>{props.startTime}</Text>
+            {disabled && <Text style={styles.timeText}>{strings.BOOKED}</Text>
+            }
+          </View>
           <Text style={styles.timeText}>{props.duration} Min</Text>
+          {props.subscribedBy && !props.bookCallback && (
+            <Text style={styles.displayName}>{strings.ALLOTTED_TO}{props.subscribedBy}</Text>
+          )}
         </View>
 
         <View style={styles.actionButtonContainer}>
           {
-            props.bookCallback && (
-              <SelectableButton onPress={props.bookCallback} selected={true} textContent={strings.BOOK} textStyle={styles.buttonText}/>
-
+            props.bookCallback && !props.subscribedBy && (
+              <SelectableButton
+                onPress={() => {
+                }}
+                selected={true}
+                textContent={!!props.subscribedBy ? strings.BOOKED : strings.BOOK}
+                textStyle={styles.buttonText}/>
             )
           }
         </View>
@@ -48,22 +63,17 @@ const slot = (props) => {
 
 
 slot.propTypes = {
-  startTime: PropTypes.string.isRequired,
-  day: PropTypes.string.isRequired,
-  duration: PropTypes.number.isRequired
+  // startTime: PropTypes.string.isRequired,
+  // day: PropTypes.string.isRequired,
+  // duration: PropTypes.number.isRequired
 };
-
-slot.defaultProps = {
-  displayName: 'Yash Shrivastav',
-  startTime: '5:20 PM',
-  imageUrl: 'sd'
-}
 
 const styles = StyleSheet.create({
   cardStyle: {
     borderRadius: 6,
-    backgroundColor: appTheme.background,
-    borderColor: appTheme.background
+    backgroundColor: appTheme.darkBackground,
+    borderColor: appTheme.darkBackground,
+    elevation: 5
   },
   container: {
     alignItems: 'center',
@@ -75,7 +85,8 @@ const styles = StyleSheet.create({
   },
   slotDetails: {
     paddingLeft: spacing.medium,
-    paddingTop: spacing.medium_sm
+    paddingTop: spacing.medium_sm,
+    flex: 1
   },
   startTime: {
     color: 'white',
@@ -100,6 +111,11 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.h1
   },
   buttonText: {
+    fontSize: fontSizes.h3
+  },
+  displayName: {
+    color: appTheme.grey,
+    fontFamily: 'Poppins-Medium',
     fontSize: fontSizes.h3
   }
 

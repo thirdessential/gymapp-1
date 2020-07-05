@@ -3,7 +3,7 @@ import {validateResponseCode} from "../utils/utils";
 
 export const listUsers = async () => {
   try {
-    let response = await axios.get('/trainers');
+    let response = await axios.get('/users');
     if (validateResponseCode(response.status)) {
       return response.data;
     } else

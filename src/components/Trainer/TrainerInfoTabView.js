@@ -12,6 +12,7 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import SlotsByTime from "./SlotsByTime";
 import SubscriptionList from "../SubscriptionList";
+import {TabRoutes} from "../../navigation/RouteNames";
 
 const Packages = (props) => (
   <View style={{flex: 1}}>
@@ -35,47 +36,38 @@ const Slots = (props) => (
   </View>
 )
 
-const Subscriptions = (props) => (
-  <View style={{marginBottom: spacing.large}}>
-    <View style={styles.sectionTitleContainer}>
-      <Text style={styles.sectionTitle}>{strings.SUBSCRIPTIONS}</Text>
-    </View>
-    <SubscriptionList subscriptions={props.subscriptions} callCallback={props.callCallback}/>
-  </View>
-)
-
 const initialLayout = {width: screenWidth};
 
-const Routes = {
-  Packages: 'Packages',
-  Posts: 'Posts',
-  Slots: 'Slots',
-  Subscriptions: 'Subscriptions'
-}
-
 function TrainerInfo(props) {
-  const {packages, enrollCallback, slots, bookCallback, subscriptions, callCallback} = props;
-  const [index, setIndex] = React.useState(0);
+  const {packages, enrollCallback, slots, bookCallback, subscriptions, callCallback, onProfilePress, initialRouteName = TabRoutes.Packages} = props;
+  const [index, setIndex] = React.useState(Object.keys(TabRoutes).indexOf(initialRouteName));
   const routeArray = [
-    {key: Routes.Packages, title: 'Packages'},
+    {key: TabRoutes.Packages, title: 'Packages'},
     // {key: Routes.Posts, title: 'Posts'},
-    {key: Routes.Slots, title: 'Slots',},
+    {key: TabRoutes.Slots, title: 'Slots',},
   ];
-  if (subscriptions) routeArray.push({key: Routes.Subscriptions, title: 'Subscriptions'})
+  if (subscriptions) routeArray.push({key: TabRoutes.Subscriptions, title: 'Subscriptions'})
 
   const [routes] = React.useState(routeArray);
 
   const renderScene = (props) => {
     const {route} = props;
     switch (route.key) {
-      case Routes.Packages:
+      case TabRoutes.Packages:
         return <Packages packages={packages} enrollCallback={enrollCallback}/>;
-      case Routes.Slots:
+      case TabRoutes.Slots:
         return <Slots slots={slots} bookCallback={bookCallback ? bookCallback : null}/>;
-      case Routes.Subscriptions:
-        return <Subscriptions subscriptions={subscriptions} callCallback={callCallback}/>
-      // case Routes.Appointment:
-      //   return <Schedule/>
+      case TabRoutes.Subscriptions:
+        return (
+          <View style={{marginBottom: spacing.large}}>
+            <View style={styles.sectionTitleContainer}>
+              <Text style={styles.sectionTitle}>{strings.SUBSCRIPTIONS}</Text>
+            </View>
+            <SubscriptionList subscriptions={subscriptions}
+                              onProfilePress={onProfilePress}
+                              callCallback={callCallback}/>
+          </View>
+        )
       default:
         return null;
     }
@@ -87,12 +79,16 @@ function TrainerInfo(props) {
       renderScene={renderScene}
       onIndexChange={setIndex}
       initialLayout={initialLayout}
-      sceneContainerStyle={{paddingLeft: spacing.medium_lg, paddingRight: spacing.medium_lg}}
+      sceneContainerStyle={{
+        paddingLeft: spacing.medium_lg,
+        paddingRight: spacing.medium_lg,
+        backgroundColor: appTheme.lightBackground
+      }}
       renderTabBar={props =>
         <TabBar
           {...props}
-          style={{backgroundColor: appTheme.background}}
-          indicatorStyle={{backgroundColor: appTheme.grey}}
+          style={{backgroundColor: appTheme.darkBackground}}
+          indicatorStyle={{backgroundColor: appTheme.lightContent}}
           renderIcon={
             props => getTabBarIcon(props)
           }
@@ -109,25 +105,14 @@ const getTabBarIcon = (props) => {
 
   const {route} = props
   switch (route.key) {
-    case(Routes.Slots):
+    case(TabRoutes.Slots):
       return <FontAwesome name='calendar' size={22} color={'white'}/>;
-    case(Routes.Packages):
-      return <FontAwesome name='list' size={22} color={'white'}/>
-    case(Routes.Subscriptions):
-      return <FontAwesome name='eye' size={22} color={'white'}/>
-
-    // case(Routes.Posts):
-    //   return <FontAwesome name='table' size={22} color={'white'}/>
-
-  }
-
-  if (route.key === Routes.Appointment) {
-
-    return
-
-  } else {
-
-
+    case(TabRoutes.Packages):
+      return <FontAwesome name='list' size={22} color={'white'}/>;
+    case(TabRoutes.Subscriptions):
+      return <FontAwesome name='eye' size={22} color={'white'}/>;
+    default:
+      return null
   }
 }
 

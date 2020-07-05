@@ -25,4 +25,12 @@ const RouteNames = {
   Signup:'Signup'
 };
 
+export const TabRoutes = {
+  Packages: 'Packages',
+  Slots: 'Slots',
+
+  Posts: 'Posts',
+  Subscriptions: 'Subscriptions'
+}
+
 export default RouteNames;

@@ -49,12 +49,12 @@ export const imageTypes = {
   COVER: {
     type: 'COVER',
     dimension: {
-      height: 1000,
-      width: 1000
+      height: 700,
+      width: 800
     }
   }
 }
-
+export const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 export const remoteMessageTypes = {
   CALL: 'call',

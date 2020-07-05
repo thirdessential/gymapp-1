@@ -15,10 +15,9 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import {toTitleCase} from "../../utils/utils";
 import Avatar from "../Avatar";
-import CallButton from '../callButton';
+import CallButton from '../CallButton';
 import Entypo from "react-native-vector-icons/Entypo";
-import PackageFlatList from "../Trainer/PackageFlatList";
-import strings from "../../constants/strings";
+
 import {screenWidth} from "../../utils/screenDimensions";
 
 const ProfileOverview = (props) => {
@@ -96,7 +95,7 @@ ProfileOverview.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: appTheme.darkBackground,
+    backgroundColor: appTheme.background,
     width: '100%',
     borderRadius: 20,
     borderColor: 'transparent',
@@ -104,7 +103,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0,
     marginTop: -20,
     paddingLeft: spacing.large,
-    paddingRight: spacing.large
+    paddingRight: spacing.large,
+    paddingBottom:spacing.medium_lg
   },
   titleContainer: {
     flexDirection: 'row',

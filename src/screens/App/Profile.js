@@ -12,7 +12,7 @@ import {connect} from "react-redux";
 
 import ProfileOverview from '../../components/Profile/ProfileOverview';
 import TrainerInfo from '../../components/Trainer/TrainerInfoTabView'
-import RouteNames from "../../navigation/RouteNames";
+import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
 import requestCameraAndAudioPermission from "../../utils/permission";
 import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
@@ -112,6 +112,8 @@ class Profile extends Component {
   }
 
   renderContent = () => {
+    const {route} = this.props;
+    const {initialRouteName = TabRoutes.Packages} = route.params;
     const user = this.getUser();
     if (!user)
       return this.loader();
@@ -136,14 +138,13 @@ class Profile extends Component {
         />
         {
           userType === userTypes.TRAINER && (
-            <View style={{flex: 1, marginTop: spacing.medium_lg}}>
               <TrainerInfo
                 packages={packages}
                 slots={slots}
                 enrollCallback={this.enrollClicked}
                 bookCallback={this.bookClicked}
+                initialRouteName={initialRouteName}
               />
-            </View>
           )
         }
       </View>
@@ -154,7 +155,7 @@ class Profile extends Component {
     return (
       <ParallaxScrollView
         backgroundColor={appTheme.background}
-        contentBackgroundColor={appTheme.darkBackground}
+        contentBackgroundColor={appTheme.lightBackground}
         parallaxHeaderHeight={screenHeight * 2 / 3}
         renderForeground={() => (
           <Image
@@ -179,20 +180,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: screenHeight / 3
   },
-  navContainer: {
-    height: HEADER_HEIGHT,
-    justifyContent: 'center',
-  },
-  statusBar: {
-    height: STATUS_BAR_HEIGHT,
-  },
-  navBar: {
-    height: NAV_BAR_HEIGHT,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-  },
+
   titleStyle: {
     color: 'white',
     fontWeight: 'bold',
