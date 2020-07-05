@@ -19,12 +19,12 @@ export const setUserFromUserList = (userList = null) => ({
 export const updateUsersList = () => {
   return async (dispatch) => {
     try {
-      let {trainers} = await API.listUsers();
-      if (trainers) {
-        await dispatch(setUserList(trainers)); // await probably has no effect
-        dispatch(setUserFromUserList(trainers));
+      let {users} = await API.listUsers();
+      if (users) {
+        await dispatch(setUserList(users)); // await probably has no effect
+        dispatch(setUserFromUserList(users));
         const wallPreloadData = [];
-        trainers.map(user => {
+        users.map(user => {
           if (!!user.wallImageUrl)
             wallPreloadData.push({uri: user.wallImageUrl});
         });
@@ -44,7 +44,7 @@ export const setUserAction = (user) => ({
 });
 
 export const setUser = (userId) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     try {
       let {user} = await API.getUserInfo(userId);
       if (user) {

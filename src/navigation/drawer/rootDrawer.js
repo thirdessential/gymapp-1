@@ -23,9 +23,11 @@ const rootDrawer = (props) => {
       <Drawer.Navigator initialRouteName="Home"
                         drawerType={'slide'}
                         drawerContent={CustomDrawerContent}
+                        drawerStyle={{
+                          width: 240,
+                        }}
       >
         <Drawer.Screen name="Home" component={CoreApp}/>
-        {/*<Drawer.Screen name="Edit Profile" component={ProfileEdit}/>*/}
       </Drawer.Navigator>
     </NavigationContainer>
   );

@@ -30,9 +30,9 @@ const homeTab = (props) => {
   let {userType} = userData;
   return (
     <Tab.Navigator
-      lazy={true}
-      lazyPreloadDistance={1}
-      lazyPlaceholder={bgView}
+      // lazy={true}
+      // lazyPreloadDistance={1}
+      // lazyPlaceholder={bgView}
       tabBarPosition={'bottom'}
       tabBarOptions={{
         activeTintColor: colors.appBlue,

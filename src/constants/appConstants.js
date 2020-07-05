@@ -54,7 +54,7 @@ export const imageTypes = {
     }
   }
 }
-
+export const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 export const remoteMessageTypes = {
   CALL: 'call',
