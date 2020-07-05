@@ -15,19 +15,21 @@ import MyProfileStack from '../stacks/myProfileStack';
 import PackageStack from "../stacks/PackageStack";
 import {userTypes} from "../../constants/appConstants";
 import SlotList from "../../screens/App/SlotList";
-import {ActivityIndicator, View} from "react-native";
+import {ActivityIndicator, Text, View} from "react-native";
+import fontSizes from "../../constants/fontSizes";
 
 const Tab = createMaterialTopTabNavigator();
 
-const bgView = () => (
-  <View style={{backgroundColor: appTheme.darkBackground, flex: 1, justifyContent:'center',alignItems:'center'}}>
-    <ActivityIndicator size={40} color={appTheme.lightContent}/>
-  </View>)
-;
+// const bgView = () => (
+//   <View style={{backgroundColor: appTheme.darkBackground, flex: 1, justifyContent:'center',alignItems:'center'}}>
+//     <ActivityIndicator size={40} color={appTheme.lightContent}/>
+//   </View>)
+// ;
 
 const homeTab = (props) => {
   const userData = store.getState().user.userData;
   let {userType} = userData;
+  const listingTitle = userType === userTypes.USER ? 'Trainers' : 'Users';
   return (
     <Tab.Navigator
       // lazy={true}
@@ -38,7 +40,18 @@ const homeTab = (props) => {
         activeTintColor: colors.appBlue,
         inactiveTintColor: 'gray',
         showIcon: true,
-        showLabel: false,
+        // showLabel: false,
+        labelStyle: {
+          // color:'red'
+          fontSize: fontSizes.h5,
+          padding: 0,
+          margin: 0,
+        },
+        tabStyle: {
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 3
+        },
         style: {backgroundColor: appTheme.darkGrey},
       }}
     >
@@ -46,10 +59,11 @@ const homeTab = (props) => {
         name={RouteNames.UserListing}
         component={UserListing}
         options={{
-          title: 'Listing',
+          title: listingTitle,
           tabBarIcon: ({focused, color, size}) => {
             let iconName = focused ? 'ios-list-box' : 'ios-list';
-            return <Ionicons name={iconName} size={20} color={color}/>;
+            return <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>
+
           },
         }}/>
       {
@@ -61,7 +75,7 @@ const homeTab = (props) => {
               title: 'Packages',
               tabBarIcon: ({focused, color, size}) => {
                 let iconName = focused ? 'ios-construct' : 'ios-construct';
-                return <Ionicons name={iconName} size={20} color={color}/>;
+                return (<View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>);
               },
             }}/>
         )
@@ -72,10 +86,11 @@ const homeTab = (props) => {
             name={RouteNames.SlotEdit}
             component={SlotList}
             options={{
-              title: 'Packages',
+              title: 'Slots',
               tabBarIcon: ({focused, color, size}) => {
                 let iconName = focused ? 'list' : 'list';
-                return <FontAwesome name={iconName} size={20} color={color}/>;
+                return <View style={{alignItems: 'center'}}><FontAwesome name={iconName} size={20}
+                                                                         color={color}/></View>
               },
             }}/>
         )
@@ -89,7 +104,8 @@ const homeTab = (props) => {
               title: 'Schedule',
               tabBarIcon: ({focused, color, size}) => {
                 let iconName = focused ? 'calendar-o' : 'calendar';
-                return <FontAwesome name={iconName} size={20} color={color}/>;
+                return <View style={{alignItems: 'center'}}><FontAwesome name={iconName} size={20}
+                                                                         color={color}/></View>
               },
             }}/>
         )
@@ -124,7 +140,7 @@ const homeTab = (props) => {
           title: 'Profile',
           tabBarIcon: ({focused, color, size}) => {
             let iconName = focused ? 'md-person' : 'md-person';
-            return <Ionicons name={iconName} size={20} color={color}/>;
+            return <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>
           },
         }}
       />
