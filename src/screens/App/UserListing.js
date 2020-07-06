@@ -22,7 +22,7 @@ import * as actionCreators from '../../store/actions';
 import {appName, paymentKey, userTypes} from "../../constants/appConstants";
 import UserThumb from "../../components/Trainer/UserThumb";
 import {spacing} from "../../constants/dimension";
-import requestCameraAndAudioPermission from "../../utils/permission";
+import {requestCameraAndAudioPermission} from "../../utils/permission";
 import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
 import strings from "../../constants/strings";
 import fontSizes from "../../constants/fontSizes";

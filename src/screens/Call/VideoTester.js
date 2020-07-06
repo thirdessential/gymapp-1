@@ -4,7 +4,7 @@
 import React, {Component} from 'react';
 import {View, ScrollView, StyleSheet, Button, Text, TouchableOpacity} from 'react-native'
 import RouteNames from "../../navigation/RouteNames";
-import requestCameraAndAudioPermission from "../../utils/permission";
+import {requestCameraAndAudioPermission} from "../../utils/permission";
 import {spacing} from "../../constants/dimension";
 import GenericText from "../../components/GenericText";
 

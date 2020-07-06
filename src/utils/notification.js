@@ -8,7 +8,7 @@ import LaunchApplication from "react-native-bring-foreground";
 import {appPackageId, notificationActions, remoteMessageTypes, storageKeys} from "../constants/appConstants";
 import {navigate} from "../navigation/RootNavigation";
 import RouteNames from "../navigation/RouteNames";
-import requestCameraAndAudioPermission from "./permission";
+import {requestCameraAndAudioPermission} from "./permission";
 import {showMessage, hideMessage} from "react-native-flash-message";
 import strings from "../constants/strings";
 

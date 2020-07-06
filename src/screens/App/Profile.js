@@ -14,7 +14,7 @@ import ProfileOverview from '../../components/Profile/ProfileOverview';
 import TrainerInfo from '../../components/Trainer/TrainerInfoTabView'
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
-import requestCameraAndAudioPermission from "../../utils/permission";
+import {requestCameraAndAudioPermission} from "../../utils/permission";
 import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from '../../utils/screenDimensions';

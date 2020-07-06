@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   imageDimensions: {
     width: 200,
     height: 200,
-    borderRadius: 100
+    borderRadius:15
   },
   loader: {
     position: 'absolute',

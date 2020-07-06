@@ -21,7 +21,7 @@ import {generateTrainerHits, generateUserHits, initialiseVideoCall, pickImage} f
 import {spacing} from "../../constants/dimension";
 import TrainerInfo from "../../components/Trainer/TrainerInfoTabView";
 import * as actionCreators from "../../store/actions";
-import requestCameraAndAudioPermission from "../../utils/permission";
+import {requestCameraAndAudioPermission} from "../../utils/permission";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {uploadImage} from "../../API";
 

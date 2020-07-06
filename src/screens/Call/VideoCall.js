@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet, NativeModules, ScrollView, Text, TouchableOpacity, BackHandler} from 'react-native';
 import {RtcEngine, AgoraView} from 'react-native-agora';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import KeepAwake from 'react-native-keep-awake';
 
 import {callTimeout, videoFeedConfig} from "../../constants/appConstants";
 import strings from "../../constants/strings";
@@ -10,7 +11,7 @@ import * as actionCreators from "../../store/actions";
 import {connect} from "react-redux";
 import {screenHeight, screenWidth} from "../../utils/screenDimensions";
 import {appTheme} from "../../constants/colors";
-import RouteNames from "../../navigation/RouteNames";
+import {showError} from "../../utils/notification";
 
 const {Agora} = NativeModules;                  //Define Agora object as a native module
 
@@ -56,6 +57,7 @@ class VideoCall extends Component {
   handleCallTimeout = async () => {
     if (this.state.peerIds.length === 0) {
       this.setState({infoText: strings.CALL_TIMEOUT});
+      showError(strings.CALL_TIMEOUT)
       await customDelay(1000);
       this.endCall();
     }
@@ -66,7 +68,7 @@ class VideoCall extends Component {
   }
 
   componentDidMount() {
-    // setTimeout(this.handleCallTimeout, callTimeout);
+    setTimeout(this.handleCallTimeout, callTimeout);
 
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', function () {
       return true;
@@ -160,6 +162,7 @@ class VideoCall extends Component {
     const localVideoStyle = this.state.peerIds.length > 0 ? styles.localVideoStyle : {flex: 1};
     return (
       <View style={styles.container}>
+        <KeepAwake/>
         {
           this.state.peerIds.length > 1
             ? <View style={{flex: 1}}>

@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native'
+import {StyleSheet, TouchableOpacity} from 'react-native'
 
 import {spacing} from "../constants/dimension";
 import {appTheme} from "../constants/colors";
@@ -12,18 +12,23 @@ import fonts from "../constants/fonts";
 import ClientCard from "./ClientCard";
 import {defaultDP} from "../constants/appConstants";
 
-
 const subscriptionList = (props) => {
-
   const RenderClients = () => {
     return props.subscriptions.map((subscription, index) => {
       const user = subscription.subscribedBy;
-      const {name, city,_id} = user;
+      let {name, city, _id, displayPictureUrl} = user;
+      if (!displayPictureUrl) displayPictureUrl = defaultDP;
       const {totalSessions, heldSessions} = subscription;
       const sessions = `${heldSessions}/${totalSessions}`;
       return (
-        <TouchableOpacity activeOpacity={0.7} onPress={()=>props.onProfilePress(_id)} key={index} style={styles.appointmentContainer}>
-          <ClientCard callCallback={()=>props.callCallback(_id)} displayName={name} location={city} imageUrl={defaultDP} sessions={sessions}/>
+        <TouchableOpacity activeOpacity={0.7} onPress={() => props.onProfilePress(_id)} key={index}
+                          style={styles.appointmentContainer}>
+          <ClientCard
+            callCallback={() => props.callCallback(_id)}
+            displayName={name}
+            location={city}
+            imageUrl={displayPictureUrl}
+            sessions={sessions}/>
         </TouchableOpacity>
       )
     })
