@@ -17,7 +17,7 @@ import MiniSlotCard from "../MiniSlotCard";
 
 
 const slotsByTime = (props) => {
-  const {slots} = props;
+  const {slots, bookCallback} = props;
   if (slots.length === 0) return null;
 
   const [groupedSlots] = useState(groupBy(slots, 'time'));

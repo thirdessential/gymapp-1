@@ -113,7 +113,7 @@ class Schedule extends Component {
     return filteredSlots.map((slot, index) => {
       const {duration, trainerId, dayOfWeek, time} = slot;
       let {name, displayPictureUrl, city} = this.getUser(trainerId);
-      if(!displayPictureUrl) displayPictureUrl=defaultDP;
+      if (!displayPictureUrl) displayPictureUrl = defaultDP;
       return (
         <TouchableOpacity
           onPress={() => this.openProfile(trainerId)}
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  globalSlots: state.app.globalSlots,
+  globalSlots:state.app.globalSlots,
   users: state.app.users
 });
 

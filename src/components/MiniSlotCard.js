@@ -48,8 +48,7 @@ const slot = (props) => {
           {
             props.bookCallback && !props.subscribedBy && (
               <SelectableButton
-                onPress={() => {
-                }}
+                onPress={props.bookCallback}
                 selected={true}
                 textContent={!!props.subscribedBy ? strings.BOOKED : strings.BOOK}
                 textStyle={styles.buttonText}/>

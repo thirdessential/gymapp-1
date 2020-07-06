@@ -22,6 +22,8 @@ import strings from "../../constants/strings";
 import {userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
 import {spacing} from "../../constants/dimension";
+import {showError, showSuccess} from "../../utils/notification";
+import {bookAppointment} from "../../API";
 
 
 const STATUS_BAR_HEIGHT = 0;
@@ -79,8 +81,14 @@ class Profile extends Component {
     } else console.log("Cant initiate video call without permission");
   }
 
-  bookClicked = async (day, time) => {
-    console.log('booked', day, time)
+  bookAppointment = async (day, time) => {
+    const {route,setUser} = this.props;
+    const {userId} = route.params;
+    let response = await bookAppointment(userId, day, time);
+    if (response.success)
+      showSuccess(response.message);
+    else showError(response.message);
+    setUser(userId);
   }
 
   loader = () => (
@@ -142,7 +150,7 @@ class Profile extends Component {
                 packages={packages}
                 slots={slots}
                 enrollCallback={this.enrollClicked}
-                bookCallback={this.bookClicked}
+                bookCallback={this.bookAppointment}
                 initialRouteName={initialRouteName}
               />
           )
