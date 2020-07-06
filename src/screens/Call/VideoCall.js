@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, NativeModules, ScrollView, Text, TouchableOpacity, BackHandler} from 'react-native';
+import {View, StyleSheet, NativeModules, ScrollView, Text, TouchableOpacity, BackHandler, AppState} from 'react-native';
 import {RtcEngine, AgoraView} from 'react-native-agora';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import KeepAwake from 'react-native-keep-awake';
+import AndroidPip from 'react-native-android-pip';
 
 import {callTimeout, videoFeedConfig} from "../../constants/appConstants";
 import strings from "../../constants/strings";
@@ -13,7 +14,7 @@ import {screenHeight, screenWidth} from "../../utils/screenDimensions";
 import {appTheme} from "../../constants/colors";
 import {showError} from "../../utils/notification";
 
-const {Agora} = NativeModules;                  //Define Agora object as a native module
+const {Agora} = NativeModules;                  //Define Agora object as a native moduleya
 
 const {
   FPS30,
@@ -36,7 +37,8 @@ class VideoCall extends Component {
       vidMute: false,                             //State variable for Video Mute
       audMute: false,                             //State variable for Audio Mute
       joinSucceed: false,                         //State variable for storing success
-      infoText: strings.WAITING_FOR_USERS
+      infoText: strings.WAITING_FOR_USERS,
+      appState:'active'
     };
     const config = {                            //Setting config of the app
       appid: this.state.appid,                  //App ID
@@ -67,12 +69,29 @@ class VideoCall extends Component {
     RtcEngine.switchCamera();
   }
 
-  componentDidMount() {
-    setTimeout(this.handleCallTimeout, callTimeout);
+  _handleAppStateChange = nextAppState => {
+    if(nextAppState.match(/inactive|background/)){
+      console.log('app going to background');
+      // AndroidPip.enterPictureInPictureMode()
+    }
+    if (this.state.appState.match(/inactive|background/) && nextAppState === "active") {
+      console.log("App has come to the foreground!");
+    }
+    this.setState({appState:nextAppState});
+  };
 
+  componentDidMount() {
+    this.callTimeouter = setTimeout(this.handleCallTimeout, callTimeout);
+
+    AppState.addEventListener("change", this._handleAppStateChange);
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', function () {
+      AndroidPip.enterPictureInPictureMode()
       return true;
     });
+    this.unsubscribeBlur = this.props.navigation.addListener('blur', async e => {
+      // AndroidPip.enterPictureInPictureMode()
+    });
+
     RtcEngine.on('userJoined', (data) => {
       const {peerIds} = this.state;             //Get currrent peer IDs
       if (peerIds.indexOf(data.uid) === -1) {     //If new user has joined
@@ -99,6 +118,9 @@ class VideoCall extends Component {
 
   componentWillUnmount() {
     this.backHandler.remove();
+    this.unsubscribeBlur();
+    clearTimeout(this.callTimeouter);
+    AppState.removeEventListener("change", this._handleAppStateChange);
   }
 
   /**

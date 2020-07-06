@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "irel": "cd android && ./gradlew installRelease",
     "rel": "cd android && ./gradlew assembleRelease",
-    "clean": "cd android && ./gradlew clean"
+    "clean": "cd android && ./gradlew clean",
+    "rebuild": "yarn clean && yarn rel"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.11.0",
@@ -33,6 +34,7 @@
     "react-native": "0.62.2",
     "react-native-24h-timepicker": "^1.1.0",
     "react-native-agora": "^2.9.0-alpha.1",
+    "react-native-android-pip": "https://github.com/Yatanvesh/rn-android-pip",
     "react-native-bring-foreground": "^0.0.3",
     "react-native-calendar-strip": "^2.0.6",
     "react-native-calendars": "^1.300.0",
