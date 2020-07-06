@@ -18,7 +18,8 @@ export const callHandler = async (remoteMessage) => {
   switch (data.type) {
     case remoteMessageTypes.CALL:
       LocalCallNotification(data);
-      await saveToStorage(storageKeys.PENDING_CALL, data);
+      const modifiedData = {...data, receiveTime:new Date()}
+      await saveToStorage(storageKeys.PENDING_CALL, modifiedData);
       LaunchApplication.open(appPackageId);
       break;
     case remoteMessageTypes.APPOINTMENT:
@@ -27,7 +28,6 @@ export const callHandler = async (remoteMessage) => {
         LocalMessageNotification(content);
       break;
     default:break;
-
   }
 }
 

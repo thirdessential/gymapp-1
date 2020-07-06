@@ -50,7 +50,8 @@ class App extends React.Component {
           if (!!content)
             showInfo(content);
           break;
-        default:break;
+        default:
+          break;
 
       }
     })
@@ -60,8 +61,12 @@ class App extends React.Component {
     const callData = await readFromStorage(storageKeys.PENDING_CALL);
     if (callData) {
       deleteFromStorage(storageKeys.PENDING_CALL);
-      this.props.setIncomingCall(callData);
-      console.log("Set call data", callData);
+      const receiveTime = new Date(callData.receiveTime);
+      const currentTime = new Date();
+      if ((currentTime - receiveTime) / 1000 < 60) { // 60 secs
+        this.props.setIncomingCall(callData);
+        console.log("Set call data", callData);
+      } else console.log("Stale call data detected and deleted");
     }
   }
 
