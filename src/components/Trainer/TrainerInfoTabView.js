@@ -27,14 +27,6 @@ const Packages = (props) => (
   </View>
 )
 
-const Slots = (props) => (
-  <View style={{marginBottom: spacing.large}}>
-    <View style={styles.sectionTitleContainer}>
-      <Text style={styles.sectionTitle}>{strings.SLOTS}</Text>
-    </View>
-    <SlotsByTime slots={props.slots} bookCallback={props.bookCallback ? props.bookCallback : null}/>
-  </View>
-)
 
 const initialLayout = {width: screenWidth};
 
@@ -56,7 +48,14 @@ function TrainerInfo(props) {
       case TabRoutes.Packages:
         return <Packages packages={packages} enrollCallback={enrollCallback}/>;
       case TabRoutes.Slots:
-        return <Slots slots={slots} bookCallback={bookCallback ? bookCallback : null}/>;
+        return (
+          <View style={{marginBottom: spacing.large}}>
+            <View style={styles.sectionTitleContainer}>
+              <Text style={styles.sectionTitle}>{strings.SLOTS}</Text>
+            </View>
+            <SlotsByTime slots={slots} bookCallback={bookCallback}/>
+          </View>
+        )
       case TabRoutes.Subscriptions:
         return (
           <View style={{marginBottom: spacing.large}}>
