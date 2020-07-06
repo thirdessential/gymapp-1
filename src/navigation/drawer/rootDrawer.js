@@ -17,12 +17,14 @@ const MyTheme = {
   },
 };
 const rootDrawer = (props) => {
-  const {navigationRef} = props;
+  const {navigationRef, userType, userData} = props;
   return (
     <NavigationContainer theme={MyTheme} ref={navigationRef}>
       <Drawer.Navigator initialRouteName="Home"
                         drawerType={'slide'}
-                        drawerContent={CustomDrawerContent}
+                        drawerContent={(drawerProps) => <CustomDrawerContent {...drawerProps}
+                                                                             userType={userType}
+                                                                             userData={userData}/>}
                         drawerStyle={{
                           width: 240
                         }}

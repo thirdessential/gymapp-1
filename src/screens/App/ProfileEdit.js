@@ -89,6 +89,8 @@ class ProfileEdit extends Component {
     } else {
       this.setState({imageUploading: false, image: null});
     }
+    this.props.updateUserData();
+
   }
 
   submit = async () => {
