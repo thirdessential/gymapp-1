@@ -5,9 +5,10 @@ import {navigate} from '../navigation/RootNavigation';
 import RouteNames from "../navigation/RouteNames";
 import AsyncStorage from '@react-native-community/async-storage';
 
+import store from '../store/configureStore';
 import {makeCall} from "../API";
 import strings from "../constants/strings";
-import {WEEK_DAYS} from "../constants/appConstants";
+import {defaultDP, WEEK_DAYS} from "../constants/appConstants";
 import ImagePicker from "react-native-image-picker";
 
 export const validateResponseCode = (code) => {
@@ -113,16 +114,24 @@ export const updateObject = (oldObject, updatedValues) => {
   };
 };
 
-export const initialiseVideoCall = async (userId) => {
+export const initialiseVideoCall = async (userId, displayName="Yatan", displayPictureUrl=defaultDP) => {
   let result = await makeCall(userId);
   if (!result) {
     console.log("Call initiate error");
     return false;
   }
   const {sessionId, agoraAppId} = result;
+  const user = store.getState().app.users[userId];
+  if(user){
+    displayName = user.name;
+    displayPictureUrl= user.displayPictureUrl;
+  }
   navigate(RouteNames.VideoCall, {
     AppID: agoraAppId,
-    ChannelName: sessionId
+    ChannelName: sessionId,
+    initiating:true,
+    displayPictureUrl,
+    displayName
   })
 }
 

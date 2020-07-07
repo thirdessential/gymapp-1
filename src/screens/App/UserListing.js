@@ -91,7 +91,7 @@ class UserListing extends Component {
               packages={packages}
               onPress={() => this.openProfile(user._id)}
               onPackagePress={() => this.openProfile(user._id, TabRoutes.Packages)}
-              callClicked={() => this.callClicked(user._id)}
+              // callClicked={() => this.callClicked(user._id)}
             />
           )
         }
