@@ -1,5 +1,15 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, NativeModules, ScrollView, Text, TouchableOpacity, BackHandler, AppState} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  NativeModules,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  BackHandler,
+  AppState,
+  Dimensions
+} from 'react-native';
 import {RtcEngine, AgoraView} from 'react-native-agora';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import KeepAwake from 'react-native-keep-awake';
@@ -38,7 +48,7 @@ class VideoCall extends Component {
       audMute: false,                             //State variable for Audio Mute
       joinSucceed: false,                         //State variable for storing success
       infoText: strings.WAITING_FOR_USERS,
-      appState:'active'
+      appState: 'active',
     };
     const config = {                            //Setting config of the app
       appid: this.state.appid,                  //App ID
@@ -69,27 +79,14 @@ class VideoCall extends Component {
     RtcEngine.switchCamera();
   }
 
-  _handleAppStateChange = nextAppState => {
-    if(nextAppState.match(/inactive|background/)){
-      console.log('app going to background');
-      // AndroidPip.enterPictureInPictureMode()
-    }
-    if (this.state.appState.match(/inactive|background/) && nextAppState === "active") {
-      console.log("App has come to the foreground!");
-    }
-    this.setState({appState:nextAppState});
-  };
-
   componentDidMount() {
     this.callTimeouter = setTimeout(this.handleCallTimeout, callTimeout);
-
+    AndroidPip.enableAutoPipSwitch();
     AppState.addEventListener("change", this._handleAppStateChange);
+
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', function () {
-      AndroidPip.enterPictureInPictureMode()
+      AndroidPip.enterPictureInPictureMode();
       return true;
-    });
-    this.unsubscribeBlur = this.props.navigation.addListener('blur', async e => {
-      // AndroidPip.enterPictureInPictureMode()
     });
 
     RtcEngine.on('userJoined', (data) => {
@@ -118,10 +115,20 @@ class VideoCall extends Component {
 
   componentWillUnmount() {
     this.backHandler.remove();
-    this.unsubscribeBlur();
     clearTimeout(this.callTimeouter);
+    AndroidPip.disableAutoPipSwitch();
     AppState.removeEventListener("change", this._handleAppStateChange);
   }
+
+  _handleAppStateChange = nextAppState => {
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      console.log("App has come to the foreground!");
+    }
+    this.setState({ appState: nextAppState });
+  };
 
   /**
    * @name toggleAudio
@@ -180,7 +187,7 @@ class VideoCall extends Component {
    * @name videoView
    * @description Function to return the view for the app
    */
-  videoView() {
+  videoView = () =>{
     const localVideoStyle = this.state.peerIds.length > 0 ? styles.localVideoStyle : {flex: 1};
     return (
       <View style={styles.container}>
@@ -246,8 +253,24 @@ class VideoCall extends Component {
     );
   }
 
+  pipView = () => {
+    const localVideoStyle = {flex: 1};
+    return (
+
+      this.state.peerIds.length > 0 ?
+        <AgoraView style={{flex: 1}}
+                   remoteUid={this.state.peerIds[0]} mode={1}/> :
+        !this.state.vidMute                                              //view for local video
+          ? <AgoraView style={localVideoStyle} zOrderMediaOverlay={true} showLocalVideo={true} mode={1}/>
+          : <View/>
+    )
+  }
+
   render() {
-    return this.videoView();
+
+    if(this.state.appState==='active')
+      return <this.videoView/>
+    return <this.pipView/>;
   }
 }
 
