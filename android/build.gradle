@@ -8,6 +8,7 @@ buildscript {
         targetSdkVersion = 28
         supportLibVersion = "27.1.1"
         googlePlayServicesAuthVersion = "17.0.0"
+        kotlin_version = "1.3.72"
     }
     repositories {
         google()

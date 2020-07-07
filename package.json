@@ -33,7 +33,7 @@
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-24h-timepicker": "^1.1.0",
-    "react-native-agora": "^2.9.0-alpha.1",
+    "react-native-agora": "^3.0.1-beta.8",
     "react-native-android-pip": "https://github.com/Yatanvesh/rn-android-pip",
     "react-native-bring-foreground": "^0.0.3",
     "react-native-calendar-strip": "^2.0.6",
