@@ -10,11 +10,12 @@ import Ion from "react-native-vector-icons/Ionicons";
 
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
-import colors, {appTheme} from "../../constants/colors";
+import colors, {appTheme, darkPallet} from "../../constants/colors";
 import strings from "../../constants/strings";
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
 import {validatePackage} from "../../utils/validators";
+import LinearGradient from "react-native-linear-gradient";
 
 class Packages extends Component {
 
@@ -63,6 +64,9 @@ class Packages extends Component {
   render() {
     const inputsValid = validatePackage(this.state);
     return (
+      <LinearGradient
+        colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
+        style={styles.container}>
       <KeyboardAwareScrollView style={styles.container} enableOnAndroid={true} keyboardShouldPersistTaps={'handled'}>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
         <View style={styles.titleContainer}>
@@ -135,6 +139,7 @@ class Packages extends Component {
           </TouchableOpacity>
         </View>
       </KeyboardAwareScrollView>
+      </LinearGradient>
     );
   }
 }
@@ -142,7 +147,6 @@ class Packages extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: appTheme.background,
   },
   titleContainer: {
     flex: 1,

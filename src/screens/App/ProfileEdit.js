@@ -8,13 +8,14 @@ import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ActionButtonTwo from '../../components/Login/ActionButtonTwo';
-import colors, {appTheme} from '../../constants/colors';
+import colors, {appTheme, darkPallet} from '../../constants/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import FastImage from "react-native-fast-image";
 import {spacing} from "../../constants/dimension";
+import LinearGradient from "react-native-linear-gradient";
 
 
 class ProfileEdit extends Component {
@@ -104,7 +105,9 @@ class ProfileEdit extends Component {
 
   render() {
     return (
-      <>
+      <LinearGradient
+        colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
+        style={styles.container}>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
         <KeyboardAwareScrollView enableOnAndroid={true} contentContainerStyle={styles.contentContainer}
                                  keyboardShouldPersistTaps={'handled'}>
@@ -181,15 +184,17 @@ class ProfileEdit extends Component {
           <KeyboardSpacer/>
         </KeyboardAwareScrollView>
 
-      </>
+      </LinearGradient>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container:{
+    flex:1
+  },
   contentContainer: {
     flexGrow: 1,
-    backgroundColor: appTheme.darkBackground,
   },
   itemSeparatorHorizontal: {
     height: 1,

@@ -53,14 +53,6 @@ class UserListing extends Component {
     });
   }
 
-  callClicked = async (userId) => {
-    const permissionGranted = await requestCameraAndAudioPermission();
-
-    if (permissionGranted) {
-      await initialiseVideoCall(userId);
-    } else console.log("Cant initiate video call without permission");
-  }
-
   renderUserThumb = (user, index) => {
     let {name, userType, experience = 0, rating, displayPictureUrl, packages, city, slots} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
