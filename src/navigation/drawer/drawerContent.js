@@ -21,42 +21,45 @@ function CustomDrawerContent(props) {
     <DrawerContentScrollView {...props} style={{backgroundColor: appTheme.darkBackground}}>
       <LinearGradient
         colors={[darkPallet.lightBlue, darkPallet.extraDarkBlue]}
-        style={styles.container}>
+      >
         <View style={styles.container}>
           <Avatar url={displayPictureUrl}/>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>{name}</Text>
           </View>
         </View>
-        <DrawerItemList {...props} labelStyle={{color: 'white'}}/>
-        <DrawerItem
-          label="Edit Profile"
-          labelStyle={{color: 'white'}}
-          onPress={() => props.navigation.navigate(RouteNames.ProfileEdit)}
-        />
-        {
-          userType === userTypes.TRAINER && (
-            <DrawerItem
-              label="My Packages"
-              labelStyle={{color: 'white'}}
-              onPress={() => props.navigation.navigate(RouteNames.Packages)}
-            />
-          )
-        }
-        {
-          userType === userTypes.TRAINER && (
-            <DrawerItem
-              label="My Slots"
-              labelStyle={{color: 'white'}}
-              onPress={() => props.navigation.navigate(RouteNames.SlotEdit)}
-            />
-          )
-        }
-        <DrawerItem
-          label="Sign Out"
-          labelStyle={{color: 'white'}}
-          onPress={() => store.dispatch(signOutUser())}
-        />
+        <View style={styles.list}>
+          <DrawerItemList {...props} labelStyle={{color: 'white'}}/>
+          <DrawerItem
+            label="Edit Profile"
+            labelStyle={{color: 'white'}}
+            onPress={() => props.navigation.navigate(RouteNames.ProfileEdit)}
+          />
+          {
+            userType === userTypes.TRAINER && (
+              <DrawerItem
+                label="My Packages"
+                labelStyle={{color: 'white'}}
+                onPress={() => props.navigation.navigate(RouteNames.Packages)}
+              />
+            )
+          }
+          {
+            userType === userTypes.TRAINER && (
+              <DrawerItem
+                label="My Slots"
+                labelStyle={{color: 'white'}}
+                onPress={() => props.navigation.navigate(RouteNames.SlotEdit)}
+              />
+            )
+          }
+          <DrawerItem
+            label="Sign Out"
+            labelStyle={{color: 'white'}}
+            onPress={() => store.dispatch(signOutUser())}
+          />
+        </View>
+
       </LinearGradient>
 
     </DrawerContentScrollView>
@@ -78,6 +81,9 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MontserratMedium,
     fontSize: 18,
   },
+  list:{
+    marginLeft:spacing.small
+  }
 });
 
 

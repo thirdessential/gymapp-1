@@ -1,9 +1,11 @@
 import axios from "./config";
 import {validateResponseCode} from "../utils/utils";
 
-export const listUsers = async () => {
+export const listUsers = async (url) => {
   try {
-    let response = await axios.get('/users');
+    let response = !!url ?
+      await axios.get(url) :
+      await axios.get('/users');
     if (validateResponseCode(response.status)) {
       return response.data;
     } else
