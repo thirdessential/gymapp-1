@@ -13,6 +13,7 @@ const strings = {
   RUPEE: '₹',
   FOLLOW: 'Follow',
   BOOK: 'Book',
+  RINGING:'Ringing',
   BOOKED:'Booked',
   EDIT_COVER:'Edit Cover',
   ENROLL: 'Enroll',

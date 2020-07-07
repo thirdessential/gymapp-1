@@ -28,6 +28,13 @@ export const darkPallet = {
   }
 }
 
+export const bluePallet = {
+  background: '#2e244c',
+  darkBackground: '#292145',
+  content: '#362a5c',
+  gradient: ['#292044', '#2d234c']
+}
+
 export const getRandomGradient = () => {
   const gradients = Object.keys(darkPallet.gradients);
   const gradientCount = gradients.length;

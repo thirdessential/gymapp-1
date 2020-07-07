@@ -1,6 +1,9 @@
 // export const rootURL = 'https://te-gym-api.herokuapp.com';
 export const rootURL = 'https://fitness-first-services.herokuapp.com';
 // export const rootURL = 'http://192.168.0.105:3001';
+
+export const appName = 'GymAdda';
+
 export const userTypes = {
   USER: 'USER',
   TRAINER: 'TRAINER'
@@ -55,6 +58,7 @@ export const imageTypes = {
   }
 }
 export const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
+export const paymentKey ='rzp_test_BuIiL164HHvbBm';
 
 export const remoteMessageTypes = {
   CALL: 'call',

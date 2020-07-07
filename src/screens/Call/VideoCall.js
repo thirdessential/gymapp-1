@@ -1,7 +1,17 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, NativeModules, ScrollView, Text, TouchableOpacity, BackHandler} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  NativeModules,
+  Text,
+  TouchableOpacity,
+  BackHandler,
+  AppState, Image, LayoutAnimation,
+} from 'react-native';
 import {RtcEngine, AgoraView} from 'react-native-agora';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import KeepAwake from 'react-native-keep-awake';
+import AndroidPip from 'react-native-android-pip';
 
 import {callTimeout, videoFeedConfig} from "../../constants/appConstants";
 import strings from "../../constants/strings";
@@ -9,10 +19,16 @@ import {customDelay} from "../../utils/utils";
 import * as actionCreators from "../../store/actions";
 import {connect} from "react-redux";
 import {screenHeight, screenWidth} from "../../utils/screenDimensions";
-import {appTheme} from "../../constants/colors";
-import RouteNames from "../../navigation/RouteNames";
+import colors, {appTheme} from "../../constants/colors";
+import {showError} from "../../utils/notification";
+import {ToggleView} from "react-native-full-screen";
+import {spacing} from "../../constants/dimension";
+import Avatar from "../../components/Avatar";
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
+import CallBackground from "../../../assets/images/callBackground.png";
 
-const {Agora} = NativeModules;                  //Define Agora object as a native module
+const {Agora} = NativeModules;                  //Define Agora object as a native moduleya
 
 const {
   FPS30,
@@ -25,7 +41,12 @@ class VideoCall extends Component {
   constructor(props) {
     super(props);
     const {params} = props.route;
-    const {AppID, ChannelName, videoConfig = videoFeedConfig} = params;
+    const {
+      AppID,
+      ChannelName,
+      videoConfig = videoFeedConfig,
+      initiating = false
+    } = params;
 
     this.state = {
       peerIds: [],                                //Array for storing connected peers
@@ -35,7 +56,8 @@ class VideoCall extends Component {
       vidMute: false,                             //State variable for Video Mute
       audMute: false,                             //State variable for Audio Mute
       joinSucceed: false,                         //State variable for storing success
-      infoText: strings.WAITING_FOR_USERS
+      appState: 'active',
+      initiating: initiating,
     };
     const config = {                            //Setting config of the app
       appid: this.state.appid,                  //App ID
@@ -55,7 +77,7 @@ class VideoCall extends Component {
 
   handleCallTimeout = async () => {
     if (this.state.peerIds.length === 0) {
-      this.setState({infoText: strings.CALL_TIMEOUT});
+      showError(strings.CALL_TIMEOUT)
       await customDelay(1000);
       this.endCall();
     }
@@ -66,13 +88,18 @@ class VideoCall extends Component {
   }
 
   componentDidMount() {
-    // setTimeout(this.handleCallTimeout, callTimeout);
+    this.callTimeouter = setTimeout(this.handleCallTimeout, callTimeout);
+    AndroidPip.enableAutoPipSwitch();
+    AppState.addEventListener("change", this._handleAppStateChange);
 
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', function () {
+      AndroidPip.enterPictureInPictureMode();
       return true;
     });
+
     RtcEngine.on('userJoined', (data) => {
       const {peerIds} = this.state;             //Get currrent peer IDs
+      this.setState({initiating: false})
       if (peerIds.indexOf(data.uid) === -1) {     //If new user has joined
         this.setState({
           peerIds: [...peerIds, data.uid],        //add peer ID to state array
@@ -97,7 +124,22 @@ class VideoCall extends Component {
 
   componentWillUnmount() {
     this.backHandler.remove();
+    clearTimeout(this.callTimeouter);
+    AndroidPip.disableAutoPipSwitch();
+    AppState.removeEventListener("change", this._handleAppStateChange);
   }
+
+  _handleAppStateChange = nextAppState => {
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      this.forceUpdate();
+      console.log("App has come to the foreground!");
+    }
+    this.setState({appState: nextAppState});
+  };
 
   /**
    * @name toggleAudio
@@ -137,92 +179,139 @@ class VideoCall extends Component {
     this.props.endCall();
   }
 
-  /**
-   * @name peerClick
-   * @description Function to swap the main peer videostream with a different peer videostream
-   */
-  peerClick(data) {
-    let peerIdToSwap = this.state.peerIds.indexOf(data);
-    this.setState(prevState => {
-      let currentPeers = [...prevState.peerIds];
-      let temp = currentPeers[peerIdToSwap];
-      currentPeers[peerIdToSwap] = currentPeers[0];
-      currentPeers[0] = temp;
-      return {peerIds: currentPeers};
-    });
+
+  renderRemoteUser = () => {
+    return (
+      <View style={{flex: 1}}>
+        <AgoraView style={{flex: 1}}
+                   remoteUid={this.state.peerIds[0]} mode={1}/>
+      </View>
+    )
+  }
+
+  renderInitiation = () => {
+    const {params} = this.props.route;
+    const {
+      displayPictureUrl,
+      displayName
+    } = params;
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        {
+          this.state.vidMute ?
+            <Image source={CallBackground} style={{width: screenWidth, height: screenHeight}}/>
+            : <AgoraView style={{flex: 1, width: screenWidth, height: screenHeight}}
+                         zOrderMediaOverlay={true}
+                         showLocalVideo={true} mode={1}/>
+        }
+
+        {this.state.initiating && (
+          <View style={styles.userCreds}>
+            <Avatar size={spacing.thumbnailMed} url={displayPictureUrl}/>
+            <View style={{alignItems: 'center', margin: spacing.medium_sm}}>
+              <Text style={styles.displayName}>{displayName}</Text>
+              <Text style={styles.ringing}>{strings.RINGING}</Text>
+            </View>
+          </View>
+        )}
+      </View>
+    )
+  }
+
+  renderLocalUser = () => {
+    if (this.state.peerIds.length === 0)
+      return this.renderInitiation();
+
+    return !this.state.vidMute                                              //view for local video
+      ? (
+        <View style={[styles.localContainer, styles.shadow]}>
+          <AgoraView style={styles.localVideoStyle}
+                     zOrderMediaOverlay={true}
+                     showLocalVideo={true} mode={1}/>
+          <TouchableOpacity
+            style={[styles.toggleButton, styles.shadow]}
+            hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
+            onPress={() => this.toggleAudio()}>
+            <Icon
+              name={'switch-camera'}
+              onPress={() => this.switchCamera()}
+              color="white"
+              size={20}/>
+          </TouchableOpacity>
+        </View>
+      )
+      : <View/>
+  }
+
+  renderButtonBar = () => {
+    return (
+      <View style={styles.buttonBar}>
+        <TouchableOpacity
+          style={[styles.utilityButton, styles.shadow]}
+          activeOpacity={0.7}
+          onPress={() => this.toggleAudio()}>
+          <Icon
+            name={this.state.audMute ? 'mic-off' : 'mic'}
+            color="white"
+            size={30}/>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.rejectButton, styles.shadow, {backgroundColor: colors.rejectRed}]}
+          activeOpacity={0.7}
+          onPress={() => this.endCall()}>
+          <Icon name="call" color="white" size={30}/>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.utilityButton, styles.shadow]}
+          activeOpacity={0.7}
+          onPress={() => this.toggleVideo()}
+        >
+          <Icon
+            name={this.state.vidMute ? 'videocam-off' : 'videocam'}
+            color="white"
+            size={30}/>
+        </TouchableOpacity>
+      </View>
+    )
   }
 
   /**
    * @name videoView
    * @description Function to return the view for the app
    */
-  videoView() {
-    const localVideoStyle = this.state.peerIds.length > 0 ? styles.localVideoStyle : {flex: 1};
+  videoView = () => {
     return (
       <View style={styles.container}>
+        <KeepAwake/>
         {
-          this.state.peerIds.length > 1
-            ? <View style={{flex: 1}}>
-              <View style={{height: screenHeight * 3 / 4 - 50}}>
-                <AgoraView style={{flex: 1}}
-                           remoteUid={this.state.peerIds[0]} mode={1} key={this.state.peerIds[0]}/>
-              </View>
-              <View style={{height: screenHeight / 4}}>
-                <ScrollView horizontal={true} decelerationRate={0}
-                            snapToInterval={screenWidth / 2} snapToAlignment={'center'}
-                            style={{width: screenWidth, height: screenHeight / 4}}>
-                  {
-                    this.state.peerIds.slice(1).map((data) => (
-                      <TouchableOpacity style={{width: screenWidth / 2, height: screenHeight / 4}}
-                                        onPress={() => this.peerClick(data)} key={data}>
-                        <AgoraView style={{width: screenWidth / 2, height: screenHeight / 4}}
-                                   remoteUid={data} mode={1} key={data}/>
-                      </TouchableOpacity>
-                    ))
-                  }
-                </ScrollView>
-              </View>
-            </View>
-            : this.state.peerIds.length > 0
-            ? <View style={{height: screenHeight - 50}}>
-              <AgoraView style={{flex: 1}}
-                         remoteUid={this.state.peerIds[0]} mode={1}/>
-            </View>
-            : <Text style={styles.headerText}>{this.state.infoText}</Text>
+          this.state.peerIds.length > 0
+            ? this.renderRemoteUser()
+            : null
         }
-        {
-          !this.state.vidMute                                              //view for local video
-            ? <AgoraView style={localVideoStyle} zOrderMediaOverlay={true} showLocalVideo={true} mode={1}/>
-            : <View/>
-        }
-        <View style={styles.buttonBar}>
-          <Icon.Button style={styles.iconStyle}
-                       backgroundColor="#0093E9"
-                       name={this.state.audMute ? 'mic-off' : 'mic'}
-                       onPress={() => this.toggleAudio()}
-          />
-          <Icon.Button style={styles.iconStyle}
-                       backgroundColor="#0093E9"
-                       name="call-end"
-                       onPress={() => this.endCall()}
-          />
-          <Icon.Button style={styles.iconStyle}
-                       backgroundColor="#0093E9"
-                       name={this.state.vidMute ? 'videocam-off' : 'videocam'}
-                       onPress={() => this.toggleVideo()}
-          />
-          <Icon.Button style={styles.iconStyle}
-                       backgroundColor="#0093E9"
-                       name={'switch-camera'}
-                       onPress={() => this.switchCamera()}
-          />
-        </View>
+        {this.renderLocalUser()}
+        {this.renderButtonBar()}
       </View>
     );
   }
 
+  pipView = () => {
+    const localVideoStyle = {flex: 1};
+    if (this.state.peerIds.length > 0)
+      return this.renderRemoteUser();
+    else
+      return !this.state.vidMute                                              //view for local video
+        ? <AgoraView style={localVideoStyle} zOrderMediaOverlay={true} showLocalVideo={true} mode={1}/>
+        : <View/>
+  }
+
   render() {
-    return this.videoView();
+    if (this.state.appState === 'active')
+      return (
+        <ToggleView key={1} delayHide={true} style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <this.videoView/>
+        </ToggleView>
+      )
+    return <this.pipView key={2}/>;
   }
 }
 
@@ -231,43 +320,90 @@ const styles = StyleSheet.create({
     flex: 1,
     height: screenHeight,
     width: screenWidth,
-    backgroundColor: appTheme.darkBackground
+    backgroundColor: appTheme.darkBackground,
+    justifyContent: 'center',
+    alignContent: 'center',
   },
   buttonBar: {
-    height: 50,
-    backgroundColor: '#0093E9',
-    display: 'flex',
     width: '100%',
     position: 'absolute',
-    bottom: 0,
+    bottom: spacing.large_lg,
     left: 0,
     flexDirection: 'row',
     justifyContent: 'space-around',
+    paddingRight: spacing.large_lg,
+    paddingLeft: spacing.large_lg,
+    marginBottom: spacing.large_lg,
+    alignContent: 'center',
+    zIndex: 1000
+  },
+  localContainer: {
+    position: 'absolute',
+    top: spacing.large_lg,
+    right: spacing.medium_lg,
+    zIndex: 5,
+    justifyContent: 'center',
     alignContent: 'center',
   },
   localVideoStyle: {
-    width: 140,
-    height: 160,
-    position: 'absolute',
-    top: 5,
-    right: 5,
+    width: 110,
+    height: 150,
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
+  },
+  rejectButton: {
+    height: 60,
+    width: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 35,
     zIndex: 100,
   },
-  iconStyle: {
-    fontSize: 34,
-    paddingTop: 15,
-    // paddingLeft: 20,
-    // paddingRight: 20,
-    paddingBottom: 15,
-    borderRadius: 0,
+  utilityButton: {
+    height: 50,
+    width: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 35,
+    backgroundColor: '#41434fbb',
+    zIndex: 100,
   },
-  headerText: {
-    textAlign: 'center',
+  toggleButton: {
+    height: 40,
+    width: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 35,
+    backgroundColor: colors.appBlue,
+    zIndex: 100,
+    position: 'absolute',
+    bottom: -20,
+    right: 55 - 20
+  },
+  userCreds: {
+    position: 'absolute',
+    top: screenHeight / 8,
+    alignItems: 'center'
+  },
+  displayName: {
     color: 'white',
-    padding: 2
+    fontSize: fontSizes.h0,
+    fontFamily: fonts.PoppinsRegular,
+  },
+  ringing: {
+    color: 'white',
+    fontSize: fontSizes.h3,
+    fontFamily: fonts.PoppinsRegular,
   }
 });
-
 
 const mapStateToProps = (state) => ({
   inAppCall: state.call.inAppCall

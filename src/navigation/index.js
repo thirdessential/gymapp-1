@@ -50,7 +50,8 @@ class App extends React.Component {
           if (!!content)
             showInfo(content);
           break;
-        default:break;
+        default:
+          break;
 
       }
     })
@@ -60,8 +61,12 @@ class App extends React.Component {
     const callData = await readFromStorage(storageKeys.PENDING_CALL);
     if (callData) {
       deleteFromStorage(storageKeys.PENDING_CALL);
-      this.props.setIncomingCall(callData);
-      console.log("Set call data", callData);
+      const receiveTime = new Date(callData.receiveTime);
+      const currentTime = new Date();
+      if ((currentTime - receiveTime) / 1000 < 60) { // 60 secs
+        this.props.setIncomingCall(callData);
+        console.log("Set call data", callData);
+      } else console.log("Stale call data detected and deleted");
     }
   }
 
@@ -107,7 +112,7 @@ class App extends React.Component {
 
   render() {
     const {loading, videoTestMode} = this.state;
-    const {authenticated, initialLogin, callData, callActive, userType} = this.props;
+    const {authenticated, initialLogin, callData, callActive, userType, userData} = this.props;
 
     if (loading)
       return <Splash/>
@@ -120,7 +125,7 @@ class App extends React.Component {
       if (initialLogin)
         return <InitialLogin navigationRef={navigationRef}/>
       else
-        return <RootDrawer userType={userType} navigationRef={navigationRef}/>
+        return <RootDrawer userType={userType} userData={userData} navigationRef={navigationRef}/>
     }
     return <Auth navigationRef={navigationRef}/>
   }
@@ -132,7 +137,8 @@ const mapStateToProps = (state) => ({
   initialLogin: state.user.initialLogin,
   callActive: state.call.callActive,
   callData: state.call.callData,
-  userType: state.user.userType
+  userType: state.user.userType,
+  userData:state.user.userData
 });
 
 const mapDispatchToProps = (dispatch) => ({

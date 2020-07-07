@@ -1,4 +1,5 @@
-import {DrawerContentScrollView, DrawerItemList,  DrawerItem
+import {
+  DrawerContentScrollView, DrawerItemList, DrawerItem
 } from "@react-navigation/drawer";
 import {appTheme} from "../../constants/colors";
 import {StyleSheet, Text, View} from "react-native";
@@ -12,13 +13,13 @@ import {defaultDP, userTypes} from "../../constants/appConstants";
 import RouteNames from "../RouteNames";
 
 function CustomDrawerContent(props) {
-  const userData = store.getState().user.userData;
-  let {name='',displayPictureUrl, userType} = userData;
-  if(!displayPictureUrl) displayPictureUrl = defaultDP
+  const {userData, userType} = props;
+  let {name = '', displayPictureUrl} = userData;
+  if (!displayPictureUrl) displayPictureUrl = defaultDP
   return (
     <DrawerContentScrollView {...props} style={{backgroundColor: appTheme.darkBackground}}>
       <View style={styles.container}>
-        <Avatar url={displayPictureUrl} />
+        <Avatar url={displayPictureUrl}/>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{name}</Text>
         </View>
@@ -30,7 +31,7 @@ function CustomDrawerContent(props) {
         onPress={() => props.navigation.navigate(RouteNames.ProfileEdit)}
       />
       {
-        userType===userTypes.TRAINER && (
+        userType === userTypes.TRAINER && (
           <DrawerItem
             label="My Packages"
             labelStyle={{color: 'white'}}
@@ -39,7 +40,7 @@ function CustomDrawerContent(props) {
         )
       }
       {
-        userType===userTypes.TRAINER && (
+        userType === userTypes.TRAINER && (
           <DrawerItem
             label="My Slots"
             labelStyle={{color: 'white'}}
@@ -58,17 +59,17 @@ function CustomDrawerContent(props) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop:spacing.thumbnailMini,
-    marginBottom:spacing.large_lg,
-    justifyContent:'center',
-    alignItems:'center'
+    marginTop: spacing.thumbnailMini,
+    marginBottom: spacing.large_lg,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  titleContainer:{
-    marginTop:spacing.medium_sm
+  titleContainer: {
+    marginTop: spacing.medium_sm
   },
   title: {
     color: 'white',
-    fontFamily:fonts.MontserratMedium,
+    fontFamily: fonts.MontserratMedium,
     fontSize: 18,
   },
 });
