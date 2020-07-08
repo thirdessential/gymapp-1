@@ -27,6 +27,9 @@ import Slot from "../../components/Slot";
 import {findMissingDays, groupBy} from "../../utils/utils";
 import {showError, showSuccess} from "../../utils/notification";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import {appName, paymentKey} from "../../constants/appConstants";
+import RazorpayCheckout from "react-native-razorpay";
+import RouteNames from "../../navigation/RouteNames";
 
 class Enroll extends Component {
 
@@ -83,9 +86,15 @@ class Enroll extends Component {
 
     let result = await this.props.subscribePackage(userId, packageId, selectedTime, days);
     this.setState({subscribeLoading: false});
-    if (result) {
-      showSuccess(subscribedSuccessBuilder(trainerName, sessionCount));
-      navigation.goBack(); //TODO:go to my slots screen
+    if (result && result.success) {
+      const {metadata, orderId} = result;
+      navigation.navigate(RouteNames.Payment, {
+        metadata,
+        orderId
+      })
+
+      // showSuccess(subscribedSuccessBuilder(trainerName, sessionCount));
+      // navigation.goBack(); //TODO:go to my slots screen
     } else showError(strings.SLOT_BOOKING_ERROR);
   }
 
@@ -173,6 +182,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     // justifyContent: 'center',
+    marginTop:spacing.medium_lg,
     marginLeft: spacing.medium_lg,
     marginRight: spacing.medium_lg,
     flex: 1,
@@ -236,5 +246,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Enroll);
-
-

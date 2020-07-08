@@ -46,6 +46,7 @@ class UserListing extends Component {
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       this.updateUsers();
     })
+
   }
 
   updateUsers = async () => {
@@ -113,33 +114,6 @@ class UserListing extends Component {
 
   renderHorizontalSeparatorView = () => <View style={styles.itemSeparatorHorizontal}/>
 
-  testPayment = () => {
-    var options = {
-      description: 'Predator build plan',
-      image: 'https://about.wodup.com/wp-content/uploads/2018/11/a84f9b3b-a46c-4a3c-9ec9-ba87b216548a-300x300.jpg',
-      currency: 'INR',
-      key: paymentKey,
-      amount: '5000',
-      name: appName,
-      order_id: 'order_FBGgv5CRazLlgM',
-      prefill: {
-        email: 'yatan.vesh@gmail.com',
-        contact: '',
-        name: 'Yatan vesh'
-      },
-      theme: {color: appTheme.background, backgroundColor: 'red'}
-    }
-
-    RazorpayCheckout.open(options).then((data) => {
-      // handle success
-      alert(`Success: ${data.razorpay_payment_id}`);
-    }).catch((error) => {
-      // handle failure
-      alert(`Error: ${error.code} | ${error.description}`);
-    });
-
-  }
-
   render() {
     const {userList} = this.props;
     return (<>
@@ -147,10 +121,6 @@ class UserListing extends Component {
         <LinearGradient
           colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
           style={styles.listContainer}>
-          {/*<TouchableHighlight onPress={this.testPayment}>*/}
-          {/*  <Text style={styles.title}>Pay</Text>*/}
-          {/*</TouchableHighlight>*/}
-
           <FlatList
             showsVerticalScrollIndicator={false}
             style={styles.container}

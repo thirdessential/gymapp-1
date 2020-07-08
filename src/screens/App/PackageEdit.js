@@ -133,7 +133,7 @@ class Packages extends Component {
           <TouchableOpacity style={styles.buttonContainer} disabled={!inputsValid} onPress={this.savePackage}>
             <FontAwesome
               name={'check'}
-              color={inputsValid? colors.acceptGreen: colors.darkGrey}
+              color={inputsValid? appTheme.brightContent: colors.darkGrey}
               size={22}
             />
           </TouchableOpacity>
