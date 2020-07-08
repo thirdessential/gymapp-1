@@ -17,7 +17,8 @@ export {
   getMyInfo,
   getGlobalSlots,
   subscribeToPackage,
-  bookAppointment
+  bookAppointment,
+  sendPaymentData
 } from './user';
 
 export {

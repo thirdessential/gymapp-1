@@ -21,6 +21,7 @@ import {militaryTimeToString} from "../../utils/utils";
 import {appName, paymentKey} from "../../constants/appConstants";
 import RazorpayCheckout from "react-native-razorpay";
 import {showError, showSuccess} from "../../utils/notification";
+import {sendPaymentData} from "../../API";
 
 class Packages extends Component {
 
@@ -86,15 +87,14 @@ class Packages extends Component {
       // handle success
       showSuccess("Payment successful");
       navigation.popToTop();
-      console.log(data)
-
+      sendPaymentData(data);
+      console.log("payment success",data)
     }).catch((error) => {
       // handle failure
       showError('Payment Failed, try again');
       console.log(error);
     });
   }
-
 
   render() {
     return (

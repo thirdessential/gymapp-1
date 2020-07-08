@@ -46,13 +46,12 @@ class UserListing extends Component {
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       this.updateUsers();
     })
-
   }
 
   updateUsers = async () => {
     const {updateUsersList} = this.props;
     const {nextPage} = this.state;
-   if (!!nextPage)
+    if (!!nextPage)
       this.setState({nextPage: await updateUsersList(nextPage)});
   }
 

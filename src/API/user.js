@@ -88,6 +88,24 @@ export const subscribeToPackage = async (trainerId, packageId, time, days) => {
   }
 }
 
+export const sendPaymentData = async ({razorpay_order_id, razorpay_payment_id, razorpay_signature}) => {
+  try {
+    let response = await axios.put(`/subscription/updateTransaction`, {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature
+    });
+    if (validateResponseCode(response.status)) {
+      return response.success===true;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+
 export const bookAppointment = async (trainerId, day, time) => {
   try {
     let response = await axios.post(`/appointment/${trainerId}/book`, {
