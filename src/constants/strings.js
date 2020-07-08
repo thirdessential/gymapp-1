@@ -10,6 +10,7 @@ const strings = {
   PACKAGE_NAME: 'Package Name',
   MINS: 'Mins',
   ALLOTTED_TO:'Allotted to ',
+  NO_SLOTS_AVAILABLE:'No slots available',
   RUPEE: '₹',
   FOLLOW: 'Follow',
   BOOK: 'Book',

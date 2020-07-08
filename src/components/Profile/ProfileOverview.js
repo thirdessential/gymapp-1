@@ -10,7 +10,7 @@ import {spacing} from "../../constants/dimension";
 import HitsList from '../HitsList';
 import ExpandingText from "../ExpandingText";
 import {userTypes} from "../../constants/appConstants";
-import colors, {appTheme} from "../../constants/colors";
+import colors, {appTheme, darkPallet} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import {toTitleCase} from "../../utils/utils";
@@ -19,11 +19,14 @@ import CallButton from '../CallButton';
 import Entypo from "react-native-vector-icons/Entypo";
 
 import {screenWidth} from "../../utils/screenDimensions";
+import LinearGradient from "react-native-linear-gradient";
 
 const ProfileOverview = (props) => {
   const {hits} = props;
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
+      style={styles.container}>
 
       <View style={styles.profileHeader}>
         <View style={styles.profileTitle}>
@@ -78,7 +81,7 @@ const ProfileOverview = (props) => {
           )
         }
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 

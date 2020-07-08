@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import {
   View,
   StyleSheet,
-  NativeModules,
   Text,
   TouchableOpacity,
   BackHandler,
   AppState, Image, LayoutAnimation,
 } from 'react-native';
-import {RtcEngine, AgoraView} from 'react-native-agora';
+import RtcEngine, {RtcLocalView, RtcRemoteView} from 'react-native-agora';
+
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import KeepAwake from 'react-native-keep-awake';
 import AndroidPip from 'react-native-android-pip';
@@ -26,16 +26,11 @@ import {spacing} from "../../constants/dimension";
 import Avatar from "../../components/Avatar";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import CallBackground from "../../../assets/images/callBackground.png";
+import CallBackground from "../../../assets/images/callBackground.png"; //Set defaults for Stream
 
-const {Agora} = NativeModules;                  //Define Agora object as a native moduleya
-
-const {
-  FPS30,
-  AudioProfileDefault,
-  AudioScenarioDefault,
-  Adaptative,
-} = Agora;                                        //Set defaults for Stream
+let LocalView = RtcLocalView.SurfaceView;
+let RemoteView = RtcRemoteView.SurfaceView;
+let engine;
 
 class VideoCall extends Component {
   constructor(props) {
@@ -50,7 +45,6 @@ class VideoCall extends Component {
 
     this.state = {
       peerIds: [],                                //Array for storing connected peers
-      uid: Math.floor(Math.random() * 100000),                                //Generate a UID for local user
       appid: AppID,                               //Enter the App ID generated from the Agora Website
       channelName: ChannelName,                   //Channel Name for the current session
       vidMute: false,                             //State variable for Video Mute
@@ -59,20 +53,20 @@ class VideoCall extends Component {
       appState: 'active',
       initiating: initiating,
     };
-    const config = {                            //Setting config of the app
-      appid: this.state.appid,                  //App ID
-      channelProfile: 0,                        //Set channel profile as 0 for RTC
-      videoEncoderConfig: {                     //Set Video feed encoder settings
-        width: videoConfig.width,
-        height: videoConfig.height,
-        bitrate: videoConfig.bitrate,
-        frameRate: videoConfig.FPS,
-        orientationMode: Adaptative,
-      },
-      audioProfile: AudioProfileDefault,
-      audioScenario: AudioScenarioDefault,
-    };
-    RtcEngine.init(config);                     //Initialize the RTC engine
+    // const config = {                            //Setting config of the app
+    //   appid: this.state.appid,                  //App ID
+    //   channelProfile: 0,                        //Set channel profile as 0 for RTC
+    //   videoEncoderConfig: {                     //Set Video feed encoder settings
+    //     width: videoConfig.width,
+    //     height: videoConfig.height,
+    //     bitrate: videoConfig.bitrate,
+    //     frameRate: videoConfig.FPS,
+    //     orientationMode: Adaptative,
+    //   },
+    //   audioProfile: AudioProfileDefault,
+    //   audioScenario: AudioScenarioDefault,
+    // };
+    // RtcEngine.init(config);                     //Initialize the RTC engine
   }
 
   handleCallTimeout = async () => {
@@ -84,47 +78,51 @@ class VideoCall extends Component {
   }
 
   switchCamera = () => {
-    RtcEngine.switchCamera();
+    engine.switchCamera();
   }
 
   componentDidMount() {
-    this.callTimeouter = setTimeout(this.handleCallTimeout, callTimeout);
     AndroidPip.enableAutoPipSwitch();
     AppState.addEventListener("change", this._handleAppStateChange);
-
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', function () {
       AndroidPip.enterPictureInPictureMode();
       return true;
     });
 
-    RtcEngine.on('userJoined', (data) => {
-      const {peerIds} = this.state;             //Get currrent peer IDs
-      this.setState({initiating: false})
-      if (peerIds.indexOf(data.uid) === -1) {     //If new user has joined
-        this.setState({
-          peerIds: [...peerIds, data.uid],        //add peer ID to state array
+    let self = this;
+
+    async function init() {
+      engine = await RtcEngine.create(self.state.appid);
+      engine.enableVideo();
+
+      engine.addListener('UserJoined', (data) => {          //If user joins the channel
+        const {peerIds} = self.state;                     //Get currrent peer IDs
+        if (peerIds.indexOf(data) === -1) {                 //If new user
+          self.setState({peerIds: [...peerIds, data]});   //add peer ID to state array
+        }
+      });
+
+      engine.addListener('UserOffline', (data) => {                 //If user leaves
+        self.setState({
+          peerIds: self.state.peerIds.filter(uid => uid !== data), //remove peer ID from state array
         });
-      }
-    });
-    RtcEngine.on('userOffline', (data) => {       //If user leaves
-      this.setState({
-        peerIds: this.state.peerIds.filter(uid => uid !== data.uid), //remove peer ID from state array
+        self.endCall();
       });
-      this.endCall();
-    });
-    RtcEngine.on('joinChannelSuccess', (data) => {                   //If Local user joins RTC channel
-      RtcEngine.startPreview();                                      //Start RTC preview
-      this.setState({
-        joinSucceed: true,                                           //Set state variable to true
+
+      engine.addListener('JoinChannelSuccess', (data) => {          //If Local user joins RTC channel
+        self.setState({joinSucceed: true});                       //Set state variable to true
+        self.callTimeouter = setTimeout(self.handleCallTimeout, callTimeout);
       });
-    });
-    RtcEngine.joinChannel(this.state.channelName, this.state.uid);  //Join Channel
-    RtcEngine.enableAudio();                                        //Enable the audio
+      engine.joinChannel(null, self.state.channelName, null, 0);  //Join Channel using null token and channel name
+    }
+
+    init();
   }
 
   componentWillUnmount() {
     this.backHandler.remove();
-    clearTimeout(this.callTimeouter);
+    if (this.callTimeouter)
+      clearTimeout(this.callTimeouter);
     AndroidPip.disableAutoPipSwitch();
     AppState.removeEventListener("change", this._handleAppStateChange);
   }
@@ -148,7 +146,7 @@ class VideoCall extends Component {
   toggleAudio() {
     let mute = this.state.audMute;
     console.log('Audio toggle', mute);
-    RtcEngine.muteLocalAudioStream(!mute);
+    engine.muteLocalAudioStream(!mute);
     this.setState({
       audMute: !mute,
     });
@@ -164,7 +162,7 @@ class VideoCall extends Component {
     this.setState({
       vidMute: !mute,
     });
-    RtcEngine.muteLocalVideoStream(!this.state.vidMute);
+    engine.muteLocalVideoStream(!this.state.vidMute);
   }
 
   /**
@@ -172,7 +170,9 @@ class VideoCall extends Component {
    * @description Function to end the call
    */
   endCall() {
-    RtcEngine.destroy();
+    engine.leaveChannel();
+    this.setState({peerIds: [], joinSucceed: false});
+
     const {navigation} = this.props;
     if (navigation.canGoBack())
       navigation.pop();
@@ -183,8 +183,8 @@ class VideoCall extends Component {
   renderRemoteUser = () => {
     return (
       <View style={{flex: 1}}>
-        <AgoraView style={{flex: 1}}
-                   remoteUid={this.state.peerIds[0]} mode={1}/>
+        <RemoteView style={{flex: 1}}
+                    uid={this.state.peerIds[0]} renderMode={1}/>
       </View>
     )
   }
@@ -198,11 +198,10 @@ class VideoCall extends Component {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         {
-          this.state.vidMute ?
+          this.state.vidMute || this.state.joinSucceed === false ?
             <Image source={CallBackground} style={{width: screenWidth, height: screenHeight}}/>
-            : <AgoraView style={{flex: 1, width: screenWidth, height: screenHeight}}
-                         zOrderMediaOverlay={true}
-                         showLocalVideo={true} mode={1}/>
+            : <LocalView style={{width: screenWidth, height: screenHeight}}               //view for local videofeed
+                         channelId={this.state.channelName} renderMode={1} zOrderMediaOverlay={true}/>
         }
 
         {this.state.initiating && (
@@ -225,12 +224,11 @@ class VideoCall extends Component {
     return !this.state.vidMute                                              //view for local video
       ? (
         <View style={[styles.localContainer, styles.shadow]}>
-          <AgoraView style={styles.localVideoStyle}
-                     zOrderMediaOverlay={true}
-                     showLocalVideo={true} mode={1}/>
+          <LocalView style={styles.localVideoStyle}               //view for local videofeed
+                     channelId={this.state.channelName} renderMode={1} zOrderMediaOverlay={true}/>
           <TouchableOpacity
             style={[styles.toggleButton, styles.shadow]}
-            hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
+            hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
             onPress={() => this.toggleAudio()}>
             <Icon
               name={'switch-camera'}
@@ -299,16 +297,20 @@ class VideoCall extends Component {
     if (this.state.peerIds.length > 0)
       return this.renderRemoteUser();
     else
-      return !this.state.vidMute                                              //view for local video
-        ? <AgoraView style={localVideoStyle} zOrderMediaOverlay={true} showLocalVideo={true} mode={1}/>
+      return !this.state.vidMute
+        ? <LocalView style={localVideoStyle}
+                     channelId={this.state.channelName} renderMode={1} zOrderMediaOverlay={true}/>
         : <View/>
   }
 
   render() {
+    // return <View/>
+    // return   <LocalView style={styles.localVideoStyle}               //view for local videofeed
+    //                     channelId={this.state.channelName} renderMode={1} zOrderMediaOverlay={true}/>;
     if (this.state.appState === 'active')
       return (
         <ToggleView key={1} delayHide={true} style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <this.videoView/>
+          {this.videoView()}
         </ToggleView>
       )
     return <this.pipView key={2}/>;

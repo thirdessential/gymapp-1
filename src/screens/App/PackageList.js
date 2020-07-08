@@ -7,13 +7,14 @@ import {connect} from "react-redux";
 
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
-import colors, {appTheme} from "../../constants/colors";
+import colors, {appTheme, darkPallet} from "../../constants/colors";
 import RouteNames from "../../navigation/RouteNames";
 import PackageFlatList from "../../components/Trainer/PackageFlatList";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
 import BarButton from '../../components/BarButton';
+import LinearGradient from "react-native-linear-gradient";
 
 class PackageList extends Component {
 
@@ -39,10 +40,9 @@ class PackageList extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{strings.MY_PACKAGES}</Text>
-        </View>
+      <LinearGradient
+        colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
+        style={styles.container}>
         <View style={styles.listContainer}>
           <PackageFlatList
             packages={this.props.packages}
@@ -51,7 +51,7 @@ class PackageList extends Component {
           />
         </View>
         <this.addButton/>
-      </View>
+      </LinearGradient>
     );
   }
 }
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   listContainer:{
+    marginTop:spacing.medium_lg,
     marginLeft:spacing.medium_lg,
     marginRight:spacing.medium_lg,
     flex:1

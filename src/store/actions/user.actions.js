@@ -98,7 +98,7 @@ export const resetApp = () => ({
 
 export const signOutUser = () => {
   return async (dispatch) => {
-    signOutFirebase();
+    await signOutFirebase();
     dispatch(resetApp());
   };
 };

@@ -1,28 +1,40 @@
 import React from 'react';
-import {AppState} from 'react-native';
+import {AppState, Text} from 'react-native';
 import {connect} from "react-redux";
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
+import {createDrawerNavigator} from "@react-navigation/drawer";
+import {NavigationContainer} from "@react-navigation/native";
 
 import * as actionCreators from '../store/actions';
+import {updateAxiosToken} from "../API";
+import {remoteMessageTypes, storageKeys, videoTestMode} from "../constants/appConstants";
+import {callHandler, configureFCMNotification, showInfo} from "../utils/notification";
+import {deleteFromStorage, readFromStorage} from "../utils/utils";
+import {appTheme} from "../constants/colors";
+import {navigationRef} from './RootNavigation';
 
+import Stack from "./stacks/stack";
 import VideoTest from './stacks/videoTestStack';
 import Splash from './stacks/splashStack';
 import InitialLogin from './stacks/initialLoginStack';
 import Auth from './stacks/authStack';
 import Calling from './stacks/callingStack';
-import RootDrawer from './drawer/rootDrawer';
-
-import {updateAxiosToken} from "../API";
-
-import {navigationRef} from './RootNavigation';
-import {remoteMessageTypes, storageKeys, videoTestMode} from "../constants/appConstants";
-import {callHandler, configureFCMNotification, showInfo} from "../utils/notification";
-import {deleteFromStorage, readFromStorage} from "../utils/utils";
-import RoundedFas from "../components/RoundedFas";
+import CustomDrawerContent from "./drawerContent";
+import appTabNavigator from "./AppTabNavigator";
+import RouteNames from "./RouteNames";
+import VideoCall from "../screens/Call/VideoCall";
+import {drawerLabelStyle} from "../constants/styles";
 
 messaging().setBackgroundMessageHandler(callHandler);
 configureFCMNotification();
+
+const Drawer = createDrawerNavigator();
+const coreAppTheme = {
+  colors: {
+    primary: appTheme.darkBackground,
+  },
+};
 
 class App extends React.Component {
   state = {
@@ -52,7 +64,6 @@ class App extends React.Component {
           break;
         default:
           break;
-
       }
     })
   }
@@ -110,6 +121,45 @@ class App extends React.Component {
       this.setState({loading: false});
   }
 
+  coreDrawer = () => {
+    const {userType, userData} = this.props;
+    return (
+      <Drawer.Navigator
+
+        drawerType={'slide'}
+        drawerContent={(drawerProps) => <CustomDrawerContent {...drawerProps}
+                                                             userType={userType}
+                                                             userData={userData}/>}
+        drawerStyle={{
+          width: 240
+        }}
+      >
+        <Drawer.Screen name="Home" component={appTabNavigator} options={{
+          drawerLabel:({ focused, color })=><Text style={drawerLabelStyle}>Home</Text>
+        }}/>
+      </Drawer.Navigator>
+    );
+  }
+
+  coreApplication = () => {
+    return (
+      <NavigationContainer theme={coreAppTheme} ref={navigationRef}>
+        <Stack.Navigator screenOptions={{
+          headerShown: false
+        }}>
+          <Stack.Screen
+            name={RouteNames.AppStack}
+            component={this.coreDrawer}
+          />
+          <Stack.Screen
+            name={RouteNames.VideoCall}
+            component={VideoCall}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    )
+  }
+
   render() {
     const {loading, videoTestMode} = this.state;
     const {authenticated, initialLogin, callData, callActive, userType, userData} = this.props;
@@ -125,7 +175,7 @@ class App extends React.Component {
       if (initialLogin)
         return <InitialLogin navigationRef={navigationRef}/>
       else
-        return <RootDrawer userType={userType} userData={userData} navigationRef={navigationRef}/>
+        return this.coreApplication();
     }
     return <Auth navigationRef={navigationRef}/>
   }
@@ -138,7 +188,7 @@ const mapStateToProps = (state) => ({
   callActive: state.call.callActive,
   callData: state.call.callData,
   userType: state.user.userType,
-  userData:state.user.userData
+  userData: state.user.userData
 });
 
 const mapDispatchToProps = (dispatch) => ({

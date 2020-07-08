@@ -8,7 +8,7 @@ import cuid from 'cuid';
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {appTheme} from "../../constants/colors";
+import {appTheme, darkPallet} from "../../constants/colors";
 import strings from "../../constants/strings";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
@@ -17,6 +17,7 @@ import {WEEK_DAYS} from "../../constants/appConstants";
 import Slot from "../../components/Slot";
 import {dateToString, findMissingDays, groupBy} from "../../utils/utils";
 import BarButton from "../../components/BarButton";
+import LinearGradient from "react-native-linear-gradient";
 
 class SlotList extends Component {
 
@@ -131,12 +132,11 @@ class SlotList extends Component {
 
   render() {
     return (
+      <LinearGradient
+        colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
+        style={styles.container}>
       <KeyboardAwareScrollView style={styles.container}>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{strings.MY_SLOTS}</Text>
-        </View>
-
         <View style={styles.listContainer}>
           <this.renderSlots/>
         </View>
@@ -144,6 +144,7 @@ class SlotList extends Component {
           <BarButton onPress={this.createSlot}/>
         </View>
       </KeyboardAwareScrollView>
+      </LinearGradient>
     );
   }
 }
@@ -151,10 +152,11 @@ class SlotList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: appTheme.background,
+    // backgroundColor: appTheme.background,
   },
   listContainer: {
     justifyContent: 'center',
+    marginTop:spacing.medium_lg,
     marginLeft: spacing.medium_lg,
     marginRight: spacing.medium_lg,
     flex: 1,

@@ -2,37 +2,31 @@ import React from "react";
 
 import Stack from './stack';
 import RouteNames from "../RouteNames";
-import PackageEdit from "../../screens/App/PackageEdit";
-import PackageList from "../../screens/App/PackageList";
 import {appTheme} from "../../constants/colors";
 import fonts from "../../constants/fonts";
 import openDrawerButton from "../openDrawerButton";
+import SlotList from "../../screens/App/SlotList";
 
-const myPackages = () => {
+const slotEdit = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name={RouteNames.Packages}
-        component={PackageList}
+        name={RouteNames.SlotEdit}
+        component={SlotList}
         options={{
-          title: 'My Packages',
+          title: 'My Slots',
           headerTintColor: appTheme.brightContent,
           headerStyle: {
             backgroundColor: appTheme.darkBackground,
           },
-          headerTitleStyle: {
+          headerTitleStyle:{
             fontFamily: fonts.PoppinsRegular
           },
           headerLeft: openDrawerButton
-        }}
-      />
-      <Stack.Screen
-        name={RouteNames.PackageEdit}
-        component={PackageEdit}
-        options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}
-      />
+
+        }}/>
     </Stack.Navigator>
-  )
+  );
 }
 
-export default myPackages;
+export default slotEdit;

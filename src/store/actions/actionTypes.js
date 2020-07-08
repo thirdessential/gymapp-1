@@ -1,6 +1,7 @@
 export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
 export const SET_AUTHENTICATED = 'SET_AUTHENTICATED';
 export const SET_USER_LIST = 'SET_USER_LIST';
+export const APPEND_USER_LIST= 'APPEND_USER_LIST';
 export const SET_USER_FROM_USER_LIST = 'SET_USER_FROM_USER_LIST';
 export const SET_USER = 'SET_USER';
 export const SET_USER_NAME = 'SET_USER_NAME';

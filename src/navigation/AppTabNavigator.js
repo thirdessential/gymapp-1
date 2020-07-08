@@ -3,20 +3,20 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import store from '../../store/configureStore';
+import store from '../store/configureStore';
 
-import UserListing from "../../screens/App/UserListing";
-import RouteNames from "../RouteNames";
-import colors, {appTheme} from "../../constants/colors";
-import Feed from "../../screens/App/Feed";
-import Schedule from "../../screens/App/Schedule";
-import Profile from "../../screens/App/Profile";
-import MyProfileStack from '../stacks/myProfileStack';
-import PackageStack from "../stacks/PackageStack";
-import {userTypes} from "../../constants/appConstants";
-import SlotList from "../../screens/App/SlotList";
+import RouteNames from "./RouteNames";
+import colors, {appTheme} from "../constants/colors";
+import Schedule from "../screens/App/Schedule";
+import Profile from "../screens/App/Profile";
+import MyProfileStack from './stacks/myProfileStack';
+import PackageStack from "./stacks/PackageStack";
+import {userTypes} from "../constants/appConstants";
 import {ActivityIndicator, Text, View} from "react-native";
-import fontSizes from "../../constants/fontSizes";
+import fontSizes from "../constants/fontSizes";
+import ListingStack from './stacks/listingStack';
+import SlotEditStack from "./stacks/SlotEditStack";
+import ScheduleStack from "./stacks/ScheduleStack";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -26,7 +26,7 @@ const Tab = createMaterialTopTabNavigator();
 //   </View>)
 // ;
 
-const homeTab = (props) => {
+const appTabNavigator = (props) => {
   const userData = store.getState().user.userData;
   let {userType} = userData;
   const listingTitle = userType === userTypes.USER ? 'Trainers' : 'Users';
@@ -35,14 +35,13 @@ const homeTab = (props) => {
       // lazy={true}
       // lazyPreloadDistance={1}
       // lazyPlaceholder={bgView}
+      backBehavior={'initialRoute'}
       tabBarPosition={'bottom'}
       tabBarOptions={{
-        activeTintColor: colors.appBlue,
+        activeTintColor: appTheme.brightContent,
         inactiveTintColor: 'gray',
         showIcon: true,
-        // showLabel: false,
         labelStyle: {
-          // color:'red'
           fontSize: fontSizes.h5,
           padding: 0,
           margin: 0,
@@ -57,13 +56,12 @@ const homeTab = (props) => {
     >
       <Tab.Screen
         name={RouteNames.UserListing}
-        component={UserListing}
+        component={ListingStack}
         options={{
           title: listingTitle,
           tabBarIcon: ({focused, color, size}) => {
             let iconName = focused ? 'ios-list-box' : 'ios-list';
             return <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>
-
           },
         }}/>
       {
@@ -84,7 +82,7 @@ const homeTab = (props) => {
         userType === userTypes.TRAINER && (
           <Tab.Screen
             name={RouteNames.SlotEdit}
-            component={SlotList}
+            component={SlotEditStack}
             options={{
               title: 'Slots',
               tabBarIcon: ({focused, color, size}) => {
@@ -99,7 +97,7 @@ const homeTab = (props) => {
         userType === userTypes.USER && (
           <Tab.Screen
             name={RouteNames.Schedule}
-            component={Schedule}
+            component={ScheduleStack}
             options={{
               title: 'Schedule',
               tabBarIcon: ({focused, color, size}) => {
@@ -110,29 +108,6 @@ const homeTab = (props) => {
             }}/>
         )
       }
-
-      {/*<Tab.Screen*/}
-      {/*  name={RouteNames.Feed}*/}
-      {/*  component={Feed}*/}
-      {/*  options={{*/}
-      {/*    title: 'Feed',*/}
-      {/*    tabBarIcon: ({focused, color, size}) => {*/}
-      {/*      let iconName = focused ? 'table' : 'table';*/}
-      {/*      return <FontAwesome name={iconName} size={20} color={color}/>;*/}
-      {/*    },*/}
-      {/*  }}*/}
-      {/*/>*/}
-      {/*<Tab.Screen*/}
-      {/*  name={RouteNames.MyClients}*/}
-      {/*  component={MyClients}*/}
-      {/*  options={{*/}
-      {/*    title: 'My Clients',*/}
-      {/*    tabBarIcon: ({focused, color, size}) => {*/}
-      {/*      let iconName = focused ? 'eye' : 'eye';*/}
-      {/*      return <FontAwesome name={iconName} size={20} color={color}/>;*/}
-      {/*    },*/}
-      {/*  }}*/}
-      {/*/>*/}
       <Tab.Screen
         name={RouteNames.MyProfile}
         component={MyProfileStack}
@@ -147,4 +122,4 @@ const homeTab = (props) => {
     </Tab.Navigator>
   );
 }
-export default homeTab;
+export default appTabNavigator;

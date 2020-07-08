@@ -6,6 +6,11 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SET_USER_LIST:
       return updateObject(state, action.payload);
+    case actionTypes.APPEND_USER_LIST:{
+      const {userList} = action.payload;
+      const users = [...state.userList];
+      return updateObject(state, {userList: users.concat(userList)});
+    }
     case actionTypes.SET_USER_FROM_USER_LIST: {
       let {userList} = action.payload;
       if (!userList) userList = state.userList;

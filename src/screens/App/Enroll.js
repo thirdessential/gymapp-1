@@ -113,9 +113,15 @@ class Enroll extends Component {
   )
 
   renderSlots = () => {
+    if (this.state.slots.length === 0)
+      return (
+        <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+          <Text style={styles.warningText}>{strings.NO_SLOTS_AVAILABLE}</Text>
+        </View>
+      )
     return (
       <FlatList
-        data={this.state.slots || []}
+        data={this.state.slots}
         renderItem={({item, index}) => this.renderSlot(item, index)}
         keyExtractor={item => item.time}
       />);
@@ -150,11 +156,7 @@ class Enroll extends Component {
   render() {
     return (
       <View style={styles.container}>
-
         <StatusBar backgroundColor={appTheme.darkBackground}/>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{strings.SLOTS}</Text>
-        </View>
         <View style={styles.listContainer}>
           <this.renderSlots/>
         </View>
@@ -218,6 +220,11 @@ const styles = StyleSheet.create({
     color: "white",
     lineHeight: 50,
   },
+  warningText:{
+    color:appTheme.brightContent,
+    fontSize:fontSizes.h1,
+    fontFamily: fonts.PoppinsRegular
+  }
 });
 
 const mapStateToProps = (state) => ({

@@ -20,7 +20,6 @@ const authStack = ({navigationRef}) => {
         <Stack.Screen name={RouteNames.Signup} component={Signup} options={{title: 'Sign up'}}/>
         <Stack.Screen name="signInWithRegisteredEmail" component={SignInWithRegisteredEmail}
                       options={{title: 'Sign in'}}/>
-        {/*<Stack.Screen name={RouteNames.VideoCall} component={VideoCall} options={noHeader}/>*/}
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -11,7 +11,7 @@ import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
 import CustomCalendar from '../../components/customCalendar';
 import GlobalSlot from "../../components/GlobalSlot";
-import {appTheme} from "../../constants/colors";
+import {appTheme, darkPallet} from "../../constants/colors";
 
 import SelectableButtonGroup from '../../components/selectableButtonGroup';
 import strings, {appointmentErrorBuilder, appointmentSuccessBuilder} from "../../constants/strings";
@@ -23,6 +23,7 @@ import {defaultDP, WEEK_DAYS} from "../../constants/appConstants";
 import {bookAppointment} from "../../API";
 import {showError, showSuccess} from "../../utils/notification";
 import RouteNames from "../../navigation/RouteNames";
+import LinearGradient from "react-native-linear-gradient";
 
 class Schedule extends Component {
 
@@ -152,6 +153,9 @@ class Schedule extends Component {
 
   render() {
     return (
+      <LinearGradient
+        colors={[darkPallet.darkBlue, appTheme.lightBackground]}
+        style={styles.container}>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.calendarContainer}>
           <CustomCalendar
@@ -166,13 +170,15 @@ class Schedule extends Component {
         </View>
         <this.renderSlots/>
       </ScrollView>
+      </LinearGradient>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: appTheme.lightBackground
+    // backgroundColor: appTheme.lightBackground
+    flex:1
   },
   calendarContainer: {
     paddingLeft: spacing.medium_lg,

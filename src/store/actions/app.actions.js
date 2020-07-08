@@ -1,9 +1,16 @@
 import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
 import FastImage from "react-native-fast-image";
+import {INITIAL_PAGE} from "../../constants/appConstants";
 
 export const setUserList = (userList) => ({
   type: actionTypes.SET_USER_LIST,
+  payload: {
+    userList
+  },
+});
+export const appendUserList = (userList) => ({
+  type: actionTypes.APPEND_USER_LIST,
   payload: {
     userList
   },
@@ -16,12 +23,15 @@ export const setUserFromUserList = (userList = null) => ({
   },
 })
 
-export const updateUsersList = () => {
+export const updateUsersList = (page='') => {
   return async (dispatch) => {
     try {
-      let {users} = await API.listUsers();
+
+      let {users, nextPage} = await API.listUsers(page===INITIAL_PAGE?null:page);
       if (users) {
-        await dispatch(setUserList(users)); // await probably has no effect
+        if(page===INITIAL_PAGE)
+          await dispatch(setUserList(users)); // initialise list from scratch
+        else dispatch(appendUserList(users)); // else append data to list
         dispatch(setUserFromUserList(users));
         const wallPreloadData = [];
         users.map(user => {
@@ -29,9 +39,11 @@ export const updateUsersList = () => {
             wallPreloadData.push({uri: user.wallImageUrl});
         });
         FastImage.preload(wallPreloadData); //TODO: Check if this actually works?
+        return nextPage;
       }
     } catch (error) {
       console.log("user list update failed", error);
+      return null;
     }
   };
 };

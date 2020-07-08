@@ -19,7 +19,7 @@ import TrainerThumb from '../../components/Trainer/TrainerThumb';
 import colors, {appTheme, bluePallet, darkPallet} from "../../constants/colors";
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
-import {appName, paymentKey, userTypes} from "../../constants/appConstants";
+import {appName, INITIAL_PAGE, paymentKey, userTypes} from "../../constants/appConstants";
 import UserThumb from "../../components/Trainer/UserThumb";
 import {spacing} from "../../constants/dimension";
 import {requestCameraAndAudioPermission} from "../../utils/permission";
@@ -33,12 +33,24 @@ const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-pi
 
 class UserListing extends Component {
 
+  state = {
+    nextPage: INITIAL_PAGE
+  }
+
   componentDidMount() {
-    const {updateUsersList, updateUserData, navigation} = this.props;
+    const {updateUserData, navigation} = this.props;
     updateUserData();
+
     this.unsubscribeFocus = navigation.addListener('focus', e => {
-      updateUsersList();
+      this.updateUsers();
     })
+  }
+
+  updateUsers = async () => {
+    const {updateUsersList} = this.props;
+    const {nextPage} = this.state;
+   if (!!nextPage)
+      this.setState({nextPage: await updateUsersList(nextPage)});
   }
 
   componentWillUnmount() {
@@ -51,14 +63,6 @@ class UserListing extends Component {
       userId: userId,
       initialRouteName
     });
-  }
-
-  callClicked = async (userId) => {
-    const permissionGranted = await requestCameraAndAudioPermission();
-
-    if (permissionGranted) {
-      await initialiseVideoCall(userId);
-    } else console.log("Cant initiate video call without permission");
   }
 
   renderUserThumb = (user, index) => {
@@ -110,7 +114,7 @@ class UserListing extends Component {
   testPayment = () => {
     var options = {
       description: 'Predator build plan',
-      image:'https://about.wodup.com/wp-content/uploads/2018/11/a84f9b3b-a46c-4a3c-9ec9-ba87b216548a-300x300.jpg',
+      image: 'https://about.wodup.com/wp-content/uploads/2018/11/a84f9b3b-a46c-4a3c-9ec9-ba87b216548a-300x300.jpg',
       currency: 'INR',
       key: paymentKey,
       amount: '5000',
@@ -121,7 +125,7 @@ class UserListing extends Component {
         contact: '',
         name: 'Yatan vesh'
       },
-      theme: {color: appTheme.background, backgroundColor:'red'}
+      theme: {color: appTheme.background, backgroundColor: 'red'}
     }
 
     RazorpayCheckout.open(options).then((data) => {
@@ -139,9 +143,6 @@ class UserListing extends Component {
     const {userList} = this.props;
     return (<>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Overview</Text>
-        </View>
         <LinearGradient
           colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
           style={styles.listContainer}>
@@ -158,10 +159,12 @@ class UserListing extends Component {
             ItemSeparatorComponent={this.renderHorizontalSeparatorView}
             ListHeaderComponent={() => <View style={{height: spacing.large}}/>}
             ListFooterComponent={() => <View style={{height: spacing.large_lg}}/>}
+            onEndReached={this.updateUsers}
+            onEndReachedThreshold={0.5}
           />
           {
             userList.length === 0 && (
-              <ActivityIndicator style={{position: 'absolute'}} color={appTheme.lightContent} size={50}/>
+              <ActivityIndicator style={{position: 'absolute'}} color={appTheme.brightContent} size={50}/>
             )
           }
         </LinearGradient>
@@ -215,7 +218,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateUsersList: () => dispatch(actionCreators.updateUsersList()),
+  updateUsersList: (nextPage) => dispatch(actionCreators.updateUsersList(nextPage)),
   updateUserData: () => dispatch(actionCreators.updateUserData()),
 });
 

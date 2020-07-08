@@ -8,13 +8,14 @@ import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ActionButtonTwo from '../../components/Login/ActionButtonTwo';
-import colors, {appTheme} from '../../constants/colors';
+import colors, {appTheme, darkPallet} from '../../constants/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import FastImage from "react-native-fast-image";
 import {spacing} from "../../constants/dimension";
+import LinearGradient from "react-native-linear-gradient";
 
 
 class ProfileEdit extends Component {
@@ -44,13 +45,14 @@ class ProfileEdit extends Component {
       this.submit();
     });
   }
+
   componentWillUnmount() {
     this.unsubscribe();
   }
 
   setLocalState = (userData) => {
-    const {name='', displayPictureUrl,bio=''} = userData;
-    this.setState({name, imageUri: displayPictureUrl,bio});
+    const {name = '', displayPictureUrl, bio = ''} = userData;
+    this.setState({name, imageUri: displayPictureUrl, bio});
   }
 
   setName = (name) => {
@@ -94,30 +96,23 @@ class ProfileEdit extends Component {
   }
 
   submit = async () => {
-    const { setInitialLoginOff, updateUserData} = this.props;
+    const {setInitialLoginOff, updateUserData} = this.props;
     updateUserInfo(this.state.name, this.state.bio);
     // updateUserData();
     // if (result) {
-      setInitialLoginOff();
+    setInitialLoginOff();
     // }
   }
 
   render() {
     return (
-      <>
+      <LinearGradient
+        colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
+        style={styles.container}>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
         <KeyboardAwareScrollView enableOnAndroid={true} contentContainerStyle={styles.contentContainer}
                                  keyboardShouldPersistTaps={'handled'}>
-          <View style={{
-            flex: 0.5,
-            flexDirection: 'row',
-            marginLeft: 30,
-            marginRight: 30,
-            marginTop: 20,
-            justifyContent: "center"
-          }}>
-            <Text style={{fontSize: 28, color: 'white'}}>Edit Profile</Text>
-          </View>
+
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginLeft: 30, marginRight: 30}}>
             <View style={styles.imageContainer}>
               {
@@ -147,7 +142,7 @@ class ProfileEdit extends Component {
             <View style={{alignItems: 'center', bottom: 45, width: "55%"}}>
               {
                 !this.state.imageUploading && (
-                  <ActionButtonTwo onPress={this.pickImage} label="Update" color='#DD3180'/>
+                  <ActionButtonTwo onPress={this.pickImage} label="Update" color={appTheme.brightContent}/>
                 )
               }
             </View>
@@ -170,7 +165,7 @@ class ProfileEdit extends Component {
                 <TouchableOpacity onPress={this.submit}>
                   <FontAwesome
                     name="check"
-                    color={colors.acceptGreen}
+                    color={appTheme.brightContent}
                     size={30}
                   />
                 </TouchableOpacity>
@@ -181,15 +176,18 @@ class ProfileEdit extends Component {
           <KeyboardSpacer/>
         </KeyboardAwareScrollView>
 
-      </>
+      </LinearGradient>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   contentContainer: {
     flexGrow: 1,
-    backgroundColor: appTheme.darkBackground,
+    marginTop: spacing.thumbnail
   },
   itemSeparatorHorizontal: {
     height: 1,
@@ -218,7 +216,7 @@ const styles = StyleSheet.create({
   imageDimensions: {
     width: 200,
     height: 200,
-    borderRadius:15
+    borderRadius: 15
   },
   loader: {
     position: 'absolute',
