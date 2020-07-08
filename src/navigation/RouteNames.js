@@ -1,8 +1,7 @@
 const RouteNames = {
   //Stack Names
   AppStack:'AppStack',
-  AuthStack:'AuthStack',
-  Splash:'Splash', // this one is just a screen
+  Splash:'Splash',
   ChooseUserType:'ChooseUserType',
 
   UserListing:'UserListing',
@@ -14,7 +13,6 @@ const RouteNames = {
   VideoCall:'VideoCall',
   VideoTester:'VideoTester',
   Feed:'Feed',
-  HomeTab:'HomeTab',
   CallScreen:'CallScreen',
   Schedule:'Schedule',
   ProfileEdit:'ProfileEdit',

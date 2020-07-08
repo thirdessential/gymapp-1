@@ -137,10 +137,6 @@ class SlotList extends Component {
         style={styles.container}>
       <KeyboardAwareScrollView style={styles.container}>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{strings.MY_SLOTS}</Text>
-        </View>
-
         <View style={styles.listContainer}>
           <this.renderSlots/>
         </View>
@@ -160,6 +156,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     justifyContent: 'center',
+    marginTop:spacing.medium_lg,
     marginLeft: spacing.medium_lg,
     marginRight: spacing.medium_lg,
     flex: 1,

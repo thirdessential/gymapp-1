@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native'
+import {StyleSheet, TouchableOpacity} from 'react-native';
 
 import {spacing} from "../constants/dimension";
 import {appTheme} from "../constants/colors";
@@ -16,7 +16,9 @@ const subscriptionList = (props) => {
   const RenderClients = () => {
     return props.subscriptions.map((subscription, index) => {
       const user = subscription.subscribedBy;
+      if(!user)return null;
       let {name, city, _id, displayPictureUrl} = user;
+      if(!name)name = 'User';
       if (!displayPictureUrl) displayPictureUrl = defaultDP;
       const {totalSessions, heldSessions} = subscription;
       const sessions = `${heldSessions}/${totalSessions}`;

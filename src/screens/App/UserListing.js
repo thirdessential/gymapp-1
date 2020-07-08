@@ -143,9 +143,6 @@ class UserListing extends Component {
     const {userList} = this.props;
     return (<>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Overview</Text>
-        </View>
         <LinearGradient
           colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
           style={styles.listContainer}>

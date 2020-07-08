@@ -227,7 +227,7 @@ class VideoCall extends Component {
                      channelId={this.state.channelName} renderMode={1} zOrderMediaOverlay={true}/>
           <TouchableOpacity
             style={[styles.toggleButton, styles.shadow]}
-            hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
+            hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
             onPress={() => this.toggleAudio()}>
             <Icon
               name={'switch-camera'}

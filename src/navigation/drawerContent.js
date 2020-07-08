@@ -1,16 +1,16 @@
 import {
   DrawerContentScrollView, DrawerItemList, DrawerItem
 } from "@react-navigation/drawer";
-import {appTheme, darkPallet} from "../../constants/colors";
+import {appTheme, darkPallet} from "../constants/colors";
 import {StyleSheet, Text, View} from "react-native";
 import * as React from "react";
-import store from '../../store/configureStore';
-import Avatar from "../../components/Avatar";
-import {spacing} from "../../constants/dimension";
-import fonts from "../../constants/fonts";
-import {signOutUser} from "../../store/actions/user.actions";
-import {defaultDP, userTypes} from "../../constants/appConstants";
-import RouteNames from "../RouteNames";
+import store from '../store/configureStore';
+import Avatar from "../components/Avatar";
+import {spacing} from "../constants/dimension";
+import fonts from "../constants/fonts";
+import {signOutUser} from "../store/actions/user.actions";
+import {defaultDP, userTypes} from "../constants/appConstants";
+import RouteNames from "./RouteNames";
 import LinearGradient from "react-native-linear-gradient";
 
 function CustomDrawerContent(props) {
