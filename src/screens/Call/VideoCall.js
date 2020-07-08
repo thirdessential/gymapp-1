@@ -82,7 +82,6 @@ class VideoCall extends Component {
   }
 
   componentDidMount() {
-    this.callTimeouter = setTimeout(this.handleCallTimeout, callTimeout);
     AndroidPip.enableAutoPipSwitch();
     AppState.addEventListener("change", this._handleAppStateChange);
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', function () {
@@ -111,17 +110,19 @@ class VideoCall extends Component {
       });
 
       engine.addListener('JoinChannelSuccess', (data) => {          //If Local user joins RTC channel
-        // engine.startPreview();                                      //Start RTC preview
         self.setState({joinSucceed: true});                       //Set state variable to true
+        self.callTimeouter = setTimeout(self.handleCallTimeout, callTimeout);
       });
-      engine.joinChannel(null, self.state.channelName, null,0);  //Join Channel using null token and channel name
+      engine.joinChannel(null, self.state.channelName, null, 0);  //Join Channel using null token and channel name
     }
+
     init();
   }
 
   componentWillUnmount() {
     this.backHandler.remove();
-    clearTimeout(this.callTimeouter);
+    if (this.callTimeouter)
+      clearTimeout(this.callTimeouter);
     AndroidPip.disableAutoPipSwitch();
     AppState.removeEventListener("change", this._handleAppStateChange);
   }
@@ -197,7 +198,7 @@ class VideoCall extends Component {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         {
-          this.state.vidMute || this.state.joinSucceed===false ?
+          this.state.vidMute || this.state.joinSucceed === false ?
             <Image source={CallBackground} style={{width: screenWidth, height: screenHeight}}/>
             : <LocalView style={{width: screenWidth, height: screenHeight}}               //view for local videofeed
                          channelId={this.state.channelName} renderMode={1} zOrderMediaOverlay={true}/>
@@ -310,9 +311,9 @@ class VideoCall extends Component {
       return (
         <ToggleView key={1} delayHide={true} style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
           {this.videoView()}
-         </ToggleView>
-       )
-     return <this.pipView key={2}/>;
+        </ToggleView>
+      )
+    return <this.pipView key={2}/>;
   }
 }
 
