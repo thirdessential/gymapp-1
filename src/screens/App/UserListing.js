@@ -28,6 +28,7 @@ import strings from "../../constants/strings";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import LinearGradient from "react-native-linear-gradient";
+import {setAvailable} from "../../API";
 
 const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
@@ -38,6 +39,7 @@ class UserListing extends Component {
   }
 
   componentDidMount() {
+    setAvailable();
     const {updateUserData, navigation} = this.props;
     updateUserData();
 
@@ -137,7 +139,6 @@ class UserListing extends Component {
     });
 
   }
-
 
   render() {
     const {userList} = this.props;

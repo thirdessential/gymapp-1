@@ -34,5 +34,7 @@ export {
 } from './storage';
 
 export {
-  makeCall
+  makeCall,
+  setBusy,
+  setAvailable
 } from './call';
