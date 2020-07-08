@@ -38,28 +38,30 @@ const slotsByTime = (props) => {
   )
   const getSubscriberName = slot => {
     const {subscriptionId} = slot;
-    if(!subscriptionId)return null;
-    const {name} = subscriptionId.subscribedBy;
-    return !!name?name:null;
+    if (!subscriptionId) return null;
+    const name = subscriptionId.subscribedBy && subscriptionId.subscribedBy.name;
+    return !!name ? name : null;
   }
 
-  const renderSlot = (slot,index) => (
+  const renderSlot = (slot, index) => {
     // keys can sometimes not be unique TODO:Backend changes
-    <View style={styles.slotContainer} key={slot.dayOfWeek + index}>
-      <MiniSlotCard
-        bookCallback={props.bookCallback ? () => props.bookCallback(slot.dayOfWeek, slot.time) : null}
-        day={slot.dayOfWeek}
-        duration={slot.duration}
-        subscribedBy={getSubscriberName(slot)}
-        startTime={militaryTimeToString(slot.time)}/>
-    </View>
-  )
+    return (
+      <View style={styles.slotContainer} key={slot.dayOfWeek + index}>
+        <MiniSlotCard
+          bookCallback={props.bookCallback ? () => props.bookCallback(slot.dayOfWeek, slot.time) : null}
+          day={slot.dayOfWeek}
+          duration={slot.duration}
+          subscribedBy={getSubscriberName(slot)}
+          startTime={militaryTimeToString(slot.time)}/>
+      </View>
+    )
+  }
   return (
     <View style={styles.container}>
       <ButtonGroup/>
       <View style={styles.listContainer}>
         {
-          groupedSlots[selectedTime].map((slot,index) => renderSlot(slot,index))
+          groupedSlots[selectedTime].map((slot, index) => renderSlot(slot, index))
         }
       </View>
     </View>

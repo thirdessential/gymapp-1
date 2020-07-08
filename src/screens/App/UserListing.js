@@ -164,7 +164,7 @@ class UserListing extends Component {
           />
           {
             userList.length === 0 && (
-              <ActivityIndicator style={{position: 'absolute'}} color={appTheme.lightContent} size={50}/>
+              <ActivityIndicator style={{position: 'absolute'}} color={appTheme.brightContent} size={50}/>
             )
           }
         </LinearGradient>

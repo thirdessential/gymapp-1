@@ -17,7 +17,8 @@ const schedule = () => {
         options={{
           headerTintColor: appTheme.brightContent,
           headerTransparent: true,
-          headerLeft: openDrawerButton
+          headerLeft: openDrawerButton,
+          title:''
         }}/>
     </Stack.Navigator>
   );

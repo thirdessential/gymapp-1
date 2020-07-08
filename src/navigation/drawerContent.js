@@ -12,6 +12,7 @@ import {signOutUser} from "../store/actions/user.actions";
 import {defaultDP, userTypes} from "../constants/appConstants";
 import RouteNames from "./RouteNames";
 import LinearGradient from "react-native-linear-gradient";
+import {drawerLabelStyle} from "../constants/styles";
 
 function CustomDrawerContent(props) {
   const {userData, userType} = props;
@@ -32,14 +33,14 @@ function CustomDrawerContent(props) {
           <DrawerItemList {...props} labelStyle={{color: 'white'}}/>
           <DrawerItem
             label="Edit Profile"
-            labelStyle={{color: 'white'}}
+            labelStyle={drawerLabelStyle}
             onPress={() => props.navigation.navigate(RouteNames.ProfileEdit)}
           />
           {
             userType === userTypes.TRAINER && (
               <DrawerItem
                 label="My Packages"
-                labelStyle={{color: 'white'}}
+                labelStyle={drawerLabelStyle}
                 onPress={() => props.navigation.navigate(RouteNames.Packages)}
               />
             )
@@ -48,14 +49,14 @@ function CustomDrawerContent(props) {
             userType === userTypes.TRAINER && (
               <DrawerItem
                 label="My Slots"
-                labelStyle={{color: 'white'}}
+                labelStyle={drawerLabelStyle}
                 onPress={() => props.navigation.navigate(RouteNames.SlotEdit)}
               />
             )
           }
           <DrawerItem
             label="Sign Out"
-            labelStyle={{color: 'white'}}
+            labelStyle={drawerLabelStyle}
             onPress={() => store.dispatch(signOutUser())}
           />
         </View>
@@ -77,12 +78,12 @@ const styles = StyleSheet.create({
     marginTop: spacing.medium_sm
   },
   title: {
-    color: 'white',
+    color: appTheme.brightContent,
     fontFamily: fonts.MontserratMedium,
     fontSize: 18,
   },
-  list:{
-    marginLeft:spacing.small
+  list: {
+    marginLeft: spacing.small
   }
 });
 

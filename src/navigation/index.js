@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppState} from 'react-native';
+import {AppState, Text} from 'react-native';
 import {connect} from "react-redux";
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
@@ -24,6 +24,7 @@ import CustomDrawerContent from "./drawerContent";
 import appTabNavigator from "./AppTabNavigator";
 import RouteNames from "./RouteNames";
 import VideoCall from "../screens/Call/VideoCall";
+import {drawerLabelStyle} from "../constants/styles";
 
 messaging().setBackgroundMessageHandler(callHandler);
 configureFCMNotification();
@@ -123,16 +124,19 @@ class App extends React.Component {
   coreDrawer = () => {
     const {userType, userData} = this.props;
     return (
-      <Drawer.Navigator initialRouteName="Home"
-                        drawerType={'slide'}
-                        drawerContent={(drawerProps) => <CustomDrawerContent {...drawerProps}
-                                                                             userType={userType}
-                                                                             userData={userData}/>}
-                        drawerStyle={{
-                          width: 240
-                        }}
+      <Drawer.Navigator
+
+        drawerType={'slide'}
+        drawerContent={(drawerProps) => <CustomDrawerContent {...drawerProps}
+                                                             userType={userType}
+                                                             userData={userData}/>}
+        drawerStyle={{
+          width: 240
+        }}
       >
-        <Drawer.Screen name="Home" component={appTabNavigator}/>
+        <Drawer.Screen name="Home" component={appTabNavigator} options={{
+          drawerLabel:({ focused, color })=><Text style={drawerLabelStyle}>Home</Text>
+        }}/>
       </Drawer.Navigator>
     );
   }

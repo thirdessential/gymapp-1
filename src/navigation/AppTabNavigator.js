@@ -5,16 +5,13 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import store from '../store/configureStore';
 
-import UserListing from "../screens/App/UserListing";
 import RouteNames from "./RouteNames";
 import colors, {appTheme} from "../constants/colors";
-import Feed from "../screens/App/Feed";
 import Schedule from "../screens/App/Schedule";
 import Profile from "../screens/App/Profile";
 import MyProfileStack from './stacks/myProfileStack';
 import PackageStack from "./stacks/PackageStack";
 import {userTypes} from "../constants/appConstants";
-import SlotList from "../screens/App/SlotList";
 import {ActivityIndicator, Text, View} from "react-native";
 import fontSizes from "../constants/fontSizes";
 import ListingStack from './stacks/listingStack';
@@ -38,6 +35,7 @@ const appTabNavigator = (props) => {
       // lazy={true}
       // lazyPreloadDistance={1}
       // lazyPlaceholder={bgView}
+      backBehavior={'initialRoute'}
       tabBarPosition={'bottom'}
       tabBarOptions={{
         activeTintColor: appTheme.brightContent,
