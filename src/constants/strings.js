@@ -14,6 +14,7 @@ const strings = {
   RUNNING_DAYS:'Running Days',
   RUPEE: '₹',
   FOLLOW: 'Follow',
+  CHANGES_SAVED:'Changes Saved',
   TIMING:'Timing',
   PACKAGE_SUMMARY:'Package Summary',
   BOOK: 'Book',
