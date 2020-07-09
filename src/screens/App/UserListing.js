@@ -16,7 +16,7 @@ import TrainerThumb from '../../components/Trainer/TrainerThumb';
 import  {appTheme, darkPallet} from "../../constants/colors";
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
-import { INITIAL_PAGE, userTypes} from "../../constants/appConstants";
+import {defaultDP, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
 import UserThumb from "../../components/Trainer/UserThumb";
 import {spacing} from "../../constants/dimension";
 import {generateTrainerHits, generateUserHits} from "../../utils/utils";
