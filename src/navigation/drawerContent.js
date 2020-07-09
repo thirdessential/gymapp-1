@@ -19,7 +19,7 @@ function CustomDrawerContent(props) {
   let {name = '', displayPictureUrl} = userData;
   if (!displayPictureUrl) displayPictureUrl = defaultDP
   return (
-    <DrawerContentScrollView {...props} style={{backgroundColor: appTheme.darkBackground}}>
+    <DrawerContentScrollView {...props} style={{backgroundColor: appTheme.darkBackground, marginTop:-spacing.small}}>
       <LinearGradient
         colors={[darkPallet.lightBlue, darkPallet.extraDarkBlue]}
       >
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     paddingTop: spacing.thumbnailMini,
     marginBottom: spacing.large_lg,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   titleContainer: {
     marginTop: spacing.medium_sm

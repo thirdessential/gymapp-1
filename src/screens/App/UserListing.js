@@ -4,33 +4,26 @@
 import React, {Component} from 'react';
 import {
   View,
-  TouchableOpacity,
   StyleSheet,
   FlatList,
-  Image,
   StatusBar,
   ActivityIndicator,
-  LayoutAnimation, Text, TouchableHighlight
+  LayoutAnimation,
 } from 'react-native'
 import {connect} from "react-redux";
-import RazorpayCheckout from 'react-native-razorpay';
 
 import TrainerThumb from '../../components/Trainer/TrainerThumb';
-import colors, {appTheme, bluePallet, darkPallet} from "../../constants/colors";
+import  {appTheme, darkPallet} from "../../constants/colors";
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
-import {appName, INITIAL_PAGE, paymentKey, userTypes} from "../../constants/appConstants";
+import { INITIAL_PAGE, userTypes} from "../../constants/appConstants";
 import UserThumb from "../../components/Trainer/UserThumb";
 import {spacing} from "../../constants/dimension";
-import {requestCameraAndAudioPermission} from "../../utils/permission";
-import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
-import strings from "../../constants/strings";
+import {generateTrainerHits, generateUserHits} from "../../utils/utils";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import LinearGradient from "react-native-linear-gradient";
 import {setAvailable} from "../../API";
-
-const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 class UserListing extends Component {
 
@@ -116,7 +109,7 @@ class UserListing extends Component {
   render() {
     const {userList} = this.props;
     return (<>
-        <StatusBar backgroundColor={appTheme.darkBackground}/>
+        <StatusBar backgroundColor={appTheme.lightBackground}/>
         <LinearGradient
           colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
           style={styles.listContainer}>

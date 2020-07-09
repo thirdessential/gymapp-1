@@ -32,7 +32,7 @@ configureFCMNotification();
 const Drawer = createDrawerNavigator();
 const coreAppTheme = {
   colors: {
-    primary: appTheme.darkBackground,
+    primary: appTheme.lightBackground,
   },
 };
 
@@ -131,7 +131,7 @@ class App extends React.Component {
                                                              userType={userType}
                                                              userData={userData}/>}
         drawerStyle={{
-          width: 240
+          width: 240,
         }}
       >
         <Drawer.Screen name="Home" component={appTabNavigator} options={{
