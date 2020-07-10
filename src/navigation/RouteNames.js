@@ -19,6 +19,7 @@ const RouteNames = {
   SlotEdit:'SlotEdit',
   Enroll:'Enroll',
   Payment:'Payment',
+  Activity:'Activity',
 
   Login:'Login',
   Signup:'Signup'
