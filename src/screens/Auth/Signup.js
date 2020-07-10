@@ -106,11 +106,11 @@ setPassword=(text)=>{
             </View>
             <View style={styles.subContainer}>
               <View style={styles.formElements}>
-                <FormElementThree placeholder="  Email" onChangeText={(text)=>this.setEmail(text)} />
+                <FormElementThree placeholder="Email" onChangeText={(text)=>this.setEmail(text)} />
                 {!!this.state.emailError && (
                   <Text style={styles.formError}>{this.state.emailError}</Text>
                 )}
-                <PasswordElementThree placeholder="  Password" onChangeText={(text) => this.setPassword(text)} />
+                <PasswordElementThree placeholder="Password" onChangeText={(text) => this.setPassword(text)} />
                 {!!this.state.passwordError && (
                   <Text style={styles.formError}>{this.state.passwordError}</Text>
                 )}

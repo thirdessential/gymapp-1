@@ -74,7 +74,7 @@ export default class Login extends Component {
             </View>
             <View style={styles.secSubContainer}>
               <View style={styles.FormElement}>
-                <FormElementThree placeholder="  Email" onChangeText={(text) => this.setEmail(text)} />
+                <FormElementThree placeholder="Email" onChangeText={(text) => this.setEmail(text)} />
                 <PasswordElementThree placeholder="  Password" onChangeText={(text) => this.setPassword(text)} />
               </View>
               <View style={styles.ActionButton}>

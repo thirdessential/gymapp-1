@@ -63,6 +63,8 @@ const styles = StyleSheet.create(
             backgroundColor: "rgba(52, 52, 52, 0.5)",
             borderColor: 'grey',
             marginRight: 10,
+            paddingLeft:15,
+            paddingRight:15
 
         },
         icon: {
