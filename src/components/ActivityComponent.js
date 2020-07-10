@@ -2,62 +2,62 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
 import colors, {appTheme} from "../constants/colors";
 import {StyleSheet, View} from "react-native";
-import {Card, Text} from 'native-base';
+import {Text} from 'native-base';
 import Avatar from "./Avatar";
 import {spacing} from "../constants/dimension";
 
 import fontSizes from "../constants/fontSizes";
+import fonts from "../constants/fonts";
 
 const activityComponent = (props) => {
   return (
-    <Card style={styles.cardStyle}>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <View style={styles.details}>
         <Avatar
-          size={70}
+          size={60}
           border={true}
           rounded={false}
           url={props.imageUrl}
         />
+        <Text style={styles.displayName}>{props.type} with {props.displayName}</Text>
         <View style={styles.appointmentDetails}>
-          <Text style={styles.displayName}>{props.displayName}</Text>
-          <View style={{flexDirection:'row'}}>
-            <Text style={styles.timeText}>{props.day}, {props.time}</Text>
-            <FontAwesome color={appTheme.grey} size={fontSizes.h2} style={{paddingTop:2, paddingLeft:spacing.small}} name={'clock-o'}/>
-          </View>
-          <Text style={styles.timeText}>{props.type}</Text>
+          {/*<View style={{flexDirection:'row'}}>*/}
+          {/*  <Text style={styles.timeText}>{props.day}, {props.time}</Text>*/}
+          {/*</View>*/}
         </View>
-
       </View>
-    </Card>
+
+
+    </View>
   );
 }
 
 activityComponent.propTypes = {};
 
 const styles = StyleSheet.create({
-  cardStyle: {
-    borderRadius: 6,
-    backgroundColor: appTheme.darkBackground,
-    borderColor: appTheme.darkBackground,
-    elevation: 11,
-  },
+
   container: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    padding: spacing.medium_sm,
-    paddingLeft: spacing.medium,
-    paddingRight: spacing.medium,
+    width: '100%'
+  },
+  details: {
+    flexDirection: 'row'
   },
   appointmentDetails: {
-    paddingLeft: spacing.medium
+    paddingLeft: spacing.medium,
+    justifyContent: 'flex-start',
+    // width:'100%'
   },
   displayName: {
     color: 'white',
-    fontFamily: 'Poppins-SemiBold'
+    fontFamily: fonts.PoppinsRegular,
+    marginBottom: spacing.small,
+    marginTop: -spacing.small,
+    marginLeft: spacing.medium,
+    flex: 1,
+    flexWrap: 'wrap'
   },
   timeText: {
     color: appTheme.grey,

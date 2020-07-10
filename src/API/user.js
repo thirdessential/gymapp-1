@@ -45,7 +45,7 @@ export const getMyInfo = async () => {
 
 export const getUserInfo = async (userId) => {
   try {
-    let response = await axios.get(`/user/${userId}`);
+    let response = await axios.get(`/user/info/${userId}`);
     if (validateResponseCode(response.status)) {
       return response.data;
     } else
@@ -103,11 +103,12 @@ export const sendPaymentData = async ({razorpay_order_id, razorpay_payment_id, r
 }
 
 
-export const bookAppointment = async (trainerId, day, time) => {
+export const bookAppointment = async (trainerId, day, time, appointmentDate) => {
   try {
     let response = await axios.post(`/appointment/${trainerId}/book`, {
       day,
-      time
+      time,
+      appointmentDate
     });
     if (validateResponseCode(response.status)) {
       return response.data;

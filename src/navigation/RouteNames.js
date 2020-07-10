@@ -32,7 +32,9 @@ export const TabRoutes = {
   Slots: 'Slots',
 
   Posts: 'Posts',
-  Subscriptions: 'Subscriptions'
+  Subscriptions: 'Subscriptions',
+  Today:'Today',
+  Tomorrow:'Tomorrow'
 }
 
 export default RouteNames;

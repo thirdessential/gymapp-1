@@ -201,7 +201,7 @@ class ProfileEdit extends Component {
             <View style={styles.itemSeparatorHorizontal}/>
 
             {
-              this.props.userData.userType === userTypes.TRAINER && (
+              this.props.userData && this.props.userData.userType === userTypes.TRAINER && (
                 <>
                   <Text style={styles.label}>Makeovers</Text>
                   <TextInput style={styles.textInput} value={this.state.experience} keyboardType={'numeric'}

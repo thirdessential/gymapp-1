@@ -1,8 +1,9 @@
 import * as React from "react";
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {FlatList, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import Entypo from "react-native-vector-icons/Entypo";
 import {connect} from "react-redux";
+import Timeline from 'react-native-timeline-flatlist'
 
 import {spacing} from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
@@ -15,82 +16,47 @@ import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import SelectableButton from '../../components/selectableButton';
 import strings from "../../constants/strings";
 import ActivityComponent from "../../components/ActivityComponent";
+import {defaultDP} from "../../constants/appConstants";
+import TimelineTabview from "../../components/TimelineTabview";
 
 class Activity extends React.Component {
 
-  state = {
-    sortedAgenda: []
-  }
-
-  componentDidMount() {
-    const {activities, myAppointments} = this.props;
-
-    const aggregateAgenda = [];
-    const {nextDaySessions, todaySessions} = activities;
-    todaySessions.map(session => aggregateAgenda.push(session));
-    nextDaySessions.map(session => aggregateAgenda.push(session));
-    myAppointments.map(appointment => aggregateAgenda.push(appointment));
-    const sortedAgenda = aggregateAgenda.sort(dayTimeSorter);
-    this.setState({sortedAgenda});
-  }
-
-  onEditPress = () => {
-    this.props.navigation.navigate(RouteNames.ProfileEdit);
-  }
-
   renderUser = () => {
     const {userData} = this.props;
+    if (!userData) return null;
     return (
       <View style={styles.userContainer}>
-        <Avatar url={userData.displayPictureUrl} size={spacing.thumbnailMini}/>
+        <Avatar url={userData.displayPictureUrl || defaultDP} size={spacing.thumbnailSmall}/>
         <View style={styles.titleContainer}>
           <Text style={styles.displayName}>{toTitleCase(userData.name)}</Text>
-          <Text style={styles.infoText}>{getJoinDurationString(userData.dateJoined)}</Text>
+          <Text style={styles.infoText}>{getJoinDurationString(userData.dateJoined, userData.userType)}</Text>
         </View>
-        <TouchableOpacity
-          style={styles.editButton}
-          onPress={this.onEditPress}
-          hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
-        >
-          <Entypo
-            name={'edit'}
-            color={'white'}
-            size={20}
-          />
-        </TouchableOpacity>
       </View>
     )
   }
 
-  renderActivityCard = () => {
-    return (
-      <View style={styles.cardContainer}>
-        <ActivityComponent time={'12:30 PM'} displayName={'Henlo boye'} day={'Monday'} type={'Session'}/>
-      </View>
-    )
-  }
-
-  renderActivityList = () => {
-    return (
-      <View style={styles.listContainer}>
-        <FlatList
-          data={[1,2,3,4]}
-          renderItem={({item})=>this.renderActivityCard(item)}
-        />
-      </View>
-    )
+  openProfile = (userId) => {
+    const {navigation} = this.props;
+    navigation.navigate(RouteNames.Profile, {
+      userId: userId,
+    });
   }
 
   render() {
+    const {activities} = this.props;
+    const {todaysEvents, tomorrowsEvents} = activities;
     return (
       <LinearGradient
         colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
         style={styles.container}>
         {this.renderUser()}
-        <View style={[styles.titleContainer,{ width:'100%', marginTop:spacing.medium_lg}]}>
-          <Text style={styles.title}>Today</Text>
+        <View style={{flex: 1, width: '100%', marginTop:spacing.medium_lg}}>
+          <TimelineTabview
+            today={todaysEvents}
+            tomorrow={tomorrowsEvents}
+            onProfilePress={this.openProfile}
+          />
         </View>
-        {this.renderActivityList()}
       </LinearGradient>
     );
   }
@@ -109,8 +75,8 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.background,
   },
   titleContainer: {
-    paddingLeft: spacing.medium,
-    justifyContent: 'space-around',
+    marginTop:spacing.medium_sm,
+    alignItems: 'center',
   },
   title: {
     color: 'white',
@@ -128,22 +94,18 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MontserratMedium,
   },
   listContainer: {
-    width:'100%'
+    width: '100%'
   },
-  cardContainer:{
-    marginBottom:spacing.small
-  },
+
   userContainer: {
     width: '100%',
-    flexDirection: 'row',
-    // backgroundColor:'red'
+    alignItems:'center'
   },
   editButton: {
     marginLeft: spacing.medium_sm,
     padding: spacing.small,
     justifyContent: 'center'
-  },
-
+  }
 });
 
 const mapStateToProps = (state) => ({

@@ -29,8 +29,7 @@ const Tab = createMaterialTopTabNavigator();
 // ;
 
 const appTabNavigator = (props) => {
-  const userData = store.getState().user.userData;
-  let {userType} = userData;
+  let {userType} = store.getState().user;
   const listingTitle = userType === userTypes.USER ? 'Trainers' : 'Users';
   return (
     <Tab.Navigator

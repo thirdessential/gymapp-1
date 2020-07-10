@@ -82,7 +82,7 @@ class Schedule extends Component {
   }
 
   bookAppointment = async (trainerId, day, time) => {
-    let response = await bookAppointment(trainerId, day, time);
+    let response = await bookAppointment(trainerId, day, time, this.state.selectedDate);
     if (response.success)
       showSuccess(response.message);
     else showError(response.message);

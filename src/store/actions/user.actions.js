@@ -120,16 +120,15 @@ export const setActivities = (activities) => ({
 export const getActivities = () => {
   return async (dispatch) => {
     try {
-      let activities = await API.recentActivity();
-      dispatch(setActivities(activities));
-      return activities;
+      let {upcomingActivities} = await API.recentActivity();
+      dispatch(setActivities(upcomingActivities));
+      return upcomingActivities;
     } catch (error) {
       console.log("Fetch activities failed", error);
       return false;
     }
   };
 };
-
 
 export const resetApp = () => ({
   type: actionTypes.RESET_APP,
