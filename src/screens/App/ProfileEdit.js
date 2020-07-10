@@ -238,7 +238,7 @@ class ProfileEdit extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1
+    flex: 1
   },
   contentContainer: {
     // flexGrow: 1,

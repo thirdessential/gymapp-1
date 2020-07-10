@@ -101,7 +101,8 @@ export const getAppointments = () => {
   return async (dispatch) => {
     try {
       let appointments = await API.myAppointments();
-      dispatch(setAppointments(appointments));
+      if (appointments)
+        dispatch(setAppointments(appointments));
       return appointments;
     } catch (error) {
       console.log("Fetch appointments failed", error);
@@ -121,7 +122,8 @@ export const getActivities = () => {
   return async (dispatch) => {
     try {
       let {upcomingActivities} = await API.recentActivity();
-      dispatch(setActivities(upcomingActivities));
+      if (upcomingActivities)
+        dispatch(setActivities(upcomingActivities));
       return upcomingActivities;
     } catch (error) {
       console.log("Fetch activities failed", error);

@@ -1,21 +1,15 @@
 import * as React from "react";
-import {FlatList, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import Entypo from "react-native-vector-icons/Entypo";
 import {connect} from "react-redux";
-import Timeline from 'react-native-timeline-flatlist'
 
 import {spacing} from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import {appTheme, darkPallet} from "../../constants/colors";
-import * as actionCreators from "../../store/actions";
 import Avatar from "../../components/Avatar";
-import {dayTimeSorter, getJoinDurationString, toTitleCase} from "../../utils/utils";
-import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
-import SelectableButton from '../../components/selectableButton';
-import strings from "../../constants/strings";
-import ActivityComponent from "../../components/ActivityComponent";
+import {getJoinDurationString, toTitleCase} from "../../utils/utils";
+import RouteNames from "../../navigation/RouteNames";
 import {defaultDP} from "../../constants/appConstants";
 import TimelineTabview from "../../components/TimelineTabview";
 
@@ -45,18 +39,20 @@ class Activity extends React.Component {
   render() {
     const {activities} = this.props;
     const {todaysEvents, tomorrowsEvents} = activities;
+
     return (
       <LinearGradient
         colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
         style={styles.container}>
         {this.renderUser()}
-        <View style={{flex: 1, width: '100%', marginTop:spacing.medium_lg}}>
+        <View style={{flex: 1, width: '100%', marginTop: spacing.medium_lg}}>
           <TimelineTabview
             today={todaysEvents}
             tomorrow={tomorrowsEvents}
             onProfilePress={this.openProfile}
           />
         </View>
+
       </LinearGradient>
     );
   }
@@ -75,7 +71,7 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.background,
   },
   titleContainer: {
-    marginTop:spacing.medium_sm,
+    marginTop: spacing.medium_sm,
     alignItems: 'center',
   },
   title: {
@@ -99,7 +95,7 @@ const styles = StyleSheet.create({
 
   userContainer: {
     width: '100%',
-    alignItems:'center'
+    alignItems: 'center'
   },
   editButton: {
     marginLeft: spacing.medium_sm,

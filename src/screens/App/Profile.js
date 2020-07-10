@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, ActivityIndicator, LayoutAnimation} from 'react-native'
+import {View, StyleSheet, ActivityIndicator, LayoutAnimation, Text} from 'react-native'
 import {createImageProgress} from 'react-native-image-progress';
 import FastImage from 'react-native-fast-image';
 
@@ -24,6 +24,9 @@ import {getRandomImage} from "../../constants/images";
 import {spacing} from "../../constants/dimension";
 import {showError, showSuccess} from "../../utils/notification";
 import {bookAppointment} from "../../API";
+import PostCardList from "../../components/Profile/PostCardList";
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
 
 
 const STATUS_BAR_HEIGHT = 0;
@@ -126,11 +129,11 @@ class Profile extends Component {
     if (!user)
       return this.loader();
 
-    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots} = user;
+    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots,activeSubscriptions} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const hits = userType === userTypes.TRAINER ?
       generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length}) :
-      generateUserHits({});
+      generateUserHits({subscription:activeSubscriptions});
     return (
       <View style={styles.container}>
         <ProfileOverview
@@ -154,6 +157,15 @@ class Profile extends Component {
                 initialRouteName={initialRouteName}
               />
           )
+        }
+        {
+          userType !== userTypes.TRAINER &&
+          <View style={{margin: 20}}>
+            <View style={styles.sectionTitleContainer}>
+              <Text style={styles.sectionTitle}>{strings.POSTS}</Text>
+            </View>
+            <PostCardList/>
+          </View>
         }
       </View>
     )
@@ -193,6 +205,15 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 18,
+  },
+  sectionTitleContainer: {
+    // marginTop: spacing.medium_lg,
+    marginBottom: spacing.medium
+  },
+  sectionTitle: {
+    color: 'white',
+    fontSize: fontSizes.h1,
+    fontFamily: fonts.MontserratMedium
   },
 });
 

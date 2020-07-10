@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {useState} from 'react';
-import {LayoutAnimation, ScrollView, StyleSheet, Text, View} from 'react-native'
+import {FlatList, LayoutAnimation, ScrollView, StyleSheet, Text, View} from 'react-native'
 import PropTypes from 'prop-types';
 import CustomProgressBar from "../CustomProgressBar";
 import GenericText from "../GenericText";
@@ -14,6 +14,7 @@ import fonts from "../../constants/fonts";
 import {formattedTime, formatTimeArray, groupBy, militaryTimeToString, stringToMilitaryTime} from "../../utils/utils";
 import SelectableButtonGroup from "../selectableButtonGroup";
 import MiniSlotCard from "../MiniSlotCard";
+import {screenHeight} from "react-native-calendars/src/expandableCalendar/commons";
 
 
 const slotsByTime = (props) => {
@@ -60,9 +61,12 @@ const slotsByTime = (props) => {
     <View style={styles.container}>
       <ButtonGroup/>
       <View style={styles.listContainer}>
-        {
-          groupedSlots[selectedTime].map((slot, index) => renderSlot(slot, index))
-        }
+        {/*{*/}
+        {/*  groupedSlots[selectedTime].map((slot, index) => renderSlot(slot, index))*/}
+        {/*}*/}
+        <FlatList
+          data={groupedSlots[selectedTime]}
+          renderItem={({item,index})=> renderSlot(item,index)} />
       </View>
     </View>
   );
@@ -76,7 +80,8 @@ const styles = StyleSheet.create({
   },
   buttonGroup: {},
   listContainer: {
-    marginTop: spacing.medium_lg
+    marginTop: spacing.medium_lg,
+    // height:screenHeight/1.4
   },
   slotContainer: {
     marginBottom: spacing.small

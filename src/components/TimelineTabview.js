@@ -91,6 +91,7 @@ function timeline(props) {
             timeStyle={styles.timeStyle}
             descriptionStyle={{color: 'gray'}}
             innerCircle={'dot'}
+            renderTime={renderTime}
             renderDetail={renderActivity}
             options={{
               style: {paddingTop: spacing.medium}
