@@ -10,7 +10,9 @@ export {
   setUserType,
   setInitialLoginOff,
   updateUserData,
-  subscribePackage
+  subscribePackage,
+  getActivities,
+  getAppointments
 } from "./user.actions";
 
 export {

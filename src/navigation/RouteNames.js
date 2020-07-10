@@ -21,6 +21,8 @@ const RouteNames = {
   Payment:'Payment',
   Activity:'Activity',
 
+  ActivityTab:'ActivityTab',
+
   Login:'Login',
   Signup:'Signup'
 };

@@ -36,9 +36,7 @@ const subscriptionList = (props) => {
     })
   }
 
-  return (
-    <RenderClients/>
-  );
+  return RenderClients();
 }
 
 const styles = StyleSheet.create({

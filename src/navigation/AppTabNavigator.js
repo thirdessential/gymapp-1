@@ -2,6 +2,7 @@ import * as React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Feather from "react-native-vector-icons/Feather";
 
 import store from '../store/configureStore';
 
@@ -17,6 +18,7 @@ import fontSizes from "../constants/fontSizes";
 import ListingStack from './stacks/listingStack';
 import SlotEditStack from "./stacks/SlotEditStack";
 import ScheduleStack from "./stacks/ScheduleStack";
+import ActivityStack from "./stacks/ActivityStack";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -55,12 +57,22 @@ const appTabNavigator = (props) => {
       }}
     >
       <Tab.Screen
+        name={RouteNames.ActivityTab}
+        component={ActivityStack}
+        options={{
+          title: 'Activity',
+          tabBarIcon: ({focused, color, size}) => {
+            let iconName = focused ? 'activity' : 'activity';
+            return <View style={{alignItems: 'center'}}><Feather name={iconName} size={20} color={color}/></View>
+          },
+        }}/>
+      <Tab.Screen
         name={RouteNames.UserListing}
         component={ListingStack}
         options={{
           title: listingTitle,
           tabBarIcon: ({focused, color, size}) => {
-            let iconName = focused ? 'ios-list-box' : 'ios-list';
+            let iconName = focused ? 'ios-people' : 'ios-people';
             return <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>
           },
         }}/>

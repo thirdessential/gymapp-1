@@ -16,7 +16,7 @@ import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
 import {imageTypes, userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
-import RouteNames from "../../navigation/RouteNames";
+import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import {generateTrainerHits, generateUserHits, initialiseVideoCall, pickImage} from "../../utils/utils";
 import {spacing} from "../../constants/dimension";
 import TrainerInfo from "../../components/Trainer/TrainerInfoTabView";
@@ -90,7 +90,7 @@ class MyProfile extends Component {
     </TouchableOpacity>
   )
 
-  openProfile = (userId)=>{
+  openProfile = (userId) => {
     const {navigation} = this.props;
     navigation.navigate(RouteNames.Profile, {
       userId: userId
@@ -98,6 +98,10 @@ class MyProfile extends Component {
   }
 
   renderContent = () => {
+    const {route} = this.props;
+    let initialRouteName = TabRoutes.Packages;
+    if (route.params && route.params.initialRouteName)
+      initialRouteName= route.params.initialRouteName;
     const user = this.props.userData;
 
     let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots} = user;
@@ -120,15 +124,15 @@ class MyProfile extends Component {
         />
         {
           userType === userTypes.TRAINER && (
-              <TrainerInfo
-                packages={packages}
-                slots={slots}
-                enrollCallback={this.enrollClicked}
-                subscriptions={this.props.subscriptions}
-                onProfilePress={this.openProfile}
-                callCallback={this.callClicked}
-                // bookCallback={()=>}
-              />
+            <TrainerInfo
+              packages={packages}
+              slots={slots}
+              enrollCallback={this.enrollClicked}
+              subscriptions={this.props.subscriptions}
+              onProfilePress={this.openProfile}
+              callCallback={this.callClicked}
+              initialRouteName={initialRouteName}
+            />
           )
         }
       </>
@@ -166,8 +170,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: appTheme.background,
   },
-  contentContainer: {
-  },
+  contentContainer: {},
   titleStyle: {
     color: 'white',
     fontWeight: 'bold',

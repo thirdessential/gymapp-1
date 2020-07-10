@@ -8,9 +8,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import store from '../store/configureStore';
 import {makeCall} from "../API";
 import strings from "../constants/strings";
-import {defaultDP, WEEK_DAYS} from "../constants/appConstants";
+import {defaultDP, userTypes, WEEK_DAYS} from "../constants/appConstants";
 import ImagePicker from "react-native-image-picker";
 import {showError} from "./notification";
+import {useCode} from "react-native-reanimated";
 
 export const validateResponseCode = (code) => {
   return Math.floor(code / 100) === 2;
@@ -115,9 +116,9 @@ export const updateObject = (oldObject, updatedValues) => {
   };
 };
 
-export const initialiseVideoCall = async (userId, displayName="Yatan", displayPictureUrl=defaultDP) => {
+export const initialiseVideoCall = async (userId, displayName = "Yatan", displayPictureUrl = defaultDP) => {
   let result = await makeCall(userId);
-  if(!result.success){
+  if (!result.success) {
     showError(result.message);
     console.log("TargetBusy");
     return false;
@@ -128,14 +129,14 @@ export const initialiseVideoCall = async (userId, displayName="Yatan", displayPi
   }
   const {sessionId, agoraAppId} = result;
   const user = store.getState().app.users[userId];
-  if(user){
+  if (user) {
     displayName = user.name;
-    displayPictureUrl= user.displayPictureUrl;
+    displayPictureUrl = user.displayPictureUrl;
   }
   navigate(RouteNames.VideoCall, {
     AppID: agoraAppId,
     ChannelName: sessionId,
-    initiating:true,
+    initiating: true,
     displayPictureUrl,
     displayName
   })
@@ -199,4 +200,33 @@ export const generateUserHits = ({post, subscription}) => ([
 export const pickImage = async (callback) => {
   const options = {};
   ImagePicker.showImagePicker(options, callback);
+}
+
+export const getJoinDuration = (date) => {
+  const now = new Date();
+  const joinDate = new Date(date);
+  return Math.floor((now.getTime() - joinDate.getTime()) / (1000 * 3600 * 24));
+}
+
+export const getJoinDurationString = (date, userType) => {
+  const entity = userType === userTypes.USER ? 'User' : 'Trainer';
+  return `${entity} for ${getJoinDuration(date)} days`;
+}
+
+export const dayTimeSorter = (alpha, beta) => {
+  let todayIndex = (new Date()).getDay();
+  let {day: d1, time: t1} = alpha;
+  if (!d1) d1 = alpha.dayOfWeek;
+  const alphaTime = new Date();
+  alphaTime.setDate(alphaTime.getDate() + (todayIndex - Object.keys(WEEK_DAYS).indexOf(d1) ));
+  alphaTime.setTime(alphaTime.getTime() +parseInt(t1)); // this is fine as any number will work, we just have to find which is greater
+
+  let {day: d2, time: t2} = beta;
+  if (!d2) d2 = beta.dayOfWeek;
+
+  const betaTime = new Date();
+  betaTime.setDate(betaTime.getDate() + (todayIndex - Object.keys(WEEK_DAYS).indexOf(d2) ));
+  betaTime.setTime(betaTime.getTime() +parseInt(t2)); // this is fine as any number will work, we just have to find which is greater
+
+  return betaTime-alphaTime;
 }

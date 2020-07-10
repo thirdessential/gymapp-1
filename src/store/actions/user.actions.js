@@ -90,6 +90,46 @@ export const subscribePackage = (trainerId, packageId, time, days) => {
   };
 };
 
+export const setAppointments = (myAppointments) => ({
+  type: actionTypes.SET_MY_APPOINTMENTS,
+  payload: {
+    myAppointments
+  },
+});
+
+export const getAppointments = () => {
+  return async (dispatch) => {
+    try {
+      let appointments = await API.myAppointments();
+      dispatch(setAppointments(appointments));
+      return appointments;
+    } catch (error) {
+      console.log("Fetch appointments failed", error);
+      return false;
+    }
+  };
+};
+
+export const setActivities = (activities) => ({
+  type: actionTypes.SET_ACTIVITIES,
+  payload: {
+    activities
+  },
+});
+
+export const getActivities = () => {
+  return async (dispatch) => {
+    try {
+      let activities = await API.recentActivity();
+      dispatch(setActivities(activities));
+      return activities;
+    } catch (error) {
+      console.log("Fetch activities failed", error);
+      return false;
+    }
+  };
+};
+
 
 export const resetApp = () => ({
   type: actionTypes.RESET_APP,

@@ -6,7 +6,6 @@ import {Text, StyleSheet, TouchableOpacity, View} from 'react-native'
 import PropTypes from 'prop-types';
 import colors, {appTheme} from "../constants/colors";
 import {spacing} from "../constants/dimension";
-import LinearGradient from "react-native-linear-gradient";
 import fontSizes from "../constants/fontSizes";
 
 const selectableButton = (props) => {
@@ -16,12 +15,10 @@ const selectableButton = (props) => {
     <TouchableOpacity disabled={disabled} activeOpacity={0.7}  {...props} >
       {
         selected && (
-          <LinearGradient
-            colors={disabled?appTheme.disabledGradient: appTheme.gradient}
-            style={[styles.container, activeStyle]}
-            start={{x: 0, y: 0}} end={{x: 1, y: 0}}>
+          <View
+            style={[styles.container,{backgroundColor:appTheme.brightContent}, activeStyle ]}>
             <Text style={[styles.textContentStyle, textStyle]}>{textContent}</Text>
-          </LinearGradient>
+          </View>
         )
       }
       {

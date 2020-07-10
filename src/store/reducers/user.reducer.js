@@ -14,7 +14,11 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, action.payload);
     case actionTypes.SET_USER_DATA:
       return updateObject(state, action.payload);
-      case actionTypes.SET_USER_NAME:
+    case actionTypes.SET_USER_NAME:
+      return updateObject(state, action.payload);
+    case actionTypes.SET_ACTIVITIES:
+      return updateObject(state, action.payload);
+    case actionTypes.SET_MY_APPOINTMENTS:
       return updateObject(state, action.payload);
     case actionTypes.RESET_USER:
       return initialState;
