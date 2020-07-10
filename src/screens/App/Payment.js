@@ -37,21 +37,12 @@ class Packages extends Component {
   renderPackageCard = () => {
     const {route} = this.props;
     const {metadata} = route.params;
-    // const metadata = {
-    //   packageName: 'random title',
-    //   sessionCount: 23,
-    //   price: 2342,
-    //   time: '0500',
-    //   days: ['MON', 'TUE'],
-    //   approxDuration: 50,
-    //   subscriptionId: 'dasffs',
-    //   trainerName: 'Random name'
-    // };
+
     const {packageName, sessionCount, price, time, days} = metadata;
     return (<>
         {this.renderRow(strings.PACKAGE_NAME, packageName)}
         {this.renderRow(strings.SESSIONS, sessionCount)}
-        {this.renderRow(strings.PRICE_TITLE, strings.RUPEE + ' ' + (parseInt(price) / 100))}
+        {this.renderRow(strings.PRICE_TITLE, strings.RUPEE + ' ' + price)}
         {this.renderRow(strings.TIMING, militaryTimeToString(time))}
         {this.renderRow(strings.RUNNING_DAYS, days.toString())}
       </>

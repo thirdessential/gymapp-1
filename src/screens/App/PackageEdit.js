@@ -2,7 +2,17 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, TextInput, Text, TouchableOpacity, StatusBar} from 'react-native'
+import {
+  View,
+  StyleSheet,
+  Keyboard,
+  TextInput,
+  Text,
+  TouchableOpacity,
+  StatusBar,
+  ActivityIndicator,
+  LayoutAnimation
+} from 'react-native'
 import {connect} from "react-redux";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -16,6 +26,7 @@ import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
 import {validatePackage} from "../../utils/validators";
 import LinearGradient from "react-native-linear-gradient";
+import {showSuccess} from "../../utils/notification";
 
 class Packages extends Component {
 
@@ -24,6 +35,7 @@ class Packages extends Component {
     price: '',
     description: '',
     noOfSessions: '',
+    submitPending: false,
   }
 
   componentDidMount() {
@@ -54,7 +66,15 @@ class Packages extends Component {
     this.props.navigation.goBack()
   }
   savePackage = async () => {
-    this.props.createPackage(this.state)
+    Keyboard.dismiss();
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({submitPending: true});
+    await this.props.createPackage(this.state);
+    this.setState({submitPending: false});
+    const {route} = this.props;
+    if (route.params && route.params.packageId)
+      showSuccess(strings.CHANGES_SAVED);
+    else showSuccess(strings.PACKAGE_CREATED);
     this.props.navigation.goBack()
   }
   cancelEdit = () => {
@@ -67,78 +87,93 @@ class Packages extends Component {
       <LinearGradient
         colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
         style={styles.container}>
-      <KeyboardAwareScrollView style={styles.container} enableOnAndroid={true} keyboardShouldPersistTaps={'handled'}>
-        <StatusBar backgroundColor={appTheme.darkBackground}/>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>Title</Text>
-          <TextInput
-            style={styles.titleTextInput}
-            onChangeText={this.onTitleChange}
-            value={this.state.title}
-          />
-        </View>
-        <View style={styles.content}>
-          <View style={styles.inputRow}>
-            <Text style={styles.title}>Sessions</Text>
+        <KeyboardAwareScrollView style={styles.container} enableOnAndroid={true} keyboardShouldPersistTaps={'handled'}>
+          <StatusBar backgroundColor={appTheme.darkBackground}/>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Title</Text>
             <TextInput
-              keyboardType={'numeric'}
-              style={styles.contentInput}
-              placeholder={strings.NO_OF_SESSIONS}
-              placeholderTextColor={appTheme.grey}
-              onChangeText={this.sessionCountChange}
-              value={this.state.noOfSessions.toString()}
+              style={styles.titleTextInput}
+              onChangeText={this.onTitleChange}
+              value={this.state.title}
             />
           </View>
-          <View style={styles.inputRow}>
-            <Text style={styles.title}>{strings.DESCRIPTION}</Text>
-            <TextInput
-              multiline={true}
-              style={styles.contentInput}
-              numberOfLines={4}
-              placeholder={strings.PLAN_DESCRIPTION}
-              placeholderTextColor={appTheme.grey}
-              onChangeText={this.descriptionChange}
-              value={this.state.description}
-            />
+          <View style={styles.content}>
+            <View style={styles.inputRow}>
+              <Text style={styles.title}>Sessions</Text>
+              <TextInput
+                keyboardType={'numeric'}
+                style={styles.contentInput}
+                placeholder={strings.NO_OF_SESSIONS}
+                placeholderTextColor={appTheme.grey}
+                onChangeText={this.sessionCountChange}
+                value={this.state.noOfSessions.toString()}
+              />
+            </View>
+            <View style={styles.inputRow}>
+              <Text style={styles.title}>{strings.DESCRIPTION}</Text>
+              <TextInput
+                multiline={true}
+                style={styles.contentInput}
+                numberOfLines={4}
+                placeholder={strings.PLAN_DESCRIPTION}
+                placeholderTextColor={appTheme.grey}
+                onChangeText={this.descriptionChange}
+                value={this.state.description}
+              />
+            </View>
+            <View style={styles.inputRow}>
+              <Text style={styles.title}>Price</Text>
+              <TextInput
+                keyboardType={'numeric'}
+                style={styles.contentInput}
+                onChangeText={this.priceChange}
+                value={strings.RUPEE + ' ' + this.state.price}
+              />
+            </View>
           </View>
-          <View style={styles.inputRow}>
-            <Text style={styles.title}>Price</Text>
-            <TextInput
-              keyboardType={'numeric'}
-              style={styles.contentInput}
-              onChangeText={this.priceChange}
-              value={strings.RUPEE + ' ' + this.state.price}
-            />
+          <View style={styles.buttonRow}>
+            {
+              !this.state.submitPending && (
+                <TouchableOpacity style={styles.buttonContainer} onPress={this.cancelEdit}>
+                  <Ion
+                    name={'ios-arrow-back'}
+                    color={colors.appBlue}
+                    size={22}
+                  />
+                </TouchableOpacity>
+              )
+            }
+
+            {
+              this.state._id && !this.state.submitPending && (
+                <TouchableOpacity style={styles.buttonContainer} onPress={this.deletePackage}>
+                  <FontAwesome
+                    name={'trash'}
+                    color={colors.rejectRed}
+                    size={22}
+                  />
+                </TouchableOpacity>
+              )
+            }
+            <TouchableOpacity style={styles.buttonContainer} disabled={!inputsValid} onPress={this.savePackage}>
+              {
+                this.state.submitPending && (
+                  <ActivityIndicator size={28} color={appTheme.brightContent}/>
+                )
+              }
+              {
+                !this.state.submitPending && (
+                  <FontAwesome
+                    name={'check'}
+                    color={inputsValid ? appTheme.brightContent : colors.darkGrey}
+                    size={22}
+                  />
+                )
+              }
+
+            </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.buttonContainer} onPress={this.cancelEdit}>
-            <Ion
-              name={'ios-arrow-back'}
-              color={colors.appBlue}
-              size={22}
-            />
-          </TouchableOpacity>
-          {
-            this.state._id && (
-              <TouchableOpacity style={styles.buttonContainer} onPress={this.deletePackage}>
-                <FontAwesome
-                  name={'trash'}
-                  color={colors.rejectRed}
-                  size={22}
-                />
-              </TouchableOpacity>
-            )
-          }
-          <TouchableOpacity style={styles.buttonContainer} disabled={!inputsValid} onPress={this.savePackage}>
-            <FontAwesome
-              name={'check'}
-              color={inputsValid? appTheme.brightContent: colors.darkGrey}
-              size={22}
-            />
-          </TouchableOpacity>
-        </View>
-      </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
       </LinearGradient>
     );
   }

@@ -13,6 +13,7 @@ const strings = {
   NO_SLOTS_AVAILABLE:'No slots available',
   RUNNING_DAYS:'Running Days',
   RUPEE: '₹',
+  PACKAGE_CREATED:'Package Created',
   FOLLOW: 'Follow',
   CHANGES_SAVED:'Changes Saved',
   TIMING:'Timing',

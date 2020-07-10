@@ -56,7 +56,7 @@ class Schedule extends Component {
   updateLocalState = () => {
     const {globalSlots} = this.props;
 
-    if (globalSlots) {
+    if (globalSlots && Object.keys(globalSlots).length>0) {
       this.updateSelectedTime();
     }
   }
@@ -126,7 +126,7 @@ class Schedule extends Component {
             imageUrl={displayPictureUrl}
             location={city}
             duration={duration}
-            bookCallback={() => this.bookAppointment(trainerId, time, dayOfWeek)}
+            bookCallback={() => this.bookAppointment(trainerId, dayOfWeek, time)}
           />
         </TouchableOpacity>
       )
@@ -135,7 +135,8 @@ class Schedule extends Component {
 
   renderTimeButtonGroup = () => {
     const {globalSlots} = this.props;
-    if (!globalSlots) return null;
+    if (!globalSlots || Object.keys(globalSlots.length===0)) return null;
+
 
     const day = this.getSelectedDay();
     const {times} = globalSlots[day] && globalSlots[day][0];

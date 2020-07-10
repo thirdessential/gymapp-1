@@ -33,7 +33,6 @@ class SlotList extends Component {
 
   componentDidMount() {
     const {navigation} = this.props;
-
     this.refreshSlots();
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       if (this.state.slots.length === 0)
@@ -59,7 +58,7 @@ class SlotList extends Component {
       // const filteredSlots = slots.filter(slot=>slot.subscriptionId===null);
       const localSlots = this.mapSlotsToLocal(slots);
       this.setState({slots: localSlots, settingInitialSlots: false});
-    }
+    }else this.setState({settingInitialSlots:false})
   }
 
   mapSlotsToLocal = (slots) => {

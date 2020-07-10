@@ -1,7 +1,8 @@
 import {userTypes} from "../../constants/appConstants";
 
 export const authState = {
-  authenticated: false
+  authenticated: false,
+  newUser:false
 };
 
 export const userState = {

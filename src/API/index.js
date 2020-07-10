@@ -1,7 +1,7 @@
 export {
   updateAxiosToken,
-  firebaseTrainerAuth,
-  firebaseUserAuth
+  firebaseGoogleAuth,
+  syncUserType
 } from './auth';
 
 export {
@@ -18,7 +18,9 @@ export {
   getGlobalSlots,
   subscribeToPackage,
   bookAppointment,
-  sendPaymentData
+  sendPaymentData,
+  myAppointments,
+  recentActivity
 } from './user';
 
 export {

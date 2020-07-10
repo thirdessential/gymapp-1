@@ -10,24 +10,32 @@ export const setAuthenticated = (authenticated) => ({
   },
 });
 
-export const syncFirebaseAuth = (idToken, fcmToken) => {
-  return async (dispatch, getState) => {
-    try {
-      let {userType} = await getState().user;
-      let result;
-      if (userType === userTypes.USER)
-        result = await API.firebaseUserAuth(idToken, fcmToken);
-      else
-        result = await API.firebaseTrainerAuth(idToken, fcmToken);
+export const setNewUser = (value) => ({
+  type: actionTypes.SET_NEW_USER,
+  payload: {
+    newUser:value
+  },
+});
 
+export const syncFirebaseAuth = (idToken, fcmToken) => {
+  return async (dispatch) => {
+    try {
+      let result = await API.firebaseGoogleAuth(idToken, fcmToken);
       if (result) {
-        const {userId, authToken, userType} = result;
-        dispatch(setAuthToken(authToken));
-        dispatch(genericUserFieldSetter({
-          userId,
-          userType
-        }));
-        return true;
+        if (result.newUser) {
+          dispatch(setNewUser(true));
+          return true;
+        } else {
+          const {userId, authToken, userType} = result;
+          await dispatch(setAuthToken(authToken));
+          await dispatch(genericUserFieldSetter({
+            userId,
+            userType
+          }));
+          dispatch(setNewUser(false));
+          return true;
+        }
+
       }
       return false;
     } catch (error) {
