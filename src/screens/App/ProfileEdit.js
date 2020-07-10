@@ -1,5 +1,15 @@
 import React, {useState, Component} from 'react';
-import {Text, TouchableOpacity, StyleSheet, TextInput, View, Image, StatusBar, ActivityIndicator} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  TextInput,
+  View,
+  Image,
+  StatusBar,
+  ActivityIndicator,
+  ScrollView
+} from 'react-native';
 import {updateUserInfo} from '../../API';
 import ImagePicker from 'react-native-image-picker';
 import defaultPic from '../../../assets/images/male_pic_default.jpg';
@@ -16,6 +26,9 @@ import fonts from "../../constants/fonts";
 import FastImage from "react-native-fast-image";
 import {spacing} from "../../constants/dimension";
 import LinearGradient from "react-native-linear-gradient";
+import {userTypes} from "../../constants/appConstants";
+import SelectableButton from "../../components/selectableButton";
+import strings from "../../constants/strings";
 
 
 class ProfileEdit extends Component {
@@ -23,6 +36,8 @@ class ProfileEdit extends Component {
   state = {
     name: '',
     bio: '',
+    city: '',
+    experience: '',
     imageUri: null,
     imageUploading: false,
     renderCheck: true
@@ -51,8 +66,8 @@ class ProfileEdit extends Component {
   }
 
   setLocalState = (userData) => {
-    const {name = '', displayPictureUrl, bio = ''} = userData;
-    this.setState({name, imageUri: displayPictureUrl, bio});
+    const {name = '', displayPictureUrl, bio = '', city, experience = '0'} = userData;
+    this.setState({name, imageUri: displayPictureUrl, bio, city, experience: experience.toString()});
   }
 
   setName = (name) => {
@@ -62,6 +77,8 @@ class ProfileEdit extends Component {
   setBio = (bio) => {
     this.setState({bio});
   }
+  setLocation = city => this.setState({city});
+  setExperience = experience => this.setState({experience});
 
   pickImage = () => {
     const options = {};
@@ -97,23 +114,44 @@ class ProfileEdit extends Component {
 
   submit = async () => {
     const {setInitialLoginOff, updateUserData} = this.props;
-    updateUserInfo(this.state.name, this.state.bio);
+    updateUserInfo(this.state);
     // updateUserData();
     // if (result) {
     setInitialLoginOff();
     // }
   }
+  // renderInfoButtonRow = () => {
+  //   return (
+  //     <View style={styles.buttonGroup}>
+  //       <View style={styles.button}>
+  //         <SelectableButton
+  //           onPress={this.onPackagesPress}
+  //           selected={true}
+  //           textContent={'Create '+strings.PACKAGES}
+  //           textStyle={styles.buttonText}/>
+  //       </View>
+  //       <View style={styles.button}>
+  //         <SelectableButton
+  //           onPress={this.onSlotsPress}
+  //           selected={true}
+  //           textContent={'Create '+strings.SLOTS}
+  //           textStyle={styles.buttonText}/>
+  //       </View>
+  //     </View>
+  //   )
+  // }
 
   render() {
+    console.log(this.state)
     return (
       <LinearGradient
         colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
         style={styles.container}>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
-        <KeyboardAwareScrollView enableOnAndroid={true} contentContainerStyle={styles.contentContainer}
-                                 keyboardShouldPersistTaps={'handled'}>
+        <ScrollView enableOnAndroid={true} contentContainerStyle={styles.contentContainer}
+                    keyboardShouldPersistTaps={'handled'}>
 
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginLeft: 30, marginRight: 30}}>
+          <View style={{justifyContent: 'center', alignItems: 'center', marginLeft: 30, marginRight: 30}}>
             <View style={styles.imageContainer}>
               {
                 !this.state.imageUri &&
@@ -147,16 +185,33 @@ class ProfileEdit extends Component {
               }
             </View>
 
-
           </View>
-          <View style={{flex: 3, marginLeft: 30}}>
+
+          <View style={{marginLeft: spacing.large, marginRight: spacing.large}}>
             <Text style={styles.label}>Name</Text>
             <TextInput style={styles.textInput} value={this.state.name} onChangeText={this.setName}/>
             <View style={styles.itemSeparatorHorizontal}/>
+
             <Text style={styles.label}>Bio</Text>
             <TextInput style={styles.textInput} value={this.state.bio} multiline={true} onChangeText={this.setBio}/>
             <View style={styles.itemSeparatorHorizontal}/>
-            <KeyboardSpacer/>
+
+            <Text style={styles.label}>Location</Text>
+            <TextInput style={styles.textInput} value={this.state.city} onChangeText={this.setLocation}/>
+            <View style={styles.itemSeparatorHorizontal}/>
+
+            {
+              this.props.userData.userType === userTypes.TRAINER && (
+                <>
+                  <Text style={styles.label}>Makeovers</Text>
+                  <TextInput style={styles.textInput} value={this.state.experience} keyboardType={'numeric'}
+                             onChangeText={this.setExperience}/>
+                  <View style={styles.itemSeparatorHorizontal}/>
+                </>
+              )
+            }
+            {/*{this.state.renderCheck && this.renderInfoButtonRow()}*/}
+
           </View>
 
           <View style={styles.bottomBar}>
@@ -174,7 +229,7 @@ class ProfileEdit extends Component {
 
           </View>
           <KeyboardSpacer/>
-        </KeyboardAwareScrollView>
+        </ScrollView>
 
       </LinearGradient>
     );
@@ -183,11 +238,12 @@ class ProfileEdit extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    // flex: 1
   },
   contentContainer: {
-    flexGrow: 1,
-    marginTop: spacing.thumbnail
+    // flexGrow: 1,
+    marginTop: spacing.space_40,
+    paddingBottom: spacing.space_50
   },
   itemSeparatorHorizontal: {
     height: 1,
@@ -195,7 +251,7 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.grey,
     marginTop: 5,
     marginBottom: 20,
-    marginRight: 30
+    // marginRight: 20
   },
   label: {
     color: 'grey',
@@ -224,7 +280,17 @@ const styles = StyleSheet.create({
     zIndex: 1,
     justifyContent: 'center',
     alignItems: 'center'
-  }
+  },
+  buttonGroup: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: spacing.small,
+    width: '100%',
+    marginTop: spacing.medium_sm
+  },
+  button: {
+    marginRight: spacing.medium_sm
+  },
 
 })
 const mapStateToProps = (state) => ({

@@ -16,13 +16,10 @@ export const listUsers = async (url) => {
   }
 }
 
-export const updateUserInfo = async (name, bio) => {
+export const updateUserInfo = async (data) => {
 
   try {
-    let response = await axios.put('/user', {
-      name,
-      bio
-    });
+    let response = await axios.put('/user', data);
     if (validateResponseCode(response.status)) {
       return response.data;
     } else
@@ -96,7 +93,7 @@ export const sendPaymentData = async ({razorpay_order_id, razorpay_payment_id, r
       razorpay_signature
     });
     if (validateResponseCode(response.status)) {
-      return response.success===true;
+      return response.success === true;
     } else
       return false;
   } catch (error) {

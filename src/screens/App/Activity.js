@@ -1,5 +1,5 @@
 import * as React from "react";
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import Entypo from "react-native-vector-icons/Entypo";
 import {connect} from "react-redux";
@@ -14,6 +14,7 @@ import {dayTimeSorter, getJoinDurationString, toTitleCase} from "../../utils/uti
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import SelectableButton from '../../components/selectableButton';
 import strings from "../../constants/strings";
+import ActivityComponent from "../../components/ActivityComponent";
 
 class Activity extends React.Component {
 
@@ -36,17 +37,7 @@ class Activity extends React.Component {
   onEditPress = () => {
     this.props.navigation.navigate(RouteNames.ProfileEdit);
   }
-  onPackagesPress = () => {
-    this.props.navigation.navigate(RouteNames.Packages)
-  }
-  onSlotsPress = () => {
-    this.props.navigation.navigate(RouteNames.SlotEdit)
-  }
-  onSubscriptionsPress = () => {
-    this.props.navigation.navigate(RouteNames.MyProfile, {
-      initialRouteName: TabRoutes.Subscriptions
-    })
-  }
+
   renderUser = () => {
     const {userData} = this.props;
     return (
@@ -71,37 +62,24 @@ class Activity extends React.Component {
     )
   }
 
-  renderInfoButtonRow = () => {
+  renderActivityCard = () => {
     return (
-      <View style={styles.buttonGroup}>
-        <View style={styles.button}>
-          <SelectableButton
-            onPress={this.onPackagesPress}
-            selected={true}
-            textContent={strings.PACKAGES}
-            textStyle={styles.buttonText}/>
-        </View>
-        <View style={styles.button}>
-          <SelectableButton
-            onPress={this.onSlotsPress}
-            selected={true}
-            textContent={strings.SLOTS}
-            textStyle={styles.buttonText}/>
-        </View>
-        <View style={styles.button}>
-          <SelectableButton
-            onPress={this.onSubscriptionsPress}
-            selected={true}
-            textContent={strings.SUBSCRIPTIONS}
-            textStyle={styles.buttonText}/>
-        </View>
+      <View style={styles.cardContainer}>
+        <ActivityComponent time={'12:30 PM'} displayName={'Henlo boye'} day={'Monday'} type={'Session'}/>
       </View>
     )
   }
 
-  // renderActivityCard = (data)={
-  //
-  // }
+  renderActivityList = () => {
+    return (
+      <View style={styles.listContainer}>
+        <FlatList
+          data={[1,2,3,4]}
+          renderItem={({item})=>this.renderActivityCard(item)}
+        />
+      </View>
+    )
+  }
 
   render() {
     return (
@@ -109,7 +87,10 @@ class Activity extends React.Component {
         colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
         style={styles.container}>
         {this.renderUser()}
-        {/*{this.renderInfoButtonRow()}*/}
+        <View style={[styles.titleContainer,{ width:'100%', marginTop:spacing.medium_lg}]}>
+          <Text style={styles.title}>Today</Text>
+        </View>
+        {this.renderActivityList()}
       </LinearGradient>
     );
   }
@@ -120,8 +101,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    paddingLeft: spacing.large,
-    paddingRight: spacing.large,
+    paddingLeft: spacing.medium_lg,
+    paddingRight: spacing.medium_lg,
     paddingTop: spacing.medium_lg,
     paddingBottom: spacing.medium,
     alignItems: "center",
@@ -129,13 +110,12 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     paddingLeft: spacing.medium,
-    // width:'100%',
     justifyContent: 'space-around',
   },
   title: {
     color: 'white',
     fontSize: fontSizes.h0,
-    fontFamily: fonts.PoppinsRegular
+    fontFamily: fonts.PoppinsRegular,
   },
   displayName: {
     color: 'white',
@@ -147,7 +127,12 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.h2,
     fontFamily: fonts.MontserratMedium,
   },
-  listContainer: {},
+  listContainer: {
+    width:'100%'
+  },
+  cardContainer:{
+    marginBottom:spacing.small
+  },
   userContainer: {
     width: '100%',
     flexDirection: 'row',
@@ -158,18 +143,7 @@ const styles = StyleSheet.create({
     padding: spacing.small,
     justifyContent: 'center'
   },
-  buttonGroup: {
-    flexDirection: 'row',
-    padding: spacing.small,
-    width: '100%',
-    marginTop: spacing.medium_sm
-  },
-  button: {
-    marginRight: spacing.medium_sm
-  },
-  buttonText: {
-    fontSize: fontSizes.h3
-  }
+
 });
 
 const mapStateToProps = (state) => ({
