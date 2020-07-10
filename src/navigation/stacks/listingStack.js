@@ -10,6 +10,7 @@ import UserListing from "../../screens/App/UserListing";
 import openDrawerButton from "../openDrawerButton";
 import store from "../../store/configureStore";
 import {userTypes} from "../../constants/appConstants";
+import Payment from "../../screens/App/Payment";
 
 const listing = (props) => {
   const userData = store.getState().user.userData;
@@ -22,12 +23,12 @@ const listing = (props) => {
         name={RouteNames.UserListing}
         component={UserListing}
         options={{
-          title:listingTitle,
+          title: listingTitle,
           headerTintColor: appTheme.brightContent,
           headerStyle: {
             backgroundColor: appTheme.darkBackground,
           },
-          headerTitleStyle:{
+          headerTitleStyle: {
             fontFamily: fonts.PoppinsRegular
           },
           headerLeft: openDrawerButton
@@ -42,7 +43,18 @@ const listing = (props) => {
                       headerStyle: {
                         backgroundColor: appTheme.darkBackground,
                       },
-                      headerTitleStyle:{
+                      headerTitleStyle: {
+                        fontFamily: fonts.PoppinsRegular
+                      },
+                    }}/>
+      <Stack.Screen name={RouteNames.Payment} component={Payment}
+                    options={{
+                      title: 'Complete Payment',
+                      headerTintColor: appTheme.brightContent,
+                      headerStyle: {
+                        backgroundColor: appTheme.darkBackground,
+                      },
+                      headerTitleStyle: {
                         fontFamily: fonts.PoppinsRegular
                       },
                     }}/>

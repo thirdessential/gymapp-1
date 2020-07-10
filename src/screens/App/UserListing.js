@@ -4,32 +4,26 @@
 import React, {Component} from 'react';
 import {
   View,
-  TouchableOpacity,
   StyleSheet,
   FlatList,
-  Image,
   StatusBar,
   ActivityIndicator,
-  LayoutAnimation, Text, TouchableHighlight
+  LayoutAnimation,
 } from 'react-native'
 import {connect} from "react-redux";
-import RazorpayCheckout from 'react-native-razorpay';
 
 import TrainerThumb from '../../components/Trainer/TrainerThumb';
-import colors, {appTheme, bluePallet, darkPallet} from "../../constants/colors";
+import  {appTheme, darkPallet} from "../../constants/colors";
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
-import {appName, INITIAL_PAGE, paymentKey, userTypes} from "../../constants/appConstants";
+import {defaultDP, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
 import UserThumb from "../../components/Trainer/UserThumb";
 import {spacing} from "../../constants/dimension";
-import {requestCameraAndAudioPermission} from "../../utils/permission";
-import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
-import strings from "../../constants/strings";
+import {generateTrainerHits, generateUserHits} from "../../utils/utils";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import LinearGradient from "react-native-linear-gradient";
-
-const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
+import {setAvailable} from "../../API";
 
 class UserListing extends Component {
 
@@ -38,6 +32,7 @@ class UserListing extends Component {
   }
 
   componentDidMount() {
+    setAvailable();
     const {updateUserData, navigation} = this.props;
     updateUserData();
 
@@ -49,7 +44,7 @@ class UserListing extends Component {
   updateUsers = async () => {
     const {updateUsersList} = this.props;
     const {nextPage} = this.state;
-   if (!!nextPage)
+    if (!!nextPage)
       this.setState({nextPage: await updateUsersList(nextPage)});
   }
 
@@ -111,45 +106,13 @@ class UserListing extends Component {
 
   renderHorizontalSeparatorView = () => <View style={styles.itemSeparatorHorizontal}/>
 
-  testPayment = () => {
-    var options = {
-      description: 'Predator build plan',
-      image: 'https://about.wodup.com/wp-content/uploads/2018/11/a84f9b3b-a46c-4a3c-9ec9-ba87b216548a-300x300.jpg',
-      currency: 'INR',
-      key: paymentKey,
-      amount: '5000',
-      name: appName,
-      order_id: 'order_FBGgv5CRazLlgM',
-      prefill: {
-        email: 'yatan.vesh@gmail.com',
-        contact: '',
-        name: 'Yatan vesh'
-      },
-      theme: {color: appTheme.background, backgroundColor: 'red'}
-    }
-
-    RazorpayCheckout.open(options).then((data) => {
-      // handle success
-      alert(`Success: ${data.razorpay_payment_id}`);
-    }).catch((error) => {
-      // handle failure
-      alert(`Error: ${error.code} | ${error.description}`);
-    });
-
-  }
-
-
   render() {
     const {userList} = this.props;
     return (<>
-        <StatusBar backgroundColor={appTheme.darkBackground}/>
+        <StatusBar backgroundColor={appTheme.lightBackground}/>
         <LinearGradient
           colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
           style={styles.listContainer}>
-          {/*<TouchableHighlight onPress={this.testPayment}>*/}
-          {/*  <Text style={styles.title}>Pay</Text>*/}
-          {/*</TouchableHighlight>*/}
-
           <FlatList
             showsVerticalScrollIndicator={false}
             style={styles.container}

@@ -15,11 +15,11 @@ const authStack = ({navigationRef}) => {
       <Stack.Navigator screenOptions={{
         headerShown: false
       }}>
-        <Stack.Screen name={RouteNames.ChooseUserType} component={ChooseUserType} />
         <Stack.Screen name={RouteNames.Login} component={Login} options={{title: ''}}/>
         <Stack.Screen name={RouteNames.Signup} component={Signup} options={{title: 'Sign up'}}/>
         <Stack.Screen name="signInWithRegisteredEmail" component={SignInWithRegisteredEmail}
                       options={{title: 'Sign in'}}/>
+        <Stack.Screen name={RouteNames.ChooseUserType} component={ChooseUserType}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

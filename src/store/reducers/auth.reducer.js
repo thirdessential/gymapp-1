@@ -6,8 +6,8 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SET_AUTHENTICATED:
       return updateObject(state, action.payload);
-    case actionTypes.RESET_AUTH:
-      return initialState;
+    case actionTypes.SET_NEW_USER:
+      return updateObject(state, action.payload);
     default:
       return state;
   }

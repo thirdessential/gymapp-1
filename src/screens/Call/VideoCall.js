@@ -26,7 +26,8 @@ import {spacing} from "../../constants/dimension";
 import Avatar from "../../components/Avatar";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import CallBackground from "../../../assets/images/callBackground.png"; //Set defaults for Stream
+import CallBackground from "../../../assets/images/callBackground.png";
+import {setAvailable, setBusy} from "../../API"; //Set defaults for Stream
 
 let LocalView = RtcLocalView.SurfaceView;
 let RemoteView = RtcRemoteView.SurfaceView;
@@ -53,20 +54,6 @@ class VideoCall extends Component {
       appState: 'active',
       initiating: initiating,
     };
-    // const config = {                            //Setting config of the app
-    //   appid: this.state.appid,                  //App ID
-    //   channelProfile: 0,                        //Set channel profile as 0 for RTC
-    //   videoEncoderConfig: {                     //Set Video feed encoder settings
-    //     width: videoConfig.width,
-    //     height: videoConfig.height,
-    //     bitrate: videoConfig.bitrate,
-    //     frameRate: videoConfig.FPS,
-    //     orientationMode: Adaptative,
-    //   },
-    //   audioProfile: AudioProfileDefault,
-    //   audioScenario: AudioScenarioDefault,
-    // };
-    // RtcEngine.init(config);                     //Initialize the RTC engine
   }
 
   handleCallTimeout = async () => {
@@ -83,6 +70,8 @@ class VideoCall extends Component {
 
   componentDidMount() {
     AndroidPip.enableAutoPipSwitch();
+    this.callTimeouter = setTimeout(()=>this.handleCallTimeout(), callTimeout);
+
     AppState.addEventListener("change", this._handleAppStateChange);
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', function () {
       AndroidPip.enterPictureInPictureMode();
@@ -111,7 +100,7 @@ class VideoCall extends Component {
 
       engine.addListener('JoinChannelSuccess', (data) => {          //If Local user joins RTC channel
         self.setState({joinSucceed: true});                       //Set state variable to true
-        self.callTimeouter = setTimeout(self.handleCallTimeout, callTimeout);
+        setBusy();
       });
       engine.joinChannel(null, self.state.channelName, null, 0);  //Join Channel using null token and channel name
     }
@@ -120,9 +109,9 @@ class VideoCall extends Component {
   }
 
   componentWillUnmount() {
+    setAvailable();
     this.backHandler.remove();
-    if (this.callTimeouter)
-      clearTimeout(this.callTimeouter);
+    clearTimeout(this.callTimeouter);
     AndroidPip.disableAutoPipSwitch();
     AppState.removeEventListener("change", this._handleAppStateChange);
   }
@@ -171,6 +160,7 @@ class VideoCall extends Component {
    */
   endCall() {
     engine.leaveChannel();
+    setAvailable();
     this.setState({peerIds: [], joinSucceed: false});
 
     const {navigation} = this.props;

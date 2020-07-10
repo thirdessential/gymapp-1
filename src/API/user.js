@@ -35,7 +35,7 @@ export const updateUserInfo = async (name, bio) => {
 
 export const getMyInfo = async () => {
   try {
-    let response = await axios.get(`/user`);
+    let response = await axios.get(`/user/myInfo`);
     if (validateResponseCode(response.status)) {
       return response.data;
     } else
@@ -88,12 +88,57 @@ export const subscribeToPackage = async (trainerId, packageId, time, days) => {
   }
 }
 
+export const sendPaymentData = async ({razorpay_order_id, razorpay_payment_id, razorpay_signature}) => {
+  try {
+    let response = await axios.put(`/subscription/updateTransaction`, {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature
+    });
+    if (validateResponseCode(response.status)) {
+      return response.success===true;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+
 export const bookAppointment = async (trainerId, day, time) => {
   try {
     let response = await axios.post(`/appointment/${trainerId}/book`, {
-      time,
-      day
+      day,
+      time
     });
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export const myAppointments = async () => {
+  try {
+    let response = await axios.get(`/appointment/myAppointments`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+
+export const recentActivity = async () => {
+  try {
+    let response = await axios.get(`/activity/recent`);
     if (validateResponseCode(response.status)) {
       return response.data;
     } else

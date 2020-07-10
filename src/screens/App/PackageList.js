@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: appTheme.background,
-
   },
   titleContainer: {
     paddingTop: spacing.medium_sm,

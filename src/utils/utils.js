@@ -10,6 +10,7 @@ import {makeCall} from "../API";
 import strings from "../constants/strings";
 import {defaultDP, WEEK_DAYS} from "../constants/appConstants";
 import ImagePicker from "react-native-image-picker";
+import {showError} from "./notification";
 
 export const validateResponseCode = (code) => {
   return Math.floor(code / 100) === 2;
@@ -116,6 +117,11 @@ export const updateObject = (oldObject, updatedValues) => {
 
 export const initialiseVideoCall = async (userId, displayName="Yatan", displayPictureUrl=defaultDP) => {
   let result = await makeCall(userId);
+  if(!result.success){
+    showError(result.message);
+    console.log("TargetBusy");
+    return false;
+  }
   if (!result) {
     console.log("Call initiate error");
     return false;

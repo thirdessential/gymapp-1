@@ -5,23 +5,32 @@ import React, {Component} from 'react';
 import {View, StyleSheet, TouchableOpacity, Text} from 'react-native'
 import {connect} from "react-redux";
 
-import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
-import RouteNames from "../../navigation/RouteNames";
 import {userTypes} from "../../constants/appConstants";
 import {appTheme} from "../../constants/colors";
+import {syncUserType} from "../../API";
+import messaging from "@react-native-firebase/messaging";
+import auth from "@react-native-firebase/auth";
+import {showError} from "../../utils/notification";
 
 class ChooseUserType extends Component {
 
+  syncApi = async (userType) => {
+    const {syncFirebaseAuth} = this.props;
+    let fcmToken = await messaging().getToken();
+    let idToken = await auth().currentUser.getIdToken(true);
+    let response = await syncUserType(idToken, userType);
+    if (response.success) {
+      await syncFirebaseAuth(idToken, fcmToken);
+    } else {
+      showError('Error, try again');
+    }
+  }
   setUser = () => {
-    const {setUserType, navigation} = this.props;
-    setUserType(userTypes.USER);
-    navigation.navigate(RouteNames.Login);
+    this.syncApi(userTypes.USER);
   }
   setTrainer = () => {
-    const {setUserType, navigation} = this.props;
-    setUserType(userTypes.TRAINER);
-    navigation.navigate(RouteNames.Login);
+    this.syncApi(userTypes.TRAINER)
   }
 
   render() {
@@ -74,7 +83,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => ({
-  setUserType: (userType) => dispatch(actionCreators.setUserType(userType))
+  syncFirebaseAuth: (idToken, fcmToken) => dispatch(actionCreators.syncFirebaseAuth(idToken, fcmToken)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChooseUserType);

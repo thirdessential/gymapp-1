@@ -2,13 +2,13 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, StatusBar, Text, LayoutAnimation} from 'react-native'
+import {View, StyleSheet, StatusBar, Text, LayoutAnimation, TouchableOpacity, ActivityIndicator} from 'react-native'
 import {connect} from "react-redux";
 import cuid from 'cuid';
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {appTheme, darkPallet} from "../../constants/colors";
+import colors, {appTheme, darkPallet} from "../../constants/colors";
 import strings from "../../constants/strings";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
@@ -18,26 +18,38 @@ import Slot from "../../components/Slot";
 import {dateToString, findMissingDays, groupBy} from "../../utils/utils";
 import BarButton from "../../components/BarButton";
 import LinearGradient from "react-native-linear-gradient";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import {showSuccess} from "../../utils/notification";
+import {screenHeight} from "../../utils/screenDimensions";
 
 class SlotList extends Component {
 
   state = {
-    slots: []
+    slots: [],
+    submitPending: false,
+    changed: false,
+    settingInitialSlots: true
   }
 
   componentDidMount() {
-    const {navigation, createSlots, slots} = this.props;
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
+    const {navigation} = this.props;
     this.refreshSlots();
     this.unsubscribeFocus = navigation.addListener('focus', e => {
-      this.refreshSlots(); // TODO:Make it fire only for first time
+      if (this.state.slots.length === 0)
+        this.refreshSlots();
     })
+  }
 
-    this.unsubscribeBlur = navigation.addListener('blur', async e => {
-      await createSlots(this.state.slots);
-      this.refreshSlots();
-    });
+  submitSlots = async () => {
+    const {createSlots} = this.props;
+    this.setState({submitPending: true});
+    let result = await createSlots(this.state.slots);
+    this.refreshSlots();
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({changed: false, submitPending: false});
+    if (result)
+      showSuccess(strings.CHANGES_SAVED);
+    //TODO: Error handling
   }
 
   refreshSlots = () => {
@@ -45,8 +57,8 @@ class SlotList extends Component {
     if (slots && slots.length > 0) {
       // const filteredSlots = slots.filter(slot=>slot.subscriptionId===null);
       const localSlots = this.mapSlotsToLocal(slots);
-      this.setState({slots: localSlots});
-    }
+      this.setState({slots: localSlots, settingInitialSlots: false});
+    }else this.setState({settingInitialSlots:false})
   }
 
   mapSlotsToLocal = (slots) => {
@@ -65,12 +77,19 @@ class SlotList extends Component {
 
   componentWillUnmount() {
     this.unsubscribeFocus();
-    this.unsubscribeBlur();
+  }
+
+  setChangedDirty = () => {
+    if (this.state.changed === false) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      this.setState({changed: true});
+    }
   }
 
   updateSlot = (slotId, updatedSlot) => {
     let slots = this.state.slots.map(slot => slot._id === slotId ? updatedSlot : slot);
     this.setState({slots});
+    this.setChangedDirty();
   }
   getSlot = (slotId) => {
     const filteredSlots = this.state.slots.filter(slot => slot._id === slotId);
@@ -82,23 +101,26 @@ class SlotList extends Component {
     const slot = this.getSlot(slotId);
     slot.time = dateToString(time);
     this.updateSlot(slotId, slot);
+    this.setChangedDirty();
   }
   handleDurationChange = (slotId, duration) => {
     const slot = this.getSlot(slotId);
     slot.duration = duration;
     this.updateSlot(slotId, slot);
+    this.setChangedDirty();
   }
   handleDaysChange = (slotId, days) => {
     const slot = this.getSlot(slotId);
     slot.days = days;
     this.updateSlot(slotId, slot);
+    this.setChangedDirty();
   }
   deleteSlot = (slotId) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const filteredSlots = this.state.slots.filter(slot => slot._id !== slotId);
     this.setState({slots: filteredSlots});
     this.props.createSlots(filteredSlots);
-
+    this.setChangedDirty();
   }
   createSlot = () => {
     const slot = {
@@ -111,6 +133,7 @@ class SlotList extends Component {
     const slots = [...this.state.slots];
     slots.push(slot);
     this.setState({slots});
+    this.setChangedDirty();
   }
 
   renderSlots = () => {
@@ -129,21 +152,53 @@ class SlotList extends Component {
       </View>
     ))
   }
+  fab = () => {
+    if (!this.state.changed) return null;
+    return (
+      <TouchableOpacity style={[styles.fab, styles.fabPosition]} onPress={this.submitSlots}>
+        {
+          this.state.submitPending && (
+            <ActivityIndicator size={28} color={'white'}/>
+          )
+        }
+        {
+          !this.state.submitPending && (
+            <FontAwesome
+              name={'check'}
+              color={'white'}
+              size={22}
+            />
+          )
+        }
+      </TouchableOpacity>
+    );
+  };
 
   render() {
     return (
       <LinearGradient
         colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
         style={styles.container}>
-      <KeyboardAwareScrollView style={styles.container}>
-        <StatusBar backgroundColor={appTheme.darkBackground}/>
-        <View style={styles.listContainer}>
-          <this.renderSlots/>
-        </View>
-        <View style={styles.addButtonContainer}>
-          <BarButton onPress={this.createSlot}/>
-        </View>
-      </KeyboardAwareScrollView>
+        {
+          this.state.settingInitialSlots &&
+          <ActivityIndicator style={{position: 'absolute'}} color={appTheme.brightContent} size={50}/>
+        }
+        {
+          !this.state.settingInitialSlots && (
+            <KeyboardAwareScrollView style={{flex: 1}}>
+              <StatusBar backgroundColor={appTheme.lightBackground}/>
+              <View style={styles.listContainer}>
+                <this.renderSlots/>
+              </View>
+              <View style={styles.addButtonContainer}>
+                <BarButton onPress={this.createSlot}/>
+              </View>
+            </KeyboardAwareScrollView>
+          )
+
+        }
+
+        <this.fab/>
       </LinearGradient>
     );
   }
@@ -152,13 +207,14 @@ class SlotList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: appTheme.background,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   listContainer: {
     justifyContent: 'center',
-    marginTop:spacing.medium_lg,
-    marginLeft: spacing.medium_lg,
-    marginRight: spacing.medium_lg,
+    marginTop: spacing.medium_lg,
+    marginLeft: spacing.medium,
+    marginRight: spacing.medium,
     flex: 1,
   },
   slotContainer: {
@@ -181,10 +237,22 @@ const styles = StyleSheet.create({
   addButtonContainer: {
     paddingTop: spacing.medium,
     paddingBottom: spacing.medium_sm,
-    // backgroundColor: appTheme.background,
     alignItems: 'center',
-
-  }
+  },
+  fab: {
+    height: spacing.space_50,
+    width: spacing.space_50,
+    borderRadius: spacing.thumbnailMini / 2,
+    elevation: 4,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.acceptGreen,
+  },
+  fabPosition: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+  },
 });
 
 const mapStateToProps = (state) => ({

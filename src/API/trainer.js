@@ -91,7 +91,7 @@ export const syncSlots = async (slotArray) => {
 
 export const getMySubscriptions = async () => {
   try {
-    let response = await axios.get(`/trainer/mySubscriptions`);
+    let response = await axios.get(`/user/mySubscriptions`);
     if (validateResponseCode(response.status)) {
       return response.data;
     } else

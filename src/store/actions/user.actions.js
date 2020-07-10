@@ -82,7 +82,7 @@ export const subscribePackage = (trainerId, packageId, time, days) => {
     try {
       let result = await API.subscribeToPackage(trainerId, packageId, time, days);
       dispatch(setUser(trainerId));
-      return !!result.success;
+      return result;
     } catch (error) {
       console.log("Subscription failed", error);
       return false;

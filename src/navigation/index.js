@@ -15,6 +15,7 @@ import {appTheme} from "../constants/colors";
 import {navigationRef} from './RootNavigation';
 
 import Stack from "./stacks/stack";
+import NewUser from './stacks/newUserStack';
 import VideoTest from './stacks/videoTestStack';
 import Splash from './stacks/splashStack';
 import InitialLogin from './stacks/initialLoginStack';
@@ -32,7 +33,7 @@ configureFCMNotification();
 const Drawer = createDrawerNavigator();
 const coreAppTheme = {
   colors: {
-    primary: appTheme.darkBackground,
+    primary: appTheme.lightBackground,
   },
 };
 
@@ -43,7 +44,6 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    // this.props.resetUser();this.props.resetAuth()
     const {setAuthenticated, setIncomingCall} = this.props;
     setAuthenticated(false); // TODO: Remove this line and fix auth blacklisting
     this.authSubscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
@@ -131,7 +131,7 @@ class App extends React.Component {
                                                              userType={userType}
                                                              userData={userData}/>}
         drawerStyle={{
-          width: 240
+          width: 240,
         }}
       >
         <Drawer.Screen name="Home" component={appTabNavigator} options={{
@@ -162,7 +162,7 @@ class App extends React.Component {
 
   render() {
     const {loading, videoTestMode} = this.state;
-    const {authenticated, initialLogin, callData, callActive, userType, userData} = this.props;
+    const {authenticated, initialLogin, callData, callActive, userType, userData, newUser} = this.props;
 
     if (loading)
       return <Splash/>
@@ -172,6 +172,8 @@ class App extends React.Component {
       return <Calling navigationRef={navigationRef}/>
     }
     if (authenticated) {
+      if(newUser)
+        return <NewUser navigationRef={navigationRef}/>
       if (initialLogin)
         return <InitialLogin navigationRef={navigationRef}/>
       else
@@ -188,12 +190,12 @@ const mapStateToProps = (state) => ({
   callActive: state.call.callActive,
   callData: state.call.callData,
   userType: state.user.userType,
-  userData: state.user.userData
+  userData: state.user.userData,
+  newUser:state.auth.newUser
 });
 
 const mapDispatchToProps = (dispatch) => ({
   resetAuth: () => dispatch(actionCreators.resetAuth()),
-  resetUser: () => dispatch(actionCreators.resetUser()),
   setAuthenticated: (value) => dispatch(actionCreators.setAuthenticated(value)),
   syncFirebaseAuth: (idToken, fcmToken) => dispatch(actionCreators.syncFirebaseAuth(idToken, fcmToken)),
   setIncomingCall: (callData, inAppCall) => dispatch(actionCreators.setIncomingCall(callData, inAppCall))
