@@ -4,12 +4,12 @@ import PostCard from "./PostCard";
 import {spacing} from "../../constants/dimension";
 
 // Demo Data
+import Logo from '../../../assets/images/logo.png';
 
 const data = [
   {
     id: 1,
-    profilePicUri:
-      "https://www.usnews.com/dims4/USNEWS/410224b/2147483647/thumbnail/970x647/quality/85/?url=http%3A%2F%2Fmedia.beam.usnews.com%2Fd1%2Fd8%2F8501ba714a21aed9a7327e02ade1%2F180515-10thingselonmusk-editorial.jpg",
+    profilePicUri:Logo,
     title: "GymAdda",
     bio: "Indore",
     discription:
@@ -22,8 +22,8 @@ const data = [
   },
   {
     id: 2,
-    profilePicUri:
-      "https://res.cloudinary.com/demo/image/facebook/65646572251.jpg",
+    profilePicUri:Logo,
+
     title: "GymAdda",
     bio: "Indore",
     discription:
@@ -38,8 +38,8 @@ const data = [
   },
   {
     id: 3,
-    profilePicUri:
-      "https://res.cloudinary.com/demo/image/facebook/65646572251.jpg",
+    profilePicUri:Logo,
+
     title: "GymAdda",
     bio: "Indore",
     discription:
@@ -52,9 +52,9 @@ const data = [
   },
 {
     id: 4,
-    profilePicUri:
-      "https://res.cloudinary.com/demo/image/facebook/65646572251.jpg",
-    title: "GymAdda",
+  profilePicUri:Logo,
+
+  title: "GymAdda",
     bio: "Indore",
     discription:
       ' Get a plan and then grab a pen. People who have a process goal, such as a target number of weekly workouts, stick to their routines with significantly more success than those who focus on a big-picture outcome—such as losing 20 pounds—or go along without any specific goal, a study in the International Journal of Sport and Exercise Psychology found; they also feel less stressed about squeezing in exercise. Next, schedule your gym time just as you would a business meeting. "That way, when someone asks if you can meet at 5, you can honestly say, \'Sorry, I have an appointment; how about 4 instead?\'" ',

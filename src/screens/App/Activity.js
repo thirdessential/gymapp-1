@@ -12,8 +12,22 @@ import {getJoinDurationString, toTitleCase} from "../../utils/utils";
 import RouteNames from "../../navigation/RouteNames";
 import {defaultDP} from "../../constants/appConstants";
 import TimelineTabview from "../../components/TimelineTabview";
+import * as actionCreators from "../../store/actions";
 
 class Activity extends React.Component {
+
+  componentDidMount() {
+    const {navigation, getActivities, getAppointments} = this.props;
+
+    this.unsubscribeFocus = navigation.addListener('focus', e => {
+      getAppointments();
+      getActivities();
+    })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeFocus();
+  }
 
   renderUser = () => {
     const {userData} = this.props;
@@ -110,7 +124,9 @@ const mapStateToProps = (state) => ({
   activities: state.user.activities
 });
 
-const mapDispatchToProps = (dispatch) => ({});
-
+const mapDispatchToProps = (dispatch) => ({
+  getActivities: () => dispatch(actionCreators.getActivities()),
+  getAppointments: () => dispatch(actionCreators.getAppointments())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activity);

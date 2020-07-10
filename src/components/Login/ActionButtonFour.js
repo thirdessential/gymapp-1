@@ -1,5 +1,6 @@
 import React from 'react';
 import {TouchableOpacity, Text, StyleSheet,View} from 'react-native';
+import {appTheme} from "../../constants/colors";
 
 const ActionButtonFour = (props) => {
   return (
@@ -25,7 +26,7 @@ const styles = StyleSheet.create(
       textAlign:'center'
     },
     label: {
-      color: 'white',
+      color: appTheme.brightContent,
       fontSize: 22,
 
     }

@@ -14,16 +14,15 @@ export default class PostCard extends Component {
         <View style={styles.topRow}>
           <View style={styles.profilePicContainer}>
             <Image
-              source={{
-                uri: this.props.profilePicUri,
-              }}
+              source={ this.props.profilePicUri}
               style={styles.profilepic}
+              resizeMode={'contain'}
             />
           </View>
           <View style={{flex: 6, paddingLeft: spacing.medium_sm}}>
             <View style={styles.titileContainer}>
               <Text numberOfLines={1} style={styles.title}>
-                {this.props.title}
+                {/*{this.props.title}*/}
               </Text>
             </View>
             <View style={{flex: 1}}>
@@ -31,7 +30,7 @@ export default class PostCard extends Component {
                 numberOfLines={1}
                 style={{color: appTheme.grey, fontSize: size.h1}}
               >
-                {this.props.bio}
+                {/*{this.props.bio}*/}
               </Text>
             </View>
           </View>
@@ -96,9 +95,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   profilepic: {
-    height: spacing.thumbnailMiniPlus,
-    width: spacing.thumbnailMiniPlus,
-    borderRadius: spacing.thumbnail,
+    height: spacing.thumbnailMiniPlus+10,
+    width: spacing.thumbnailMiniPlus+10,
+    borderRadius: 8,
   },
   titileContainer: {
     flex: 1,
