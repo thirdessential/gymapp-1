@@ -16,10 +16,17 @@ import {drawerLabelStyle} from "../constants/styles";
 
 function CustomDrawerContent(props) {
   const {userData, userType} = props;
-  let {name = '', displayPictureUrl} = userData;
+  let name, displayPictureUrl;
+  if (!userData) {
+    name = 'User';
+    displayPictureUrl = defaultDP;
+  } else {
+    name = userData.name;
+    displayPictureUrl = userData.displayPictureUrl;
+  }
   if (!displayPictureUrl) displayPictureUrl = defaultDP
   return (
-    <DrawerContentScrollView {...props} style={{backgroundColor: appTheme.darkBackground, marginTop:-spacing.small}}>
+    <DrawerContentScrollView {...props} style={{backgroundColor: appTheme.darkBackground, marginTop: -spacing.small}}>
       <LinearGradient
         colors={[darkPallet.lightBlue, darkPallet.extraDarkBlue]}
       >
