@@ -11,7 +11,9 @@ export const userState = {
   userId: '',
   initialLogin: true,
   userName: '',
-  userData: null
+  userData: null,
+  myAppointments:[],
+  activities:{}
 };
 
 export const callState = {

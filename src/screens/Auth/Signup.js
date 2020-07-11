@@ -1,5 +1,17 @@
 import React, { Component } from 'react';
-import { AlertIOS, ImageBackground, Keyboard, Platform, StatusBar, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import {
+  AlertIOS,
+  Image,
+  ImageBackground,
+  Keyboard,
+  Platform,
+  StatusBar,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { showMessage } from "react-native-flash-message";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -14,6 +26,10 @@ import PasswordElementThree from '../../components/Login/PasswordElementThree';
 import strings from '../../constants/strings';
 import EmailValidation from '../../utils/validation/Email';
 import PasswordValidation from '../../utils/validation/Password';
+import {appTheme} from "../../constants/colors";
+import Logo from "../../../assets/images/logo.png";
+import {screenWidth} from "../../utils/screenDimensions";
+import LinearGradient from "react-native-linear-gradient";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -97,20 +113,24 @@ setPassword=(text)=>{
     return (
       <KeyboardAwareScrollView enableOnAndroid={true} keyboardShouldPersistTaps={'handled'} contentContainerStyle={styles.contentContainer}>
         <StatusBar backgroundColor='black' />
-        <ImageBackground source={bgImage} resizeMode="cover" blurRadius={2} style={styles.backgroundImage}>
+        {/*<ImageBackground source={bgImage} resizeMode="cover" blurRadius={2} style={styles.backgroundImage}>*/}
+        <LinearGradient
+          colors={[appTheme.background, appTheme.darkBackground]}
+          style={styles.backgroundImage}>
+          <Loader
+            loading={this.state.loading}/>
+          <View style={{paddingTop:20, marginBottom:40}}><Image  source={Logo} resizeMode={'contain'} style={{width:screenWidth/1.6,height:100}}/></View>
           <Loader
             loading={this.state.loading} />
           <View style={styles.container}>
-            <View style={styles.header}>
-              <Text style={styles.headerText}>Get Started</Text>
-            </View>
+
             <View style={styles.subContainer}>
               <View style={styles.formElements}>
-                <FormElementThree placeholder="  Email" onChangeText={(text)=>this.setEmail(text)} />
+                <FormElementThree placeholder="Email" onChangeText={(text)=>this.setEmail(text)} />
                 {!!this.state.emailError && (
                   <Text style={styles.formError}>{this.state.emailError}</Text>
                 )}
-                <PasswordElementThree placeholder="  Password" onChangeText={(text) => this.setPassword(text)} />
+                <PasswordElementThree placeholder="Password" onChangeText={(text) => this.setPassword(text)} />
                 {!!this.state.passwordError && (
                   <Text style={styles.formError}>{this.state.passwordError}</Text>
                 )}
@@ -152,7 +172,7 @@ setPassword=(text)=>{
               </View>
             </View>
           </View>
-        </ImageBackground>
+        </LinearGradient>
       </KeyboardAwareScrollView>
     );
   }
@@ -199,7 +219,7 @@ const styles = StyleSheet.create(
       width: '100%'
     },
     formElementsFooter: {
-      marginTop: 80,
+      marginTop: 30,
       width: "100%",
       alignItems: 'center'
     },

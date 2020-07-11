@@ -16,7 +16,7 @@ import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
 import {imageTypes, userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
-import RouteNames from "../../navigation/RouteNames";
+import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import {generateTrainerHits, generateUserHits, initialiseVideoCall, pickImage} from "../../utils/utils";
 import {spacing} from "../../constants/dimension";
 import TrainerInfo from "../../components/Trainer/TrainerInfoTabView";
@@ -24,6 +24,9 @@ import * as actionCreators from "../../store/actions";
 import {requestCameraAndAudioPermission} from "../../utils/permission";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {uploadImage} from "../../API";
+import PostCardList from "../../components/Profile/PostCardList";
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -90,7 +93,7 @@ class MyProfile extends Component {
     </TouchableOpacity>
   )
 
-  openProfile = (userId)=>{
+  openProfile = (userId) => {
     const {navigation} = this.props;
     navigation.navigate(RouteNames.Profile, {
       userId: userId
@@ -98,13 +101,17 @@ class MyProfile extends Component {
   }
 
   renderContent = () => {
+    const {route} = this.props;
+    let initialRouteName = TabRoutes.Packages;
+    if (route.params && route.params.initialRouteName)
+      initialRouteName = route.params.initialRouteName;
     const user = this.props.userData;
 
-    let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots} = user;
+    let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots,activeSubscriptions} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const hits = userType === userTypes.TRAINER ?
       generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length}) :
-      generateUserHits({});
+      generateUserHits({subscription:activeSubscriptions});
     return (
       <>
         <ProfileOverview
@@ -120,16 +127,25 @@ class MyProfile extends Component {
         />
         {
           userType === userTypes.TRAINER && (
-              <TrainerInfo
-                packages={packages}
-                slots={slots}
-                enrollCallback={this.enrollClicked}
-                subscriptions={this.props.subscriptions}
-                onProfilePress={this.openProfile}
-                callCallback={this.callClicked}
-                // bookCallback={()=>}
-              />
+            <TrainerInfo
+              packages={packages}
+              slots={slots}
+              enrollCallback={this.enrollClicked}
+              subscriptions={this.props.subscriptions}
+              onProfilePress={this.openProfile}
+              callCallback={this.callClicked}
+              initialRouteName={initialRouteName}
+            />
           )
+        }
+        {
+          userType !== userTypes.TRAINER &&
+          <View style={{margin: 20}}>
+            <View style={styles.sectionTitleContainer}>
+              <Text style={styles.sectionTitle}>{strings.POSTS}</Text>
+            </View>
+            <PostCardList/>
+          </View>
         }
       </>
     )
@@ -166,8 +182,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: appTheme.background,
   },
-  contentContainer: {
-  },
+  contentContainer: {},
   titleStyle: {
     color: 'white',
     fontWeight: 'bold',
@@ -186,7 +201,16 @@ const styles = StyleSheet.create({
   coverText: {
     color: 'white',
     marginLeft: spacing.medium_sm
-  }
+  },
+  sectionTitleContainer: {
+    // marginTop: spacing.medium_lg,
+    marginBottom: spacing.medium
+  },
+  sectionTitle: {
+    color: 'white',
+    fontSize: fontSizes.h1,
+    fontFamily: fonts.MontserratMedium
+  },
 });
 
 const mapStateToProps = (state) => ({

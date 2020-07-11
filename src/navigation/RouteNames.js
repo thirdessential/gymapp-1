@@ -21,6 +21,8 @@ const RouteNames = {
   Payment:'Payment',
   Activity:'Activity',
 
+  ActivityTab:'ActivityTab',
+
   Login:'Login',
   Signup:'Signup'
 };
@@ -30,7 +32,9 @@ export const TabRoutes = {
   Slots: 'Slots',
 
   Posts: 'Posts',
-  Subscriptions: 'Subscriptions'
+  Subscriptions: 'Subscriptions',
+  Today:'Today',
+  Tomorrow:'Tomorrow'
 }
 
 export default RouteNames;

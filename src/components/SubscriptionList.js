@@ -13,32 +13,27 @@ import ClientCard from "./ClientCard";
 import {defaultDP} from "../constants/appConstants";
 
 const subscriptionList = (props) => {
-  const RenderClients = () => {
-    return props.subscriptions.map((subscription, index) => {
-      const user = subscription.subscribedBy;
-      if(!user)return null;
-      let {name, city, _id, displayPictureUrl} = user;
-      if(!name)name = 'User';
-      if (!displayPictureUrl) displayPictureUrl = defaultDP;
-      const {totalSessions, heldSessions} = subscription;
-      const sessions = `${heldSessions}/${totalSessions}`;
-      return (
-        <TouchableOpacity activeOpacity={0.7} onPress={() => props.onProfilePress(_id)} key={index}
-                          style={styles.appointmentContainer}>
-          <ClientCard
-            callCallback={() => props.callCallback(_id)}
-            displayName={name}
-            location={city}
-            imageUrl={displayPictureUrl}
-            sessions={sessions}/>
-        </TouchableOpacity>
-      )
-    })
-  }
-
-  return (
-    <RenderClients/>
-  );
+  if(!props.subscriptions)return null;
+  return  props.subscriptions.map((subscription, index) => {
+    const user = subscription.subscribedBy;
+    if(!user)return null;
+    let {name, city, _id, displayPictureUrl} = user;
+    if(!name)name = 'User';
+    if (!displayPictureUrl) displayPictureUrl = defaultDP;
+    const {totalSessions, heldSessions} = subscription;
+    const sessions = `${heldSessions}/${totalSessions}`;
+    return (
+      <TouchableOpacity activeOpacity={0.7} onPress={() => props.onProfilePress(_id)} key={index}
+                        style={styles.appointmentContainer}>
+        <ClientCard
+          callCallback={() => props.callCallback(_id)}
+          displayName={name}
+          location={city}
+          imageUrl={displayPictureUrl}
+          sessions={sessions}/>
+      </TouchableOpacity>
+    )
+  })
 }
 
 const styles = StyleSheet.create({

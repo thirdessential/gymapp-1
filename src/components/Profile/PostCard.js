@@ -1,10 +1,11 @@
-import React, { Component } from "react";
-import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
-import { spacing } from "../../constants/dimension";
+import React, {Component} from "react";
+import {Text, StyleSheet, View, Image, TouchableOpacity} from "react-native";
+import {spacing} from "../../constants/dimension";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import HitCounter from "./HitCounter";
 import size from "../../constants/fontSizes";
-import colors from "../../constants/colors";
+import colors, {appTheme} from "../../constants/colors";
+import fonts from "../../constants/fonts";
 
 export default class PostCard extends Component {
   render() {
@@ -13,91 +14,61 @@ export default class PostCard extends Component {
         <View style={styles.topRow}>
           <View style={styles.profilePicContainer}>
             <Image
-              source={{
-                uri: this.props.profilePicUri,
-              }}
+              source={ this.props.profilePicUri}
               style={styles.profilepic}
+              resizeMode={'contain'}
             />
           </View>
-          <View style={{ flex: 6 }}>
+          <View style={{flex: 6, paddingLeft: spacing.medium_sm}}>
             <View style={styles.titileContainer}>
               <Text numberOfLines={1} style={styles.title}>
-                {this.props.title}
+                {/*{this.props.title}*/}
               </Text>
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={{flex: 1}}>
               <Text
                 numberOfLines={1}
-                style={{ color: "#000", fontSize: size.h1 }}
+                style={{color: appTheme.grey, fontSize: size.h1}}
               >
-                {this.props.bio}
+                {/*{this.props.bio}*/}
               </Text>
             </View>
           </View>
-          <View style={styles.editIcon}>
-            <TouchableOpacity>
-              <FontAwesome name="ellipsis-v" size={spacing.medium_lg} />
-            </TouchableOpacity>
-          </View>
+          {/*<View style={styles.editIcon}>*/}
+          {/*  <TouchableOpacity>*/}
+          {/*    <FontAwesome color={'white'} name="ellipsis-v" size={spacing.medium_lg}/>*/}
+          {/*  </TouchableOpacity>*/}
+          {/*</View>*/}
         </View>
 
         <View style={styles.desrepContainer}>
           <Text
-            numberOfLines={4}
-            style={{ fontSize: size.h1, textAlign: "justify" }}
+            // numberOfLines={4}
+            style={{fontSize: size.h2, color: 'white', textAlign: "justify"}}
           >
             {this.props.discription}
           </Text>
         </View>
-
-        {/* for Post Imagess */}
-
-        <View>
-          <Image
-            source={{ uri: this.props.postPicUri }}
-            style={styles.postImage}
-          />
-        </View>
-
-        {/* HitCounter */}
-
-        <View style={styles.hitCounterContainer}>
-          <HitCounter icon="thumbs-up" iconValue={this.props.like} />
-
-          <HitCounter icon="fire" iconValue={this.props.calorie} />
-
-          <HitCounter icon="comment" iconValue={this.props.comment} />
-
-          <View style={styles.timeStatusContainer}>
-            <Text style={{ fontSize: 18, color: colors.darkGrey }}>
-              {this.props.timeStatus}
-            </Text>
-          </View>
-        </View>
-
-        {/* Cheerful Button */}
-
-        <View style={styles.buttonContainer}>
-          <View style={{ flex: 1 }}></View>
-          <View style={styles.buttonSubContainer}>
-            <View style={{ flex: 1 }}>
-              <TouchableOpacity style={styles.button}>
-                <FontAwesome name="comment" color="#fff" size={spacing.large} />
-
-                <Text style={{ color: "#fff", fontSize: size.h1 }}>Cheer</Text>
-              </TouchableOpacity>
+        {
+          this.props.postPicSrc && (
+            <View>
+              <Image
+                source={this.props.postPicSrc}
+                style={styles.postImage}
+              />
             </View>
-            <View style={{ flex: 1 }}>
-              <TouchableOpacity style={styles.button}>
-                <FontAwesome name="comment" color="#fff" size={spacing.large} />
-
-                <Text style={{ color: "#fff", fontSize: size.h1 }}>
-                  Comment
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
+          )
+        }
+        {/*<View style={styles.hitCounterContainer}>*/}
+        {/*  <HitCounter icon="thumbs-up" iconValue={this.props.like}/>*/}
+        {/*  <HitCounter icon="comment" iconValue={this.props.comment}/>*/}
+        {/**/}
+        {/*  <View style={styles.timeStatusContainer}>*/}
+        {/*    <Text style={{fontSize: 18, color: colors.darkGrey}}>*/}
+        {/*      {this.props.timeStatus}*/}
+        {/*    </Text>*/}
+        {/*  </View>*/}
+        {/*</View>*/}
       </View>
     );
   }
@@ -106,8 +77,11 @@ export default class PostCard extends Component {
 const styles = StyleSheet.create({
   mainContainer: {
     padding: spacing.medium_sm,
-    backgroundColor: "#fff",
+    backgroundColor: appTheme.darkBackground,
     borderRadius: spacing.medium,
+    elevation: 4,
+    paddingLeft: spacing.medium,
+    paddingRight: spacing.medium
   },
   topRow: {
     flex: 1,
@@ -121,21 +95,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   profilepic: {
-    height: spacing.thumbnailMiniPlus,
-    width: spacing.thumbnailMiniPlus,
-    borderRadius: spacing.thumbnail,
+    height: spacing.thumbnailMiniPlus+10,
+    width: spacing.thumbnailMiniPlus+10,
+    borderRadius: 8,
   },
   titileContainer: {
     flex: 1,
 
     justifyContent: "flex-end",
   },
-  title: { color: "#000", fontWeight: "bold", fontSize: spacing.large },
+  title: {
+    color: 'white',
+    fontFamily: fonts.MontserratMedium,
+    fontSize: spacing.large
+  },
   editIcon: {
-    flex: 1,
-
+    // flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    // alignItems: "center",
   },
   desrepContainer: {
     flex: 1,
@@ -158,7 +135,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "flex-end",
   },
-  buttonContainer: { marginTop: spacing.medium_sm, flexDirection: "row" },
+  buttonContainer: {marginTop: spacing.medium_sm, flexDirection: "row"},
   buttonSubContainer: {
     flex: 3,
 

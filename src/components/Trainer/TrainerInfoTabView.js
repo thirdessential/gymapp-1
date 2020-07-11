@@ -32,6 +32,7 @@ const initialLayout = {width: screenWidth};
 
 function TrainerInfo(props) {
   const {packages, enrollCallback, slots, bookCallback, subscriptions, callCallback, onProfilePress, initialRouteName = TabRoutes.Packages} = props;
+
   const [index, setIndex] = React.useState(Object.keys(TabRoutes).indexOf(initialRouteName));
   const routeArray = [
     {key: TabRoutes.Packages, title: 'Packages'},

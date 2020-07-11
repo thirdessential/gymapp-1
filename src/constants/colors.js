@@ -17,6 +17,7 @@ export const darkPallet = {
   extraLightBlue: '#63687b',
   greyBlue: '#686e80',
   hotPink: '#ea8380',
+  hotOrange:'#f86676',
   skyBlue: '#829da8',
   orangeGradient: ['#f86676', '#fbb287'],
   pink: '#DD3180',
@@ -45,7 +46,7 @@ export const getRandomGradient = () => {
 export const appTheme = {
   darkBackground: darkPallet.extraDarkBlue,
   background: darkPallet.darkBlue,
-  brightContent: darkPallet.hotPink,
+  brightContent: darkPallet.hotOrange,
   lightBackground: darkPallet.lightBlue,
   content: darkPallet.extraLightBlue,
   lightContent: darkPallet.skyBlue,

@@ -12,6 +12,7 @@ const strings = {
   ALLOTTED_TO:'Allotted to ',
   NO_SLOTS_AVAILABLE:'No slots available',
   RUNNING_DAYS:'Running Days',
+  NO_ACTIVITY:'No activity found',
   RUPEE: '₹',
   PACKAGE_CREATED:'Package Created',
   FOLLOW: 'Follow',
