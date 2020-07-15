@@ -31,7 +31,6 @@ import HalfRoundedButton from "../Social/HalfRoundedButton";
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
-const NAV_BAR_HEIGHT = HEADER_HEIGHT - STATUS_BAR_HEIGHT;
 const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
 
 class MyProfile extends Component {
@@ -39,7 +38,6 @@ class MyProfile extends Component {
   state = {
     bgImage: getRandomImage(),
     nextPage: INITIAL_PAGE
-
   }
 
   updatePosts = async () => {
@@ -121,7 +119,7 @@ class MyProfile extends Component {
   }
 
   renderContent = () => {
-    const {route, posts} = this.props;
+    const {route, posts, likePost, unlikePost} = this.props;
     let initialRouteName = TabRoutes.Packages;
     if (route.params && route.params.initialRouteName)
       initialRouteName = route.params.initialRouteName;
@@ -170,6 +168,8 @@ class MyProfile extends Component {
                 posts={posts}
                 openPost={this.openPost}
                 updatePosts={this.updatePosts}
+                likePost={likePost}
+                unlikePost={unlikePost}
               />
             </View>
           </View>
@@ -272,7 +272,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions()),
   updateUserData: () => dispatch(actionCreators.updateUserData()),
-  updatePosts: (page) => dispatch(actionCreators.updatePosts(page, true))
+  updatePosts: (page) => dispatch(actionCreators.updatePosts(page, true)),
+  likePost: (postId) => dispatch(actionCreators.likePost(postId)),
+  unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);

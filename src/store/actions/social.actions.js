@@ -60,3 +60,33 @@ export const updatePost = (postId) => {
     }
   };
 };
+
+export const likePost = (postId) => {
+  return async (dispatch, getState) => {
+    try {
+      let post = getState().social.postDetails[postId];
+      post.likes.push({likedBy:getState().user.userId});
+      dispatch(setPost(post));
+      await API.likePost(postId);
+      return true;
+    } catch (error) {
+      console.log("post update failed", error);
+      return null;
+    }
+  };
+};
+
+export const unlikePost = (postId) => {
+  return async (dispatch, getState) => {
+    try {
+      let post = getState().social.postDetails[postId];
+      post.likes.pop();
+      dispatch(setPost(post));
+      await API.unlikePost(postId);
+      return true;
+    } catch (error) {
+      console.log("post update failed", error);
+      return null;
+    }
+  };
+};

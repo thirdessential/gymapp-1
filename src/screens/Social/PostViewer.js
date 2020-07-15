@@ -20,6 +20,7 @@ import fonts from "../../constants/fonts";
 import Post from "../../components/Social/Post";
 import strings from "../../constants/strings";
 import store from "../../store/configureStore";
+import {likePost, unlikePost} from "../../API";
 
 class PostViewer extends Component {
   componentDidMount() {
@@ -54,10 +55,11 @@ class PostViewer extends Component {
           commentCount={post.totalComments}
           createdOn={post.createdOn}
           text={post.textContent}
+          createdBy={post.createdBy.name}
           displayImageUrl={post.createdBy.displayPictureUrl}
           isLiked={() => this.checkLiked(post.likes)}
-          likeCallback={() => {
-          }}
+          likeCallback={() => likePost(post._id)}
+          unlikeCallback={() => unlikePost(post._id)}
           flagCallback={() => {
           }}
           shareCallback={() => {
@@ -68,14 +70,20 @@ class PostViewer extends Component {
   }
 
   renderComment = (comment) => {
+    if (!comment.likes) return null;
+    if (!comment.approved) return null;
     return <Post
+      key={comment._id}
       likeCount={comment.likes.length}
       createdOn={comment.createdOn}
       text={comment.commentText}
       createdBy={comment.commentedBy.name}
       displayImageUrl={comment.commentedBy.displayPictureUrl}
       showComment={false}
-      likeCallback={()=>{}}
+      unlikeCallback={() => {
+      }}
+      likeCallback={() => {
+      }}
     />
   }
   itemSeparator = () => <View style={{marginTop: spacing.medium}}/>
@@ -166,7 +174,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   postContainer: {
-    borderRadius:10
+    borderRadius: 10
   }
 });
 

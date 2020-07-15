@@ -25,11 +25,19 @@ const post = (props) => {
   const {
     commentCount, createdBy, displayImageUrl,
     imageUrl, likeCount, createdOn, text, likeCallback,
+    unlikeCallback,
     flagCallback, shareCallback, showComment = true, isLiked
   } = props;
   const [liked, setLiked] = useState(isLiked);
-  const toggleLike = ()=>{
-    likeCallback();
+  const [localLikeCount, setLocalLikeCount] = useState(likeCount);
+  const toggleLike = () => {
+    if (liked) {
+      unlikeCallback();
+      setLocalLikeCount(localLikeCount - 1);
+    } else {
+      likeCallback();
+      setLocalLikeCount(localLikeCount + 1);
+    }
     setLiked(!liked);
   }
   return (
@@ -54,7 +62,7 @@ const post = (props) => {
       <View style={styles.buttonGroup}>
         <TouchableOpacity onPress={toggleLike} activeOpacity={0.6} style={styles.hitButton}>
           <AntDesign name={'like1'} size={28} color={liked ? appTheme.brightContent : appTheme.grey}/>
-          <Text style={styles.hits}>{likeCount}</Text>
+          <Text style={styles.hits}>{localLikeCount}</Text>
         </TouchableOpacity>
         {
           showComment &&

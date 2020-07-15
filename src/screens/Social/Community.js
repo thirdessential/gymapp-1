@@ -46,13 +46,15 @@ class Community extends Component {
   }
 
   render() {
-    const {posts} = this.props;
+    const {posts,likePost,unlikePost} = this.props;
     return (<View style={styles.container}>
         <StatusBar backgroundColor={appTheme.lightBackground}/>
         <PostList
           posts={posts}
           openPost={this.openPost}
           updatePosts={this.updatePosts}
+          likePost={likePost}
+          unlikePost={unlikePost}
         />
       </View>
     );
@@ -73,7 +75,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updatePosts: (page) => dispatch(actionCreators.updatePosts(page))
+  updatePosts: (page) => dispatch(actionCreators.updatePosts(page)),
+  likePost:(postId)=>dispatch(actionCreators.likePost(postId)),
+  unlikePost:(postId)=>dispatch(actionCreators.unlikePost(postId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Community);
