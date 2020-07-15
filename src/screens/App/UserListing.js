@@ -24,6 +24,7 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import LinearGradient from "react-native-linear-gradient";
 import {setAvailable} from "../../API";
+import {createTextPost, getAllPosts} from "../../API/social";
 
 class UserListing extends Component {
 
@@ -37,7 +38,6 @@ class UserListing extends Component {
     updateUserData();
     getAppointments();
     getActivities();
-
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       this.updateUsers();
     })

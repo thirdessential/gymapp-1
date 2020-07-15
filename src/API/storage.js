@@ -4,7 +4,7 @@ import ImageResizer from "react-native-image-resizer";
 import {dpDimension, imageTypes, rootURL} from "../constants/appConstants";
 import {getOSPath} from "../utils/utils";
 
-const getFileExtension = (path) => path.slice(((path.lastIndexOf(".") - 1) >>> 0) + 2);
+export const getFileExtension = (path) => path.slice(((path.lastIndexOf(".") - 1) >>> 0) + 2);
 
 export const uploadImage = async (path, token, imageType = imageTypes.AVATAR) => {
   try {

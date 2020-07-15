@@ -24,10 +24,8 @@ import {getRandomImage} from "../../constants/images";
 import {spacing} from "../../constants/dimension";
 import {showError, showSuccess} from "../../utils/notification";
 import {bookAppointment} from "../../API";
-import PostCardList from "../../components/Profile/PostCardList";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -164,7 +162,6 @@ class Profile extends Component {
             <View style={styles.sectionTitleContainer}>
               <Text style={styles.sectionTitle}>{strings.POSTS}</Text>
             </View>
-            <PostCardList/>
           </View>
         }
       </View>

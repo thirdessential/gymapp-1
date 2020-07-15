@@ -19,6 +19,7 @@ import ListingStack from './stacks/listingStack';
 import SlotEditStack from "./stacks/SlotEditStack";
 import ScheduleStack from "./stacks/ScheduleStack";
 import ActivityStack from "./stacks/ActivityStack";
+import SocialStack from "./stacks/SocialStack";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -63,6 +64,16 @@ const appTabNavigator = (props) => {
           tabBarIcon: ({focused, color, size}) => {
             let iconName = focused ? 'activity' : 'activity';
             return <View style={{alignItems: 'center'}}><Feather name={iconName} size={20} color={color}/></View>
+          },
+        }}/>
+      <Tab.Screen
+        name={RouteNames.SocialTab}
+        component={SocialStack}
+        options={{
+          title: 'Community',
+          tabBarIcon: ({focused, color, size}) => {
+            let iconName = focused ? 'ios-people' : 'ios-people';
+            return <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>
           },
         }}/>
       <Tab.Screen

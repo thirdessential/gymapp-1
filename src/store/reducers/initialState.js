@@ -2,7 +2,7 @@ import {userTypes} from "../../constants/appConstants";
 
 export const authState = {
   authenticated: false,
-  newUser:false
+  newUser: false
 };
 
 export const userState = {
@@ -12,8 +12,8 @@ export const userState = {
   initialLogin: true,
   userName: '',
   userData: null,
-  myAppointments:[],
-  activities:{}
+  myAppointments: [],
+  activities: {}
 };
 
 export const callState = {
@@ -31,5 +31,11 @@ export const appState = {
 export const trainerState = {
   packages: [],
   slots: [],
-  subscriptions:[]
+  subscriptions: []
+}
+
+export const socialState = {
+  posts: [],
+  postDetails: {},
+  myPosts: []
 }

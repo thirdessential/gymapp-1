@@ -41,3 +41,11 @@ export {
   setBusy,
   setAvailable
 } from './call';
+
+export {
+  createImagePost,
+  createTextPost,
+  listPosts,
+  listMyPosts,
+  getPost
+} from './social'

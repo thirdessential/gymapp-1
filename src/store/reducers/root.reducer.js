@@ -7,9 +7,9 @@ import user from "./user.reducer";
 import call from "./call.reducer";
 import app from "./app.reducer";
 import trainer from './trainer.reducer';
+import social from './social.reducer';
 import {callState} from "./initialState";
 import * as actionTypes from "../actions/actionTypes";
-
 
 const authPersistConfig = {
   key: 'auth',
@@ -39,7 +39,8 @@ const appReducer = combineReducers({
   user,
   app,
   call,
-  trainer
+  trainer,
+  social
 });
 
 const rootReducer = (state, action) => {

@@ -61,15 +61,16 @@ function CustomDrawerContent(props) {
               />
             )
           }
-          <DrawerItem
-            label="Sign Out"
-            labelStyle={drawerLabelStyle}
-            onPress={() => store.dispatch(signOutUser())}
-          />
+          {
+            __DEV__?
+              <DrawerItem
+                label="Sign Out"
+                labelStyle={drawerLabelStyle}
+                onPress={() => store.dispatch(signOutUser())}
+              />:null
+          }
         </View>
-
       </LinearGradient>
-
     </DrawerContentScrollView>
   );
 }

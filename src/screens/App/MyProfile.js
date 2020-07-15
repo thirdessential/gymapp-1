@@ -14,7 +14,7 @@ import ProfileOverview from '../../components/Profile/ProfileOverview';
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
-import {imageTypes, userTypes} from "../../constants/appConstants";
+import {imageTypes, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import {generateTrainerHits, generateUserHits, initialiseVideoCall, pickImage} from "../../utils/utils";
@@ -24,9 +24,9 @@ import * as actionCreators from "../../store/actions";
 import {requestCameraAndAudioPermission} from "../../utils/permission";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {uploadImage} from "../../API";
-import PostCardList from "../../components/Profile/PostCardList";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
+import PostList from "../../components/Social/PostList";
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -36,11 +36,26 @@ const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-pi
 class MyProfile extends Component {
 
   state = {
-    bgImage: getRandomImage()
+    bgImage: getRandomImage(),
+    nextPage: INITIAL_PAGE
+
   }
+
+  updatePosts = async () => {
+    const {updatePosts} = this.props;
+    const {nextPage} = this.state;
+    if (!!nextPage)
+      this.setState({nextPage: await updatePosts(nextPage)});
+  }
+
+  openPost = (postId) => {
+    this.props.navigation.navigate(RouteNames.PostViewer, {postId});
+  }
+
 
   componentDidMount() {
     const {syncSubscriptions, updateUserData, userData, navigation} = this.props;
+    this.updatePosts();
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       updateUserData();
     })
@@ -100,18 +115,22 @@ class MyProfile extends Component {
     });
   }
 
+  createPost = () => {
+    this.props.navigation.navigate(RouteNames.CreatePost);
+  }
+
   renderContent = () => {
-    const {route} = this.props;
+    const {route, posts} = this.props;
     let initialRouteName = TabRoutes.Packages;
     if (route.params && route.params.initialRouteName)
       initialRouteName = route.params.initialRouteName;
     const user = this.props.userData;
 
-    let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots,activeSubscriptions} = user;
+    let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots, activeSubscriptions} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const hits = userType === userTypes.TRAINER ?
       generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length}) :
-      generateUserHits({subscription:activeSubscriptions});
+      generateUserHits({subscription: activeSubscriptions, post: posts && posts.length});
     return (
       <>
         <ProfileOverview
@@ -139,12 +158,27 @@ class MyProfile extends Component {
           )
         }
         {
-          userType !== userTypes.TRAINER &&
-          <View style={{margin: 20}}>
+          userType !== userTypes.TRAINER && posts &&
+          <View style={styles.postListContainer}>
             <View style={styles.sectionTitleContainer}>
-              <Text style={styles.sectionTitle}>{strings.POSTS}</Text>
+              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.sectionTitle}>{strings.POSTS}</Text>
+                <TouchableOpacity onPress={this.createPost} activeOpacity={0.8} style={styles.createButton}>
+                  <FontAwesome
+                    name={'plus'}
+                    color={'#444'}
+                    size={15}
+                  />
+                  <Text style={styles.buttonText}>{strings.ADD_POST}</Text>
+                </TouchableOpacity>
+              </View>
+              <PostList
+                posts={posts}
+                openPost={this.openPost}
+                updatePosts={this.updatePosts}
+              />
             </View>
-            <PostCardList/>
+
           </View>
         }
       </>
@@ -155,7 +189,7 @@ class MyProfile extends Component {
     return (
       <ParallaxScrollView
         backgroundColor={appTheme.lightBackground}
-        contentBackgroundColor={appTheme.lightBackground}
+        contentBackgroundColor={appTheme.background}
         parallaxHeaderHeight={screenHeight * 2 / 3}
         renderForeground={() => (
           <>
@@ -204,24 +238,49 @@ const styles = StyleSheet.create({
   },
   sectionTitleContainer: {
     // marginTop: spacing.medium_lg,
-    marginBottom: spacing.medium
+    // marginBottom: spacing.medium
   },
   sectionTitle: {
     color: 'white',
     fontSize: fontSizes.h1,
-    fontFamily: fonts.MontserratMedium
+    fontFamily: fonts.CenturyGothic
   },
+  postListContainer: {
+    marginLeft: spacing.medium,
+    marginRight: spacing.medium,
+    marginTop: spacing.medium
+  },
+  createButton: {
+    backgroundColor: appTheme.brightContent,
+    borderBottomLeftRadius: 15,
+    borderTopLeftRadius: 15,
+    borderRadius: 8,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: spacing.small
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: fontSizes.h4,
+    fontFamily: fonts.CenturyGothic,
+    marginLeft: spacing.small_sm,
+    marginRight: spacing.small_sm
+  }
+
 });
 
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
   subscriptions: state.trainer.subscriptions,
   authToken: state.user.authToken,
+  posts: state.social.myPosts,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions()),
   updateUserData: () => dispatch(actionCreators.updateUserData()),
+  updatePosts: (page) => dispatch(actionCreators.updatePosts(page, true))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);
