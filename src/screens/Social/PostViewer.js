@@ -19,6 +19,7 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import Post from "../../components/Social/Post";
 import strings from "../../constants/strings";
+import store from "../../store/configureStore";
 
 class PostViewer extends Component {
   componentDidMount() {
@@ -35,16 +36,26 @@ class PostViewer extends Component {
       return postDetails[postId];
     else return null;
   }
-
+  checkLiked = (likes) => {
+    const {userId} = store.getState().user;
+    let liked = false;
+    likes.map(like => {
+      if (like.likedBy === userId)
+        liked = true;
+    });
+    return liked;
+  }
   renderPost = (post) => {
     return (
       <View style={{marginTop: spacing.medium}}>
         <Post
           imageUrl={post.contentURL}
-          likeCount={post.likes}
+          likeCount={post.likes.length}
           commentCount={post.totalComments}
           createdOn={post.createdOn}
           text={post.textContent}
+          displayImageUrl={post.createdBy.displayPictureUrl}
+          isLiked={() => this.checkLiked(post.likes)}
           likeCallback={() => {
           }}
           flagCallback={() => {
@@ -58,10 +69,13 @@ class PostViewer extends Component {
 
   renderComment = (comment) => {
     return <Post
-      likeCount={comment.likes}
+      likeCount={comment.likes.length}
       createdOn={comment.createdOn}
       text={comment.commentText}
+      createdBy={comment.commentedBy.name}
+      displayImageUrl={comment.commentedBy.displayPictureUrl}
       showComment={false}
+      likeCallback={()=>{}}
     />
   }
   itemSeparator = () => <View style={{marginTop: spacing.medium}}/>

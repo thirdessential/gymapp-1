@@ -47,5 +47,7 @@ export {
   createTextPost,
   listPosts,
   listMyPosts,
-  getPost
+  getPost,
+  likePost,
+  unlikePost
 } from './social'

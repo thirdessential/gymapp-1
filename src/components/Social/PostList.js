@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
+import store from '../../store/configureStore';
 import {appTheme} from "../../constants/colors";
 import {spacing} from "../../constants/dimension";
 
@@ -19,6 +20,15 @@ import Post from "../../components/Social/Post";
 const postList = (props) => {
   const {posts, openPost, updatePosts} = props;
 
+  const checkLiked = (likes) => {
+    const {userId} = store.getState().user;
+    let liked = false;
+    likes.map(like => {
+      if (like.likedBy === userId)
+        liked = true;
+    });
+    return liked;
+  }
   const renderPost = (post) => {
     return <TouchableOpacity
       onPress={() => openPost(post._id)}
@@ -26,10 +36,13 @@ const postList = (props) => {
       style={styles.postContainer}>
       <Post
         imageUrl={post.contentURL}
-        likeCount={post.likes}
+        likeCount={post.likes.length}
         commentCount={post.totalComments}
         createdOn={post.createdOn}
         text={post.textContent}
+        createdBy={post.createdBy.name}
+        displayImageUrl={post.createdBy.displayPictureUrl}
+        isLiked={() => checkLiked(post.likes)}
         likeCallback={() => {
         }}
         flagCallback={() => {

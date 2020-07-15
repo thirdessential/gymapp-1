@@ -92,3 +92,27 @@ export const getPost = async postId => {
   }
 }
 
+export const likePost = async postId => {
+  try {
+    let response = await axios.get(`/post/${postId}/like`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const unlikePost = async postId => {
+  try {
+    let response = await axios.get(`/post/${postId}/unlike`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+

@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en'
@@ -22,12 +22,21 @@ import FastImage from "react-native-fast-image";
 import {screenWidth} from "../../utils/screenDimensions";
 
 const post = (props) => {
-  const {commentCount, imageUrl, likeCount, createdOn, text, likeCallback, flagCallback, shareCallback, showComment = true} = props;
+  const {
+    commentCount, createdBy, displayImageUrl,
+    imageUrl, likeCount, createdOn, text, likeCallback,
+    flagCallback, shareCallback, showComment = true, isLiked
+  } = props;
+  const [liked, setLiked] = useState(isLiked);
+  const toggleLike = ()=>{
+    likeCallback();
+    setLiked(!liked);
+  }
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Avatar size={spacing.postAvatar} roundedMultiplier={1}/>
-        <Text style={styles.displayName}>Shivam Magarde</Text>
+        <Avatar size={spacing.postAvatar} url={displayImageUrl} roundedMultiplier={1}/>
+        <Text style={styles.displayName}>{createdBy}</Text>
         <Text style={[styles.displayName, styles.postTime]}>{timeAgo.format(new Date(createdOn))}</Text>
       </View>
       {
@@ -43,8 +52,8 @@ const post = (props) => {
       <Text style={styles.textContent}>{text}</Text>
 
       <View style={styles.buttonGroup}>
-        <TouchableOpacity onPress={likeCallback} activeOpacity={0.6} style={styles.hitButton}>
-          <AntDesign name={'like1'} size={28} color={appTheme.brightContent}/>
+        <TouchableOpacity onPress={toggleLike} activeOpacity={0.6} style={styles.hitButton}>
+          <AntDesign name={'like1'} size={28} color={liked ? appTheme.brightContent : appTheme.grey}/>
           <Text style={styles.hits}>{likeCount}</Text>
         </TouchableOpacity>
         {
@@ -81,7 +90,7 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
     elevation: 5,
-    backgroundColor:  appTheme.darkBackground,
+    backgroundColor: appTheme.darkBackground,
     padding: spacing.medium,
     paddingLeft: spacing.medium,
     paddingRight: spacing.medium,
