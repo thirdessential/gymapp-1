@@ -73,7 +73,7 @@ const post = (props) => {
         }
         {
           flagCallback &&
-          <TouchableOpacity activeOpacity={0.6}>
+          <TouchableOpacity onPress={flagCallback} activeOpacity={0.6}>
             <Fontisto name={'flag'} size={28} color={appTheme.brightContent}/>
           </TouchableOpacity>
         }

@@ -52,5 +52,7 @@ export {
   unlikePost,
   commentOnPost,
   unlikeComment,
-  likeComment
+  likeComment,
+  reportComment,
+  reportPost
 } from './social'

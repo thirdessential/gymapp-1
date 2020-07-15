@@ -72,8 +72,8 @@ const appTabNavigator = (props) => {
         options={{
           title: 'Community',
           tabBarIcon: ({focused, color, size}) => {
-            let iconName = focused ? 'ios-people' : 'ios-people';
-            return <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>
+            let iconName = focused ? 'feed' : 'feed';
+            return <View style={{alignItems: 'center'}}><FontAwesome name={iconName} size={20} color={color}/></View>
           },
         }}/>
       <Tab.Screen

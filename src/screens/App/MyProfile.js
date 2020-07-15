@@ -119,7 +119,7 @@ class MyProfile extends Component {
   }
 
   renderContent = () => {
-    const {route, posts, likePost, unlikePost} = this.props;
+    const {route, posts, likePost, unlikePost, reportPost} = this.props;
     let initialRouteName = TabRoutes.Packages;
     if (route.params && route.params.initialRouteName)
       initialRouteName = route.params.initialRouteName;
@@ -170,6 +170,7 @@ class MyProfile extends Component {
                 updatePosts={this.updatePosts}
                 likePost={likePost}
                 unlikePost={unlikePost}
+                reportPost={reportPost}
               />
             </View>
           </View>
@@ -274,7 +275,8 @@ const mapDispatchToProps = (dispatch) => ({
   updateUserData: () => dispatch(actionCreators.updateUserData()),
   updatePosts: (page) => dispatch(actionCreators.updatePosts(page, true)),
   likePost: (postId) => dispatch(actionCreators.likePost(postId)),
-  unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId))
+  unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId)),
+  reportPost:postId =>dispatch(actionCreators.reportPost(postId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);

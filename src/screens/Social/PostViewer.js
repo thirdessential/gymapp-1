@@ -54,6 +54,12 @@ class PostViewer extends Component {
     });
     return liked;
   }
+
+  reportPost = (postId)=>{
+    const {navigation,reportPost} = this.props;
+    navigation.goBack();
+    reportPost(postId);
+  }
   renderPost = (post) => {
     return (
       <View style={{marginTop: spacing.medium}}>
@@ -68,8 +74,7 @@ class PostViewer extends Component {
           isLiked={() => this.checkLiked(post.likes)}
           likeCallback={() => likePost(post._id)}
           unlikeCallback={() => unlikePost(post._id)}
-          flagCallback={() => {
-          }}
+          flagCallback={() => this.reportPost(post._id)}
           shareCallback={() => {
           }}
         />
@@ -274,7 +279,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updatePost: (postId) => dispatch(actionCreators.updatePost(postId)),
-  commentOnPost: (postId, commentText) => dispatch(actionCreators.commentOnPost(postId, commentText))
+  commentOnPost: (postId, commentText) => dispatch(actionCreators.commentOnPost(postId, commentText)),
+  reportPost:postId =>dispatch(actionCreators.reportPost(postId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostViewer);

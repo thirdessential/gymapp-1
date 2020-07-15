@@ -148,6 +148,28 @@ export const unlikeComment = async (commentId) => {
   }
 }
 
+export const reportPost = async postId => {
+  try {
+    let response = await axios.put(`/post/${postId}/reportSpam`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const reportComment = async commentId => {
+  try {
+    let response = await axios.put(`/comment/${commentId}/reportSpam`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
 
 
 

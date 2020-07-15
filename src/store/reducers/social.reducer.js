@@ -26,6 +26,12 @@ const reducer = (state = initialState, action) => {
       postDetails[post._id] = post;
       return updateObject(state, {postDetails});
     }
+    case actionTypes.REMOVE_POST: {
+      const {postId} = action.payload;
+      const oldPosts = [...state.posts];
+      const filteredPosts = oldPosts.filter(post => post._id !== postId);
+      return updateObject(state, {posts: filteredPosts});
+    }
     default:
       return state;
   }

@@ -18,7 +18,7 @@ import {spacing} from "../../constants/dimension";
 import Post from "../../components/Social/Post";
 
 const postList = (props) => {
-  const {posts, openPost, updatePosts, likePost, unlikePost} = props;
+  const {posts, openPost, updatePosts, likePost, unlikePost, reportPost} = props;
 
   const checkLiked = (likes) => {
     const {userId} = store.getState().user;
@@ -43,10 +43,9 @@ const postList = (props) => {
         createdBy={post.createdBy.name}
         displayImageUrl={post.createdBy.displayPictureUrl}
         isLiked={() => checkLiked(post.likes)}
-        likeCallback={()=>likePost(post._id)}
-        unlikeCallback={()=>unlikePost(post._id)}
-        flagCallback={() => {
-        }}
+        likeCallback={() => likePost(post._id)}
+        unlikeCallback={() => unlikePost(post._id)}
+        flagCallback={() => reportPost(post._id)}
         shareCallback={() => {
         }}
       />

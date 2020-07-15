@@ -41,5 +41,6 @@ export {
   updatePost,
   unlikePost,
   likePost,
-  commentOnPost
+  commentOnPost,
+  reportPost
 } from './social.actions'

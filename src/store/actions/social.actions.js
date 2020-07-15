@@ -1,6 +1,8 @@
 import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
 import {INITIAL_PAGE} from "../../constants/appConstants";
+import post from "../../components/Social/Post";
+import {showInfo, showSuccess} from "../../utils/notification";
 
 
 export const setPosts = (posts, my = false) => ({
@@ -23,6 +25,13 @@ export const setPost = (post) => ({
     post
   }
 });
+export const removePost = (postId) => ({
+  type: actionTypes.REMOVE_POST,
+  payload: {
+    postId
+  }
+});
+
 
 export const updatePosts = (page = '', my = false) => {
   return async (dispatch) => {
@@ -104,6 +113,33 @@ export const commentOnPost = (postId, commentText) => {
       return true;
     } catch (error) {
       console.log("post update failed", error);
+      return null;
+    }
+  };
+}
+
+export const reportPost = postId => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(removePost(postId));
+      let result = await API.reportPost(postId);
+      showInfo('Post Reported');
+      return true;
+    } catch (error) {
+      console.log("post report failed", error);
+      return null;
+    }
+  };
+}
+
+export const reportComment = (postId,commentId) => {
+  return async (dispatch, getState) => {
+    try {
+      let result = await API.reportComment(commentId);
+      showInfo('Comment Reported');
+      return true;
+    } catch (error) {
+      console.log("post report failed", error);
       return null;
     }
   };
