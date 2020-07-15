@@ -37,7 +37,7 @@ const postList = (props) => {
       <Post
         imageUrl={post.contentURL}
         likeCount={post.likes.length}
-        commentCount={post.totalComments}
+        commentCount={post.comments.length}
         createdOn={post.createdOn}
         text={post.textContent}
         createdBy={post.createdBy.name}

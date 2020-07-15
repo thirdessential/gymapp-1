@@ -114,5 +114,40 @@ export const unlikePost = async postId => {
     return false;
   }
 }
+export const commentOnPost = async (postId, commentText) => {
+  try {
+    let response = await axios.post(`/comment/${postId}`, {commentText});
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const likeComment = async (commentId) => {
+  try {
+    let response = await axios.post(`/comment/${commentId}/like`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const unlikeComment = async (commentId) => {
+  try {
+    let response = await axios.post(`/comment/${commentId}/unlike`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+
 
 

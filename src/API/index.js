@@ -49,5 +49,8 @@ export {
   listMyPosts,
   getPost,
   likePost,
-  unlikePost
+  unlikePost,
+  commentOnPost,
+  unlikeComment,
+  likeComment
 } from './social'

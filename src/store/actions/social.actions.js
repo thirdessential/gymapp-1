@@ -65,7 +65,7 @@ export const likePost = (postId) => {
   return async (dispatch, getState) => {
     try {
       let post = getState().social.postDetails[postId];
-      post.likes.push({likedBy:getState().user.userId});
+      post.likes.push({likedBy: getState().user.userId});
       dispatch(setPost(post));
       await API.likePost(postId);
       return true;
@@ -90,3 +90,21 @@ export const unlikePost = (postId) => {
     }
   };
 };
+
+export const commentOnPost = (postId, commentText) => {
+  return async (dispatch, getState) => {
+    try {
+      let post = {...getState().social.postDetails[postId]};
+      let {comment} = await API.commentOnPost(postId, commentText);
+      await dispatch(updatePost(postId))
+      // let comments = [...post.comments];
+      // comments.push(comment);
+      // post.comments = comments;
+      // dispatch(setPost(post));
+      return true;
+    } catch (error) {
+      console.log("post update failed", error);
+      return null;
+    }
+  };
+}

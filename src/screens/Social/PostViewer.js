@@ -8,7 +8,7 @@ import {
   FlatList,
   StatusBar,
   ActivityIndicator,
-  LayoutAnimation, Text, ScrollView,
+  LayoutAnimation, Text, ScrollView, TextInput, TouchableOpacity, Keyboard,
 } from 'react-native'
 import {connect} from "react-redux";
 
@@ -20,9 +20,17 @@ import fonts from "../../constants/fonts";
 import Post from "../../components/Social/Post";
 import strings from "../../constants/strings";
 import store from "../../store/configureStore";
-import {likePost, unlikePost} from "../../API";
+import {likeComment, likePost, unlikeComment, unlikePost} from "../../API";
+import {MAX_POST_LENGTH} from "../../constants/appConstants";
+import {screenWidth} from "../../utils/screenDimensions";
+import post from "../../components/Social/Post";
 
 class PostViewer extends Component {
+  state = {
+    commentText: '',
+    submitting:false
+  }
+
   componentDidMount() {
     const {updatePost, route} = this.props;
     const {postId} = route.params;
@@ -52,7 +60,7 @@ class PostViewer extends Component {
         <Post
           imageUrl={post.contentURL}
           likeCount={post.likes.length}
-          commentCount={post.totalComments}
+          commentCount={post.comments.length}
           createdOn={post.createdOn}
           text={post.textContent}
           createdBy={post.createdBy.name}
@@ -77,13 +85,12 @@ class PostViewer extends Component {
       likeCount={comment.likes.length}
       createdOn={comment.createdOn}
       text={comment.commentText}
+      isLiked={() => this.checkLiked(comment.likes)}
       createdBy={comment.commentedBy.name}
       displayImageUrl={comment.commentedBy.displayPictureUrl}
       showComment={false}
-      unlikeCallback={() => {
-      }}
-      likeCallback={() => {
-      }}
+      unlikeCallback={()=>unlikeComment(comment._id)}
+      likeCallback={()=>likeComment(comment._id)}
     />
   }
   itemSeparator = () => <View style={{marginTop: spacing.medium}}/>
@@ -94,6 +101,7 @@ class PostViewer extends Component {
     return (
       <>
         <Text style={styles.sectionTitle}>{strings.COMMENTS}</Text>
+        {this.createComment()}
         <FlatList
           data={post.comments}
           renderItem={({item}) => this.renderComment(item)}
@@ -114,6 +122,54 @@ class PostViewer extends Component {
     return true;
   }
 
+  createComment = () => {
+    return (
+      <View style={styles.createCommentContainer}>
+        <TextInput
+          placeholder={'Write comment'}
+          placeholderTextColor={appTheme.grey}
+          multiline={true}
+          value={this.state.commentText}
+          onChangeText={this.onCommentChange}
+          style={[styles.title, styles.textInput]}
+          underlineColorAndroid={'transparent'}
+          maxLength={MAX_POST_LENGTH}
+        />
+        {this.renderSubmit()}
+      </View>
+    )
+  }
+  onCommentChange = (commentText) => {
+    this.setState({commentText});
+  }
+  submitComment =async () => {
+    const {route,commentOnPost} = this.props;
+    const {postId} = route.params;
+    Keyboard.dismiss();
+    let comment = this.state.commentText;
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({submitting:true, commentText:''});
+    await commentOnPost(postId,comment);
+    this.setState({submitting:false});
+    this.forceUpdate();
+  }
+  renderSubmit = () => {
+    const disabled = this.state.commentText.length < 3;
+    if (this.state.submitting)
+      return (
+        <ActivityIndicator style={{marginTop:spacing.medium_sm}} color={appTheme.brightContent} size={30}/>
+      )
+    return (
+      <View style={{flexDirection: 'row', marginTop: spacing.medium_sm}}>
+        <TouchableOpacity
+          onPress={this.submitComment}
+          disabled={disabled}
+          style={[styles.submitButton, {backgroundColor: disabled ? appTheme.grey : appTheme.brightContent}]}>
+          <Text style={{color: 'white', fontFamily: fonts.CenturyGothic}}>{strings.COMMENT}</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
 
   render() {
     const post = this.getPost();
@@ -121,7 +177,7 @@ class PostViewer extends Component {
         <StatusBar backgroundColor={appTheme.lightBackground}/>
         <View
           style={styles.container}>
-          <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
+          <ScrollView keyboardShouldPersistTaps={'always'} style={{flex: 1}} showsVerticalScrollIndicator={false}>
             {!post && <ActivityIndicator style={{position: 'absolute'}} color={appTheme.brightContent} size={50}/>}
             {post && this.renderPost(post)}
             {post && this.renderComments()}
@@ -147,6 +203,12 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.medium_sm,
     backgroundColor: appTheme.darkBackground,
     alignItems: 'center',
+  },
+  contentContainer: {
+    backgroundColor: appTheme.darkBackground,
+    borderRadius: 10,
+    padding: spacing.medium,
+    marginBottom: spacing.medium
   },
   sectionTitle: {
     color: 'white',
@@ -175,6 +237,34 @@ const styles = StyleSheet.create({
   },
   postContainer: {
     borderRadius: 10
+  },
+  title: {
+    color: 'white',
+    fontFamily: fonts.CenturyGothic,
+    fontWeight: '700'
+  },
+  textInput: {
+    backgroundColor: appTheme.background,
+    borderRadius: 10,
+    marginTop: spacing.medium_sm,
+    textAlignVertical: 'top',
+    paddingLeft: spacing.small,
+    paddingRight: spacing.small
+  },
+  createCommentContainer: {
+    backgroundColor: appTheme.darkBackground,
+    borderRadius: 10,
+    padding: spacing.medium,
+    paddingTop: spacing.small,
+    marginTop: spacing.medium_sm
+  },
+  submitButton: {
+    backgroundColor: appTheme.brightContent,
+    borderRadius: 20,
+    paddingLeft: spacing.medium_sm,
+    paddingRight: spacing.medium_sm,
+    padding: spacing.small,
+    flexGrow: 0
   }
 });
 
@@ -183,7 +273,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updatePost: (postId) => dispatch(actionCreators.updatePost(postId))
+  updatePost: (postId) => dispatch(actionCreators.updatePost(postId)),
+  commentOnPost: (postId, commentText) => dispatch(actionCreators.commentOnPost(postId, commentText))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostViewer);

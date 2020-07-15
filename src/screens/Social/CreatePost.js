@@ -78,7 +78,6 @@ class CreatePost extends Component {
         />
       </View>
     )
-
   }
   onDescriptionChange = (description) => {
     this.setState({description});

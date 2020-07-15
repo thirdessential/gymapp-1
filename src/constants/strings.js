@@ -21,6 +21,7 @@ const strings = {
   PACKAGE_CREATED:'Package Created',
   FOLLOW: 'Follow',
   COMMENTS:'Comments',
+  COMMENT:'Comment',
   CHANGES_SAVED:'Changes Saved',
   TIMING:'Timing',
   PACKAGE_SUMMARY:'Package Summary',
