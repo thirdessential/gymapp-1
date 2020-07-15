@@ -66,3 +66,5 @@ export const remoteMessageTypes = {
 }
 
 export const INITIAL_PAGE = 'INITIAL_PAGE';
+
+export const MAX_POST_LENGTH = 300;

@@ -7,7 +7,7 @@ import {compressImage, getFileExtension} from "./storage";
 
 export const createTextPost = async (textContent) => {
   try {
-    let response = axios.post('/post', {textContent});
+    let response = await axios.post('/post', {textContent});
     if (validateResponseCode(response.status))
       return response;
     else return false;

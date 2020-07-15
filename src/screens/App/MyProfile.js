@@ -27,6 +27,7 @@ import {uploadImage} from "../../API";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import PostList from "../../components/Social/PostList";
+import HalfRoundedButton from "../Social/HalfRoundedButton";
 
 const STATUS_BAR_HEIGHT = 0;
 const HEADER_HEIGHT = 64;
@@ -163,14 +164,7 @@ class MyProfile extends Component {
             <View style={styles.sectionTitleContainer}>
               <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Text style={styles.sectionTitle}>{strings.POSTS}</Text>
-                <TouchableOpacity onPress={this.createPost} activeOpacity={0.8} style={styles.createButton}>
-                  <FontAwesome
-                    name={'plus'}
-                    color={'#444'}
-                    size={15}
-                  />
-                  <Text style={styles.buttonText}>{strings.ADD_POST}</Text>
-                </TouchableOpacity>
+                <HalfRoundedButton onPress={this.createPost} title={strings.ADD_POST}/>
               </View>
               <PostList
                 posts={posts}
@@ -178,7 +172,6 @@ class MyProfile extends Component {
                 updatePosts={this.updatePosts}
               />
             </View>
-
           </View>
         }
       </>
@@ -267,7 +260,6 @@ const styles = StyleSheet.create({
     marginLeft: spacing.small_sm,
     marginRight: spacing.small_sm
   }
-
 });
 
 const mapStateToProps = (state) => ({
