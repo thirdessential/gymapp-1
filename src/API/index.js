@@ -54,5 +54,6 @@ export {
   unlikeComment,
   likeComment,
   reportComment,
-  reportPost
+  reportPost,
+  getPostsForUser
 } from './social'

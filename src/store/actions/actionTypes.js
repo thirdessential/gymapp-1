@@ -26,5 +26,6 @@ export const SET_POSTS = 'SET_POSTS';
 export const SET_POST = 'SET_POST';
 export const APPEND_POSTS = 'APPEND_POSTS';
 export const REMOVE_POST = 'REMOVE_POST';
+export const SET_POSTS_FOR_USER = 'SET_POSTS_FOR_USER';
 
 export const RESET_APP = 'RESET_APP';

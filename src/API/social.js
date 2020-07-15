@@ -170,6 +170,17 @@ export const reportComment = async commentId => {
     return false;
   }
 }
+export const getPostsForUser = async (userId) => {
+  try {
+    let response = await axios.get(`/post/user/${userId}`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
 
 
 

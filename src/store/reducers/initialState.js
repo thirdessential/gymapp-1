@@ -37,5 +37,6 @@ export const trainerState = {
 export const socialState = {
   posts: [],
   postDetails: {},
-  myPosts: []
+  myPosts: [],
+  userPosts:{}
 }

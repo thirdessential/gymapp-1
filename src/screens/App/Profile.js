@@ -39,10 +39,11 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    const {route, setUser} = this.props;
+    const {route, setUser,getPostsForUser} = this.props;
     const {userId} = route.params;
 
     setUser(userId);
+    getPostsForUser(userId);
 
     const userData = this.getUser();
     if (userData) {
@@ -83,7 +84,7 @@ class Profile extends Component {
   }
 
   bookAppointment = async (day, time) => {
-    const {route,setUser} = this.props;
+    const {route, setUser} = this.props;
     const {userId} = route.params;
     let response = await bookAppointment(userId, day, time);
     if (response.success)
@@ -127,11 +128,11 @@ class Profile extends Component {
     if (!user)
       return this.loader();
 
-    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots,activeSubscriptions} = user;
+    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots, activeSubscriptions} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const hits = userType === userTypes.TRAINER ?
       generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length}) :
-      generateUserHits({subscription:activeSubscriptions});
+      generateUserHits({subscription: activeSubscriptions});
     return (
       <View style={styles.container}>
         <ProfileOverview
@@ -147,13 +148,13 @@ class Profile extends Component {
         />
         {
           userType === userTypes.TRAINER && (
-              <TrainerInfo
-                packages={packages}
-                slots={slots}
-                enrollCallback={this.enrollClicked}
-                bookCallback={this.bookAppointment}
-                initialRouteName={initialRouteName}
-              />
+            <TrainerInfo
+              packages={packages}
+              slots={slots}
+              enrollCallback={this.enrollClicked}
+              bookCallback={this.bookAppointment}
+              initialRouteName={initialRouteName}
+            />
           )
         }
         {
@@ -219,7 +220,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setUser: (userId) => dispatch(actionCreators.setUser(userId))
+  setUser: (userId) => dispatch(actionCreators.setUser(userId)),
+  getPostsForUser: userId => dispatch(actionCreators.getPostsForUser(userId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

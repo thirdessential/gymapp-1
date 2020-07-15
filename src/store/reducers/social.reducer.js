@@ -32,6 +32,12 @@ const reducer = (state = initialState, action) => {
       const filteredPosts = oldPosts.filter(post => post._id !== postId);
       return updateObject(state, {posts: filteredPosts});
     }
+    case actionTypes.SET_POSTS_FOR_USER: {
+      const {userId, posts} = action.payload;
+      const userPosts = {...state.userPosts};
+      userPosts[userId] = posts;
+      return updateObject(state, {userPosts});
+    }
     default:
       return state;
   }

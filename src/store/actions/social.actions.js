@@ -132,7 +132,7 @@ export const reportPost = postId => {
   };
 }
 
-export const reportComment = (postId,commentId) => {
+export const reportComment = (postId, commentId) => {
   return async (dispatch, getState) => {
     try {
       let result = await API.reportComment(commentId);
@@ -140,6 +140,27 @@ export const reportComment = (postId,commentId) => {
       return true;
     } catch (error) {
       console.log("post report failed", error);
+      return null;
+    }
+  };
+}
+
+export const setPostsForUser = (userId, posts) => ({
+  type: actionTypes.SET_POSTS_FOR_USER,
+  payload: {
+    userId,
+    posts
+  }
+});
+
+export const getPostsForUser = (userId) => {
+  return async (dispatch, getState) => {
+    try {
+      let result = await API.getPostsForUser(userId);
+      console.log(result);
+      return true;
+    } catch (error) {
+      console.log("post fetch for user failed", error);
       return null;
     }
   };

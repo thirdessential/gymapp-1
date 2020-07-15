@@ -42,5 +42,6 @@ export {
   unlikePost,
   likePost,
   commentOnPost,
-  reportPost
+  reportPost,
+  getPostsForUser
 } from './social.actions'

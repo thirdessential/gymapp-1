@@ -76,16 +76,20 @@ const appTabNavigator = (props) => {
             return <View style={{alignItems: 'center'}}><FontAwesome name={iconName} size={20} color={color}/></View>
           },
         }}/>
-      <Tab.Screen
-        name={RouteNames.UserListing}
-        component={ListingStack}
-        options={{
-          title: listingTitle,
-          tabBarIcon: ({focused, color, size}) => {
-            let iconName = focused ? 'ios-people' : 'ios-people';
-            return <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>
-          },
-        }}/>
+      {
+        userType === userTypes.USER || true && (
+          <Tab.Screen
+            name={RouteNames.UserListing}
+            component={ListingStack}
+            options={{
+              title: listingTitle,
+              tabBarIcon: ({focused, color, size}) => {
+                let iconName = focused ? 'ios-people' : 'ios-people';
+                return <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>
+              },
+            }}/>
+        )
+      }
       {
         userType === userTypes.TRAINER && (
           <Tab.Screen
@@ -95,7 +99,8 @@ const appTabNavigator = (props) => {
               title: 'Packages',
               tabBarIcon: ({focused, color, size}) => {
                 let iconName = focused ? 'ios-construct' : 'ios-construct';
-                return (<View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>);
+                return (
+                  <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>);
               },
             }}/>
         )
