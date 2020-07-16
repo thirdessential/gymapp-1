@@ -10,6 +10,7 @@ const strings = {
   PACKAGE_NAME: 'Package Name',
   MINS: 'Mins',
   ALLOTTED_TO:'Allotted to ',
+  CONFIRM_FLAG:'Report Content?',
   NO_SLOTS_AVAILABLE:'No slots available',
   RUNNING_DAYS:'Running Days',
   POST:'Post',

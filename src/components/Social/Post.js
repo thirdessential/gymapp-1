@@ -5,13 +5,14 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en'
+import Modal from 'react-native-modal';
 
 TimeAgo.addLocale(en)
 const timeAgo = new TimeAgo('en-US')
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, Button} from "react-native";
 
 import {appTheme} from "../../constants/colors";
 import {spacing} from "../../constants/dimension";
@@ -21,6 +22,7 @@ import Avatar from "../Avatar";
 import FastImage from "react-native-fast-image";
 import {screenWidth} from "../../utils/screenDimensions";
 import {defaultDP} from "../../constants/appConstants";
+import strings from "../../constants/strings";
 
 const post = (props) => {
   const {
@@ -31,6 +33,7 @@ const post = (props) => {
   } = props;
   const [liked, setLiked] = useState(isLiked);
   const [localLikeCount, setLocalLikeCount] = useState(likeCount);
+  const [isModalVisible, setModalVisible] = useState(false);
   const toggleLike = () => {
     if (liked) {
       unlikeCallback();
@@ -41,11 +44,41 @@ const post = (props) => {
     }
     setLiked(!liked);
   }
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const ConfirmModal = () => {
+    return (
+      <Modal
+        onBackButtonPress={toggleModal}
+        onBackdropPress={toggleModal}
+        onRequestClose={toggleModal}
+        visible={isModalVisible}>
+        <View style={{backgroundColor: appTheme.darkGrey, padding: spacing.medium, borderRadius: 10, alignItems:'center'}}>
+          <Text style={styles.modalTitle}>{strings.CONFIRM_FLAG}</Text>
+          <View style={{flexDirection: 'row',justifyContent:'space-around', width:'50%'}}>
+            <TouchableOpacity onPress={onFlagPress} style={styles.modalButton}>
+              <Text style={styles.modalButtonText}>Yes</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={toggleModal} style={[styles.modalButton, {backgroundColor:appTheme.grey}]}>
+              <Text style={styles.modalButtonText}>No</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    )
+  }
+  const onFlagPress = () => {
+    toggleModal();
+    flagCallback();
+  }
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <TouchableOpacity activeOpacity={0.8} onPress={onProfilePress} style={styles.titleContainer}>
-          <Avatar size={spacing.postAvatar} url={!!displayImageUrl?displayImageUrl:defaultDP} roundedMultiplier={1}/>
+          <Avatar size={spacing.postAvatar} url={!!displayImageUrl ? displayImageUrl : defaultDP}
+                  roundedMultiplier={1}/>
           <Text style={styles.displayName}>{createdBy}</Text>
         </TouchableOpacity>
         <Text style={[styles.displayName, styles.postTime]}>{timeAgo.format(new Date(createdOn))}</Text>
@@ -76,7 +109,7 @@ const post = (props) => {
         }
         {
           flagCallback &&
-          <TouchableOpacity  onPress={flagCallback} activeOpacity={0.6} o>
+          <TouchableOpacity onPress={toggleModal} activeOpacity={0.6} o>
             <Fontisto name={'flag'} size={28} color={appTheme.grey}/>
           </TouchableOpacity>
         }
@@ -86,10 +119,8 @@ const post = (props) => {
             <Fontisto name={'share-a'} size={28} color={appTheme.brightContent}/>
           </TouchableOpacity>
         }
-
-
       </View>
-
+      <ConfirmModal/>
     </View>
   )
 }
@@ -153,6 +184,23 @@ const styles = StyleSheet.create({
   hits: {
     color: 'white',
     marginLeft: spacing.medium_sm
+  },
+  modalButton: {
+    borderRadius: 8,
+    backgroundColor: appTheme.brightContent,
+    padding:spacing.small,
+    paddingLeft: spacing.medium_sm,
+    paddingRight: spacing.medium_sm,
+  },
+  modalButtonText:{
+    color:'white',
+    fontFamily:fonts.MontserratMedium
+  },
+  modalTitle: {
+    color:'white',
+    fontFamily:fonts.MontserratMedium,
+    fontSize:fontSizes.h0,
+    marginBottom:spacing.medium
   }
 });
 

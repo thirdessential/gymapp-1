@@ -24,7 +24,7 @@ export const callHandler = async (remoteMessage) => {
   switch (data.type) {
     case remoteMessageTypes.CALL:
       LocalCallNotification(data);
-      const modifiedData = {...data, receiveTime:new Date()}
+      const modifiedData = {...data, receiveTime: new Date()}
       await saveToStorage(storageKeys.PENDING_CALL, modifiedData);
       LaunchApplication.open(appPackageId);
       break;
@@ -33,7 +33,8 @@ export const callHandler = async (remoteMessage) => {
       if (!!content)
         LocalMessageNotification(content);
       break;
-    default:break;
+    default:
+      break;
   }
 }
 
@@ -41,8 +42,7 @@ export const configureFCMNotification = async () => {
   try {
     let deviceToken = await messaging().getToken();
     messaging()
-      .subscribeToTopic(firebaseTopics.SILENT_NOTIFICATION)
-      .then(() => console.log('Subscribed to silent notifications'));
+      .subscribeToTopic(firebaseTopics.SILENT_NOTIFICATION);
 
     PushNotification.configure({
       onRegister: (token) => {
@@ -87,7 +87,8 @@ const handleNotification = async (notification) => {
       case remoteMessageTypes.APPOINTMENT:
         console.log("Handle appointment action here");
         break;
-      default:break;
+      default:
+        break;
     }
   }
   if (notification.foreground) {

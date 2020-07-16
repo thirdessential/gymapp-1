@@ -37,6 +37,7 @@ const appTabNavigator = (props) => {
       // lazy={true}
       // lazyPreloadDistance={1}
       // lazyPlaceholder={bgView}
+      initialRouteName={RouteNames.SocialTab}
       backBehavior={'initialRoute'}
       tabBarPosition={'bottom'}
       tabBarOptions={{
