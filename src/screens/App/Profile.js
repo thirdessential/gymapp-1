@@ -19,27 +19,25 @@ import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
-import {userTypes} from "../../constants/appConstants";
+import {defaultDP, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
 import {spacing} from "../../constants/dimension";
 import {showError, showSuccess} from "../../utils/notification";
-import {bookAppointment} from "../../API";
+import {bookAppointment, likePost, reportPost, unlikePost} from "../../API";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-
-const STATUS_BAR_HEIGHT = 0;
-const HEADER_HEIGHT = 64;
-const NAV_BAR_HEIGHT = HEADER_HEIGHT - STATUS_BAR_HEIGHT;
-const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
+import HalfRoundedButton from "../Social/HalfRoundedButton";
+import PostList from "../../components/Social/PostList";
 
 class Profile extends Component {
 
   state = {
-    bgImage: getRandomImage()
+    bgImage: getRandomImage(),
+    nextPage: INITIAL_PAGE
   }
 
   componentDidMount() {
-    const {route, setUser,getPostsForUser} = this.props;
+    const {route, setUser, getPostsForUser} = this.props;
     const {userId} = route.params;
 
     setUser(userId);
@@ -52,7 +50,6 @@ class Profile extends Component {
         this.setState({bgImage: {uri: wallImageUrl}});
       }
     }
-
   }
 
   enrollClicked = (packageId) => {
@@ -104,7 +101,11 @@ class Profile extends Component {
     const {userId} = route.params;
     return users[userId];
   }
-
+  getPosts = () => {
+    const {route, postsForUser} = this.props;
+    const {userId} = route.params;
+    return postsForUser[userId];
+  }
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     const {route, users} = nextProps;
     const {userId} = route.params;
@@ -120,11 +121,23 @@ class Profile extends Component {
     }
     return true;
   }
-
+  createPost = () => {
+    this.props.navigation.navigate(RouteNames.CreatePost);
+  }
+  openPost = (postId) => {
+    this.props.navigation.navigate(RouteNames.PostViewer, {postId});
+  }
+  updatePosts = async () => {
+    const {getPostsForUser} = this.props;
+    const {nextPage} = this.state;
+    if (!!nextPage)
+      this.setState({nextPage: await getPostsForUser(nextPage)});
+  }
   renderContent = () => {
-    const {route} = this.props;
+    const {route, myUserType} = this.props;
     const {initialRouteName = TabRoutes.Packages} = route.params;
     const user = this.getUser();
+    const posts = this.getPosts();
     if (!user)
       return this.loader();
 
@@ -147,7 +160,7 @@ class Profile extends Component {
           location={city}
         />
         {
-          userType === userTypes.TRAINER && (
+          userType === userTypes.TRAINER && myUserType !== userTypes.TRAINER && (
             <TrainerInfo
               packages={packages}
               slots={slots}
@@ -158,10 +171,21 @@ class Profile extends Component {
           )
         }
         {
-          userType !== userTypes.TRAINER &&
-          <View style={{margin: 20}}>
+          posts &&
+          <View style={styles.postListContainer}>
             <View style={styles.sectionTitleContainer}>
-              <Text style={styles.sectionTitle}>{strings.POSTS}</Text>
+              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.sectionTitle}>{strings.POSTS}</Text>
+                <HalfRoundedButton onPress={this.createPost} title={strings.ADD_POST}/>
+              </View>
+              <PostList
+                posts={posts}
+                openPost={this.openPost}
+                updatePosts={this.updatePosts}
+                likePost={likePost}
+                unlikePost={unlikePost}
+                reportPost={reportPost}
+              />
             </View>
           </View>
         }
@@ -213,10 +237,17 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.h1,
     fontFamily: fonts.MontserratMedium
   },
+  postListContainer: {
+    marginLeft: spacing.medium,
+    marginRight: spacing.medium,
+    marginTop: spacing.medium
+  },
 });
 
 const mapStateToProps = (state) => ({
   users: state.app.users,
+  myUserType: state.user.userType,
+  postsForUser: state.social.postsForUser
 });
 
 const mapDispatchToProps = (dispatch) => ({

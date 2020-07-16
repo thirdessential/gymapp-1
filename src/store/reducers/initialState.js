@@ -38,5 +38,5 @@ export const socialState = {
   posts: [],
   postDetails: {},
   myPosts: null,
-  userPosts:{}
+  postsForUser:{}
 }

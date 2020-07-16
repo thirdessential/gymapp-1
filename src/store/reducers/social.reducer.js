@@ -34,9 +34,9 @@ const reducer = (state = initialState, action) => {
     }
     case actionTypes.SET_POSTS_FOR_USER: {
       const {userId, posts} = action.payload;
-      const userPosts = {...state.userPosts};
-      userPosts[userId] = posts;
-      return updateObject(state, {userPosts});
+      const postsForUser = {...state.postsForUser};
+      postsForUser[userId] = posts;
+      return updateObject(state, {postsForUser});
     }
     default:
       return state;

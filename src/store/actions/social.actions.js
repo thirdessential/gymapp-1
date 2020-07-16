@@ -153,12 +153,12 @@ export const setPostsForUser = (userId, posts) => ({
   }
 });
 
-export const getPostsForUser = (userId) => {
-  return async (dispatch, getState) => {
+export const getPostsForUser = (userId, page='') => {
+  return async (dispatch) => {
     try {
-      let result = await API.getPostsForUser(userId);
-      console.log(result);
-      return true;
+      let {nextPage, posts} = await API.getPostsForUser(userId);
+      dispatch(setPostsForUser(userId, posts));
+      return nextPage;
     } catch (error) {
       console.log("post fetch for user failed", error);
       return null;

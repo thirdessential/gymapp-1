@@ -50,8 +50,6 @@ class MyProfile extends Component {
   openPost = (postId) => {
     this.props.navigation.navigate(RouteNames.PostViewer, {postId});
   }
-
-
   componentDidMount() {
     const {syncSubscriptions, updateUserData, userData, navigation} = this.props;
     this.updatePosts();
@@ -113,11 +111,9 @@ class MyProfile extends Component {
       userId: userId
     });
   }
-
   createPost = () => {
     this.props.navigation.navigate(RouteNames.CreatePost);
   }
-
   renderContent = () => {
     const {route, posts, likePost, unlikePost, reportPost} = this.props;
     let initialRouteName = TabRoutes.Packages;
@@ -157,7 +153,7 @@ class MyProfile extends Component {
           )
         }
         {
-           posts &&
+          posts &&
           <View style={styles.postListContainer}>
             <View style={styles.sectionTitleContainer}>
               <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -244,23 +240,6 @@ const styles = StyleSheet.create({
     marginLeft: spacing.medium,
     marginRight: spacing.medium,
     marginTop: spacing.medium
-  },
-  createButton: {
-    backgroundColor: appTheme.brightContent,
-    borderBottomLeftRadius: 15,
-    borderTopLeftRadius: 15,
-    borderRadius: 8,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: spacing.small
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: fontSizes.h4,
-    fontFamily: fonts.CenturyGothic,
-    marginLeft: spacing.small_sm,
-    marginRight: spacing.small_sm
   }
 });
 
@@ -277,7 +256,7 @@ const mapDispatchToProps = (dispatch) => ({
   updatePosts: (page) => dispatch(actionCreators.updatePosts(page, true)),
   likePost: (postId) => dispatch(actionCreators.likePost(postId)),
   unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId)),
-  reportPost:postId =>dispatch(actionCreators.reportPost(postId))
+  reportPost: postId => dispatch(actionCreators.reportPost(postId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);

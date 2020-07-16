@@ -7,7 +7,13 @@ import {
   StyleSheet,
   StatusBar,
   Text,
-  ScrollView, TouchableOpacity, TextInput, Image, LayoutAnimation, ActivityIndicator,
+  Keyboard,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  Image,
+  LayoutAnimation,
+  ActivityIndicator,
 } from 'react-native'
 import {connect} from "react-redux";
 
@@ -103,6 +109,7 @@ class CreatePost extends Component {
   createPost = async () => {
     const {imagePath, description} = this.state;
     const {navigation, updatePosts, updateMyPosts} = this.props;
+    Keyboard.dismiss()
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({submitting: true});
     let result;

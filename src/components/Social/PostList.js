@@ -32,6 +32,10 @@ const postList = (props) => {
     });
     return liked;
   }
+  const disableSelfProfileClick = (targetUserId) => {
+    const {userId} = store.getState().user;
+    if (userId !== targetUserId) onProfilePress(targetUserId);
+  }
   const renderPost = (post) => {
     return <TouchableOpacity
       onPress={() => openPost(post._id)}
@@ -50,7 +54,7 @@ const postList = (props) => {
         unlikeCallback={() => unlikePost(post._id)}
         flagCallback={() => reportPost(post._id)}
         // shareCallback={() => {}}
-        onProfilePress={() => onProfilePress(post.createdBy.userId)}
+        onProfilePress={() => disableSelfProfileClick(post.createdBy.userId)}
       />
     </TouchableOpacity>
   }

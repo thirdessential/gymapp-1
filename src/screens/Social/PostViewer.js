@@ -66,6 +66,10 @@ class PostViewer extends Component {
       userId: userId
     });
   }
+  disableSelfProfileClick = (targetUserId) => {
+    const {userId} = store.getState().user;
+    if (userId !== targetUserId) this.openProfile(targetUserId);
+  }
   renderPost = (post) => {
     return (
       <View style={{marginTop: spacing.medium}}>
@@ -82,7 +86,7 @@ class PostViewer extends Component {
           unlikeCallback={() => unlikePost(post._id)}
           flagCallback={() => this.reportPost(post._id)}
           // shareCallback={() => {}}
-          onProfilePress={()=>this.openProfile(post.createdBy.userId)}
+          onProfilePress={()=>this.disableSelfProfileClick(post.createdBy.userId)}
         />
       </View>
     )
