@@ -20,13 +20,12 @@ import {connect} from "react-redux";
 import {appTheme} from "../../constants/colors";
 import * as actionCreators from '../../store/actions';
 import {spacing} from "../../constants/dimension";
-import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import HalfRoundedButton from "./HalfRoundedButton";
+import HalfRoundedButton from "../../components/HalfRoundedButton";
 import strings from "../../constants/strings";
-import {imageTypes, INITIAL_PAGE, MAX_POST_LENGTH} from "../../constants/appConstants";
+import {INITIAL_PAGE, MAX_POST_LENGTH} from "../../constants/appConstants";
 import {pickImage} from "../../utils/utils";
-import {createImagePost, createTextPost, uploadImage} from "../../API";
+import {createImagePost, createTextPost} from "../../API";
 import {screenWidth} from "../../utils/screenDimensions";
 import {showError, showSuccess} from "../../utils/notification";
 
@@ -147,7 +146,6 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     padding: spacing.medium,
-    // paddingRight: spacing.medium,
     backgroundColor: appTheme.background,
     flex: 1
   },

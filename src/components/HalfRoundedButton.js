@@ -2,10 +2,10 @@ import React from "react";
 import {StyleSheet, Text, TouchableOpacity,} from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-import {appTheme} from "../../constants/colors";
-import {spacing} from "../../constants/dimension";
-import fontSizes from "../../constants/fontSizes";
-import fonts from "../../constants/fonts";
+import {appTheme} from "../constants/colors";
+import {spacing} from "../constants/dimension";
+import fontSizes from "../constants/fontSizes";
+import fonts from "../constants/fonts";
 
 const halfRoundedButton = (props) => {
   return (

@@ -14,24 +14,18 @@ import ProfileOverview from '../../components/Profile/ProfileOverview';
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
-import {imageTypes, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
+import {defaultDP, imageTypes, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
-import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
-import {generateTrainerHits, generateUserHits, initialiseVideoCall, pickImage} from "../../utils/utils";
+import RouteNames from "../../navigation/RouteNames";
+import {generateTrainerHits, generateUserHits, pickImage} from "../../utils/utils";
 import {spacing} from "../../constants/dimension";
-import TrainerInfo from "../../components/Trainer/TrainerInfoTabView";
 import * as actionCreators from "../../store/actions";
-import {requestCameraAndAudioPermission} from "../../utils/permission";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {uploadImage} from "../../API";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import PostList from "../../components/Social/PostList";
-import HalfRoundedButton from "../Social/HalfRoundedButton";
-
-const STATUS_BAR_HEIGHT = 0;
-const HEADER_HEIGHT = 64;
-const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
+import HalfRoundedButton from "../../components/HalfRoundedButton";
 
 class MyProfile extends Component {
 
@@ -50,6 +44,7 @@ class MyProfile extends Component {
   openPost = (postId) => {
     this.props.navigation.navigate(RouteNames.PostViewer, {postId});
   }
+
   componentDidMount() {
     const {syncSubscriptions, updateUserData, userData, navigation} = this.props;
     this.updatePosts();
@@ -102,10 +97,7 @@ class MyProfile extends Component {
     this.props.navigation.navigate(RouteNames.CreatePost);
   }
   renderContent = () => {
-    const {route, posts, likePost, unlikePost, reportPost} = this.props;
-    let initialRouteName = TabRoutes.Packages;
-    if (route.params && route.params.initialRouteName)
-      initialRouteName = route.params.initialRouteName;
+    const {posts, likePost, unlikePost, reportPost} = this.props;
     const user = this.props.userData;
 
     let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots, activeSubscriptions} = user;
@@ -126,19 +118,6 @@ class MyProfile extends Component {
           editCallback={this.editProfile}
           location={city}
         />
-        {/*{*/}
-        {/*  userType === userTypes.TRAINER && (*/}
-        {/*    <TrainerInfo*/}
-        {/*      packages={packages}*/}
-        {/*      slots={slots}*/}
-        {/*      enrollCallback={this.enrollClicked}*/}
-        {/*      subscriptions={this.props.subscriptions}*/}
-        {/*      onProfilePress={this.openProfile}*/}
-        {/*      callCallback={this.callClicked}*/}
-        {/*      initialRouteName={initialRouteName}*/}
-        {/*    />*/}
-        {/*  )*/}
-        {/*}*/}
         {
           posts &&
           <View style={styles.postListContainer}>

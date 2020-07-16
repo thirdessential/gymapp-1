@@ -17,6 +17,8 @@ import {INITIAL_PAGE} from "../../constants/appConstants";
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import PostList from "../../components/Social/PostList";
 import {spacing} from "../../constants/dimension";
+import HalfRoundedButton from "../../components/HalfRoundedButton";
+import strings from "../../constants/strings";
 
 class Community extends Component {
 
@@ -51,11 +53,18 @@ class Community extends Component {
       userId: userId
     });
   }
+  openPostCreator = () => {
+    const {navigation} = this.props;
+    navigation.navigate(RouteNames.CreatePost);
+  }
 
   render() {
     const {posts, likePost, unlikePost, reportPost} = this.props;
     return (<View style={styles.container}>
         <StatusBar backgroundColor={appTheme.lightBackground}/>
+        {/*<View style={styles.buttonContainer}>*/}
+        {/*  <HalfRoundedButton title={strings.ADD_POST} onPress={this.openPostCreator}/>*/}
+        {/*</View>*/}
         <PostList
           posts={posts}
           openPost={this.openPost}
@@ -76,7 +85,12 @@ const styles = StyleSheet.create({
     paddingRight: spacing.medium,
     backgroundColor: appTheme.background,
     flex: 1
-  }
+  },
+  // buttonContainer: {
+  //   justifyContent: 'flex-end',
+  //   flexDirection: 'row',
+  //   marginTop: spacing.medium
+  // }
 });
 
 const mapStateToProps = (state) => ({

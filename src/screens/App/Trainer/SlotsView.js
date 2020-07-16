@@ -8,16 +8,39 @@ import {connect} from "react-redux";
 import {appTheme} from "../../../constants/colors";
 import {spacing} from "../../../constants/dimension";
 import SlotsByTime from "../../../components/Trainer/SlotsByTime";
+import {showError, showSuccess} from "../../../utils/notification";
+import {bookAppointment} from "../../../API";
 
 class SlotsView extends Component {
 
+  bookAppointment = async (day, time) => {
+    const {route, setUser} = this.props;
+    const {userId} = route.params;
+    let response = await bookAppointment(userId, day, time);
+    if (response.success)
+      showSuccess(response.message);
+    else showError(response.message);
+    setUser(userId);
+  }
+
+  getUser = () => {
+    const {route, users} = this.props;
+    if (route.params && route.params.userId)
+      return users[route.params.userId];
+    else return this.props.userData;
+  }
+  selfNavigated = () => {
+    const {route} = this.props;
+    return !(route.params && route.params.userId);
+  }
+
   render() {
-    const {slots} = this.props.userData
+    const {slots} = this.getUser();
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <SlotsByTime
           slots={slots}
-          // bookCallback={bookCallback}
+          bookCallback={this.selfNavigated() ? null : this.bookAppointment}
         />
       </ScrollView>
     )

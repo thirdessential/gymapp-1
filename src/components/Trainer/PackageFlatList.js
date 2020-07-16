@@ -18,6 +18,7 @@ const packageFlatList = (props) => {
     return (
       <View style={styles.packageContainer}>
         <PackageOverview
+          open={props.initialOpenId}
           title={title}
           sessionCount={noOfSessions}
           sessionsPerWeek={sessionsPerWeek}

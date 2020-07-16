@@ -47,19 +47,6 @@ const myProfile = () => {
               fontFamily: fonts.PoppinsRegular
             },
           }}/>
-        <Stack.Screen
-          name={RouteNames.CreatePost}
-          component={CreatePost}
-          options={{
-            title: 'Create post',
-            headerTintColor: appTheme.brightContent,
-            headerStyle: {
-              backgroundColor: appTheme.darkBackground,
-            },
-            headerTitleStyle: {
-              fontFamily: fonts.PoppinsRegular
-            },
-          }}/>
       </Stack.Navigator>
   )
 }

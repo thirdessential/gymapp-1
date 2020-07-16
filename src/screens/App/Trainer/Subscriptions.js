@@ -27,6 +27,7 @@ class Subscriptions extends Component {
       await initialiseVideoCall(userId);
     } else console.log("Cant initiate video call without permission");
   }
+
   render() {
     const {subscriptions} = this.props;
     return (
@@ -44,10 +45,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: appTheme.background,
     flex: 1,
-    padding: spacing.medium,
-    paddingBottom: spacing.large_lg
+    paddingLeft: spacing.medium,
+    paddingRight: spacing.medium,
   },
-
 });
 
 const mapStateToProps = (state) => ({

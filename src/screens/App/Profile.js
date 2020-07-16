@@ -11,8 +11,7 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
 
 import ProfileOverview from '../../components/Profile/ProfileOverview';
-import TrainerInfo from '../../components/Trainer/TrainerInfoTabView'
-import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
+import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
 import {requestCameraAndAudioPermission} from "../../utils/permission";
 import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
@@ -22,8 +21,7 @@ import strings from "../../constants/strings";
 import {defaultDP, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
 import {spacing} from "../../constants/dimension";
-import {showError, showSuccess} from "../../utils/notification";
-import {bookAppointment, likePost, reportPost, unlikePost} from "../../API";
+import {likePost, reportPost, unlikePost} from "../../API";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import PostList from "../../components/Social/PostList";
@@ -51,24 +49,6 @@ class Profile extends Component {
     }
   }
 
-  enrollClicked = (packageId) => {
-    const {navigation, route} = this.props;
-    const {userId} = route.params;
-    const user = this.getUser();
-
-    let {name, packages} = user;
-    const filteredPackages = packages.filter(packageData => packageData._id === packageId);
-    if (filteredPackages && filteredPackages.length > 0) {
-      const sessionCount = filteredPackages[0].noOfSessions;
-      navigation.navigate(RouteNames.Enroll, {
-        userId,
-        packageId,
-        trainerName: name,
-        sessionCount
-      });
-    }
-  }
-
   callClicked = async () => {
     const {route} = this.props;
     const {userId} = route.params;
@@ -77,16 +57,6 @@ class Profile extends Component {
     if (permissionGranted) {
       await initialiseVideoCall(userId);
     } else console.log("Cant initiate video call without permission");
-  }
-
-  bookAppointment = async (day, time) => {
-    const {route, setUser} = this.props;
-    const {userId} = route.params;
-    let response = await bookAppointment(userId, day, time);
-    if (response.success)
-      showSuccess(response.message);
-    else showError(response.message);
-    setUser(userId);
   }
 
   loader = () => (
@@ -103,10 +73,11 @@ class Profile extends Component {
   getPosts = () => {
     const {route, postsForUser} = this.props;
     const {userId} = route.params;
-    if( postsForUser[userId])
+    if (postsForUser[userId])
       return postsForUser[userId];
     return [];
   }
+
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     const {route, users} = nextProps;
     const {userId} = route.params;
@@ -122,6 +93,7 @@ class Profile extends Component {
     }
     return true;
   }
+
   openPost = (postId) => {
     this.props.navigation.navigate(RouteNames.PostViewer, {postId});
   }
@@ -132,8 +104,6 @@ class Profile extends Component {
       this.setState({nextPage: await getPostsForUser(nextPage)});
   }
   renderContent = () => {
-    const {route, myUserType} = this.props;
-    const {initialRouteName = TabRoutes.Packages} = route.params;
     const user = this.getUser();
     const posts = this.getPosts();
     if (!user)
@@ -142,8 +112,13 @@ class Profile extends Component {
     let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots, activeSubscriptions} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const hits = userType === userTypes.TRAINER ?
-      generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length, post:posts.length||0}) :
-      generateUserHits({subscription: activeSubscriptions, post:posts.length||0});
+      generateTrainerHits({
+        transformation: experience,
+        slot: slots.length,
+        program: packages.length,
+        post: posts.length || 0
+      }) :
+      generateUserHits({subscription: activeSubscriptions, post: posts.length || 0});
     return (
       <View style={styles.container}>
         <ProfileOverview
@@ -157,17 +132,6 @@ class Profile extends Component {
           userType={userType}
           location={city}
         />
-        {
-          userType === userTypes.TRAINER && myUserType !== userTypes.TRAINER && (
-            <TrainerInfo
-              packages={packages}
-              slots={slots}
-              enrollCallback={this.enrollClicked}
-              bookCallback={this.bookAppointment}
-              initialRouteName={initialRouteName}
-            />
-          )
-        }
         {
           posts &&
           <View style={styles.postListContainer}>

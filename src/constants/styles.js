@@ -3,7 +3,7 @@ import fontSizes from "./fontSizes";
 import fonts from "./fonts";
 
 export const drawerLabelStyle= {
-  color:appTheme.brightContent,
+  color:'white',
   fontSize:fontSizes.h3,
   fontFamily: fonts.MontserratMedium,
 }

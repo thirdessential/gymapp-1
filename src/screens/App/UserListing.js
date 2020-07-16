@@ -54,11 +54,17 @@ class UserListing extends Component {
     this.unsubscribeFocus()
   }
 
-  openProfile = (userId, initialRouteName = TabRoutes.Packages) => {
+  openProfile = (userId) => {
     const {navigation} = this.props;
     navigation.navigate(RouteNames.Profile, {
       userId: userId,
-      initialRouteName
+    });
+  }
+  openPackage = (userId,packageId)=>{
+    const {navigation} = this.props;
+    navigation.navigate(RouteNames.PackagesView, {
+      userId,
+      packageId
     });
   }
 
@@ -91,7 +97,7 @@ class UserListing extends Component {
               rating={rating}
               packages={packages}
               onPress={() => this.openProfile(user._id)}
-              onPackagePress={() => this.openProfile(user._id, TabRoutes.Packages)}
+              onPackagePress={(packageId) => this.openPackage(user._id, packageId)}
               // callClicked={() => this.callClicked(user._id)}
             />
           )

@@ -43,6 +43,7 @@ const strings = {
   TRANSFORMATIONS: 'Transformations',
   NO_DESC: "No description provided for this user",
   MAKEOVERS: 'Makeovers',
+  SCHEDULE:'Schedule',
   RATING: 'Rating',
   SEE_MORE: 'See more',
   SEE_LESS: 'See less',

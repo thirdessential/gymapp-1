@@ -11,6 +11,7 @@ import PackageList from "../../screens/App/Trainer/PackageList";
 import PackageEdit from "../../screens/App/Trainer/PackageEdit";
 import SlotsView from "../../screens/App/Trainer/SlotsView";
 import Subscriptions from "../../screens/App/Trainer/Subscriptions";
+import Schedule from "../../screens/App/User/Schedule";
 
 const toolStack = () => {
   return (
@@ -82,6 +83,20 @@ const toolStack = () => {
         component={Subscriptions}
         options={{
           title: 'Subscriptions',
+          headerTintColor: appTheme.brightContent,
+          headerStyle: {
+            backgroundColor: appTheme.darkBackground,
+          },
+          headerTitleStyle: {
+            fontFamily: fonts.PoppinsRegular
+          }
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.Schedule}
+        component={Schedule}
+        options={{
+          title: 'Schedule',
           headerTintColor: appTheme.brightContent,
           headerStyle: {
             backgroundColor: appTheme.darkBackground,

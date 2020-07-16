@@ -31,6 +31,7 @@ const RouteNames = {
   ToolTab:'ToolTab',
   SlotsView:'SlotsView',
   Subscriptions: 'Subscriptions',
+  PackagesView:'PackagesView',
 
   Login:'Login',
   Signup:'Signup'

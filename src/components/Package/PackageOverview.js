@@ -20,7 +20,8 @@ const toggleAnimation = (callback, value) => {
 }
 
 const PackageOverview = (props) => {
-  const [collapsed, setCollapsed] = useState(true);
+  const {open=false} = props;
+  const [collapsed, setCollapsed] = useState(!open);
   const chevron = !collapsed ? 'chevron-up' : 'chevron-down';
   const [imageSrc] = useState(getRandomImage());
 

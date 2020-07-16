@@ -17,7 +17,6 @@ import {ActivityIndicator, Text, View} from "react-native";
 import fontSizes from "../constants/fontSizes";
 import ListingStack from './stacks/listingStack';
 import SlotEditStack from "./stacks/SlotEditStack";
-import ScheduleStack from "./stacks/ScheduleStack";
 import ActivityStack from "./stacks/ActivityStack";
 import SocialStack from "./stacks/SocialStack";
 import ToolStack from "./stacks/ToolStack";
@@ -106,36 +105,19 @@ const appTabNavigator = (props) => {
             }}/>
         )
       }
-      {
-        userType === userTypes.TRAINER && (
-          <Tab.Screen
-            name={RouteNames.ToolTab}
-            component={ToolStack}
-            options={{
-              title: 'Tools',
-              tabBarIcon: ({focused, color, size}) => {
-                let iconName = focused ? 'ios-construct' : 'ios-construct';
-                return (
-                  <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>);
-              },
-            }}/>
-        )
-      }
-      {
-        userType === userTypes.USER && (
-          <Tab.Screen
-            name={RouteNames.Schedule}
-            component={ScheduleStack}
-            options={{
-              title: 'Schedule',
-              tabBarIcon: ({focused, color, size}) => {
-                let iconName = focused ? 'calendar-o' : 'calendar';
-                return <View style={{alignItems: 'center'}}><FontAwesome name={iconName} size={20}
-                                                                         color={color}/></View>
-              },
-            }}/>
-        )
-      }
+
+      <Tab.Screen
+        name={RouteNames.ToolTab}
+        component={ToolStack}
+        options={{
+          title: 'Tools',
+          tabBarIcon: ({focused, color, size}) => {
+            let iconName = focused ? 'ios-construct' : 'ios-construct';
+            return (
+              <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>);
+          },
+        }}/>
+
       <Tab.Screen
         name={RouteNames.MyProfile}
         component={MyProfileStack}
