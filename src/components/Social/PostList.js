@@ -18,7 +18,10 @@ import {spacing} from "../../constants/dimension";
 import Post from "../../components/Social/Post";
 
 const postList = (props) => {
-  const {posts, openPost, updatePosts, likePost, unlikePost, reportPost} = props;
+  const {
+    posts, openPost, updatePosts, likePost, unlikePost, reportPost, onProfilePress = () => {
+    }
+  } = props;
 
   const checkLiked = (likes) => {
     const {userId} = store.getState().user;
@@ -46,8 +49,8 @@ const postList = (props) => {
         likeCallback={() => likePost(post._id)}
         unlikeCallback={() => unlikePost(post._id)}
         flagCallback={() => reportPost(post._id)}
-        shareCallback={() => {
-        }}
+        // shareCallback={() => {}}
+        onProfilePress={() => onProfilePress(post.createdBy.userId)}
       />
     </TouchableOpacity>
   }
@@ -60,7 +63,7 @@ const postList = (props) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           style={styles.container}
-          data={posts}
+          data={posts || []}
           renderItem={({item}) => renderPost(item)}
           keyExtractor={(item) => item._id}
           ListHeaderComponent={() => <View style={{height: spacing.medium}}/>}
@@ -70,7 +73,7 @@ const postList = (props) => {
           ItemSeparatorComponent={itemSeparator}
         />
         {
-          posts.length === 0 && (
+          !posts && (
             <ActivityIndicator style={{position: 'absolute'}} color={appTheme.brightContent} size={50}/>
           )
         }

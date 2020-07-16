@@ -7,6 +7,7 @@ import fonts from "../../constants/fonts";
 import openDrawerButton from "../openDrawerButton";
 import Community from "../../screens/Social/Community";
 import PostViewer from "../../screens/Social/PostViewer";
+import Profile from "../../screens/App/Profile";
 
 const listing = (props) => {
   return (
@@ -38,6 +39,8 @@ const listing = (props) => {
             fontFamily: fonts.PoppinsRegular
           },
         }}/>
+      <Stack.Screen name={RouteNames.Profile} component={Profile}
+                    options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
     </Stack.Navigator>
   );
 }

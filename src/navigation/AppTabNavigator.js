@@ -77,7 +77,7 @@ const appTabNavigator = (props) => {
           },
         }}/>
       {
-        userType === userTypes.USER || true && (
+        userType === userTypes.USER && (
           <Tab.Screen
             name={RouteNames.UserListing}
             component={ListingStack}

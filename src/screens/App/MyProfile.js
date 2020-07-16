@@ -157,7 +157,7 @@ class MyProfile extends Component {
           )
         }
         {
-          userType !== userTypes.TRAINER && posts &&
+           posts &&
           <View style={styles.postListContainer}>
             <View style={styles.sectionTitleContainer}>
               <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -171,6 +171,7 @@ class MyProfile extends Component {
                 likePost={likePost}
                 unlikePost={unlikePost}
                 reportPost={reportPost}
+
               />
             </View>
           </View>

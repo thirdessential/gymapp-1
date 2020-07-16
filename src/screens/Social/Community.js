@@ -14,7 +14,7 @@ import {appTheme} from "../../constants/colors";
 import * as actionCreators from '../../store/actions';
 import {INITIAL_PAGE} from "../../constants/appConstants";
 
-import RouteNames from "../../navigation/RouteNames";
+import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import PostList from "../../components/Social/PostList";
 import {spacing} from "../../constants/dimension";
 
@@ -45,8 +45,15 @@ class Community extends Component {
     return true;
   }
 
+  openProfile = (userId) => {
+    const {navigation} = this.props;
+    navigation.navigate(RouteNames.Profile, {
+      userId: userId
+    });
+  }
+
   render() {
-    const {posts,likePost,unlikePost, reportPost} = this.props;
+    const {posts, likePost, unlikePost, reportPost} = this.props;
     return (<View style={styles.container}>
         <StatusBar backgroundColor={appTheme.lightBackground}/>
         <PostList
@@ -56,6 +63,7 @@ class Community extends Component {
           likePost={likePost}
           unlikePost={unlikePost}
           reportPost={reportPost}
+          onProfilePress={this.openProfile}
         />
       </View>
     );
@@ -63,11 +71,11 @@ class Community extends Component {
 }
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     paddingLeft: spacing.medium,
     paddingRight: spacing.medium,
-    backgroundColor:appTheme.background,
-    flex:1
+    backgroundColor: appTheme.background,
+    flex: 1
   }
 });
 
@@ -77,9 +85,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updatePosts: (page) => dispatch(actionCreators.updatePosts(page)),
-  likePost:(postId)=>dispatch(actionCreators.likePost(postId)),
-  unlikePost:(postId)=>dispatch(actionCreators.unlikePost(postId)),
-  reportPost:postId =>dispatch(actionCreators.reportPost(postId))
+  likePost: (postId) => dispatch(actionCreators.likePost(postId)),
+  unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId)),
+  reportPost: postId => dispatch(actionCreators.reportPost(postId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Community);

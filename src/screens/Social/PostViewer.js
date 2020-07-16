@@ -24,11 +24,12 @@ import {likeComment, likePost, unlikeComment, unlikePost} from "../../API";
 import {MAX_POST_LENGTH} from "../../constants/appConstants";
 import {screenWidth} from "../../utils/screenDimensions";
 import post from "../../components/Social/Post";
+import RouteNames from "../../navigation/RouteNames";
 
 class PostViewer extends Component {
   state = {
     commentText: '',
-    submitting:false
+    submitting: false
   }
 
   componentDidMount() {
@@ -54,11 +55,16 @@ class PostViewer extends Component {
     });
     return liked;
   }
-
-  reportPost = (postId)=>{
-    const {navigation,reportPost} = this.props;
+  reportPost = (postId) => {
+    const {navigation, reportPost} = this.props;
     navigation.goBack();
     reportPost(postId);
+  }
+  openProfile = (userId) => {
+    const {navigation} = this.props;
+    navigation.navigate(RouteNames.Profile, {
+      userId: userId
+    });
   }
   renderPost = (post) => {
     return (
@@ -75,13 +81,12 @@ class PostViewer extends Component {
           likeCallback={() => likePost(post._id)}
           unlikeCallback={() => unlikePost(post._id)}
           flagCallback={() => this.reportPost(post._id)}
-          shareCallback={() => {
-          }}
+          // shareCallback={() => {}}
+          onProfilePress={()=>this.openProfile(post.createdBy.userId)}
         />
       </View>
     )
   }
-
   renderComment = (comment) => {
     if (!comment.likes) return null;
     if (!comment.approved) return null;
@@ -94,8 +99,9 @@ class PostViewer extends Component {
       createdBy={comment.commentedBy.name}
       displayImageUrl={comment.commentedBy.displayPictureUrl}
       showComment={false}
-      unlikeCallback={()=>unlikeComment(comment._id)}
-      likeCallback={()=>likeComment(comment._id)}
+      unlikeCallback={() => unlikeComment(comment._id)}
+      likeCallback={() => likeComment(comment._id)}
+      onProfilePress={()=>this.openProfile(post.createdBy.userId)}
     />
   }
   itemSeparator = () => <View style={{marginTop: spacing.medium}}/>
@@ -147,22 +153,22 @@ class PostViewer extends Component {
   onCommentChange = (commentText) => {
     this.setState({commentText});
   }
-  submitComment =async () => {
-    const {route,commentOnPost} = this.props;
+  submitComment = async () => {
+    const {route, commentOnPost} = this.props;
     const {postId} = route.params;
     Keyboard.dismiss();
     let comment = this.state.commentText;
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({submitting:true, commentText:''});
-    await commentOnPost(postId,comment);
-    this.setState({submitting:false});
+    this.setState({submitting: true, commentText: ''});
+    await commentOnPost(postId, comment);
+    this.setState({submitting: false});
     this.forceUpdate();
   }
   renderSubmit = () => {
     const disabled = this.state.commentText.length < 3;
     if (this.state.submitting)
       return (
-        <ActivityIndicator style={{marginTop:spacing.medium_sm}} color={appTheme.brightContent} size={30}/>
+        <ActivityIndicator style={{marginTop: spacing.medium_sm}} color={appTheme.brightContent} size={30}/>
       )
     return (
       <View style={{flexDirection: 'row', marginTop: spacing.medium_sm}}>
@@ -280,7 +286,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   updatePost: (postId) => dispatch(actionCreators.updatePost(postId)),
   commentOnPost: (postId, commentText) => dispatch(actionCreators.commentOnPost(postId, commentText)),
-  reportPost:postId =>dispatch(actionCreators.reportPost(postId))
+  reportPost: postId => dispatch(actionCreators.reportPost(postId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostViewer);

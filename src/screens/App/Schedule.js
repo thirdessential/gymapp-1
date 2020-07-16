@@ -56,7 +56,7 @@ class Schedule extends Component {
   updateLocalState = () => {
     const {globalSlots} = this.props;
 
-    if (globalSlots && Object.keys(globalSlots).length>0) {
+    if (globalSlots && Object.keys(globalSlots).length > 0) {
       this.updateSelectedTime();
     }
   }
@@ -96,10 +96,12 @@ class Schedule extends Component {
   }
 
   getUser = (userId) => {
-    const {users} = this.props;
+    const {users, setUser} = this.props;
     const user = users[userId];
-    if (!user)
-      return {}; // TODO: make api call to update him
+    if (!user) {
+      setUser(userId);
+      return {};
+    }
     return user;
   }
 
@@ -135,7 +137,7 @@ class Schedule extends Component {
 
   renderTimeButtonGroup = () => {
     const {globalSlots} = this.props;
-    if (!globalSlots || Object.keys(globalSlots.length===0)) return null;
+    if (!globalSlots || Object.keys(globalSlots.length === 0)) return null;
 
 
     const day = this.getSelectedDay();
@@ -157,20 +159,20 @@ class Schedule extends Component {
       <LinearGradient
         colors={[darkPallet.darkBlue, appTheme.lightBackground]}
         style={styles.container}>
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <View style={styles.calendarContainer}>
-          <CustomCalendar
-            selectedDate={this.state.selectedDate}
-            dates={this.state.dates}
-            onDateChange={this.onDateSelected}
-          />
-        </View>
-        <this.renderTimeButtonGroup/>
-        <View style={styles.headingContainer}>
-          <Text style={styles.heading}>{strings.AVAILABLE_SLOTS}</Text>
-        </View>
-        <this.renderSlots/>
-      </ScrollView>
+        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+          <View style={styles.calendarContainer}>
+            <CustomCalendar
+              selectedDate={this.state.selectedDate}
+              dates={this.state.dates}
+              onDateChange={this.onDateSelected}
+            />
+          </View>
+          <this.renderTimeButtonGroup/>
+          <View style={styles.headingContainer}>
+            <Text style={styles.heading}>{strings.AVAILABLE_SLOTS}</Text>
+          </View>
+          <this.renderSlots/>
+        </ScrollView>
       </LinearGradient>
     );
   }
@@ -179,7 +181,7 @@ class Schedule extends Component {
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: appTheme.lightBackground
-    flex:1
+    flex: 1
   },
   calendarContainer: {
     paddingLeft: spacing.medium_lg,
@@ -209,12 +211,13 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  globalSlots:state.app.globalSlots,
+  globalSlots: state.app.globalSlots,
   users: state.app.users
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateGlobalSlots: () => dispatch(actionCreators.updateGlobalSlots())
+  updateGlobalSlots: () => dispatch(actionCreators.updateGlobalSlots()),
+  setUser: (userId) => dispatch(actionCreators.setUser(userId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Schedule);

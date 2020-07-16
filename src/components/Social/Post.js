@@ -25,7 +25,7 @@ const post = (props) => {
   const {
     commentCount, createdBy, displayImageUrl,
     imageUrl, likeCount, createdOn, text, likeCallback,
-    unlikeCallback,
+    unlikeCallback, onProfilePress,
     flagCallback, shareCallback, showComment = true, isLiked
   } = props;
   const [liked, setLiked] = useState(isLiked);
@@ -43,8 +43,10 @@ const post = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Avatar size={spacing.postAvatar} url={displayImageUrl} roundedMultiplier={1}/>
-        <Text style={styles.displayName}>{createdBy}</Text>
+        <TouchableOpacity activeOpacity={0.8} onPress={onProfilePress} style={styles.titleContainer}>
+          <Avatar size={spacing.postAvatar} url={displayImageUrl} roundedMultiplier={1}/>
+          <Text style={styles.displayName}>{createdBy}</Text>
+        </TouchableOpacity>
         <Text style={[styles.displayName, styles.postTime]}>{timeAgo.format(new Date(createdOn))}</Text>
       </View>
       {
@@ -67,14 +69,14 @@ const post = (props) => {
         {
           showComment &&
           <View activeOpacity={0.6} style={styles.hitButton}>
-            <MaterialCommunityIcons name={'comment'} size={28} color={appTheme.brightContent}/>
+            <MaterialCommunityIcons name={'comment'} size={28} color={appTheme.grey}/>
             <Text style={styles.hits}>{commentCount}</Text>
           </View>
         }
         {
           flagCallback &&
-          <TouchableOpacity onPress={flagCallback} activeOpacity={0.6}>
-            <Fontisto name={'flag'} size={28} color={appTheme.brightContent}/>
+          <TouchableOpacity  onPress={flagCallback} activeOpacity={0.6} o>
+            <Fontisto name={'flag'} size={28} color={appTheme.grey}/>
           </TouchableOpacity>
         }
         {
