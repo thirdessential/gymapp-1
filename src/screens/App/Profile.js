@@ -26,7 +26,6 @@ import {showError, showSuccess} from "../../utils/notification";
 import {bookAppointment, likePost, reportPost, unlikePost} from "../../API";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import HalfRoundedButton from "../Social/HalfRoundedButton";
 import PostList from "../../components/Social/PostList";
 
 class Profile extends Component {
@@ -104,7 +103,9 @@ class Profile extends Component {
   getPosts = () => {
     const {route, postsForUser} = this.props;
     const {userId} = route.params;
-    return postsForUser[userId];
+    if( postsForUser[userId])
+      return postsForUser[userId];
+    return [];
   }
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     const {route, users} = nextProps;
@@ -144,8 +145,8 @@ class Profile extends Component {
     let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots, activeSubscriptions} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const hits = userType === userTypes.TRAINER ?
-      generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length}) :
-      generateUserHits({subscription: activeSubscriptions});
+      generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length, post:posts.length||0}) :
+      generateUserHits({subscription: activeSubscriptions, post:posts.length||0});
     return (
       <View style={styles.container}>
         <ProfileOverview
@@ -176,7 +177,6 @@ class Profile extends Component {
             <View style={styles.sectionTitleContainer}>
               <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Text style={styles.sectionTitle}>{strings.POSTS}</Text>
-                <HalfRoundedButton onPress={this.createPost} title={strings.ADD_POST}/>
               </View>
               <PostList
                 posts={posts}

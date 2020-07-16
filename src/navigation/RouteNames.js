@@ -23,6 +23,7 @@ const RouteNames = {
   Community:'Community',
   PostViewer:'PostViewer',
   CreatePost:'CreatePost',
+  MyAppointments:'MyAppointments',
 
   ActivityTab:'ActivityTab',
   SocialTab:'SocialTab',

@@ -4,8 +4,7 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Text, FlatList, ScrollView, LayoutAnimation, TouchableOpacity} from 'react-native';
 import {connect} from "react-redux";
-import moment from "moment";
-import {Card} from 'native-base';
+// import moment from "moment";
 
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
@@ -14,10 +13,9 @@ import GlobalSlot from "../../components/GlobalSlot";
 import {appTheme, darkPallet} from "../../constants/colors";
 
 import SelectableButtonGroup from '../../components/selectableButtonGroup';
-import strings, {appointmentErrorBuilder, appointmentSuccessBuilder} from "../../constants/strings";
+import strings from "../../constants/strings";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import MiniSlotCard from "../../components/MiniSlotCard";
 import {formatTimeArray, militaryTimeToString, stringToMilitaryTime} from "../../utils/utils";
 import {defaultDP, WEEK_DAYS} from "../../constants/appConstants";
 import {bookAppointment} from "../../API";
@@ -26,13 +24,11 @@ import RouteNames from "../../navigation/RouteNames";
 import LinearGradient from "react-native-linear-gradient";
 
 class Schedule extends Component {
-
   state = {
     selectedDate: Date.now(),
     selectedSlots: [],
     selectedTime: null,
   }
-
   componentDidMount() {
     const {navigation} = this.props;
     this.refreshGlobalState();
@@ -137,9 +133,7 @@ class Schedule extends Component {
 
   renderTimeButtonGroup = () => {
     const {globalSlots} = this.props;
-    if (!globalSlots || Object.keys(globalSlots.length === 0)) return null;
-
-
+    if (!globalSlots || Object.keys(globalSlots).length === 0) return null;
     const day = this.getSelectedDay();
     const {times} = globalSlots[day] && globalSlots[day][0];
     if (!times) return null;

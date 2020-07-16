@@ -167,7 +167,6 @@ class MyProfile extends Component {
                 likePost={likePost}
                 unlikePost={unlikePost}
                 reportPost={reportPost}
-
               />
             </View>
           </View>
