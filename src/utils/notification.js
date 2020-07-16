@@ -5,7 +5,13 @@ import messaging from '@react-native-firebase/messaging';
 import RNExitApp from "react-native-exit-app";
 import LaunchApplication from "react-native-bring-foreground";
 
-import {appPackageId, notificationActions, remoteMessageTypes, storageKeys} from "../constants/appConstants";
+import {
+  appPackageId,
+  firebaseTopics,
+  notificationActions,
+  remoteMessageTypes,
+  storageKeys
+} from "../constants/appConstants";
 import {navigate} from "../navigation/RootNavigation";
 import RouteNames from "../navigation/RouteNames";
 import {requestCameraAndAudioPermission} from "./permission";
@@ -34,6 +40,10 @@ export const callHandler = async (remoteMessage) => {
 export const configureFCMNotification = async () => {
   try {
     let deviceToken = await messaging().getToken();
+    messaging()
+      .subscribeToTopic(firebaseTopics.SILENT_NOTIFICATION)
+      .then(() => console.log('Subscribed to silent notifications'));
+
     PushNotification.configure({
       onRegister: (token) => {
         // console.log("TOKEN:", token);

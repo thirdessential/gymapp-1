@@ -16,6 +16,7 @@ const strings = {
   ADD_POST:'Add Post',
   NO_ACTIVITY:'No activity found',
   ADD_IMAGE:'Add Image',
+  NEW_POSTS:'New Posts',
   CHANGE_IMAGE:'Change Image',
   RUPEE: '₹',
   PACKAGE_CREATED:'Package Created',

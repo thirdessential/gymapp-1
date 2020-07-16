@@ -20,6 +20,7 @@ import fontSizes from "../../constants/fontSizes";
 import Avatar from "../Avatar";
 import FastImage from "react-native-fast-image";
 import {screenWidth} from "../../utils/screenDimensions";
+import {defaultDP} from "../../constants/appConstants";
 
 const post = (props) => {
   const {
@@ -44,7 +45,7 @@ const post = (props) => {
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <TouchableOpacity activeOpacity={0.8} onPress={onProfilePress} style={styles.titleContainer}>
-          <Avatar size={spacing.postAvatar} url={displayImageUrl} roundedMultiplier={1}/>
+          <Avatar size={spacing.postAvatar} url={!!displayImageUrl?displayImageUrl:defaultDP} roundedMultiplier={1}/>
           <Text style={styles.displayName}>{createdBy}</Text>
         </TouchableOpacity>
         <Text style={[styles.displayName, styles.postTime]}>{timeAgo.format(new Date(createdOn))}</Text>
