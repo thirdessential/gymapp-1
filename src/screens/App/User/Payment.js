@@ -8,20 +8,20 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ion from "react-native-vector-icons/Ionicons";
 
-import {spacing} from "../../constants/dimension";
-import * as actionCreators from "../../store/actions";
-import colors, {appTheme, darkPallet} from "../../constants/colors";
-import strings from "../../constants/strings";
-import fonts from "../../constants/fonts";
-import fontSizes from "../../constants/fontSizes";
-import {validatePackage} from "../../utils/validators";
+import {spacing} from "../../../constants/dimension";
+import * as actionCreators from "../../../store/actions";
+import colors, {appTheme, darkPallet} from "../../../constants/colors";
+import strings from "../../../constants/strings";
+import fonts from "../../../constants/fonts";
+import fontSizes from "../../../constants/fontSizes";
+import {validatePackage} from "../../../utils/validators";
 import LinearGradient from "react-native-linear-gradient";
 import {string} from "prop-types";
-import {militaryTimeToString} from "../../utils/utils";
-import {appName, paymentKey} from "../../constants/appConstants";
+import {militaryTimeToString} from "../../../utils/utils";
+import {appName, paymentKey} from "../../../constants/appConstants";
 import RazorpayCheckout from "react-native-razorpay";
-import {showError, showSuccess} from "../../utils/notification";
-import {sendPaymentData} from "../../API";
+import {showError, showSuccess} from "../../../utils/notification";
+import {sendPaymentData} from "../../../API";
 
 class Packages extends Component {
 

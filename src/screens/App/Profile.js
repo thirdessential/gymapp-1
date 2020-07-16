@@ -122,9 +122,6 @@ class Profile extends Component {
     }
     return true;
   }
-  createPost = () => {
-    this.props.navigation.navigate(RouteNames.CreatePost);
-  }
   openPost = (postId) => {
     this.props.navigation.navigate(RouteNames.PostViewer, {postId});
   }

@@ -24,9 +24,13 @@ const RouteNames = {
   PostViewer:'PostViewer',
   CreatePost:'CreatePost',
   MyAppointments:'MyAppointments',
+  Tools:'Tools',
 
   ActivityTab:'ActivityTab',
   SocialTab:'SocialTab',
+  ToolTab:'ToolTab',
+  SlotsView:'SlotsView',
+  Subscriptions: 'Subscriptions',
 
   Login:'Login',
   Signup:'Signup'

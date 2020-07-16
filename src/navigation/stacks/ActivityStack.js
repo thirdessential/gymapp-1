@@ -28,20 +28,6 @@ const activity = () => {
 
         }}
       />
-      <Stack.Screen
-        name={RouteNames.MyAppointments}
-        component={MyAppointments}
-        options={{
-          title: 'Appointments',
-          headerTintColor: appTheme.brightContent,
-          headerStyle: {
-            backgroundColor: appTheme.darkBackground,
-          },
-          headerTitleStyle: {
-            fontFamily: fonts.PoppinsRegular
-          },
-        }}
-      />
     </Stack.Navigator>
   )
 }

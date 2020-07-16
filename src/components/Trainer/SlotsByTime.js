@@ -66,6 +66,8 @@ const slotsByTime = (props) => {
         {/*}*/}
         <FlatList
           data={groupedSlots[selectedTime]}
+          showsVerticalScrollIndicator={false}
+          ListFooterComponent={()=><View style={{margin:spacing.medium_lg}}/>}
           renderItem={({item,index})=> renderSlot(item,index)} />
       </View>
     </View>

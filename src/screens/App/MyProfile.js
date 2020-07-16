@@ -68,14 +68,6 @@ class MyProfile extends Component {
     this.unsubscribeFocus();
   }
 
-  callClicked = async (userId) => {
-    const permissionGranted = await requestCameraAndAudioPermission();
-
-    if (permissionGranted) {
-      await initialiseVideoCall(userId);
-    } else console.log("Cant initiate video call without permission");
-  }
-
   editProfile = () => {
     this.props.navigation.navigate(RouteNames.ProfileEdit);
   }
@@ -105,12 +97,7 @@ class MyProfile extends Component {
     </TouchableOpacity>
   )
 
-  openProfile = (userId) => {
-    const {navigation} = this.props;
-    navigation.navigate(RouteNames.Profile, {
-      userId: userId
-    });
-  }
+
   createPost = () => {
     this.props.navigation.navigate(RouteNames.CreatePost);
   }
@@ -139,19 +126,19 @@ class MyProfile extends Component {
           editCallback={this.editProfile}
           location={city}
         />
-        {
-          userType === userTypes.TRAINER && (
-            <TrainerInfo
-              packages={packages}
-              slots={slots}
-              enrollCallback={this.enrollClicked}
-              subscriptions={this.props.subscriptions}
-              onProfilePress={this.openProfile}
-              callCallback={this.callClicked}
-              initialRouteName={initialRouteName}
-            />
-          )
-        }
+        {/*{*/}
+        {/*  userType === userTypes.TRAINER && (*/}
+        {/*    <TrainerInfo*/}
+        {/*      packages={packages}*/}
+        {/*      slots={slots}*/}
+        {/*      enrollCallback={this.enrollClicked}*/}
+        {/*      subscriptions={this.props.subscriptions}*/}
+        {/*      onProfilePress={this.openProfile}*/}
+        {/*      callCallback={this.callClicked}*/}
+        {/*      initialRouteName={initialRouteName}*/}
+        {/*    />*/}
+        {/*  )*/}
+        {/*}*/}
         {
           posts &&
           <View style={styles.postListContainer}>

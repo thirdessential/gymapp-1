@@ -8,7 +8,7 @@ import store from '../store/configureStore';
 
 import RouteNames from "./RouteNames";
 import colors, {appTheme} from "../constants/colors";
-import Schedule from "../screens/App/Schedule";
+import Schedule from "../screens/App/User/Schedule";
 import Profile from "../screens/App/Profile";
 import MyProfileStack from './stacks/myProfileStack';
 import PackageStack from "./stacks/PackageStack";
@@ -20,6 +20,7 @@ import SlotEditStack from "./stacks/SlotEditStack";
 import ScheduleStack from "./stacks/ScheduleStack";
 import ActivityStack from "./stacks/ActivityStack";
 import SocialStack from "./stacks/SocialStack";
+import ToolStack from "./stacks/ToolStack";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -93,21 +94,6 @@ const appTabNavigator = (props) => {
       {
         userType === userTypes.TRAINER && (
           <Tab.Screen
-            name={RouteNames.Packages}
-            component={PackageStack}
-            options={{
-              title: 'Packages',
-              tabBarIcon: ({focused, color, size}) => {
-                let iconName = focused ? 'ios-construct' : 'ios-construct';
-                return (
-                  <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>);
-              },
-            }}/>
-        )
-      }
-      {
-        userType === userTypes.TRAINER && (
-          <Tab.Screen
             name={RouteNames.SlotEdit}
             component={SlotEditStack}
             options={{
@@ -116,6 +102,21 @@ const appTabNavigator = (props) => {
                 let iconName = focused ? 'list' : 'list';
                 return <View style={{alignItems: 'center'}}><FontAwesome name={iconName} size={20}
                                                                          color={color}/></View>
+              },
+            }}/>
+        )
+      }
+      {
+        userType === userTypes.TRAINER && (
+          <Tab.Screen
+            name={RouteNames.ToolTab}
+            component={ToolStack}
+            options={{
+              title: 'Tools',
+              tabBarIcon: ({focused, color, size}) => {
+                let iconName = focused ? 'ios-construct' : 'ios-construct';
+                return (
+                  <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>);
               },
             }}/>
         )

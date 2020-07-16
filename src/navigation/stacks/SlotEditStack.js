@@ -5,7 +5,7 @@ import RouteNames from "../RouteNames";
 import {appTheme} from "../../constants/colors";
 import fonts from "../../constants/fonts";
 import openDrawerButton from "../openDrawerButton";
-import SlotList from "../../screens/App/SlotList";
+import SlotList from "../../screens/App/Trainer/SlotList";
 
 const slotEdit = () => {
   return (

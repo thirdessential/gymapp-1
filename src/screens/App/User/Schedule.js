@@ -6,21 +6,21 @@ import {View, StyleSheet, Text, FlatList, ScrollView, LayoutAnimation, Touchable
 import {connect} from "react-redux";
 // import moment from "moment";
 
-import {spacing} from "../../constants/dimension";
-import * as actionCreators from "../../store/actions";
-import CustomCalendar from '../../components/customCalendar';
-import GlobalSlot from "../../components/GlobalSlot";
-import {appTheme, darkPallet} from "../../constants/colors";
+import {spacing} from "../../../constants/dimension";
+import * as actionCreators from "../../../store/actions";
+import CustomCalendar from '../../../components/customCalendar';
+import GlobalSlot from "../../../components/GlobalSlot";
+import {appTheme, darkPallet} from "../../../constants/colors";
 
-import SelectableButtonGroup from '../../components/selectableButtonGroup';
-import strings from "../../constants/strings";
-import fontSizes from "../../constants/fontSizes";
-import fonts from "../../constants/fonts";
-import {formatTimeArray, militaryTimeToString, stringToMilitaryTime} from "../../utils/utils";
-import {defaultDP, WEEK_DAYS} from "../../constants/appConstants";
-import {bookAppointment} from "../../API";
-import {showError, showSuccess} from "../../utils/notification";
-import RouteNames from "../../navigation/RouteNames";
+import SelectableButtonGroup from '../../../components/selectableButtonGroup';
+import strings from "../../../constants/strings";
+import fontSizes from "../../../constants/fontSizes";
+import fonts from "../../../constants/fonts";
+import {formatTimeArray, militaryTimeToString, stringToMilitaryTime} from "../../../utils/utils";
+import {defaultDP, WEEK_DAYS} from "../../../constants/appConstants";
+import {bookAppointment} from "../../../API";
+import {showError, showSuccess} from "../../../utils/notification";
+import RouteNames from "../../../navigation/RouteNames";
 import LinearGradient from "react-native-linear-gradient";
 
 class Schedule extends Component {
