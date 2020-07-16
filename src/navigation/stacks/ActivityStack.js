@@ -11,7 +11,7 @@ import MyAppointments from "../../screens/App/MyAppointments";
 
 const activity = () => {
   return (
-    <Stack.Navigator initialRouteName={RouteNames.MyAppointments}>
+    <Stack.Navigator>
       <Stack.Screen
         name={RouteNames.Activity}
         component={Activity}
@@ -32,7 +32,7 @@ const activity = () => {
         name={RouteNames.MyAppointments}
         component={MyAppointments}
         options={{
-          title: 'My Appointments',
+          title: 'Appointments',
           headerTintColor: appTheme.brightContent,
           headerStyle: {
             backgroundColor: appTheme.darkBackground,

@@ -1,20 +1,27 @@
 import * as React from "react";
-import {StyleSheet, Text, View} from "react-native";
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import {connect} from "react-redux";
+import {SectionGrid} from 'react-native-super-grid';
 
 import {spacing} from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import {appTheme, darkPallet} from "../../constants/colors";
 import Avatar from "../../components/Avatar";
-import {getJoinDurationString, toTitleCase} from "../../utils/utils";
+import {getJoinDurationString, isSameDay, toTitleCase} from "../../utils/utils";
 import RouteNames from "../../navigation/RouteNames";
-import {defaultDP} from "../../constants/appConstants";
-import TimelineTabview from "../../components/TimelineTabview";
+import {defaultDP, WEEK_DAYS} from "../../constants/appConstants";
 import * as actionCreators from "../../store/actions";
+import AppointmentBox from "../../components/AppointmentBox";
 
 class MyAppointments extends React.Component {
+
+  state = {
+    today: [],
+    tomorrow: [],
+    later: []
+  }
 
   componentDidMount() {
     const {navigation, getAppointments} = this.props;
@@ -22,25 +29,29 @@ class MyAppointments extends React.Component {
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       getAppointments();
     })
-    console.log(this.props.myAppointments)
+    this.groupAppointments();
+  }
+
+  groupAppointments = () => {
+    const {myAppointments} = this.props;
+    const todayDate = new Date();
+    const tomorrowDate = new Date();
+    const today = [], tomorrow = [], later = [];
+    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+    myAppointments.map(appointment => {
+      if (isSameDay(todayDate, new Date(appointment.appointmentDate)))
+        today.push(appointment);
+      else if (isSameDay(tomorrowDate, new Date(appointment.appointmentDate)))
+        tomorrow.push(appointment);
+      else later.push(appointment);
+    });
+    this.setState({
+      today, tomorrow, later
+    })
   }
 
   componentWillUnmount() {
     this.unsubscribeFocus();
-  }
-
-  renderUser = () => {
-    const {userData} = this.props;
-    if (!userData) return null;
-    return (
-      <View style={styles.userContainer}>
-        <Avatar url={userData.displayPictureUrl || defaultDP} size={spacing.thumbnailSmall}/>
-        <View style={styles.titleContainer}>
-          <Text style={styles.displayName}>{toTitleCase(userData.name)}</Text>
-          <Text style={styles.infoText}>{getJoinDurationString(userData.dateJoined, userData.userType)}</Text>
-        </View>
-      </View>
-    )
   }
 
   openProfile = (userId) => {
@@ -49,18 +60,64 @@ class MyAppointments extends React.Component {
       userId: userId,
     });
   }
+  renderSectionHeader = (title) => {
+    return <Text style={styles.title}>{title}</Text>;
+  }
+  renderAppointment = (appointment) => {
+    const {appointmentDate, time, trainerId, userId} = appointment;
+    let name, displayPictureUrl;
+    if (trainerId.name) {
+      name = trainerId.name;
+      displayPictureUrl = trainerId.displayPictureUrl;
+    } else {
+      name = userId.name;
+      displayPictureUrl = userId.displayPictureUrl;
+    }
+    return (
+      <TouchableOpacity activeOpacity={0.8} onPress={() => this.openProfile(appointment.trainerId._id)}>
+        <AppointmentBox
+          date={appointmentDate}
+          time={time}
+          displayName={name}
+          displayPictureUrl={displayPictureUrl}
+        />
+      </TouchableOpacity>
+    )
+  }
+
+  renderAppointmentGrid = () => {
+    return (
+      <SectionGrid
+        sections={[
+          {
+            title: 'Today',
+            data: this.state.today
+          },
+          {
+            title: 'Tomorrow',
+            data: this.state.tomorrow,
+          },
+          {
+            title: 'Later',
+            data: this.state.later
+          }
+        ]}
+        style={{width: '100%'}}
+        renderItem={({item}) => this.renderAppointment(item)}
+        renderSectionHeader={({section}) => this.renderSectionHeader(section.title)}
+        keyExtractor={(item) => item._id}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={() => <View style={{marginTop: spacing.medium_sm}}/>}
+      />
+    )
+  }
 
   render() {
     return (
-      <LinearGradient
-        colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
+      <View
         style={styles.container}>
-        {this.renderUser()}
-        <View style={{flex: 1, width: '100%', marginTop: spacing.medium_lg}}>
-
-        </View>
-
-      </LinearGradient>
+        {this.renderAppointmentGrid()}
+      </View>
     );
   }
 }
@@ -70,10 +127,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    paddingLeft: spacing.medium_lg,
-    paddingRight: spacing.medium_lg,
-    paddingTop: spacing.medium_lg,
-    paddingBottom: spacing.medium,
+    paddingLeft: spacing.medium_sm,
+    paddingRight: spacing.medium_sm,
     alignItems: "center",
     backgroundColor: appTheme.background,
   },
@@ -83,8 +138,9 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    fontSize: fontSizes.h0,
-    fontFamily: fonts.PoppinsRegular,
+    fontSize: fontSizes.h1,
+    fontFamily: fonts.CenturyGothic,
+    marginLeft: spacing.medium_sm
   },
   displayName: {
     color: 'white',

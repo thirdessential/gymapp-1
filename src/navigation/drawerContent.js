@@ -43,6 +43,11 @@ function CustomDrawerContent(props) {
             labelStyle={drawerLabelStyle}
             onPress={() => props.navigation.navigate(RouteNames.ProfileEdit)}
           />
+          <DrawerItem
+            label="Appointments"
+            labelStyle={drawerLabelStyle}
+            onPress={() => props.navigation.navigate(RouteNames.MyAppointments)}
+          />
           {
             userType === userTypes.TRAINER && (
               <DrawerItem
