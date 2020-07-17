@@ -20,13 +20,14 @@ import {spacing} from "../../constants/dimension";
 import SwitchSelector from "react-native-switch-selector";
 import strings from "../../constants/strings";
 import QuestionList from "../../components/Social/QuestionList";
+import {likeAnswer, unlikeAnswer} from "../../API";
 
 class Community extends Component {
 
   state = {
     nextPostPage: INITIAL_PAGE,
     nextQuestionPage: INITIAL_PAGE,
-    type: POST_TYPE.TYPE_POST
+    type: POST_TYPE.TYPE_QUESTION
   }
 
   updatePosts = async () => {
@@ -113,6 +114,8 @@ class Community extends Component {
         onCreateAnswer={this.createAnswer}
         update={this.updateQuestions}
         onProfilePress={this.openProfile}
+        onAnswerLike={likeAnswer}
+        onAnswerDislike={unlikeAnswer}
       />
     )
   }

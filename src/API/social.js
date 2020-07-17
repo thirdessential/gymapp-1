@@ -237,3 +237,14 @@ export const likeAnswer = async (answerId) => {
     return false;
   }
 }
+export const unlikeAnswer = async (answerId) => {
+  try {
+    let response = await axios.post(`/answer/${answerId}/unlike`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

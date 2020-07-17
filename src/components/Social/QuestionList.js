@@ -1,14 +1,12 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component, useState} from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
   FlatList,
-  StatusBar,
   ActivityIndicator,
-  TouchableOpacity, Text, TextInput,
 } from 'react-native'
 
 import store from '../../store/configureStore';
@@ -17,18 +15,14 @@ import {spacing} from "../../constants/dimension";
 
 import Post from "../../components/Social/Post";
 import AnswerList from "./AnswerList";
-import strings from "../../constants/strings";
-import fonts from "../../constants/fonts";
-import {MAX_POST_LENGTH} from "../../constants/appConstants";
-import {screenWidth} from "../../utils/screenDimensions";
 import AnswerInput from "./AnswerInput";
+import {likeAnswer, unlikeAnswer} from "../../API";
 
 const questionList = (props) => {
   const {
-    questions, update, onCreateAnswer, onProfilePress = () => {
+    questions, update, onCreateAnswer,onAnswerLike,onAnswerDislike, onProfilePress = () => {
     }
   } = props;
-
 
   const disableSelfProfileClick = (targetUserId) => {
     const {userId} = store.getState().user;
@@ -53,7 +47,12 @@ const questionList = (props) => {
   }
   const renderAnswers = (answers) => {
     return (
-      <AnswerList answers={answers} onProfilePress={onProfilePress}/>
+      <AnswerList
+        answers={answers}
+        onProfilePress={onProfilePress}
+        onAnswerLike={onAnswerLike}
+        onAnswerDislike={onAnswerDislike}
+      />
     )
   }
   const itemSeparator = () => <View style={{marginTop: spacing.medium}}/>

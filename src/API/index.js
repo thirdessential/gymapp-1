@@ -61,5 +61,6 @@ export {
   likeQuestion,
   listQuestions,
   postQuestion,
-  answerQuestion
+  answerQuestion,
+  unlikeAnswer
 } from './social'

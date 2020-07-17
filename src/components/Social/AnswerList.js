@@ -5,10 +5,7 @@ import React, {Component} from 'react';
 import {
   View,
   StyleSheet,
-  FlatList,
-  StatusBar,
-  ActivityIndicator,
-  TouchableOpacity,
+  FlatList
 } from 'react-native'
 
 import store from '../../store/configureStore';
@@ -19,7 +16,7 @@ import Answer from "./Answer";
 
 const answerList = (props) => {
   const {
-    answers, onProfilePress = () => {
+    answers, onAnswerDislike, onAnswerLike, onProfilePress = () => {
     }
   } = props;
   const disableSelfProfileClick = (targetUserId) => {
@@ -34,6 +31,9 @@ const answerList = (props) => {
         text={answer.answerText}
         createdBy={answer.postedBy.name}
         onProfilePress={() => disableSelfProfileClick(answer.postedBy.userId)}
+        likeCount={answer.likes.length}
+        likeCallback={()=>onAnswerLike(answer._id)}
+        unlikeCallback={()=>onAnswerDislike(answer._id)}
       />
     )
   }
@@ -72,14 +72,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: appTheme.darkBackground,
     borderWidth: 1,
-    elevation:5,
-    top:-spacing.medium_sm
+    elevation: 5,
+    top: -spacing.medium_sm
   },
-  itemSeparator:{
-    height:0.5,
-    backgroundColor:appTheme.brightContent,
-    marginLeft:spacing.medium,
-    marginRight:spacing.medium
+  itemSeparator: {
+    height: 0.5,
+    backgroundColor: appTheme.brightContent,
+    marginLeft: spacing.medium,
+    marginRight: spacing.medium
   }
 });
 
