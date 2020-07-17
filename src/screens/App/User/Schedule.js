@@ -4,35 +4,31 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Text, FlatList, ScrollView, LayoutAnimation, TouchableOpacity} from 'react-native';
 import {connect} from "react-redux";
-import moment from "moment";
-import {Card} from 'native-base';
+// import moment from "moment";
 
-import {spacing} from "../../constants/dimension";
-import * as actionCreators from "../../store/actions";
-import CustomCalendar from '../../components/customCalendar';
-import GlobalSlot from "../../components/GlobalSlot";
-import {appTheme, darkPallet} from "../../constants/colors";
+import {spacing} from "../../../constants/dimension";
+import * as actionCreators from "../../../store/actions";
+import CustomCalendar from '../../../components/customCalendar';
+import GlobalSlot from "../../../components/GlobalSlot";
+import {appTheme, darkPallet} from "../../../constants/colors";
 
-import SelectableButtonGroup from '../../components/selectableButtonGroup';
-import strings, {appointmentErrorBuilder, appointmentSuccessBuilder} from "../../constants/strings";
-import fontSizes from "../../constants/fontSizes";
-import fonts from "../../constants/fonts";
-import MiniSlotCard from "../../components/MiniSlotCard";
-import {formatTimeArray, militaryTimeToString, stringToMilitaryTime} from "../../utils/utils";
-import {defaultDP, WEEK_DAYS} from "../../constants/appConstants";
-import {bookAppointment} from "../../API";
-import {showError, showSuccess} from "../../utils/notification";
-import RouteNames from "../../navigation/RouteNames";
+import SelectableButtonGroup from '../../../components/selectableButtonGroup';
+import strings from "../../../constants/strings";
+import fontSizes from "../../../constants/fontSizes";
+import fonts from "../../../constants/fonts";
+import {formatTimeArray, militaryTimeToString, stringToMilitaryTime} from "../../../utils/utils";
+import {defaultDP, WEEK_DAYS} from "../../../constants/appConstants";
+import {bookAppointment} from "../../../API";
+import {showError, showSuccess} from "../../../utils/notification";
+import RouteNames from "../../../navigation/RouteNames";
 import LinearGradient from "react-native-linear-gradient";
 
 class Schedule extends Component {
-
   state = {
     selectedDate: Date.now(),
     selectedSlots: [],
     selectedTime: null,
   }
-
   componentDidMount() {
     const {navigation} = this.props;
     this.refreshGlobalState();
@@ -56,7 +52,7 @@ class Schedule extends Component {
   updateLocalState = () => {
     const {globalSlots} = this.props;
 
-    if (globalSlots && Object.keys(globalSlots).length>0) {
+    if (globalSlots && Object.keys(globalSlots).length > 0) {
       this.updateSelectedTime();
     }
   }
@@ -96,10 +92,12 @@ class Schedule extends Component {
   }
 
   getUser = (userId) => {
-    const {users} = this.props;
+    const {users, setUser} = this.props;
     const user = users[userId];
-    if (!user)
-      return {}; // TODO: make api call to update him
+    if (!user) {
+      setUser(userId);
+      return {};
+    }
     return user;
   }
 
@@ -135,9 +133,7 @@ class Schedule extends Component {
 
   renderTimeButtonGroup = () => {
     const {globalSlots} = this.props;
-    if (!globalSlots || Object.keys(globalSlots.length===0)) return null;
-
-
+    if (!globalSlots || Object.keys(globalSlots).length === 0) return null;
     const day = this.getSelectedDay();
     const {times} = globalSlots[day] && globalSlots[day][0];
     if (!times) return null;
@@ -157,20 +153,20 @@ class Schedule extends Component {
       <LinearGradient
         colors={[darkPallet.darkBlue, appTheme.lightBackground]}
         style={styles.container}>
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <View style={styles.calendarContainer}>
-          <CustomCalendar
-            selectedDate={this.state.selectedDate}
-            dates={this.state.dates}
-            onDateChange={this.onDateSelected}
-          />
-        </View>
-        <this.renderTimeButtonGroup/>
-        <View style={styles.headingContainer}>
-          <Text style={styles.heading}>{strings.AVAILABLE_SLOTS}</Text>
-        </View>
-        <this.renderSlots/>
-      </ScrollView>
+        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+          <View style={styles.calendarContainer}>
+            <CustomCalendar
+              selectedDate={this.state.selectedDate}
+              dates={this.state.dates}
+              onDateChange={this.onDateSelected}
+            />
+          </View>
+          <this.renderTimeButtonGroup/>
+          <View style={styles.headingContainer}>
+            <Text style={styles.heading}>{strings.AVAILABLE_SLOTS}</Text>
+          </View>
+          <this.renderSlots/>
+        </ScrollView>
       </LinearGradient>
     );
   }
@@ -179,7 +175,7 @@ class Schedule extends Component {
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: appTheme.lightBackground
-    flex:1
+    flex: 1
   },
   calendarContainer: {
     paddingLeft: spacing.medium_lg,
@@ -209,12 +205,13 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  globalSlots:state.app.globalSlots,
+  globalSlots: state.app.globalSlots,
   users: state.app.users
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateGlobalSlots: () => dispatch(actionCreators.updateGlobalSlots())
+  updateGlobalSlots: () => dispatch(actionCreators.updateGlobalSlots()),
+  setUser: (userId) => dispatch(actionCreators.setUser(userId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Schedule);

@@ -20,8 +20,18 @@ const RouteNames = {
   Enroll:'Enroll',
   Payment:'Payment',
   Activity:'Activity',
+  Community:'Community',
+  PostViewer:'PostViewer',
+  CreatePost:'CreatePost',
+  MyAppointments:'MyAppointments',
+  Tools:'Tools',
 
   ActivityTab:'ActivityTab',
+  SocialTab:'SocialTab',
+  ToolTab:'ToolTab',
+  SlotsView:'SlotsView',
+  Subscriptions: 'Subscriptions',
+  PackagesView:'PackagesView',
 
   Login:'Login',
   Signup:'Signup'

@@ -5,7 +5,13 @@ import messaging from '@react-native-firebase/messaging';
 import RNExitApp from "react-native-exit-app";
 import LaunchApplication from "react-native-bring-foreground";
 
-import {appPackageId, notificationActions, remoteMessageTypes, storageKeys} from "../constants/appConstants";
+import {
+  appPackageId,
+  firebaseTopics,
+  notificationActions,
+  remoteMessageTypes,
+  storageKeys
+} from "../constants/appConstants";
 import {navigate} from "../navigation/RootNavigation";
 import RouteNames from "../navigation/RouteNames";
 import {requestCameraAndAudioPermission} from "./permission";
@@ -18,7 +24,7 @@ export const callHandler = async (remoteMessage) => {
   switch (data.type) {
     case remoteMessageTypes.CALL:
       LocalCallNotification(data);
-      const modifiedData = {...data, receiveTime:new Date()}
+      const modifiedData = {...data, receiveTime: new Date()}
       await saveToStorage(storageKeys.PENDING_CALL, modifiedData);
       LaunchApplication.open(appPackageId);
       break;
@@ -27,13 +33,17 @@ export const callHandler = async (remoteMessage) => {
       if (!!content)
         LocalMessageNotification(content);
       break;
-    default:break;
+    default:
+      break;
   }
 }
 
 export const configureFCMNotification = async () => {
   try {
     let deviceToken = await messaging().getToken();
+    messaging()
+      .subscribeToTopic(firebaseTopics.SILENT_NOTIFICATION);
+
     PushNotification.configure({
       onRegister: (token) => {
         // console.log("TOKEN:", token);
@@ -77,7 +87,8 @@ const handleNotification = async (notification) => {
       case remoteMessageTypes.APPOINTMENT:
         console.log("Handle appointment action here");
         break;
-      default:break;
+      default:
+        break;
     }
   }
   if (notification.foreground) {

@@ -142,7 +142,6 @@ class ProfileEdit extends Component {
   // }
 
   render() {
-    console.log(this.state)
     return (
       <LinearGradient
         colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}

@@ -3,19 +3,11 @@
  */
 import React, {useState} from 'react';
 import {FlatList, LayoutAnimation, ScrollView, StyleSheet, Text, View} from 'react-native'
-import PropTypes from 'prop-types';
-import CustomProgressBar from "../CustomProgressBar";
-import GenericText from "../GenericText";
-import strings from "../../constants/strings";
-import {spacing, spacing as dimension} from "../../constants/dimension";
-import {appTheme} from "../../constants/colors";
-import fontSizes from "../../constants/fontSizes";
-import fonts from "../../constants/fonts";
-import {formattedTime, formatTimeArray, groupBy, militaryTimeToString, stringToMilitaryTime} from "../../utils/utils";
+import {spacing} from "../../constants/dimension";
+
+import {formatTimeArray, groupBy, militaryTimeToString, stringToMilitaryTime} from "../../utils/utils";
 import SelectableButtonGroup from "../selectableButtonGroup";
 import MiniSlotCard from "../MiniSlotCard";
-import {screenHeight} from "react-native-calendars/src/expandableCalendar/commons";
-
 
 const slotsByTime = (props) => {
   const {slots, bookCallback} = props;
@@ -66,7 +58,9 @@ const slotsByTime = (props) => {
         {/*}*/}
         <FlatList
           data={groupedSlots[selectedTime]}
-          renderItem={({item,index})=> renderSlot(item,index)} />
+          showsVerticalScrollIndicator={false}
+          ListFooterComponent={() => <View style={{margin: spacing.medium_lg}}/>}
+          renderItem={({item, index}) => renderSlot(item, index)}/>
       </View>
     </View>
   );

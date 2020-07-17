@@ -10,14 +10,14 @@ const colors = {
   rejectRed: '#f7392e'
 }
 export const darkPallet = {
-  extraDarkBlue: '#1e2029',
+  extraDarkBlue: '#20222f',
   darkGrey: '#2b2d37',
   darkBlue: '#2d2f45',
   lightBlue: '#384053',
   extraLightBlue: '#63687b',
   greyBlue: '#686e80',
   hotPink: '#ea8380',
-  hotOrange:'#f86676',
+  hotOrange:'#ff7f50',
   skyBlue: '#829da8',
   orangeGradient: ['#f86676', '#fbb287'],
   pink: '#DD3180',

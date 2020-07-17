@@ -11,40 +11,34 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
 
 import ProfileOverview from '../../components/Profile/ProfileOverview';
-import TrainerInfo from '../../components/Trainer/TrainerInfoTabView'
-import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
+import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
 import {requestCameraAndAudioPermission} from "../../utils/permission";
 import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
-import {userTypes} from "../../constants/appConstants";
+import {defaultDP, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
 import {spacing} from "../../constants/dimension";
-import {showError, showSuccess} from "../../utils/notification";
-import {bookAppointment} from "../../API";
-import PostCardList from "../../components/Profile/PostCardList";
+import {likePost, reportPost, unlikePost} from "../../API";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-
-
-const STATUS_BAR_HEIGHT = 0;
-const HEADER_HEIGHT = 64;
-const NAV_BAR_HEIGHT = HEADER_HEIGHT - STATUS_BAR_HEIGHT;
-const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
+import PostList from "../../components/Social/PostList";
 
 class Profile extends Component {
 
   state = {
-    bgImage: getRandomImage()
+    bgImage: getRandomImage(),
+    nextPage: INITIAL_PAGE
   }
 
   componentDidMount() {
-    const {route, setUser} = this.props;
+    const {route, setUser, getPostsForUser} = this.props;
     const {userId} = route.params;
 
     setUser(userId);
+    getPostsForUser(userId);
 
     const userData = this.getUser();
     if (userData) {
@@ -52,25 +46,6 @@ class Profile extends Component {
       if (!!wallImageUrl) {
         this.setState({bgImage: {uri: wallImageUrl}});
       }
-    }
-
-  }
-
-  enrollClicked = (packageId) => {
-    const {navigation, route} = this.props;
-    const {userId} = route.params;
-    const user = this.getUser();
-
-    let {name, packages} = user;
-    const filteredPackages = packages.filter(packageData => packageData._id === packageId);
-    if (filteredPackages && filteredPackages.length > 0) {
-      const sessionCount = filteredPackages[0].noOfSessions;
-      navigation.navigate(RouteNames.Enroll, {
-        userId,
-        packageId,
-        trainerName: name,
-        sessionCount
-      });
     }
   }
 
@@ -84,16 +59,6 @@ class Profile extends Component {
     } else console.log("Cant initiate video call without permission");
   }
 
-  bookAppointment = async (day, time) => {
-    const {route,setUser} = this.props;
-    const {userId} = route.params;
-    let response = await bookAppointment(userId, day, time);
-    if (response.success)
-      showSuccess(response.message);
-    else showError(response.message);
-    setUser(userId);
-  }
-
   loader = () => (
     <View style={styles.contentContainer}>
       <ActivityIndicator color={appTheme.lightContent} size={50}/>
@@ -104,6 +69,13 @@ class Profile extends Component {
     const {route, users} = this.props;
     const {userId} = route.params;
     return users[userId];
+  }
+  getPosts = () => {
+    const {route, postsForUser} = this.props;
+    const {userId} = route.params;
+    if (postsForUser[userId])
+      return postsForUser[userId];
+    return [];
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -122,18 +94,31 @@ class Profile extends Component {
     return true;
   }
 
+  openPost = (postId) => {
+    this.props.navigation.navigate(RouteNames.PostViewer, {postId});
+  }
+  updatePosts = async () => {
+    const {getPostsForUser} = this.props;
+    const {nextPage} = this.state;
+    if (!!nextPage)
+      this.setState({nextPage: await getPostsForUser(nextPage)});
+  }
   renderContent = () => {
-    const {route} = this.props;
-    const {initialRouteName = TabRoutes.Packages} = route.params;
     const user = this.getUser();
+    const posts = this.getPosts();
     if (!user)
       return this.loader();
 
-    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots,activeSubscriptions} = user;
+    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots, activeSubscriptions} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const hits = userType === userTypes.TRAINER ?
-      generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length}) :
-      generateUserHits({subscription:activeSubscriptions});
+      generateTrainerHits({
+        transformation: experience,
+        slot: slots.length,
+        program: packages.length,
+        post: posts.length || 0
+      }) :
+      generateUserHits({subscription: activeSubscriptions, post: posts.length || 0});
     return (
       <View style={styles.container}>
         <ProfileOverview
@@ -148,23 +133,21 @@ class Profile extends Component {
           location={city}
         />
         {
-          userType === userTypes.TRAINER && (
-              <TrainerInfo
-                packages={packages}
-                slots={slots}
-                enrollCallback={this.enrollClicked}
-                bookCallback={this.bookAppointment}
-                initialRouteName={initialRouteName}
-              />
-          )
-        }
-        {
-          userType !== userTypes.TRAINER &&
-          <View style={{margin: 20}}>
+          posts &&
+          <View style={styles.postListContainer}>
             <View style={styles.sectionTitleContainer}>
-              <Text style={styles.sectionTitle}>{strings.POSTS}</Text>
+              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.sectionTitle}>{strings.POSTS}</Text>
+              </View>
+              <PostList
+                posts={posts}
+                openPost={this.openPost}
+                updatePosts={this.updatePosts}
+                likePost={likePost}
+                unlikePost={unlikePost}
+                reportPost={reportPost}
+              />
             </View>
-            <PostCardList/>
           </View>
         }
       </View>
@@ -215,14 +198,22 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.h1,
     fontFamily: fonts.MontserratMedium
   },
+  postListContainer: {
+    marginLeft: spacing.medium,
+    marginRight: spacing.medium,
+    marginTop: spacing.medium
+  },
 });
 
 const mapStateToProps = (state) => ({
   users: state.app.users,
+  myUserType: state.user.userType,
+  postsForUser: state.social.postsForUser
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setUser: (userId) => dispatch(actionCreators.setUser(userId))
+  setUser: (userId) => dispatch(actionCreators.setUser(userId)),
+  getPostsForUser: userId => dispatch(actionCreators.getPostsForUser(userId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

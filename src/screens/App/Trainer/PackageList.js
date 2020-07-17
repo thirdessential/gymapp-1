@@ -5,15 +5,14 @@ import React, {Component} from 'react';
 import {View, StyleSheet, FlatList, Text, TouchableOpacity, LayoutAnimation} from 'react-native'
 import {connect} from "react-redux";
 
-import {spacing} from "../../constants/dimension";
-import * as actionCreators from "../../store/actions";
-import colors, {appTheme, darkPallet} from "../../constants/colors";
-import RouteNames from "../../navigation/RouteNames";
-import PackageFlatList from "../../components/Trainer/PackageFlatList";
-import fontSizes from "../../constants/fontSizes";
-import fonts from "../../constants/fonts";
-import strings from "../../constants/strings";
-import BarButton from '../../components/BarButton';
+import {spacing} from "../../../constants/dimension";
+import * as actionCreators from "../../../store/actions";
+import  {appTheme, darkPallet} from "../../../constants/colors";
+import RouteNames from "../../../navigation/RouteNames";
+import PackageFlatList from "../../../components/Trainer/PackageFlatList";
+import fontSizes from "../../../constants/fontSizes";
+import fonts from "../../../constants/fonts";
+import BarButton from '../../../components/BarButton';
 import LinearGradient from "react-native-linear-gradient";
 
 class PackageList extends Component {

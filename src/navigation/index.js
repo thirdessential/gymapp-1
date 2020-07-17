@@ -8,7 +8,7 @@ import {NavigationContainer} from "@react-navigation/native";
 
 import * as actionCreators from '../store/actions';
 import {updateAxiosToken} from "../API";
-import {remoteMessageTypes, storageKeys, videoTestMode} from "../constants/appConstants";
+import {firebaseTopics, INITIAL_PAGE, remoteMessageTypes, storageKeys, videoTestMode} from "../constants/appConstants";
 import {callHandler, configureFCMNotification, showInfo} from "../utils/notification";
 import {deleteFromStorage, readFromStorage} from "../utils/utils";
 import {appTheme} from "../constants/colors";
@@ -26,6 +26,7 @@ import appTabNavigator from "./AppTabNavigator";
 import RouteNames from "./RouteNames";
 import VideoCall from "../screens/Call/VideoCall";
 import {drawerLabelStyle} from "../constants/styles";
+import strings from "../constants/strings";
 
 messaging().setBackgroundMessageHandler(callHandler);
 configureFCMNotification();
@@ -44,7 +45,7 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    const {setAuthenticated, setIncomingCall} = this.props;
+    const {setAuthenticated, setIncomingCall, updatePosts, userId} = this.props;
     setAuthenticated(false); // TODO: Remove this line and fix auth blacklisting
     this.authSubscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
     this.syncing = false;
@@ -55,12 +56,21 @@ class App extends React.Component {
       const {data} = remoteMessage;
       switch (data.type) {
         case remoteMessageTypes.CALL:
-          this.props.setIncomingCall(remoteMessage.data, true);
+          setIncomingCall(remoteMessage.data, true);
           break;
         case remoteMessageTypes.APPOINTMENT:
           const {content} = data;
           if (!!content)
             showInfo(content);
+          break;
+        case remoteMessageTypes.UPDATE_POSTS:
+          if (data.userId === userId) {
+            console.log("received self post update notiff, taking no action");
+          } else {
+            console.log("received post update notiff, updating posts");
+            await updatePosts(INITIAL_PAGE);
+            showInfo(strings.NEW_POSTS);
+          }
           break;
         default:
           break;
@@ -135,7 +145,7 @@ class App extends React.Component {
         }}
       >
         <Drawer.Screen name="Home" component={appTabNavigator} options={{
-          drawerLabel:({ focused, color })=><Text style={drawerLabelStyle}>Home</Text>
+          drawerLabel: ({focused, color}) => <Text style={drawerLabelStyle}>Home</Text>
         }}/>
       </Drawer.Navigator>
     );
@@ -172,7 +182,7 @@ class App extends React.Component {
       return <Calling navigationRef={navigationRef}/>
     }
     if (authenticated) {
-      if(newUser)
+      if (newUser)
         return <NewUser navigationRef={navigationRef}/>
       if (initialLogin)
         return <InitialLogin navigationRef={navigationRef}/>
@@ -191,14 +201,16 @@ const mapStateToProps = (state) => ({
   callData: state.call.callData,
   userType: state.user.userType,
   userData: state.user.userData,
-  newUser:state.auth.newUser
+  userId: state.user.userId,
+  newUser: state.auth.newUser
 });
 
 const mapDispatchToProps = (dispatch) => ({
   resetAuth: () => dispatch(actionCreators.resetAuth()),
   setAuthenticated: (value) => dispatch(actionCreators.setAuthenticated(value)),
   syncFirebaseAuth: (idToken, fcmToken) => dispatch(actionCreators.syncFirebaseAuth(idToken, fcmToken)),
-  setIncomingCall: (callData, inAppCall) => dispatch(actionCreators.setIncomingCall(callData, inAppCall))
+  setIncomingCall: (callData, inAppCall) => dispatch(actionCreators.setIncomingCall(callData, inAppCall)),
+  updatePosts: (page) => dispatch(actionCreators.updatePosts(page)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

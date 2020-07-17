@@ -9,7 +9,8 @@ const fonts = {
   OswaldRegular:'Oswald-Regular',
   RobotoRegular:'RobotoCondensed-Regular',
   RobotoBold:'RobotoCondensed-Bold',
-
+  CenturyGothic:'CenturyGothic',
+  CenturyGothicBold:'CenturyGothicBold'
 }
 
 export default fonts;

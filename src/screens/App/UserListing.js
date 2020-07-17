@@ -24,6 +24,7 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import LinearGradient from "react-native-linear-gradient";
 import {setAvailable} from "../../API";
+import {createTextPost, getAllPosts} from "../../API/social";
 
 class UserListing extends Component {
 
@@ -33,11 +34,9 @@ class UserListing extends Component {
 
   componentDidMount() {
     setAvailable();
-    const {updateUserData, navigation,getActivities,getAppointments} = this.props;
-    updateUserData();
+    const { navigation,getActivities,getAppointments} = this.props;
     getAppointments();
     getActivities();
-
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       this.updateUsers();
     })
@@ -54,11 +53,17 @@ class UserListing extends Component {
     this.unsubscribeFocus()
   }
 
-  openProfile = (userId, initialRouteName = TabRoutes.Packages) => {
+  openProfile = (userId) => {
     const {navigation} = this.props;
     navigation.navigate(RouteNames.Profile, {
       userId: userId,
-      initialRouteName
+    });
+  }
+  openPackage = (userId,packageId)=>{
+    const {navigation} = this.props;
+    navigation.navigate(RouteNames.PackagesView, {
+      userId,
+      packageId
     });
   }
 
@@ -91,7 +96,7 @@ class UserListing extends Component {
               rating={rating}
               packages={packages}
               onPress={() => this.openProfile(user._id)}
-              onPackagePress={() => this.openProfile(user._id, TabRoutes.Packages)}
+              onPackagePress={(packageId) => this.openPackage(user._id, packageId)}
               // callClicked={() => this.callClicked(user._id)}
             />
           )
@@ -184,7 +189,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateUsersList: (nextPage) => dispatch(actionCreators.updateUsersList(nextPage)),
-  updateUserData: () => dispatch(actionCreators.updateUserData()),
   getActivities: ()=>dispatch(actionCreators.getActivities()),
   getAppointments: ()=>dispatch(actionCreators.getAppointments())
 });

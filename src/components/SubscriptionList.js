@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 
 import {spacing} from "../constants/dimension";
 import {appTheme} from "../constants/colors";
@@ -11,19 +11,22 @@ import fonts from "../constants/fonts";
 
 import ClientCard from "./ClientCard";
 import {defaultDP} from "../constants/appConstants";
+import {sub} from "react-native-reanimated";
 
 const subscriptionList = (props) => {
-  if(!props.subscriptions)return null;
-  return  props.subscriptions.map((subscription, index) => {
-    const user = subscription.subscribedBy;
-    if(!user)return null;
+  if (!props.subscriptions) return null;
+
+  const renderSubscription = (subscription) => {
+    let user = subscription.subscribedBy;
+    if (!user.name) user = subscription.trainerId;
+    if (!user) return null;
     let {name, city, _id, displayPictureUrl} = user;
-    if(!name)name = 'User';
+    if (!name) name = 'User';
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const {totalSessions, heldSessions} = subscription;
     const sessions = `${heldSessions}/${totalSessions}`;
     return (
-      <TouchableOpacity activeOpacity={0.7} onPress={() => props.onProfilePress(_id)} key={index}
+      <TouchableOpacity activeOpacity={0.7} onPress={() => props.onProfilePress(_id)}
                         style={styles.appointmentContainer}>
         <ClientCard
           callCallback={() => props.callCallback(_id)}
@@ -33,40 +36,20 @@ const subscriptionList = (props) => {
           sessions={sessions}/>
       </TouchableOpacity>
     )
-  })
+  }
+
+  return (
+    <FlatList
+      data={props.subscriptions}
+      ListHeaderComponent={() => <View style={{marginTop: spacing.medium}}/>}
+      ListFooterComponent={() => <View style={{marginTop: spacing.medium}}/>}
+      showsVerticalScrollIndicator={false}
+      renderItem={({item, index}) => renderSubscription(item, index)}
+      keyExtractor={({item, index}) => index}
+    />
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: appTheme.darkBackground,
-
-  },
-  titleContainer: {
-    paddingTop: spacing.medium_sm,
-    paddingLeft: spacing.large,
-    paddingRight: spacing.large,
-    paddingBottom: spacing.medium_sm,
-    marginBottom: spacing.medium_sm,
-    backgroundColor: appTheme.background,
-    alignItems: 'center'
-  },
-  listContainer: {
-    marginLeft: spacing.medium_lg,
-    marginRight: spacing.medium_lg,
-    flex: 1
-  },
-  title: {
-    color: 'white',
-    fontSize: fontSizes.h0,
-    fontFamily: fonts.PoppinsRegular
-  },
-  addButtonContainer: {
-    paddingTop: spacing.medium_sm,
-    paddingBottom: spacing.medium_sm,
-    backgroundColor: appTheme.background,
-    alignItems: 'center'
-  }
-});
+const styles = StyleSheet.create({});
 
 export default subscriptionList;

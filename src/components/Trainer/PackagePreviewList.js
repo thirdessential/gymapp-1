@@ -14,7 +14,7 @@ const packagePreviewList = (props) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={props.onPackagePress}
+        onPress={()=>props.onPackagePress(packageData._id)}
         style={styles.packageContainer}
         key={index}>
         <PackagePreview

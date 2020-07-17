@@ -14,33 +14,40 @@ import ProfileOverview from '../../components/Profile/ProfileOverview';
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
-import {imageTypes, userTypes} from "../../constants/appConstants";
+import {defaultDP, imageTypes, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
-import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
-import {generateTrainerHits, generateUserHits, initialiseVideoCall, pickImage} from "../../utils/utils";
+import RouteNames from "../../navigation/RouteNames";
+import {generateTrainerHits, generateUserHits, pickImage} from "../../utils/utils";
 import {spacing} from "../../constants/dimension";
-import TrainerInfo from "../../components/Trainer/TrainerInfoTabView";
 import * as actionCreators from "../../store/actions";
-import {requestCameraAndAudioPermission} from "../../utils/permission";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {uploadImage} from "../../API";
-import PostCardList from "../../components/Profile/PostCardList";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-
-const STATUS_BAR_HEIGHT = 0;
-const HEADER_HEIGHT = 64;
-const NAV_BAR_HEIGHT = HEADER_HEIGHT - STATUS_BAR_HEIGHT;
-const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
+import PostList from "../../components/Social/PostList";
+import HalfRoundedButton from "../../components/HalfRoundedButton";
 
 class MyProfile extends Component {
 
   state = {
-    bgImage: getRandomImage()
+    bgImage: getRandomImage(),
+    nextPage: INITIAL_PAGE
+  }
+
+  updatePosts = async () => {
+    const {updatePosts} = this.props;
+    const {nextPage} = this.state;
+    if (!!nextPage)
+      this.setState({nextPage: await updatePosts(nextPage)});
+  }
+
+  openPost = (postId) => {
+    this.props.navigation.navigate(RouteNames.PostViewer, {postId});
   }
 
   componentDidMount() {
     const {syncSubscriptions, updateUserData, userData, navigation} = this.props;
+    this.updatePosts();
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       updateUserData();
     })
@@ -54,14 +61,6 @@ class MyProfile extends Component {
 
   componentWillUnmount() {
     this.unsubscribeFocus();
-  }
-
-  callClicked = async (userId) => {
-    const permissionGranted = await requestCameraAndAudioPermission();
-
-    if (permissionGranted) {
-      await initialiseVideoCall(userId);
-    } else console.log("Cant initiate video call without permission");
   }
 
   editProfile = () => {
@@ -93,25 +92,19 @@ class MyProfile extends Component {
     </TouchableOpacity>
   )
 
-  openProfile = (userId) => {
-    const {navigation} = this.props;
-    navigation.navigate(RouteNames.Profile, {
-      userId: userId
-    });
-  }
 
+  createPost = () => {
+    this.props.navigation.navigate(RouteNames.CreatePost);
+  }
   renderContent = () => {
-    const {route} = this.props;
-    let initialRouteName = TabRoutes.Packages;
-    if (route.params && route.params.initialRouteName)
-      initialRouteName = route.params.initialRouteName;
+    const {posts, likePost, unlikePost, reportPost} = this.props;
     const user = this.props.userData;
 
-    let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots,activeSubscriptions} = user;
+    let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots, activeSubscriptions} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const hits = userType === userTypes.TRAINER ?
       generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length}) :
-      generateUserHits({subscription:activeSubscriptions});
+      generateUserHits({subscription: activeSubscriptions, post: posts && posts.length});
     return (
       <>
         <ProfileOverview
@@ -126,25 +119,22 @@ class MyProfile extends Component {
           location={city}
         />
         {
-          userType === userTypes.TRAINER && (
-            <TrainerInfo
-              packages={packages}
-              slots={slots}
-              enrollCallback={this.enrollClicked}
-              subscriptions={this.props.subscriptions}
-              onProfilePress={this.openProfile}
-              callCallback={this.callClicked}
-              initialRouteName={initialRouteName}
-            />
-          )
-        }
-        {
-          userType !== userTypes.TRAINER &&
-          <View style={{margin: 20}}>
+          posts &&
+          <View style={styles.postListContainer}>
             <View style={styles.sectionTitleContainer}>
-              <Text style={styles.sectionTitle}>{strings.POSTS}</Text>
+              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.sectionTitle}>{strings.POSTS}</Text>
+                <HalfRoundedButton onPress={this.createPost} title={strings.ADD_POST}/>
+              </View>
+              <PostList
+                posts={posts}
+                openPost={this.openPost}
+                updatePosts={this.updatePosts}
+                likePost={likePost}
+                unlikePost={unlikePost}
+                reportPost={reportPost}
+              />
             </View>
-            <PostCardList/>
           </View>
         }
       </>
@@ -155,7 +145,7 @@ class MyProfile extends Component {
     return (
       <ParallaxScrollView
         backgroundColor={appTheme.lightBackground}
-        contentBackgroundColor={appTheme.lightBackground}
+        contentBackgroundColor={appTheme.background}
         parallaxHeaderHeight={screenHeight * 2 / 3}
         renderForeground={() => (
           <>
@@ -204,24 +194,34 @@ const styles = StyleSheet.create({
   },
   sectionTitleContainer: {
     // marginTop: spacing.medium_lg,
-    marginBottom: spacing.medium
+    // marginBottom: spacing.medium
   },
   sectionTitle: {
     color: 'white',
     fontSize: fontSizes.h1,
-    fontFamily: fonts.MontserratMedium
+    fontFamily: fonts.CenturyGothic
   },
+  postListContainer: {
+    marginLeft: spacing.medium,
+    marginRight: spacing.medium,
+    marginTop: spacing.medium
+  }
 });
 
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
   subscriptions: state.trainer.subscriptions,
   authToken: state.user.authToken,
+  posts: state.social.myPosts,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions()),
   updateUserData: () => dispatch(actionCreators.updateUserData()),
+  updatePosts: (page) => dispatch(actionCreators.updatePosts(page, true)),
+  likePost: (postId) => dispatch(actionCreators.likePost(postId)),
+  unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId)),
+  reportPost: postId => dispatch(actionCreators.reportPost(postId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);

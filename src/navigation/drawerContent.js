@@ -43,6 +43,25 @@ function CustomDrawerContent(props) {
             labelStyle={drawerLabelStyle}
             onPress={() => props.navigation.navigate(RouteNames.ProfileEdit)}
           />
+          <DrawerItem
+            label="Appointments"
+            labelStyle={drawerLabelStyle}
+            onPress={() => props.navigation.navigate(RouteNames.MyAppointments)}
+          />
+          <DrawerItem
+            label="Subscriptions"
+            labelStyle={drawerLabelStyle}
+            onPress={() => props.navigation.navigate(RouteNames.Subscriptions)}
+          />
+          {
+            userType === userTypes.USER && (
+              <DrawerItem
+                label="Schedule"
+                labelStyle={drawerLabelStyle}
+                onPress={() => props.navigation.navigate(RouteNames.Schedule)}
+              />
+            )
+          }
           {
             userType === userTypes.TRAINER && (
               <DrawerItem
@@ -61,15 +80,16 @@ function CustomDrawerContent(props) {
               />
             )
           }
-          <DrawerItem
-            label="Sign Out"
-            labelStyle={drawerLabelStyle}
-            onPress={() => store.dispatch(signOutUser())}
-          />
+          {
+            __DEV__?
+              <DrawerItem
+                label="Sign Out"
+                labelStyle={drawerLabelStyle}
+                onPress={() => store.dispatch(signOutUser())}
+              />:null
+          }
         </View>
-
       </LinearGradient>
-
     </DrawerContentScrollView>
   );
 }

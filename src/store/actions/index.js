@@ -34,4 +34,14 @@ export {
   deletePackage,
   createSlots,
   syncSubscriptions
-} from './trainer.actions'
+} from './trainer.actions';
+
+export {
+  updatePosts,
+  updatePost,
+  unlikePost,
+  likePost,
+  commentOnPost,
+  reportPost,
+  getPostsForUser
+} from './social.actions'

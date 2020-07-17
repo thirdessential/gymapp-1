@@ -62,7 +62,13 @@ export const paymentKey = 'rzp_test_BuIiL164HHvbBm';
 export const remoteMessageTypes = {
   CALL: 'call',
   APPOINTMENT: "appointmentNotification",
-  SESSION: 'sessionNotification'
+  SESSION: 'sessionNotification',
+  UPDATE_POSTS:'UPDATE_POSTS',
 }
 
 export const INITIAL_PAGE = 'INITIAL_PAGE';
+
+export const MAX_POST_LENGTH = 300;
+export const firebaseTopics = {
+  SILENT_NOTIFICATION: 'SILENT_NOTIFICATION'
+}

@@ -15,21 +15,21 @@ import {
 } from 'react-native'
 import {connect} from "react-redux";
 import cuid from 'cuid';
-import {spacing} from "../../constants/dimension";
-import * as actionCreators from "../../store/actions";
+import {spacing} from "../../../constants/dimension";
+import * as actionCreators from "../../../store/actions";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import colors, {appTheme} from "../../constants/colors";
-import strings, {subscribedSuccessBuilder} from "../../constants/strings";
-import fontSizes from "../../constants/fontSizes";
-import fonts from "../../constants/fonts";
+import colors, {appTheme} from "../../../constants/colors";
+import strings, {subscribedSuccessBuilder} from "../../../constants/strings";
+import fontSizes from "../../../constants/fontSizes";
+import fonts from "../../../constants/fonts";
 
-import Slot from "../../components/Slot";
-import {findMissingDays, groupBy} from "../../utils/utils";
-import {showError, showSuccess} from "../../utils/notification";
+import Slot from "../../../components/Slot";
+import {findMissingDays, groupBy} from "../../../utils/utils";
+import {showError, showSuccess} from "../../../utils/notification";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import {appName, paymentKey} from "../../constants/appConstants";
+import {appName, paymentKey} from "../../../constants/appConstants";
 import RazorpayCheckout from "react-native-razorpay";
-import RouteNames from "../../navigation/RouteNames";
+import RouteNames from "../../../navigation/RouteNames";
 
 class Enroll extends Component {
 

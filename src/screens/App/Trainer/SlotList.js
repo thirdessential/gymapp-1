@@ -5,22 +5,22 @@ import React, {Component} from 'react';
 import {View, StyleSheet, StatusBar, Text, LayoutAnimation, TouchableOpacity, ActivityIndicator} from 'react-native'
 import {connect} from "react-redux";
 import cuid from 'cuid';
-import {spacing} from "../../constants/dimension";
-import * as actionCreators from "../../store/actions";
+import {spacing} from "../../../constants/dimension";
+import * as actionCreators from "../../../store/actions";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import colors, {appTheme, darkPallet} from "../../constants/colors";
-import strings from "../../constants/strings";
-import fontSizes from "../../constants/fontSizes";
-import fonts from "../../constants/fonts";
+import colors, {appTheme, darkPallet} from "../../../constants/colors";
+import strings from "../../../constants/strings";
+import fontSizes from "../../../constants/fontSizes";
+import fonts from "../../../constants/fonts";
 
-import {WEEK_DAYS} from "../../constants/appConstants";
-import Slot from "../../components/Slot";
-import {dateToString, findMissingDays, groupBy} from "../../utils/utils";
-import BarButton from "../../components/BarButton";
+import {WEEK_DAYS} from "../../../constants/appConstants";
+import Slot from "../../../components/Slot";
+import {dateToString, findMissingDays, groupBy} from "../../../utils/utils";
+import BarButton from "../../../components/BarButton";
 import LinearGradient from "react-native-linear-gradient";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import {showSuccess} from "../../utils/notification";
-import {screenHeight} from "../../utils/screenDimensions";
+import {showSuccess} from "../../../utils/notification";
+import {screenHeight} from "../../../utils/screenDimensions";
 
 class SlotList extends Component {
 
@@ -37,11 +37,11 @@ class SlotList extends Component {
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       if (this.state.slots.length === 0)
         this.refreshSlots();
-    })
+    });
   }
 
   submitSlots = async () => {
-    const {createSlots} = this.props;
+    const {createSlots, updateUserData} = this.props;
     this.setState({submitPending: true});
     let result = await createSlots(this.state.slots);
     this.refreshSlots();
@@ -49,6 +49,7 @@ class SlotList extends Component {
     this.setState({changed: false, submitPending: false});
     if (result)
       showSuccess(strings.CHANGES_SAVED);
+    updateUserData();
     //TODO: Error handling
   }
 
@@ -58,7 +59,7 @@ class SlotList extends Component {
       // const filteredSlots = slots.filter(slot=>slot.subscriptionId===null);
       const localSlots = this.mapSlotsToLocal(slots);
       this.setState({slots: localSlots, settingInitialSlots: false});
-    }else this.setState({settingInitialSlots:false})
+    } else this.setState({settingInitialSlots: false})
   }
 
   mapSlotsToLocal = (slots) => {
@@ -195,9 +196,7 @@ class SlotList extends Component {
               </View>
             </KeyboardAwareScrollView>
           )
-
         }
-
         <this.fab/>
       </LinearGradient>
     );
@@ -261,6 +260,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   createSlots: (slotArray) => dispatch(actionCreators.createSlots(slotArray)),
+  updateUserData: () => dispatch(actionCreators.updateUserData()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlotList);

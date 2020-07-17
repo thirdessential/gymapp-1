@@ -18,15 +18,15 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ion from "react-native-vector-icons/Ionicons";
 
-import {spacing} from "../../constants/dimension";
-import * as actionCreators from "../../store/actions";
-import colors, {appTheme, darkPallet} from "../../constants/colors";
-import strings from "../../constants/strings";
-import fonts from "../../constants/fonts";
-import fontSizes from "../../constants/fontSizes";
-import {validatePackage} from "../../utils/validators";
+import {spacing} from "../../../constants/dimension";
+import * as actionCreators from "../../../store/actions";
+import colors, {appTheme, darkPallet} from "../../../constants/colors";
+import strings from "../../../constants/strings";
+import fonts from "../../../constants/fonts";
+import fontSizes from "../../../constants/fontSizes";
+import {validatePackage} from "../../../utils/validators";
 import LinearGradient from "react-native-linear-gradient";
-import {showSuccess} from "../../utils/notification";
+import {showSuccess} from "../../../utils/notification";
 
 class Packages extends Component {
 
