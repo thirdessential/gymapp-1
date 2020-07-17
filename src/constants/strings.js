@@ -73,7 +73,8 @@ const strings = {
   QUESTIONS: 'Questions',
   ANSWERED_BY:'Answered by,',
   ANSWER: 'Answer',
-  CANCEL: 'Cancel'
+  CANCEL: 'Cancel',
+  ASK_EXPERT: 'Ask an expert'
 };
 
 export default strings;

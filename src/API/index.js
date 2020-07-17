@@ -20,7 +20,8 @@ export {
   bookAppointment,
   sendPaymentData,
   myAppointments,
-  recentActivity
+  recentActivity,
+  subscribeRollback
 } from './user';
 
 export {

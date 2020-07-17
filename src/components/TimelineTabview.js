@@ -14,7 +14,6 @@ import {defaultDP} from "../constants/appConstants";
 import {militaryTimeToString} from "../utils/utils";
 import strings from "../constants/strings";
 
-
 const initialLayout = {width: screenWidth};
 
 function timeline(props) {
@@ -111,19 +110,11 @@ function timeline(props) {
       onIndexChange={setIndex}
       initialLayout={initialLayout}
       swipeEnabled={false}
-      sceneContainerStyle={{
-        // paddingLeft: spacing.medium_lg,
-        // paddingRight: spacing.medium_lg,
-        // backgroundColor: appTheme.lightBackground
-      }}
       renderTabBar={props =>
         <TabBar
           {...props}
           style={{backgroundColor: 'transparent'}}
           indicatorStyle={{backgroundColor: appTheme.lightContent}}
-          // renderIcon={
-          //   props => getTabBarIcon(props)
-          // }
           tabStyle={styles.bubble}
           labelStyle={styles.noLabel}
         />

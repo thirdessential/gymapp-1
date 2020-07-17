@@ -46,6 +46,16 @@ class CreatePost extends Component {
     submitting: false,
     type: POST_TYPE.TYPE_POST
   }
+
+  componentDidMount() {
+    const {route} = this.props;
+    if (route.params && route.params.type) {
+      const {type} = route.params;
+      this.setState({type});
+      this.props.navigation.setOptions({title: 'Ask an expert'})
+    }
+  }
+
   setImage = () => {
     pickImage(async response => {
       if (!response.uri) return;
@@ -181,7 +191,7 @@ class CreatePost extends Component {
         <View
           style={styles.container}>
           <ScrollView keyboardShouldPersistTaps={'always'} style={{flex: 1}} showsVerticalScrollIndicator={false}>
-            {this.props.userType === userTypes.USER && this.renderSelector()}
+            {/*{this.props.userType === userTypes.USER && this.renderSelector()}*/}
             {type === POST_TYPE.TYPE_POST && this.renderImage()}
             {this.renderDescription()}
             {this.renderSubmit()}

@@ -15,7 +15,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import fontSizes from "../../constants/fontSizes";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import RouteNames from "../../navigation/RouteNames";
-import {userTypes} from "../../constants/appConstants";
+import {POST_TYPE, userTypes} from "../../constants/appConstants";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 class Tools extends Component {
@@ -25,6 +25,7 @@ class Tools extends Component {
   openSlots = () => this.props.navigation.navigate(RouteNames.SlotsView)
   openSubscriptions = () => this.props.navigation.navigate(RouteNames.Subscriptions)
   openSchedule = () => this.props.navigation.navigate(RouteNames.Schedule)
+  openQuestion = () => this.props.navigation.navigate(RouteNames.CreatePost, {type:POST_TYPE.TYPE_QUESTION})
 
   packages = () => {
     return (
@@ -78,6 +79,16 @@ class Tools extends Component {
       <View style={styles.separator}/>
     </>
   )
+  question = () => (
+    <>
+      <TouchableOpacity onPress={this.openQuestion} style={styles.toolContainer}>
+        <FontAwesome color={appTheme.brightContent} name='question' size={30}/>
+        <Text style={styles.toolText}>{strings.ASK_EXPERT}</Text>
+        <Entypo color={appTheme.brightContent} name='chevron-right' size={25}/>
+      </TouchableOpacity>
+      <View style={styles.separator}/>
+    </>
+  )
 
   render() {
     const {userType} = this.props;
@@ -88,6 +99,7 @@ class Tools extends Component {
         {userType === userTypes.TRAINER && this.slots()}
         {this.subscriptions()}
         {userType===userTypes.USER && this.schedule()}
+        {userType===userTypes.USER && this.question()}
       </View>
     )
   }

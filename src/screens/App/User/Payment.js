@@ -21,7 +21,8 @@ import {militaryTimeToString} from "../../../utils/utils";
 import {appName, paymentKey} from "../../../constants/appConstants";
 import RazorpayCheckout from "react-native-razorpay";
 import {showError, showSuccess} from "../../../utils/notification";
-import {sendPaymentData} from "../../../API";
+import {sendPaymentData, subscribeRollback} from "../../../API";
+import {sub} from "react-native-reanimated";
 
 class Packages extends Component {
   state = {
@@ -64,7 +65,7 @@ class Packages extends Component {
     const {packageName, price} = metadata;
     let result = await this.props.subscribePackage(userId, packageId, time, days);
     if (result && result.success) {
-      const {orderId} = result;
+      const {orderId, subscriptionId} = result;
       const options = {
         description: packageName,
         image: 'https://about.wodup.com/wp-content/uploads/2018/11/a84f9b3b-a46c-4a3c-9ec9-ba87b216548a-300x300.jpg',
@@ -88,12 +89,14 @@ class Packages extends Component {
         syncSubscriptions();
         console.log("payment success", data)
       }).catch((error) => {
-        // handle failure
+        console.log(subscriptionId,orderId)
+        subscribeRollback(subscriptionId, orderId);
         showError('Payment Failed, try again');
         console.log(error);
       });
-
-    } else showError(strings.SLOT_BOOKING_ERROR);
+    } else {
+      showError(strings.SLOT_BOOKING_ERROR);
+    }
     this.setState({subscribeLoading: false});
   }
 
