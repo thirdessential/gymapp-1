@@ -28,7 +28,7 @@ const post = (props) => {
   const {
     commentCount, createdBy, displayImageUrl,
     imageUrl, likeCount, createdOn, text, likeCallback,
-    unlikeCallback, onProfilePress,
+    unlikeCallback, onProfilePress, hideOptions=false,
     flagCallback, shareCallback, showComment = true, isLiked
   } = props;
   const [liked, setLiked] = useState(isLiked);
@@ -94,32 +94,36 @@ const post = (props) => {
         )
       }
       <Text style={styles.textContent}>{text}</Text>
-
-      <View style={styles.buttonGroup}>
-        <TouchableOpacity onPress={toggleLike} activeOpacity={0.6} style={styles.hitButton}>
-          <AntDesign name={'like1'} size={28} color={liked ? appTheme.brightContent : appTheme.grey}/>
-          <Text style={styles.hits}>{localLikeCount}</Text>
-        </TouchableOpacity>
-        {
-          showComment &&
-          <View activeOpacity={0.6} style={styles.hitButton}>
-            <MaterialCommunityIcons name={'comment'} size={28} color={appTheme.grey}/>
-            <Text style={styles.hits}>{commentCount}</Text>
+      {
+        !hideOptions && (
+          <View style={styles.buttonGroup}>
+            <TouchableOpacity onPress={toggleLike} activeOpacity={0.6} style={styles.hitButton}>
+              <AntDesign name={'like1'} size={28} color={liked ? appTheme.brightContent : appTheme.grey}/>
+              <Text style={styles.hits}>{localLikeCount}</Text>
+            </TouchableOpacity>
+            {
+              showComment &&
+              <View activeOpacity={0.6} style={styles.hitButton}>
+                <MaterialCommunityIcons name={'comment'} size={28} color={appTheme.grey}/>
+                <Text style={styles.hits}>{commentCount}</Text>
+              </View>
+            }
+            {
+              flagCallback &&
+              <TouchableOpacity onPress={toggleModal} activeOpacity={0.6} o>
+                <Fontisto name={'flag'} size={28} color={appTheme.grey}/>
+              </TouchableOpacity>
+            }
+            {
+              shareCallback &&
+              <TouchableOpacity activeOpacity={0.6}>
+                <Fontisto name={'share-a'} size={28} color={appTheme.brightContent}/>
+              </TouchableOpacity>
+            }
           </View>
-        }
-        {
-          flagCallback &&
-          <TouchableOpacity onPress={toggleModal} activeOpacity={0.6} o>
-            <Fontisto name={'flag'} size={28} color={appTheme.grey}/>
-          </TouchableOpacity>
-        }
-        {
-          shareCallback &&
-          <TouchableOpacity activeOpacity={0.6}>
-            <Fontisto name={'share-a'} size={28} color={appTheme.brightContent}/>
-          </TouchableOpacity>
-        }
-      </View>
+        )
+      }
+
       <ConfirmModal/>
     </View>
   )

@@ -38,5 +38,7 @@ export const socialState = {
   posts: [],
   postDetails: {},
   myPosts: null,
-  postsForUser:{}
+  postsForUser:{},
+  questions:[],
+  questionDetails:{},
 }

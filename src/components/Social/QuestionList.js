@@ -17,9 +17,9 @@ import {spacing} from "../../constants/dimension";
 
 import Post from "../../components/Social/Post";
 
-const postList = (props) => {
+const questionList = (props) => {
   const {
-    posts, open, update, like, unlike, report, onProfilePress = () => {
+    questions, open, update, like, unlike, report, onProfilePress = () => {
     }
   } = props;
 
@@ -38,23 +38,16 @@ const postList = (props) => {
   }
   const renderPost = (post) => {
     return <TouchableOpacity
-      onPress={() => open(post._id)}
+      // onPress={() => open(post._id)}
       activeOpacity={0.7}
       style={styles.postContainer}>
       <Post
-        imageUrl={post.contentURL}
-        likeCount={post.likes.length}
-        commentCount={post.comments.length}
         createdOn={post.createdOn}
-        text={post.textContent}
-        createdBy={post.createdBy.name}
-        displayImageUrl={post.createdBy.displayPictureUrl}
-        isLiked={() => checkLiked(post.likes)}
-        likeCallback={() => like(post._id)}
-        unlikeCallback={() => unlike(post._id)}
-        flagCallback={() => report(post._id)}
-        // shareCallback={() => {}}
-        onProfilePress={() => disableSelfProfileClick(post.createdBy.userId)}
+        text={post.questionText}
+        createdBy={post.postedBy.name}
+        displayImageUrl={post.postedBy.displayPictureUrl}
+        hideOptions
+        onProfilePress={() => disableSelfProfileClick(post.postedBy.userId)}
       />
     </TouchableOpacity>
   }
@@ -67,7 +60,7 @@ const postList = (props) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           style={styles.container}
-          data={posts || []}
+          data={questions || []}
           renderItem={({item}) => renderPost(item)}
           keyExtractor={(item) => item._id}
           ListHeaderComponent={() => <View style={{height: spacing.medium}}/>}
@@ -77,7 +70,7 @@ const postList = (props) => {
           ItemSeparatorComponent={itemSeparator}
         />
         {
-          !posts && (
+          !questions && (
             <ActivityIndicator style={{position: 'absolute'}} color={appTheme.brightContent} size={50}/>
           )
         }
@@ -101,4 +94,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default postList;
+export default questionList;

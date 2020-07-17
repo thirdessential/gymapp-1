@@ -63,7 +63,7 @@ export const remoteMessageTypes = {
   CALL: 'call',
   APPOINTMENT: "appointmentNotification",
   SESSION: 'sessionNotification',
-  UPDATE_POSTS:'UPDATE_POSTS',
+  UPDATE_POSTS: 'UPDATE_POSTS',
 }
 
 export const INITIAL_PAGE = 'INITIAL_PAGE';
@@ -71,4 +71,9 @@ export const INITIAL_PAGE = 'INITIAL_PAGE';
 export const MAX_POST_LENGTH = 300;
 export const firebaseTopics = {
   SILENT_NOTIFICATION: 'SILENT_NOTIFICATION'
+}
+export const POST_TYPE = {
+  TYPE_POST: 'TYPE_POST',
+  TYPE_WORKOUT: 'TYPE_WORKOUT',
+  TYPE_QUESTION: 'TYPE_QUESTION'
 }

@@ -27,5 +27,8 @@ export const SET_POST = 'SET_POST';
 export const APPEND_POSTS = 'APPEND_POSTS';
 export const REMOVE_POST = 'REMOVE_POST';
 export const SET_POSTS_FOR_USER = 'SET_POSTS_FOR_USER';
+export const SET_QUESTIONS = 'SET_QUESTIONS';
+export const SET_QUESTION = 'SET_QUESTION';
+export const APPEND_QUESTIONS = 'APPEND_QUESTIONS';
 
 export const RESET_APP = 'RESET_APP';

@@ -12,27 +12,39 @@ import {connect} from "react-redux";
 
 import {appTheme} from "../../constants/colors";
 import * as actionCreators from '../../store/actions';
-import {INITIAL_PAGE} from "../../constants/appConstants";
+import {INITIAL_PAGE, POST_TYPE} from "../../constants/appConstants";
 
 import RouteNames from "../../navigation/RouteNames";
 import PostList from "../../components/Social/PostList";
 import {spacing} from "../../constants/dimension";
+import SwitchSelector from "react-native-switch-selector";
+import strings from "../../constants/strings";
+import QuestionList from "../../components/Social/QuestionList";
 
 class Community extends Component {
 
   state = {
-    nextPage: INITIAL_PAGE
+    nextPostPage: INITIAL_PAGE,
+    nextQuestionPage: INITIAL_PAGE,
+    type: POST_TYPE.TYPE_POST
   }
 
   updatePosts = async () => {
     const {updatePosts} = this.props;
-    const {nextPage} = this.state;
-    if (!!nextPage)
-      this.setState({nextPage: await updatePosts(nextPage)});
+    const {nextPostPage} = this.state;
+    if (!!nextPostPage)
+      this.setState({nextPostPage: await updatePosts(nextPostPage)});
+  }
+  updateQuestions = async () => {
+    const {updateQuestions} = this.props;
+    const {nextQuestionPage} = this.state;
+    if (!!nextQuestionPage)
+      this.setState({nextQuestionPage: await updateQuestions(nextQuestionPage)});
   }
 
   componentDidMount() {
     this.updatePosts();
+    this.updateQuestions();
   }
 
   openPost = (postId) => {
@@ -51,19 +63,66 @@ class Community extends Component {
       userId: userId
     });
   }
-  render() {
+  changeSwitch = (type) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({type});
+  }
+  renderSelector = () => {
+    return (
+      <View style={styles.switchStyle}>
+        <SwitchSelector
+          initial={0}
+          onPress={this.changeSwitch}
+          textColor={'white'}
+          selectedColor={'white'}
+          buttonColor={appTheme.brightContent}
+          borderColor={appTheme.darkBackground}
+          backgroundColor={appTheme.darkBackground}
+          hasPadding
+          options={[
+            {label: strings.POSTS, value: POST_TYPE.TYPE_POST},
+            {label: strings.QUESTIONS, value: POST_TYPE.TYPE_QUESTION}
+          ]}
+        />
+      </View>
+    )
+  }
+  renderPosts = () => {
     const {posts, likePost, unlikePost, reportPost} = this.props;
+    return (
+      <PostList
+        posts={posts}
+        open={this.openPost}
+        update={this.updatePosts}
+        like={likePost}
+        unlike={unlikePost}
+        report={reportPost}
+        onProfilePress={this.openProfile}
+      />
+    )
+  }
+  renderQuestions = () => {
+    const {questions} = this.props;
+    return (
+      <QuestionList
+        questions={questions}
+        // open={this.openPost}
+        // update={this.updatePosts}
+        // like={likePost}
+        // unlike={unlikePost}
+        // report={reportPost}
+        onProfilePress={this.openProfile}
+      />
+    )
+  }
+
+  render() {
+    const {type} = this.state;
     return (<View style={styles.container}>
         <StatusBar backgroundColor={appTheme.lightBackground}/>
-        <PostList
-          posts={posts}
-          openPost={this.openPost}
-          updatePosts={this.updatePosts}
-          likePost={likePost}
-          unlikePost={unlikePost}
-          reportPost={reportPost}
-          onProfilePress={this.openProfile}
-        />
+        {this.renderSelector()}
+        {type === POST_TYPE.TYPE_POST && this.renderPosts()}
+        {type === POST_TYPE.TYPE_QUESTION && this.renderQuestions()}
       </View>
     );
   }
@@ -76,15 +135,21 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.background,
     flex: 1
   },
+  switchStyle: {
+    marginTop: spacing.medium,
+    marginBottom: spacing.medium
+  }
 
 });
 
 const mapStateToProps = (state) => ({
   posts: state.social.posts,
+  questions: state.social.questions
 });
 
 const mapDispatchToProps = (dispatch) => ({
   updatePosts: (page) => dispatch(actionCreators.updatePosts(page)),
+  updateQuestions: (page) => dispatch(actionCreators.updateQuestions(page)),
   likePost: (postId) => dispatch(actionCreators.likePost(postId)),
   unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId)),
   reportPost: postId => dispatch(actionCreators.reportPost(postId))

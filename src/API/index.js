@@ -55,5 +55,10 @@ export {
   likeComment,
   reportComment,
   reportPost,
-  getPostsForUser
+  getPostsForUser,
+  likeAnswer,
+  likeQuestion,
+  listQuestions,
+  postQuestion,
+  answerQuestion
 } from './social'

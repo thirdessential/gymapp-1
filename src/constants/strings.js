@@ -68,7 +68,9 @@ const strings = {
   SIGNUP_FAILED: 'Signup Failed..Try Again',
   LOGIN_FAILED: 'Login Failed..Try Again',
   SLOT_BOOKING_SUCCESS: "Slot booked!",
-  SLOT_BOOKING_ERROR: 'Unable to book slot, try again'
+  SLOT_BOOKING_ERROR: 'Unable to book slot, try again',
+  QUESTION: 'Question',
+  QUESTIONS: 'Questions'
 };
 
 export default strings;

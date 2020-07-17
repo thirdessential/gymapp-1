@@ -10,7 +10,6 @@ const reducer = (state = initialState, action) => {
         updateObject(state, {myPosts: posts}) :
         updateObject(state, {posts});
     }
-
     case actionTypes.APPEND_POSTS:
       const {posts, my} = action.payload;
       if (my) {
@@ -37,6 +36,20 @@ const reducer = (state = initialState, action) => {
       const postsForUser = {...state.postsForUser};
       postsForUser[userId] = posts;
       return updateObject(state, {postsForUser});
+    }
+    case actionTypes.SET_QUESTIONS: {
+      return updateObject(state, action.payload)
+    }
+    case actionTypes.APPEND_QUESTIONS: {
+      const {questions} = action.payload;
+      const oldQuestions = [...state.questions];
+      return updateObject(state, {posts: oldQuestions.concat(questions)});
+    }
+    case actionTypes.SET_QUESTION: {
+      const {question} = action.payload;
+      const questionDetails = {...state.questionDetails};
+      questionDetails[question._id] = question;
+      return updateObject(state, {questionDetails});
     }
     default:
       return state;

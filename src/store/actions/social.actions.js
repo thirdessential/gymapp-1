@@ -1,9 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
 import {INITIAL_PAGE} from "../../constants/appConstants";
-import post from "../../components/Social/Post";
-import {showInfo, showSuccess} from "../../utils/notification";
-
+import {showInfo} from "../../utils/notification";
 
 export const setPosts = (posts, my = false) => ({
   type: actionTypes.SET_POSTS,
@@ -31,7 +29,24 @@ export const removePost = (postId) => ({
     postId
   }
 });
-
+export const setQuestions = (questions) => ({
+  type: actionTypes.SET_QUESTIONS,
+  payload: {
+    questions
+  }
+});
+export const setQuestion = (question) => ({
+  type: actionTypes.SET_QUESTION,
+  payload: {
+    question
+  }
+});
+export const appendQuestions = (questions) => ({
+  type: actionTypes.APPEND_QUESTIONS,
+  payload: {
+    questions,
+  }
+});
 
 export const updatePosts = (page = '', my = false) => {
   return async (dispatch) => {
@@ -153,7 +168,7 @@ export const setPostsForUser = (userId, posts) => ({
   }
 });
 
-export const getPostsForUser = (userId, page='') => {
+export const getPostsForUser = (userId, page = '') => {
   return async (dispatch) => {
     try {
       let {nextPage, posts} = await API.getPostsForUser(userId);
@@ -165,3 +180,21 @@ export const getPostsForUser = (userId, page='') => {
     }
   };
 }
+
+export const updateQuestions = (page = '') => {
+  return async (dispatch) => {
+    try {
+      let {questions, nextPage} = await API.listQuestions(page === INITIAL_PAGE ? null : page);
+      if (questions) {
+        if (page === INITIAL_PAGE)
+          await dispatch(setQuestions(questions)); // initialise list from scratch
+        else dispatch(appendQuestions(questions)); // else append data to list
+        questions.map(question => dispatch(setQuestion(question)))
+      }
+      return nextPage;
+    } catch (error) {
+      console.log("question list update failed", error);
+      return null;
+    }
+  };
+};
