@@ -70,7 +70,10 @@ const strings = {
   SLOT_BOOKING_SUCCESS: "Slot booked!",
   SLOT_BOOKING_ERROR: 'Unable to book slot, try again',
   QUESTION: 'Question',
-  QUESTIONS: 'Questions'
+  QUESTIONS: 'Questions',
+  ANSWERED_BY:'Answered by,',
+  ANSWER: 'Answer',
+  CANCEL: 'Cancel'
 };
 
 export default strings;

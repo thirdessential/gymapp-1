@@ -44,5 +44,6 @@ export {
   commentOnPost,
   reportPost,
   getPostsForUser,
-  updateQuestions
+  updateQuestions,
+  answerQuestion
 } from './social.actions'

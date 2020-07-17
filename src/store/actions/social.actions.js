@@ -198,3 +198,33 @@ export const updateQuestions = (page = '') => {
     }
   };
 };
+
+export const answerQuestion = (questionId, answerText) => {
+  return async (dispatch, getState) => {
+    try {
+      API.answerQuestion(questionId,answerText)
+        .then(()=>dispatch(updateQuestions(INITIAL_PAGE)));
+      const questions = getState().social.questions;
+      let filteredQuestions = questions.filter(question => question._id === questionId);
+      if (filteredQuestions && filteredQuestions[0]) {
+        let question = filteredQuestions[0];
+        let answer = {
+          "_id": Math.random().toString(),
+          "answerText": answerText,
+          "spam": false,
+          "approved": true,
+          "postedBy": getState().user.userData,
+          "createdOn": Date.now(),
+          "updatedOn": Date.now(),
+          "__v": 0,
+          "likes": 0
+        };
+        question.answers.push(answer);
+        dispatch(setQuestion(question));
+      }
+    } catch (error) {
+      console.log("question list update failed", error);
+      return null;
+    }
+  };
+};

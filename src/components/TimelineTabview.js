@@ -110,6 +110,7 @@ function timeline(props) {
       renderScene={renderScene}
       onIndexChange={setIndex}
       initialLayout={initialLayout}
+      swipeEnabled={false}
       sceneContainerStyle={{
         // paddingLeft: spacing.medium_lg,
         // paddingRight: spacing.medium_lg,

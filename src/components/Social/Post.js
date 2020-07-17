@@ -29,7 +29,7 @@ const post = (props) => {
     commentCount, createdBy, displayImageUrl,
     imageUrl, likeCount, createdOn, text, likeCallback,
     unlikeCallback, onProfilePress, hideOptions=false,
-    flagCallback, shareCallback, showComment = true, isLiked
+    flagCallback, shareCallback, showComment = true, isLiked,renderFooter
   } = props;
   const [liked, setLiked] = useState(isLiked);
   const [localLikeCount, setLocalLikeCount] = useState(likeCount);
@@ -123,7 +123,9 @@ const post = (props) => {
           </View>
         )
       }
-
+      {
+        renderFooter && renderFooter()
+      }
       <ConfirmModal/>
     </View>
   )

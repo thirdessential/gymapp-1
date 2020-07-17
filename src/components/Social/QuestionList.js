@@ -1,14 +1,14 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {
   View,
   StyleSheet,
   FlatList,
   StatusBar,
   ActivityIndicator,
-  TouchableOpacity,
+  TouchableOpacity, Text, TextInput,
 } from 'react-native'
 
 import store from '../../store/configureStore';
@@ -16,44 +16,47 @@ import {appTheme} from "../../constants/colors";
 import {spacing} from "../../constants/dimension";
 
 import Post from "../../components/Social/Post";
+import AnswerList from "./AnswerList";
+import strings from "../../constants/strings";
+import fonts from "../../constants/fonts";
+import {MAX_POST_LENGTH} from "../../constants/appConstants";
+import {screenWidth} from "../../utils/screenDimensions";
+import AnswerInput from "./AnswerInput";
 
 const questionList = (props) => {
   const {
-    questions, open, update, like, unlike, report, onProfilePress = () => {
+    questions, update, onCreateAnswer, onProfilePress = () => {
     }
   } = props;
 
-  const checkLiked = (likes) => {
-    const {userId} = store.getState().user;
-    let liked = false;
-    likes.map(like => {
-      if (like.likedBy === userId)
-        liked = true;
-    });
-    return liked;
-  }
+
   const disableSelfProfileClick = (targetUserId) => {
     const {userId} = store.getState().user;
     if (userId !== targetUserId) onProfilePress(targetUserId);
   }
-  const renderPost = (post) => {
-    return <TouchableOpacity
-      // onPress={() => open(post._id)}
-      activeOpacity={0.7}
-      style={styles.postContainer}>
+  const renderAnswerBox = (questionId) => <AnswerInput
+    onSubmit={(answerText) => onCreateAnswer(questionId, answerText)}/>
+
+  const renderQuestion = (question) => {
+    return <>
       <Post
-        createdOn={post.createdOn}
-        text={post.questionText}
-        createdBy={post.postedBy.name}
-        displayImageUrl={post.postedBy.displayPictureUrl}
+        createdOn={question.createdOn}
+        text={question.questionText}
+        createdBy={question.postedBy.name}
+        displayImageUrl={question.postedBy.displayPictureUrl}
         hideOptions
-        onProfilePress={() => disableSelfProfileClick(post.postedBy.userId)}
+        onProfilePress={() => disableSelfProfileClick(question.postedBy.userId)}
+        renderFooter={() => renderAnswerBox(question._id)}
       />
-    </TouchableOpacity>
+      {renderAnswers(question.answers)}
+    </>
   }
-
+  const renderAnswers = (answers) => {
+    return (
+      <AnswerList answers={answers} onProfilePress={onProfilePress}/>
+    )
+  }
   const itemSeparator = () => <View style={{marginTop: spacing.medium}}/>
-
   return (<>
       <View
         style={styles.listContainer}>
@@ -61,13 +64,14 @@ const questionList = (props) => {
           showsVerticalScrollIndicator={false}
           style={styles.container}
           data={questions || []}
-          renderItem={({item}) => renderPost(item)}
+          renderItem={({item}) => renderQuestion(item)}
           keyExtractor={(item) => item._id}
           ListHeaderComponent={() => <View style={{height: spacing.medium}}/>}
           ListFooterComponent={() => <View style={{height: spacing.large}}/>}
           onEndReached={update}
           onEndReachedThreshold={0.5}
           ItemSeparatorComponent={itemSeparator}
+          keyboardShouldPersistTaps={'always'}
         />
         {
           !questions && (
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: "center",
     width: '100%',
-  }
+  },
 });
 
 

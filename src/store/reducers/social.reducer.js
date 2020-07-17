@@ -47,9 +47,9 @@ const reducer = (state = initialState, action) => {
     }
     case actionTypes.SET_QUESTION: {
       const {question} = action.payload;
-      const questionDetails = {...state.questionDetails};
-      questionDetails[question._id] = question;
-      return updateObject(state, {questionDetails});
+      let oldQuestions = [...state.questions];
+      oldQuestions = oldQuestions.map(localQuestion => question._id === localQuestion._id ? question : localQuestion);
+      return updateObject(state, {questions: oldQuestions});
     }
     default:
       return state;

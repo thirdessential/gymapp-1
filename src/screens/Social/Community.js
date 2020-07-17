@@ -101,16 +101,17 @@ class Community extends Component {
       />
     )
   }
+  createAnswer = (questionId, answerText) => {
+    const {answerQuestion} = this.props;
+    answerQuestion(questionId,answerText);
+  }
   renderQuestions = () => {
     const {questions} = this.props;
     return (
       <QuestionList
         questions={questions}
-        // open={this.openPost}
-        // update={this.updatePosts}
-        // like={likePost}
-        // unlike={unlikePost}
-        // report={reportPost}
+        onCreateAnswer={this.createAnswer}
+        update={this.updateQuestions}
         onProfilePress={this.openProfile}
       />
     )
@@ -152,7 +153,8 @@ const mapDispatchToProps = (dispatch) => ({
   updateQuestions: (page) => dispatch(actionCreators.updateQuestions(page)),
   likePost: (postId) => dispatch(actionCreators.likePost(postId)),
   unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId)),
-  reportPost: postId => dispatch(actionCreators.reportPost(postId))
+  reportPost: postId => dispatch(actionCreators.reportPost(postId)),
+  answerQuestion: (questionId, text) => dispatch(actionCreators.answerQuestion(questionId, text))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Community);
