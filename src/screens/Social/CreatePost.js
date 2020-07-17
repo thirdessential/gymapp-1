@@ -170,7 +170,7 @@ class CreatePost extends Component {
   }
   createQuestion = async () => {
     const {description} = this.state;
-    const {navigation} = this.props;
+    const {navigation,updateQuestions} = this.props;
     Keyboard.dismiss()
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({submitting: true});
@@ -178,6 +178,7 @@ class CreatePost extends Component {
     this.setState({submitting: false});
     if (result) {
       showSuccess('Question posted');
+      updateQuestions()
       navigation.goBack();
     } else {
       showError('Error, try again');
@@ -265,7 +266,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   updatePost: (postId) => dispatch(actionCreators.updatePost(postId)),
   updatePosts: () => dispatch(actionCreators.updatePosts(INITIAL_PAGE)),
-  updateMyPosts: () => dispatch(actionCreators.updatePosts(INITIAL_PAGE, true))
+  updateMyPosts: () => dispatch(actionCreators.updatePosts(INITIAL_PAGE, true)),
+  updateQuestions: ()=>dispatch(actionCreators.updateQuestions(INITIAL_PAGE))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

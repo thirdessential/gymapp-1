@@ -15,7 +15,6 @@ import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
 import strings from "../../constants/strings";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import {screenWidth} from "../../utils/screenDimensions";
 
 const answer = (props) => {
   const {

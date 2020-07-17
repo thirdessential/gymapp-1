@@ -23,7 +23,6 @@ const answerInput = (props) => {
   }
   return (
     <View>
-
       {
         isAnswerOpen &&
         <TextInput

@@ -24,6 +24,15 @@ const answerList = (props) => {
     if (userId !== targetUserId) onProfilePress(targetUserId);
   }
   const itemSeparator = () => <View style={styles.itemSeparator}/>;
+  const checkLiked = (likes) => {
+    const {userId} = store.getState().user;
+    let liked = false;
+    likes.map(like => {
+      if (like.likedBy === userId)
+        liked = true;
+    });
+    return liked;
+  }
   const renderAnswer = (answer) => {
     return (
       <Answer
@@ -34,6 +43,7 @@ const answerList = (props) => {
         likeCount={answer.likes.length}
         likeCallback={()=>onAnswerLike(answer._id)}
         unlikeCallback={()=>onAnswerDislike(answer._id)}
+        isLiked={()=>checkLiked(answer.likes)}
       />
     )
   }

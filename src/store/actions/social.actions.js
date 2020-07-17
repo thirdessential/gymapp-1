@@ -202,9 +202,9 @@ export const updateQuestions = (page = '') => {
 export const answerQuestion = (questionId, answerText) => {
   return async (dispatch, getState) => {
     try {
-      API.answerQuestion(questionId,answerText)
-        .then(()=>dispatch(updateQuestions(INITIAL_PAGE)));
-      const questions = getState().social.questions;
+      API.answerQuestion(questionId, answerText)
+        .then(() => dispatch(updateQuestions(INITIAL_PAGE)));
+      const questions = [...getState().social.questions];
       let filteredQuestions = questions.filter(question => question._id === questionId);
       if (filteredQuestions && filteredQuestions[0]) {
         let question = filteredQuestions[0];
@@ -217,7 +217,7 @@ export const answerQuestion = (questionId, answerText) => {
           "createdOn": Date.now(),
           "updatedOn": Date.now(),
           "__v": 0,
-          "likes": 0
+          "likes": []
         };
         question.answers.push(answer);
         dispatch(setQuestion(question));

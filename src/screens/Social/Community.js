@@ -27,7 +27,7 @@ class Community extends Component {
   state = {
     nextPostPage: INITIAL_PAGE,
     nextQuestionPage: INITIAL_PAGE,
-    type: POST_TYPE.TYPE_QUESTION
+    type: POST_TYPE.TYPE_POST
   }
 
   updatePosts = async () => {
