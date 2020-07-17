@@ -8,6 +8,7 @@ import openDrawerButton from "../openDrawerButton";
 import Activity from "../../screens/App/Activity";
 import fonts from "../../constants/fonts";
 import MyAppointments from "../../screens/App/MyAppointments";
+import Profile from "../../screens/App/Profile";
 
 const activity = () => {
   return (
@@ -28,6 +29,8 @@ const activity = () => {
 
         }}
       />
+      <Stack.Screen name={RouteNames.Profile} component={Profile}
+                    options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
     </Stack.Navigator>
   )
 }

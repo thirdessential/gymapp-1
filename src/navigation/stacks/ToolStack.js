@@ -12,6 +12,7 @@ import PackageEdit from "../../screens/App/Trainer/PackageEdit";
 import SlotsView from "../../screens/App/Trainer/SlotsView";
 import Subscriptions from "../../screens/App/Trainer/Subscriptions";
 import Schedule from "../../screens/App/User/Schedule";
+import Profile from "../../screens/App/Profile";
 
 const toolStack = () => {
   return (
@@ -106,6 +107,8 @@ const toolStack = () => {
           }
         }}
       />
+      <Stack.Screen name={RouteNames.Profile} component={Profile}
+                    options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
     </Stack.Navigator>
   )
 }

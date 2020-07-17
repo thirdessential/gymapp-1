@@ -37,11 +37,11 @@ class SlotList extends Component {
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       if (this.state.slots.length === 0)
         this.refreshSlots();
-    })
+    });
   }
 
   submitSlots = async () => {
-    const {createSlots} = this.props;
+    const {createSlots, updateUserData} = this.props;
     this.setState({submitPending: true});
     let result = await createSlots(this.state.slots);
     this.refreshSlots();
@@ -49,6 +49,7 @@ class SlotList extends Component {
     this.setState({changed: false, submitPending: false});
     if (result)
       showSuccess(strings.CHANGES_SAVED);
+    updateUserData();
     //TODO: Error handling
   }
 
@@ -58,7 +59,7 @@ class SlotList extends Component {
       // const filteredSlots = slots.filter(slot=>slot.subscriptionId===null);
       const localSlots = this.mapSlotsToLocal(slots);
       this.setState({slots: localSlots, settingInitialSlots: false});
-    }else this.setState({settingInitialSlots:false})
+    } else this.setState({settingInitialSlots: false})
   }
 
   mapSlotsToLocal = (slots) => {
@@ -195,9 +196,7 @@ class SlotList extends Component {
               </View>
             </KeyboardAwareScrollView>
           )
-
         }
-
         <this.fab/>
       </LinearGradient>
     );
@@ -261,6 +260,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   createSlots: (slotArray) => dispatch(actionCreators.createSlots(slotArray)),
+  updateUserData: () => dispatch(actionCreators.updateUserData()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlotList);

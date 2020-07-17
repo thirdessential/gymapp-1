@@ -7,12 +7,11 @@ import {connect} from "react-redux";
 
 import {spacing} from "../../../constants/dimension";
 import * as actionCreators from "../../../store/actions";
-import colors, {appTheme, darkPallet} from "../../../constants/colors";
+import  {appTheme, darkPallet} from "../../../constants/colors";
 import RouteNames from "../../../navigation/RouteNames";
 import PackageFlatList from "../../../components/Trainer/PackageFlatList";
 import fontSizes from "../../../constants/fontSizes";
 import fonts from "../../../constants/fonts";
-import strings from "../../../constants/strings";
 import BarButton from '../../../components/BarButton';
 import LinearGradient from "react-native-linear-gradient";
 

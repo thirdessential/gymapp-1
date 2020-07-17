@@ -34,8 +34,7 @@ class UserListing extends Component {
 
   componentDidMount() {
     setAvailable();
-    const {updateUserData, navigation,getActivities,getAppointments} = this.props;
-    updateUserData();
+    const { navigation,getActivities,getAppointments} = this.props;
     getAppointments();
     getActivities();
     this.unsubscribeFocus = navigation.addListener('focus', e => {
@@ -190,7 +189,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateUsersList: (nextPage) => dispatch(actionCreators.updateUsersList(nextPage)),
-  updateUserData: () => dispatch(actionCreators.updateUserData()),
   getActivities: ()=>dispatch(actionCreators.getActivities()),
   getAppointments: ()=>dispatch(actionCreators.getAppointments())
 });

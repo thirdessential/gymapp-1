@@ -10,8 +10,13 @@ import {spacing} from "../../../constants/dimension";
 import SlotsByTime from "../../../components/Trainer/SlotsByTime";
 import {showError, showSuccess} from "../../../utils/notification";
 import {bookAppointment} from "../../../API";
+import * as actionCreators from "../../../store/actions";
 
 class SlotsView extends Component {
+
+  componentDidMount() {
+    this.props.updateUserData();
+  }
 
   bookAppointment = async (day, time) => {
     const {route, setUser} = this.props;
@@ -61,6 +66,8 @@ const mapStateToProps = (state) => ({
   userData: state.user.userData,
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  updateUserData: () => dispatch(actionCreators.updateUserData()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlotsView);

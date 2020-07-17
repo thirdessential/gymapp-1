@@ -26,8 +26,9 @@ class MyAppointments extends React.Component {
   componentDidMount() {
     const {navigation, getAppointments} = this.props;
 
-    this.unsubscribeFocus = navigation.addListener('focus', e => {
-      getAppointments();
+    this.unsubscribeFocus = navigation.addListener('focus', async e => {
+      await getAppointments();
+      this.groupAppointments();
     })
     this.groupAppointments();
   }
@@ -43,7 +44,10 @@ class MyAppointments extends React.Component {
         today.push(appointment);
       else if (isSameDay(tomorrowDate, new Date(appointment.appointmentDate)))
         tomorrow.push(appointment);
-      else later.push(appointment);
+      else if (todayDate > new Date(appointment.appointmentDate)) {
+        //take no action for now
+      } else
+        later.push(appointment);
     });
     this.setState({
       today, tomorrow, later
@@ -65,16 +69,18 @@ class MyAppointments extends React.Component {
   }
   renderAppointment = (appointment) => {
     const {appointmentDate, time, trainerId, userId} = appointment;
-    let name, displayPictureUrl;
+    let name, displayPictureUrl, profileId;
     if (trainerId.name) {
       name = trainerId.name;
       displayPictureUrl = trainerId.displayPictureUrl;
+      profileId = trainerId._id;
     } else {
       name = userId.name;
       displayPictureUrl = userId.displayPictureUrl;
+      profileId = userId._id;
     }
     return (
-      <TouchableOpacity activeOpacity={0.8} onPress={() => this.openProfile(appointment.trainerId._id)}>
+      <TouchableOpacity activeOpacity={0.8} onPress={() => this.openProfile(profileId)}>
         <AppointmentBox
           date={appointmentDate}
           time={time}
@@ -85,23 +91,34 @@ class MyAppointments extends React.Component {
     )
   }
 
+  getSections = () => {
+    let sections = [];
+    if (this.state.today.length > 0) sections.push({
+      title: 'Today',
+      data: this.state.today
+    });
+    if (this.state.tomorrow.length > 0) sections.push({
+      title: 'Tomorrow',
+      data: this.state.tomorrow,
+    })
+    if (this.state.later.length > 0) sections.push({
+      title: 'Later',
+      data: this.state.later
+    })
+    return sections;
+  }
+
   renderAppointmentGrid = () => {
+    const sections = this.getSections();
+    if (sections.length === 0)
+      return (
+        <View style={{marginTop: spacing.large_lg}}>
+          {this.renderSectionHeader('No appointments found')}
+        </View>
+      )
     return (
       <SectionGrid
-        sections={[
-          {
-            title: 'Today',
-            data: this.state.today
-          },
-          {
-            title: 'Tomorrow',
-            data: this.state.tomorrow,
-          },
-          {
-            title: 'Later',
-            data: this.state.later
-          }
-        ]}
+        sections={sections}
         style={{width: '100%'}}
         renderItem={({item}) => this.renderAppointment(item)}
         renderSectionHeader={({section}) => this.renderSectionHeader(section.title)}
@@ -116,6 +133,7 @@ class MyAppointments extends React.Component {
     return (
       <View
         style={styles.container}>
+
         {this.renderAppointmentGrid()}
       </View>
     );
@@ -155,7 +173,6 @@ const styles = StyleSheet.create({
   listContainer: {
     width: '100%'
   },
-
   userContainer: {
     width: '100%',
     alignItems: 'center'

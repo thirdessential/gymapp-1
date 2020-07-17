@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
     color:appTheme.brightContent,
     fontFamily:fonts.CenturyGothicBold,
     fontSize:fontSizes.h2,
-    marginTop:spacing.medium_sm
+    marginTop:spacing.medium_sm,
+    height:fontSizes.h2*3
   }
 });
 

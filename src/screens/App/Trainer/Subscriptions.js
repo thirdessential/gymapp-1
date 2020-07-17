@@ -11,8 +11,13 @@ import SubscriptionList from "../../../components/SubscriptionList";
 import RouteNames from "../../../navigation/RouteNames";
 import {requestCameraAndAudioPermission} from "../../../utils/permission";
 import {initialiseVideoCall} from "../../../utils/utils";
+import * as actionCreators from "../../../store/actions";
 
 class Subscriptions extends Component {
+
+  componentDidMount() {
+    this.props.syncSubscriptions();
+  }
 
   openProfile = (userId) => {
     const {navigation} = this.props;
@@ -34,8 +39,8 @@ class Subscriptions extends Component {
       <ScrollView contentContainerStyle={styles.container}>
         <SubscriptionList
           subscriptions={subscriptions}
-          onProfilePress={this.onProfilePress}
-          callCallback={this.callCallback}/>
+          onProfilePress={this.openProfile}
+          callCallback={this.callClicked}/>
       </ScrollView>
     )
   }
@@ -51,10 +56,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  userData: state.user.userData,
   subscriptions: state.trainer.subscriptions,
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Subscriptions);

@@ -17,8 +17,8 @@ import * as actionCreators from "../../store/actions";
 class Activity extends React.Component {
 
   componentDidMount() {
-    const {navigation, getActivities, getAppointments} = this.props;
-
+    const {navigation, getActivities, getAppointments, updateUserData} = this.props;
+    updateUserData()
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       getAppointments();
       getActivities();
@@ -126,7 +126,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getActivities: () => dispatch(actionCreators.getActivities()),
-  getAppointments: () => dispatch(actionCreators.getAppointments())
+  getAppointments: () => dispatch(actionCreators.getAppointments()),
+  updateUserData: () => dispatch(actionCreators.updateUserData()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activity);
