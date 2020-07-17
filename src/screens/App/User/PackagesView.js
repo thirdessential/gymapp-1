@@ -27,12 +27,12 @@ class PackagesView extends Component {
     let {name, packages} = user;
     const filteredPackages = packages.filter(packageData => packageData._id === packageId);
     if (filteredPackages && filteredPackages.length > 0) {
-      const sessionCount = filteredPackages[0].noOfSessions;
+      // const sessionCount = filteredPackages[0].noOfSessions;
       navigation.navigate(RouteNames.Enroll, {
         userId,
         packageId,
-        trainerName: name,
-        sessionCount
+        packageData:filteredPackages[0],
+        trainerData:user
       });
     }
   }

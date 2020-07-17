@@ -80,22 +80,24 @@ class Enroll extends Component {
   enroll = async () => {
     this.setState({subscribeLoading: true});
     const {route, navigation} = this.props;
-    const {userId, packageId, trainerName, sessionCount} = route.params;
+    const {userId, packageId, trainerData, packageData} = route.params;
     const {selectedDays, selectedTime, selectedSlotId} = this.state;
     const days = selectedDays[selectedSlotId];
-
-    let result = await this.props.subscribePackage(userId, packageId, selectedTime, days);
+    const metadata = {
+      packageName: packageData.title,
+      sessionCount: packageData.noOfSessions,
+      price: packageData.price,
+      time: selectedTime,
+      days,
+      trainerName: trainerData.name,
+      trainerDisplayPictureUrl: trainerData.displayPictureUrl
+    }
     this.setState({subscribeLoading: false});
-    if (result && result.success) {
-      const {metadata, orderId} = result;
-      navigation.navigate(RouteNames.Payment, {
-        metadata,
-        orderId
-      })
-
-      // showSuccess(subscribedSuccessBuilder(trainerName, sessionCount));
-      // navigation.goBack(); //TODO:go to my slots screen
-    } else showError(strings.SLOT_BOOKING_ERROR);
+    navigation.navigate(RouteNames.Payment, {
+      metadata,
+      userId,
+      packageId
+    })
   }
 
   changeActiveDays = (slotId, days, selectedTime) => {
@@ -124,7 +126,7 @@ class Enroll extends Component {
   renderSlots = () => {
     if (this.state.slots.length === 0)
       return (
-        <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Text style={styles.warningText}>{strings.NO_SLOTS_AVAILABLE}</Text>
         </View>
       )
@@ -133,6 +135,9 @@ class Enroll extends Component {
         data={this.state.slots}
         renderItem={({item, index}) => this.renderSlot(item, index)}
         keyExtractor={item => item.time}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={() => <View style={{margin: spacing.medium_sm}}/>}
+
       />);
 
   }
@@ -182,7 +187,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     // justifyContent: 'center',
-    marginTop:spacing.medium_lg,
+    // marginTop:spacing.medium_lg,
     marginLeft: spacing.medium_lg,
     marginRight: spacing.medium_lg,
     flex: 1,
@@ -230,9 +235,9 @@ const styles = StyleSheet.create({
     color: "white",
     lineHeight: 50,
   },
-  warningText:{
-    color:appTheme.brightContent,
-    fontSize:fontSizes.h1,
+  warningText: {
+    color: appTheme.brightContent,
+    fontSize: fontSizes.h1,
     fontFamily: fonts.PoppinsRegular
   }
 });
@@ -242,7 +247,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  subscribePackage: (trainerId, packageId, time, days) => dispatch(actionCreators.subscribePackage(trainerId, packageId, time, days))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Enroll);

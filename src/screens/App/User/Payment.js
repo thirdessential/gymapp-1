@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, TextInput, Text, TouchableOpacity, StatusBar} from 'react-native'
+import {View, StyleSheet, TextInput, Text, TouchableOpacity, StatusBar, ActivityIndicator} from 'react-native'
 import {connect} from "react-redux";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -24,6 +24,9 @@ import {showError, showSuccess} from "../../../utils/notification";
 import {sendPaymentData} from "../../../API";
 
 class Packages extends Component {
+  state = {
+    subscribeLoading: false
+  }
 
   renderRow = (title, value) => {
     return (
@@ -53,38 +56,45 @@ class Packages extends Component {
     this.props.navigation.goBack();
   }
 
-  onConfirmPress = () => {
-    const {route, userData, navigation} = this.props;
-    const {orderId, metadata} = route.params;
+  onConfirmPress = async () => {
+    this.setState({subscribeLoading: true});
+    const {route, userData, navigation, syncSubscriptions} = this.props;
+    const {metadata, userId, packageId} = route.params;
+    const {time, days} = metadata;
     const {packageName, price} = metadata;
+    let result = await this.props.subscribePackage(userId, packageId, time, days);
+    if (result && result.success) {
+      const {orderId} = result;
+      const options = {
+        description: packageName,
+        image: 'https://about.wodup.com/wp-content/uploads/2018/11/a84f9b3b-a46c-4a3c-9ec9-ba87b216548a-300x300.jpg',
+        currency: 'INR',
+        key: paymentKey,
+        amount: price,
+        name: appName,
+        order_id: orderId,
+        prefill: {
+          email: userData.email || '',
+          contact: '',
+          name: userData.name || ''
+        },
+        theme: {color: appTheme.background, backgroundColor: 'red'}
+      }
 
-    const options = {
-      description: packageName,
-      image: 'https://about.wodup.com/wp-content/uploads/2018/11/a84f9b3b-a46c-4a3c-9ec9-ba87b216548a-300x300.jpg',
-      currency: 'INR',
-      key: paymentKey,
-      amount: price,
-      name: appName,
-      order_id: orderId,
-      prefill: {
-        email: userData.email || '',
-        contact: '',
-        name: userData.name || ''
-      },
-      theme: {color: appTheme.background, backgroundColor: 'red'}
-    }
+      RazorpayCheckout.open(options).then((data) => {
+        showSuccess("Payment successful");
+        navigation.popToTop();
+        sendPaymentData(data);
+        syncSubscriptions();
+        console.log("payment success", data)
+      }).catch((error) => {
+        // handle failure
+        showError('Payment Failed, try again');
+        console.log(error);
+      });
 
-    RazorpayCheckout.open(options).then((data) => {
-      // handle success
-      showSuccess("Payment successful");
-      navigation.popToTop();
-      sendPaymentData(data);
-      console.log("payment success",data)
-    }).catch((error) => {
-      // handle failure
-      showError('Payment Failed, try again');
-      console.log(error);
-    });
+    } else showError(strings.SLOT_BOOKING_ERROR);
+    this.setState({subscribeLoading: false});
   }
 
   render() {
@@ -109,11 +119,21 @@ class Packages extends Component {
               />
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer} onPress={this.onConfirmPress}>
-              <FontAwesome
-                name={'check'}
-                color={appTheme.brightContent}
-                size={24}
-              />
+              {
+                this.state.subscribeLoading && (
+                  <ActivityIndicator size={28} color={appTheme.brightContent}/>
+                )
+              }
+              {
+                !this.state.subscribeLoading && (
+                  <FontAwesome
+                    name={'check'}
+                    color={appTheme.brightContent}
+                    size={24}
+                  />
+                )
+              }
+
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
@@ -185,7 +205,10 @@ const mapStateToProps = (state) => ({
   userData: state.user.userData
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions()),
+  subscribePackage: (trainerId, packageId, time, days) => dispatch(actionCreators.subscribePackage(trainerId, packageId, time, days))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Packages);
 
