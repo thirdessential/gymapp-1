@@ -80,8 +80,9 @@ export const createSlots = (slotArray) => {
       // dispatch(setSlots(slotArray));
       let slots = await API.syncSlots(slotArray);
       if (slots) {
-        console.log('slots created', slots);
-        dispatch(setSlots(slots)); //TODO:Enable this after api change
+        console.log('slots created', slots.length);
+
+        // dispatch(setSlots([...slots]));
         return true;
       } else {
         //TODO: finish this rollback by showing error
