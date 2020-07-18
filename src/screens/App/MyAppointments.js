@@ -1,17 +1,14 @@
 import * as React from "react";
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import LinearGradient from "react-native-linear-gradient";
+import { StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {connect} from "react-redux";
 import {SectionGrid} from 'react-native-super-grid';
 
 import {spacing} from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import {appTheme, darkPallet} from "../../constants/colors";
-import Avatar from "../../components/Avatar";
-import {getJoinDurationString, isSameDay, toTitleCase} from "../../utils/utils";
+import {appTheme,} from "../../constants/colors";
+import {isSameDay} from "../../utils/utils";
 import RouteNames from "../../navigation/RouteNames";
-import {defaultDP, WEEK_DAYS} from "../../constants/appConstants";
 import * as actionCreators from "../../store/actions";
 import AppointmentBox from "../../components/AppointmentBox";
 

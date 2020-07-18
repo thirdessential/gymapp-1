@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import {connect} from "react-redux";
+import {FlatGrid} from 'react-native-super-grid';
 
 import {appTheme} from "../../constants/colors";
 import {spacing} from "../../constants/dimension";
@@ -17,6 +18,8 @@ import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import RouteNames from "../../navigation/RouteNames";
 import {POST_TYPE, userTypes} from "../../constants/appConstants";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import ImageCard from "../../components/ImageCard";
+import {iconBackgrounds} from "../../constants/images";
 
 class Tools extends Component {
 
@@ -25,81 +28,64 @@ class Tools extends Component {
   openSlots = () => this.props.navigation.navigate(RouteNames.SlotsView)
   openSubscriptions = () => this.props.navigation.navigate(RouteNames.Subscriptions)
   openSchedule = () => this.props.navigation.navigate(RouteNames.Schedule)
-  openQuestion = () => this.props.navigation.navigate(RouteNames.CreatePost, {type:POST_TYPE.TYPE_QUESTION})
+  openQuestion = () => this.props.navigation.navigate(RouteNames.CreatePost, {type: POST_TYPE.TYPE_QUESTION})
 
-  packages = () => {
-    return (
-      <>
-        <TouchableOpacity onPress={this.openPackages} style={styles.toolContainer}>
-          <Feather color={appTheme.brightContent} name='box' size={30}/>
-          <Text style={styles.toolText}>{strings.PACKAGES}</Text>
-          <Entypo color={appTheme.brightContent} name='chevron-right' size={25}/>
-        </TouchableOpacity>
-        <View style={styles.separator}/>
-      </>
-    )
+  state = {
+    toolsData: []
   }
-  appointments = () => (
-    <>
-      <TouchableOpacity onPress={this.openAppointments} style={styles.toolContainer}>
-        <Entypo color={appTheme.brightContent} name='calendar' size={30}/>
-        <Text style={styles.toolText}>{strings.APPOINTMENTS}</Text>
-        <Entypo color={appTheme.brightContent} name='chevron-right' size={25}/>
-      </TouchableOpacity>
-      <View style={styles.separator}/>
-    </>
-  )
-  slots = () => (
-    <>
-      <TouchableOpacity onPress={this.openSlots} style={styles.toolContainer}>
-        <Entypo color={appTheme.brightContent} name='time-slot' size={30}/>
-        <Text style={styles.toolText}>{strings.SLOTS}</Text>
-        <Entypo color={appTheme.brightContent} name='chevron-right' size={25}/>
-      </TouchableOpacity>
-      <View style={styles.separator}/>
-    </>
-  )
-  subscriptions = () => (
-    <>
-      <TouchableOpacity onPress={this.openSubscriptions} style={styles.toolContainer}>
-        <FontAwesome5Icon color={appTheme.brightContent} name='users' size={30}/>
-        <Text style={styles.toolText}>{strings.SUBSCRIPTIONS}</Text>
-        <Entypo color={appTheme.brightContent} name='chevron-right' size={25}/>
-      </TouchableOpacity>
-      <View style={styles.separator}/>
-    </>
-  )
-  schedule = () => (
-    <>
-      <TouchableOpacity onPress={this.openSchedule} style={styles.toolContainer}>
-        <FontAwesome color={appTheme.brightContent} name='calendar' size={30}/>
-        <Text style={styles.toolText}>{strings.SCHEDULE}</Text>
-        <Entypo color={appTheme.brightContent} name='chevron-right' size={25}/>
-      </TouchableOpacity>
-      <View style={styles.separator}/>
-    </>
-  )
-  question = () => (
-    <>
-      <TouchableOpacity onPress={this.openQuestion} style={styles.toolContainer}>
-        <FontAwesome color={appTheme.brightContent} name='question' size={30}/>
-        <Text style={styles.toolText}>{strings.ASK_EXPERT}</Text>
-        <Entypo color={appTheme.brightContent} name='chevron-right' size={25}/>
-      </TouchableOpacity>
-      <View style={styles.separator}/>
-    </>
+
+  componentDidMount() {
+    const {userType} = this.props;
+
+    const toolsData = [
+      {
+        title: strings.PACKAGES,
+        image: iconBackgrounds.packages,
+        callback: this.openPackages,
+        enabled: userType === userTypes.TRAINER
+      }, {
+        title: strings.APPOINTMENTS,
+        image: iconBackgrounds.appointments,
+        callback: this.openAppointments,
+        enabled: true
+      }, {
+        title: strings.SLOTS,
+        image: iconBackgrounds.slots,
+        callback: this.openSlots,
+        enabled: userType === userTypes.TRAINER
+
+      }, {
+        title: strings.SUBSCRIPTIONS,
+        image: iconBackgrounds.subscriptions,
+        callback: this.openSubscriptions,
+        enabled: true,
+      }, {
+        title: strings.SCHEDULE,
+        image: iconBackgrounds.workouts,
+        callback: this.openSchedule,
+        enabled: userType === userTypes.USER
+      }, {
+        title: strings.ASK_EXPERT,
+        image: iconBackgrounds.waterIntake,
+        callback: this.openQuestion,
+        enabled: userType === userTypes.USER
+      },
+    ]
+    this.setState({toolsData: toolsData.filter(toolData => toolData.enabled)});
+  }
+
+  renderCard = (item) => (
+    <ImageCard title={item.title} onPress={item.callback} image={item.image}/>
   )
 
   render() {
-    const {userType} = this.props;
     return (
       <View style={styles.container}>
-        {userType === userTypes.TRAINER && this.packages()}
-        {this.appointments()}
-        {userType === userTypes.TRAINER && this.slots()}
-        {this.subscriptions()}
-        {userType===userTypes.USER && this.schedule()}
-        {userType===userTypes.USER && this.question()}
+        <FlatGrid
+          showsVerticalScrollIndicator={false}
+          data={this.state.toolsData}
+          renderItem={({item}) => this.renderCard(item)}
+        />
       </View>
     )
   }

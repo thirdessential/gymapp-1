@@ -14,7 +14,6 @@ import FormElementThree from '../../components/Login/FormElementThree';
 import PasswordElementThree from '../../components/Login/PasswordElementThree';
 import ActionButtonFour from '../../components/Login/ActionButtonFour';
 import LoginFooterTwo from '../../components/Login/LoginFooterTwo';
-import bgImage from '../../../assets/images/loginbg.jpg';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import RouteNames from "../../navigation/RouteNames";
 import {attemptGoogleAuth, signInWithEmail} from "../../API";

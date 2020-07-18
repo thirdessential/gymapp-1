@@ -16,7 +16,6 @@ import { CheckBox } from 'react-native-elements';
 import { showMessage } from "react-native-flash-message";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import bgImage from '../../../assets/images/loginbg.jpg';
 import { attemptGoogleAuth, registerWithEmail } from '../../API';
 import Loader from '../../components/Loader';
 import ActionButtonFour from '../../components/Login/ActionButtonFour';

@@ -10,6 +10,18 @@ export const cardBackgrounds = {
   bg8: require('../../assets/images/card/8.jpeg'),
 }
 
+export const iconBackgrounds = {
+  packages:require('../../assets/Icons/Packages.png'),
+  appointments:require('../../assets/Icons/Appointments.png'),
+  bmr:require('../../assets/Icons/BMR.png'),
+  calorie:require('../../assets/Icons/Calorie.png'),
+  dietPlan:require('../../assets/Icons/dietPlan.png'),
+  sleepMonitor:require('../../assets/Icons/sleepMonitor.png'),
+  slots:require('../../assets/Icons/slots.png'),
+  subscriptions:require('../../assets/Icons/subscription.png'),
+  workouts:require('../../assets/Icons/workouts.png'),
+  waterIntake:require('../../assets/Icons/waterIntake.png'),
+}
 
 export const getRandomImage = ()=> {
   const images = Object.keys(cardBackgrounds);
