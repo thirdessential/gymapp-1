@@ -68,6 +68,7 @@
     "react-native-super-grid": "^4.0.3",
     "react-native-switch-selector": "^2.0.6",
     "react-native-tab-view": "^2.14.4",
+    "react-native-table-component": "^1.2.1",
     "react-native-timeline-flatlist": "^0.7.3",
     "react-native-vector-icons": "^6.6.0",
     "react-native-weekday-picker": "https://github.com/Yatanvesh/react-native-weekday-picker",

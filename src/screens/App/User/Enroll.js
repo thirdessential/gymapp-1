@@ -90,7 +90,6 @@ class Enroll extends Component {
       time: selectedTime,
       days,
       trainerName: trainerData.name,
-      trainerDisplayPictureUrl: trainerData.displayPictureUrl
     }
     this.setState({subscribeLoading: false});
     navigation.navigate(RouteNames.Payment, {

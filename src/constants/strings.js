@@ -9,6 +9,7 @@ const strings = {
   AVAILABLE_SLOTS: 'Available Slots',
   PACKAGE_NAME: 'Package Name',
   MINS: 'Mins',
+  DATE:'Date',
   ALLOTTED_TO:'Allotted to ',
   CONFIRM_FLAG:'Report Content?',
   NO_SLOTS_AVAILABLE:'No slots available',
@@ -74,7 +75,15 @@ const strings = {
   ANSWERED_BY:'Answered by,',
   ANSWER: 'Answer',
   CANCEL: 'Cancel',
-  ASK_EXPERT: 'Ask an expert'
+  ASK_EXPERT: 'Ask an expert',
+  USER_DETAILS: 'User Details',
+  NAME: 'Name',
+  BOOKING_DATE: 'Booking Date',
+  TRAINER_DETAILS: 'Trainer Details',
+  PACKAGE_DETAILS: 'Package Details',
+  SUBSCRIPTION_DETAILS: 'Subscription Details',
+  SESSION_DETAILS: 'Session Details',
+  TRAINER:'Trainer'
 };
 
 export default strings;
