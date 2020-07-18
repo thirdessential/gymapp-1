@@ -74,6 +74,7 @@ export const setSlots = (slots) => ({
 });
 
 export const createSlots = (slotArray) => {
+
   return async (dispatch, getState) => {
     let oldSlots = getState().trainer.slots;
     try {
@@ -81,8 +82,7 @@ export const createSlots = (slotArray) => {
       let slots = await API.syncSlots(slotArray);
       if (slots) {
         console.log('slots created', slots.length);
-
-        // dispatch(setSlots([...slots]));
+        dispatch(setSlots(slots));
         return true;
       } else {
         //TODO: finish this rollback by showing error

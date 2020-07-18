@@ -43,17 +43,22 @@ class SlotList extends Component {
   submitSlots = async () => {
     const {createSlots, updateUserData} = this.props;
     this.setState({submitPending: true});
-    let result = await createSlots(this.state.slots);
-    await updateUserData();
+    let slots = this.state.slots;
+    slots = slots.map(slot=> {
+      slot.days =[...new Set(slot.days)];
+      return slot;
+    });
+    let result = await createSlots(slots);
     this.refreshSlots();
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({changed: false, submitPending: false});
     if (result)
       showSuccess(strings.CHANGES_SAVED);
+    updateUserData();
     //TODO: Error handling
   }
 
-  refreshSlots = () => {
+  refreshSlots =async () => {
     const {slots} = this.props;
     if (slots && slots.length > 0) {
       // const filteredSlots = slots.filter(slot=>slot.subscriptionId===null);
