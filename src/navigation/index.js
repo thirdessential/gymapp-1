@@ -1,11 +1,11 @@
 import React from 'react';
-import {AppState, Text} from 'react-native';
+import {AppState, LayoutAnimation, Text} from 'react-native';
 import {connect} from "react-redux";
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import {NavigationContainer} from "@react-navigation/native";
-
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import * as actionCreators from '../store/actions';
 import {updateAxiosToken} from "../API";
 import {firebaseTopics, INITIAL_PAGE, remoteMessageTypes, storageKeys, videoTestMode} from "../constants/appConstants";
@@ -47,6 +47,7 @@ class App extends React.Component {
   async componentDidMount() {
     const {setAuthenticated, setIncomingCall, updatePosts, userId} = this.props;
     setAuthenticated(false); // TODO: Remove this line and fix auth blacklisting
+    changeNavigationBarColor(appTheme.darkBackground);
     this.authSubscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
     this.syncing = false;
     await this.checkCallData();
@@ -68,6 +69,7 @@ class App extends React.Component {
             console.log("received self post update notiff, taking no action");
           } else {
             console.log("received post update notiff, updating posts");
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
             await updatePosts(INITIAL_PAGE);
             showInfo(strings.NEW_POSTS);
           }

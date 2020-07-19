@@ -7,7 +7,7 @@ import {
   StyleSheet,
   StatusBar,
   LayoutAnimation,
-  TouchableOpacity, ActivityIndicator,
+  TouchableOpacity, ActivityIndicator, Text,
 } from 'react-native'
 import {connect} from "react-redux";
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -30,6 +30,8 @@ import {iconBackgrounds} from "../../constants/images";
 import SingleImageViewer from "../../components/SingleImageViewer";
 import {screenWidth} from "../../utils/screenDimensions";
 import post from "../../components/Social/Post";
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
 
 const initialLayout = {width: screenWidth};
 
@@ -158,7 +160,8 @@ class Community extends Component {
         }
       }}
     >
-      <View style={{flexDirection: 'row'}}>
+      <Text style={styles.title}>{strings.CREATE} </Text>
+      <View style={{flexDirection: 'row', marginBottom:spacing.medium}}>
         <ImageCard title={strings.POST} onPress={this.createPost} image={iconBackgrounds.workouts}/>
         <ImageCard title={strings.ASK_EXPERT} onPress={this.createQuestion} image={iconBackgrounds.appointments}/>
       </View>
@@ -244,6 +247,12 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 10
   },
+  title:{
+    color: appTheme.brightContent,
+    fontSize: fontSizes.h1,
+    fontFamily: fonts.CenturyGothic,
+    marginBottom: spacing.medium_sm
+  }
 });
 
 const mapStateToProps = (state) => ({

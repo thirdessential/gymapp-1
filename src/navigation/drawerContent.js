@@ -51,7 +51,11 @@ function CustomDrawerContent(props) {
           <DrawerItem
             label="Subscriptions"
             labelStyle={drawerLabelStyle}
-            onPress={() => props.navigation.navigate(RouteNames.Subscriptions)}
+            onPress={() => {
+              if (userType === userTypes.TRAINER)
+                props.navigation.navigate(RouteNames.Subscriptions);
+                else props.navigation.navigate(RouteNames.SlotsView);
+            }}
           />
           {
             userType === userTypes.USER && (
@@ -76,7 +80,7 @@ function CustomDrawerContent(props) {
               <DrawerItem
                 label="My Slots"
                 labelStyle={drawerLabelStyle}
-                onPress={() => props.navigation.navigate(RouteNames.SlotEdit)}
+                onPress={() => props.navigation.navigate(RouteNames.SlotsView)}
               />
             )
           }

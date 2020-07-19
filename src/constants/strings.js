@@ -88,7 +88,8 @@ const strings = {
   START_FROM: 'Start from',
   END_AT:'End at',
   TOTAL_SESSIONS:'Total Sessions',
-  SESSION_DAYS: 'Session Days'
+  SESSION_DAYS: 'Session Days',
+  CREATE: 'Create'
 };
 
 export default strings;
