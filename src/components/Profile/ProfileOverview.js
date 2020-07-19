@@ -71,7 +71,7 @@ const ProfileOverview = (props) => {
           style={{color: 'white'}}>
           {props.description}</ExpandingText>
       </View>
-      <View style={styles.profileHitsContainer}>
+      <TouchableOpacity onPress={props.onHitsPress} activeOpacity={0.7} style={styles.profileHitsContainer}>
         <HitsList hits={props.hits}/>
         {
           props.initiateVideoCallCallback && (
@@ -80,7 +80,7 @@ const ProfileOverview = (props) => {
             </View>
           )
         }
-      </View>
+      </TouchableOpacity>
     </LinearGradient>
   );
 }

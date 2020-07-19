@@ -6,18 +6,19 @@ import {
   View,
   StyleSheet,
   StatusBar,
-  LayoutAnimation, TouchableOpacity, ActivityIndicator, Modal,
+  LayoutAnimation,
+  TouchableOpacity,
 } from 'react-native'
 import {connect} from "react-redux";
 import RBSheet from "react-native-raw-bottom-sheet";
-import ImageViewer from 'react-native-image-zoom-viewer';
+import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import Entypo from "react-native-vector-icons/Entypo";
 
 import {appTheme} from "../../constants/colors";
 import * as actionCreators from '../../store/actions';
 import {INITIAL_PAGE, POST_TYPE} from "../../constants/appConstants";
 
-import RouteNames from "../../navigation/RouteNames";
+import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import PostList from "../../components/Social/PostList";
 import {spacing} from "../../constants/dimension";
 import SwitchSelector from "react-native-switch-selector";
@@ -27,6 +28,9 @@ import {likeAnswer, unlikeAnswer} from "../../API";
 import ImageCard from "../../components/ImageCard";
 import {iconBackgrounds} from "../../constants/images";
 import SingleImageViewer from "../../components/SingleImageViewer";
+import {screenWidth} from "../../utils/screenDimensions";
+
+const initialLayout = {width: screenWidth};
 
 class Community extends Component {
 
@@ -35,9 +39,9 @@ class Community extends Component {
     nextQuestionPage: INITIAL_PAGE,
     type: POST_TYPE.TYPE_POST,
     viewerOpen: false,
-    viewerImageUrl: ''
+    viewerImageUrl: '',
+    pageIndex: 0
   }
-
   updatePosts = async () => {
     const {updatePosts} = this.props;
     const {nextPostPage} = this.state;
@@ -76,26 +80,7 @@ class Community extends Component {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({type});
   }
-  renderSelector = () => {
-    return (
-      <View style={styles.switchStyle}>
-        <SwitchSelector
-          initial={0}
-          onPress={this.changeSwitch}
-          textColor={'white'}
-          selectedColor={'white'}
-          buttonColor={appTheme.brightContent}
-          borderColor={appTheme.darkBackground}
-          backgroundColor={appTheme.darkBackground}
-          hasPadding
-          options={[
-            {label: strings.POSTS, value: POST_TYPE.TYPE_POST},
-            {label: strings.QUESTIONS, value: POST_TYPE.TYPE_QUESTION}
-          ]}
-        />
-      </View>
-    )
-  }
+
   renderPosts = () => {
     const {posts, likePost, unlikePost, reportPost} = this.props;
     return (
@@ -174,14 +159,40 @@ class Community extends Component {
       </View>
     </RBSheet>
   )
-
+  routes = [
+    {key: TabRoutes.Posts, title: strings.POSTS},
+    {key: TabRoutes.Questions, title: strings.QUESTIONS},
+  ];
+  renderScene = ({route}) => {
+    switch (route.key) {
+      case TabRoutes.Posts:
+        return this.renderPosts();
+      case TabRoutes.Questions:
+        return this.renderQuestions();
+      default:
+        return null;
+    }
+  }
+  setPage = (pageIndex) => this.setState({pageIndex});
   render() {
-    const {type} = this.state;
     return (<View style={styles.container}>
         <StatusBar backgroundColor={appTheme.lightBackground}/>
-        {this.renderSelector()}
-        {type === POST_TYPE.TYPE_POST && this.renderPosts()}
-        {type === POST_TYPE.TYPE_QUESTION && this.renderQuestions()}
+        <TabView
+          navigationState={{index: this.state.pageIndex, routes: this.routes}}
+          renderScene={this.renderScene}
+          onIndexChange={this.setPage}
+          initialLayout={initialLayout}
+          swipeEnabled={false}
+          renderTabBar={props =>
+            <TabBar
+              {...props}
+              style={{backgroundColor: 'transparent'}}
+              indicatorStyle={{backgroundColor: appTheme.lightContent}}
+              tabStyle={styles.bubble}
+              labelStyle={styles.noLabel}
+            />
+          }
+        />
         {this.rbSheet()}
         <SingleImageViewer
           imageUrl={this.state.viewerImageUrl}
@@ -218,8 +229,15 @@ const styles = StyleSheet.create({
     bottom: spacing.medium_sm,
     right: spacing.medium,
   },
-
-
+  noLabel: {
+    fontSize: 14
+  },
+  bubble: {
+    backgroundColor: 'transparent',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 10
+  },
 });
 
 const mapStateToProps = (state) => ({

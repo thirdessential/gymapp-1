@@ -66,6 +66,15 @@ class SlotList extends Component {
       this.setState({slots: localSlots, settingInitialSlots: false});
     } else this.setState({settingInitialSlots: false})
   }
+  sortSlots = ( a, b ) =>{
+    if ( a.time < b.time ){
+      return -1;
+    }
+    if ( a.time > b.time ){
+      return 1;
+    }
+    return 0;
+  }
 
   mapSlotsToLocal = (slots) => {
     const localSlots = [];
@@ -78,7 +87,7 @@ class SlotList extends Component {
       slotObj.days = days;
       localSlots.push(slotObj);
     })
-    return localSlots;
+    return localSlots.sort(this.sortSlots);
   }
 
   componentWillUnmount() {
@@ -131,12 +140,12 @@ class SlotList extends Component {
   createSlot = () => {
     let slotTime = '1000';
     if (this.state.slots.length > 0) {
-      slotTime = this.state.slots[this.state.slots.length - 1].time + 60;
+      slotTime =  parseInt( this.state.slots[this.state.slots.length - 1].time) + 100;
     }
     const slot = {
       _id: cuid(),
       duration: 60,
-      time: slotTime,
+      time: slotTime.toString(),
       days: [WEEK_DAYS.MON, WEEK_DAYS.TUE, WEEK_DAYS.WED],
       subscriptionId: null
     }
