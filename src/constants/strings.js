@@ -83,7 +83,12 @@ const strings = {
   PACKAGE_DETAILS: 'Package Details',
   SUBSCRIPTION_DETAILS: 'Subscription Details',
   SESSION_DETAILS: 'Session Details',
-  TRAINER:'Trainer'
+  TRAINER:'Trainer',
+  SESSION_TIME: 'Session time',
+  START_FROM: 'Start from',
+  END_AT:'End at',
+  TOTAL_SESSIONS:'Total Sessions',
+  SESSION_DAYS: 'Session Days'
 };
 
 export default strings;

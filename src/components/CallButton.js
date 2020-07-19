@@ -5,13 +5,13 @@ import React, {useState} from 'react';
 import {ActivityIndicator, StyleSheet, TouchableOpacity,} from 'react-native'
 import PropTypes from 'prop-types';
 
-import colors from "../constants/colors";
+import colors, {appTheme} from "../constants/colors";
 
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 const callButton = (props) => {
   const [loading, setLoading] = useState(false);
-  const {type = 'Accept', size = 30} = props; // TODO: make reject red button here
+  const {type = 'Accept', size = 25} = props; // TODO: make reject red button here
 
   const onPress = () => {
     props.onPress();
@@ -20,7 +20,7 @@ const callButton = (props) => {
   }
   return (
     <TouchableOpacity
-      style={[styles.callButton, styles.shadow, {backgroundColor: colors.acceptGreen}]}
+      style={[styles.callButton, styles.shadow, {backgroundColor:appTheme.brightContent}]}
       activeOpacity={0.7}
       disabled={loading}
       onPress={onPress}

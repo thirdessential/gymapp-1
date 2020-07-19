@@ -146,7 +146,7 @@ class SlotList extends Component {
       _id: cuid(),
       duration: 60,
       time: slotTime.toString(),
-      days: [WEEK_DAYS.MON, WEEK_DAYS.TUE, WEEK_DAYS.WED],
+      days: [WEEK_DAYS.MON, WEEK_DAYS.TUE, WEEK_DAYS.WED, WEEK_DAYS.THU, WEEK_DAYS.FRI4444444444444431``],
       subscriptionId: null
     }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);

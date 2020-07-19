@@ -2,30 +2,18 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {ScrollView, StyleSheet} from 'react-native'
+import {FlatList, ScrollView, StyleSheet} from 'react-native'
 import {connect} from "react-redux";
 
 import {appTheme} from "../../../constants/colors";
 import {spacing} from "../../../constants/dimension";
-import SlotsByTime from "../../../components/Trainer/SlotsByTime";
-import {showError, showSuccess} from "../../../utils/notification";
-import {bookAppointment} from "../../../API";
 import * as actionCreators from "../../../store/actions";
+import SubscriptionCard from "../../../components/SubscriptionCard";
+import {initialiseVideoCall, militaryTimeToString} from "../../../utils/utils";
+import {requestCameraAndAudioPermission} from "../../../utils/permission";
 
 class SlotsView extends Component {
-
   componentDidMount() {
-    this.props.updateUserData();
-  }
-
-  bookAppointment = async (day, time) => {
-    const {route, setUser} = this.props;
-    const {userId} = route.params;
-    let response = await bookAppointment(userId, day, time);
-    if (response.success)
-      showSuccess(response.message);
-    else showError(response.message);
-    setUser(userId);
   }
 
   getUser = () => {
@@ -39,14 +27,47 @@ class SlotsView extends Component {
     return !(route.params && route.params.userId);
   }
 
+  callClicked = async (userId) => {
+    const permissionGranted = await requestCameraAndAudioPermission();
+    if (permissionGranted) {
+      await initialiseVideoCall(userId);
+    } else console.log("Cant initiate video call without permission");
+  }
+
+
+  renderSubscriptionCard = (subscription) => {
+    const {heldSessions, totalSessions, startDate, endDate, package: packageData, user: userData, slot} = subscription;
+    const {title: packageTitle, price} = packageData;
+    const {name: userName, displayPictureUrl: dpUrl, _id: userId} = userData;
+    const {time, daysOfWeek} = slot;
+    return <SubscriptionCard
+      displayName={userName}
+      imageUrl={dpUrl}
+      title={packageTitle}
+      time={militaryTimeToString(time)}
+      onPressCall={()=>this.callClicked(userId)}
+      startDate={(new Date(startDate)).toLocaleDateString()}
+      endDate={(new Date(endDate)).toLocaleDateString()}
+      sessions={`(${heldSessions}/${totalSessions})`}
+      price={price}
+      days={daysOfWeek}
+    />
+  }
+  renderSubscriptionList = () => {
+    const {subscriptions} = this.props;
+    return <FlatList
+      showsHorizontalScrollIndicator={false}
+      data={subscriptions}
+      renderItem={({item}) => this.renderSubscriptionCard(item)}
+      keyExtractor={(item, index) => index.toString()}
+    />
+  }
+
   render() {
-    const {slots} = this.getUser();
+
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        <SlotsByTime
-          slots={slots}
-          bookCallback={this.selfNavigated() ? null : this.bookAppointment}
-        />
+        {this.renderSubscriptionList()}
       </ScrollView>
     )
   }
@@ -59,11 +80,11 @@ const styles = StyleSheet.create({
     padding: spacing.medium,
     paddingBottom: spacing.large_lg
   },
-
 });
 
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
+  subscriptions: state.trainer.subscriptions,
 });
 
 const mapDispatchToProps = (dispatch) => ({

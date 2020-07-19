@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 6,
     borderColor: appTheme.brightContent,
-    fontFamily: 'monospace',
+    fontFamily: fonts.Monospace,
     fontWeight: 'bold',
     fontSize: fontSizes.h4,
     textAlign: 'center',

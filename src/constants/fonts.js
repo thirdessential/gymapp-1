@@ -10,7 +10,8 @@ const fonts = {
   RobotoRegular:'RobotoCondensed-Regular',
   RobotoBold:'RobotoCondensed-Bold',
   CenturyGothic:'CenturyGothic',
-  CenturyGothicBold:'CenturyGothicBold'
+  CenturyGothicBold:'CenturyGothicBold',
+  Monospace:'monospace'
 }
 
 export default fonts;
