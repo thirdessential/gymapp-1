@@ -17,8 +17,8 @@ const subscriptionList = (props) => {
   if (!props.subscriptions) return null;
 
   const renderSubscription = (subscription) => {
-    let user = subscription.subscribedBy;
-    if (!user.name) user = subscription.trainerId;
+    let user = subscription.user;
+    if (!user.name) user = subscription.trainer;
     if (!user) return null;
     let {name, city, _id, displayPictureUrl} = user;
     if (!name) name = 'User';

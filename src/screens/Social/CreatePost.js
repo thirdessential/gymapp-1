@@ -170,7 +170,7 @@ class CreatePost extends Component {
   }
   createQuestion = async () => {
     const {description} = this.state;
-    const {navigation,updateQuestions} = this.props;
+    const {navigation, updateQuestions} = this.props;
     Keyboard.dismiss()
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({submitting: true});
@@ -192,7 +192,7 @@ class CreatePost extends Component {
         <View
           style={styles.container}>
           <ScrollView keyboardShouldPersistTaps={'always'} style={{flex: 1}} showsVerticalScrollIndicator={false}>
-            {/*{this.props.userType === userTypes.USER && this.renderSelector()}*/}
+            {/*{this.props.userType === userTypes.USER || true && this.renderSelector()}*/}
             {type === POST_TYPE.TYPE_POST && this.renderImage()}
             {this.renderDescription()}
             {this.renderSubmit()}
@@ -267,7 +267,7 @@ const mapDispatchToProps = (dispatch) => ({
   updatePost: (postId) => dispatch(actionCreators.updatePost(postId)),
   updatePosts: () => dispatch(actionCreators.updatePosts(INITIAL_PAGE)),
   updateMyPosts: () => dispatch(actionCreators.updatePosts(INITIAL_PAGE, true)),
-  updateQuestions: ()=>dispatch(actionCreators.updateQuestions(INITIAL_PAGE))
+  updateQuestions: () => dispatch(actionCreators.updateQuestions(INITIAL_PAGE))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

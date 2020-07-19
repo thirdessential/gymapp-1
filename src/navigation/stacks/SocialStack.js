@@ -16,11 +16,11 @@ import {spacing} from "../../constants/dimension";
 
 
 const listing = (props) => {
-  const renderCreatePost = () => (
-    <View style={{marginRight: spacing.medium_lg}}>
-      <HalfRoundedButton onPress={() => props.navigation.navigate(RouteNames.CreatePost)} title={strings.ADD_POST}/>
-    </View>
-  )
+  // const renderCreatePost = () => (
+  //   <View style={{marginRight: spacing.medium_lg}}>
+  //     <HalfRoundedButton onPress={() => props.navigation.navigate(RouteNames.CreatePost)} title={strings.ADD_POST}/>
+  //   </View>
+  // )
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -36,7 +36,7 @@ const listing = (props) => {
             fontFamily: fonts.PoppinsRegular
           },
           headerLeft: openDrawerButton,
-          headerRight: renderCreatePost
+          // headerRight: renderCreatePost
         }}/>
       <Stack.Screen
         name={RouteNames.PostViewer}

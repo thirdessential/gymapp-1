@@ -6,11 +6,12 @@ import {
   View,
   StyleSheet,
   StatusBar,
-  LayoutAnimation,
+  LayoutAnimation, TouchableOpacity, ActivityIndicator,
 } from 'react-native'
 import {connect} from "react-redux";
+import RBSheet from "react-native-raw-bottom-sheet";
 
-import {appTheme} from "../../constants/colors";
+import colors, {appTheme} from "../../constants/colors";
 import * as actionCreators from '../../store/actions';
 import {INITIAL_PAGE, POST_TYPE} from "../../constants/appConstants";
 
@@ -21,6 +22,10 @@ import SwitchSelector from "react-native-switch-selector";
 import strings from "../../constants/strings";
 import QuestionList from "../../components/Social/QuestionList";
 import {likeAnswer, unlikeAnswer} from "../../API";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Entypo from "react-native-vector-icons/Entypo";
+import ImageCard from "../../components/ImageCard";
+import {iconBackgrounds} from "../../constants/images";
 
 class Community extends Component {
 
@@ -104,7 +109,7 @@ class Community extends Component {
   }
   createAnswer = (questionId, answerText) => {
     const {answerQuestion} = this.props;
-    answerQuestion(questionId,answerText);
+    answerQuestion(questionId, answerText);
   }
   renderQuestions = () => {
     const {questions} = this.props;
@@ -119,6 +124,25 @@ class Community extends Component {
       />
     )
   }
+  fab = () => {
+    return (
+      <TouchableOpacity style={[styles.fab, styles.fabPosition]} onPress={() => this.RBSheet.open()}>
+        <Entypo
+          name={'plus'}
+          color={'white'}
+          size={32}
+        />
+      </TouchableOpacity>
+    );
+  };
+  createPost = () => {
+    this.RBSheet.close();
+    this.props.navigation.navigate(RouteNames.CreatePost)
+  }
+  createQuestion = () => {
+    this.RBSheet.close();
+    this.props.navigation.navigate(RouteNames.CreatePost, {type: POST_TYPE.TYPE_QUESTION})
+  }
 
   render() {
     const {type} = this.state;
@@ -127,6 +151,29 @@ class Community extends Component {
         {this.renderSelector()}
         {type === POST_TYPE.TYPE_POST && this.renderPosts()}
         {type === POST_TYPE.TYPE_QUESTION && this.renderQuestions()}
+        <RBSheet
+          ref={ref => {
+            this.RBSheet = ref;
+          }}
+          animationType={'slide'}
+          closeOnDragDown={true}
+          customStyles={{
+            container: {
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: appTheme.lightBackground,
+            },
+            wrapper: {
+              backgroundColor: 'transparent'
+            }
+          }}
+        >
+          <View style={{flexDirection: 'row'}}>
+            <ImageCard title={strings.POST} onPress={this.createPost} image={iconBackgrounds.workouts}/>
+            <ImageCard title={strings.ASK_EXPERT} onPress={this.createQuestion} image={iconBackgrounds.appointments}/>
+          </View>
+        </RBSheet>
+        {this.fab()}
       </View>
     );
   }
@@ -142,7 +189,22 @@ const styles = StyleSheet.create({
   switchStyle: {
     marginTop: spacing.medium,
     marginBottom: spacing.medium
-  }
+  },
+  fab: {
+    height: spacing.space_50,
+    width: spacing.space_50,
+    borderRadius: spacing.thumbnailMini / 2,
+    elevation: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: appTheme.brightContent,
+  },
+  fabPosition: {
+    position: "absolute",
+    bottom: spacing.medium_sm,
+    right: spacing.medium,
+  },
+
 
 });
 
