@@ -20,7 +20,8 @@ export {
   bookAppointment,
   sendPaymentData,
   myAppointments,
-  recentActivity
+  recentActivity,
+  subscribeRollback
 } from './user';
 
 export {
@@ -55,5 +56,11 @@ export {
   likeComment,
   reportComment,
   reportPost,
-  getPostsForUser
+  getPostsForUser,
+  likeAnswer,
+  likeQuestion,
+  listQuestions,
+  postQuestion,
+  answerQuestion,
+  unlikeAnswer
 } from './social'

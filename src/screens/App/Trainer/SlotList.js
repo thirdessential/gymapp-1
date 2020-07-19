@@ -43,7 +43,12 @@ class SlotList extends Component {
   submitSlots = async () => {
     const {createSlots, updateUserData} = this.props;
     this.setState({submitPending: true});
-    let result = await createSlots(this.state.slots);
+    let slots = this.state.slots;
+    slots = slots.map(slot=> {
+      slot.days =[...new Set(slot.days)];
+      return slot;
+    });
+    let result = await createSlots(slots);
     this.refreshSlots();
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({changed: false, submitPending: false});
@@ -53,13 +58,22 @@ class SlotList extends Component {
     //TODO: Error handling
   }
 
-  refreshSlots = () => {
+  refreshSlots =async () => {
     const {slots} = this.props;
     if (slots && slots.length > 0) {
       // const filteredSlots = slots.filter(slot=>slot.subscriptionId===null);
       const localSlots = this.mapSlotsToLocal(slots);
       this.setState({slots: localSlots, settingInitialSlots: false});
     } else this.setState({settingInitialSlots: false})
+  }
+  sortSlots = ( a, b ) =>{
+    if ( a.time < b.time ){
+      return -1;
+    }
+    if ( a.time > b.time ){
+      return 1;
+    }
+    return 0;
   }
 
   mapSlotsToLocal = (slots) => {
@@ -73,7 +87,7 @@ class SlotList extends Component {
       slotObj.days = days;
       localSlots.push(slotObj);
     })
-    return localSlots;
+    return localSlots.sort(this.sortSlots);
   }
 
   componentWillUnmount() {
@@ -124,11 +138,16 @@ class SlotList extends Component {
     this.setChangedDirty();
   }
   createSlot = () => {
+    let slotTime = '1000';
+    if (this.state.slots.length > 0) {
+      slotTime =  parseInt( this.state.slots[this.state.slots.length - 1].time) + 100;
+    }
     const slot = {
       _id: cuid(),
       duration: 60,
-      time: '1000',
-      days: [WEEK_DAYS.MON, WEEK_DAYS.TUE, WEEK_DAYS.WED]
+      time: slotTime.toString(),
+      days: [WEEK_DAYS.MON, WEEK_DAYS.TUE, WEEK_DAYS.WED],
+      subscriptionId: null
     }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const slots = [...this.state.slots];
@@ -137,21 +156,35 @@ class SlotList extends Component {
     this.setChangedDirty();
   }
 
+  findBookedDays = (time) => {
+    const {slots} = this.props;
+    let slotsAtTime = slots.filter(slot => slot.time === time);
+    const occupiedDays = [];
+    slotsAtTime.map(slot => {
+      if (slot.subscriptionId && slot.subscriptionId.subscribedBy)
+        occupiedDays.push(slot.dayOfWeek)
+    })
+    return occupiedDays;
+  }
   renderSlots = () => {
-    return this.state.slots.map((slot, index) => (
-      <View key={slot._id} style={styles.slotContainer}>
+    return this.state.slots.map((slot, index) => {
+      const disabledDays = this.findBookedDays(slot.time);
+      const disabled = disabledDays.length > 0;
+      return <View key={slot._id} style={styles.slotContainer}>
         <Slot
           days={slot.days}
           duration={slot.duration}
           index={index + 1}
           time={slot.time}
-          onTimeChange={(time) => this.handleTimeChange(slot._id, time)}
-          onDurationChange={duration => this.handleDurationChange(slot._id, duration)}
+          onTimeChange={disabled ? null : (time) => this.handleTimeChange(slot._id, time)}
+          onDurationChange={disabled ? null : duration => this.handleDurationChange(slot._id, duration)}
           onDaysChange={days => this.handleDaysChange(slot._id, days)}
-          onDelete={() => this.deleteSlot(slot._id)}
+          onDelete={disabled ? null : () => this.deleteSlot(slot._id)}
+          disabledDays={disabledDays}
         />
       </View>
-    ))
+
+    })
   }
   fab = () => {
     if (!this.state.changed) return null;
@@ -186,7 +219,7 @@ class SlotList extends Component {
         }
         {
           !this.state.settingInitialSlots && (
-            <KeyboardAwareScrollView style={{flex: 1}}>
+            <KeyboardAwareScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
               <StatusBar backgroundColor={appTheme.lightBackground}/>
               <View style={styles.listContainer}>
                 <this.renderSlots/>

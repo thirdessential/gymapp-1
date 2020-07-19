@@ -128,11 +128,11 @@ class MyProfile extends Component {
               </View>
               <PostList
                 posts={posts}
-                openPost={this.openPost}
-                updatePosts={this.updatePosts}
-                likePost={likePost}
-                unlikePost={unlikePost}
-                reportPost={reportPost}
+                open={this.openPost}
+                update={this.updatePosts}
+                like={likePost}
+                unlike={unlikePost}
+                report={reportPost}
               />
             </View>
           </View>

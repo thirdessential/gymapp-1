@@ -28,8 +28,9 @@ const post = (props) => {
   const {
     commentCount, createdBy, displayImageUrl,
     imageUrl, likeCount, createdOn, text, likeCallback,
-    unlikeCallback, onProfilePress,
-    flagCallback, shareCallback, showComment = true, isLiked
+    unlikeCallback, onProfilePress, hideOptions = false,
+    flagCallback, shareCallback, showComment = true, isLiked,
+    renderFooter, imagePressCallback
   } = props;
   const [liked, setLiked] = useState(isLiked);
   const [localLikeCount, setLocalLikeCount] = useState(likeCount);
@@ -55,13 +56,14 @@ const post = (props) => {
         onBackdropPress={toggleModal}
         onRequestClose={toggleModal}
         visible={isModalVisible}>
-        <View style={{backgroundColor: appTheme.darkGrey, padding: spacing.medium, borderRadius: 10, alignItems:'center'}}>
+        <View
+          style={{backgroundColor: appTheme.darkGrey, padding: spacing.medium, borderRadius: 10, alignItems: 'center'}}>
           <Text style={styles.modalTitle}>{strings.CONFIRM_FLAG}</Text>
-          <View style={{flexDirection: 'row',justifyContent:'space-around', width:'50%'}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '50%'}}>
             <TouchableOpacity onPress={onFlagPress} style={styles.modalButton}>
               <Text style={styles.modalButtonText}>Yes</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={toggleModal} style={[styles.modalButton, {backgroundColor:appTheme.grey}]}>
+            <TouchableOpacity onPress={toggleModal} style={[styles.modalButton, {backgroundColor: appTheme.grey}]}>
               <Text style={styles.modalButtonText}>No</Text>
             </TouchableOpacity>
           </View>
@@ -85,41 +87,47 @@ const post = (props) => {
       </View>
       {
         !!imageUrl && (
-          <View style={styles.imageContainer}>
+          <TouchableOpacity activeOpacity={0.7} onPress={imagePressCallback} style={styles.imageContainer}>
             <FastImage
               source={{uri: imageUrl}}
               style={styles.displayImage}
             />
-          </View>
+          </TouchableOpacity>
         )
       }
       <Text style={styles.textContent}>{text}</Text>
-
-      <View style={styles.buttonGroup}>
-        <TouchableOpacity onPress={toggleLike} activeOpacity={0.6} style={styles.hitButton}>
-          <AntDesign name={'like1'} size={28} color={liked ? appTheme.brightContent : appTheme.grey}/>
-          <Text style={styles.hits}>{localLikeCount}</Text>
-        </TouchableOpacity>
-        {
-          showComment &&
-          <View activeOpacity={0.6} style={styles.hitButton}>
-            <MaterialCommunityIcons name={'comment'} size={28} color={appTheme.grey}/>
-            <Text style={styles.hits}>{commentCount}</Text>
+      {
+        !hideOptions && (
+          <View style={styles.buttonGroup}>
+            <TouchableOpacity onPress={toggleLike} activeOpacity={0.6} style={styles.hitButton}>
+              <AntDesign name={'like1'} size={28} color={liked ? appTheme.brightContent : appTheme.grey}/>
+              <Text style={styles.hits}>{localLikeCount}</Text>
+            </TouchableOpacity>
+            {
+              showComment &&
+              <View activeOpacity={0.6} style={styles.hitButton}>
+                <MaterialCommunityIcons name={'comment'} size={28} color={appTheme.grey}/>
+                <Text style={styles.hits}>{commentCount}</Text>
+              </View>
+            }
+            {
+              flagCallback &&
+              <TouchableOpacity onPress={toggleModal} activeOpacity={0.6} o>
+                <Fontisto name={'flag'} size={28} color={appTheme.grey}/>
+              </TouchableOpacity>
+            }
+            {
+              shareCallback &&
+              <TouchableOpacity activeOpacity={0.6}>
+                <Fontisto name={'share-a'} size={28} color={appTheme.brightContent}/>
+              </TouchableOpacity>
+            }
           </View>
-        }
-        {
-          flagCallback &&
-          <TouchableOpacity onPress={toggleModal} activeOpacity={0.6} o>
-            <Fontisto name={'flag'} size={28} color={appTheme.grey}/>
-          </TouchableOpacity>
-        }
-        {
-          shareCallback &&
-          <TouchableOpacity activeOpacity={0.6}>
-            <Fontisto name={'share-a'} size={28} color={appTheme.brightContent}/>
-          </TouchableOpacity>
-        }
-      </View>
+        )
+      }
+      {
+        renderFooter && renderFooter()
+      }
       <ConfirmModal/>
     </View>
   )
@@ -188,19 +196,19 @@ const styles = StyleSheet.create({
   modalButton: {
     borderRadius: 8,
     backgroundColor: appTheme.brightContent,
-    padding:spacing.small,
+    padding: spacing.small,
     paddingLeft: spacing.medium_sm,
     paddingRight: spacing.medium_sm,
   },
-  modalButtonText:{
-    color:'white',
-    fontFamily:fonts.MontserratMedium
+  modalButtonText: {
+    color: 'white',
+    fontFamily: fonts.MontserratMedium
   },
   modalTitle: {
-    color:'white',
-    fontFamily:fonts.MontserratMedium,
-    fontSize:fontSizes.h0,
-    marginBottom:spacing.medium
+    color: 'white',
+    fontFamily: fonts.MontserratMedium,
+    fontSize: fontSizes.h0,
+    marginBottom: spacing.medium
   }
 });
 

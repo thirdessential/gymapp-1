@@ -181,6 +181,70 @@ export const getPostsForUser = async (userId) => {
     return false;
   }
 }
+export const postQuestion = async (questionText) => {
+  try {
+    let response = await axios.post(`/question`, {questionText});
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const listQuestions = async () => {
+  try {
+    let response = await axios.get(`/question/getAll`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const likeQuestion = async (questionId) => {
+  try {
+    let response = await axios.post(`/question/${questionId}/like`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
 
-
-
+export const answerQuestion = async (questionId, answerText) => {
+  try {
+    let response = await axios.post(`/answer/${questionId}`, {answerText});
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const likeAnswer = async (answerId) => {
+  try {
+    let response = await axios.post(`/answer/${answerId}/like`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const unlikeAnswer = async (answerId) => {
+  try {
+    let response = await axios.post(`/answer/${answerId}/unlike`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

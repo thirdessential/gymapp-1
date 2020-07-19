@@ -84,7 +84,18 @@ export const subscribeToPackage = async (trainerId, packageId, time, days) => {
     return false;
   }
 }
-
+export const subscribeRollback = async (subscriptionId, razorpay_order_id) => {
+  try {
+    let response = await axios.put(`/subscription/${subscriptionId}/rollback`, {razorpay_order_id});
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
 export const sendPaymentData = async ({razorpay_order_id, razorpay_payment_id, razorpay_signature}) => {
   try {
     let response = await axios.put(`/subscription/updateTransaction`, {

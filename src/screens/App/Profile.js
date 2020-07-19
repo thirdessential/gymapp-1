@@ -103,6 +103,14 @@ class Profile extends Component {
     if (!!nextPage)
       this.setState({nextPage: await getPostsForUser(nextPage)});
   }
+  openPackage = () => {
+    const {navigation} = this.props;
+    const {userType, _id} = this.getUser();
+    if (userType === userTypes.TRAINER)
+      navigation.navigate(RouteNames.PackagesView, {
+        userId: _id
+      });
+  }
   renderContent = () => {
     const user = this.getUser();
     const posts = this.getPosts();
@@ -131,6 +139,7 @@ class Profile extends Component {
           initiateVideoCallCallback={this.callClicked}
           userType={userType}
           location={city}
+          onHitsPress={this.openPackage}
         />
         {
           posts &&
@@ -141,11 +150,11 @@ class Profile extends Component {
               </View>
               <PostList
                 posts={posts}
-                openPost={this.openPost}
-                updatePosts={this.updatePosts}
-                likePost={likePost}
-                unlikePost={unlikePost}
-                reportPost={reportPost}
+                open={this.openPost}
+                update={this.updatePosts}
+                like={likePost}
+                unlike={unlikePost}
+                report={reportPost}
               />
             </View>
           </View>
