@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     paddingLeft: spacing.medium_lg,
     paddingRight: spacing.medium_lg,
     paddingTop: spacing.medium_lg,
-    paddingBottom: spacing.medium,
+    // paddingBottom: spacing.medium,
     alignItems: "center",
     backgroundColor: appTheme.background,
   },

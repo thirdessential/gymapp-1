@@ -10,7 +10,7 @@ import MyAppointments from "../../screens/App/MyAppointments";
 import PackageList from "../../screens/App/Trainer/PackageList";
 import PackageEdit from "../../screens/App/Trainer/PackageEdit";
 import SlotsView from "../../screens/App/Trainer/SlotsView";
-import Subscriptions from "../../screens/App/Trainer/Subscriptions";
+import TrainerSubscriptions from "../../screens/App/Trainer/Subscriptions";
 import Schedule from "../../screens/App/User/Schedule";
 import Profile from "../../screens/App/Profile";
 
@@ -81,7 +81,7 @@ const toolStack = () => {
       />
       <Stack.Screen
         name={RouteNames.Subscriptions}
-        component={Subscriptions}
+        component={TrainerSubscriptions}
         options={{
           title: 'Subscriptions',
           headerTintColor: appTheme.brightContent,

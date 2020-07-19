@@ -3,14 +3,14 @@
  */
 import React from "react";
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
-import {spacing} from "../constants/dimension";
-import {appTheme} from "../constants/colors";
-import Avatar from "./Avatar";
-import fontSizes from "../constants/fontSizes";
-import fonts from "../constants/fonts";
-import strings from "../constants/strings";
-import CallButton from "./CallButton";
-import DaysRow from "./DaysRow";
+import {spacing} from "../../constants/dimension";
+import {appTheme} from "../../constants/colors";
+import Avatar from "../Avatar";
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
+import strings from "../../constants/strings";
+import CallButton from "../CallButton";
+import DaysRow from "../DaysRow";
 
 const subscriptionCard = (props) => {
   return (
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   container: {
     elevation: 8,
     padding: spacing.medium,
-    borderRadius: 8,
+    borderRadius: 10,
     backgroundColor: appTheme.darkBackground
   },
   sectionContainer: {
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothic,
   },
   separator: {
-    height: 0.5,
+    height: 0.8,
     backgroundColor: appTheme.brightContent,
     marginTop: spacing.medium,
     marginBottom: spacing.medium

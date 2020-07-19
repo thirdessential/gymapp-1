@@ -7,7 +7,7 @@ import {
   StyleSheet,
   StatusBar,
   LayoutAnimation,
-  TouchableOpacity,
+  TouchableOpacity, ActivityIndicator,
 } from 'react-native'
 import {connect} from "react-redux";
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -29,6 +29,7 @@ import ImageCard from "../../components/ImageCard";
 import {iconBackgrounds} from "../../constants/images";
 import SingleImageViewer from "../../components/SingleImageViewer";
 import {screenWidth} from "../../utils/screenDimensions";
+import post from "../../components/Social/Post";
 
 const initialLayout = {width: screenWidth};
 
@@ -76,13 +77,15 @@ class Community extends Component {
       userId: userId
     });
   }
-  changeSwitch = (type) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({type});
-  }
-
+  loader = ()=> (
+    <View style={{flex:1,justifyContent: 'center', alignItems: 'center'}}>
+      <ActivityIndicator  color={appTheme.brightContent} size={50}/>
+    </View>
+  )
   renderPosts = () => {
     const {posts, likePost, unlikePost, reportPost} = this.props;
+    if (!posts || posts.length===0)
+      return this.loader();
     return (
       <PostList
         posts={posts}
@@ -102,6 +105,8 @@ class Community extends Component {
   }
   renderQuestions = () => {
     const {questions} = this.props;
+    if (!questions || questions.length===0)
+      return this.loader();
     return (
       <QuestionList
         questions={questions}
@@ -174,6 +179,7 @@ class Community extends Component {
     }
   }
   setPage = (pageIndex) => this.setState({pageIndex});
+
   render() {
     return (<View style={styles.container}>
         <StatusBar backgroundColor={appTheme.lightBackground}/>

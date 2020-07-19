@@ -2,23 +2,18 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {StyleSheet, View} from 'react-native'
 import {connect} from "react-redux";
 import {FlatGrid} from 'react-native-super-grid';
 
 import {appTheme} from "../../constants/colors";
 import {spacing} from "../../constants/dimension";
-import {screenWidth} from "../../utils/screenDimensions";
-import Feather from "react-native-vector-icons/Feather";
 import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
-import Entypo from "react-native-vector-icons/Entypo";
 import fontSizes from "../../constants/fontSizes";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import RouteNames from "../../navigation/RouteNames";
 import {POST_TYPE, userTypes} from "../../constants/appConstants";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import ImageCard from "../../components/ImageCard";
+import ImageCard, {cardSize} from "../../components/ImageCard";
 import {iconBackgrounds} from "../../constants/images";
 
 class Tools extends Component {
@@ -26,7 +21,12 @@ class Tools extends Component {
   openPackages = () => this.props.navigation.navigate(RouteNames.Packages)
   openAppointments = () => this.props.navigation.navigate(RouteNames.MyAppointments)
   openSlots = () => this.props.navigation.navigate(RouteNames.SlotsView)
-  openSubscriptions = () => this.props.navigation.navigate(RouteNames.Subscriptions)
+  openSubscriptions = () => {
+    const {userType} = this.props;
+    if (userType === userTypes.TRAINER)
+      this.props.navigation.navigate(RouteNames.Subscriptions);
+    else this.openSlots();
+  }
   openSchedule = () => this.props.navigation.navigate(RouteNames.Schedule)
   openQuestion = () => this.props.navigation.navigate(RouteNames.CreatePost, {type: POST_TYPE.TYPE_QUESTION})
 
@@ -82,6 +82,7 @@ class Tools extends Component {
     return (
       <View style={styles.container}>
         <FlatGrid
+          itemDimension={cardSize}
           showsVerticalScrollIndicator={false}
           data={this.state.toolsData}
           renderItem={({item}) => this.renderCard(item)}
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: appTheme.background,
     flex: 1,
-    padding: spacing.medium,
+    padding: spacing.medium_sm,
     paddingTop: spacing.small
   },
   separator: {

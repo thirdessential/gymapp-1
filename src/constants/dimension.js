@@ -1,6 +1,7 @@
 export const spacing = {
   small_sm: 3,
   small: 5,
+  small_lg:8,
   medium_sm: 10,
   medium: 15,
   medium_lg: 20,

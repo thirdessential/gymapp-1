@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: appTheme.background,
-    padding: spacing.medium_sm,
+    padding: spacing.small_lg,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5
   },
   title: {
-    fontSize: fontSizes.h3,
+    fontSize: fontSizes.h4,
     fontFamily:fonts.Monospace,
     fontWeight: 'bold',
     color: appTheme.brightContent
