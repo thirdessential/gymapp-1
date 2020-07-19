@@ -6,12 +6,14 @@ import {
   View,
   StyleSheet,
   StatusBar,
-  LayoutAnimation, TouchableOpacity, ActivityIndicator,
+  LayoutAnimation, TouchableOpacity, ActivityIndicator, Modal,
 } from 'react-native'
 import {connect} from "react-redux";
 import RBSheet from "react-native-raw-bottom-sheet";
+import ImageViewer from 'react-native-image-zoom-viewer';
+import Entypo from "react-native-vector-icons/Entypo";
 
-import colors, {appTheme} from "../../constants/colors";
+import {appTheme} from "../../constants/colors";
 import * as actionCreators from '../../store/actions';
 import {INITIAL_PAGE, POST_TYPE} from "../../constants/appConstants";
 
@@ -22,17 +24,18 @@ import SwitchSelector from "react-native-switch-selector";
 import strings from "../../constants/strings";
 import QuestionList from "../../components/Social/QuestionList";
 import {likeAnswer, unlikeAnswer} from "../../API";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Entypo from "react-native-vector-icons/Entypo";
 import ImageCard from "../../components/ImageCard";
 import {iconBackgrounds} from "../../constants/images";
+import SingleImageViewer from "../../components/SingleImageViewer";
 
 class Community extends Component {
 
   state = {
     nextPostPage: INITIAL_PAGE,
     nextQuestionPage: INITIAL_PAGE,
-    type: POST_TYPE.TYPE_POST
+    type: POST_TYPE.TYPE_POST,
+    viewerOpen: false,
+    viewerImageUrl: ''
   }
 
   updatePosts = async () => {
@@ -103,6 +106,7 @@ class Community extends Component {
         like={likePost}
         unlike={unlikePost}
         report={reportPost}
+        viewImage={this.openViewer}
         onProfilePress={this.openProfile}
       />
     )
@@ -126,7 +130,7 @@ class Community extends Component {
   }
   fab = () => {
     return (
-      <TouchableOpacity style={[styles.fab, styles.fabPosition]} onPress={() => this.RBSheet.open()}>
+      <TouchableOpacity style={[styles.fab, styles.fabPosition]} onPress={this.openRbSheet}>
         <Entypo
           name={'plus'}
           color={'white'}
@@ -136,13 +140,40 @@ class Community extends Component {
     );
   };
   createPost = () => {
-    this.RBSheet.close();
+    this.closeRbSheet();
     this.props.navigation.navigate(RouteNames.CreatePost)
   }
   createQuestion = () => {
-    this.RBSheet.close();
+    this.closeRbSheet();
     this.props.navigation.navigate(RouteNames.CreatePost, {type: POST_TYPE.TYPE_QUESTION})
   }
+  openRbSheet = () => this.RBSheet.open()
+  closeRbSheet = () => this.RBSheet.close()
+  closeViewer = () => this.setState({viewerOpen: false, viewerImageUrl: ''})
+  openViewer = (imageUrl) => this.setState({viewerImageUrl: imageUrl, viewerOpen: true})
+  rbSheet = () => (<RBSheet
+      ref={ref => {
+        this.RBSheet = ref;
+      }}
+      animationType={'slide'}
+      closeOnDragDown={true}
+      customStyles={{
+        container: {
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: appTheme.lightBackground,
+        },
+        wrapper: {
+          backgroundColor: 'transparent'
+        }
+      }}
+    >
+      <View style={{flexDirection: 'row'}}>
+        <ImageCard title={strings.POST} onPress={this.createPost} image={iconBackgrounds.workouts}/>
+        <ImageCard title={strings.ASK_EXPERT} onPress={this.createQuestion} image={iconBackgrounds.appointments}/>
+      </View>
+    </RBSheet>
+  )
 
   render() {
     const {type} = this.state;
@@ -151,28 +182,11 @@ class Community extends Component {
         {this.renderSelector()}
         {type === POST_TYPE.TYPE_POST && this.renderPosts()}
         {type === POST_TYPE.TYPE_QUESTION && this.renderQuestions()}
-        <RBSheet
-          ref={ref => {
-            this.RBSheet = ref;
-          }}
-          animationType={'slide'}
-          closeOnDragDown={true}
-          customStyles={{
-            container: {
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: appTheme.lightBackground,
-            },
-            wrapper: {
-              backgroundColor: 'transparent'
-            }
-          }}
-        >
-          <View style={{flexDirection: 'row'}}>
-            <ImageCard title={strings.POST} onPress={this.createPost} image={iconBackgrounds.workouts}/>
-            <ImageCard title={strings.ASK_EXPERT} onPress={this.createQuestion} image={iconBackgrounds.appointments}/>
-          </View>
-        </RBSheet>
+        {this.rbSheet()}
+        <SingleImageViewer
+          imageUrl={this.state.viewerImageUrl}
+          close={this.closeViewer}
+          isOpen={this.state.viewerOpen}/>
         {this.fab()}
       </View>
     );
