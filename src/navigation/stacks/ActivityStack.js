@@ -7,12 +7,12 @@ import {appTheme} from "../../constants/colors";
 import openDrawerButton from "../openDrawerButton";
 import Activity from "../../screens/App/Activity";
 import fonts from "../../constants/fonts";
-import MyAppointments from "../../screens/App/MyAppointments";
 import Profile from "../../screens/App/Profile";
+import BMI from "../../screens/App/BMI";
 
 const activity = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName={RouteNames.BMI}>
       <Stack.Screen
         name={RouteNames.Activity}
         component={Activity}
@@ -31,6 +31,20 @@ const activity = () => {
       />
       <Stack.Screen name={RouteNames.Profile} component={Profile}
                     options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
+      <Stack.Screen
+        name={RouteNames.BMI}
+        component={BMI}
+        options={{
+          title: 'BMI',
+          headerTintColor: appTheme.brightContent,
+          headerStyle: {
+            backgroundColor: appTheme.darkBackground,
+          },
+          headerTitleStyle: {
+            fontFamily: fonts.PoppinsRegular
+          }
+        }}
+      />
     </Stack.Navigator>
   )
 }

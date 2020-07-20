@@ -32,6 +32,7 @@ const RouteNames = {
   SlotsView:'SlotsView',
   Subscriptions: 'Subscriptions',
   PackagesView:'PackagesView',
+  BMI:'BMI',
 
   Login:'Login',
   Signup:'Signup'

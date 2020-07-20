@@ -64,4 +64,11 @@ export const appTheme = {
   textPrimary:'white',
 }
 
+export const bmiColors = {
+  blue:'#4da9e7',
+  lightBlue:'#00e6cf',
+  yellow:'#d0bb1f',
+  red:'#e91457'
+}
+
 export default colors;
