@@ -1,31 +1,28 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
-import {View, StyleSheet, TextInput, Text, TouchableOpacity, StatusBar, ActivityIndicator} from 'react-native'
+import React, {PureComponent} from 'react';
+import {View, StyleSheet, Text, TouchableOpacity, StatusBar, ActivityIndicator} from 'react-native'
 import {connect} from "react-redux";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ion from "react-native-vector-icons/Ionicons";
+import {Table, Row, Rows} from 'react-native-table-component';
+import RazorpayCheckout from "react-native-razorpay";
 
 import {spacing} from "../../../constants/dimension";
 import * as actionCreators from "../../../store/actions";
-import colors, {appTheme, darkPallet} from "../../../constants/colors";
+import colors, {appTheme} from "../../../constants/colors";
 import strings from "../../../constants/strings";
 import fonts from "../../../constants/fonts";
 import fontSizes from "../../../constants/fontSizes";
-import {validatePackage} from "../../../utils/validators";
 import LinearGradient from "react-native-linear-gradient";
-import {string} from "prop-types";
 import {militaryTimeToString, toTitleCase} from "../../../utils/utils";
-import {appName, paymentKey, WEEK_DAYS} from "../../../constants/appConstants";
-import RazorpayCheckout from "react-native-razorpay";
+import {appName, paymentKey} from "../../../constants/appConstants";
 import {showError, showSuccess} from "../../../utils/notification";
 import {sendPaymentData, subscribeRollback} from "../../../API";
-import {sub} from "react-native-reanimated";
-import {Table, TableWrapper, Row, Rows, Col, Cols, Cell} from 'react-native-table-component';
 
-class Packages extends Component {
+class Packages extends PureComponent {
   state = {
     subscribeLoading: false
   }
@@ -258,7 +255,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 6,
     borderColor: appTheme.brightContent,
-    fontFamily: 'monospace',
+    fontFamily: fonts.Monospace,
     fontWeight: 'bold',
     fontSize: fontSizes.h4,
     textAlign: 'center',

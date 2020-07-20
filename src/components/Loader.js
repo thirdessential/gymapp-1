@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   View,
@@ -17,12 +17,14 @@ const Loader = props => {
       transparent={true}
       animationType={'none'}
       visible={loading}
-      onRequestClose={() => {console.log('close modal')}}>
+      onRequestClose={() => {
+        console.log('close modal')
+      }}>
       <View style={styles.modalBackground}>
         <View style={styles.activityIndicatorWrapper}>
           <ActivityIndicator
-          size="large"
-            animating={loading} />
+            size="large"
+            animating={loading}/>
         </View>
       </View>
     </Modal>
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-around',
-    
+
   }
 });
 

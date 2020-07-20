@@ -1,8 +1,8 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
-import {View, StyleSheet, FlatList, Text, TouchableOpacity, LayoutAnimation} from 'react-native'
+import React, {PureComponent} from 'react';
+import {View, StyleSheet,  LayoutAnimation} from 'react-native';
 import {connect} from "react-redux";
 
 import {spacing} from "../../../constants/dimension";
@@ -15,7 +15,7 @@ import fonts from "../../../constants/fonts";
 import BarButton from '../../../components/BarButton';
 import LinearGradient from "react-native-linear-gradient";
 
-class PackageList extends Component {
+class PackageList extends PureComponent {
 
   editPackage = packageId => {
     this.props.navigation.navigate(RouteNames.PackageEdit, {

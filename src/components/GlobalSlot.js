@@ -44,7 +44,7 @@ globalSlot.propTypes = {
 };
 
 globalSlot.defaultProps = {
-  displayName: 'Yash Shrivastav',
+  displayName: 'User',
   startTime: '5:20 PM',
   imageUrl: 'sd'
 }
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default globalSlot;
+export default React.memo(globalSlot);

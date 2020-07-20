@@ -12,7 +12,7 @@ const colors = {
 export const darkPallet = {
   extraDarkBlue: '#20222f',
   darkGrey: '#2b2d37',
-  darkBlue: '#2d2f45',
+  darkBlue: '#2b2e41',
   lightBlue: '#384053',
   extraLightBlue: '#63687b',
   greyBlue: '#686e80',
@@ -53,12 +53,15 @@ export const appTheme = {
   content: darkPallet.extraLightBlue,
   lightContent: darkPallet.skyBlue,
   grey: darkPallet.greyBlue,
+  greyC:'#ccc',
   darkGrey: darkPallet.darkGrey,
   gradient: darkPallet.orangeGradient,
   secondaryGradient: darkPallet.gradients.pink,
   tertiaryGradient: darkPallet.gradients.blue,
   quaternaryGradient: darkPallet.gradients.purple,
-  disabledGradient: darkPallet.gradients.grey
+  disabledGradient: darkPallet.gradients.grey,
+
+  textPrimary:'white',
 }
 
 export default colors;

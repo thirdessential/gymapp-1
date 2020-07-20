@@ -1,8 +1,8 @@
-import * as React from "react";
+import React, {PureComponent} from 'react';
 import {Text, View} from "react-native";
 import {appTheme} from "../../constants/colors";
 
-class Settings extends React.Component {
+class Settings extends PureComponent {
   render() {
     return (
       <View style={{flex: 1, backgroundColor:appTheme.darkBackground ,justifyContent: 'center', alignItems: 'center'}}>

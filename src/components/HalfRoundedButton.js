@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default halfRoundedButton;
+export default React.memo(halfRoundedButton);

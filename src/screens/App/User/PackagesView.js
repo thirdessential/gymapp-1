@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {ScrollView, StyleSheet} from 'react-native'
 import {connect} from "react-redux";
 
@@ -10,7 +10,7 @@ import {spacing} from "../../../constants/dimension";
 import PackageFlatList from "../../../components/Trainer/PackageFlatList";
 import RouteNames from "../../../navigation/RouteNames";
 
-class PackagesView extends Component {
+class PackagesView extends PureComponent {
 
   getUser = () => {
     const {route, users} = this.props;

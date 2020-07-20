@@ -43,7 +43,7 @@ const customCalendar = (props) => {
         indicatorColor: 'blue',
         textDayFontFamily: fonts.PoppinsSemiBold,
         textMonthFontFamily: fonts.RobotoRegular,
-        textDayHeaderFontFamily: 'monospace',
+        textDayHeaderFontFamily: fonts.Monospace,
         textDayFontWeight: '300',
         textMonthFontWeight: 'bold',
         textDayHeaderFontWeight: '300',
@@ -55,4 +55,4 @@ const customCalendar = (props) => {
   )
 }
 
-export default customCalendar;
+export default React.memo(customCalendar);

@@ -53,7 +53,7 @@ const postList = (props) => {
         likeCallback={() => like(post._id)}
         unlikeCallback={() => unlike(post._id)}
         flagCallback={() => report(post._id)}
-        imagePressCallback={()=>props.viewImage(post.contentURL)}
+        // imagePressCallback={()=>props.viewImage(post.contentURL)}
         // shareCallback={() => {}}
         onProfilePress={() => disableSelfProfileClick(post.createdBy.userId)}
       />
@@ -102,4 +102,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default postList;
+export default React.memo(postList);

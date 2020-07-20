@@ -71,7 +71,9 @@ function timeline(props) {
             renderDetail={renderActivity}
             renderTime={renderTime}
             options={{
-              style: {paddingTop: spacing.medium}
+              style: {paddingTop: spacing.medium},
+              showsVerticalScrollIndicator: false,
+              ListFooterComponent: () => <View style={{marginTop: spacing.medium}}/>
             }}
           />
         )
@@ -93,7 +95,9 @@ function timeline(props) {
             renderTime={renderTime}
             renderDetail={renderActivity}
             options={{
-              style: {paddingTop: spacing.medium}
+              style: {paddingTop: spacing.medium},
+              showsVerticalScrollIndicator: false,
+              ListFooterComponent: () => <View style={{marginTop: spacing.medium}}/>
             }}
           />
         )
@@ -157,4 +161,4 @@ const styles = StyleSheet.create({
     marginBottom: spacing.small
   },
 })
-export default timeline;
+export default React.memo(timeline);

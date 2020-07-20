@@ -1,4 +1,4 @@
-import React, {useState, Component} from 'react';
+import React, {PureComponent} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -10,28 +10,25 @@ import {
   ActivityIndicator,
   ScrollView
 } from 'react-native';
-import {updateUserInfo} from '../../API';
 import ImagePicker from 'react-native-image-picker';
+import {connect} from "react-redux";
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+import FastImage from "react-native-fast-image";
+import LinearGradient from "react-native-linear-gradient";
+
+import {updateUserInfo} from '../../API';
 import defaultPic from '../../../assets/images/male_pic_default.jpg';
 import {uploadImage} from '../../API';
-import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ActionButtonTwo from '../../components/Login/ActionButtonTwo';
-import colors, {appTheme, darkPallet} from '../../constants/colors';
+import  {appTheme, darkPallet} from '../../constants/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import FastImage from "react-native-fast-image";
 import {spacing} from "../../constants/dimension";
-import LinearGradient from "react-native-linear-gradient";
 import {userTypes} from "../../constants/appConstants";
-import SelectableButton from "../../components/selectableButton";
-import strings from "../../constants/strings";
 
-
-class ProfileEdit extends Component {
+class ProfileEdit extends PureComponent {
 
   state = {
     name: '',

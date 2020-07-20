@@ -1,8 +1,8 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native'
+import React, {PureComponent} from 'react';
+import {ScrollView, StyleSheet} from 'react-native'
 import {connect} from "react-redux";
 
 import {appTheme} from "../../../constants/colors";
@@ -13,7 +13,7 @@ import {requestCameraAndAudioPermission} from "../../../utils/permission";
 import {initialiseVideoCall} from "../../../utils/utils";
 import * as actionCreators from "../../../store/actions";
 
-class Subscriptions extends Component {
+class Subscriptions extends PureComponent {
 
   componentDidMount() {
     this.props.syncSubscriptions();

@@ -7,14 +7,14 @@ import PropTypes from 'prop-types';
 import fontSizes from "../constants/fontSizes";
 import {textSlicer} from "../utils/utils";
 import strings from "../constants/strings";
-import colors, {appTheme} from "../constants/colors";
+import {appTheme} from "../constants/colors";
 
 const ExpandingText = (props) => {
   const {children, contentLength, style} = props;
   const [sliced, setSliced] = useState(children.length > contentLength);
 
   const buttonContent = sliced ? strings.SEE_MORE : strings.SEE_LESS;
-  let disabled = children.length<contentLength;
+  let disabled = children.length < contentLength;
 
   return (
     <TouchableOpacity disabled={disabled} onPress={() => setSliced(!sliced)} style={styles.container}>
@@ -56,4 +56,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ExpandingText;
+export default React.memo(ExpandingText);

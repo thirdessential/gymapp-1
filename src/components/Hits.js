@@ -43,4 +43,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Hits;
+export default React.memo(Hits);

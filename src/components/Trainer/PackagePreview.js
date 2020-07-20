@@ -3,11 +3,8 @@
  */
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native'
-import PropTypes from 'prop-types';
-import CustomProgressBar from "../CustomProgressBar";
-import GenericText from "../GenericText";
 import strings from "../../constants/strings";
-import {spacing, spacing as dimension} from "../../constants/dimension";
+import {spacing} from "../../constants/dimension";
 import {appTheme} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
@@ -60,4 +57,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default packagePreview;
+export default React.memo(packagePreview);

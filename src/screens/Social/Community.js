@@ -7,11 +7,11 @@ import {
   StyleSheet,
   StatusBar,
   LayoutAnimation,
-  TouchableOpacity,
+  TouchableOpacity, ActivityIndicator, Text,
 } from 'react-native'
 import {connect} from "react-redux";
 import RBSheet from "react-native-raw-bottom-sheet";
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {TabView, TabBar} from 'react-native-tab-view';
 import Entypo from "react-native-vector-icons/Entypo";
 
 import {appTheme} from "../../constants/colors";
@@ -21,14 +21,14 @@ import {INITIAL_PAGE, POST_TYPE} from "../../constants/appConstants";
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import PostList from "../../components/Social/PostList";
 import {spacing} from "../../constants/dimension";
-import SwitchSelector from "react-native-switch-selector";
 import strings from "../../constants/strings";
 import QuestionList from "../../components/Social/QuestionList";
 import {likeAnswer, unlikeAnswer} from "../../API";
 import ImageCard from "../../components/ImageCard";
 import {iconBackgrounds} from "../../constants/images";
-import SingleImageViewer from "../../components/SingleImageViewer";
 import {screenWidth} from "../../utils/screenDimensions";
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
 
 const initialLayout = {width: screenWidth};
 
@@ -38,8 +38,6 @@ class Community extends Component {
     nextPostPage: INITIAL_PAGE,
     nextQuestionPage: INITIAL_PAGE,
     type: POST_TYPE.TYPE_POST,
-    viewerOpen: false,
-    viewerImageUrl: '',
     pageIndex: 0
   }
   updatePosts = async () => {
@@ -76,13 +74,15 @@ class Community extends Component {
       userId: userId
     });
   }
-  changeSwitch = (type) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({type});
-  }
-
+  loader = ()=> (
+    <View style={{flex:1,justifyContent: 'center', alignItems: 'center'}}>
+      <ActivityIndicator  color={appTheme.brightContent} size={50}/>
+    </View>
+  )
   renderPosts = () => {
     const {posts, likePost, unlikePost, reportPost} = this.props;
+    if (!posts || posts.length===0)
+      return this.loader();
     return (
       <PostList
         posts={posts}
@@ -91,7 +91,6 @@ class Community extends Component {
         like={likePost}
         unlike={unlikePost}
         report={reportPost}
-        viewImage={this.openViewer}
         onProfilePress={this.openProfile}
       />
     )
@@ -102,6 +101,8 @@ class Community extends Component {
   }
   renderQuestions = () => {
     const {questions} = this.props;
+    if (!questions || questions.length===0)
+      return this.loader();
     return (
       <QuestionList
         questions={questions}
@@ -134,8 +135,6 @@ class Community extends Component {
   }
   openRbSheet = () => this.RBSheet.open()
   closeRbSheet = () => this.RBSheet.close()
-  closeViewer = () => this.setState({viewerOpen: false, viewerImageUrl: ''})
-  openViewer = (imageUrl) => this.setState({viewerImageUrl: imageUrl, viewerOpen: true})
   rbSheet = () => (<RBSheet
       ref={ref => {
         this.RBSheet = ref;
@@ -153,7 +152,8 @@ class Community extends Component {
         }
       }}
     >
-      <View style={{flexDirection: 'row'}}>
+      <Text style={styles.title}>{strings.CREATE} </Text>
+      <View style={{flexDirection: 'row', marginBottom:spacing.medium}}>
         <ImageCard title={strings.POST} onPress={this.createPost} image={iconBackgrounds.workouts}/>
         <ImageCard title={strings.ASK_EXPERT} onPress={this.createQuestion} image={iconBackgrounds.appointments}/>
       </View>
@@ -174,6 +174,7 @@ class Community extends Component {
     }
   }
   setPage = (pageIndex) => this.setState({pageIndex});
+
   render() {
     return (<View style={styles.container}>
         <StatusBar backgroundColor={appTheme.lightBackground}/>
@@ -194,10 +195,6 @@ class Community extends Component {
           }
         />
         {this.rbSheet()}
-        <SingleImageViewer
-          imageUrl={this.state.viewerImageUrl}
-          close={this.closeViewer}
-          isOpen={this.state.viewerOpen}/>
         {this.fab()}
       </View>
     );
@@ -238,6 +235,12 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 10
   },
+  title:{
+    color: appTheme.brightContent,
+    fontSize: fontSizes.h1,
+    fontFamily: fonts.CenturyGothic,
+    marginBottom: spacing.medium_sm
+  }
 });
 
 const mapStateToProps = (state) => ({

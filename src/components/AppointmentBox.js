@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native'
-import PropTypes from 'prop-types';
 
 import  {appTheme} from "../constants/colors";
 import {spacing} from "../constants/dimension";
@@ -30,15 +29,6 @@ const appointmentBox = (props) => {
       <Text style={styles.displayName}>{displayName}</Text>
     </View>
   )
-
-}
-
-appointmentBox.propTypes = {
-  // url: PropTypes.string.isRequired,
-};
-
-appointmentBox.defaultProps = { //testing, remove this later
-  // url: Math.random() > 1 ? 'https://i.ya-webdesign.com/images/people-standing-png-4.png' : 'https://www.pngitem.com/pimgs/m/28-288789_transparent-png-person-standing-standing-png-download.png'
 }
 
 const styles = StyleSheet.create({
@@ -70,4 +60,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default appointmentBox;
+export default React.memo(appointmentBox);

@@ -12,20 +12,22 @@ const imageCard = ({title, image, onPress}) => {
   return (
     <TouchableOpacity activeOpacity={0.7} onPress={onPress} style={styles.container}>
       <Image source={image} style={styles.image} resizeMode={'contain'}/>
-      <Text style={styles.title}>{title}</Text>
+      <Text numberOfLines={2} style={styles.title}>{title}</Text>
     </TouchableOpacity>
   )
 }
 
+export const cardSize = screenWidth / 2 - 2 * spacing.medium;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: appTheme.darkBackground,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: spacing.medium,
-    elevation:7,
-    margin:spacing.small_sm
+    elevation: 7,
+    margin: spacing.small_sm,
+    width: cardSize,
+    height: cardSize
   },
   image: {
     height: screenWidth / 3.5,
@@ -35,8 +37,9 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: fontSizes.h2,
     fontFamily: fonts.CenturyGothicBold,
-    marginTop: spacing.medium_sm
+    marginTop: spacing.medium_sm,
+    marginBottom:spacing.small
   }
 });
 
-export default imageCard;
+export default React.memo(imageCard);

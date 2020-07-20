@@ -36,8 +36,8 @@ PackageMainContent.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  container:{
-    paddingTop:spacing.medium_sm,
+  container: {
+    paddingTop: spacing.medium_sm,
     // borderBottomWidth: 1,
     // borderBottomColor: colors.lightGrey,
   },
@@ -47,4 +47,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PackageMainContent;
+export default React.memo(PackageMainContent);

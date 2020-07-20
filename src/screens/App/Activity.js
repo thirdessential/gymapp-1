@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {PureComponent} from 'react';
 import {StyleSheet, Text, View} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import {connect} from "react-redux";
@@ -14,7 +14,7 @@ import {defaultDP} from "../../constants/appConstants";
 import TimelineTabview from "../../components/TimelineTabview";
 import * as actionCreators from "../../store/actions";
 
-class Activity extends React.Component {
+class Activity extends PureComponent {
 
   componentDidMount() {
     const {navigation, getActivities, getAppointments, updateUserData} = this.props;
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     paddingLeft: spacing.medium_lg,
     paddingRight: spacing.medium_lg,
     paddingTop: spacing.medium_lg,
-    paddingBottom: spacing.medium,
+    // paddingBottom: spacing.medium,
     alignItems: "center",
     backgroundColor: appTheme.background,
   },

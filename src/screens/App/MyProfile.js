@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
@@ -27,7 +27,7 @@ import fonts from "../../constants/fonts";
 import PostList from "../../components/Social/PostList";
 import HalfRoundedButton from "../../components/HalfRoundedButton";
 
-class MyProfile extends Component {
+class MyProfile extends PureComponent {
 
   state = {
     bgImage: getRandomImage(),

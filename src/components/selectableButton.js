@@ -54,4 +54,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default selectableButton;
+export default React.memo(selectableButton);

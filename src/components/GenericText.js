@@ -76,4 +76,4 @@ GenericText.defaultProps = {
   type: 'title'
 }
 
-export default GenericText;
+export default React.memo(GenericText);

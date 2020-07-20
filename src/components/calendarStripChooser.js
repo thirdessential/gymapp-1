@@ -33,4 +33,4 @@ const calendarStripChooser = (props)=> {
   )
 }
 
-export default calendarStripChooser
+export default React.memo(calendarStripChooser);

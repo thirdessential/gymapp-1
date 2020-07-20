@@ -153,4 +153,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default ProfileOverview;
+export default React.memo(ProfileOverview);

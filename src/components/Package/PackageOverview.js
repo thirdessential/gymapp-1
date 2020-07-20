@@ -13,6 +13,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Entypo from "react-native-vector-icons/Entypo";
 import {getRandomImage} from "../../constants/images";
 import colors, {appTheme, darkPallet} from "../../constants/colors";
+import {hitSlop20} from "../../constants/styles";
 
 const toggleAnimation = (callback, value) => {
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -30,7 +31,7 @@ const PackageOverview = (props) => {
       <TouchableOpacity
         style={styles.enrollButton}
         onPress={props.editCallback}
-        hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+        hitSlop={hitSlop20}
       >
         <Entypo
           name={'edit'}
@@ -159,4 +160,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PackageOverview;
+export default React.memo(PackageOverview);

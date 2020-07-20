@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import {connect} from "react-redux";
 
-import {appTheme, darkPallet} from "../../constants/colors";
+import {appTheme} from "../../constants/colors";
 import * as actionCreators from '../../store/actions';
 import {spacing} from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
@@ -22,14 +22,16 @@ import strings from "../../constants/strings";
 import store from "../../store/configureStore";
 import {likeComment, likePost, unlikeComment, unlikePost} from "../../API";
 import {MAX_POST_LENGTH} from "../../constants/appConstants";
-import {screenWidth} from "../../utils/screenDimensions";
 import post from "../../components/Social/Post";
 import RouteNames from "../../navigation/RouteNames";
+import SingleImageViewer from "../../components/SingleImageViewer";
 
 class PostViewer extends Component {
   state = {
     commentText: '',
-    submitting: false
+    submitting: false,
+    viewerOpen: false,
+    viewerImageUrl: '',
   }
 
   componentDidMount() {
@@ -37,7 +39,8 @@ class PostViewer extends Component {
     const {postId} = route.params;
     updatePost(postId);
   }
-
+  closeViewer = () => this.setState({viewerOpen: false, viewerImageUrl: ''})
+  openViewer = (imageUrl) => this.setState({viewerImageUrl: imageUrl, viewerOpen: true})
   getPost = () => {
     const {route, postDetails} = this.props;
     if (!postDetails) return null;
@@ -86,6 +89,7 @@ class PostViewer extends Component {
           unlikeCallback={() => unlikePost(post._id)}
           flagCallback={() => this.reportPost(post._id)}
           // shareCallback={() => {}}
+          imagePressCallback={()=>this.openViewer(post.contentURL)}
           onProfilePress={()=>this.disableSelfProfileClick(post.createdBy.userId)}
         />
       </View>
@@ -130,7 +134,7 @@ class PostViewer extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    const {route, postDetails} = this.props;
+    const {route} = this.props;
     const {postId} = route.params;
     if (nextProps.postDetails[postId] !== this.props.postDetails[postId])
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -196,6 +200,10 @@ class PostViewer extends Component {
             {!post && <ActivityIndicator style={{position: 'absolute'}} color={appTheme.brightContent} size={50}/>}
             {post && this.renderPost(post)}
             {post && this.renderComments()}
+            <SingleImageViewer
+              imageUrl={this.state.viewerImageUrl}
+              close={this.closeViewer}
+              isOpen={this.state.viewerOpen}/>
           </ScrollView>
         </View>
       </>

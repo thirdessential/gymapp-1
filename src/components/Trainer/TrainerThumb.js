@@ -133,4 +133,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default trainerThumb;
+export default React.memo(trainerThumb);

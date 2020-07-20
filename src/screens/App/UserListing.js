@@ -14,7 +14,7 @@ import {connect} from "react-redux";
 
 import TrainerThumb from '../../components/Trainer/TrainerThumb';
 import  {appTheme, darkPallet} from "../../constants/colors";
-import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
+import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
 import {defaultDP, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
 import UserThumb from "../../components/Trainer/UserThumb";
@@ -24,7 +24,6 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import LinearGradient from "react-native-linear-gradient";
 import {setAvailable} from "../../API";
-import {createTextPost, getAllPosts} from "../../API/social";
 
 class UserListing extends Component {
 

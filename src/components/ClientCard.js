@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default client;
+export default React.memo(client);
