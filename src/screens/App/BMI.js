@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
-import {FlatList, ScrollView, StyleSheet, Text, View} from "react-native";
-import LinearGradient from "react-native-linear-gradient";
+import {FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Picker} from '@react-native-community/picker';
 import {connect} from "react-redux";
 import {Bar} from 'react-native-progress';
 import {spacing} from "../../constants/dimension";
@@ -14,6 +14,9 @@ import BmiBar from "../../components/BmiBar";
 import {getBmiVerdict} from "../../utils/utils";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
+import CustomLineChart from "../../components/CustomLineChart";
+import Avatar from "../../components/Avatar";
+import RouteNames from "../../navigation/RouteNames";
 
 class BMI extends PureComponent {
 
@@ -59,8 +62,45 @@ class BMI extends PureComponent {
         date: '2020-09-18T13:13:25.194Z',
         difference: -0.3
       }
-    ]
+    ],
+    graphType: 'month'
+  }
 
+  openProfile = () => {
+    this.props.navigation.navigate(RouteNames.MyProfile);
+  }
+  renderHeader = () => {
+    const {displayPictureUrl} = this.props.userData;
+    return (
+      <View style={{
+        flexDirection: 'row',
+        marginBottom: spacing.small_sm,
+        marginTop: spacing.medium,
+        justifyContent: 'space-between'
+      }}>
+        <TouchableOpacity onPress={this.openProfile} style={{marginRight: 'auto', flex: 1}}>
+          <Avatar roundedMultiplier={1} size={spacing.thumbnailMini} url={displayPictureUrl}/>
+        </TouchableOpacity>
+        <View style={{width: 170, borderColor: appTheme.grey, borderWidth: 1, borderRadius: 8}}>
+          <Picker
+            mode={'dropdown'}
+            selectedValue={this.state.graphType}
+            style={{flex: 1, color: appTheme.greyC, padding:0,alignItems: 'center'}}
+            // itemStyle={{backgroundColor: 'lightgrey', marginLeft: 0, }}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({graphType: itemValue})
+            }>
+            <Picker.Item label="Last 6 months" value="month"/>
+            <Picker.Item label="Days" value="day"/>
+          </Picker>
+        </View>
+      </View>
+    )
+  }
+  renderProgressChart = () => {
+    return (
+      <CustomLineChart/>
+    )
   }
   renderWeightProgress = () => {
     const {weight} = this.state;
@@ -69,7 +109,7 @@ class BMI extends PureComponent {
     const today = new Date();
     const progress = (weight.current.value - weight.target.value) / (weight.initial.value - weight.target.value)
     return (
-      <View style={{marginTop:spacing.medium}}>
+      <View style={{marginTop: spacing.medium}}>
         <View style={styles.weightRow}>
           <View style={styles.subtitleContainer}>
             <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
@@ -90,7 +130,7 @@ class BMI extends PureComponent {
         <Bar
           progress={progress}
           borderWidth={0}
-          color={appTheme.brightContent}
+          color={bmiColors.lightBlue}
           unfilledColor={appTheme.grey}
           width={screenWidth - 2 * spacing.medium_lg}/>
       </View>
@@ -129,8 +169,8 @@ class BMI extends PureComponent {
       <View style={[styles.lightCard, {flexDirection: 'row', justifyContent: 'space-between'}]}>
         <View>
           <Text style={[styles.subtitle_sm, {fontSize: fontSizes.h3}]}>Today</Text>
-          <View style={{flexDirection: 'row', alignItems:'center'}}>
-            <Feather size={18} color={differenceStyle.color} name={difference>0?'arrow-up':'arrow-down'}/>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Feather size={18} color={differenceStyle.color} name={difference > 0 ? 'arrow-up' : 'arrow-down'}/>
             <Text style={[styles.difference, differenceStyle]}>{Math.abs(data.difference)} kg</Text>
           </View>
         </View>
@@ -159,15 +199,17 @@ class BMI extends PureComponent {
 
   render() {
     return (
-      <LinearGradient
-        colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
-        style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
-          {this.renderWeightProgress()}
-          {this.renderBMI()}
-          {this.renderHistory()}
-        </ScrollView>
-      </LinearGradient>
+      // <LinearGradient
+      //   colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
+      //   style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+        {this.renderHeader()}
+        {this.renderProgressChart()}
+        {this.renderWeightProgress()}
+        {this.renderBMI()}
+        {this.renderHistory()}
+      </ScrollView>
+      // </LinearGradient>
     );
   }
 }
@@ -214,7 +256,7 @@ const styles = StyleSheet.create({
   difference: {
     fontFamily: fonts.CenturyGothicBold,
     fontSize: fontSizes.h2,
-    marginLeft:spacing.small_sm
+    marginLeft: spacing.small_sm
   }
 
 });
