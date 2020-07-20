@@ -115,4 +115,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default subscriptionCard;
+export default React.memo(subscriptionCard);

@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {
   View,
   StyleSheet,
@@ -28,7 +28,7 @@ import {validatePackage} from "../../../utils/validators";
 import LinearGradient from "react-native-linear-gradient";
 import {showSuccess} from "../../../utils/notification";
 
-class Packages extends Component {
+class Packages extends PureComponent {
 
   state = {
     title: 'Sample Title',

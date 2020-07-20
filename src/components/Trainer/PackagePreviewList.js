@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default packagePreviewList;
+export default React.memo(packagePreviewList);

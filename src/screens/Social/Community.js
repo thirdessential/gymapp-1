@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import {connect} from "react-redux";
 import RBSheet from "react-native-raw-bottom-sheet";
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {TabView, TabBar} from 'react-native-tab-view';
 import Entypo from "react-native-vector-icons/Entypo";
 
 import {appTheme} from "../../constants/colors";
@@ -21,7 +21,6 @@ import {INITIAL_PAGE, POST_TYPE} from "../../constants/appConstants";
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import PostList from "../../components/Social/PostList";
 import {spacing} from "../../constants/dimension";
-import SwitchSelector from "react-native-switch-selector";
 import strings from "../../constants/strings";
 import QuestionList from "../../components/Social/QuestionList";
 import {likeAnswer, unlikeAnswer} from "../../API";

@@ -212,4 +212,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default post;
+export default React.memo(post);

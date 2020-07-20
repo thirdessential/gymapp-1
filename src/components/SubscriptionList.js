@@ -5,13 +5,9 @@ import React from 'react';
 import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 
 import {spacing} from "../constants/dimension";
-import {appTheme} from "../constants/colors";
-import fontSizes from "../constants/fontSizes";
-import fonts from "../constants/fonts";
 
 import ClientCard from "./ClientCard";
 import {defaultDP} from "../constants/appConstants";
-import {sub} from "react-native-reanimated";
 
 const subscriptionList = (props) => {
   if (!props.subscriptions) return null;
@@ -52,4 +48,4 @@ const subscriptionList = (props) => {
 
 const styles = StyleSheet.create({});
 
-export default subscriptionList;
+export default React.memo(subscriptionList);

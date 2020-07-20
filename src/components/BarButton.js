@@ -23,4 +23,4 @@ barButton.propTypes = {
   name: PropTypes.string
 };
 
-export default barButton;
+export default React.memo(barButton);

@@ -196,4 +196,4 @@ const styles = StyleSheet.create({
   activeButton: {}
 });
 
-export default slot;
+export default React.memo(slot);

@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {StyleSheet, View} from 'react-native'
 import {connect} from "react-redux";
 import {FlatGrid} from 'react-native-super-grid';
@@ -16,7 +16,7 @@ import {POST_TYPE, userTypes} from "../../constants/appConstants";
 import ImageCard, {cardSize} from "../../components/ImageCard";
 import {iconBackgrounds} from "../../constants/images";
 
-class Tools extends Component {
+class Tools extends PureComponent {
 
   openPackages = () => this.props.navigation.navigate(RouteNames.Packages)
   openAppointments = () => this.props.navigation.navigate(RouteNames.MyAppointments)

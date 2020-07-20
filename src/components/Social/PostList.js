@@ -102,4 +102,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default postList;
+export default React.memo(postList);

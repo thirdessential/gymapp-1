@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {
   View,
   StyleSheet,
@@ -24,20 +24,13 @@ import {spacing} from "../../constants/dimension";
 import fonts from "../../constants/fonts";
 import HalfRoundedButton from "../../components/HalfRoundedButton";
 import strings from "../../constants/strings";
-import {INITIAL_PAGE, MAX_POST_LENGTH, POST_TYPE, userTypes} from "../../constants/appConstants";
+import {INITIAL_PAGE, MAX_POST_LENGTH, POST_TYPE} from "../../constants/appConstants";
 import {pickImage} from "../../utils/utils";
-import {createImagePost, createTextPost} from "../../API";
+import {createImagePost, createTextPost,postQuestion} from "../../API";
 import {screenWidth} from "../../utils/screenDimensions";
 import {showError, showSuccess} from "../../utils/notification";
-import {postQuestion} from "../../API/social";
 
-const options = [
-  {label: "01:00", value: "1"},
-  {label: "01:30", value: "1.5"},
-  {label: "02:00", value: "2"}
-];
-
-class CreatePost extends Component {
+class CreatePost extends PureComponent {
 
   state = {
     description: '',

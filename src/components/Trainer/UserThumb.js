@@ -94,4 +94,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default userThumb;
+export default React.memo(userThumb);

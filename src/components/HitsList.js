@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HitsList;
+export default React.memo(HitsList);

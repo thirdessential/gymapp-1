@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default multiSelectButtons;
+export default React.memo(multiSelectButtons);

@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from "react";
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {StyleSheet, Text, View} from 'react-native'
 import {toTitleCase} from "../utils/utils";
 import {WEEK_DAYS} from "../constants/appConstants";
 import {appTheme} from "../constants/colors";
@@ -52,4 +52,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default daysRow;
+export default React.memo(daysRow);

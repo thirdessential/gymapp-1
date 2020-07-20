@@ -120,4 +120,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default slot;
+export default React.memo(slot);

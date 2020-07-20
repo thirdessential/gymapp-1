@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {FlatList, LayoutAnimation, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import {connect} from "react-redux";
 
@@ -23,7 +23,7 @@ import MultiSelectButtons from "../../../components/MultiSelectButtons";
 import PillButton from "../../../components/PillButton";
 import {hitSlop20} from "../../../constants/styles";
 
-class SlotsView extends Component {
+class SlotsView extends PureComponent {
   state = {
     timings: {},
     days: {},
@@ -121,6 +121,11 @@ class SlotsView extends Component {
         container: {
           padding: spacing.medium,
           backgroundColor: appTheme.darkBackground,
+          borderRadius: 10,
+          borderWidth: 1,
+          borderTopColor: appTheme.content,
+          borderRightColor: appTheme.content,
+          borderLeftColor: appTheme.content,
         },
         wrapper: {
           backgroundColor: 'transparent'

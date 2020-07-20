@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default answerInput;
+export default React.memo(answerInput);

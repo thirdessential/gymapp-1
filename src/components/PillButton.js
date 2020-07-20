@@ -13,7 +13,6 @@ const pillButton = (props) => (
 
 
 const styles = StyleSheet.create({
-
   pillButton: {
     backgroundColor: appTheme.brightContent,
     paddingLeft: spacing.medium_sm,

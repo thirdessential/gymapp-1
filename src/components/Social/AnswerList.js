@@ -94,4 +94,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default answerList;
+export default React.memo(answerList);

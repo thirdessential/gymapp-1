@@ -1,10 +1,10 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
-import {View, StyleSheet, Text, FlatList, ScrollView, LayoutAnimation, TouchableOpacity} from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, StyleSheet, Text, ScrollView, LayoutAnimation, TouchableOpacity} from 'react-native';
 import {connect} from "react-redux";
-// import moment from "moment";
+import LinearGradient from "react-native-linear-gradient";
 
 import {spacing} from "../../../constants/dimension";
 import * as actionCreators from "../../../store/actions";
@@ -21,9 +21,8 @@ import {defaultDP, WEEK_DAYS} from "../../../constants/appConstants";
 import {bookAppointment} from "../../../API";
 import {showError, showSuccess} from "../../../utils/notification";
 import RouteNames from "../../../navigation/RouteNames";
-import LinearGradient from "react-native-linear-gradient";
 
-class Schedule extends Component {
+class Schedule extends PureComponent {
   state = {
     selectedDate: Date.now(),
     selectedSlots: [],

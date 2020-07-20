@@ -66,4 +66,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default activityComponent;
+export default React.memo(activityComponent);

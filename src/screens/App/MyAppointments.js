@@ -1,5 +1,5 @@
-import * as React from "react";
-import { StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import React, {PureComponent} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {connect} from "react-redux";
 import {SectionGrid} from 'react-native-super-grid';
 
@@ -12,7 +12,7 @@ import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from "../../store/actions";
 import AppointmentBox from "../../components/AppointmentBox";
 
-class MyAppointments extends React.Component {
+class MyAppointments extends PureComponent {
 
   state = {
     today: [],

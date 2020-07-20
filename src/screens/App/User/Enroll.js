@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {
   View,
   StyleSheet,
@@ -9,29 +9,22 @@ import {
   Text,
   LayoutAnimation,
   TouchableOpacity,
-  ScrollView,
   FlatList,
   ActivityIndicator
 } from 'react-native'
 import {connect} from "react-redux";
-import cuid from 'cuid';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 import {spacing} from "../../../constants/dimension";
-import * as actionCreators from "../../../store/actions";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import colors, {appTheme} from "../../../constants/colors";
-import strings, {subscribedSuccessBuilder} from "../../../constants/strings";
+import strings from "../../../constants/strings";
 import fontSizes from "../../../constants/fontSizes";
 import fonts from "../../../constants/fonts";
-
 import Slot from "../../../components/Slot";
 import {findMissingDays, groupBy} from "../../../utils/utils";
-import {showError, showSuccess} from "../../../utils/notification";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import {appName, paymentKey} from "../../../constants/appConstants";
-import RazorpayCheckout from "react-native-razorpay";
 import RouteNames from "../../../navigation/RouteNames";
 
-class Enroll extends Component {
+class Enroll extends PureComponent {
 
   state = {
     slots: [],

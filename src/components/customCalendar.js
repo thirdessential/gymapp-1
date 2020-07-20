@@ -55,4 +55,4 @@ const customCalendar = (props) => {
   )
 }
 
-export default customCalendar;
+export default React.memo(customCalendar);

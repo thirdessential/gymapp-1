@@ -11,9 +11,7 @@ const GenericButton = (props) => {
   const {textContent, disabled} = props;
   const bgColorStyle = {
     backgroundColor: disabled ? colors.darkGrey : colors.appBlue,
-
   }
-
 
   return (
     <TouchableOpacity activeOpacity={0.7}  {...props} style={[styles.container, bgColorStyle]}>
@@ -40,4 +38,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default GenericButton;
+export default React.memo(GenericButton);

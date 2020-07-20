@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import {connect} from "react-redux";
 
-import {appTheme, darkPallet} from "../../constants/colors";
+import {appTheme} from "../../constants/colors";
 import * as actionCreators from '../../store/actions';
 import {spacing} from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
@@ -22,7 +22,6 @@ import strings from "../../constants/strings";
 import store from "../../store/configureStore";
 import {likeComment, likePost, unlikeComment, unlikePost} from "../../API";
 import {MAX_POST_LENGTH} from "../../constants/appConstants";
-import {screenWidth} from "../../utils/screenDimensions";
 import post from "../../components/Social/Post";
 import RouteNames from "../../navigation/RouteNames";
 import SingleImageViewer from "../../components/SingleImageViewer";
@@ -42,8 +41,6 @@ class PostViewer extends Component {
   }
   closeViewer = () => this.setState({viewerOpen: false, viewerImageUrl: ''})
   openViewer = (imageUrl) => this.setState({viewerImageUrl: imageUrl, viewerOpen: true})
-
-
   getPost = () => {
     const {route, postDetails} = this.props;
     if (!postDetails) return null;
@@ -137,7 +134,7 @@ class PostViewer extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    const {route, postDetails} = this.props;
+    const {route} = this.props;
     const {postId} = route.params;
     if (nextProps.postDetails[postId] !== this.props.postDetails[postId])
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
