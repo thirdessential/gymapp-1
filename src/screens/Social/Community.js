@@ -27,9 +27,7 @@ import QuestionList from "../../components/Social/QuestionList";
 import {likeAnswer, unlikeAnswer} from "../../API";
 import ImageCard from "../../components/ImageCard";
 import {iconBackgrounds} from "../../constants/images";
-import SingleImageViewer from "../../components/SingleImageViewer";
 import {screenWidth} from "../../utils/screenDimensions";
-import post from "../../components/Social/Post";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 
@@ -41,8 +39,6 @@ class Community extends Component {
     nextPostPage: INITIAL_PAGE,
     nextQuestionPage: INITIAL_PAGE,
     type: POST_TYPE.TYPE_POST,
-    viewerOpen: false,
-    viewerImageUrl: '',
     pageIndex: 0
   }
   updatePosts = async () => {
@@ -96,7 +92,6 @@ class Community extends Component {
         like={likePost}
         unlike={unlikePost}
         report={reportPost}
-        viewImage={this.openViewer}
         onProfilePress={this.openProfile}
       />
     )
@@ -141,8 +136,6 @@ class Community extends Component {
   }
   openRbSheet = () => this.RBSheet.open()
   closeRbSheet = () => this.RBSheet.close()
-  closeViewer = () => this.setState({viewerOpen: false, viewerImageUrl: ''})
-  openViewer = (imageUrl) => this.setState({viewerImageUrl: imageUrl, viewerOpen: true})
   rbSheet = () => (<RBSheet
       ref={ref => {
         this.RBSheet = ref;
@@ -203,10 +196,6 @@ class Community extends Component {
           }
         />
         {this.rbSheet()}
-        <SingleImageViewer
-          imageUrl={this.state.viewerImageUrl}
-          close={this.closeViewer}
-          isOpen={this.state.viewerOpen}/>
         {this.fab()}
       </View>
     );

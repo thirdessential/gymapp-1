@@ -59,7 +59,9 @@ export const appTheme = {
   secondaryGradient: darkPallet.gradients.pink,
   tertiaryGradient: darkPallet.gradients.blue,
   quaternaryGradient: darkPallet.gradients.purple,
-  disabledGradient: darkPallet.gradients.grey
+  disabledGradient: darkPallet.gradients.grey,
+
+  textPrimary:'white',
 }
 
 export default colors;

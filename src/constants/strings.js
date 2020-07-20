@@ -15,6 +15,7 @@ const strings = {
   NO_SLOTS_AVAILABLE:'No slots available',
   RUNNING_DAYS:'Running Days',
   POST:'Post',
+  DONE:'Done',
   ADD_POST:'Add Post',
   NO_ACTIVITY:'No activity found',
   ADD_IMAGE:'Add Image',
@@ -89,7 +90,10 @@ const strings = {
   END_AT:'End at',
   TOTAL_SESSIONS:'Total Sessions',
   SESSION_DAYS: 'Session Days',
-  CREATE: 'Create'
+  CREATE: 'Create',
+  NO_DATA: 'No Data',
+
+
 };
 
 export default strings;

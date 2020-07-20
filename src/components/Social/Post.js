@@ -87,7 +87,7 @@ const post = (props) => {
       </View>
       {
         !!imageUrl && (
-          <TouchableOpacity activeOpacity={0.7} onPress={imagePressCallback} style={styles.imageContainer}>
+          <TouchableOpacity disabled={!imagePressCallback} activeOpacity={0.7} onPress={imagePressCallback} style={styles.imageContainer}>
             <FastImage
               source={{uri: imageUrl}}
               style={styles.displayImage}

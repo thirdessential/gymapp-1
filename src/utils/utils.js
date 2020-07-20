@@ -213,26 +213,13 @@ export const getJoinDurationString = (date, userType) => {
   return `${entity} for ${getJoinDuration(date)} days`;
 }
 
-export const dayTimeSorter = (alpha, beta) => {
-  let todayIndex = (new Date()).getDay();
-  let {day: d1, time: t1} = alpha;
-  if (!d1) d1 = alpha.dayOfWeek;
-  const alphaTime = new Date();
-  alphaTime.setDate(alphaTime.getDate() + (todayIndex - Object.keys(WEEK_DAYS).indexOf(d1) ));
-  alphaTime.setTime(alphaTime.getTime() +parseInt(t1)); // this is fine as any number will work, we just have to find which is greater
-
-  let {day: d2, time: t2} = beta;
-  if (!d2) d2 = beta.dayOfWeek;
-
-  const betaTime = new Date();
-  betaTime.setDate(betaTime.getDate() + (todayIndex - Object.keys(WEEK_DAYS).indexOf(d2) ));
-  betaTime.setTime(betaTime.getTime() +parseInt(t2)); // this is fine as any number will work, we just have to find which is greater
-
-  return betaTime-alphaTime;
-}
-
 export function isSameDay(d1, d2) {
   return d1.getFullYear() === d2.getFullYear() &&
     d1.getMonth() === d2.getMonth() &&
     d1.getDate() === d2.getDate();
+}
+
+export const sortDays = arr => {
+  const list = Object.keys(WEEK_DAYS);
+  return list.filter(each => arr.includes(each));
 }

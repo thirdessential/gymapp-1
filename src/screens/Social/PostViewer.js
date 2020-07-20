@@ -25,11 +25,14 @@ import {MAX_POST_LENGTH} from "../../constants/appConstants";
 import {screenWidth} from "../../utils/screenDimensions";
 import post from "../../components/Social/Post";
 import RouteNames from "../../navigation/RouteNames";
+import SingleImageViewer from "../../components/SingleImageViewer";
 
 class PostViewer extends Component {
   state = {
     commentText: '',
-    submitting: false
+    submitting: false,
+    viewerOpen: false,
+    viewerImageUrl: '',
   }
 
   componentDidMount() {
@@ -37,6 +40,9 @@ class PostViewer extends Component {
     const {postId} = route.params;
     updatePost(postId);
   }
+  closeViewer = () => this.setState({viewerOpen: false, viewerImageUrl: ''})
+  openViewer = (imageUrl) => this.setState({viewerImageUrl: imageUrl, viewerOpen: true})
+
 
   getPost = () => {
     const {route, postDetails} = this.props;
@@ -86,6 +92,7 @@ class PostViewer extends Component {
           unlikeCallback={() => unlikePost(post._id)}
           flagCallback={() => this.reportPost(post._id)}
           // shareCallback={() => {}}
+          imagePressCallback={()=>this.openViewer(post.contentURL)}
           onProfilePress={()=>this.disableSelfProfileClick(post.createdBy.userId)}
         />
       </View>
@@ -196,6 +203,10 @@ class PostViewer extends Component {
             {!post && <ActivityIndicator style={{position: 'absolute'}} color={appTheme.brightContent} size={50}/>}
             {post && this.renderPost(post)}
             {post && this.renderComments()}
+            <SingleImageViewer
+              imageUrl={this.state.viewerImageUrl}
+              close={this.closeViewer}
+              isOpen={this.state.viewerOpen}/>
           </ScrollView>
         </View>
       </>
