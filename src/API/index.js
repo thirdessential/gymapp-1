@@ -63,4 +63,9 @@ export {
   postQuestion,
   answerQuestion,
   unlikeAnswer
-} from './social'
+} from './social';
+
+export {
+  recordBmi,
+  getBmiHistory
+} from './fitness'

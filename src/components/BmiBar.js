@@ -1,21 +1,17 @@
 import React from "react";
-import FontAwesome from "react-native-vector-icons/Entypo";
 import {appTheme, bmiColors} from "../constants/colors";
 import {spacing} from "../constants/dimension";
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import PropTypes from "prop-types";
-import fonts from "../constants/fonts";
-import fontSizes from "../constants/fontSizes";
+import {FlatList, StyleSheet, Text, View} from "react-native";
 
 const data = [];
 for (let i = 0; i < 50; i++) {
   if (i < 7)
-    data.push({key: i, color: bmiColors.blue, value: i});
+    data.push({ color: bmiColors.blue, value: i});
   else if (i < 20)
-    data.push({key: i, color: bmiColors.lightBlue, value: i});
+    data.push({color: bmiColors.lightBlue, value: i});
   else if (i < 30)
-    data.push({key: i, color: bmiColors.yellow, value: i});
-  else data.push({key: i, color: bmiColors.red, value: i});
+    data.push({color: bmiColors.yellow, value: i});
+  else data.push({ color: bmiColors.red, value: i});
 }
 
 
@@ -36,6 +32,7 @@ const bmiBar = (props) => {
         horizontal={true}
         ItemSeparatorComponent={separator}
         renderItem={({item, index}) => renderBar(item)}
+        keyExtractor={({item,index})=>index}
         showsHorizontalScrollIndicator={false}
       />
       <View style={{flexDirection: 'row', marginTop: spacing.small, justifyContent: 'space-between'}}>

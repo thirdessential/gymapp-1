@@ -42,3 +42,7 @@ export const socialState = {
   questions:[],
   // questionDetails:{},
 }
+
+export const fitnessState = {
+  bmiRecords:[]
+}

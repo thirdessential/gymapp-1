@@ -8,6 +8,7 @@ import call from "./call.reducer";
 import app from "./app.reducer";
 import trainer from './trainer.reducer';
 import social from './social.reducer';
+import fitness from './fitness.reducer';
 import {callState} from "./initialState";
 import * as actionTypes from "../actions/actionTypes";
 
@@ -40,7 +41,8 @@ const appReducer = combineReducers({
   app,
   call,
   trainer,
-  social
+  social,
+  fitness
 });
 
 const rootReducer = (state, action) => {

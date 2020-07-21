@@ -11,17 +11,10 @@ const customLineChart = (props) => (
     withInnerLines={false}
     withOuterLines={false}
     data={{
-      labels: ["Jan", "Feb", "Mar", "Apr", "May", "June"],
+      labels: props.labels,
       datasets: [
         {
-          data: [
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100
-          ]
+          data: props.data
         }
       ]
     }}

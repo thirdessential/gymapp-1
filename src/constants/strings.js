@@ -93,14 +93,15 @@ const strings = {
   CREATE: 'Create',
   NO_DATA: 'No Data',
   BMI_CALCULATOR: 'BMI Calculator',
-  HISTORY: 'History'
+  HISTORY: 'History',
+  SET_TARGET: 'Set Target'
 };
 
 export const bmiVerdicts = {
-  low:'LOW BMI',
+  low:`UNDERWEIGHT` ,
   healthy: `YOU'RE HEALTHY`,
-  high:'HIGH BMI',
-  unhealthy:'BMI TOO HIGH'
+  high:`OVERWEIGHT`,
+  unhealthy:`OBESE`
 }
 
 export default strings;

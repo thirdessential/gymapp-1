@@ -31,4 +31,7 @@ export const SET_QUESTIONS = 'SET_QUESTIONS';
 export const SET_QUESTION = 'SET_QUESTION';
 export const APPEND_QUESTIONS = 'APPEND_QUESTIONS';
 
+export const SET_BMI_RECORDS = 'SET_BMI_RECORDS';
+export const ADD_BMI_RECORD = 'ADD_BMI_RECORD';
+
 export const RESET_APP = 'RESET_APP';

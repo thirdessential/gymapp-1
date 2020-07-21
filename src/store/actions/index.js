@@ -46,4 +46,9 @@ export {
   getPostsForUser,
   updateQuestions,
   answerQuestion
-} from './social.actions'
+} from './social.actions';
+
+export {
+  updateBmiRecords,
+  submitBmi
+} from './fitness.actions';
