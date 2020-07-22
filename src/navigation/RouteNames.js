@@ -34,7 +34,10 @@ const RouteNames = {
   PackagesView:'PackagesView',
 
   Login:'Login',
-  Signup:'Signup'
+  Signup:'Signup',
+
+  Days:'Days',
+  Preference:'Preference',
 };
 
 export const TabRoutes = {

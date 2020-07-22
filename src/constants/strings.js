@@ -92,6 +92,9 @@ const strings = {
   SESSION_DAYS: 'Session Days',
   CREATE: 'Create',
   NO_DATA: 'No Data',
+  DAYS:'How many days do you work out per week?',
+  PREFERENCE: 'Preference',
+  DESCRIBEDAYS:'This describe the number of days in your workout plan',
 
 
 };

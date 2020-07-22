@@ -9,7 +9,8 @@ import Activity from "../../screens/App/Activity";
 import fonts from "../../constants/fonts";
 import MyAppointments from "../../screens/App/MyAppointments";
 import Profile from "../../screens/App/Profile";
-
+import Days from "../../screens/App/Preference/Days";
+import Preference from "../../screens/App/Preference/Preference";
 const activity = () => {
   return (
     <Stack.Navigator>
@@ -34,5 +35,7 @@ const activity = () => {
     </Stack.Navigator>
   )
 }
+
+
 
 export default activity;
