@@ -9,13 +9,14 @@ import Activity from "../../screens/App/Activity";
 import fonts from "../../constants/fonts";
 import MyAppointments from "../../screens/App/MyAppointments";
 import Profile from "../../screens/App/Profile";
+import Info from "../../screens/App/Info";
 
 const activity = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name={RouteNames.Activity}
-        component={Activity}
+        component={Info}
         options={{
           title: 'Activity',
           headerTintColor: appTheme.brightContent,
