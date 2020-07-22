@@ -33,7 +33,9 @@ export {
   createPackage,
   deletePackage,
   createSlots,
-  syncSubscriptions
+  syncSubscriptions,
+  generateCoupons,
+  syncCoupons
 } from './trainer.actions';
 
 export {

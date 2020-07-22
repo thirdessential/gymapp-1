@@ -144,10 +144,21 @@ export const myAppointments = async () => {
   }
 }
 
-
 export const recentActivity = async () => {
   try {
     let response = await axios.get(`/activity/recent`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const getCouponDiscount = async (couponCode) => {
+  try {
+    let response = await axios.get(`/payment/getCouponDiscount/${couponCode}`);
     if (validateResponseCode(response.status)) {
       return response.data;
     } else

@@ -95,7 +95,8 @@ const strings = {
   BMI_CALCULATOR: 'BMI Calculator',
   HISTORY: 'History',
   SET_TARGET: 'Set Target',
-  NEW_WEIGHT: 'NEW WEIGHT'
+  NEW_WEIGHT: 'NEW WEIGHT',
+  COUPONS: 'Coupons'
 };
 
 export const bmiVerdicts = {

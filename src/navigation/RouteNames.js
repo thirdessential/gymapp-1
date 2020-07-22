@@ -33,6 +33,7 @@ const RouteNames = {
   Subscriptions: 'Subscriptions',
   PackagesView:'PackagesView',
   BMI:'BMI',
+  CouponMachine:'CouponMachine',
 
   Login:'Login',
   Signup:'Signup'

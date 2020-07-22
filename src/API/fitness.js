@@ -25,3 +25,27 @@ export const getBmiHistory = async () => {
     return false;
   }
 }
+
+export const updatePreferences = async (preferences) => {
+  try {
+    let response = await axios.put('/fitness/preferences', {preferences});
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export const getPreferences = async () => {
+  try {
+    let response = await axios.get('/fitness/preferences');
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

@@ -30,7 +30,9 @@ export {
   updatePackage,
   deletePackage,
   syncSlots,
-  getMySubscriptions
+  getMySubscriptions,
+  generateCoupons,
+  getMyCoupons
 } from './trainer';
 
 export {
@@ -67,5 +69,7 @@ export {
 
 export {
   recordBmi,
-  getBmiHistory
+  getBmiHistory,
+  updatePreferences,
+  getPreferences
 } from './fitness'
