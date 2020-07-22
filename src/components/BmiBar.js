@@ -29,6 +29,7 @@ const bmiBar = (props) => {
       <FlatList
         data={data}
         contentContainerStyle={{alignItems:'center'}}
+        initialNumToRender={50}
         horizontal={true}
         ItemSeparatorComponent={separator}
         renderItem={({item, index}) => renderBar(item)}

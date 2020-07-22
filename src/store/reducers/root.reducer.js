@@ -33,8 +33,6 @@ const rootPersistConfig = {
   migrate: createMigrate(migrations, {debug: true})
 };
 
-
-
 const appReducer = combineReducers({
   auth: persistReducer(authPersistConfig, auth),
   user,

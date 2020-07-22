@@ -6,7 +6,6 @@ import {Bar} from 'react-native-progress';
 import {spacing} from "../../constants/dimension";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
-
 TimeAgo.addLocale(en)
 const timeAgo = new TimeAgo('en-US');
 
@@ -43,7 +42,8 @@ class BMI extends PureComponent {
       }
     },
     graphType: 'day',
-    target:null
+    target: null,
+    selectedWeight:2
   }
 
   componentDidMount() {
@@ -58,7 +58,7 @@ class BMI extends PureComponent {
     return (
       <View style={{
         flexDirection: 'row',
-        marginBottom: spacing.small_sm,
+        marginBottom: spacing.small,
         marginTop: spacing.medium,
         justifyContent: 'space-between'
       }}>
@@ -87,10 +87,10 @@ class BMI extends PureComponent {
       return null;
     const weights = [];
     const labels = [];
-    bmiRecords.slice(0,7).map(record=>{
+    bmiRecords.slice(0, 7).map(record => {
       const dayIndex = (new Date(record.date)).getDay()
       weights.push(record.weight);
-      labels.push( Object.keys(WEEK_DAYS)[dayIndex])
+      labels.push(Object.keys(WEEK_DAYS)[dayIndex])
     });
     return (
       <CustomLineChart data={weights} labels={labels}/>
@@ -99,7 +99,7 @@ class BMI extends PureComponent {
 
   renderProgressBar = () => {
     const {weight, target} = this.state;
-    if(!target)return null;
+    if (!target) return null;
     const progress = (weight.current.value - weight.target.value) / (weight.initial.value - weight.target.value);
     return (
       <Bar
@@ -140,7 +140,8 @@ class BMI extends PureComponent {
               <View style={[styles.subtitleContainer, {alignItems: 'flex-end'}]}>
                 <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                   <Text style={styles.subtitle}>{weight.target.value}</Text>
-                  <Text style={[styles.subtitle_sm, {marginBottom: spacing.small, marginLeft: spacing.small_sm}]}>kg</Text>
+                  <Text
+                    style={[styles.subtitle_sm, {marginBottom: spacing.small, marginLeft: spacing.small_sm}]}>kg</Text>
                 </View>
                 <Text style={styles.subtitle_sm}>{targetDate.toLocaleDateString()}</Text>
               </View>
@@ -148,7 +149,7 @@ class BMI extends PureComponent {
           }
           {
             !targetWeight && (
-              <TouchableOpacity hitSlop={hitSlop20} style={{ padding:spacing.small}}>
+              <TouchableOpacity hitSlop={hitSlop20} style={{padding: spacing.small}}>
                 <Text style={styles.subtitle_sm}>{strings.SET_TARGET}</Text>
               </TouchableOpacity>
             )
@@ -229,16 +230,26 @@ class BMI extends PureComponent {
       </View>
     )
   }
+  renderAddWeight = () => (
+    <TouchableOpacity activeOpacity={0.7} style={styles.blueButton}>
+      <Text style={styles.buttonText}>{strings.NEW_WEIGHT}</Text>
+    </TouchableOpacity>
+  )
+
 
   render() {
     return (
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-        {this.renderHeader()}
-        {this.renderProgressChart()}
-        {this.renderWeightProgress()}
-        {this.renderBMI()}
-        {this.renderHistory()}
-      </ScrollView>
+      <>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{justifyContent: 'center'}}
+                    style={styles.container}>
+          {this.renderHeader()}
+          {this.renderProgressChart()}
+          {this.renderWeightProgress()}
+          {this.renderBMI()}
+          {this.renderHistory()}
+        </ScrollView>
+        {this.renderAddWeight()}
+      </>
     );
   }
 }
@@ -256,7 +267,7 @@ const styles = StyleSheet.create({
   weightRow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems:'center',
+    alignItems: 'center',
     marginBottom: spacing.small
   },
   subtitleContainer: {},
@@ -287,8 +298,22 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothicBold,
     fontSize: fontSizes.h2,
     marginLeft: spacing.small_sm
+  },
+  blueButton: {
+    padding: spacing.medium_sm,
+    backgroundColor: bmiColors.lightBlue,
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '50%',
+    position: 'absolute',
+    bottom: spacing.medium,
+    alignSelf: 'center',
+  },
+  buttonText: {
+    fontFamily: fonts.CenturyGothicBold,
+    fontSize: fontSizes.h3
   }
-
 });
 
 const mapStateToProps = (state) => ({
