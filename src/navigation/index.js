@@ -27,10 +27,11 @@ import RouteNames from "./RouteNames";
 import VideoCall from "../screens/Call/VideoCall";
 import {drawerLabelStyle} from "../constants/styles";
 import strings from "../constants/strings";
+import {setWhatsappInstalled} from "../utils/share";
 
 messaging().setBackgroundMessageHandler(callHandler);
 configureFCMNotification();
-
+setWhatsappInstalled();
 const Drawer = createDrawerNavigator();
 const coreAppTheme = {
   colors: {

@@ -21,6 +21,9 @@ export const iconBackgrounds = {
   subscriptions:require('../../assets/Icons/subscription.png'),
   workouts:require('../../assets/Icons/workouts.png'),
   waterIntake:require('../../assets/Icons/waterIntake.png'),
+  days:require('../../assets/Icons/days.png'),
+  preference:require('../../assets/Icons/preference.png'),
+
 }
 
 export const getRandomImage = ()=> {

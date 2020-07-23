@@ -13,7 +13,8 @@ export const userState = {
   userName: '',
   userData: null,
   myAppointments: [],
-  activities: {}
+  activities: {},
+  preferences: []
 };
 
 export const callState = {
@@ -31,14 +32,19 @@ export const appState = {
 export const trainerState = {
   packages: [],
   slots: [],
-  subscriptions: []
+  subscriptions: [],
+  coupons: []
 }
 
 export const socialState = {
   posts: [],
   postDetails: {},
   myPosts: null,
-  postsForUser:{},
-  questions:[],
+  postsForUser: {},
+  questions: [],
   // questionDetails:{},
+}
+
+export const fitnessState = {
+  bmiRecords: []
 }

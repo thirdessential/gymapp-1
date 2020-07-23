@@ -32,9 +32,14 @@ const RouteNames = {
   SlotsView:'SlotsView',
   Subscriptions: 'Subscriptions',
   PackagesView:'PackagesView',
+  BMI:'BMI',
+  CouponMachine:'CouponMachine',
 
   Login:'Login',
-  Signup:'Signup'
+  Signup:'Signup',
+
+  Days:'Days',
+  Preference:'Preference',
 };
 
 export const TabRoutes = {

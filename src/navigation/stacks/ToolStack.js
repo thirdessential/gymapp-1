@@ -13,6 +13,8 @@ import SlotsView from "../../screens/App/Trainer/SlotsView";
 import TrainerSubscriptions from "../../screens/App/Trainer/Subscriptions";
 import Schedule from "../../screens/App/User/Schedule";
 import Profile from "../../screens/App/Profile";
+import BMI from "../../screens/App/BMI";
+import CouponMachine from "../../screens/App/Trainer/CouponMachine";
 
 const toolStack = () => {
   return (
@@ -109,6 +111,34 @@ const toolStack = () => {
       />
       <Stack.Screen name={RouteNames.Profile} component={Profile}
                     options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
+      <Stack.Screen
+        name={RouteNames.BMI}
+        component={BMI}
+        options={{
+          title: 'BMI',
+          headerTintColor: appTheme.brightContent,
+          headerStyle: {
+            backgroundColor: appTheme.darkBackground,
+          },
+          headerTitleStyle: {
+            fontFamily: fonts.PoppinsRegular
+          }
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.CouponMachine}
+        component={CouponMachine}
+        options={{
+          title: 'Coupons',
+          headerTintColor: appTheme.brightContent,
+          headerStyle: {
+            backgroundColor: appTheme.darkBackground,
+          },
+          headerTitleStyle: {
+            fontFamily: fonts.PoppinsRegular
+          }
+        }}
+      />
     </Stack.Navigator>
   )
 }

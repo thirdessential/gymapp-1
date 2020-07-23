@@ -101,3 +101,33 @@ export const getMySubscriptions = async () => {
     return false;
   }
 }
+
+export const getMyCoupons = async () => {
+  try {
+    let response = await axios.get(`/payment/getCoupons`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export const generateCoupons = async (count, percentageOff=5,validity=3) => {
+  try {
+    let response = await axios.post(`/payment/generateCoupons`, {
+      count,
+      percentageOff,
+      validity
+    });
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
