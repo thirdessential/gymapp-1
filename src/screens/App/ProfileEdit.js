@@ -37,7 +37,8 @@ class ProfileEdit extends PureComponent {
     experience: '',
     imageUri: null,
     imageUploading: false,
-    renderCheck: true
+    renderCheck: true,
+    gender:''
   }
 
   async componentDidMount() {

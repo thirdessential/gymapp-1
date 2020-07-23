@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: appTheme.background,
     flex: 1,
-    paddingBottom: spacing.medium_sm
+    paddingBottom: spacing.medium_sm,
+    
     // padding: spacing.medium_sm,
     // paddingTop: spacing.small,
   },
@@ -119,6 +120,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
     paddingTop: 30,
+    marginBottom:50
   },
   options: {
     marginVertical: 10,
