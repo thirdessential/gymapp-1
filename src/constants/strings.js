@@ -110,7 +110,10 @@ const strings = {
   COUPONS_CREATED: 'Coupons created',
   ENTER_COUPON_CODE: 'Enter Coupon Code',
   APPLY: 'Apply',
-  TOTAl: 'Total'
+  TOTAl: 'Total',
+  PHYSICAL_DATA: 'Physical Data',
+  WEIGHT: 'Weight (kg)',
+  HEIGHT:'Height (cms)'
 };
 
 export const bmiVerdicts = {

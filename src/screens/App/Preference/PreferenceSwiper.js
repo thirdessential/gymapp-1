@@ -12,11 +12,16 @@ import * as actionCreators from "../../../store/actions";
 import {connect} from "react-redux";
 import fonts from "../../../constants/fonts";
 import {userTypes} from "../../../constants/appConstants";
+import PhysicalData from "./PhysicalData";
 
 const userSlides = [
   {
     key: RouteNames.UserInfo,
     component: UserInfo,
+  },
+  {
+    key: RouteNames.PhysicalData,
+    component: PhysicalData,
   },
   {
     key: RouteNames.WorkoutDays,
