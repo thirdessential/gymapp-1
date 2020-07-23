@@ -1,50 +1,48 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
   Image,
   ScrollView,
-  FlatList,
+  FlatList, TouchableOpacity,
 } from "react-native";
 
-import { appTheme } from "../../../constants/colors";
-import { spacing } from "../../../constants/dimension";
+import {appTheme} from "../../../constants/colors";
+import {spacing} from "../../../constants/dimension";
 import fonts from "../../../constants/fonts";
 import strings from "../../../constants/strings";
 import fontSizes from "../../../constants/fontSizes";
-import { CheckBox } from "react-native-elements";
-import { iconBackgrounds } from "../../../constants/images";
+import {CheckBox} from "react-native-elements";
+import {iconBackgrounds} from "../../../constants/images";
+import {screenHeight, screenWidth} from "../../../utils/screenDimensions";
 
-const deviceWidth = Dimensions.get("window").width;
-const deviceHeight = Dimensions.get("window").height;
+class WorkoutPreference extends Component {
 
-class Days extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [
-        { id: 0, text: "Fat Loss", checked: false },
-        { id: 1, text: "Weight Loss", checked: false },
-        { id: 2, text: "Weight Gain", checked: false },
-        { id: 3, text: "Muscle Gain", checked: false },
-        { id: 4, text: "Body mass Gain", checked: false },
-        { id: 5, text: "Lean Body Mass", checked: false },
-        { id: 6, text: "Power Lifting", checked: false },
-        { id: 7, text: "Strength Gain", checked: false },
-      ],
-    };
-  }
+  state = {
+    data: [
+      {id: 0, text: "Fat Loss", checked: false},
+      {id: 1, text: "Weight Loss", checked: false},
+      {id: 2, text: "Weight Gain", checked: false},
+      {id: 3, text: "Muscle Gain", checked: false},
+      {id: 4, text: "Body mass Gain", checked: false},
+      {id: 5, text: "Lean Body Mass", checked: false},
+      {id: 6, text: "Power Lifting", checked: false},
+      {id: 7, text: "Strength Gain", checked: false},
+    ],
+  };
   checked = (id, condition) => {
     condition
       ? (this.state.data[id].checked = false)
       : (this.state.data[id].checked = true);
 
-    this.setState({ data: this.state.data });
+    this.setState({data: this.state.data});
   };
-  renderItem = ({ item }) => (
-    <ScrollView contentContainerStyle={styles.listScroll}>
+  renderItem = ({item}) => (
+    <TouchableOpacity
+      onPress={() => this.checked(item.id, item.checked)}
+      activeOpacity={0.7}
+      style={styles.listScroll}>
       <View style={styles.options}>
         <View style={styles.item}>
           <View style={styles.textList}>
@@ -54,22 +52,21 @@ class Days extends Component {
             <CheckBox
               style={styles.checkBox}
               checked={item.checked}
-              onPress={() => {
-                this.checked(item.id, item.checked);
-              }}
+              disabled={true}
               checkedColor="#FF7F50"
             />
           </View>
         </View>
       </View>
-    </ScrollView>
+    </TouchableOpacity>
   );
+
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.circle}></View>
-        <Image source={iconBackgrounds.preference} style={styles.image} />
-        <Text style={styles.text}>{strings.PREFERENCE}</Text>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+        <View style={styles.circle}/>
+        <Image source={iconBackgrounds.preference} style={styles.image}/>
+        <Text style={styles.text}>{strings.PREFERENCES}</Text>
         <View style={styles.itemContainer}>
           <FlatList
             data={this.state.data}
@@ -77,26 +74,26 @@ class Days extends Component {
             renderItem={this.renderItem}
           />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
 
-export default Days;
+export default WorkoutPreference;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: appTheme.background,
     flex: 1,
-    padding: spacing.medium_sm,
-    paddingTop: spacing.small,
+    paddingBottom: spacing.medium_sm
+    // padding: spacing.medium_sm,
+    // paddingTop: spacing.small,
   },
   circle: {
-    height: deviceHeight * 0.2,
-    width: deviceHeight * 0.2,
-    marginTop: -deviceHeight * 0.1,
-    marginLeft: -deviceHeight * 0.1,
-    borderRadius: deviceHeight * 0.2,
-
+    height: screenHeight * 0.2,
+    width: screenHeight * 0.2,
+    marginTop: -screenHeight * 0.1,
+    marginLeft: -screenHeight * 0.1,
+    borderRadius: screenHeight * 0.2,
     backgroundColor: appTheme.brightContent,
   },
   image: {
@@ -104,13 +101,13 @@ const styles = StyleSheet.create({
     width: 217,
     marginLeft: "20%",
     marginRight: "30%",
-    marginTop: -deviceHeight * 0.05,
+    marginTop: -screenHeight * 0.05,
   },
   text: {
     fontFamily: fonts.CenturyGothicBold,
     color: "#fff",
     fontSize: fontSizes.h1,
-    marginHorizontal: deviceWidth * 0.1,
+    marginHorizontal: screenWidth * 0.1,
     textAlign: "center",
     fontWeight: "bold",
   },
@@ -123,7 +120,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 35,
     paddingTop: 30,
   },
-
   options: {
     marginVertical: 10,
     backgroundColor: appTheme.background,
@@ -148,6 +144,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flex: 1,
   },
-  textList: { flex: 8, justifyContent: "center" },
-  checkboxView: { flex: 2, justifyContent: "center" },
+  textList: {flex: 8, justifyContent: "center"},
+  checkboxView: {flex: 2, justifyContent: "center"},
 });

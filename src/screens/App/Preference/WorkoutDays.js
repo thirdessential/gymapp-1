@@ -1,36 +1,30 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
   Image,
-  TouchableOpacity,
-  ScrollView,
+  TouchableOpacity, ScrollView,
 } from "react-native";
 
-import { appTheme } from "../../../constants/colors";
-import { spacing } from "../../../constants/dimension";
+import {appTheme} from "../../../constants/colors";
+import {spacing} from "../../../constants/dimension";
 import fonts from "../../../constants/fonts";
 import strings from "../../../constants/strings";
 import fontSizes from "../../../constants/fontSizes";
-import { iconBackgrounds } from "../../../constants/images";
+import {iconBackgrounds} from "../../../constants/images";
+import {screenHeight, screenWidth} from "../../../utils/screenDimensions";
 
-const deviceWidth = Dimensions.get("window").width;
-const deviceHeight = Dimensions.get("window").height;
-class Days extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      optionSelected: "",
-    };
-  }
+class WorkoutDays extends Component {
+  state = {
+    optionSelected: "",
+  };
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.circle}></View>
-        <Image source={iconBackgrounds.days} style={styles.image} />
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+        <View style={styles.circle}/>
+        <Image source={iconBackgrounds.days} style={styles.image}/>
         <Text style={styles.text}>{strings.DAYS}</Text>
         <View style={styles.itemContainer}>
           <Text style={styles.describe}>{strings.DESCRIBEDAYS}</Text>
@@ -49,25 +43,23 @@ class Days extends Component {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
 
-export default Days;
+export default WorkoutDays;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: appTheme.background,
     flex: 1,
-    padding: spacing.medium_sm,
-    paddingTop: spacing.small,
   },
   circle: {
-    height: deviceHeight * 0.2,
-    width: deviceHeight * 0.2,
-    marginTop: -deviceHeight * 0.1,
-    marginLeft: -deviceHeight * 0.1,
-    borderRadius: deviceHeight * 0.2,
+    height: screenHeight * 0.2,
+    width: screenHeight * 0.2,
+    marginTop: -screenHeight * 0.1,
+    marginLeft: -screenHeight * 0.1,
+    borderRadius: screenHeight * 0.2,
 
     backgroundColor: appTheme.brightContent,
   },
@@ -76,13 +68,13 @@ const styles = StyleSheet.create({
     width: 217,
     marginLeft: "20%",
     marginRight: "30%",
-    marginTop: -deviceHeight * 0.05,
+    marginTop: -screenHeight * 0.05,
   },
   text: {
     fontFamily: fonts.CenturyGothicBold,
     color: "#fff",
     fontSize: fontSizes.h1,
-    marginHorizontal: deviceWidth * 0.1,
+    marginHorizontal: screenWidth * 0.1,
     textAlign: "center",
     fontWeight: "bold"
   },
@@ -98,7 +90,7 @@ const styles = StyleSheet.create({
     color: appTheme.brightContent,
     fontFamily: fonts.CenturyGothicBold,
     fontSize: fontSizes.h4,
-    marginHorizontal: deviceWidth * 0.1,
+    marginHorizontal: screenWidth * 0.1,
     marginTop: spacing.space_50,
     textAlign: "center",
   },

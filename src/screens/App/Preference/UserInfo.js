@@ -1,20 +1,20 @@
 import React from 'react';
 import { Text, TextInput, View, Image, StyleSheet, ScrollView, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
-import { spacing } from "../../constants/dimension";
-import fontSizes from "../../constants/fontSizes";
-import fonts from "../../constants/fonts";
-import { appTheme, darkPallet } from "../../constants/colors";
-import ActionButtonTwo from '../../components/Login/ActionButtonTwo';
+import { spacing } from "../../../constants/dimension";
+import fontSizes from "../../../constants/fontSizes";
+import fonts from "../../../constants/fonts";
+import { appTheme, darkPallet } from "../../../constants/colors";
+import ActionButtonTwo from '../../../components/Login/ActionButtonTwo';
 import ImagePicker from 'react-native-image-picker';
-import defaultPic from '../../../assets/images/male_pic_default.jpg';
+import defaultPic from '../../../../assets/images/male_pic_default.jpg';
 import FastImage from "react-native-fast-image";
 import DatePicker from 'react-native-datepicker';
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import Female from '../../../assets/Icons/undraw_female_avatar_w3jk.png';
-import Male from '../../../assets/Icons/undraw_male_avatar_323b.png';
-import Other from  '../../../assets/Icons/undraw_scrum_board_cesn.png';
+import Female from '../../../../assets/Icons/undraw_female_avatar_w3jk.png';
+import Male from '../../../../assets/Icons/undraw_male_avatar_323b.png';
+import Other from '../../../../assets/Icons/undraw_scrum_board_cesn.png';
 
-export default class Info extends React.Component {
+export default class UserInfo extends React.Component {
     state = {
         name: '',
         num: '',
@@ -84,11 +84,11 @@ export default class Info extends React.Component {
             gen: 'Other'
         }];
         return (
-            <ScrollView enableOnAndroid={true} keyboardShouldPersistTaps={'handled'}>
+            <ScrollView showsVerticalScrollIndicator={false} enableOnAndroid={true} keyboardShouldPersistTaps={'handled'}>
                 <KeyboardAvoidingView style={{ flex: 1 }}>
                     <View style={styles.container}>
                         <View style={styles.img}>
-                            <Image style={styles.icon} source={require('../../../assets/Icons/personal_data_.png')} />
+                            <Image style={styles.icon} source={require('../../../../assets/Icons/personal_data_.png')} />
                             <Text style={styles.heading}>Personal Information</Text>
                         </View>
 
