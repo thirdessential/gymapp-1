@@ -108,7 +108,7 @@ const strings = {
   COUPON_CODE: 'Coupon Code',
   REDEEMED: 'Redeemed',
   COUPONS_CREATED: 'Coupons created',
-  ENTER_COUPON_CODE: 'Enter Coupon Code',
+  ENTER_COUPON_CODE: 'Apply Coupon Code',
   APPLY: 'Apply',
   TOTAl: 'Total'
 };

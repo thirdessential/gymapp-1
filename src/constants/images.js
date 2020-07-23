@@ -23,6 +23,7 @@ export const iconBackgrounds = {
   waterIntake:require('../../assets/Icons/waterIntake.png'),
   days:require('../../assets/Icons/days.png'),
   preference:require('../../assets/Icons/preference.png'),
+  discount:require('../../assets/Icons/discount.png'),
 
 }
 
