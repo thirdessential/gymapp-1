@@ -123,6 +123,12 @@ const setCoupons = (coupons) => ({
     coupons
   },
 });
+const appendCoupons = (coupons) => ({
+  type: actionTypes.APPEND_COUPONS,
+  payload: {
+    coupons
+  },
+});
 
 export const generateCoupons = (count, percentageOff, validity) => {
   return async (dispatch, getState) => {
@@ -130,7 +136,7 @@ export const generateCoupons = (count, percentageOff, validity) => {
       let oldCoupons = [...getState().trainer.coupons];
       let {success, coupons} = await API.generateCoupons(count, percentageOff = 5, validity = 3);
       if (success)
-        dispatch(setCoupons(coupons));
+        dispatch(appendCoupons(coupons));
       else dispatch(setCoupons(oldCoupons));
     } catch (error) {
       console.log("Trainer coupon creation failed", error);
@@ -138,7 +144,6 @@ export const generateCoupons = (count, percentageOff, validity) => {
     }
   };
 };
-
 export const syncCoupons = () => {
   return async (dispatch) => {
     try {

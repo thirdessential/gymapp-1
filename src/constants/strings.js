@@ -4,6 +4,7 @@ export const priceBuilder = (price) => `PRICE: ${price} INR`;
 export const subscribedSuccessBuilder = (trainerName, sessionCount) => `Successfully subscribed to ${trainerName} for ${sessionCount} sessions`;
 export const appointmentSuccessBuilder = () => `Appointment Booked`;
 export const appointmentErrorBuilder = () => `Booking error, try again`;
+export const couponShareBuilder = (couponCode, discount,validTill) => `Hello, use my coupon ${couponCode} to avail ${discount}% on all my packages! Valid till ${validTill}`;
 const strings = {
   SLOTS: 'Slots',
   AVAILABLE_SLOTS: 'Available Slots',
@@ -96,7 +97,14 @@ const strings = {
   HISTORY: 'History',
   SET_TARGET: 'Set Target',
   NEW_WEIGHT: 'NEW WEIGHT',
-  COUPONS: 'Coupons'
+  COUPONS: 'Coupons',
+  COUNT: 'Count',
+  DISCOUNT: 'Discount',
+  VALIDITY: 'Validity',
+  GENERATE: 'Generate',
+  COUPON_CODE: 'Coupon Code',
+  REDEEMED: 'Redeemed',
+  COUPONS_CREATED: 'Coupons created'
 };
 
 export const bmiVerdicts = {

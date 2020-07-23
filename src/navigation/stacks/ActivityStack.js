@@ -8,7 +8,7 @@ import openDrawerButton from "../openDrawerButton";
 import Activity from "../../screens/App/Activity";
 import fonts from "../../constants/fonts";
 import Profile from "../../screens/App/Profile";
-// import BMI from "../../screens/App/BMI";
+import BMI from "../../screens/App/BMI";
 
 const activity = () => {
   return (
@@ -28,7 +28,6 @@ const activity = () => {
             fontFamily: fonts.PoppinsRegular
           },
           headerLeft: openDrawerButton
-
         }}
       />
       <Stack.Screen name={RouteNames.Profile} component={Profile}
