@@ -139,11 +139,9 @@ class Packages extends PureComponent {
           onChangeText={this.onCouponCodeChange}
           maxLength={9}
         />
-
         <View style={{height: 30, alignSelf: 'center', marginLeft: spacing.small_lg}}>
           <PillButton onPress={this.applyCoupon} title={strings.APPLY} disabled={!couponValid}/>
         </View>
-
       </View>
     )
   }
