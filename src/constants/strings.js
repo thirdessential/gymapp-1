@@ -104,7 +104,10 @@ const strings = {
   GENERATE: 'Generate',
   COUPON_CODE: 'Coupon Code',
   REDEEMED: 'Redeemed',
-  COUPONS_CREATED: 'Coupons created'
+  COUPONS_CREATED: 'Coupons created',
+  ENTER_COUPON_CODE: 'Enter Coupon Code',
+  APPLY: 'Apply',
+  TOTAl: 'Total'
 };
 
 export const bmiVerdicts = {

@@ -6,11 +6,10 @@ import fonts from "../constants/fonts";
 
 
 const pillButton = (props) => (
-  <TouchableOpacity onPress={props.onPress} style={styles.pillButton}>
+  <TouchableOpacity disabled={props.disabled} onPress={props.onPress} style={[styles.pillButton, props.disabled?styles.disabled:null]}>
     <Text style={styles.buttonText}>{props.title}</Text>
   </TouchableOpacity>
 )
-
 
 const styles = StyleSheet.create({
   pillButton: {
@@ -18,7 +17,12 @@ const styles = StyleSheet.create({
     paddingLeft: spacing.medium_sm,
     paddingRight: spacing.medium_sm,
     padding: spacing.small_sm,
-    borderRadius: 100
+    borderRadius: 100,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  disabled:{
+    backgroundColor: appTheme.grey
   },
   buttonText: {
     color: 'white',

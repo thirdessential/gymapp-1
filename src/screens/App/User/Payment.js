@@ -2,7 +2,16 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {PureComponent} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, StatusBar, ActivityIndicator} from 'react-native'
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  StatusBar,
+  ActivityIndicator,
+  TextInput,
+  LayoutAnimation, Keyboard
+} from 'react-native'
 import {connect} from "react-redux";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -21,10 +30,23 @@ import {militaryTimeToString, toTitleCase} from "../../../utils/utils";
 import {appName, paymentKey} from "../../../constants/appConstants";
 import {showError, showSuccess} from "../../../utils/notification";
 import {sendPaymentData, subscribeRollback} from "../../../API";
+import PillButton from "../../../components/PillButton";
+import {getCouponDiscount} from "../../../API/user";
 
 class Packages extends PureComponent {
   state = {
-    subscribeLoading: false
+    subscribeLoading: false,
+    couponCode: '',
+    discount: null,
+    price: '0',
+    finalPrice: null
+  }
+
+  componentDidMount() {
+    const {route} = this.props;
+    const {metadata} = route.params;
+    const {price} = metadata;
+    this.setState({price});
   }
 
   renderPackageCard = () => {
@@ -68,7 +90,60 @@ class Packages extends PureComponent {
             <Rows data={tableData} flexArr={[2, 1, 1]} style={[styles.packageTitleRow, {paddingBottom: 5}]}
                   textStyle={styles.packageValue}/>
           </Table>
+          {this.state.discount && (
+            <View style={[styles.packageBox, {marginTop: spacing.medium_sm}]}>
+              <Text style={styles.packageValue}>{strings.DISCOUNT}: {this.state.discount}%</Text>
+              <Text
+                style={[styles.packageValue, {marginTop: spacing.small_lg}]}>{strings.TOTAl}: {this.state.finalPrice}</Text>
+            </View>
+          )}
+          {this.renderCouponInput()}
         </View>
+      </View>
+    )
+  }
+  applyCoupon = async () => {
+    Keyboard.dismiss();
+    const {route} = this.props;
+    const {metadata, userId: trainerId} = route.params;
+    const {price} = metadata;
+    const {couponCode} = this.state;
+
+    const {discount} = await getCouponDiscount(couponCode, trainerId);
+    if (!discount) {
+      showError('Invalid coupon code or coupon expired');
+      return;
+    }
+    const finalPrice = price - (price * discount / 100);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({discount, finalPrice});
+  }
+  onCouponCodeChange = (couponCode) => this.setState({couponCode: couponCode.toUpperCase().slice(0, 9)})
+  renderCouponInput = () => {
+    const couponValid = this.state.couponCode.length === 9;
+    return (
+      <View style={{flexDirection: 'row', alignContent: 'center', marginTop: spacing.medium_sm}}>
+        <TextInput
+          autoCorrect={false}
+          value={this.state.couponCode.toUpperCase()}
+          style={{
+            color: appTheme.textPrimary,
+            borderColor: 'gray',
+            borderWidth: 1,
+            borderRadius: 10,
+            padding: spacing.small,
+            paddingTop: spacing.small_sm
+          }}
+          placeholder={strings.ENTER_COUPON_CODE}
+          placeholderTextColor={appTheme.grey}
+          onChangeText={this.onCouponCodeChange}
+          maxLength={9}
+        />
+
+        <View style={{height: 30, alignSelf: 'center', marginLeft: spacing.small_lg}}>
+          <PillButton onPress={this.applyCoupon} title={strings.APPLY} disabled={!couponValid}/>
+        </View>
+
       </View>
     )
   }
@@ -78,12 +153,14 @@ class Packages extends PureComponent {
   }
 
   onConfirmPress = async () => {
+    const {couponCode} = this.state;
     this.setState({subscribeLoading: true});
     const {route, userData, navigation, syncSubscriptions} = this.props;
     const {metadata, userId, packageId} = route.params;
     const {time, days} = metadata;
     const {packageName, price} = metadata;
-    let result = await this.props.subscribePackage(userId, packageId, time, days);
+
+    let result = await this.props.subscribePackage(userId, packageId, time, days, couponCode);
     if (result && result.success) {
       const {orderId, subscriptionId} = result;
       const options = {
@@ -129,7 +206,7 @@ class Packages extends PureComponent {
           style={styles.container}
           showsVerticalScrollIndicator={false}
           enableOnAndroid={true}
-          contentContainerStyle={{marginTop:spacing.large_lg}}
+          contentContainerStyle={{marginTop: spacing.large_lg}}
           keyboardShouldPersistTaps={'handled'}>
           <StatusBar backgroundColor={appTheme.background}/>
 
@@ -291,7 +368,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions()),
-  subscribePackage: (trainerId, packageId, time, days) => dispatch(actionCreators.subscribePackage(trainerId, packageId, time, days))
+  subscribePackage: (trainerId, packageId, time, days, couponCode) => dispatch(actionCreators.subscribePackage(trainerId, packageId, time, days, couponCode))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Packages);

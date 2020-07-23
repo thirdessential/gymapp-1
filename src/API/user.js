@@ -69,11 +69,12 @@ export const getGlobalSlots = async () => {
   }
 }
 
-export const subscribeToPackage = async (trainerId, packageId, time, days) => {
+export const subscribeToPackage = async (trainerId, packageId, time, days,couponCode) => {
   try {
     let response = await axios.post(`/subscription/${trainerId}/${packageId}`, {
       time,
-      days
+      days,
+      couponCode
     });
     if (validateResponseCode(response.status)) {
       return response.data;
@@ -156,9 +157,9 @@ export const recentActivity = async () => {
     return false;
   }
 }
-export const getCouponDiscount = async (couponCode) => {
+export const getCouponDiscount = async (couponCode, trainerId) => {
   try {
-    let response = await axios.get(`/payment/getCouponDiscount/${couponCode}`);
+    let response = await axios.post(`/payment/getCouponDiscount/`, {couponCode,trainerId});
     if (validateResponseCode(response.status)) {
       return response.data;
     } else
