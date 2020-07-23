@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
+import {StyleSheet, View, TouchableOpacity, Text} from "react-native";
 
 import AppIntroSlider from "react-native-app-intro-slider";
 
@@ -7,12 +7,13 @@ import UserInfo from "./UserInfo";
 import WorkoutDays from "./WorkoutDays";
 import WorkoutPreference from "./WorkoutPreference";
 import RouteNames from "../../../navigation/RouteNames";
-import { appTheme } from "../../../constants/colors";
+import {appTheme} from "../../../constants/colors";
 import * as actionCreators from "../../../store/actions";
-import { connect } from "react-redux";
-import fontSizes from "../../../constants/fontSizes";
+import {connect} from "react-redux";
 import fonts from "../../../constants/fonts";
-const slides = [
+import {userTypes} from "../../../constants/appConstants";
+
+const userSlides = [
   {
     key: RouteNames.UserInfo,
     component: UserInfo,
@@ -26,46 +27,55 @@ const slides = [
     component: WorkoutPreference,
   },
 ];
+const trainerSlides = [{
+  key: RouteNames.UserInfo,
+  component: UserInfo,
+}]
 
 class PreferenceSwiper extends React.Component {
-  _renderItem = ({ item }) => {
-    return <item.component />;
+  _renderItem = ({item}) => {
+    return <item.component navigation={this.props.navigation}/>;
   };
   _onDone = () => {
-    const { setInitialLoginOff, updateUserData, navigation } = this.props;
+    const {setInitialLoginOff, updateUserData, navigation} = this.props;
     setInitialLoginOff();
+    updateUserData();
     if (navigation.canGoBack()) navigation.goBack();
   };
   _renderDoneButton = () => {
     return (
-      <View style={{ marginTop: "30%", marginRight: 10 }}>
-        <TouchableOpacity onPress={() => this._onDone()}>
+      <View style={{marginTop: "30%", marginRight: 10}}>
+        <TouchableOpacity onPress={this._onDone}>
           <Text style={styles.button}>Done</Text>
         </TouchableOpacity>
       </View>
     );
   };
+
+  componentDidMount() {
+    this.props.updatePreferences(); // preload preferences from api
+  }
+
   _renderNextButton = () => {
     return (
-      <View style={{ marginTop: "30%", marginRight: 10 }}>
-       
-          <Text style={styles.button}>Next</Text>
-       
+      <View style={{marginTop: "30%", marginRight: 10}}>
+        <Text style={styles.button}>Next</Text>
       </View>
     );
   };
+
   render() {
+    const {userType} = this.props;
+    const data = userType === userTypes.USER ? userSlides : trainerSlides;
     return (
       <AppIntroSlider
         style={styles.container}
         renderItem={this._renderItem}
-        data={slides}
-        // onDone={this._onDone}
+        data={data}
         renderDoneButton={this._renderDoneButton}
-       renderNextButton={this._renderNextButton}
-       
-        dotStyle={{ marginTop: 30, backgroundColor: "rgba(0, 0, 0, .2)" }}
-        activeDotStyle={{ marginTop: 30, backgroundColor: "#fff" }}
+        renderNextButton={this._renderNextButton}
+        dotStyle={{marginTop: 30, backgroundColor: "rgba(0, 0, 0, .2)"}}
+        activeDotStyle={{marginTop: 30, backgroundColor: "#fff"}}
       />
     );
   }
@@ -74,7 +84,6 @@ class PreferenceSwiper extends React.Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: appTheme.darkBackground,
-
     flex: 1,
   },
   button: {
@@ -85,14 +94,14 @@ const styles = StyleSheet.create({
   },
 });
 const mapStateToProps = (state) => ({
-  authToken: state.user.authToken,
   userData: state.user.userData,
+  userType: state.user.userType
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setAuthenticated: (value) => dispatch(actionCreators.setAuthenticated(value)),
   setInitialLoginOff: () => dispatch(actionCreators.setInitialLoginOff()),
   updateUserData: () => dispatch(actionCreators.updateUserData()),
+  updatePreferences: () => dispatch(actionCreators.updatePreferences())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PreferenceSwiper);

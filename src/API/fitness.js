@@ -49,3 +49,15 @@ export const getPreferences = async () => {
     return false;
   }
 }
+
+export const updateExerciseIndex = async (index) => {
+  try {
+    let response = await axios.post(`/fitness/preferences/exerciseIndex/${index}`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

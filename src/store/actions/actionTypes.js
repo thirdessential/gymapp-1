@@ -35,5 +35,8 @@ export const SET_BMI_RECORDS = 'SET_BMI_RECORDS';
 export const ADD_BMI_RECORD = 'ADD_BMI_RECORD';
 export const SET_COUPONS ='SET_COUPONS';
 export const APPEND_COUPONS ='APPEND_COUPONS';
+export const SET_PREFERENCES ='SET_PREFERENCES';
+export const SET_EXERCISE_INDEX ='SET_EXERCISE_INDEX';
+
 
 export const RESET_APP = 'RESET_APP';

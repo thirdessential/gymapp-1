@@ -14,7 +14,6 @@ export const userState = {
   userData: null,
   myAppointments: [],
   activities: {},
-  preferences: []
 };
 
 export const callState = {
@@ -46,5 +45,7 @@ export const socialState = {
 }
 
 export const fitnessState = {
-  bmiRecords: []
+  bmiRecords: [],
+  preferences: [],
+  exerciseIndex: 3
 }

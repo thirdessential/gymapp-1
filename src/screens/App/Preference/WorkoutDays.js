@@ -14,46 +14,86 @@ import strings from "../../../constants/strings";
 import fontSizes from "../../../constants/fontSizes";
 import {iconBackgrounds} from "../../../constants/images";
 import {screenHeight, screenWidth} from "../../../utils/screenDimensions";
+import {updateExerciseIndex} from "../../../API";
+import * as actionCreators from "../../../store/actions";
+import {connect} from "react-redux";
 
 class WorkoutDays extends Component {
   state = {
-    optionSelected: "",
+    index: 3,
   };
+
+  componentDidMount() {
+    this.unsubscribe = this.props.navigation.addListener('blur', e => {
+      this.submit();
+    });
+    const {exerciseIndex} = this.props;
+    this.setState({index: exerciseIndex})
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  submit = () => {
+    this.props.updateExerciseIndex(this.state.index);
+  }
+  data = [
+    {
+      title: '1 to 2',
+      value: 1
+    },
+    {
+      title: '3 to 4',
+      value: 3
+    },
+    {
+      title: '5 to 6',
+      value: 5
+    },
+    {
+      title: '7 or more',
+      value: 7
+    },
+  ]
+  setIndex = index => this.setState({index})
+  renderButton = ({title, value}) => {
+    const {index} = this.state;
+    const active = index === value;
+    return (
+      <TouchableOpacity activeOpacity={0.7} key={title} onPress={() => this.setIndex(value)} style={styles.options}>
+        <Text style={[styles.optionText, active ? styles.active : null]}>{title}</Text>
+      </TouchableOpacity>
+    )
+  }
 
   render() {
     return (
-      <ScrollView showsVerticalScrollIndicator={false} enableOnAndroid={true} keyboardShouldPersistTaps={'handled'} style={styles.container}>
-        <View style={styles.circle}/>
-        <Image source={iconBackgrounds.days} style={styles.image}/>
-        <Text style={styles.text}>{strings.DAYS}</Text>
-        <View style={styles.itemContainer}>
-          <Text style={styles.describe}>{strings.DESCRIBEDAYS}</Text>
-          <View style={styles.optionContainer}>
-            <TouchableOpacity style={styles.options}>
-              <Text style={styles.optionText}>1 to 2</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.options}>
-              <Text style={styles.optionText}>3 to 4</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.options}>
-              <Text style={styles.optionText}>5 to 6</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.options}>
-              <Text style={styles.optionText}>7 or more</Text>
-            </TouchableOpacity>
+      <>
+        <ScrollView showsVerticalScrollIndicator={false} enableOnAndroid={true} keyboardShouldPersistTaps={'handled'}
+                    style={styles.container}>
+          <View style={styles.circle}/>
+          <Image source={iconBackgrounds.days} style={styles.image}/>
+          <Text style={styles.text}>{strings.DAYS}</Text>
+          <View style={styles.itemContainer}>
+            <Text style={styles.describe}>{strings.DESCRIBEDAYS}</Text>
+            <View style={styles.optionContainer}>
+              {
+                this.data.map(item => this.renderButton(item))
+              }
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+        <View style={{paddingTop: spacing.medium_sm, marginBottom: spacing.space_50}}/>
+      </>
     );
   }
 }
 
-export default WorkoutDays;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: appTheme.background,
     flex: 1,
-    
   },
   circle: {
     height: screenHeight * 0.2,
@@ -61,7 +101,6 @@ const styles = StyleSheet.create({
     marginTop: -screenHeight * 0.1,
     marginLeft: -screenHeight * 0.1,
     borderRadius: screenHeight * 0.2,
-
     backgroundColor: appTheme.brightContent,
   },
   image: {
@@ -100,7 +139,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   options: {
-    marginVertical: 15,
+    marginVertical: spacing.medium_sm,
     backgroundColor: appTheme.background,
     width: "60%",
     height: 50,
@@ -112,4 +151,18 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontFamily: fonts.CenturyGothicBold,
   },
+  active: {
+    color: appTheme.brightContent
+  }
 });
+
+const mapStateToProps = (state) => ({
+  exerciseIndex: state.fitness.exerciseIndex || 3,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateExerciseIndex: (index) => dispatch(actionCreators.updateExerciseIndex(index))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(WorkoutDays);
+
