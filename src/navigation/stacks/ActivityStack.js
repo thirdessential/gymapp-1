@@ -8,6 +8,7 @@ import openDrawerButton from "../openDrawerButton";
 import Activity from "../../screens/App/Activity";
 import fonts from "../../constants/fonts";
 import Profile from "../../screens/App/Profile";
+import Info from "../../screens/App/Info";
 import Days from "../../screens/App/Preference/Days";
 import Preference from "../../screens/App/Preference/Preference";
 import BMI from "../../screens/App/BMI";
