@@ -23,8 +23,12 @@ export const iconBackgrounds = {
   waterIntake:require('../../assets/Icons/waterIntake.png'),
   days:require('../../assets/Icons/days.png'),
   preference:require('../../assets/Icons/preference.png'),
+<<<<<<< HEAD
   discount:require('../../assets/Icons/discount.png'),
 
+=======
+  coupon:require('../../assets/Icons/Coupon.png')
+>>>>>>> 75b1fe51cb53e28c8fdf2c5d280bbea54f1561e2
 }
 
 export const getRandomImage = ()=> {

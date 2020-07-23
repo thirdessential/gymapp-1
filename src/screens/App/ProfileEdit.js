@@ -107,16 +107,12 @@ class ProfileEdit extends PureComponent {
       this.setState({imageUploading: false, image: null});
     }
     this.props.updateUserData();
-
   }
 
   submit = async () => {
     const {setInitialLoginOff, updateUserData} = this.props;
     updateUserInfo(this.state);
-    // updateUserData();
-    // if (result) {
     setInitialLoginOff();
-    // }
   }
   // renderInfoButtonRow = () => {
   //   return (
