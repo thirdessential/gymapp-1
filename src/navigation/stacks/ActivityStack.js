@@ -8,6 +8,8 @@ import openDrawerButton from "../openDrawerButton";
 import Activity from "../../screens/App/Activity";
 import fonts from "../../constants/fonts";
 import Profile from "../../screens/App/Profile";
+import Days from "../../screens/App/Preference/Days";
+import Preference from "../../screens/App/Preference/Preference";
 import BMI from "../../screens/App/BMI";
 
 const activity = () => {
@@ -49,5 +51,7 @@ const activity = () => {
     </Stack.Navigator>
   )
 }
+
+
 
 export default activity;

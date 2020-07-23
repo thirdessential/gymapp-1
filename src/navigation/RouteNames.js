@@ -36,7 +36,10 @@ const RouteNames = {
   CouponMachine:'CouponMachine',
 
   Login:'Login',
-  Signup:'Signup'
+  Signup:'Signup',
+
+  Days:'Days',
+  Preference:'Preference',
 };
 
 export const TabRoutes = {
