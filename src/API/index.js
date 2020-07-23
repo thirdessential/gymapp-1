@@ -30,7 +30,9 @@ export {
   updatePackage,
   deletePackage,
   syncSlots,
-  getMySubscriptions
+  getMySubscriptions,
+  generateCoupons,
+  getMyCoupons
 } from './trainer';
 
 export {
@@ -63,4 +65,11 @@ export {
   postQuestion,
   answerQuestion,
   unlikeAnswer
-} from './social'
+} from './social';
+
+export {
+  recordBmi,
+  getBmiHistory,
+  updatePreferences,
+  getPreferences
+} from './fitness'

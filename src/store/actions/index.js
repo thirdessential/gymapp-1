@@ -33,7 +33,9 @@ export {
   createPackage,
   deletePackage,
   createSlots,
-  syncSubscriptions
+  syncSubscriptions,
+  generateCoupons,
+  syncCoupons
 } from './trainer.actions';
 
 export {
@@ -46,4 +48,9 @@ export {
   getPostsForUser,
   updateQuestions,
   answerQuestion
-} from './social.actions'
+} from './social.actions';
+
+export {
+  updateBmiRecords,
+  submitBmi
+} from './fitness.actions';

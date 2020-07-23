@@ -27,3 +27,4 @@
 -keepclasseswithmembers class * {
   public void onPayment*(...);
 }
+-keep public class com.horcrux.svg.** {*;}

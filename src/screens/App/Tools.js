@@ -29,6 +29,8 @@ class Tools extends PureComponent {
   }
   openSchedule = () => this.props.navigation.navigate(RouteNames.Schedule)
   openQuestion = () => this.props.navigation.navigate(RouteNames.CreatePost, {type: POST_TYPE.TYPE_QUESTION})
+  openBMI = () => this.props.navigation.navigate(RouteNames.BMI);
+  openCouponMachine= ()=>this.props.navigation.navigate(RouteNames.CouponMachine);
 
   state = {
     toolsData: []
@@ -69,6 +71,16 @@ class Tools extends PureComponent {
         image: iconBackgrounds.waterIntake,
         callback: this.openQuestion,
         enabled: userType === userTypes.USER
+      }, {
+        title: strings.BMI_CALCULATOR,
+        image: iconBackgrounds.bmr,
+        callback: this.openBMI,
+        enabled: true
+      },{
+        title: strings.COUPONS,
+        image: iconBackgrounds.appointments,
+        callback: this.openCouponMachine,
+        enabled: userType === userTypes.TRAINER
       },
     ]
     this.setState({toolsData: toolsData.filter(toolData => toolData.enabled)});

@@ -28,6 +28,14 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, action.payload);
     case actionTypes.SET_MY_SUBSCRIPTIONS:
       return updateObject(state, action.payload);
+    case actionTypes.SET_COUPONS:
+      return updateObject(state, action.payload);
+    case actionTypes.APPEND_COUPONS:
+      const oldCoupons = [...state.coupons];
+      const {coupons} = action.payload;
+      return updateObject(state, {
+        coupons: oldCoupons.concat(coupons)
+      });
     default:
       return state;
   }
