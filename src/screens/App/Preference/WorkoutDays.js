@@ -22,7 +22,7 @@ class WorkoutDays extends Component {
 
   render() {
     return (
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false} enableOnAndroid={true} keyboardShouldPersistTaps={'handled'} style={styles.container}>
         <View style={styles.circle}/>
         <Image source={iconBackgrounds.days} style={styles.image}/>
         <Text style={styles.text}>{strings.DAYS}</Text>
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: appTheme.background,
     flex: 1,
+    
   },
   circle: {
     height: screenHeight * 0.2,
