@@ -1,4 +1,5 @@
 const size = {
+  largeTitle:55,
   bigTitle:30,
   midTitle:25,
   h0:22,

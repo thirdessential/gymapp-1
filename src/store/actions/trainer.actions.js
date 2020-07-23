@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
-import {sub} from "react-native-reanimated";
+import {set, sub} from "react-native-reanimated";
 
 export const setPackages = (packages) => ({
   type: actionTypes.SET_PACKAGES,
@@ -65,7 +65,6 @@ export const deletePackage = (packageId) => {
   };
 };
 
-
 export const setSlots = (slots) => ({
   type: actionTypes.SET_SLOTS,
   payload: {
@@ -118,3 +117,42 @@ export const syncSubscriptions = () => {
   };
 };
 
+const setCoupons = (coupons) => ({
+  type: actionTypes.SET_COUPONS,
+  payload: {
+    coupons
+  },
+});
+const appendCoupons = (coupons) => ({
+  type: actionTypes.APPEND_COUPONS,
+  payload: {
+    coupons
+  },
+});
+
+export const generateCoupons = (count, percentageOff, validity) => {
+  return async (dispatch, getState) => {
+    try {
+      let oldCoupons = [...getState().trainer.coupons];
+      let {success, coupons} = await API.generateCoupons(count, percentageOff = 5, validity = 3);
+      if (success)
+        dispatch(appendCoupons(coupons));
+      else dispatch(setCoupons(oldCoupons));
+    } catch (error) {
+      console.log("Trainer coupon creation failed", error);
+      return false;
+    }
+  };
+};
+export const syncCoupons = () => {
+  return async (dispatch) => {
+    try {
+      const {coupons} = await API.getMyCoupons();
+      dispatch(setCoupons(coupons));
+      return true;
+    } catch (error) {
+      console.log("Trainer coupon creation failed", error);
+      return false;
+    }
+  };
+};

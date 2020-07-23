@@ -7,11 +7,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import store from '../store/configureStore';
 import {makeCall} from "../API";
-import strings from "../constants/strings";
+import strings, {bmiVerdicts} from "../constants/strings";
 import {defaultDP, userTypes, WEEK_DAYS} from "../constants/appConstants";
 import ImagePicker from "react-native-image-picker";
 import {showError} from "./notification";
 import {useCode} from "react-native-reanimated";
+import {bmiColors} from "../constants/colors";
 
 export const validateResponseCode = (code) => {
   return Math.floor(code / 100) === 2;
@@ -222,4 +223,14 @@ export function isSameDay(d1, d2) {
 export const sortDays = arr => {
   const list = Object.keys(WEEK_DAYS);
   return list.filter(each => arr.includes(each));
+}
+
+export const getBmiVerdict = (bmi) => {
+  if (bmi < 18.5)
+    return {text: bmiVerdicts.low, color: bmiColors.blue};
+  if (bmi < 25)
+    return {text: bmiVerdicts.healthy, color: bmiColors.lightBlue};
+  if (bmi < 30)
+    return {text: bmiVerdicts.high, color: bmiColors.yellow};
+  else return {text: bmiVerdicts.unhealthy, color: bmiColors.red};
 }

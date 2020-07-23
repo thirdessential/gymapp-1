@@ -7,10 +7,8 @@ import MyProfile from "../../screens/App/MyProfile";
 import ProfileEdit from "../../screens/App/ProfileEdit";
 import {appTheme} from "../../constants/colors";
 import openDrawerButton from "../openDrawerButton";
-import VideoCall from "../../screens/Call/VideoCall";
 import PostViewer from "../../screens/Social/PostViewer";
 import fonts from "../../constants/fonts";
-import CreatePost from "../../screens/Social/CreatePost";
 
 const myProfile = () => {
   return (

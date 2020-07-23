@@ -77,10 +77,10 @@ export const updateUserData = () => {
   };
 };
 
-export const subscribePackage = (trainerId, packageId, time, days) => {
+export const subscribePackage = (trainerId, packageId, time, days,couponCode) => {
   return async (dispatch) => {
     try {
-      let result = await API.subscribeToPackage(trainerId, packageId, time, days);
+      let result = await API.subscribeToPackage(trainerId, packageId, time, days,couponCode);
       dispatch(setUser(trainerId));
       return result;
     } catch (error) {

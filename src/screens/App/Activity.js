@@ -17,6 +17,7 @@ import * as actionCreators from "../../store/actions";
 class Activity extends PureComponent {
 
   componentDidMount() {
+    this.props.syncCoupons();
     const {navigation, getActivities, getAppointments, updateUserData} = this.props;
     updateUserData()
     this.unsubscribeFocus = navigation.addListener('focus', e => {
@@ -128,6 +129,7 @@ const mapDispatchToProps = (dispatch) => ({
   getActivities: () => dispatch(actionCreators.getActivities()),
   getAppointments: () => dispatch(actionCreators.getAppointments()),
   updateUserData: () => dispatch(actionCreators.updateUserData()),
+  syncCoupons: ()=>dispatch(actionCreators.syncCoupons())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activity);
