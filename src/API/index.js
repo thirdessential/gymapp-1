@@ -64,12 +64,16 @@ export {
   listQuestions,
   postQuestion,
   answerQuestion,
-  unlikeAnswer
+  unlikeAnswer,
+  deletePost,
+  reportQuestion
 } from './social';
 
 export {
   recordBmi,
   getBmiHistory,
   updatePreferences,
-  getPreferences
+  getPreferences,
+  updateExerciseIndex,
+  updateTarget
 } from './fitness'

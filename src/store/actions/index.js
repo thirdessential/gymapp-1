@@ -47,10 +47,16 @@ export {
   reportPost,
   getPostsForUser,
   updateQuestions,
-  answerQuestion
+  answerQuestion,
+  deletePost,
+  reportQuestion
 } from './social.actions';
 
 export {
   updateBmiRecords,
-  submitBmi
+  submitBmi,
+  getPreferences,
+  updatePreferences,
+  updateExerciseIndex,
+  updateTarget
 } from './fitness.actions';

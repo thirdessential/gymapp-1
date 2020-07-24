@@ -16,9 +16,10 @@ import fontSizes from "../../../constants/fontSizes";
 import {CheckBox} from "react-native-elements";
 import {iconBackgrounds} from "../../../constants/images";
 import {screenHeight, screenWidth} from "../../../utils/screenDimensions";
+import * as actionCreators from "../../../store/actions";
+import {connect} from "react-redux";
 
 class WorkoutPreference extends Component {
-
   state = {
     data: [
       {id: 0, text: "Fat Loss", checked: false},
@@ -31,6 +32,40 @@ class WorkoutPreference extends Component {
       {id: 7, text: "Strength Gain", checked: false},
     ],
   };
+
+  componentDidMount() {
+    this.unsubscribe = this.props.navigation.addListener('blur', e => {
+      this.submit();
+    });
+    this.updateLocalState();
+  }
+
+  updateLocalState = () => {
+    const {preferences} = this.props;
+    let data = [...this.state.data];
+    preferences.map(preference => {
+      data = data.map(dataPoint => {
+        if (dataPoint.text === preference) {
+          dataPoint.checked = true;
+        }
+        return dataPoint;
+      })
+    });
+    this.setState({data});
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  submit = () => {
+    const {data} = this.state;
+    const preferences = [];
+    data.map(preference => {
+      if (preference.checked) preferences.push(preference.text);
+    });
+    this.props.updatePreferences(preferences);
+  }
   checked = (id, condition) => {
     condition
       ? (this.state.data[id].checked = false)
@@ -63,31 +98,29 @@ class WorkoutPreference extends Component {
 
   render() {
     return (
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-        <View style={styles.circle}/>
-        <Image source={iconBackgrounds.preference} style={styles.image}/>
-        <Text style={styles.text}>{strings.PREFERENCES}</Text>
-        <View style={styles.itemContainer}>
-          <FlatList
-            data={this.state.data}
-            keyExtractor={(item) => item.id}
-            renderItem={this.renderItem}
-          />
-        </View>
-      </ScrollView>
+      <>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+          <View style={styles.circle}/>
+          <Image source={iconBackgrounds.preference} style={styles.image}/>
+          <Text style={styles.text}>{strings.PREFERENCES}</Text>
+          <View style={styles.itemContainer}>
+            <FlatList
+              data={this.state.data}
+              keyExtractor={(item) => item.id}
+              renderItem={this.renderItem}
+            />
+          </View>
+        </ScrollView>
+        <View style={{paddingTop: spacing.medium_sm, marginBottom: spacing.space_50}}/>
+      </>
     );
   }
 }
 
-export default WorkoutPreference;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: appTheme.background,
     flex: 1,
-    paddingBottom: spacing.medium_sm,
-    
-    // padding: spacing.medium_sm,
-    // paddingTop: spacing.small,
   },
   circle: {
     height: screenHeight * 0.2,
@@ -120,7 +153,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
     paddingTop: 30,
-    marginBottom:50
   },
   options: {
     marginVertical: 10,
@@ -134,7 +166,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: fontSizes.h1,
     fontFamily: fonts.CenturyGothic,
-
     marginLeft: 30,
   },
   listScroll: {
@@ -149,3 +180,13 @@ const styles = StyleSheet.create({
   textList: {flex: 8, justifyContent: "center"},
   checkboxView: {flex: 2, justifyContent: "center"},
 });
+
+const mapStateToProps = (state) => ({
+  preferences: state.fitness.preferences ||[],
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updatePreferences: (preferences) => dispatch(actionCreators.updatePreferences(preferences))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(WorkoutPreference);

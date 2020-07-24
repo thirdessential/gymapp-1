@@ -234,3 +234,13 @@ export const getBmiVerdict = (bmi) => {
     return {text: bmiVerdicts.high, color: bmiColors.yellow};
   else return {text: bmiVerdicts.unhealthy, color: bmiColors.red};
 }
+
+
+export function calculateBmi(weight, height) {
+  weight = parseInt(weight);
+  height = parseInt(height)
+  if (weight > 0 && height > 0) {
+    return (weight / (height / 100 * height / 100) ).toPrecision(3)
+  }
+  return 0;
+}
