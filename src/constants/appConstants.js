@@ -78,3 +78,7 @@ export const POST_TYPE = {
   TYPE_QUESTION: 'TYPE_QUESTION',
   TYPE_VIDEO:'TYPE_VIDEO',
 }
+export const CONTENT_TYPE={
+  IMAGE:'IMAGE',
+  VIDEO:'VIDEO'
+}

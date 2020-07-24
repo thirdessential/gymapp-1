@@ -43,7 +43,8 @@ const postList = (props) => {
       activeOpacity={0.7}
       style={styles.postContainer}>
       <Post
-        imageUrl={post.contentURL}
+        contentType={post.contentType}
+        contentUrl={post.contentURL}
         likeCount={post.likes.length}
         commentCount={post.comments.length}
         createdOn={post.createdOn}

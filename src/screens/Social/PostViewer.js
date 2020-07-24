@@ -84,7 +84,8 @@ class PostViewer extends Component {
     return (
       <View style={{marginTop: spacing.medium}}>
         <Post
-          imageUrl={post.contentURL}
+          contentType={post.contentType}
+          contentUrl={post.contentURL}
           likeCount={post.likes.length}
           commentCount={post.comments.length}
           createdOn={post.createdOn}
