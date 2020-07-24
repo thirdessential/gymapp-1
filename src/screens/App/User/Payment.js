@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, { PureComponent } from "react";
+import React, {PureComponent} from "react";
 import {
   View,
   StyleSheet,
@@ -15,30 +15,31 @@ import {
   Button,
   Image
 } from "react-native";
-import { connect } from "react-redux";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {connect} from "react-redux";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ion from "react-native-vector-icons/Ionicons";
-import { Table, Row, Rows } from "react-native-table-component";
+import {Table, Row, Rows} from "react-native-table-component";
 import RazorpayCheckout from "react-native-razorpay";
 import {iconBackgrounds} from '../../../constants/images'
-import { spacing } from "../../../constants/dimension";
+import {spacing} from "../../../constants/dimension";
 import * as actionCreators from "../../../store/actions";
-import colors, { appTheme } from "../../../constants/colors";
+import colors, {appTheme} from "../../../constants/colors";
 import strings from "../../../constants/strings";
 import fonts from "../../../constants/fonts";
 import fontSizes from "../../../constants/fontSizes";
 import LinearGradient from "react-native-linear-gradient";
-import { militaryTimeToString, toTitleCase } from "../../../utils/utils";
-import { appName, paymentKey } from "../../../constants/appConstants";
-import { showError, showSuccess } from "../../../utils/notification";
-import { sendPaymentData, subscribeRollback } from "../../../API";
+import {militaryTimeToString, toTitleCase} from "../../../utils/utils";
+import {appName, paymentKey} from "../../../constants/appConstants";
+import {showError, showSuccess} from "../../../utils/notification";
+import {sendPaymentData, subscribeRollback} from "../../../API";
 import PillButton from "../../../components/PillButton";
-import { getCouponDiscount } from "../../../API/user";
+import {getCouponDiscount} from "../../../API/user";
 
 class Packages extends PureComponent {
   state = {
     subscribeLoading: false,
+    couponLoading: false,
     couponCode: "",
     discount: null,
     price: "0",
@@ -46,16 +47,16 @@ class Packages extends PureComponent {
   };
 
   componentDidMount() {
-    const { route } = this.props;
-    const { metadata } = route.params;
-    const { price } = metadata;
-    this.setState({ price });
+    const {route} = this.props;
+    const {metadata} = route.params;
+    const {price} = metadata;
+    this.setState({price});
   }
 
   renderPackageCard = () => {
-    const { route, userData } = this.props;
-    const { metadata } = route.params;
-    const { name } = userData;
+    const {route, userData} = this.props;
+    const {metadata} = route.params;
+    const {name} = userData;
     const {
       packageName,
       sessionCount,
@@ -124,41 +125,41 @@ class Packages extends PureComponent {
           </View>
           <Table
             style={styles.packageBox}
-            borderStyle={{ borderColor: "transparent" }}
+            borderStyle={{borderColor: "transparent"}}
           >
             <Row
               data={tableHead}
               flexArr={[2, 1, 1]}
               style={[
                 styles.packageTitleRow,
-                { backgroundColor: appTheme.darkBackground },
+                {backgroundColor: appTheme.darkBackground},
               ]}
               textStyle={styles.packageTitle}
             />
             <Rows
               data={tableData}
               flexArr={[2, 1, 1]}
-              style={[styles.packageTitleRow, { paddingBottom: 5 }]}
+              style={[styles.packageTitleRow, {paddingBottom: 5}]}
               textStyle={styles.packageValue}
             />
           </Table>
-          
+
           {this.renderCouponInput()}
           {this.state.discount && (
             <View style={styles.mainDiscount}>
-            <View style={{flex:1}}><Image source={iconBackgrounds.discount} style={{height:78,width:112}} /></View>
-            <View style={{flex:2,alignItems: 'center',marginLeft:20}}>
-            <Text style={styles.congrats}>Congratulations!</Text>
-              <Text 
-               style={{color:'#FFF'}}
-              >
-                {strings.DISCOUNT}: {this.state.discount}% off
-              </Text>
-              <Text
-                 style={styles.finalamount}
-              >
-                {strings.TOTAl}: {this.state.finalPrice}
-              </Text>
+              <View style={{flex: 1}}><Image source={iconBackgrounds.discount} style={{height: 78, width: 112}}/></View>
+              <View style={{flex: 2, alignItems: 'center', marginLeft: 20}}>
+                <Text style={styles.congrats}>Congratulations!</Text>
+                <Text
+                  style={{color: '#FFF'}}
+                >
+                  {strings.DISCOUNT}: {this.state.discount}% off
+                </Text>
+                <Text
+                  style={styles.finalamount}
+                >
+                  {strings.TOTAl}: {this.state.finalPrice}
+                </Text>
               </View>
             </View>
           )}
@@ -168,24 +169,27 @@ class Packages extends PureComponent {
   };
   applyCoupon = async () => {
     Keyboard.dismiss();
-    const { route } = this.props;
-    const { metadata, userId: trainerId } = route.params;
-    const { price } = metadata;
-    const { couponCode } = this.state;
+    this.setState({couponLoading: true});
+    const {route} = this.props;
+    const {metadata, userId: trainerId} = route.params;
+    const {price} = metadata;
+    const {couponCode} = this.state;
 
-    const { discount } = await getCouponDiscount(couponCode, trainerId);
+    const {discount} = await getCouponDiscount(couponCode, trainerId);
     if (!discount) {
-      showError("Invalid coupon code or coupon expired");
+      showError(strings.INVALID_COUPON);
+      this.setState({couponLoading:false});
       return;
     }
+
     const finalPrice = price - (price * discount) / 100;
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({ discount, finalPrice });
+    this.setState({discount, finalPrice, couponLoading: false});
   };
   onCouponCodeChange = (couponCode) =>
-    this.setState({ couponCode: couponCode.toUpperCase().slice(0, 9) });
+    this.setState({couponCode: couponCode.toUpperCase().slice(0, 9)});
   renderCouponInput = () => {
-    const couponValid = this.state.couponCode.length === 9;
+    const submitDisabled = this.state.couponLoading || this.state.couponCode.length<6;
     return (
       <View
         style={styles.applyCoupon}
@@ -202,11 +206,13 @@ class Packages extends PureComponent {
 
         <TouchableOpacity
           onPress={this.applyCoupon}
-          disabled={!couponValid}
-          style={styles.applyCouponbutton}
+          style={[styles.applyCouponbutton, submitDisabled?styles.disabled:null]}
+          disabled={submitDisabled}
         >
-          <Text style={{ color: "#fff" }}>{strings.APPLY}</Text>
+          {this.state.couponLoading && <ActivityIndicator color={appTheme.textPrimary} size={20}/>}
+          {!this.state.couponLoading && <Text style={{color: "#fff"}}>{strings.APPLY}</Text>}
         </TouchableOpacity>
+
       </View>
     );
   };
@@ -216,12 +222,12 @@ class Packages extends PureComponent {
   };
 
   onConfirmPress = async () => {
-    const { couponCode } = this.state;
-    this.setState({ subscribeLoading: true });
-    const { route, userData, navigation, syncSubscriptions } = this.props;
-    const { metadata, userId, packageId } = route.params;
-    const { time, days } = metadata;
-    const { packageName, price } = metadata;
+    const {couponCode} = this.state;
+    this.setState({subscribeLoading: true});
+    const {route, userData, navigation, syncSubscriptions} = this.props;
+    const {metadata, userId, packageId} = route.params;
+    const {time, days} = metadata;
+    const {packageName, price} = metadata;
 
     let result = await this.props.subscribePackage(
       userId,
@@ -231,7 +237,7 @@ class Packages extends PureComponent {
       couponCode
     );
     if (result && result.success) {
-      const { orderId, subscriptionId } = result;
+      const {orderId, subscriptionId} = result;
       const options = {
         description: packageName,
         image:
@@ -246,7 +252,7 @@ class Packages extends PureComponent {
           contact: "",
           name: userData.name || "",
         },
-        theme: { color: appTheme.background, backgroundColor: "red" },
+        theme: {color: appTheme.background, backgroundColor: "red"},
       };
 
       RazorpayCheckout.open(options)
@@ -266,7 +272,7 @@ class Packages extends PureComponent {
     } else {
       showError(strings.SLOT_BOOKING_ERROR);
     }
-    this.setState({ subscribeLoading: false });
+    this.setState({subscribeLoading: false});
   };
 
   render() {
@@ -279,25 +285,25 @@ class Packages extends PureComponent {
           style={styles.container}
           showsVerticalScrollIndicator={false}
           enableOnAndroid={true}
-          contentContainerStyle={{ marginTop: spacing.large_lg }}
+          contentContainerStyle={{marginTop: spacing.large_lg}}
           keyboardShouldPersistTaps={"handled"}
         >
-          <StatusBar backgroundColor={appTheme.background} />
+          <StatusBar backgroundColor={appTheme.background}/>
 
-          <this.renderPackageCard />
+          <this.renderPackageCard/>
           <View style={styles.buttonRow}>
             <TouchableOpacity
               style={styles.buttonContainer}
               onPress={this.onBackPress}
             >
-              <Ion name={"ios-arrow-back"} color={colors.appBlue} size={24} />
+              <Ion name={"ios-arrow-back"} color={colors.appBlue} size={24}/>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonContainer}
               onPress={this.onConfirmPress}
             >
               {this.state.subscribeLoading && (
-                <ActivityIndicator size={28} color={appTheme.brightContent} />
+                <ActivityIndicator size={28} color={appTheme.brightContent}/>
               )}
               {!this.state.subscribeLoading && (
                 <FontAwesome
@@ -318,6 +324,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: spacing.medium_sm,
+    paddingVertical:0
   },
   subtitle: {
     backgroundColor: appTheme.darkBackground,
@@ -430,45 +437,47 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.h4,
     color: "#20222f",
   },
-  mainDiscount:{flexDirection: 'row',flex:1,marginTop:'10%'},
-  congrats:{color:'#FFF',fontSize:14,fontWeight:'bold',fontFamily:fonts.CenturyGothicBold},
-finalamount:{color:'#ff7f50',fontSize:14,fontWeight:'bold',fontFamily:fonts.CenturyGothicBold},
-applyCoupon:{
-  flexDirection: "row",
-  alignContent: "center",
-  marginTop: 20,
- flex:1,
-   
-},
-applyCouponinput:{
-  color: appTheme.textPrimary,
- 
-  borderWidth: 1,
-  borderTopLeftRadius: 30,
-  borderBottomLeftRadius: 30,
- height: 40,
- backgroundColor:'#2b2e41',
- borderColor: "#20222f",
-  // padding: spacing.small,
-  paddingTop: 7,
-  paddingLeft: 27,
-  flex:6
-},
-applyCouponbutton: {
-  borderTopRightRadius: 30,
-  borderBottomRightRadius: 30,
-  marginLeft:-3,
-  borderWidth: 1,
-  backgroundColor: "#ff7f50",
-  flex: 3,
-  borderColor: "#20222f",
-  justifyContent: "center",
-  alignItems: "center",
-  fontWeight: "bold",
-  fontSize: 14,
-  fontFamily: fonts.CenturyGothic,
-}
+  mainDiscount: {flexDirection: 'row', flex: 1, marginTop: '10%'},
+  congrats: {color: '#FFF', fontSize: 14, fontWeight: 'bold', fontFamily: fonts.CenturyGothicBold},
+  finalamount: {color: '#ff7f50', fontSize: 14, fontWeight: 'bold', fontFamily: fonts.CenturyGothicBold},
+  applyCoupon: {
+    flexDirection: "row",
+    alignContent: "center",
+    marginTop: 20,
+    flex: 1,
 
+  },
+  applyCouponinput: {
+    color: appTheme.textPrimary,
+
+    borderWidth: 1,
+    borderTopLeftRadius: 30,
+    borderBottomLeftRadius: 30,
+    height: 40,
+    backgroundColor: '#2b2e41',
+    borderColor: "#20222f",
+    // padding: spacing.small,
+    paddingTop: 7,
+    paddingLeft: 27,
+    flex: 6
+  },
+  applyCouponbutton: {
+    borderTopRightRadius: 30,
+    borderBottomRightRadius: 30,
+    marginLeft: -3,
+    borderWidth: 1,
+    backgroundColor: "#ff7f50",
+    flex: 3,
+    borderColor: "#20222f",
+    justifyContent: "center",
+    alignItems: "center",
+    fontWeight: "bold",
+    fontSize: 14,
+    fontFamily: fonts.CenturyGothic,
+  },
+  disabled:{
+    backgroundColor:appTheme.grey
+  }
 });
 
 const mapStateToProps = (state) => ({

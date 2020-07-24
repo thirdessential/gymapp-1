@@ -119,7 +119,8 @@ const strings = {
   LAST_DAYS: 'Last few days',
   LAST_MONTHS: 'Last few months',
   ENTER_WEIGHT: 'Enter weight',
-  ENTER_TARGET:'Enter target weight and goal date'
+  ENTER_TARGET:'Enter target weight and goal date',
+  INVALID_COUPON: 'Invalid coupon code or coupon expired'
 
 };
 
