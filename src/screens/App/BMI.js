@@ -101,7 +101,7 @@ class BMI extends PureComponent {
                           style={{marginRight: 'auto', flex: 1, flexDirection: 'row', alignItems: 'center'}}>
           <Avatar roundedMultiplier={1} size={spacing.thumbnailMini} url={displayPictureUrl}/>
           <View>
-            <Text style={[styles.menuText, {fontSize: fontSizes.h1}]}>{name.split(' ')[0]}</Text>
+            <Text style={[styles.menuText, {fontSize: fontSizes.h1}]}>{name}</Text>
             <Text style={styles.menuText}>{height} cms</Text>
           </View>
         </TouchableOpacity>
@@ -123,7 +123,7 @@ class BMI extends PureComponent {
   }
   renderProgressChart = () => {
     const {bmiRecords} = this.props;
-    if (!bmiRecords || bmiRecords.length === 0)
+    if (!bmiRecords || bmiRecords.length <2)
       return null;
     const weights = [];
     const labels = [];
@@ -142,7 +142,8 @@ class BMI extends PureComponent {
     let progress = 0;
     const currentFromInitial = Math.abs(initial - current);
     const targetFromCurrent = Math.abs(target - current);
-    progress = currentFromInitial / targetFromCurrent;
+    if (initial === current) progress = current / target;
+    else progress = currentFromInitial / targetFromCurrent;
     return (
       <Bar
         progress={progress}
@@ -199,7 +200,8 @@ class BMI extends PureComponent {
         {this.renderProgressBar(initialRecord.weight, latestRecord.weight, targetWeight)}
         {
           targetWeight && (
-            <TouchableOpacity onPress={this.openTargetInput} style={{padding: spacing.small,marginTop:spacing.small, alignSelf:'flex-end'}}>
+            <TouchableOpacity onPress={this.openTargetInput}
+                              style={{padding: spacing.small, marginTop: spacing.small, alignSelf: 'flex-end'}}>
               <Text style={styles.menuText}>{strings.SET_TARGET}</Text>
             </TouchableOpacity>
           )

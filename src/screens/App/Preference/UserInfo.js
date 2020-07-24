@@ -60,7 +60,7 @@ class UserInfo extends React.Component {
   setCity = (city) => this.setState({city})
 
   async componentDidMount() {
-    const {userData, updateUserData, navigation} = this.props;
+    const {userData, updateUserData} = this.props;
     if (userData) {
       this.setLocalState(userData);
       updateUserData();
@@ -68,9 +68,11 @@ class UserInfo extends React.Component {
       let result = await updateUserData();
       this.setLocalState(result);
     }
-    this.unsubscribe = navigation.addListener('blur', e => {
-      this.submit();
-    });
+  }
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if(this.props.active && !nextProps.active)
+      this.submit(); // hacky way of checking if screen unfocused
+    return true;
   }
 
   setLocalState = (userData) => {
