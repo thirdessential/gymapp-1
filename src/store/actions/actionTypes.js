@@ -26,6 +26,7 @@ export const SET_POSTS = 'SET_POSTS';
 export const SET_POST = 'SET_POST';
 export const APPEND_POSTS = 'APPEND_POSTS';
 export const REMOVE_POST = 'REMOVE_POST';
+export const REMOVE_QUESTION = 'REMOVE_QUESTION';
 export const SET_POSTS_FOR_USER = 'SET_POSTS_FOR_USER';
 export const SET_QUESTIONS = 'SET_QUESTIONS';
 export const SET_QUESTION = 'SET_QUESTION';
@@ -35,5 +36,9 @@ export const SET_BMI_RECORDS = 'SET_BMI_RECORDS';
 export const ADD_BMI_RECORD = 'ADD_BMI_RECORD';
 export const SET_COUPONS ='SET_COUPONS';
 export const APPEND_COUPONS ='APPEND_COUPONS';
+export const SET_PREFERENCES ='SET_PREFERENCES';
+export const SET_EXERCISE_INDEX ='SET_EXERCISE_INDEX';
+export const SET_TARGET ='SET_TARGET';
+
 
 export const RESET_APP = 'RESET_APP';

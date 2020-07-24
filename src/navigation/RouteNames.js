@@ -40,7 +40,9 @@ const RouteNames = {
 
   WorkoutDays:'WorkoutDays',
   WorkoutPreference:'WorkoutPreference',
-  UserInfo:'UserInfo'
+  UserInfo:'UserInfo',
+  PreferenceSwiper:'PreferenceSwiper',
+  PhysicalData: 'PhysicalData'
 };
 
 export const TabRoutes = {

@@ -113,7 +113,17 @@ const strings = {
   TOTAl: 'Total',
   WORKOUT:'Workout Video',
   CHANGE_VIDEO : 'Change Video',
-  ADD_VIDEO:'Add Video'
+  ADD_VIDEO:'Add Video',
+  PHYSICAL_DATA: 'Physical Data',
+  WEIGHT: 'Weight (kg)',
+  HEIGHT:'Height (cms)',
+  DELETE:'Delete',
+  REPORT_CONTENT: 'Report Content',
+  LAST_DAYS: 'Last few days',
+  LAST_MONTHS: 'Last few months',
+  ENTER_WEIGHT: 'Enter weight',
+  ENTER_TARGET:'Enter target weight and goal date'
+
 };
 
 export const bmiVerdicts = {

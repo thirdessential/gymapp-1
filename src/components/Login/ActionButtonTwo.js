@@ -12,8 +12,6 @@ const ActionButtonTwo = (props) => {
 const styles = StyleSheet.create(
   {
     Button: {
-
-      // backgroundColor: "#0D1166",
       borderRadius: 25,
       alignItems: 'center',
       padding: 10,

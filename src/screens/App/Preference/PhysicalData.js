@@ -4,86 +4,68 @@ import {
   Text,
   StyleSheet,
   Image,
-  TouchableOpacity, ScrollView,
+  TouchableOpacity, ScrollView, TextInput,
 } from "react-native";
 
-import {appTheme} from "../../../constants/colors";
+import {appTheme, darkPallet} from "../../../constants/colors";
 import {spacing} from "../../../constants/dimension";
 import fonts from "../../../constants/fonts";
 import strings from "../../../constants/strings";
 import fontSizes from "../../../constants/fontSizes";
 import {iconBackgrounds} from "../../../constants/images";
 import {screenHeight, screenWidth} from "../../../utils/screenDimensions";
-import {updateExerciseIndex} from "../../../API";
+import {updateExerciseIndex, updateUserInfo} from "../../../API";
 import * as actionCreators from "../../../store/actions";
 import {connect} from "react-redux";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
-class WorkoutDays extends Component {
+class PhysicalData extends Component {
   state = {
-    index: 3,
+    weight: 60,
+    height: 160
   };
 
   componentDidMount() {
     this.unsubscribe = this.props.navigation.addListener('blur', e => {
       this.submit();
     });
-    const {exerciseIndex} = this.props;
-    this.setState({index: exerciseIndex})
+    const {weight = 60, height = 160} = this.props.userData;
+    this.setState({weight, height});
   }
+  setWeight = weight =>this.setState({weight});
+  setHeight = height =>this.setState({height});
 
   componentWillUnmount() {
     this.unsubscribe();
   }
 
-  submit = () => {
-    this.props.updateExerciseIndex(this.state.index);
-  }
-  data = [
-    {
-      title: '1 to 2',
-      value: 1
-    },
-    {
-      title: '3 to 4',
-      value: 3
-    },
-    {
-      title: '5 to 6',
-      value: 5
-    },
-    {
-      title: '7 or more',
-      value: 7
-    },
-  ]
-  setIndex = index => this.setState({index})
-  renderButton = ({title, value}) => {
-    const {index} = this.state;
-    const active = index === value;
-    return (
-      <TouchableOpacity activeOpacity={0.7} key={title} onPress={() => this.setIndex(value)} style={styles.options}>
-        <Text style={[styles.optionText, active ? styles.active : null]}>{title}</Text>
-      </TouchableOpacity>
-    )
+  submit = async () => {
+    await updateUserInfo(this.state);
+    this.props.updateUserData();
   }
 
   render() {
     return (
       <>
-        <ScrollView showsVerticalScrollIndicator={false} enableOnAndroid={true} keyboardShouldPersistTaps={'handled'}
-                    style={styles.container}>
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'handled'} style={styles.container}>
           <View style={styles.circle}/>
-          <Image source={iconBackgrounds.days} style={styles.image}/>
-          <Text style={styles.text}>{strings.DAYS}</Text>
+          <Image source={iconBackgrounds.physical} style={styles.image}/>
+          <Text style={styles.text}>{strings.PHYSICAL_DATA}</Text>
           <View style={styles.itemContainer}>
-            <Text style={styles.describe}>{strings.DESCRIBEDAYS}</Text>
             <View style={styles.optionContainer}>
-              {
-                this.data.map(item => this.renderButton(item))
-              }
+              <Text style={styles.text}>{strings.HEIGHT}</Text>
+              <TextInput keyboardType={'numeric'} style={styles.textInput} placeholder='Height (cms)'
+                         placeholderTextColor={appTheme.brightContent}
+                         value={this.state.height.toString()} onChangeText={this.setHeight}/>
+            </View>
+            <View style={styles.optionContainer}>
+              <Text style={styles.text}>{strings.WEIGHT}</Text>
+              <TextInput keyboardType={'numeric'} style={styles.textInput} placeholder='Weight (kg)'
+                         placeholderTextColor={appTheme.brightContent}
+                         value={this.state.weight.toString()} onChangeText={this.setWeight}/>
             </View>
           </View>
-        </ScrollView>
+        </KeyboardAwareScrollView>
         <View style={{paddingTop: spacing.medium_sm, marginBottom: spacing.space_50}}/>
       </>
     );
@@ -116,15 +98,18 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.h1,
     marginHorizontal: screenWidth * 0.1,
     textAlign: "center",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    marginBottom:spacing.medium_sm
   },
   itemContainer: {
     marginTop: 25,
-    backgroundColor: "#20222f",
+    backgroundColor: appTheme.darkBackground,
     flex: 1,
     margin: -spacing.medium_sm,
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
+    justifyContent: 'center',
+    height:screenHeight/2
   },
   describe: {
     color: appTheme.brightContent,
@@ -147,22 +132,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  optionText: {
-    color: "#fff",
+  textInput: {
+    backgroundColor: appTheme.background,
+    color: darkPallet.hotOrange,
+    fontSize: fontSizes.h1,
     fontFamily: fonts.CenturyGothicBold,
+    borderRadius: 25,
+    width: 250,
+    textAlign: 'center',
+    marginBottom: 20
   },
-  active: {
-    color: appTheme.brightContent
-  }
 });
 
 const mapStateToProps = (state) => ({
-  exerciseIndex: state.fitness.exerciseIndex || 3,
+  userData: state.user.userData
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateExerciseIndex: (index) => dispatch(actionCreators.updateExerciseIndex(index))
+  updateUserData: () => dispatch(actionCreators.updateUserData())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(WorkoutDays);
+export default connect(mapStateToProps, mapDispatchToProps)(PhysicalData);
 

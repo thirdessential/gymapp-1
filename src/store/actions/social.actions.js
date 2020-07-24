@@ -2,6 +2,7 @@ import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
 import {INITIAL_PAGE} from "../../constants/appConstants";
 import {showInfo} from "../../utils/notification";
+import {LayoutAnimation} from "react-native";
 
 export const setPosts = (posts, my = false) => ({
   type: actionTypes.SET_POSTS,
@@ -27,6 +28,12 @@ export const removePost = (postId) => ({
   type: actionTypes.REMOVE_POST,
   payload: {
     postId
+  }
+});
+const removeQuestion = (questionId) => ({
+  type: actionTypes.REMOVE_QUESTION,
+  payload: {
+    questionId
   }
 });
 export const setQuestions = (questions) => ({
@@ -133,6 +140,19 @@ export const commentOnPost = (postId, commentText) => {
   };
 }
 
+export const deletePost = postId => {
+  return async (dispatch) => {
+    try {
+      dispatch(removePost(postId));
+      let result = await API.deletePost(postId);
+      showInfo('Post deleted');
+      return true;
+    } catch (error) {
+      console.log("post delete failed", error);
+      return null;
+    }
+  };
+}
 export const reportPost = postId => {
   return async (dispatch, getState) => {
     try {
@@ -142,6 +162,20 @@ export const reportPost = postId => {
       return true;
     } catch (error) {
       console.log("post report failed", error);
+      return null;
+    }
+  };
+}
+export const reportQuestion = questionId => {
+  return async (dispatch) => {
+    try {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      dispatch(removeQuestion(questionId));
+      let result = await API.reportQuestion(questionId);
+      showInfo('Content Reported');
+      return true;
+    } catch (error) {
+      console.log("Question report failed", error);
       return null;
     }
   };

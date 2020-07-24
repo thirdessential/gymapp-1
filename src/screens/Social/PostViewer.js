@@ -63,6 +63,11 @@ class PostViewer extends Component {
     navigation.goBack();
     reportPost(postId);
   }
+  deletePost = (postId) => {
+    const {navigation, deletePost} = this.props;
+    navigation.goBack();
+    deletePost(postId);
+  }
   openProfile = (userId) => {
     const {navigation} = this.props;
     navigation.navigate(RouteNames.Profile, {
@@ -74,6 +79,8 @@ class PostViewer extends Component {
     if (userId !== targetUserId) this.openProfile(targetUserId);
   }
   renderPost = (post) => {
+    const isOwnPost = post.createdBy.userId === store.getState().user.userId; // TODO: can we improve this comparison?
+
     return (
       <View style={{marginTop: spacing.medium}}>
         <Post
@@ -87,7 +94,8 @@ class PostViewer extends Component {
           isLiked={() => this.checkLiked(post.likes)}
           likeCallback={() => likePost(post._id)}
           unlikeCallback={() => unlikePost(post._id)}
-          flagCallback={() => this.reportPost(post._id)}
+          flagCallback={isOwnPost?null: () => this.reportPost(post._id)}
+          deleteCallback={isOwnPost?()=>this.deletePost(post._id):null}
           // shareCallback={() => {}}
           imagePressCallback={()=>this.openViewer(post.contentURL)}
           onProfilePress={()=>this.disableSelfProfileClick(post.createdBy.userId)}
@@ -298,7 +306,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   updatePost: (postId) => dispatch(actionCreators.updatePost(postId)),
   commentOnPost: (postId, commentText) => dispatch(actionCreators.commentOnPost(postId, commentText)),
-  reportPost: postId => dispatch(actionCreators.reportPost(postId))
+  reportPost: postId => dispatch(actionCreators.reportPost(postId)),
+  deletePost: postId => dispatch(actionCreators.deletePost(postId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostViewer);
