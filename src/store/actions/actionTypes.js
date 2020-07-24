@@ -38,6 +38,7 @@ export const SET_COUPONS ='SET_COUPONS';
 export const APPEND_COUPONS ='APPEND_COUPONS';
 export const SET_PREFERENCES ='SET_PREFERENCES';
 export const SET_EXERCISE_INDEX ='SET_EXERCISE_INDEX';
+export const SET_TARGET ='SET_TARGET';
 
 
 export const RESET_APP = 'RESET_APP';

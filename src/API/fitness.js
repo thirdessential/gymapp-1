@@ -61,3 +61,16 @@ export const updateExerciseIndex = async (index) => {
     return false;
   }
 }
+
+
+export const updateTarget = async (weight,date) => {
+  try {
+    let response = await axios.post(`/fitness/target`, {weight,date});
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

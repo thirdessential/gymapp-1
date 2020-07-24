@@ -74,5 +74,6 @@ export {
   getBmiHistory,
   updatePreferences,
   getPreferences,
-  updateExerciseIndex
+  updateExerciseIndex,
+  updateTarget
 } from './fitness'

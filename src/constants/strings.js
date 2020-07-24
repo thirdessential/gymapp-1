@@ -115,7 +115,12 @@ const strings = {
   WEIGHT: 'Weight (kg)',
   HEIGHT:'Height (cms)',
   DELETE:'Delete',
-  REPORT_CONTENT: 'Report Content'
+  REPORT_CONTENT: 'Report Content',
+  LAST_DAYS: 'Last few days',
+  LAST_MONTHS: 'Last few months',
+  ENTER_WEIGHT: 'Enter weight',
+  ENTER_TARGET:'Enter target weight and goal date'
+
 };
 
 export const bmiVerdicts = {

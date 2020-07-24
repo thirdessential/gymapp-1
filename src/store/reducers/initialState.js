@@ -47,5 +47,7 @@ export const socialState = {
 export const fitnessState = {
   bmiRecords: [],
   preferences: [],
-  exerciseIndex: 3
+  exerciseIndex: 3,
+  targetWeight:null,
+  targetDate:null
 }

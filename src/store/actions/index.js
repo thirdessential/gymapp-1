@@ -57,5 +57,6 @@ export {
   submitBmi,
   getPreferences,
   updatePreferences,
-  updateExerciseIndex
+  updateExerciseIndex,
+  updateTarget
 } from './fitness.actions';

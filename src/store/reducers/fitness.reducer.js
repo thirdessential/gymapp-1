@@ -10,6 +10,8 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, action.payload);
     case actionTypes.SET_EXERCISE_INDEX:
       return updateObject(state, action.payload);
+    case actionTypes.SET_TARGET:
+      return updateObject(state, action.payload);
     default:
       return state;
   }

@@ -49,6 +49,13 @@ export const setExerciseIndex = (exerciseIndex) => ({
     exerciseIndex,
   }
 });
+const setTarget = (targetWeight,targetDate) => ({
+  type: actionTypes.SET_TARGET,
+  payload: {
+    targetWeight,
+    targetDate
+  }
+});
 export const getPreferences = () => {
   return async (dispatch) => {
     try {
@@ -83,4 +90,16 @@ export const updateExerciseIndex = (exerciseIndex) => {
     }
   };
 };
+export const updateTarget = (weight,date) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setTarget(weight,date));
+      await API.updateTarget(weight,date); // no error handling
+    } catch (error) {
+      console.log("target update failed", error);
+      return false;
+    }
+  };
+};
+
 

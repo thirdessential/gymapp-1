@@ -100,8 +100,6 @@ const post = (props) => {
             <Text style={styles.menuText}>{strings.DELETE}</Text>
           </MenuOption>
         }
-
-
       </MenuOptions>
     </Menu>
   )
@@ -185,8 +183,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    // justifyContent: 'space-between',
-    width: '100%'
+    width: '100%',
   },
   displayName: {
     color: 'white',
