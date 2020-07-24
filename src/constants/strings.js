@@ -14,7 +14,7 @@ const strings = {
   ALLOTTED_TO: 'Allotted to ',
   CONFIRM_FLAG: 'Report Content?',
   NO_SLOTS_AVAILABLE: 'No slots available',
-  RUNNING_DAYS: 'Running Days',
+  RUNNING_DAYS: 'Running WorkoutDays',
   POST: 'Post',
   DONE: 'Done',
   ADD_POST: 'Add Post',
@@ -90,11 +90,11 @@ const strings = {
   START_FROM: 'Start from',
   END_AT: 'End at',
   TOTAL_SESSIONS: 'Total Sessions',
-  SESSION_DAYS: 'Session Days',
+  SESSION_DAYS: 'Session WorkoutDays',
   CREATE: 'Create',
   NO_DATA: 'No Data',
   DAYS:'How many days do you work out per week?',
-  PREFERENCE: 'Preference',
+  PREFERENCES: 'Preferences',
   DESCRIBEDAYS:'This describe the number of days in your workout plan',
   BMI_CALCULATOR: 'BMI Calculator',
   HISTORY: 'History',
@@ -108,9 +108,20 @@ const strings = {
   COUPON_CODE: 'Coupon Code',
   REDEEMED: 'Redeemed',
   COUPONS_CREATED: 'Coupons created',
-  ENTER_COUPON_CODE: 'Enter Coupon Code',
+  ENTER_COUPON_CODE: 'Apply Coupon Code',
   APPLY: 'Apply',
-  TOTAl: 'Total'
+  TOTAl: 'Total',
+  PHYSICAL_DATA: 'Physical Data',
+  WEIGHT: 'Weight (kg)',
+  HEIGHT:'Height (cms)',
+  DELETE:'Delete',
+  REPORT_CONTENT: 'Report Content',
+  LAST_DAYS: 'Last few days',
+  LAST_MONTHS: 'Last few months',
+  ENTER_WEIGHT: 'Enter weight',
+  ENTER_TARGET:'Enter target weight and goal date',
+  INVALID_COUPON: 'Invalid coupon code or coupon expired'
+
 };
 
 export const bmiVerdicts = {

@@ -19,7 +19,7 @@ import Post from "../../components/Social/Post";
 
 const postList = (props) => {
   const {
-    posts, open, update, like, unlike, report, onProfilePress = () => {
+    posts, open, update, like, unlike, report, deletePost, onProfilePress = () => {
     }
   } = props;
 
@@ -37,6 +37,7 @@ const postList = (props) => {
     if (userId !== targetUserId) onProfilePress(targetUserId);
   }
   const renderPost = (post) => {
+    const isOwnPost = post.createdBy.userId === store.getState().user.userId; // TODO: can we improve this comparison?
     return <TouchableOpacity
       onPress={() => open(post._id)}
       activeOpacity={0.7}
@@ -52,7 +53,8 @@ const postList = (props) => {
         isLiked={() => checkLiked(post.likes)}
         likeCallback={() => like(post._id)}
         unlikeCallback={() => unlike(post._id)}
-        flagCallback={() => report(post._id)}
+        flagCallback={isOwnPost?null: () => report(post._id)}
+        deleteCallback={isOwnPost?()=>deletePost(post._id):null}
         // imagePressCallback={()=>props.viewImage(post.contentURL)}
         // shareCallback={() => {}}
         onProfilePress={() => disableSelfProfileClick(post.createdBy.userId)}

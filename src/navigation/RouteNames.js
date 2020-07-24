@@ -38,8 +38,11 @@ const RouteNames = {
   Login:'Login',
   Signup:'Signup',
 
-  Days:'Days',
-  Preference:'Preference',
+  WorkoutDays:'WorkoutDays',
+  WorkoutPreference:'WorkoutPreference',
+  UserInfo:'UserInfo',
+  PreferenceSwiper:'PreferenceSwiper',
+  PhysicalData: 'PhysicalData'
 };
 
 export const TabRoutes = {

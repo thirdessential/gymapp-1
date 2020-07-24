@@ -8,16 +8,10 @@ import openDrawerButton from "../openDrawerButton";
 import Activity from "../../screens/App/Activity";
 import fonts from "../../constants/fonts";
 import Profile from "../../screens/App/Profile";
-import Info from "../../screens/App/Info";
-import Days from "../../screens/App/Preference/Days";
-import Preference from "../../screens/App/Preference/Preference";
-import BMI from "../../screens/App/BMI";
 
 const activity = () => {
   return (
-    <Stack.Navigator
-      // initialRouteName={RouteNames.BMI}
-    >
+    <Stack.Navigator>
       <Stack.Screen
         name={RouteNames.Activity}
         component={Activity}

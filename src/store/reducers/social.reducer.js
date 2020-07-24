@@ -29,7 +29,16 @@ const reducer = (state = initialState, action) => {
       const {postId} = action.payload;
       const oldPosts = [...state.posts];
       const filteredPosts = oldPosts.filter(post => post._id !== postId);
-      return updateObject(state, {posts: filteredPosts});
+      const oldMyPosts = [...state.myPosts];
+      const filteredMyPosts = oldMyPosts.filter(post => post._id !== postId);
+
+      return updateObject(state, {posts: filteredPosts, myPosts: filteredMyPosts});
+    }
+    case actionTypes.REMOVE_QUESTION: {
+      const {questionId} = action.payload;
+      const oldQuestions = [...state.questions];
+      const filteredQuestions = oldQuestions.filter(question => question._id !== questionId);
+      return updateObject(state, {questions: filteredQuestions});
     }
     case actionTypes.SET_POSTS_FOR_USER: {
       const {userId, posts} = action.payload;

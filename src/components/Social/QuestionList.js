@@ -20,7 +20,7 @@ import {likeAnswer, unlikeAnswer} from "../../API";
 
 const questionList = (props) => {
   const {
-    questions, update, onCreateAnswer,onAnswerLike,onAnswerDislike, onProfilePress = () => {
+    questions, update, onCreateAnswer,onAnswerLike,onAnswerDislike,report, onProfilePress = () => {
     }
   } = props;
 
@@ -32,6 +32,8 @@ const questionList = (props) => {
     onSubmit={(answerText) => onCreateAnswer(questionId, answerText)}/>
 
   const renderQuestion = (question) => {
+    const isOwn = question.postedBy.userId === store.getState().user.userId; // TODO: can we improve this comparison?
+    console.log(isOwn)
     return <>
       <Post
         createdOn={question.createdOn}
@@ -41,6 +43,7 @@ const questionList = (props) => {
         hideOptions
         onProfilePress={() => disableSelfProfileClick(question.postedBy.userId)}
         renderFooter={() => renderAnswerBox(question._id)}
+        flagCallback={isOwn?null: () => report(question._id)}
       />
       {renderAnswers(question.answers)}
     </>

@@ -147,10 +147,31 @@ export const unlikeComment = async (commentId) => {
     return false;
   }
 }
-
+export const deletePost = async postId => {
+  try {
+    let response = await axios.delete(`/post/${postId}`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
 export const reportPost = async postId => {
   try {
     let response = await axios.put(`/post/${postId}/reportSpam`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const reportQuestion = async questionId => {
+  try {
+    let response = await axios.put(`/question/${questionId}/reportSpam`);
     if (validateResponseCode(response.status))
       return response.data;
     else return false;
