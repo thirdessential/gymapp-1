@@ -48,6 +48,7 @@ export {
 export {
   createImagePost,
   createTextPost,
+  createVideoPost,
   listPosts,
   listMyPosts,
   getPost,
