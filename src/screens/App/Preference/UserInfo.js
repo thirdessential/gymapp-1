@@ -18,7 +18,7 @@ import ImagePicker from 'react-native-image-picker';
 import defaultPic from '../../../../assets/images/male_pic_default.jpg';
 import FastImage from "react-native-fast-image";
 import DatePicker from 'react-native-datepicker';
-import AntDesign from 'react-native-vector-icons/AntDesign'
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import Female from '../../../../assets/Icons/undraw_female_avatar_w3jk.png';
 import Male from '../../../../assets/Icons/undraw_male_avatar_323b.png';
 import Other from '../../../../assets/Icons/undraw_scrum_board_cesn.png';
