@@ -113,7 +113,9 @@ const strings = {
   TOTAl: 'Total',
   PHYSICAL_DATA: 'Physical Data',
   WEIGHT: 'Weight (kg)',
-  HEIGHT:'Height (cms)'
+  HEIGHT:'Height (cms)',
+  DELETE:'Delete',
+  REPORT_CONTENT: 'Report Content'
 };
 
 export const bmiVerdicts = {

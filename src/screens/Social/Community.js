@@ -80,7 +80,7 @@ class Community extends Component {
     </View>
   )
   renderPosts = () => {
-    const {posts, likePost, unlikePost, reportPost} = this.props;
+    const {posts, likePost, unlikePost, reportPost, deletePost} = this.props;
     if (!posts || posts.length===0)
       return this.loader();
     return (
@@ -92,6 +92,7 @@ class Community extends Component {
         unlike={unlikePost}
         report={reportPost}
         onProfilePress={this.openProfile}
+        deletePost={deletePost}
       />
     )
   }
@@ -100,7 +101,7 @@ class Community extends Component {
     answerQuestion(questionId, answerText);
   }
   renderQuestions = () => {
-    const {questions} = this.props;
+    const {questions,reportQuestion} = this.props;
     if (!questions || questions.length===0)
       return this.loader();
     return (
@@ -111,6 +112,7 @@ class Community extends Component {
         onProfilePress={this.openProfile}
         onAnswerLike={likeAnswer}
         onAnswerDislike={unlikeAnswer}
+        report={reportQuestion}
       />
     )
   }
@@ -254,6 +256,8 @@ const mapDispatchToProps = (dispatch) => ({
   likePost: (postId) => dispatch(actionCreators.likePost(postId)),
   unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId)),
   reportPost: postId => dispatch(actionCreators.reportPost(postId)),
+  deletePost: postId => dispatch(actionCreators.deletePost(postId)),
+  reportQuestion: id => dispatch(actionCreators.reportQuestion(id)),
   answerQuestion: (questionId, text) => dispatch(actionCreators.answerQuestion(questionId, text))
 });
 

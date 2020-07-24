@@ -97,7 +97,7 @@ class MyProfile extends PureComponent {
     this.props.navigation.navigate(RouteNames.CreatePost);
   }
   renderContent = () => {
-    const {posts, likePost, unlikePost, reportPost} = this.props;
+    const {posts, likePost, unlikePost, deletePost} = this.props;
     const user = this.props.userData;
 
     let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots, activeSubscriptions} = user;
@@ -132,7 +132,7 @@ class MyProfile extends PureComponent {
                 update={this.updatePosts}
                 like={likePost}
                 unlike={unlikePost}
-                report={reportPost}
+                deletePost={deletePost}
               />
             </View>
           </View>
@@ -221,7 +221,7 @@ const mapDispatchToProps = (dispatch) => ({
   updatePosts: (page) => dispatch(actionCreators.updatePosts(page, true)),
   likePost: (postId) => dispatch(actionCreators.likePost(postId)),
   unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId)),
-  reportPost: postId => dispatch(actionCreators.reportPost(postId))
+  deletePost: postId => dispatch(actionCreators.deletePost(postId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);

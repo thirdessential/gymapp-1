@@ -6,6 +6,12 @@ import PropTypes from 'prop-types';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en'
 import Modal from 'react-native-modal';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo('en-US');
@@ -14,7 +20,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {StyleSheet, View, Text, TouchableOpacity, Button} from "react-native";
 
-import {appTheme} from "../../constants/colors";
+import colors, {appTheme} from "../../constants/colors";
 import {spacing} from "../../constants/dimension";
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
@@ -23,6 +29,7 @@ import FastImage from "react-native-fast-image";
 import {screenWidth} from "../../utils/screenDimensions";
 import {defaultDP} from "../../constants/appConstants";
 import strings from "../../constants/strings";
+import Entypo from "react-native-vector-icons/Entypo";
 
 const post = (props) => {
   const {
@@ -30,7 +37,7 @@ const post = (props) => {
     imageUrl, likeCount, createdOn, text, likeCallback,
     unlikeCallback, onProfilePress, hideOptions = false,
     flagCallback, shareCallback, showComment = true, isLiked,
-    renderFooter, imagePressCallback
+    renderFooter, imagePressCallback, deleteCallback
   } = props;
   const [liked, setLiked] = useState(isLiked);
   const [localLikeCount, setLocalLikeCount] = useState(likeCount);
@@ -52,6 +59,7 @@ const post = (props) => {
   const ConfirmModal = () => {
     return (
       <Modal
+        animationType={'slide'}
         onBackButtonPress={toggleModal}
         onBackdropPress={toggleModal}
         onRequestClose={toggleModal}
@@ -71,6 +79,33 @@ const post = (props) => {
       </Modal>
     )
   }
+
+  const menu = () => (
+    <Menu>
+      <MenuTrigger>
+        <Entypo style={{marginLeft: spacing.small}} name={'dots-three-vertical'} color={appTheme.brightContent}
+                size={24}/>
+      </MenuTrigger>
+      <MenuOptions customStyles={styles.menu}>
+        {
+          flagCallback && <MenuOption style={styles.menuButton} onSelect={toggleModal}>
+            <Fontisto name={'flag'} size={28} color={appTheme.brightContent}/>
+            <Text style={styles.menuText}>{strings.REPORT_CONTENT}</Text>
+          </MenuOption>
+        }
+        {
+          deleteCallback &&
+          <MenuOption style={styles.menuButton} onSelect={deleteCallback}>
+            <Fontisto name={'trash'} size={28} color={colors.rejectRed}/>
+            <Text style={styles.menuText}>{strings.DELETE}</Text>
+          </MenuOption>
+        }
+
+
+      </MenuOptions>
+    </Menu>
+  )
+
   const onFlagPress = () => {
     toggleModal();
     flagCallback();
@@ -84,10 +119,12 @@ const post = (props) => {
           <Text style={styles.displayName}>{createdBy}</Text>
         </TouchableOpacity>
         <Text style={[styles.displayName, styles.postTime]}>{timeAgo.format(new Date(createdOn))}</Text>
+        {menu()}
       </View>
       {
         !!imageUrl && (
-          <TouchableOpacity disabled={!imagePressCallback} activeOpacity={0.7} onPress={imagePressCallback} style={styles.imageContainer}>
+          <TouchableOpacity disabled={!imagePressCallback} activeOpacity={0.7} onPress={imagePressCallback}
+                            style={styles.imageContainer}>
             <FastImage
               source={{uri: imageUrl}}
               style={styles.displayImage}
@@ -110,12 +147,12 @@ const post = (props) => {
                 <Text style={styles.hits}>{commentCount}</Text>
               </View>
             }
-            {
-              flagCallback &&
-              <TouchableOpacity onPress={toggleModal} activeOpacity={0.6} o>
-                <Fontisto name={'flag'} size={28} color={appTheme.grey}/>
-              </TouchableOpacity>
-            }
+            {/*{*/}
+            {/*  flagCallback &&*/}
+            {/*  <TouchableOpacity onPress={toggleModal} activeOpacity={0.6} o>*/}
+            {/*    <Fontisto name={'flag'} size={28} color={appTheme.grey}/>*/}
+            {/*  </TouchableOpacity>*/}
+            {/*}*/}
             {
               shareCallback &&
               <TouchableOpacity activeOpacity={0.6}>
@@ -148,6 +185,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    // justifyContent: 'space-between',
     width: '100%'
   },
   displayName: {
@@ -209,6 +247,22 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MontserratMedium,
     fontSize: fontSizes.h0,
     marginBottom: spacing.medium
+  },
+  menu: {
+    backgroundColor: appTheme.darkBackground,
+  },
+  menuButton: {
+    flexDirection: 'row',
+    backgroundColor: appTheme.background,
+    alignItems: 'center',
+    padding:spacing.small_lg,
+    paddingHorizontal:spacing.medium_lg
+  },
+  menuText: {
+    marginLeft: spacing.medium_sm,
+    color: appTheme.brightContent,
+    fontFamily: fonts.CenturyGothicBold,
+    fontSize: fontSizes.h2,
   }
 });
 

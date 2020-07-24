@@ -47,7 +47,9 @@ export {
   reportPost,
   getPostsForUser,
   updateQuestions,
-  answerQuestion
+  answerQuestion,
+  deletePost,
+  reportQuestion
 } from './social.actions';
 
 export {

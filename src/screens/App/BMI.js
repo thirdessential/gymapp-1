@@ -89,8 +89,8 @@ class BMI extends PureComponent {
     const labels = [];
     bmiRecords.slice(0, 7).map(record => {
       const dayIndex = (new Date(record.date)).getDay()
-      weights.push(record.weight);
-      labels.push(Object.keys(WEEK_DAYS)[dayIndex])
+      weights.unshift(record.weight);
+      labels.unshift(Object.keys(WEEK_DAYS)[dayIndex])
     });
     return (
       <CustomLineChart data={weights} labels={labels}/>
@@ -160,7 +160,6 @@ class BMI extends PureComponent {
     )
   }
   renderVerdict = (bmi) => {
-
     const {text, color} = getBmiVerdict(bmi);
     return <Text style={{
       color: color,
@@ -179,7 +178,7 @@ class BMI extends PureComponent {
         <Text style={styles.subtitle}>{strings.BMI_CALCULATOR}</Text>
         <View style={[styles.lightCard, {marginTop: spacing.medium_sm}]}>
           <View style={{flexDirection: 'row', alignItems: 'flex-end', marginBottom: spacing.medium}}>
-            <Text style={[styles.subtitle, {color: appTheme.textPrimary}]}>{bmi}</Text>
+            <Text style={[styles.subtitle, {color: appTheme.textPrimary}]}>{bmi.toPrecision(3)}</Text>
             {this.renderVerdict(bmi)}
           </View>
           <View style={{alignItems: 'center'}}>
