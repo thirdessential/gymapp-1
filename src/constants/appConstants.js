@@ -75,5 +75,6 @@ export const firebaseTopics = {
 export const POST_TYPE = {
   TYPE_POST: 'TYPE_POST',
   TYPE_WORKOUT: 'TYPE_WORKOUT',
-  TYPE_QUESTION: 'TYPE_QUESTION'
+  TYPE_QUESTION: 'TYPE_QUESTION',
+  TYPE_VIDEO:'TYPE_VIDEO',
 }
