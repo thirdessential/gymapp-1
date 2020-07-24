@@ -60,30 +60,6 @@ class CreatePost extends PureComponent {
     });
   }
 
-  changeSwitch = (type) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({type});
-  }
-  renderSelector = () => {
-    return (
-      <View style={styles.switchStyle}>
-        <SwitchSelector
-          initial={0}
-          onPress={this.changeSwitch}
-          textColor={'white'}
-          selectedColor={'white'}
-          buttonColor={appTheme.brightContent}
-          borderColor={appTheme.darkBackground}
-          backgroundColor={appTheme.darkBackground}
-          hasPadding
-          options={[
-            {label: strings.POST, value: POST_TYPE.TYPE_POST},
-            {label: strings.QUESTION, value: POST_TYPE.TYPE_QUESTION}
-          ]}
-        />
-      </View>
-    )
-  }
   renderImage = () => {
     const titleText = this.state.imageSrc ? strings.CHANGE_IMAGE : strings.ADD_IMAGE
     return (
