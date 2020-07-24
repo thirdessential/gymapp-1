@@ -53,6 +53,43 @@ export const createImagePost = async (path, textContent, token) => {
   }
 };
 
+export const createVideoPost=async (path, textContent, token,videoSrc) =>{
+  try{
+    let fileExtension = getFileExtension(path);
+    console.log("Uploading from 1 ", fileExtension);
+    console.log("Uploading from ", path);
+    console.log("videosrc" +JSON.stringify(videoSrc));
+    const uploadData = [
+      {
+        name: "mediaContent",
+        filename: path,
+        type: "video/" + fileExtension,
+        data: RNFetchBlob.wrap(videoSrc.uri),
+      },
+    ];
+    uploadData.push({
+      name: 'textContent',
+      data: textContent
+    });
+    console.log("upload data is "+uploadData);
+    let response = await RNFetchBlob.fetch(
+      "POST",
+      rootURL + '/post',
+      {
+        Authorization: "Bearer " + token,
+        "Content-Type": "multipart/form-data",
+      },
+      uploadData,
+    );
+    console.log(response.data);
+    return response.data;
+  }catch(e){
+    console.log("error", e);
+    return false;
+  }
+
+}
+
 export const listPosts = async (url = '') => {
   try {
     let response = !!url ?

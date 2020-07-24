@@ -1,57 +1,61 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import {
   View,
   StyleSheet,
   StatusBar,
   LayoutAnimation,
-  TouchableOpacity, ActivityIndicator, Text,
-} from 'react-native'
-import {connect} from "react-redux";
+  TouchableOpacity,
+  ActivityIndicator,
+  Text,
+  ScrollView,
+} from "react-native";
+import { connect } from "react-redux";
 import RBSheet from "react-native-raw-bottom-sheet";
-import {TabView, TabBar} from 'react-native-tab-view';
+import { TabView, TabBar } from "react-native-tab-view";
 import Entypo from "react-native-vector-icons/Entypo";
 
-import {appTheme} from "../../constants/colors";
-import * as actionCreators from '../../store/actions';
-import {INITIAL_PAGE, POST_TYPE} from "../../constants/appConstants";
+import { appTheme } from "../../constants/colors";
+import * as actionCreators from "../../store/actions";
+import { INITIAL_PAGE, POST_TYPE } from "../../constants/appConstants";
 
-import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
+import RouteNames, { TabRoutes } from "../../navigation/RouteNames";
 import PostList from "../../components/Social/PostList";
-import {spacing} from "../../constants/dimension";
+import { spacing } from "../../constants/dimension";
 import strings from "../../constants/strings";
 import QuestionList from "../../components/Social/QuestionList";
-import {likeAnswer, unlikeAnswer} from "../../API";
+import { likeAnswer, unlikeAnswer } from "../../API";
 import ImageCard from "../../components/ImageCard";
-import {iconBackgrounds} from "../../constants/images";
-import {screenWidth} from "../../utils/screenDimensions";
+import { iconBackgrounds } from "../../constants/images";
+import { screenWidth } from "../../utils/screenDimensions";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 
-const initialLayout = {width: screenWidth};
+const initialLayout = { width: screenWidth };
 
 class Community extends Component {
-
   state = {
     nextPostPage: INITIAL_PAGE,
     nextQuestionPage: INITIAL_PAGE,
     type: POST_TYPE.TYPE_POST,
-    pageIndex: 0
-  }
+    pageIndex: 0,
+  };
   updatePosts = async () => {
-    const {updatePosts} = this.props;
-    const {nextPostPage} = this.state;
+    const { updatePosts } = this.props;
+    const { nextPostPage } = this.state;
     if (!!nextPostPage)
-      this.setState({nextPostPage: await updatePosts(nextPostPage)});
-  }
+      this.setState({ nextPostPage: await updatePosts(nextPostPage) });
+  };
   updateQuestions = async () => {
-    const {updateQuestions} = this.props;
-    const {nextQuestionPage} = this.state;
+    const { updateQuestions } = this.props;
+    const { nextQuestionPage } = this.state;
     if (!!nextQuestionPage)
-      this.setState({nextQuestionPage: await updateQuestions(nextQuestionPage)});
-  }
+      this.setState({
+        nextQuestionPage: await updateQuestions(nextQuestionPage),
+      });
+  };
 
   componentDidMount() {
     this.updatePosts();
@@ -59,8 +63,8 @@ class Community extends Component {
   }
 
   openPost = (postId) => {
-    this.props.navigation.navigate(RouteNames.PostViewer, {postId});
-  }
+    this.props.navigation.navigate(RouteNames.PostViewer, { postId });
+  };
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     if (nextProps.posts.length !== this.props.posts.length)
@@ -69,20 +73,19 @@ class Community extends Component {
   }
 
   openProfile = (userId) => {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     navigation.navigate(RouteNames.Profile, {
-      userId: userId
+      userId: userId,
     });
-  }
-  loader = ()=> (
-    <View style={{flex:1,justifyContent: 'center', alignItems: 'center'}}>
-      <ActivityIndicator  color={appTheme.brightContent} size={50}/>
+  };
+  loader = () => (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ActivityIndicator color={appTheme.brightContent} size={50} />
     </View>
-  )
+  );
   renderPosts = () => {
-    const {posts, likePost, unlikePost, reportPost} = this.props;
-    if (!posts || posts.length===0)
-      return this.loader();
+    const { posts, likePost, unlikePost, reportPost } = this.props;
+    if (!posts || posts.length === 0) return this.loader();
     return (
       <PostList
         posts={posts}
@@ -93,16 +96,15 @@ class Community extends Component {
         report={reportPost}
         onProfilePress={this.openProfile}
       />
-    )
-  }
+    );
+  };
   createAnswer = (questionId, answerText) => {
-    const {answerQuestion} = this.props;
+    const { answerQuestion } = this.props;
     answerQuestion(questionId, answerText);
-  }
+  };
   renderQuestions = () => {
-    const {questions} = this.props;
-    if (!questions || questions.length===0)
-      return this.loader();
+    const { questions } = this.props;
+    if (!questions || questions.length === 0) return this.loader();
     return (
       <QuestionList
         questions={questions}
@@ -112,34 +114,42 @@ class Community extends Component {
         onAnswerLike={likeAnswer}
         onAnswerDislike={unlikeAnswer}
       />
-    )
-  }
+    );
+  };
   fab = () => {
     return (
-      <TouchableOpacity style={[styles.fab, styles.fabPosition]} onPress={this.openRbSheet}>
-        <Entypo
-          name={'plus'}
-          color={'white'}
-          size={32}
-        />
+      <TouchableOpacity
+        style={[styles.fab, styles.fabPosition]}
+        onPress={this.openRbSheet}
+      >
+        <Entypo name={"plus"} color={"white"} size={32} />
       </TouchableOpacity>
     );
   };
   createPost = () => {
     this.closeRbSheet();
-    this.props.navigation.navigate(RouteNames.CreatePost)
-  }
+    this.props.navigation.navigate(RouteNames.CreatePost,{type:POST_TYPE.TYPE_POST});
+  };
   createQuestion = () => {
     this.closeRbSheet();
-    this.props.navigation.navigate(RouteNames.CreatePost, {type: POST_TYPE.TYPE_QUESTION})
-  }
-  openRbSheet = () => this.RBSheet.open()
-  closeRbSheet = () => this.RBSheet.close()
-  rbSheet = () => (<RBSheet
-      ref={ref => {
+    this.props.navigation.navigate(RouteNames.CreatePost, {
+      type: POST_TYPE.TYPE_QUESTION,
+    });
+  };
+  createVideo = () => {
+    this.closeRbSheet();
+    this.props.navigation.navigate(RouteNames.CreatePost, {
+      type: POST_TYPE.TYPE_VIDEO,
+    });
+  };
+  openRbSheet = () => this.RBSheet.open();
+  closeRbSheet = () => this.RBSheet.close();
+  rbSheet = () => (
+    <RBSheet
+      ref={(ref) => {
         this.RBSheet = ref;
       }}
-      animationType={'slide'}
+      animationType={"slide"}
       closeOnDragDown={true}
       customStyles={{
         container: {
@@ -148,22 +158,43 @@ class Community extends Component {
           backgroundColor: appTheme.lightBackground,
         },
         wrapper: {
-          backgroundColor: 'transparent'
-        }
+          backgroundColor: "transparent",
+        },
       }}
     >
       <Text style={styles.title}>{strings.CREATE} </Text>
-      <View style={{flexDirection: 'row', marginBottom:spacing.medium}}>
-        <ImageCard title={strings.POST} onPress={this.createPost} image={iconBackgrounds.workouts}/>
-        <ImageCard title={strings.ASK_EXPERT} onPress={this.createQuestion} image={iconBackgrounds.appointments}/>
-      </View>
+      <ScrollView
+        style={{
+          flexDirection: "row",
+          marginBottom: spacing.medium,
+          marginHorizontal: spacing.small_sm,
+        }}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+      >
+        <ImageCard
+          title={strings.POST}
+          onPress={this.createPost}
+          image={iconBackgrounds.workouts}
+        />
+        <ImageCard
+          title={strings.ASK_EXPERT}
+          onPress={this.createQuestion}
+          image={iconBackgrounds.appointments}
+        />
+        <ImageCard
+          title={strings.WORKOUT}
+          onPress={this.createVideo}
+          image={iconBackgrounds.appointments}
+        />
+      </ScrollView>
     </RBSheet>
-  )
+  );
   routes = [
-    {key: TabRoutes.Posts, title: strings.POSTS},
-    {key: TabRoutes.Questions, title: strings.QUESTIONS},
+    { key: TabRoutes.Posts, title: strings.POSTS },
+    { key: TabRoutes.Questions, title: strings.QUESTIONS },
   ];
-  renderScene = ({route}) => {
+  renderScene = ({ route }) => {
     switch (route.key) {
       case TabRoutes.Posts:
         return this.renderPosts();
@@ -172,27 +203,28 @@ class Community extends Component {
       default:
         return null;
     }
-  }
-  setPage = (pageIndex) => this.setState({pageIndex});
+  };
+  setPage = (pageIndex) => this.setState({ pageIndex });
 
   render() {
-    return (<View style={styles.container}>
-        <StatusBar backgroundColor={appTheme.lightBackground}/>
+    return (
+      <View style={styles.container}>
+        <StatusBar backgroundColor={appTheme.lightBackground} />
         <TabView
-          navigationState={{index: this.state.pageIndex, routes: this.routes}}
+          navigationState={{ index: this.state.pageIndex, routes: this.routes }}
           renderScene={this.renderScene}
           onIndexChange={this.setPage}
           initialLayout={initialLayout}
           swipeEnabled={false}
-          renderTabBar={props =>
+          renderTabBar={(props) => (
             <TabBar
               {...props}
-              style={{backgroundColor: 'transparent'}}
-              indicatorStyle={{backgroundColor: appTheme.lightContent}}
+              style={{ backgroundColor: "transparent" }}
+              indicatorStyle={{ backgroundColor: appTheme.lightContent }}
               tabStyle={styles.bubble}
               labelStyle={styles.noLabel}
             />
-          }
+          )}
         />
         {this.rbSheet()}
         {this.fab()}
@@ -206,11 +238,11 @@ const styles = StyleSheet.create({
     paddingLeft: spacing.medium,
     paddingRight: spacing.medium,
     backgroundColor: appTheme.background,
-    flex: 1
+    flex: 1,
   },
   switchStyle: {
     marginTop: spacing.medium,
-    marginBottom: spacing.medium
+    marginBottom: spacing.medium,
   },
   fab: {
     height: spacing.space_50,
@@ -227,25 +259,25 @@ const styles = StyleSheet.create({
     right: spacing.medium,
   },
   noLabel: {
-    fontSize: 14
+    fontSize: 14,
   },
   bubble: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     paddingHorizontal: 18,
     paddingVertical: 12,
-    borderRadius: 10
+    borderRadius: 10,
   },
-  title:{
+  title: {
     color: appTheme.brightContent,
     fontSize: fontSizes.h1,
     fontFamily: fonts.CenturyGothic,
-    marginBottom: spacing.medium_sm
-  }
+    marginBottom: spacing.medium_sm,
+  },
 });
 
 const mapStateToProps = (state) => ({
   posts: state.social.posts,
-  questions: state.social.questions
+  questions: state.social.questions,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -253,8 +285,9 @@ const mapDispatchToProps = (dispatch) => ({
   updateQuestions: (page) => dispatch(actionCreators.updateQuestions(page)),
   likePost: (postId) => dispatch(actionCreators.likePost(postId)),
   unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId)),
-  reportPost: postId => dispatch(actionCreators.reportPost(postId)),
-  answerQuestion: (questionId, text) => dispatch(actionCreators.answerQuestion(questionId, text))
+  reportPost: (postId) => dispatch(actionCreators.reportPost(postId)),
+  answerQuestion: (questionId, text) =>
+    dispatch(actionCreators.answerQuestion(questionId, text)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Community);
