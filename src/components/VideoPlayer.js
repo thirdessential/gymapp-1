@@ -3,12 +3,13 @@ import {View, StyleSheet} from "react-native";
 import React from "react";
 import {screenWidth} from "../utils/screenDimensions";
 import VideoPlayer from 'react-native-video-controls';
+import {getCompressedLink, getThumbnail} from "../utils/utils";
 
 const videoPlayer = (props) => {
   return (
     <>
       <VideoPlayer
-        source={{uri: props.uri}}
+        source={{uri: getCompressedLink(props.uri, styles.content.height, styles.content.width)}}
         // ref={(ref) => setVideoPlayerRef(ref)}
         repeat={false}
         // controls={true}
@@ -21,7 +22,7 @@ const videoPlayer = (props) => {
         disableSeekbar={true}
         disableVolume={true}
         disableBack={true}
-        poster={'https://c7.uihere.com/files/202/347/589/athletes-endurance-energy-exercise-thumb.jpg'} //tmp
+        poster={getThumbnail(props.uri, styles.content.height, styles.content.width)}
         style={styles.content}/>
     </>
   )

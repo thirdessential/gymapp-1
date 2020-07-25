@@ -24,12 +24,12 @@ import RouteNames from "../../../navigation/RouteNames";
 
 class AccountDash extends PureComponent {
   state = {
-    loading: true
+    // loading: true
   }
 
   async componentDidMount() {
-    await this.props.getAccountSummary();
-    this.setState({loading: false});
+    // await this.props.getAccountSummary();
+    // this.setState({loading: false});
   }
 
   openStatement = () => {

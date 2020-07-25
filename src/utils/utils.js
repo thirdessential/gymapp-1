@@ -244,3 +244,12 @@ export function calculateBmi(weight, height) {
   }
   return 0;
 }
+
+export const getThumbnail = (url, height = 400, width = 400) => {
+  const compressedUrl = getCompressedLink(url, height, width);
+  return compressedUrl.substr(0, compressedUrl.lastIndexOf(".")) + ".jpg";
+}
+export const getCompressedLink = (url, height = 400, width = 400) => {
+  const split = url.split('upload');
+  return split[0] + `upload/w_${width},h_${height}` + split[1];
+}
