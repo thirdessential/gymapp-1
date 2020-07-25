@@ -144,7 +144,12 @@ const strings = {
   TRANSACTION_STATUS: 'Trasaction Status',
   FINAL_AMOUNT: 'Final Amount',
   PACKAGE_PRICE: 'Package Price',
-  CLAIM_AMOUNT_TEXT: 'Click here to claim amount'
+  CLAIM_AMOUNT_TEXT: 'Click here to claim amount',
+  COUPON_COUNT: 'Coupon Count',
+  MONTHS: 'Months',
+  COUPON_VALIDITY: 'Coupon Validity',
+  VALID_UPTO: 'Valid Upto',
+  SHARE_COUPON: 'Share coupon with users'
 
 };
 

@@ -114,8 +114,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: appTheme.background,
     flex: 1,
-    padding: spacing.medium_sm,
-    paddingTop: spacing.small
+    paddingHorizontal: spacing.medium_sm,
   },
   separator: {
     borderBottomWidth: 0.4,

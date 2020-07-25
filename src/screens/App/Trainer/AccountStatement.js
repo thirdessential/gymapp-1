@@ -15,19 +15,6 @@ import StatementCard from "../../../components/Trainer/StatementCard";
 import {spacing} from "../../../constants/dimension";
 
 class AccountStatement extends PureComponent {
-  state = {}
-
-  componentDidMount() {
-    // this.props.navigation.setOptions({
-    //   title: 'Account Statement',
-    //   headerTintColor: appTheme.darkBackground,
-    //   headerStyle: {
-    //     backgroundColor: appTheme.brightContent,
-    //   },
-    //   headerLeft: openDrawerButtonDark
-    // })
-  }
-
   renderStatement = (data) => {
     return (
       <StatementCard {...data}/>

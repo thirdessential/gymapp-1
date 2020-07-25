@@ -10,25 +10,25 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Text,
-  TextInput
+  TextInput, FlatList
 } from 'react-native'
 import {connect} from "react-redux";
 import Counter from "react-native-counters";
 import {spacing} from "../../../constants/dimension";
 import * as actionCreators from "../../../store/actions";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import colors, {appTheme, darkPallet} from "../../../constants/colors";
+import {appTheme} from "../../../constants/colors";
 import strings, {couponShareBuilder} from "../../../constants/strings";
 import fontSizes from "../../../constants/fontSizes";
 import fonts from "../../../constants/fonts";
 
-import Slot from "../../../components/Slot";
-import {dateToString, groupBy} from "../../../utils/utils";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import {groupBy} from "../../../utils/utils";
 import {showSuccess} from "../../../utils/notification";
-import PillButton from "../../../components/PillButton";
 import Coupon from "../../../components/Coupon";
 import {textShare} from "../../../utils/share";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import {roundEdgeSeparator} from "../../../components/Trainer/StatementCard";
+import { screenWidth} from "../../../utils/screenDimensions";
 
 class CouponMachine extends PureComponent {
 
@@ -39,7 +39,7 @@ class CouponMachine extends PureComponent {
     settingInitial: true,
     genCount: 1,
     genValidity: 3,
-    genPercentage: 5
+    genPercentage: 8
   }
 
   async componentDidMount() {
@@ -47,9 +47,13 @@ class CouponMachine extends PureComponent {
     this.refreshCoupons();
   }
 
-  changeCount = genCount => this.setState({genCount});
-  changeValidity = genValidity => this.setState({genValidity});
-  changePercentage = genPercentage => this.setState({genPercentage});
+  incrementCount = () => this.setState({genCount: this.state.genCount + 1})
+  decrementCount = () => this.setState({genCount: this.state.genCount - 1})
+  decrementPercentage = () => this.setState({genPercentage: this.state.genPercentage - 1})
+  incrementPercentage = () => this.setState({genPercentage: this.state.genPercentage + 3})
+  incrementValidity = () => this.setState({genValidity: this.state.genValidity + 1})
+  decrementValidity = () => this.setState({genValidity: this.state.genValidity - 1})
+
   createCoupons = async () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({submitPending: true});
@@ -92,121 +96,127 @@ class CouponMachine extends PureComponent {
     return localCoupons.sort(this.sortCoupons);
   }
 
-  shareCoupon = (code, discount,validity) => {
-    const message = couponShareBuilder(code,discount,validity);
+  shareCoupon = (code, discount, validity) => {
+    const message = couponShareBuilder(code, discount, validity);
     textShare(message);
   }
-  renderCoupons = () => {
-    return this.state.coupons.map((coupon, index) => {
-      const validTill = (new Date(coupon.validTill)).toLocaleDateString();
-      return <View key={coupon._id} style={{marginBottom: spacing.medium}}>
-        <Coupon
-          code={coupon.couponCode}
-          discount={coupon.percentageOff}
-          validity={validTill}
-          redeemed={coupon.redeemCount}
-          count={coupon.total}
-          onShare={() => this.shareCoupon(coupon.couponCode, coupon.percentageOff, validTill)}
-        />
-      </View>
-    })
+  renderCoupon = (coupon) => {
+    const validTill = (new Date(coupon.validTill)).toLocaleDateString();
+    return <View style={{marginBottom: spacing.medium}}>
+      <Coupon
+        code={coupon.couponCode}
+        discount={coupon.percentageOff}
+        validity={validTill}
+        redeemed={coupon.redeemCount}
+        count={coupon.total}
+        onShare={() => this.shareCoupon(coupon.couponCode, coupon.percentageOff, validTill)}
+      />
+    </View>
   }
-  fab = () => {
-    if (!this.state.changed) return null;
-    return (
-      <TouchableOpacity style={[styles.fab, styles.fabPosition]} onPress={this.createCoupons}>
-        {
-          this.state.submitPending && (
-            <ActivityIndicator size={28} color={'white'}/>
-          )
-        }
-        {
-          !this.state.submitPending && (
-            <FontAwesome
-              name={'check'}
-              color={'white'}
-              size={22}
-            />
-          )
-        }
-      </TouchableOpacity>
-    );
-  };
 
+  renderCouponCount = () => {
+    const {genCount} = this.state;
+    return <View style={styles.buttonContainer}>
+      <TouchableOpacity onPress={this.decrementCount}
+                        disabled={genCount < 2}
+                        style={[styles.roundButton, styles.halfLeft, genCount < 2 && styles.disabled]}>
+        <FontAwesome5Icon name={'minus'} size={15} color={'white'}/>
+      </TouchableOpacity>
+      <Text style={styles.buttonText}>{genCount}</Text>
+      <TouchableOpacity onPress={this.incrementCount}
+                        disabled={genCount > 9}
+                        style={[styles.roundButton, styles.halfRight, genCount > 9 && styles.disabled]}>
+        <FontAwesome5Icon name={'plus'} size={15} color={'white'}/>
+      </TouchableOpacity>
+    </View>
+  }
+  renderCouponDiscount = () => {
+    const {genPercentage} = this.state;
+    return <View style={styles.buttonContainer}>
+      <TouchableOpacity onPress={this.decrementPercentage}
+                        disabled={genPercentage < 4}
+                        style={[styles.roundButton, styles.halfLeft, genPercentage < 4 && styles.disabled]}>
+        <FontAwesome5Icon name={'minus'} size={15} color={'white'}/>
+      </TouchableOpacity>
+      <Text style={styles.buttonText}>{genPercentage}</Text>
+      <TouchableOpacity onPress={this.incrementPercentage}
+                        disabled={genPercentage > 14}
+                        style={[styles.roundButton, styles.halfRight, genPercentage > 14 && styles.disabled]}>
+        <FontAwesome5Icon name={'plus'} size={15} color={'white'}/>
+      </TouchableOpacity>
+    </View>
+  }
+  renderCouponValidity = () => {
+    const {genValidity} = this.state;
+    return <View style={styles.buttonContainer}>
+      <TouchableOpacity onPress={this.decrementValidity}
+                        disabled={genValidity < 2}
+                        style={[styles.roundButton, styles.halfLeft, genValidity < 2 && styles.disabled]}>
+        <FontAwesome5Icon name={'minus'} size={15} color={'white'}/>
+      </TouchableOpacity>
+      <Text style={[styles.buttonText, {marginLeft: 'auto', marginRight: 'auto'}]}>{genValidity} {strings.MONTHS}</Text>
+      <TouchableOpacity onPress={this.incrementValidity}
+                        disabled={genValidity > 5}
+                        style={[styles.roundButton, styles.halfRight, genValidity > 5 && styles.disabled]}>
+        <FontAwesome5Icon name={'plus'} size={15} color={'white'}/>
+      </TouchableOpacity>
+    </View>
+  }
   renderCreate = () => {
     return (
       <View style={styles.couponContainer}>
-        <View style={styles.row}>
-          <Text style={[styles.subtitle, {marginRight: spacing.medium}]}>{strings.COUNT}</Text>
-          <Counter
-            start={this.state.genCount}
-            onChange={this.changeCount}
-            min={1}
-            max={10}
-            buttonStyle={{borderColor: appTheme.brightContent}}
-            buttonTextStyle={{color: appTheme.brightContent}}
-            countTextStyle={{color: appTheme.brightContent}}
-          />
+        <View style={{marginTop: -12, width: '100%'}}>
+          {roundEdgeSeparator(appTheme.background)}
         </View>
         <View style={styles.row}>
-          <Text style={[styles.subtitle, {marginRight: spacing.medium}]}>{strings.DISCOUNT} %</Text>
-          <Counter
-            start={this.state.genPercentage}
-            onChange={this.changePercentage}
-            min={3}
-            max={15}
-            buttonStyle={{borderColor: appTheme.brightContent}}
-            buttonTextStyle={{color: appTheme.brightContent}}
-            countTextStyle={{color: appTheme.brightContent}}
-          />
-        </View>
-        <View style={styles.row}>
-          <Text style={[styles.subtitle, {marginRight: spacing.medium}]}>{strings.VALIDITY} (months)</Text>
-          <Counter
-            start={this.state.genValidity}
-            onChange={this.changeValidity}
-            min={1}
-            max={6}
-            buttonStyle={{borderColor: appTheme.brightContent}}
-            buttonTextStyle={{color: appTheme.brightContent}}
-            countTextStyle={{color: appTheme.brightContent}}
-          />
-        </View>
-        {!this.state.submitPending &&
-        <View style={{width: 100, alignItems: 'center', alignSelf: 'flex-end', marginTop: spacing.medium_sm}}>
-          <PillButton title={strings.GENERATE} onPress={this.createCoupons}/>
-        </View>
-        }
-        {
-          this.state.submitPending &&
-          <View style={{marginTop: spacing.medium_sm}}>
-            <ActivityIndicator size={24} color={appTheme.brightContent}/>
+          <View style={{alignItems: 'center'}}>
+            <Text style={styles.subtitle}>{strings.COUPON_COUNT}</Text>
+            {this.renderCouponCount()}
           </View>
-        }
+          <View style={{alignItems: 'center'}}>
+            <Text style={styles.subtitle}>{strings.DISCOUNT} %</Text>
+            {this.renderCouponDiscount()}
+          </View>
+        </View>
+
+        <Text style={[styles.subtitle, {
+          marginVertical: spacing.medium_sm,
+          marginHorizontal: spacing.small
+        }]}>{strings.COUPON_VALIDITY} </Text>
+        {this.renderCouponValidity()}
+        <TouchableOpacity disabled={this.state.submitPending} onPress={this.createCoupons} style={styles.pillButton}>
+          {!this.state.submitPending &&
+          <Text style={[styles.buttonText, {fontSize: fontSizes.h2}]}>{strings.GENERATE}</Text>}
+          {this.state.submitPending && <ActivityIndicator size={24} color={appTheme.textPrimary}/>}
+        </TouchableOpacity>
       </View>
     )
   }
+  separator = () => <View style={{marginTop: spacing.medium_lg}}/>
 
   render() {
     return (
-      <View
-        style={styles.container}>
-        {
-          this.state.settingInitial &&
-          <ActivityIndicator style={{position: 'absolute'}} color={appTheme.brightContent} size={50}/>
-        }
-        {
-          !this.state.settingInitial && (
-            <KeyboardAwareScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
-              <StatusBar backgroundColor={appTheme.lightBackground}/>
-              <View style={styles.listContainer}>
-                {this.renderCreate()}
-                <this.renderCoupons/>
-              </View>
-            </KeyboardAwareScrollView>
-          )
-        }
-        <this.fab/>
+      <View style={styles.container}>
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
+          {this.renderCreate()}
+          {
+            !this.state.settingInitial && this.state.coupons.length > 0 &&
+            <FlatList
+              contentContainerStyle={styles.listContainer}
+              data={this.state.coupons}
+              ListHeaderComponent={this.separator}
+              ListFooterComponent={this.separator}
+              ItemSeparatorComponent={this.separator}
+              showsVerticalScrollIndicator={false}
+              renderItem={({item}) => this.renderCoupon(item)}
+              keyExtractor={(item) => item._id}
+            />
+          }
+          {
+            this.state.settingInitial &&
+            <ActivityIndicator color={appTheme.brightContent} size={50}/>
+          }
+        </KeyboardAwareScrollView>
       </View>
     );
   }
@@ -216,71 +226,78 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: appTheme.background
+    backgroundColor: appTheme.background,
   },
   listContainer: {
-    justifyContent: 'center',
-    marginTop: spacing.medium_lg,
-    marginLeft: spacing.medium,
-    marginRight: spacing.medium,
+    backgroundColor: appTheme.darkBackground,
     flex: 1,
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    paddingHorizontal: spacing.medium,
+    paddingTop: spacing.medium_lg
+
   },
   couponContainer: {
     backgroundColor: appTheme.darkBackground,
     borderRadius: 8,
-    marginBottom: spacing.medium_lg,
-    padding: spacing.medium,
+    marginBottom: spacing.space_40,
+    paddingBottom: spacing.medium,
+    paddingHorizontal: spacing.large_lg + 5,
+    marginHorizontal: spacing.medium,
+    marginTop: spacing.medium_lg
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: 270,
     marginBottom: spacing.medium_sm
   },
-  textInput: {
-    color: appTheme.brightContent,
-    fontFamily: fonts.CenturyGothic
+  subtitle: {
+    color: appTheme.brightContentFaded,
+    fontSize: fontSizes.h3,
+    fontFamily: fonts.CenturyGothicBold,
+    marginBottom: spacing.medium_sm
   },
-  titleContainer: {
-    paddingTop: spacing.medium_sm,
-    paddingLeft: spacing.large,
-    paddingRight: spacing.large,
-    paddingBottom: spacing.medium_sm,
-    marginBottom: spacing.medium_sm,
-    backgroundColor: appTheme.darkBackground,
+  buttonContainer: {
+    borderRadius: 100,
+    backgroundColor: appTheme.background,
+    flexDirection: 'row',
     alignItems: 'center'
   },
-  title: {
-    color: 'white',
-    fontSize: fontSizes.h0,
-    fontFamily: fonts.PoppinsRegular
+  roundButton: {
+    padding: spacing.medium_sm,
+    backgroundColor: appTheme.brightContent,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  subtitle: {
-    color: 'white',
-    fontSize: fontSizes.h2,
-    fontFamily: fonts.CenturyGothicBold
+  halfLeft: {
+    borderBottomLeftRadius: 100,
+    borderTopLeftRadius: 100,
+    paddingLeft: spacing.medium_sm + 2
   },
-  addButtonContainer: {
-    paddingTop: spacing.medium,
-    paddingBottom: spacing.medium_sm,
+  halfRight: {
+    borderBottomRightRadius: 100,
+    borderTopRightRadius: 100,
+    paddingRight: spacing.medium_sm + 2
+  },
+  buttonText: {
+    color: appTheme.textPrimary,
+    fontFamily: fonts.CenturyGothic,
+    paddingHorizontal: spacing.medium_lg
+  },
+  disabled: {
+    backgroundColor: appTheme.grey
+  },
+  pillButton: {
+    width: screenWidth / 2.3,
+    padding: spacing.medium_sm,
+    borderRadius: 100,
     alignItems: 'center',
-  },
-  fab: {
-    height: spacing.space_50,
-    width: spacing.space_50,
-    borderRadius: spacing.thumbnailMini / 2,
-    elevation: 4,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: colors.acceptGreen,
-  },
-  fabPosition: {
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-  },
+    alignSelf: 'center',
+    backgroundColor: appTheme.brightContent,
+    marginTop: spacing.medium_lg,
+    marginBottom: -spacing.large_lg - 5
+  }
 });
 
 const mapStateToProps = (state) => ({

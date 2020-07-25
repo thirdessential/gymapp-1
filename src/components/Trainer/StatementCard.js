@@ -10,32 +10,30 @@ import {appTheme} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
-import {screenWidth} from "../../utils/screenDimensions";
-import {hitSlop20} from "../../constants/styles";
 import {toTitleCase} from "../../utils/utils";
 
-const contentItem = (title, content, alignRight = false) => (
+export const contentItem = (title, content, alignRight = false) => (
   <View>
-    <Text style={[styles.subtitle, alignRight ? {textAlign: 'right'} : null]}>{title}</Text>
-    <Text style={styles.title}>{content}</Text>
+    <Text style={[styles.subtitle, alignRight && {textAlign: 'right'}]}>{title}</Text>
+    <Text style={[styles.title, alignRight && {textAlign: 'right'}]}>{content}</Text>
   </View>
 )
-const separator = () => (
+export const separator = () => (
   <Dash
     dashColor={appTheme.greyC}
     dashThickness={1} dashLength={5} dashGap={3}
     style={{height: 1, marginVertical: spacing.medium_sm}}/>
 )
 
-const roundEdgeSeparator = () => (
+export const roundEdgeSeparator = (color = appTheme.darkBackground) => (
   <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
     <View
-      style={{height: 30, width: 30, borderRadius: 20, backgroundColor: appTheme.darkBackground, marginLeft: -43}}/>
+      style={{height: 30, width: 30, borderRadius: 20, backgroundColor: color, marginLeft: -43}}/>
     <View style={{width: '100%'}}>
       {separator()}
     </View>
     <View
-      style={{height: 30, width: 30, borderRadius: 20, backgroundColor: appTheme.darkBackground, marginRight: -43}}/>
+      style={{height: 30, width: 30, borderRadius: 20, backgroundColor: color, marginRight: -43}}/>
   </View>
 )
 
@@ -99,7 +97,6 @@ const statement = (props) => {
           </>
         )
       }
-      {/*{separator()}*/}
     </View>
   );
 }
