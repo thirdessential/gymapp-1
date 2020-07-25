@@ -33,7 +33,6 @@ const questionList = (props) => {
 
   const renderQuestion = (question) => {
     const isOwn = question.postedBy.userId === store.getState().user.userId; // TODO: can we improve this comparison?
-    console.log(isOwn)
     return <>
       <Post
         createdOn={question.createdOn}

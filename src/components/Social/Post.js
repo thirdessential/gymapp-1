@@ -27,21 +27,24 @@ import fontSizes from "../../constants/fontSizes";
 import Avatar from "../Avatar";
 import FastImage from "react-native-fast-image";
 import {screenWidth} from "../../utils/screenDimensions";
-import {defaultDP} from "../../constants/appConstants";
+import {CONTENT_TYPE, defaultDP} from "../../constants/appConstants";
 import strings from "../../constants/strings";
 import Entypo from "react-native-vector-icons/Entypo";
+import VideoPlayer from "../VideoPlayer";
 
 const post = (props) => {
   const {
     commentCount, createdBy, displayImageUrl,
-    imageUrl, likeCount, createdOn, text, likeCallback,
+    contentUrl, likeCount, createdOn, text, likeCallback,
     unlikeCallback, onProfilePress, hideOptions = false,
     flagCallback, shareCallback, showComment = true, isLiked,
-    renderFooter, imagePressCallback, deleteCallback
+    renderFooter, imagePressCallback, deleteCallback,
+    contentType
   } = props;
   const [liked, setLiked] = useState(isLiked);
   const [localLikeCount, setLocalLikeCount] = useState(likeCount);
   const [isModalVisible, setModalVisible] = useState(false);
+  // const [videoPlayerRef, setVideoPlayerRef] = useState(null);
   const toggleLike = () => {
     if (liked) {
       unlikeCallback();
@@ -108,6 +111,7 @@ const post = (props) => {
     toggleModal();
     flagCallback();
   }
+  // const goFullScreen = ()=>videoPlayerRef.presentFullscreenPlayer();
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -120,14 +124,21 @@ const post = (props) => {
         {menu()}
       </View>
       {
-        !!imageUrl && (
+        !!contentUrl && contentType === CONTENT_TYPE.IMAGE && (
           <TouchableOpacity disabled={!imagePressCallback} activeOpacity={0.7} onPress={imagePressCallback}
                             style={styles.imageContainer}>
             <FastImage
-              source={{uri: imageUrl}}
+              source={{uri: contentUrl}}
               style={styles.displayImage}
             />
           </TouchableOpacity>
+        )
+      }
+      {
+        !!contentUrl && contentType === CONTENT_TYPE.VIDEO && (
+          <View style={{marginTop:spacing.medium_sm}}>
+            <VideoPlayer uri={contentUrl}/>
+          </View>
         )
       }
       <Text style={styles.textContent}>{text}</Text>
@@ -145,12 +156,6 @@ const post = (props) => {
                 <Text style={styles.hits}>{commentCount}</Text>
               </View>
             }
-            {/*{*/}
-            {/*  flagCallback &&*/}
-            {/*  <TouchableOpacity onPress={toggleModal} activeOpacity={0.6} o>*/}
-            {/*    <Fontisto name={'flag'} size={28} color={appTheme.grey}/>*/}
-            {/*  </TouchableOpacity>*/}
-            {/*}*/}
             {
               shareCallback &&
               <TouchableOpacity activeOpacity={0.6}>
@@ -252,14 +257,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: appTheme.background,
     alignItems: 'center',
-    padding:spacing.small_lg,
-    paddingHorizontal:spacing.medium_lg
+    padding: spacing.small_lg,
+    paddingHorizontal: spacing.medium_lg
   },
   menuText: {
     marginLeft: spacing.medium_sm,
     color: appTheme.brightContent,
     fontFamily: fonts.CenturyGothicBold,
     fontSize: fontSizes.h2,
+  },
+  fullScreenButton: {
+    position: 'absolute',
+    bottom: spacing.medium_sm,
+    right: spacing.medium_sm
+
   }
 });
 

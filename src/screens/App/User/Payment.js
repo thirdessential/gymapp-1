@@ -254,6 +254,7 @@ class Packages extends PureComponent {
         },
         theme: {color: appTheme.background, backgroundColor: "red"},
       };
+      console.log(options);
 
       RazorpayCheckout.open(options)
         .then((data) => {

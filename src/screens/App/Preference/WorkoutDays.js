@@ -14,7 +14,6 @@ import strings from "../../../constants/strings";
 import fontSizes from "../../../constants/fontSizes";
 import {iconBackgrounds} from "../../../constants/images";
 import {screenHeight, screenWidth} from "../../../utils/screenDimensions";
-import {updateExerciseIndex} from "../../../API";
 import * as actionCreators from "../../../store/actions";
 import {connect} from "react-redux";
 
@@ -24,15 +23,13 @@ class WorkoutDays extends Component {
   };
 
   componentDidMount() {
-    this.unsubscribe = this.props.navigation.addListener('blur', e => {
-      this.submit();
-    });
     const {exerciseIndex} = this.props;
     this.setState({index: exerciseIndex})
   }
-
-  componentWillUnmount() {
-    this.unsubscribe();
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if(this.props.active && !nextProps.active)
+      this.submit(); // hacky way of checking if screen unfocused
+    return true;
   }
 
   submit = () => {
@@ -76,7 +73,7 @@ class WorkoutDays extends Component {
           <Image source={iconBackgrounds.days} style={styles.image}/>
           <Text style={styles.text}>{strings.DAYS}</Text>
           <View style={styles.itemContainer}>
-            <Text style={styles.describe}>{strings.DESCRIBEDAYS}</Text>
+            <Text style={styles.describe}>{strings.DESCRIBE_DAYS}</Text>
             <View style={styles.optionContainer}>
               {
                 this.data.map(item => this.renderButton(item))
@@ -122,6 +119,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
     backgroundColor: "#20222f",
     flex: 1,
+    height:screenHeight/2,
     margin: -spacing.medium_sm,
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,

@@ -15,66 +15,88 @@ import CallButton from "./CallButton";
 import fontSizes from "../constants/fontSizes";
 import fonts from "../constants/fonts";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import {contentItem, roundEdgeSeparator} from "./Trainer/StatementCard";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+
+const shareFab = (onPress) => (
+  <TouchableOpacity onPress={onPress} activeOpacity={0.6} style={styles.fab}>
+    <FontAwesome5Icon name={'share-alt'} color={appTheme.textPrimary} size={24}/>
+  </TouchableOpacity>
+)
 
 const coupon = (props) => {
   return (
     <View style={styles.cardStyle}>
       <View style={styles.row}>
-        <Text style={styles.subtitle}>{strings.COUPON_CODE}</Text>
-        <TouchableOpacity onPress={props.onShare} style={{flexDirection: 'row'}}>
-          <Text style={styles.subtitle}>{props.code}</Text>
-          <FontAwesome
-            name={'share-alt'}
-            color={styles.subtitle.color}
-            size={20}
-            style={{marginLeft: spacing.small_lg}}/>
-        </TouchableOpacity>
+        {contentItem(strings.DISCOUNT, props.discount + ' %')}
+        {contentItem(strings.REDEEMED, `(${props.redeemed}/${props.count})`, true)}
       </View>
-      <View style={styles.row}>
-        <Text style={styles.subtitle}>{strings.DISCOUNT}</Text>
-        <Text style={styles.subtitle}>{props.discount}</Text>
+      <View style={[styles.row, {marginTop:spacing.medium, marginBottom:spacing.small}]}>
+        <Text style={styles.brightTitle}>{strings.VALID_UPTO}</Text>
+        <Text style={styles.title}>—</Text>
+        <Text style={styles.brightTitle}>{props.validity}</Text>
       </View>
-      <View style={styles.row}>
-        <Text style={styles.subtitle}>{strings.VALIDITY}</Text>
-        <Text style={styles.subtitle}>{props.validity}</Text>
+      {roundEdgeSeparator()}
+      <View style={[styles.row, {marginVertical: spacing.small}]}>
+        <Text style={[styles.brightTitle, {color: appTheme.altBrightContent}]}>{strings.COUPON_CODE}</Text>
+        <Text style={[styles.brightTitle, {color: appTheme.textPrimary}]}>{props.code}</Text>
       </View>
+      {roundEdgeSeparator()}
       <View style={styles.row}>
-        <Text style={styles.subtitle}>{strings.REDEEMED}</Text>
-        <Text style={styles.subtitle}>{props.redeemed}/{props.count}</Text>
+        <Text style={styles.subtitle}>{strings.SHARE_COUPON}</Text>
+        <View style={styles.fabPosition}>
+          {shareFab(props.onShare)}
+        </View>
       </View>
     </View>
   );
 }
 
-
 const styles = StyleSheet.create({
   cardStyle: {
-    borderRadius: 6,
-    backgroundColor: appTheme.darkBackground,
+    borderRadius: 20,
+    backgroundColor: appTheme.background,
     borderColor: appTheme.background,
     elevation: 11,
     alignItems: 'center',
     padding: spacing.medium_sm,
     paddingLeft: spacing.medium,
     paddingRight: spacing.medium,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: 270,
-    marginBottom: spacing.medium_sm
-  },
-  title: {
-    color: 'white',
-    fontFamily: fonts.CenturyGothicBold
+    paddingHorizontal: spacing.medium_sm,
+    width: '100%'
   },
   subtitle: {
     color: appTheme.grey,
     fontSize: fontSizes.h3,
     fontFamily: fonts.CenturyGothic,
   },
+  title: {
+    color: appTheme.textPrimary,
+    fontSize: fontSizes.h1,
+    fontFamily: fonts.CenturyGothicBold
+  },
+  brightTitle: {
+    color: appTheme.brightContent,
+    fontSize: fontSizes.h2,
+    fontFamily: fonts.CenturyGothicBold
+  },
+  fab: {
+    height: 50,
+    width: 50,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: appTheme.brightContent
+  },
+  fabPosition:{
+    marginBottom:-25 - spacing.medium_sm,
+  }
 });
 
 export default React.memo(coupon);

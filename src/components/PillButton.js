@@ -6,8 +6,8 @@ import fonts from "../constants/fonts";
 
 
 const pillButton = (props) => (
-  <TouchableOpacity disabled={props.disabled} onPress={props.onPress} style={[styles.pillButton, props.disabled?styles.disabled:null]}>
-    <Text style={styles.buttonText}>{props.title}</Text>
+  <TouchableOpacity disabled={props.disabled} onPress={props.onPress} style={[styles.pillButton, props.disabled?styles.disabled:null, {backgroundColor:props.tint}]}>
+    <Text style={[styles.buttonText,props.bold ? {fontWeight: '700'}:null]}>{props.title}</Text>
   </TouchableOpacity>
 )
 

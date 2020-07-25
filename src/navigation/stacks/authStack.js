@@ -8,6 +8,8 @@ import ChooseUserType from "../../screens/Auth/ChooseUserType";
 import Login from "../../screens/Auth/Login";
 import Signup from "../../screens/Auth/Signup";
 import SignInWithRegisteredEmail from "../../screens/Auth/SignInWithRegisteredEmail";
+import SignInNew from '../../screens/Auth/SignInNew';
+import SignUpNew from '../../screens/Auth/SignUpNew';
 
 const authStack = ({navigationRef}) => {
   return (
@@ -15,8 +17,8 @@ const authStack = ({navigationRef}) => {
       <Stack.Navigator screenOptions={{
         headerShown: false
       }}>
-        <Stack.Screen name={RouteNames.Login} component={Login} options={{title: ''}}/>
-        <Stack.Screen name={RouteNames.Signup} component={Signup} options={{title: 'Sign up'}}/>
+        <Stack.Screen name={RouteNames.SignInNew} component={SignInNew} options={{title: ''}}/>
+        <Stack.Screen name={RouteNames.SignUpNew} component={SignUpNew} options={{title: 'Sign up'}}/>
         <Stack.Screen name="signInWithRegisteredEmail" component={SignInWithRegisteredEmail}
                       options={{title: 'Sign in'}}/>
         <Stack.Screen name={RouteNames.ChooseUserType} component={ChooseUserType}/>

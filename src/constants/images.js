@@ -25,7 +25,12 @@ export const iconBackgrounds = {
   preference:require('../../assets/Icons/preference.png'),
   discount:require('../../assets/Icons/discount.png'),
   coupon:require('../../assets/Icons/Coupon.png'),
-  physical:require('../../assets/Icons/Physical.png')
+  physical:require('../../assets/Icons/Physical.png'),
+  coinMan:require('../../assets/Icons/CoinMan.png'),
+  graphMan:require('../../assets/Icons/graphMan.png'),
+  moneyBag:require('../../assets/Icons/moneyBag.png'),
+  serverTable:require('../../assets/Icons/serverTable.png'),
+
 }
 
 export const getRandomImage = ()=> {

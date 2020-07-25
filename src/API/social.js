@@ -52,26 +52,30 @@ export const createImagePost = async (path, textContent, token) => {
     return false;
   }
 };
+import VideoCompress from 'react-native-video-compressor'
+import {showInfo} from "../utils/notification";
+import strings from "../constants/strings";
 
-export const createVideoPost=async (path, textContent, token,videoSrc) =>{
-  try{
+
+export const createVideoPost = async (path, textContent, token, videoSrc) => {
+  try {
     let fileExtension = getFileExtension(path);
-    console.log("Uploading from 1 ", fileExtension);
-    console.log("Uploading from ", path);
-    console.log("videosrc" +JSON.stringify(videoSrc));
+    showInfo(strings.COMPRESSING_VIDEO);
+    const compressedPath = (await VideoCompress.compress(path, {compressQuality:2})).path;
+    showInfo(strings.UPLOADING);
     const uploadData = [
       {
         name: "mediaContent",
         filename: path,
         type: "video/" + fileExtension,
-        data: RNFetchBlob.wrap(videoSrc.uri),
+        data: RNFetchBlob.wrap(compressedPath),
       },
     ];
     uploadData.push({
       name: 'textContent',
       data: textContent
     });
-    console.log("upload data is "+uploadData);
+    console.log("upload data is " + uploadData);
     let response = await RNFetchBlob.fetch(
       "POST",
       rootURL + '/post',
@@ -83,7 +87,7 @@ export const createVideoPost=async (path, textContent, token,videoSrc) =>{
     );
     console.log(response.data);
     return response.data;
-  }catch(e){
+  } catch (e) {
     console.log("error", e);
     return false;
   }
