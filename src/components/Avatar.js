@@ -6,6 +6,7 @@ import FastImage from 'react-native-fast-image'
 import PropTypes from 'prop-types';
 
 import {spacing} from "../constants/dimension";
+import {defaultDP} from "../constants/appConstants";
 
 const Avatar = (props) => {
   const {url, size = spacing.thumbnail, roundedMultiplier = 8} = props;
@@ -18,7 +19,7 @@ const Avatar = (props) => {
     <FastImage
       style={imageStyle}
       source={{
-        uri: url,
+        uri: !!url ? url : defaultDP,
         priority: FastImage.priority.normal,
       }}
       resizeMode={FastImage.resizeMode.cover}

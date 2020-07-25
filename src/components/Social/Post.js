@@ -32,6 +32,7 @@ import strings from "../../constants/strings";
 import Entypo from "react-native-vector-icons/Entypo";
 import Video from "react-native-video";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import VideoPlayer from "../VideoPlayer";
 
 const post = (props) => {
   const {
@@ -137,17 +138,8 @@ const post = (props) => {
       }
       {
         !!contentUrl && contentType === CONTENT_TYPE.VIDEO && (
-          <View>
-            <Video
-              source={{uri: contentUrl}}
-              // ref={(ref) => setVideoPlayerRef(ref)}
-              repeat={true}
-              resizeMode="stretch"
-              poster={'https://c7.uihere.com/files/202/347/589/athletes-endurance-energy-exercise-thumb.jpg'} //tmp
-              style={[styles.displayImage, {marginTop: spacing.medium}]}/>
-            {/*<TouchableOpacity onPress={goFullScreen} style={styles.fullScreenButton}>*/}
-            {/*  <FontAwesome5Icon name={'expand-arrows-alt'} size={20} color={'white'}/>*/}
-            {/*</TouchableOpacity>*/}
+          <View style={{marginTop:spacing.medium_sm}}>
+            <VideoPlayer uri={contentUrl}/>
           </View>
         )
       }

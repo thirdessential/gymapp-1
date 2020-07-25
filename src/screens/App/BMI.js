@@ -123,7 +123,7 @@ class BMI extends PureComponent {
   }
   renderProgressChart = () => {
     const {bmiRecords} = this.props;
-    if (!bmiRecords || bmiRecords.length <2)
+    if (!bmiRecords || bmiRecords.length < 2)
       return null;
     const weights = [];
     const labels = [];
@@ -264,7 +264,9 @@ class BMI extends PureComponent {
   renderHistory = () => {
     const {bmiRecords} = this.props;
     if (!bmiRecords || bmiRecords.length === 0)
-      return null;
+      return <View style={{marginTop: spacing.large_lg}}>
+        <Text style={styles.subtitle}>Hi! Add new weight to continue</Text>
+      </View>;
     return (
       <View style={styles.sectionContainer}>
         <Text style={styles.subtitle}>{strings.HISTORY}</Text>
@@ -511,7 +513,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
-  bmiRecords: state.fitness.bmiRecords,
+  bmiRecords:state.fitness.bmiRecords,
   targetWeight: state.fitness.targetWeight,
   targetDate: state.fitness.targetDate
 });
