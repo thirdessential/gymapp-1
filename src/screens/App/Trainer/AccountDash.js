@@ -8,7 +8,8 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  Image, FlatList
+  Image,
+  FlatList
 } from 'react-native'
 import {connect} from "react-redux";
 
@@ -20,7 +21,6 @@ import {spacing} from "../../../constants/dimension";
 import {iconBackgrounds} from "../../../constants/images";
 import * as actionCreators from "../../../store/actions";
 import RouteNames from "../../../navigation/RouteNames";
-
 class AccountDash extends PureComponent {
   state = {
     sections: []
@@ -30,7 +30,6 @@ class AccountDash extends PureComponent {
     this.setSections();
     await this.props.getAccountSummary();
     this.setSections();
-    // this.setState({loading: false});
   }
 
   setSections = () => {
@@ -40,19 +39,19 @@ class AccountDash extends PureComponent {
         title: strings.STATEMENT,
         buttonText: strings.CHECK_NOW,
         callback: this.props.statementsAvailable && this.openStatement,
-        media: iconBackgrounds.graphMan
+        media: require('../../../../assets/Icons/graphManMini.png')
       }, {
         subtitle: strings.PAID_AMOUNT,
         title: this.props.claimedAmount,
         buttonText: strings.GENERATE_INVOICE,
         callback: this.props.claimableAmount > 0 ? null : null,
-        media: iconBackgrounds.moneyBag
+        media: require('../../../../assets/Icons/moneyBagMini.png')
       }, {
         subtitle: strings.DUE,
         title: this.props.claimableAmount,
         buttonText: strings.CLAIM_NOW,
         callback: this.props.claimableAmount > 0 ? null : null,
-        media: iconBackgrounds.serverTable
+        media: require('../../../../assets/Icons/serverTableMini.png')
       },
     ]
     this.setState({sections});
@@ -61,7 +60,6 @@ class AccountDash extends PureComponent {
   openStatement = () => {
     this.props.navigation.navigate(RouteNames.AccountStatement);
   }
-
 
   renderHeader = () => (
     <View style={styles.headerContainer}>
@@ -85,7 +83,7 @@ class AccountDash extends PureComponent {
           <Text style={[styles.sectionButtonText, !data.callback && styles.disabled]}>{data.buttonText}</Text>
         </TouchableOpacity>
       </View>
-      <Image style={styles.sectionImage} source={data.media}/>
+      <Image  style={styles.sectionImage} source={data.media}/>
     </View>
   )
   }
@@ -107,7 +105,6 @@ class AccountDash extends PureComponent {
     return (
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         {this.renderHeader()}
-        <View style={{height:500}}/>
         {this.renderContent()}
       </ScrollView>
     );

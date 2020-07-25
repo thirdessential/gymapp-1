@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
   Text,
   View,
@@ -9,21 +9,22 @@ import {
   Keyboard,
   Image,
 } from "react-native";
-import { Item, Input } from "native-base";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {Item, Input} from "native-base";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import RouteNames from "../../navigation/RouteNames";
-import { attemptGoogleAuth, signInWithEmail } from "../../API";
+import {attemptGoogleAuth, signInWithEmail} from "../../API";
 import Loader from "../../components/Loader";
-import { showMessage } from "react-native-flash-message";
+import {showMessage} from "react-native-flash-message";
 import strings from "../../constants/strings";
 import fonts from "../../constants/fonts";
-import { string } from "prop-types";
-import { appTheme } from "../../constants/colors";
-import { screenHeight, screenWidth } from "../../utils/screenDimensions";
-import { spacing } from "../../constants/dimension";
+import {string} from "prop-types";
+import {appTheme} from "../../constants/colors";
+import {screenHeight, screenWidth} from "../../utils/screenDimensions";
+import {spacing} from "../../constants/dimension";
 import Logo from "../../../assets/images/newlogo.png";
 import Icon from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather";
+
 export default class SignInNew extends Component {
   constructor(props) {
     super(props);
@@ -36,10 +37,10 @@ export default class SignInNew extends Component {
   }
 
   googleLogin = async () => {
-    this.setState({ loading: true });
+    this.setState({loading: true});
     let res = await attemptGoogleAuth();
-    this.setState({ loading: false });
-    if (res) this.setState({ googleLoading: true });
+    this.setState({loading: false});
+    if (res) this.setState({googleLoading: true});
     else
       showMessage({
         message: strings.LOGIN_FAILED,
@@ -58,9 +59,9 @@ export default class SignInNew extends Component {
       return null;
     }
     Keyboard.dismiss();
-    this.setState({ loading: true });
+    this.setState({loading: true});
     var result = await signInWithEmail(this.state.email, this.state.password);
-    this.setState({ loading: false });
+    this.setState({loading: false});
     if (result) {
     } else
       showMessage({
@@ -69,10 +70,10 @@ export default class SignInNew extends Component {
       });
   };
   setEmail = (text) => {
-    this.setState({ email: text });
+    this.setState({email: text});
   };
   setPassword = (text) => {
-    this.setState({ password: text });
+    this.setState({password: text});
   };
   navigateToSignup = () => {
     this.props.navigation.navigate(RouteNames.SignUpNew);
@@ -86,17 +87,17 @@ export default class SignInNew extends Component {
         keyboardShouldPersistTaps={"handled"}
         style={styles.container}
       >
-        <StatusBar backgroundColor="black" />
-        <Loader loading={this.state.loading} />
-        <Image source={Logo} style={styles.image} />
+        <StatusBar backgroundColor="black"/>
+        <Loader loading={this.state.loading}/>
+        <Image source={Logo} style={styles.image}/>
         <View style={styles.itemContainer}>
           <Text style={styles.signin}>{strings.SIGN_IN}</Text>
 
-          <View style={{ marginTop: "8%" }}>
-            <View style={{ paddingBottom: "5%" }}>
+          <View style={{marginTop: "8%"}}>
+            <View style={{paddingBottom: "5%"}}>
               <Text style={styles.label}>{strings.EMAIL}</Text>
               <Item rounded style={styles.item}>
-                <Icon name="mail" color={appTheme.brightContent} size={25} />
+                <Icon name="mail" color={appTheme.brightContent} size={25}/>
                 <Input
                   onChangeText={(text) => {
                     this.setEmail(text);
@@ -110,7 +111,7 @@ export default class SignInNew extends Component {
 
             <Text style={styles.label}>{strings.PASSWORD}</Text>
             <Item rounded style={styles.item}>
-              <Icon name="key" color={appTheme.brightContent} size={25} />
+              <Icon name="key" color={appTheme.brightContent} size={25}/>
               <Input
                 secureTextEntry={true}
                 placeholder="Password"
@@ -122,40 +123,40 @@ export default class SignInNew extends Component {
           </View>
           <View style={styles.loginandforgot}>
             <TouchableOpacity
-              style={{ marginTop: "10%", marginLeft: "5%" }}
+              style={{marginTop: "10%", marginLeft: "5%"}}
               onPress={() => this.signIn()}
             >
               <View style={styles.circlebutton}>
-                <Feather name="arrow-right" color="white" size={30} />
+                <Feather name="arrow-right" color="white" size={30}/>
               </View>
             </TouchableOpacity>
             <TouchableOpacity style={styles.forgotPassword}>
-              <Text style={{ fontSize: 14, color: appTheme.greyC }}>
+              <Text style={{fontSize: 14, color: appTheme.greyC}}>
                 {strings.FORGOT_PASSWORD}
               </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.line}></View>
 
-          <TouchableOpacity style={styles.googleLogin}>
+          <TouchableOpacity onPress={() => this.googleLogin()}
+                            style={styles.googleLogin}>
             <View>
               {this.state.googleLoading && (
-                <ActivityIndicator size="large" color="white" />
+                <ActivityIndicator size="large" color="white"/>
               )}
               {!this.state.googleLoading && (
                 <Icon
-                  onPress={() => this.googleLogin()}
                   name="google-"
                   color={appTheme.brightContent}
                   size={40}
-                  style={{ marginTop: 15 }}
+                  style={{marginTop: 15}}
                 />
               )}
             </View>
           </TouchableOpacity>
           <View style={styles.signup}>
             <TouchableOpacity onPress={() => this.navigateToSignup()}>
-              <Text style={{ color: appTheme.greyC }}>{strings.NO_ACCOUNT}</Text>
+              <Text style={{color: appTheme.greyC}}>{strings.NO_ACCOUNT}</Text>
             </TouchableOpacity>
           </View>
         </View>

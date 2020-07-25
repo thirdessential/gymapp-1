@@ -1,6 +1,10 @@
-// export const rootURL = 'https://fitness-first-services.herokuapp.com';
-export const rootURL = 'http://192.168.31.125:3001';
-
+export const rootURL = 'https://fitness-first-services.herokuapp.com';
+// export const rootURL = 'http://192.168.31.125:3001';
+if (__DEV__) {
+  console.log('Development');
+} else {
+  console.log('Production');
+}
 export const appName = 'GymAdda';
 
 export const userTypes = {
