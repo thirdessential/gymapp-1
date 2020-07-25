@@ -30,6 +30,7 @@ export const iconBackgrounds = {
   graphMan:require('../../assets/Icons/graphMan.png'),
   moneyBag:require('../../assets/Icons/moneyBag.png'),
   serverTable:require('../../assets/Icons/serverTable.png'),
+
 }
 
 export const getRandomImage = ()=> {
