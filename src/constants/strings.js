@@ -9,6 +9,7 @@ const strings = {
   SLOTS: 'Slots',
   AVAILABLE_SLOTS: 'Available Slots',
   PACKAGE_NAME: 'Package Name',
+  PACKAGE: 'Package',
   MINS: 'Mins',
   DATE: 'Date',
   ALLOTTED_TO: 'Allotted to ',
@@ -122,7 +123,28 @@ const strings = {
   LAST_DAYS: 'Last few days',
   LAST_MONTHS: 'Last few months',
   ENTER_WEIGHT: 'Enter weight',
-  ENTER_TARGET:'Enter target weight and goal date'
+  ENTER_TARGET:'Enter target weight and goal date',
+  INVALID_COUPON: 'Invalid coupon code or coupon expired',
+  TOTAL_EARNING: 'Total Earning',
+  INR: 'INR',
+  EXPORT_OVERVIEW: 'Export Overview',
+  OVERVIEW: 'Overview',
+  ACCOUNT: 'Account',
+  STATEMENT: 'Statement',
+  CHECK_NOW: 'Check Now',
+  PAID_AMOUNT: "Paid Amount",
+  CLAIM_NOW: "Claim Now",
+  DUE: 'Due',
+  SEND_REMINDER: 'Send Reminder',
+  GENERATE_INVOICE: 'Generate Invoice',
+  COUPON_APPLIED: 'Coupon Applied',
+  USER_NAME: 'User Name',
+  CITY: 'City',
+  TRANSACTION_DETAILS: 'Transaction Details',
+  TRANSACTION_STATUS: 'Trasaction Status',
+  FINAL_AMOUNT: 'Final Amount',
+  PACKAGE_PRICE: 'Package Price',
+  CLAIM_AMOUNT_TEXT: 'Click here to claim amount'
 
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {PureComponent} from "react";
 import {StyleSheet, View, TouchableOpacity, Text} from "react-native";
 
 import AppIntroSlider from "react-native-app-intro-slider";
@@ -18,30 +18,43 @@ const userSlides = [
   {
     key: RouteNames.UserInfo,
     component: UserInfo,
+    index: 0
   },
   {
     key: RouteNames.PhysicalData,
     component: PhysicalData,
+    index: 1
   },
   {
     key: RouteNames.WorkoutDays,
     component: WorkoutDays,
+    index: 2
   },
   {
     key: RouteNames.WorkoutPreference,
     component: WorkoutPreference,
+    index: 3
   },
 ];
 const trainerSlides = [{
   key: RouteNames.UserInfo,
   component: UserInfo,
+  index:0
 }]
 
-class PreferenceSwiper extends React.Component {
+class PreferenceSwiper extends PureComponent {
+  state = {
+    currentSlide: 0
+  }
+  setCurrentSlide = (index) => {
+    if (this.state.currentSlide !== index)
+      this.setState({currentSlide:index})
+  }
   _renderItem = ({item}) => {
-    return <item.component navigation={this.props.navigation}/>;
+    return <item.component active={this.state.currentSlide === item.index}/>;
   };
   _onDone = () => {
+    this.setCurrentSlide({currentSlide: this.state.currentSlide+1}); // to inform last component that it is becoming inactive, and needs to submit data to api
     const {setInitialLoginOff, updateUserData, navigation} = this.props;
     setInitialLoginOff();
     updateUserData();
@@ -77,6 +90,7 @@ class PreferenceSwiper extends React.Component {
         style={styles.container}
         renderItem={this._renderItem}
         data={data}
+        onSlideChange={(index) => this.setCurrentSlide(index)}
         renderDoneButton={this._renderDoneButton}
         renderNextButton={this._renderNextButton}
         dotStyle={{marginTop: 30, backgroundColor: "rgba(0, 0, 0, .2)"}}

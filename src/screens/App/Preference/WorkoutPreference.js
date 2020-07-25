@@ -34,9 +34,6 @@ class WorkoutPreference extends Component {
   };
 
   componentDidMount() {
-    this.unsubscribe = this.props.navigation.addListener('blur', e => {
-      this.submit();
-    });
     this.updateLocalState();
   }
 
@@ -53,9 +50,10 @@ class WorkoutPreference extends Component {
     });
     this.setState({data});
   }
-
-  componentWillUnmount() {
-    this.unsubscribe();
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if(this.props.active && !nextProps.active)
+      this.submit(); // hacky way of checking if screen unfocused
+    return true;
   }
 
   submit = () => {

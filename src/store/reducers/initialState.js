@@ -11,7 +11,7 @@ export const userState = {
   userId: '',
   initialLogin: true,
   userName: '',
-  userData: null,
+  userData: {},
   myAppointments: [],
   activities: {},
 };

@@ -60,21 +60,22 @@ class UserInfo extends React.Component {
   setCity = (city) => this.setState({city})
 
   async componentDidMount() {
-    const {userData, updateUserData, navigation} = this.props;
+    const {userData, updateUserData} = this.props;
     if (userData) {
       this.setLocalState(userData);
-      updateUserData();
-    } else {
-      let result = await updateUserData();
-      this.setLocalState(result);
     }
-    this.unsubscribe = navigation.addListener('blur', e => {
-      this.submit();
-    });
+    let result = await updateUserData();
+    this.setLocalState(result);
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if (this.props.active && !nextProps.active)
+      this.submit(); // hacky way of checking if screen unfocused
+    return true;
   }
 
   setLocalState = (userData) => {
-    const {name = '', displayPictureUrl, city, gender,phone, dateOfBirth=''} = userData;
+    const {name = '', displayPictureUrl, city, gender, phone, dateOfBirth = ''} = userData;
     this.setState({name, imageUri: displayPictureUrl, phone, city, gender, dateOfBirth});
   }
   submit = async () => {

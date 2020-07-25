@@ -7,10 +7,19 @@ import {spacing} from "../constants/dimension";
 import {appTheme} from "../constants/colors";
 
 const openDrawerButton = () => (
-  <TouchableOpacity onPress={openDrawer} style={{marginLeft: spacing.medium_lg, marginRight: 0}}>
+  <TouchableOpacity onPress={openDrawer} style={{marginLeft: spacing.medium, marginRight: 0}}>
     <FontAwesome
       name={'menu'}
       color={appTheme.brightContent}
+      size={20}
+    />
+  </TouchableOpacity>
+)
+export const openDrawerButtonDark = () => (
+  <TouchableOpacity onPress={openDrawer} style={{marginLeft: spacing.medium, marginRight: 0}}>
+    <FontAwesome
+      name={'menu'}
+      color={appTheme.darkBackground}
       size={20}
     />
   </TouchableOpacity>

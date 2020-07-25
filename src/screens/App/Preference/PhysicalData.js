@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
   Image,
-  TouchableOpacity, ScrollView, TextInput,
+  TextInput,
 } from "react-native";
 
 import {appTheme, darkPallet} from "../../../constants/colors";
@@ -26,17 +26,17 @@ class PhysicalData extends Component {
   };
 
   componentDidMount() {
-    this.unsubscribe = this.props.navigation.addListener('blur', e => {
-      this.submit();
-    });
     const {weight = 60, height = 160} = this.props.userData;
     this.setState({weight, height});
   }
-  setWeight = weight =>this.setState({weight});
-  setHeight = height =>this.setState({height});
 
-  componentWillUnmount() {
-    this.unsubscribe();
+  setWeight = weight => this.setState({weight});
+  setHeight = height => this.setState({height});
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if (this.props.active && !nextProps.active)
+      this.submit(); // hacky way of checking if screen unfocused
+    return true;
   }
 
   submit = async () => {
@@ -47,7 +47,8 @@ class PhysicalData extends Component {
   render() {
     return (
       <>
-        <KeyboardAwareScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'handled'} style={styles.container}>
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'handled'}
+                                 style={styles.container}>
           <View style={styles.circle}/>
           <Image source={iconBackgrounds.physical} style={styles.image}/>
           <Text style={styles.text}>{strings.PHYSICAL_DATA}</Text>
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     marginHorizontal: screenWidth * 0.1,
     textAlign: "center",
     fontWeight: "bold",
-    marginBottom:spacing.medium_sm
+    marginBottom: spacing.medium_sm
   },
   itemContainer: {
     marginTop: 25,
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
     justifyContent: 'center',
-    height:screenHeight/2
+    height: screenHeight / 2
   },
   describe: {
     color: appTheme.brightContent,

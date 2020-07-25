@@ -14,7 +14,6 @@ import strings from "../../../constants/strings";
 import fontSizes from "../../../constants/fontSizes";
 import {iconBackgrounds} from "../../../constants/images";
 import {screenHeight, screenWidth} from "../../../utils/screenDimensions";
-import {updateExerciseIndex} from "../../../API";
 import * as actionCreators from "../../../store/actions";
 import {connect} from "react-redux";
 
@@ -24,15 +23,13 @@ class WorkoutDays extends Component {
   };
 
   componentDidMount() {
-    this.unsubscribe = this.props.navigation.addListener('blur', e => {
-      this.submit();
-    });
     const {exerciseIndex} = this.props;
     this.setState({index: exerciseIndex})
   }
-
-  componentWillUnmount() {
-    this.unsubscribe();
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if(this.props.active && !nextProps.active)
+      this.submit(); // hacky way of checking if screen unfocused
+    return true;
   }
 
   submit = () => {
