@@ -5,10 +5,6 @@ import React, {PureComponent} from 'react';
 import {
   View,
   StyleSheet,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Image
 } from 'react-native'
 import {connect} from "react-redux";
 
@@ -62,8 +58,6 @@ const styles = StyleSheet.create({
     padding:spacing.large,
     paddingHorizontal:spacing.medium
   },
-
-
 });
 
 const mapStateToProps = (state) => ({});

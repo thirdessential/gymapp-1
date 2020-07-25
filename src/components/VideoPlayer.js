@@ -6,6 +6,7 @@ import VideoPlayer from 'react-native-video-controls';
 import Video from "react-native-video";
 
 const videoPlayer = (props) => {
+  return null;
   return (
     <>
       <VideoPlayer

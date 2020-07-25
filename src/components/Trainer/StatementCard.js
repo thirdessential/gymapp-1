@@ -28,7 +28,7 @@ const statement = (props) => {
       style={{height: 1, marginVertical: spacing.medium_sm}}/>
   )
   const roundEdgeSeparator = ()=>(
-    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+    <View style={{flexDirection:'row', justifyContent:'space-between',alignItems:'center'}}>
       <View style={{height:30,width:30,borderRadius:20,backgroundColor:appTheme.darkBackground,marginLeft:-43}}/>
       <View style={{width:'100%'}}>
         {separator()}
@@ -53,7 +53,7 @@ const statement = (props) => {
         <Text style={[styles.brightTitle, {color: appTheme.textPrimary}]}>GRG131DX</Text>
       </View>
       {roundEdgeSeparator()}
-      <View style={[styles.row, {marginVertical:spacing.small}]}>
+      <View style={[styles.row, {marginBottom:spacing.medium, marginTop:spacing.medium_sm}]}>
         {contentItem(strings.USER_NAME, 'Shivan Magarde')}
         {contentItem(strings.CITY, 'Bhopal', true)}
       </View>

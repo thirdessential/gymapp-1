@@ -134,7 +134,7 @@ export const generateCoupons = (count, percentageOff, validity) => {
   return async (dispatch, getState) => {
     try {
       let oldCoupons = [...getState().trainer.coupons];
-      let {success, coupons} = await API.generateCoupons(count, percentageOff = 5, validity = 3);
+      let {success, coupons} = await API.generateCoupons(count, percentageOff, validity);
       if (success)
         dispatch(appendCoupons(coupons));
       else dispatch(setCoupons(oldCoupons));

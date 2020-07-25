@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
     backgroundColor: "#20222f",
     flex: 1,
+    height:screenHeight/2,
     margin: -spacing.medium_sm,
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,

@@ -92,12 +92,6 @@ class CouponMachine extends PureComponent {
     return localCoupons.sort(this.sortCoupons);
   }
 
-  setChangedDirty = () => {
-    if (this.state.changed === false) {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      this.setState({changed: true});
-    }
-  }
   shareCoupon = (code, discount,validity) => {
     const message = couponShareBuilder(code,discount,validity);
     textShare(message);
