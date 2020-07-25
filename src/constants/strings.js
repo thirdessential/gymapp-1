@@ -154,6 +154,11 @@ const strings = {
   NO_ACCOUNT:"Don't have an account? Sign up",
   ALREADY_ACCOUNT:"Already have an account?",
   SIGN_IN:'Sign in'
+  COUPON_COUNT: 'Coupon Count',
+  MONTHS: 'Months',
+  COUPON_VALIDITY: 'Coupon Validity',
+  VALID_UPTO: 'Valid Upto',
+  SHARE_COUPON: 'Share coupon with users'
 
 };
 

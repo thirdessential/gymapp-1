@@ -4,11 +4,7 @@
 import React, {PureComponent} from 'react';
 import {
   View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Image
+  StyleSheet, FlatList,
 } from 'react-native'
 import {connect} from "react-redux";
 
@@ -19,30 +15,26 @@ import StatementCard from "../../../components/Trainer/StatementCard";
 import {spacing} from "../../../constants/dimension";
 
 class AccountStatement extends PureComponent {
-  state = {}
-
-  componentDidMount() {
-    this.props.navigation.setOptions({
-      title: 'Account Statement',
-      headerTintColor: appTheme.darkBackground,
-      headerStyle: {
-        backgroundColor: appTheme.brightContent,
-      },
-      headerLeft: openDrawerButtonDark
-    })
-  }
-
   renderStatement = (data) => {
     return (
-      <StatementCard/>
+      <StatementCard {...data}/>
     )
   }
+  separator = ()=><View style={{marginTop: spacing.medium}}/>
 
   render() {
     return (
       <View showsVerticalScrollIndicator={false} style={styles.container}>
         <View style={styles.content}>
-          {this.renderStatement()}
+          <FlatList
+            data={this.props.statements}
+            ListHeaderComponent={this.separator}
+            ListFooterComponent={this.separator }
+            showsVerticalScrollIndicator={false}
+            renderItem={({item, index}) => this.renderStatement(item)}
+            keyExtractor={data =>data.transactionDetails.orderId}
+            ItemSeparatorComponent={this.separator}
+          />
         </View>
       </View>
     );
@@ -59,14 +51,14 @@ const styles = StyleSheet.create({
     flex: 1,
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
-    padding:spacing.large,
-    paddingHorizontal:spacing.medium
+    paddingTop: spacing.medium,
+    paddingHorizontal: spacing.medium
   },
-
-
 });
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  statements: state.trainer.statements || []
+});
 
 const mapDispatchToProps = (dispatch) => ({});
 

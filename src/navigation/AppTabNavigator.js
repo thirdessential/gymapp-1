@@ -23,20 +23,20 @@ import ToolStack from "./stacks/ToolStack";
 
 const Tab = createMaterialTopTabNavigator();
 
-// const bgView = () => (
-//   <View style={{backgroundColor: appTheme.darkBackground, flex: 1, justifyContent:'center',alignItems:'center'}}>
-//     <ActivityIndicator size={40} color={appTheme.lightContent}/>
-//   </View>)
-// ;
+const bgView = () => (
+  <View style={{backgroundColor: appTheme.darkBackground, flex: 1, justifyContent:'center',alignItems:'center'}}>
+     <ActivityIndicator size={40} color={appTheme.lightContent}/>
+   </View>)
+;
 
 const appTabNavigator = (props) => {
   let {userType} = store.getState().user;
   const listingTitle = userType === userTypes.USER ? 'Trainers' : 'Users';
   return (
     <Tab.Navigator
-      // lazy={true}
-      // lazyPreloadDistance={1}
-      // lazyPlaceholder={bgView}
+      lazy={true}
+      lazyPreloadDistance={1}
+      lazyPlaceholder={bgView}
       backBehavior={'initialRoute'}
       tabBarPosition={'bottom'}
       tabBarOptions={{

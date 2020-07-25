@@ -16,7 +16,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 import {connect} from "react-redux";
-import SwitchSelector from "react-native-switch-selector";
 import Video from 'react-native-video';
 import ImagePicker from "react-native-image-picker";
 

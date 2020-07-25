@@ -32,7 +32,8 @@ export {
   syncSlots,
   getMySubscriptions,
   generateCoupons,
-  getMyCoupons
+  getMyCoupons,
+  getAccountSummary
 } from './trainer';
 
 export {

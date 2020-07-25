@@ -19,19 +19,21 @@ import {openDrawerButtonDark} from "../../../navigation/openDrawerButton";
 import strings from "../../../constants/strings";
 import {spacing} from "../../../constants/dimension";
 import {iconBackgrounds} from "../../../constants/images";
+import * as actionCreators from "../../../store/actions";
+import RouteNames from "../../../navigation/RouteNames";
 
 class AccountDash extends PureComponent {
-  state = {}
+  state = {
+    // loading: true
+  }
 
-  componentDidMount() {
-    this.props.navigation.setOptions({
-      title: 'Dashboard',
-      headerTintColor: appTheme.darkBackground,
-      headerStyle: {
-        backgroundColor: appTheme.brightContent,
-      },
-      headerLeft: openDrawerButtonDark
-    })
+  async componentDidMount() {
+    // await this.props.getAccountSummary();
+    // this.setState({loading: false});
+  }
+
+  openStatement = () => {
+    this.props.navigation.navigate(RouteNames.AccountStatement);
   }
 
   sections = [
@@ -39,19 +41,19 @@ class AccountDash extends PureComponent {
       subtitle: strings.ACCOUNT,
       title: strings.STATEMENT,
       buttonText: strings.CHECK_NOW,
-      callback: null,
+      callback: this.props.statementsAvailable && this.openStatement,
       media: iconBackgrounds.graphMan
     }, {
       subtitle: strings.PAID_AMOUNT,
-      title: '22000',
+      title: this.props.claimedAmount,
       buttonText: strings.GENERATE_INVOICE,
-      callback: null,
+      callback: this.props.claimableAmount > 0 ? null : null,
       media: iconBackgrounds.moneyBag
     }, {
       subtitle: strings.DUE,
-      title: 1000,
+      title: this.props.claimableAmount,
       buttonText: strings.CLAIM_NOW,
-      callback: null,
+      callback: this.props.claimableAmount > 0 ? null : null,
       media: iconBackgrounds.serverTable
     },
   ]
@@ -59,7 +61,7 @@ class AccountDash extends PureComponent {
   renderHeader = () => (
     <View style={styles.headerContainer}>
       <Text style={styles.subtitle}>{strings.TOTAL_EARNING}</Text>
-      <Text style={styles.title}>55000<Text style={styles.subtitle}>{strings.INR}</Text></Text>
+      <Text style={styles.title}>{this.props.totalEarnings}<Text style={styles.subtitle}>{strings.INR}</Text></Text>
       <View style={{alignSelf: 'flex-start'}}>
         <TouchableOpacity activeOpacity={0.6} style={styles.pillButton}>
           <Text style={styles.boldSubtitle}>{strings.EXPORT_OVERVIEW}</Text>
@@ -68,12 +70,13 @@ class AccountDash extends PureComponent {
     </View>
   )
   renderSection = (data) => (
-    <View key={data.subtitle} style={[styles.bar,{flexDirection:'row', paddingVertical:spacing.medium}]}>
+    <View key={data.subtitle} style={[styles.bar, {flexDirection: 'row', paddingVertical: spacing.medium}]}>
       <View>
         <Text style={styles.sectionHeading}>{data.subtitle}</Text>
         <Text style={styles.sectionTitle}>{data.title}</Text>
-        <TouchableOpacity style={styles.sectionButtonContainer} onPress={data.callback}>
-          <Text style={styles.sectionButtonText}>{data.buttonText}</Text>
+
+        <TouchableOpacity disabled={!data.callback} style={styles.sectionButtonContainer} onPress={data.callback}>
+          <Text style={[styles.sectionButtonText, !data.callback && styles.disabled]}>{data.buttonText}</Text>
         </TouchableOpacity>
       </View>
       <Image style={styles.sectionImage} source={data.media}/>
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.medium_lg,
     borderRadius: 25,
     paddingHorizontal: spacing.large_lg,
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     alignItems: 'center'
   },
   sectionButtonText: {
@@ -172,13 +175,23 @@ const styles = StyleSheet.create({
     marginTop: spacing.medium_sm
   },
   sectionImage: {
-    height:100,
-    width:100
+    height: 100,
+    width: 100
+  },
+  disabled: {
+    color: appTheme.grey
   }
 });
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  claimedAmount: state.trainer.earnings.claimedAmount,
+  claimableAmount: state.trainer.earnings.claimableAmount,
+  totalEarnings: state.trainer.earnings.totalEarnings,
+  statementsAvailable: state.trainer.statements.length > 0
+});
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  getAccountSummary: () => dispatch(actionCreators.getAccountSummary())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountDash);

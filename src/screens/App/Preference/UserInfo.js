@@ -76,6 +76,7 @@ class UserInfo extends React.Component {
 
   setLocalState = (userData) => {
     const {name = '', displayPictureUrl, city, gender, phone, dateOfBirth = ''} = userData;
+    console.log(userData)
     this.setState({name, imageUri: displayPictureUrl, phone, city, gender, dateOfBirth});
   }
   submit = async () => {

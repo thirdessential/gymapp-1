@@ -134,7 +134,7 @@ export const generateCoupons = (count, percentageOff, validity) => {
   return async (dispatch, getState) => {
     try {
       let oldCoupons = [...getState().trainer.coupons];
-      let {success, coupons} = await API.generateCoupons(count, percentageOff = 5, validity = 3);
+      let {success, coupons} = await API.generateCoupons(count, percentageOff, validity);
       if (success)
         dispatch(appendCoupons(coupons));
       else dispatch(setCoupons(oldCoupons));
@@ -152,6 +152,34 @@ export const syncCoupons = () => {
       return true;
     } catch (error) {
       console.log("Trainer coupon creation failed", error);
+      return false;
+    }
+  };
+};
+
+const setEarnings = (earnings) => ({
+  type: actionTypes.SET_EARNINGS,
+  payload: {
+    earnings
+  },
+});
+
+const setStatements = (statements) => ({
+  type: actionTypes.SET_STATEMENTS,
+  payload: {
+    statements
+  },
+});
+
+export const getAccountSummary = () => {
+  return async (dispatch) => {
+    try {
+      const {earnings, statements} = await API.getAccountSummary();
+      earnings && dispatch(setEarnings(earnings));
+      statements && dispatch(setStatements(statements));
+      return true;
+    } catch (error) {
+      console.log("Trainer acc summary update failed", error);
       return false;
     }
   };
