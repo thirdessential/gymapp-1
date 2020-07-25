@@ -30,8 +30,6 @@ import {screenWidth} from "../../utils/screenDimensions";
 import {CONTENT_TYPE, defaultDP} from "../../constants/appConstants";
 import strings from "../../constants/strings";
 import Entypo from "react-native-vector-icons/Entypo";
-import Video from "react-native-video";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import VideoPlayer from "../VideoPlayer";
 
 const post = (props) => {
