@@ -83,7 +83,6 @@ class CreatePost extends PureComponent {
       path: 'video',
       videoQuality: 'high',
     }, async (response) => {
-      console.log('Response = ', response);
 
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -92,15 +91,10 @@ class CreatePost extends PureComponent {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        const source = {uri: response.uri};
-        console.log("response.uri is " + response.uri);
-
         await this.setState({
           videoSrc: {uri: response.uri},
           videoPath: response.path
         })
-
-
       }
     });
   }
@@ -213,6 +207,7 @@ class CreatePost extends PureComponent {
     this.setState({submitting: true});
     let result;
     if (videoPath) {
+      navigation.goBack();
       result = await createVideoPost(
         videoPath,
         description,
@@ -220,12 +215,11 @@ class CreatePost extends PureComponent {
         videoSrc
       );
     } else result = null;
-    this.setState({submitting: false});
+    // this.setState({submitting: false});
     if (result) {
       updatePosts();
       updateMyPosts();
       showSuccess("Post shared");
-      navigation.goBack();
     } else {
       showError("Video upload failed, try again");
     }

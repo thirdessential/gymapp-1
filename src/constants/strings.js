@@ -149,8 +149,9 @@ const strings = {
   MONTHS: 'Months',
   COUPON_VALIDITY: 'Coupon Validity',
   VALID_UPTO: 'Valid Upto',
-  SHARE_COUPON: 'Share coupon with users'
-
+  SHARE_COUPON: 'Share coupon with users',
+  COMPRESSING_VIDEO: 'Compressing video before upload',
+  UPLOADING:'Uploading video'
 };
 
 export const bmiVerdicts = {

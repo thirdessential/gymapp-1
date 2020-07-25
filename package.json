@@ -85,6 +85,7 @@
     "react-native-timeline-flatlist": "^0.7.3",
     "react-native-vector-icons": "^6.6.0",
     "react-native-video": "^4.4.5",
+    "react-native-video-compressor": "0.0.3",
     "react-native-video-controls": "^2.6.0",
     "react-native-weekday-picker": "https://github.com/Yatanvesh/react-native-weekday-picker",
     "react-redux": "^7.2.0",
