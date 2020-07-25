@@ -144,7 +144,16 @@ const strings = {
   TRANSACTION_STATUS: 'Trasaction Status',
   FINAL_AMOUNT: 'Final Amount',
   PACKAGE_PRICE: 'Package Price',
-  CLAIM_AMOUNT_TEXT: 'Click here to claim amount'
+  CLAIM_AMOUNT_TEXT: 'Click here to claim amount',
+  CREDENTIAL:"Please enter credentials",
+  SIGN_IN:'Sign in',
+  SIGN_UP:'Sign up',
+  EMAIL:'Email address',
+  PASSWORD:'Password',
+  FORGOT_PASSWORD:'Forgot Password',
+  NO_ACCOUNT:"Don't have an account? Sign up",
+  ALREADY_ACCOUNT:"Already have an account?",
+  SIGN_IN:'Sign in'
 
 };
 
