@@ -96,7 +96,7 @@ const strings = {
   NO_DATA: 'No Data',
   DAYS:'How many days do you work out per week?',
   PREFERENCES: 'Preferences',
-  DESCRIBEDAYS:'This describe the number of days in your workout plan',
+  DESCRIBE_DAYS:'This describe the number of days in your workout plan',
   BMI_CALCULATOR: 'BMI Calculator',
   HISTORY: 'History',
   SET_TARGET: 'Set Target',
@@ -153,7 +153,6 @@ const strings = {
   FORGOT_PASSWORD:'Forgot Password',
   NO_ACCOUNT:"Don't have an account? Sign up",
   ALREADY_ACCOUNT:"Already have an account?",
-  SIGN_IN:'Sign in'
   COUPON_COUNT: 'Coupon Count',
   MONTHS: 'Months',
   COUPON_VALIDITY: 'Coupon Validity',

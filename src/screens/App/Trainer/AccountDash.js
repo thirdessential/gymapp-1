@@ -8,14 +8,13 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  Image
+  Image, FlatList
 } from 'react-native'
 import {connect} from "react-redux";
 
 import {appTheme} from "../../../constants/colors";
 import fontSizes from "../../../constants/fontSizes";
 import fonts from "../../../constants/fonts";
-import {openDrawerButtonDark} from "../../../navigation/openDrawerButton";
 import strings from "../../../constants/strings";
 import {spacing} from "../../../constants/dimension";
 import {iconBackgrounds} from "../../../constants/images";
@@ -24,39 +23,45 @@ import RouteNames from "../../../navigation/RouteNames";
 
 class AccountDash extends PureComponent {
   state = {
-    // loading: true
+    sections: []
   }
 
   async componentDidMount() {
-    // await this.props.getAccountSummary();
+    this.setSections();
+    await this.props.getAccountSummary();
+    this.setSections();
     // this.setState({loading: false});
+  }
+
+  setSections = () => {
+    let sections = [
+      {
+        subtitle: strings.ACCOUNT,
+        title: strings.STATEMENT,
+        buttonText: strings.CHECK_NOW,
+        callback: this.props.statementsAvailable && this.openStatement,
+        media: iconBackgrounds.graphMan
+      }, {
+        subtitle: strings.PAID_AMOUNT,
+        title: this.props.claimedAmount,
+        buttonText: strings.GENERATE_INVOICE,
+        callback: this.props.claimableAmount > 0 ? null : null,
+        media: iconBackgrounds.moneyBag
+      }, {
+        subtitle: strings.DUE,
+        title: this.props.claimableAmount,
+        buttonText: strings.CLAIM_NOW,
+        callback: this.props.claimableAmount > 0 ? null : null,
+        media: iconBackgrounds.serverTable
+      },
+    ]
+    this.setState({sections});
   }
 
   openStatement = () => {
     this.props.navigation.navigate(RouteNames.AccountStatement);
   }
 
-  sections = [
-    {
-      subtitle: strings.ACCOUNT,
-      title: strings.STATEMENT,
-      buttonText: strings.CHECK_NOW,
-      callback: this.props.statementsAvailable && this.openStatement,
-      media: iconBackgrounds.graphMan
-    }, {
-      subtitle: strings.PAID_AMOUNT,
-      title: this.props.claimedAmount,
-      buttonText: strings.GENERATE_INVOICE,
-      callback: this.props.claimableAmount > 0 ? null : null,
-      media: iconBackgrounds.moneyBag
-    }, {
-      subtitle: strings.DUE,
-      title: this.props.claimableAmount,
-      buttonText: strings.CLAIM_NOW,
-      callback: this.props.claimableAmount > 0 ? null : null,
-      media: iconBackgrounds.serverTable
-    },
-  ]
 
   renderHeader = () => (
     <View style={styles.headerContainer}>
@@ -69,8 +74,9 @@ class AccountDash extends PureComponent {
       </View>
     </View>
   )
-  renderSection = (data) => (
-    <View key={data.subtitle} style={[styles.bar, {flexDirection: 'row', paddingVertical: spacing.medium}]}>
+  renderSection = (data) => {
+    return(
+    <View style={[styles.bar, styles.sectionContainer]}>
       <View>
         <Text style={styles.sectionHeading}>{data.subtitle}</Text>
         <Text style={styles.sectionTitle}>{data.title}</Text>
@@ -82,12 +88,18 @@ class AccountDash extends PureComponent {
       <Image style={styles.sectionImage} source={data.media}/>
     </View>
   )
+  }
   renderContent = () => (
     <View style={styles.contentContainer}>
       <View style={[styles.bar, styles.halfBar]}>
         <Text style={styles.sectionHeading}>{strings.OVERVIEW}</Text>
       </View>
-      {this.sections.map(section => this.renderSection(section))}
+      <FlatList
+        data={this.state.sections}
+        renderItem={({item, index}) => this.renderSection(item)}
+        keyExtractor={item => item.subtitle}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
   )
 
@@ -95,6 +107,7 @@ class AccountDash extends PureComponent {
     return (
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         {this.renderHeader()}
+        <View style={{height:500}}/>
         {this.renderContent()}
       </ScrollView>
     );
@@ -109,6 +122,10 @@ const styles = StyleSheet.create({
   headerContainer: {
     marginHorizontal: spacing.large_lg,
     marginVertical: spacing.space_50
+  },
+  sectionContainer:{
+    flexDirection: 'row',
+    paddingVertical: spacing.medium
   },
   title: {
     color: appTheme.textPrimary,

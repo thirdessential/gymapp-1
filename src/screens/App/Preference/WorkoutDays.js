@@ -73,7 +73,7 @@ class WorkoutDays extends Component {
           <Image source={iconBackgrounds.days} style={styles.image}/>
           <Text style={styles.text}>{strings.DAYS}</Text>
           <View style={styles.itemContainer}>
-            <Text style={styles.describe}>{strings.DESCRIBEDAYS}</Text>
+            <Text style={styles.describe}>{strings.DESCRIBE_DAYS}</Text>
             <View style={styles.optionContainer}>
               {
                 this.data.map(item => this.renderButton(item))

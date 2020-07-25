@@ -34,9 +34,9 @@ const appTabNavigator = (props) => {
   const listingTitle = userType === userTypes.USER ? 'Trainers' : 'Users';
   return (
     <Tab.Navigator
-      lazy={true}
-      lazyPreloadDistance={1}
-      lazyPlaceholder={bgView}
+      // lazy={true}
+      // lazyPreloadDistance={1}
+      // lazyPlaceholder={bgView}
       backBehavior={'initialRoute'}
       tabBarPosition={'bottom'}
       tabBarOptions={{
