@@ -3,7 +3,7 @@ import React from "react";
 import Stack from './stack';
 import RouteNames from "../RouteNames";
 import {appTheme} from "../../constants/colors";
-import openDrawerButton from "../openDrawerButton";
+import openDrawerButton, {openDrawerButtonDark} from "../openDrawerButton";
 import fonts from "../../constants/fonts";
 import Tools from "../../screens/App/Tools";
 import MyAppointments from "../../screens/App/MyAppointments";
@@ -15,6 +15,8 @@ import Schedule from "../../screens/App/User/Schedule";
 import Profile from "../../screens/App/Profile";
 import BMI from "../../screens/App/BMI";
 import CouponMachine from "../../screens/App/Trainer/CouponMachine";
+import AccountStatement from "../../screens/App/Trainer/AccountStatement";
+import AccountDash from "../../screens/App/Trainer/AccountDash";
 
 const toolStack = () => {
   return (
@@ -137,6 +139,28 @@ const toolStack = () => {
           headerTitleStyle: {
             fontFamily: fonts.PoppinsRegular
           }
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.AccountDash}
+        component={AccountDash}
+        options={{
+          title: 'Dashboard',
+          headerTintColor: appTheme.darkBackground,
+          headerStyle: {
+            backgroundColor: appTheme.brightContent,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.AccountStatement}
+        component={AccountStatement}
+        options={{
+          title: 'Account Statement',
+          headerTintColor: appTheme.darkBackground,
+          headerStyle: {
+            backgroundColor: appTheme.brightContent,
+          },
         }}
       />
     </Stack.Navigator>

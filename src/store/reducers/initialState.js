@@ -32,7 +32,9 @@ export const trainerState = {
   packages: [],
   slots: [],
   subscriptions: [],
-  coupons: []
+  coupons: [],
+  earnings: {totalEarnings: 0, claimableAmount: 0, claimedAmount: 0},
+  statements: []
 }
 
 export const socialState = {
@@ -48,6 +50,6 @@ export const fitnessState = {
   bmiRecords: [],
   preferences: [],
   exerciseIndex: 3,
-  targetWeight:null,
-  targetDate:null
+  targetWeight: null,
+  targetDate: null
 }

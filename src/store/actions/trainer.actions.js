@@ -156,3 +156,31 @@ export const syncCoupons = () => {
     }
   };
 };
+
+const setEarnings = (earnings) => ({
+  type: actionTypes.SET_EARNINGS,
+  payload: {
+    earnings
+  },
+});
+
+const setStatements = (statements) => ({
+  type: actionTypes.SET_STATEMENTS,
+  payload: {
+    statements
+  },
+});
+
+export const getAccountSummary = () => {
+  return async (dispatch) => {
+    try {
+      const {earnings, statements} = await API.getAccountSummary();
+      earnings && dispatch(setEarnings(earnings));
+      statements && dispatch(setStatements(statements));
+      return true;
+    } catch (error) {
+      console.log("Trainer acc summary update failed", error);
+      return false;
+    }
+  };
+};

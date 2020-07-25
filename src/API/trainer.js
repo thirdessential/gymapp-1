@@ -131,3 +131,16 @@ export const generateCoupons = async (count, percentageOff=5,validity=3) => {
     return false;
   }
 }
+
+export const getAccountSummary = async () => {
+  try {
+    let response = await axios.get(`/payment/accountSummary`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

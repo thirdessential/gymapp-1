@@ -8,15 +8,13 @@ import openDrawerButton from "../openDrawerButton";
 import Activity from "../../screens/App/Activity";
 import fonts from "../../constants/fonts";
 import Profile from "../../screens/App/Profile";
-import AccountDash from "../../screens/App/Trainer/AccountDash";
-import AccountStatement from "../../screens/App/Trainer/AccountStatement";
 
 const activity = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name={RouteNames.Activity}
-        component={AccountStatement}
+        component={Activity}
         options={{
           title: 'Activity',
           headerTintColor: appTheme.brightContent,

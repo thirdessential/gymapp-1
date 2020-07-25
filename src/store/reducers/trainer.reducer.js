@@ -36,6 +36,10 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, {
         coupons: oldCoupons.concat(coupons)
       });
+    case actionTypes.SET_EARNINGS:
+      return updateObject(state, action.payload);
+    case actionTypes.SET_STATEMENTS:
+      return updateObject(state, action.payload);
     default:
       return state;
   }
