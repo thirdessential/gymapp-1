@@ -37,6 +37,8 @@ const RouteNames = {
 
   Login:'Login',
   Signup:'Signup',
+  SignInNew:'SignInNew',
+  SignUpNew:'SignUpNew',
 
   WorkoutDays:'WorkoutDays',
   WorkoutPreference:'WorkoutPreference',
