@@ -36,11 +36,18 @@ const userSlides = [
     index: 3
   },
 ];
-const trainerSlides = [{
-  key: RouteNames.UserInfo,
-  component: UserInfo,
-  index:0
-}]
+const trainerSlides = [
+  {
+    key: RouteNames.UserInfo,
+    component: UserInfo,
+    index: 0,
+  },
+  {
+    key: RouteNames.PhysicalData,
+    component: PhysicalData,
+    index: 1
+  }
+]
 
 class PreferenceSwiper extends PureComponent {
   state = {
@@ -48,13 +55,13 @@ class PreferenceSwiper extends PureComponent {
   }
   setCurrentSlide = (index) => {
     if (this.state.currentSlide !== index)
-      this.setState({currentSlide:index})
+      this.setState({currentSlide: index})
   }
   _renderItem = ({item}) => {
     return <item.component active={this.state.currentSlide === item.index}/>;
   };
   _onDone = () => {
-    this.setCurrentSlide({currentSlide: this.state.currentSlide+1}); // to inform last component that it is becoming inactive, and needs to submit data to api
+    this.setCurrentSlide({currentSlide: this.state.currentSlide + 1}); // to inform last component that it is becoming inactive, and needs to submit data to api
     const {setInitialLoginOff, updateUserData, navigation} = this.props;
     setInitialLoginOff();
     updateUserData();
