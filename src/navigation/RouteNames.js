@@ -46,7 +46,8 @@ const RouteNames = {
   PreferenceSwiper:'PreferenceSwiper',
   PhysicalData: 'PhysicalData',
   AccountDash:'AccountDash',
-  AccountStatement:'AccountStatement'
+  AccountStatement:'AccountStatement',
+  AddAccount:'AddAccount',
 };
 
 export const TabRoutes = {

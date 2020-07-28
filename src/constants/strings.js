@@ -159,7 +159,15 @@ const strings = {
   VALID_UPTO: 'Valid Upto',
   SHARE_COUPON: 'Share coupon with users',
   COMPRESSING_VIDEO: 'Compressing video before upload',
-  UPLOADING:'Uploading video'
+  UPLOADING:'Uploading video',
+  BANK:'BANK',
+  ACCOUNT:'ACCOUNT',
+  DETAILS: 'DETAILS',
+  ACCOUNT_CREATE_INFO:'Account details for payment purpose only',
+  AGREE:'I agree to all terms and conditions.',
+  CLICK_READ:'Click here to read',
+  PLEASE_ENTER_DETAILS:'Please enter details.',
+  ACCOUNT_CREATED:'Account created.'
 };
 
 export const bmiVerdicts = {
