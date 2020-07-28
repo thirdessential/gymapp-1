@@ -40,6 +40,11 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, action.payload);
     case actionTypes.SET_STATEMENTS:
       return updateObject(state, action.payload);
+    case actionTypes.ADD_ACCOUNT:
+      return updateObject(state, action.payload);
+    case actionTypes.GET_MY_ACCOUNTS:
+      return updateObject(state, action.payload);
+
     default:
       return state;
   }

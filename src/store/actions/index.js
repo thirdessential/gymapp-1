@@ -36,7 +36,9 @@ export {
   syncSubscriptions,
   generateCoupons,
   syncCoupons,
-  getAccountSummary
+  getAccountSummary,
+  addAccount,
+  getMyAccounts
 } from './trainer.actions';
 
 export {

@@ -184,3 +184,42 @@ export const getAccountSummary = () => {
     }
   };
 };
+export const createAccount = (accountData) => ({
+  type: actionTypes.ADD_ACCOUNT,
+  payload: {
+    accountData
+  },
+});
+export const addAccount=(accountDetails) => {
+  return async (dispatch)=>{
+    try {
+      const {ifscCode,accountNumber,holderName,bankName}=accountDetails;
+      result=await API.addAccount({ifscCode,accountNumber,holderName,bankName});
+      const accountData=result.account;
+      dispatch(createAccount(accountData));
+      console.log(result)
+    } catch (error) {
+      console.log("aacount creation failed in trainer.actions.js", error);
+      return false;
+    }
+  }
+  }
+  export const getAccounts = (accounts) => ({
+    type: actionTypes.GET_MY_ACCOUNTS,
+    payload: {
+      accounts
+    },
+  });
+  export const getMyAccounts=()=>{
+    return async (dispatch) => {
+      try {
+  result = await API.getMyAccounts();
+  const accounts=result.accounts;
+  dispatch(getAccounts(accounts));
+  console.log(result);
+      }catch (error) {
+        console.log("aacount creation failed in trainer.actions.js", error);
+        return false;
+      }
+    }
+  }
