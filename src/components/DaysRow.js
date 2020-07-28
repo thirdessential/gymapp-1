@@ -12,7 +12,7 @@ import fonts from "../constants/fonts";
 
 const daysRow = ({activeDays=[]}) => {
   const renderDay = (title) => {
-    const inactiveStyle = activeDays.includes(title) ? styles.inactive:{};
+    const inactiveStyle = !activeDays.includes(title) ? styles.inactive:{};
     return (
       <View key={title} style={styles.card}>
         <Text style={[styles.title, inactiveStyle]}>{toTitleCase(title)}</Text>
