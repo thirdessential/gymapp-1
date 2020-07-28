@@ -1,5 +1,5 @@
-export const rootURL = 'https://fitness-first-services.herokuapp.com';
-// export const rootURL = 'http://192.168.31.125:3001';
+// export const rootURL = 'https://fitness-first-services.herokuapp.com';
+export const rootURL = 'http://192.168.31.125:3001';
 if (__DEV__) {
   console.log('Development');
 } else {
@@ -85,4 +85,12 @@ export const POST_TYPE = {
 export const CONTENT_TYPE={
   IMAGE:'IMAGE',
   VIDEO:'VIDEO'
+}
+export const COUPON_GEN = {
+  minGen:1,
+  maxGen:10,
+  minDiscount:3,
+  maxDiscount:100,
+  minValidity:1,
+  maxValidity:6
 }

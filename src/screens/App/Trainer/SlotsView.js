@@ -151,14 +151,14 @@ class SlotsView extends PureComponent {
     let days = Object.keys(this.state.days);
     let filteredTimings = timings.filter(time => this.state.timings[time]);
     let filteredDays = days.filter(day => this.state.days[day]);
-
     const newSubs = subscriptions.filter(subscription => {
       const {time, daysOfWeek} = subscription.slot;
       if (!filteredTimings.includes(time)) return false;
+      let dayMissingFlag = true;
       daysOfWeek.map(day => {
-        if (!filteredDays.includes(day)) return false;
+        if (!filteredDays.includes(day)) dayMissingFlag = false;
       });
-      return true;
+      return dayMissingFlag;
     });
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({subscriptions: newSubs});

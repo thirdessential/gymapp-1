@@ -70,7 +70,7 @@ const strings = {
   CALL_TIMEOUT: 'Call timeout, ending call.',
   APPOINTMENTS: 'Appointments',
   SIGNUP_FAILED: 'Signup Failed..Try Again',
-  LOGIN_FAILED: 'Login Failed..Try Again',
+  LOGIN_FAILED: 'Login Failed,Try Again',
   SLOT_BOOKING_SUCCESS: "Slot booked!",
   SLOT_BOOKING_ERROR: 'Unable to book slot, try again',
   QUESTION: 'Question',
@@ -91,7 +91,7 @@ const strings = {
   START_FROM: 'Start from',
   END_AT: 'End at',
   TOTAL_SESSIONS: 'Total Sessions',
-  SESSION_DAYS: 'Session WorkoutDays',
+  SESSION_DAYS: 'Session Days',
   CREATE: 'Create',
   NO_DATA: 'No Data',
   DAYS:'How many days do you work out per week?',
@@ -159,7 +159,13 @@ const strings = {
   VALID_UPTO: 'Valid Upto',
   SHARE_COUPON: 'Share coupon with users',
   COMPRESSING_VIDEO: 'Compressing video before upload',
-  UPLOADING:'Uploading video'
+  UPLOADING:'Uploading video',
+  COULD_NOT_INITIATE_CALL: 'Could not initiate call',
+  CALLBACK_REQUESTS: 'Call requests',
+  SET_HEIGHT: 'Set Height',
+  SUBSCRIBE_SUCCESS: 'Successfully subscribed to package',
+  PAYMENT_SUCCESS: "Payment successful",
+  COUPON_EXHAUSTED: 'Coupon redeemed'
 };
 
 export const bmiVerdicts = {

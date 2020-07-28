@@ -8,5 +8,17 @@ export const drawerLabelStyle = {
   fontSize: fontSizes.h3,
   fontFamily: fonts.MontserratMedium,
 }
-
+export const defaultHeaderStyle = {
+  headerTintColor: appTheme.brightContent,
+  headerStyle: {
+    backgroundColor: appTheme.darkBackground,
+  },
+  headerTitleStyle: {
+    fontFamily: fonts.PoppinsRegular,
+    marginHorizontal:0
+  },
+  headerTitleContainerStyle:{
+    marginLeft:-20
+  },
+}
 export const hitSlop20 = {top: 20, bottom: 20, left: 20, right: 20};

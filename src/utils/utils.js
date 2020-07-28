@@ -117,7 +117,7 @@ export const updateObject = (oldObject, updatedValues) => {
   };
 };
 
-export const initialiseVideoCall = async (userId, displayName = "Yatan", displayPictureUrl = defaultDP) => {
+export const initialiseVideoCall = async (userId) => {
   let result = await makeCall(userId);
   if (!result.success) {
     showError(result.message);
@@ -126,14 +126,12 @@ export const initialiseVideoCall = async (userId, displayName = "Yatan", display
   }
   if (!result) {
     console.log("Call initiate error");
+    showError(strings.COULD_NOT_INITIATE_CALL);
     return false;
   }
-  const {sessionId, agoraAppId} = result;
-  const user = store.getState().app.users[userId];
-  if (user) {
-    displayName = user.name;
-    displayPictureUrl = user.displayPictureUrl;
-  }
+  console.log(result)
+  let {sessionId, agoraAppId, displayPictureUrl, displayName} = result;
+  if (!displayPictureUrl) displayPictureUrl = defaultDP;
   navigate(RouteNames.VideoCall, {
     AppID: agoraAppId,
     ChannelName: sessionId,
@@ -240,7 +238,7 @@ export function calculateBmi(weight, height) {
   weight = parseInt(weight);
   height = parseInt(height)
   if (weight > 0 && height > 0) {
-    return (weight / (height / 100 * height / 100) ).toPrecision(3)
+    return (weight / (height / 100 * height / 100)).toPrecision(3)
   }
   return 0;
 }

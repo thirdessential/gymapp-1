@@ -236,6 +236,13 @@ class Packages extends PureComponent {
       days,
       couponCode
     );
+    if(result && result.payment===false){
+      this.setState({subscribeLoading: false});
+      showSuccess(strings.SUBSCRIBE_SUCCESS);
+      navigation.popToTop();
+      syncSubscriptions();
+      return;
+    }
     if (result && result.success) {
       const {orderId, subscriptionId} = result;
       const options = {
@@ -258,7 +265,7 @@ class Packages extends PureComponent {
 
       RazorpayCheckout.open(options)
         .then((data) => {
-          showSuccess("Payment successful");
+          showSuccess(strings.PAYMENT_SUCCESS);
           navigation.popToTop();
           sendPaymentData(data);
           syncSubscriptions();

@@ -4,22 +4,20 @@ import Stack from './stack';
 import RouteNames from "../RouteNames";
 
 import MyProfile from "../../screens/App/MyProfile";
-import ProfileEdit from "../../screens/App/ProfileEdit";
-import {appTheme} from "../../constants/colors";
+
 import openDrawerButton from "../openDrawerButton";
 import PostViewer from "../../screens/Social/PostViewer";
-import fonts from "../../constants/fonts";
 import PreferenceSwiper from "../../screens/App/Preference/PreferenceSwiper";
+import {defaultHeaderStyle} from "../../constants/styles";
 
 const myProfile = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
+    <Stack.Navigator screenOptions={defaultHeaderStyle}>
+    <Stack.Screen
         name={RouteNames.MyProfile}
         component={MyProfile}
         options={{
           title: '',
-          headerTintColor: appTheme.brightContent,
           headerTransparent: true,
           headerLeft: openDrawerButton
         }}
@@ -29,7 +27,6 @@ const myProfile = () => {
         component={PreferenceSwiper}
         options={{
           title: '',
-          headerTintColor: appTheme.brightContent,
           headerTransparent: true,
         }}
       />
@@ -38,13 +35,6 @@ const myProfile = () => {
         component={PostViewer}
         options={{
           title: 'Comments',
-          headerTintColor: appTheme.brightContent,
-          headerStyle: {
-            backgroundColor: appTheme.darkBackground,
-          },
-          headerTitleStyle: {
-            fontFamily: fonts.PoppinsRegular
-          },
         }}/>
     </Stack.Navigator>
   )

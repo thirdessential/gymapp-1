@@ -7,13 +7,11 @@ import Feather from "react-native-vector-icons/Feather";
 import store from '../store/configureStore';
 
 import RouteNames from "./RouteNames";
-import colors, {appTheme} from "../constants/colors";
-import Schedule from "../screens/App/User/Schedule";
+import  {appTheme} from "../constants/colors";
 import Profile from "../screens/App/Profile";
 import MyProfileStack from './stacks/myProfileStack';
-import PackageStack from "./stacks/PackageStack";
 import {userTypes} from "../constants/appConstants";
-import {ActivityIndicator, Text, View} from "react-native";
+import {ActivityIndicator, View} from "react-native";
 import fontSizes from "../constants/fontSizes";
 import ListingStack from './stacks/listingStack';
 import SlotEditStack from "./stacks/SlotEditStack";

@@ -26,6 +26,7 @@ import { spacing } from "../../constants/dimension";
 import Logo from "../../../assets/images/newlogo.png";
 import Icon from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather";
+import TripleLine from "../../../assets/images/tripleLine.png";
 export default class SignInNew extends Component {
   constructor(props) {
     super(props);
@@ -97,6 +98,12 @@ export default class SignInNew extends Component {
   setPassword = (text) => {
     this.setState({ password: text });
   };
+  renderBars = ()=>(
+    <View style={{position:'absolute', right:-screenWidth/10,top:-screenWidth/10}}>
+      <Image style={{height:screenWidth/2.5, width:screenWidth/2.5}} resizeMode={'contain'} source={TripleLine}/>
+    </View>
+  )
+
 
   render() {
     return (
@@ -106,9 +113,9 @@ export default class SignInNew extends Component {
         keyboardShouldPersistTaps={"handled"}
         style={styles.container}
       >
-        <StatusBar backgroundColor="black" />
+        {this.renderBars()}
         <Loader loading={this.state.loading} />
-        <Image source={Logo} style={styles.image} />
+        <Image resizeMode={'contain'} source={Logo} style={styles.image}/>
 
         <View style={styles.itemContainer}>
           <View style={{ flexDirection: "row" }}>
@@ -220,7 +227,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: screenHeight * 0.1,
-    width: screenWidth * 0.8,
+    width: screenWidth * 0.6,
     marginTop: "10%",
   },
   itemContainer: {

@@ -119,7 +119,6 @@ const styles = StyleSheet.create({
     marginTop: 25,
     backgroundColor: "#20222f",
     flex: 1,
-    height:screenHeight/2,
     margin: -spacing.medium_sm,
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
@@ -130,6 +129,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.h4,
     marginHorizontal: screenWidth * 0.1,
     marginTop: spacing.space_50,
+    marginBottom:spacing.medium,
     textAlign: "center",
   },
   optionContainer: {
