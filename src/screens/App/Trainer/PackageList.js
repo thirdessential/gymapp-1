@@ -39,8 +39,7 @@ class PackageList extends PureComponent {
 
   render() {
     return (
-      <LinearGradient
-        colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
+      <View
         style={styles.container}>
         <View style={styles.listContainer}>
           <PackageFlatList
@@ -50,7 +49,7 @@ class PackageList extends PureComponent {
           />
         </View>
         <this.addButton/>
-      </LinearGradient>
+      </View>
     );
   }
 }

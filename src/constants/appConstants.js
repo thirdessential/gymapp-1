@@ -94,3 +94,13 @@ export const COUPON_GEN = {
   minValidity:1,
   maxValidity:6
 }
+export const packageTypes = {
+  FAT_LOSS: 'Fat Loss',
+  WEIGHT_LOSS:'Weight Loss',
+  WEIGHT_GAIN:'Weight Gain',
+  MUSCLE_GAIN:'Muscle Gain',
+  BODY_MASS_GAIN:'Body Mass Gain',
+  LEAN_BODY_MASS:'Lean Body Mass',
+  POWER_LIFTING:'Power Lifting',
+  STRENGTH_GAIN:'Strength Gain'
+}

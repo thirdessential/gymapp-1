@@ -18,23 +18,19 @@ import {iconBackgrounds} from "../../../constants/images";
 import {screenHeight, screenWidth} from "../../../utils/screenDimensions";
 import * as actionCreators from "../../../store/actions";
 import {connect} from "react-redux";
+import {packageTypes} from "../../../constants/appConstants";
 
 class WorkoutPreference extends Component {
   state = {
-    data: [
-      {id: 0, text: "Fat Loss", checked: false},
-      {id: 1, text: "Weight Loss", checked: false},
-      {id: 2, text: "Weight Gain", checked: false},
-      {id: 3, text: "Muscle Gain", checked: false},
-      {id: 4, text: "Body mass Gain", checked: false},
-      {id: 5, text: "Lean Body Mass", checked: false},
-      {id: 6, text: "Power Lifting", checked: false},
-      {id: 7, text: "Strength Gain", checked: false},
-    ],
+    data:[]
   };
 
   componentDidMount() {
     this.updateLocalState();
+    let data =Object.values(packageTypes).map((packageName,index)=>{
+      return {id:index,text:packageName,checked:false};
+    })
+    this.setState({data});
   }
 
   updateLocalState = () => {

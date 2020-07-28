@@ -12,6 +12,7 @@ export const defaultHeaderStyle = {
   headerTintColor: appTheme.brightContent,
   headerStyle: {
     backgroundColor: appTheme.darkBackground,
+    height:56,
   },
   headerTitleStyle: {
     fontFamily: fonts.PoppinsRegular,

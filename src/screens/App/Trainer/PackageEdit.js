@@ -25,7 +25,6 @@ import strings from "../../../constants/strings";
 import fonts from "../../../constants/fonts";
 import fontSizes from "../../../constants/fontSizes";
 import {validatePackage} from "../../../utils/validators";
-import LinearGradient from "react-native-linear-gradient";
 import {showSuccess} from "../../../utils/notification";
 
 class Packages extends PureComponent {
@@ -84,8 +83,7 @@ class Packages extends PureComponent {
   render() {
     const inputsValid = validatePackage(this.state);
     return (
-      <LinearGradient
-        colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
+      <View
         style={styles.container}>
         <KeyboardAwareScrollView style={styles.container} enableOnAndroid={true} keyboardShouldPersistTaps={'handled'}>
           <StatusBar backgroundColor={appTheme.darkBackground}/>
@@ -174,7 +172,7 @@ class Packages extends PureComponent {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
-      </LinearGradient>
+      </View>
     );
   }
 }

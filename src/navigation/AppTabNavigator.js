@@ -51,7 +51,7 @@ const appTabNavigator = (props) => {
           alignItems: 'center',
           padding: 3
         },
-        style: {backgroundColor: appTheme.darkGrey},
+        style: {backgroundColor: appTheme.darkBackground},
       }}
     >
       <Tab.Screen
@@ -103,7 +103,6 @@ const appTabNavigator = (props) => {
             }}/>
         )
       }
-
       <Tab.Screen
         name={RouteNames.ToolTab}
         component={ToolStack}
