@@ -22,7 +22,6 @@ import {spacing} from "../../constants/dimension";
 import {generateTrainerHits, generateUserHits} from "../../utils/utils";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import LinearGradient from "react-native-linear-gradient";
 import {setAvailable} from "../../API";
 
 class UserListing extends Component {
@@ -116,7 +115,7 @@ class UserListing extends Component {
     const {userList} = this.props;
     return (<>
         <StatusBar backgroundColor={appTheme.lightBackground}/>
-        <LinearGradient
+        <View
           colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
           style={styles.listContainer}>
           <FlatList
@@ -136,7 +135,7 @@ class UserListing extends Component {
               <ActivityIndicator style={{position: 'absolute'}} color={appTheme.brightContent} size={50}/>
             )
           }
-        </LinearGradient>
+        </View>
       </>
     );
   }

@@ -7,13 +7,11 @@ import Feather from "react-native-vector-icons/Feather";
 import store from '../store/configureStore';
 
 import RouteNames from "./RouteNames";
-import colors, {appTheme} from "../constants/colors";
-import Schedule from "../screens/App/User/Schedule";
+import  {appTheme} from "../constants/colors";
 import Profile from "../screens/App/Profile";
 import MyProfileStack from './stacks/myProfileStack';
-import PackageStack from "./stacks/PackageStack";
 import {userTypes} from "../constants/appConstants";
-import {ActivityIndicator, Text, View} from "react-native";
+import {ActivityIndicator, View} from "react-native";
 import fontSizes from "../constants/fontSizes";
 import ListingStack from './stacks/listingStack';
 import SlotEditStack from "./stacks/SlotEditStack";
@@ -34,8 +32,8 @@ const appTabNavigator = (props) => {
   const listingTitle = userType === userTypes.USER ? 'Trainers' : 'Users';
   return (
     <Tab.Navigator
-      // lazy={true}
-      // lazyPreloadDistance={1}
+      lazy={true}
+      lazyPreloadDistance={0}
       // lazyPlaceholder={bgView}
       backBehavior={'initialRoute'}
       tabBarPosition={'bottom'}
@@ -53,7 +51,7 @@ const appTabNavigator = (props) => {
           alignItems: 'center',
           padding: 3
         },
-        style: {backgroundColor: appTheme.darkGrey},
+        style: {backgroundColor: appTheme.darkBackground},
       }}
     >
       <Tab.Screen
@@ -105,7 +103,6 @@ const appTabNavigator = (props) => {
             }}/>
         )
       }
-
       <Tab.Screen
         name={RouteNames.ToolTab}
         component={ToolStack}

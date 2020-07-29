@@ -17,22 +17,17 @@ import BMI from "../../screens/App/BMI";
 import CouponMachine from "../../screens/App/Trainer/CouponMachine";
 import AccountStatement from "../../screens/App/Trainer/AccountStatement";
 import AccountDash from "../../screens/App/Trainer/AccountDash";
+import PreferenceSwiper from "../../screens/App/Preference/PreferenceSwiper";
+import {defaultHeaderStyle} from "../../constants/styles";
 
 const toolStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={defaultHeaderStyle}>
       <Stack.Screen
         name={RouteNames.Tools}
         component={Tools}
         options={{
           title: 'Tools',
-          headerTintColor: appTheme.brightContent,
-          headerStyle: {
-            backgroundColor: appTheme.darkBackground,
-          },
-          headerTitleStyle: {
-            fontFamily: fonts.PoppinsRegular
-          },
           headerLeft: openDrawerButton
         }}
       />
@@ -41,13 +36,6 @@ const toolStack = () => {
         component={MyAppointments}
         options={{
           title: 'Appointments',
-          headerTintColor: appTheme.brightContent,
-          headerStyle: {
-            backgroundColor: appTheme.darkBackground,
-          },
-          headerTitleStyle: {
-            fontFamily: fonts.PoppinsRegular
-          },
         }}
       />
       <Stack.Screen
@@ -55,32 +43,18 @@ const toolStack = () => {
         component={PackageList}
         options={{
           title: 'My Packages',
-          headerTintColor: appTheme.brightContent,
-          headerStyle: {
-            backgroundColor: appTheme.darkBackground,
-          },
-          headerTitleStyle: {
-            fontFamily: fonts.PoppinsRegular
-          }
         }}
       />
       <Stack.Screen
         name={RouteNames.PackageEdit}
         component={PackageEdit}
-        options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}
+        options={{title: '', headerTransparent: true}}
       />
       <Stack.Screen
         name={RouteNames.SlotsView}
         component={SlotsView}
         options={{
           title: 'Slots',
-          headerTintColor: appTheme.brightContent,
-          headerStyle: {
-            backgroundColor: appTheme.darkBackground,
-          },
-          headerTitleStyle: {
-            fontFamily: fonts.PoppinsRegular
-          }
         }}
       />
       <Stack.Screen
@@ -88,13 +62,6 @@ const toolStack = () => {
         component={TrainerSubscriptions}
         options={{
           title: 'Subscriptions',
-          headerTintColor: appTheme.brightContent,
-          headerStyle: {
-            backgroundColor: appTheme.darkBackground,
-          },
-          headerTitleStyle: {
-            fontFamily: fonts.PoppinsRegular
-          }
         }}
       />
       <Stack.Screen
@@ -102,29 +69,15 @@ const toolStack = () => {
         component={Schedule}
         options={{
           title: 'Schedule',
-          headerTintColor: appTheme.brightContent,
-          headerStyle: {
-            backgroundColor: appTheme.darkBackground,
-          },
-          headerTitleStyle: {
-            fontFamily: fonts.PoppinsRegular
-          }
         }}
       />
       <Stack.Screen name={RouteNames.Profile} component={Profile}
-                    options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
+                    options={{title: '', headerTransparent: true}}/>
       <Stack.Screen
         name={RouteNames.BMI}
         component={BMI}
         options={{
           title: 'BMI',
-          headerTintColor: appTheme.brightContent,
-          headerStyle: {
-            backgroundColor: appTheme.darkBackground,
-          },
-          headerTitleStyle: {
-            fontFamily: fonts.PoppinsRegular
-          }
         }}
       />
       <Stack.Screen
@@ -132,13 +85,6 @@ const toolStack = () => {
         component={CouponMachine}
         options={{
           title: 'Coupons',
-          headerTintColor: appTheme.brightContent,
-          headerStyle: {
-            backgroundColor: appTheme.darkBackground,
-          },
-          headerTitleStyle: {
-            fontFamily: fonts.PoppinsRegular
-          }
         }}
       />
       <Stack.Screen
@@ -161,6 +107,14 @@ const toolStack = () => {
           headerStyle: {
             backgroundColor: appTheme.brightContent,
           },
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.ProfileEdit}
+        component={PreferenceSwiper}
+        options={{
+          title: '',
+          headerTransparent: true,
         }}
       />
     </Stack.Navigator>

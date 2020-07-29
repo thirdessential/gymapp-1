@@ -28,7 +28,8 @@ import Coupon from "../../../components/Coupon";
 import {textShare} from "../../../utils/share";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import {roundEdgeSeparator} from "../../../components/Trainer/StatementCard";
-import { screenWidth} from "../../../utils/screenDimensions";
+import {screenWidth} from "../../../utils/screenDimensions";
+import {COUPON_GEN} from "../../../constants/appConstants";
 
 class CouponMachine extends PureComponent {
 
@@ -50,7 +51,11 @@ class CouponMachine extends PureComponent {
   incrementCount = () => this.setState({genCount: this.state.genCount + 1})
   decrementCount = () => this.setState({genCount: this.state.genCount - 1})
   decrementPercentage = () => this.setState({genPercentage: this.state.genPercentage - 1})
-  incrementPercentage = () => this.setState({genPercentage: this.state.genPercentage + 3})
+  incrementPercentage = () => {
+    if (this.state.genPercentage + 3 > 100)
+      this.setState({genPercentage: 100});
+    else this.setState({genPercentage: this.state.genPercentage + 3});
+  }
   incrementValidity = () => this.setState({genValidity: this.state.genValidity + 1})
   decrementValidity = () => this.setState({genValidity: this.state.genValidity - 1})
 
@@ -101,63 +106,74 @@ class CouponMachine extends PureComponent {
     textShare(message);
   }
   renderCoupon = (coupon) => {
-    const validTill = (new Date(coupon.validTill)).toLocaleDateString();
+    const {validTill, couponCode, percentageOff, redeemCount, total} = coupon;
+    const validTillDate = (new Date(validTill)).toLocaleDateString();
+    let shareEnabled = true;
+    let now = new Date();
+    if (validTill > now) shareEnabled = false;
+    if (redeemCount === total) shareEnabled = false;
     return <View style={{marginBottom: spacing.medium}}>
       <Coupon
-        code={coupon.couponCode}
-        discount={coupon.percentageOff}
-        validity={validTill}
-        redeemed={coupon.redeemCount}
-        count={coupon.total}
-        onShare={() => this.shareCoupon(coupon.couponCode, coupon.percentageOff, validTill)}
+        code={couponCode}
+        discount={percentageOff}
+        validity={validTillDate}
+        redeemed={redeemCount}
+        count={total}
+        onShare={shareEnabled? () => this.shareCoupon(coupon.couponCode, coupon.percentageOff, validTill):null}
       />
     </View>
   }
 
   renderCouponCount = () => {
     const {genCount} = this.state;
+    const minDisabled = genCount <= COUPON_GEN.minGen;
+    const maxDisabled = genCount >= COUPON_GEN.maxGen;
     return <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={this.decrementCount}
-                        disabled={genCount < 2}
-                        style={[styles.roundButton, styles.halfLeft, genCount < 2 && styles.disabled]}>
+                        disabled={minDisabled}
+                        style={[styles.roundButton, styles.halfLeft, minDisabled && styles.disabled]}>
         <FontAwesome5Icon name={'minus'} size={15} color={'white'}/>
       </TouchableOpacity>
       <Text style={styles.buttonText}>{genCount}</Text>
       <TouchableOpacity onPress={this.incrementCount}
-                        disabled={genCount > 9}
-                        style={[styles.roundButton, styles.halfRight, genCount > 9 && styles.disabled]}>
+                        disabled={maxDisabled}
+                        style={[styles.roundButton, styles.halfRight, maxDisabled && styles.disabled]}>
         <FontAwesome5Icon name={'plus'} size={15} color={'white'}/>
       </TouchableOpacity>
     </View>
   }
   renderCouponDiscount = () => {
     const {genPercentage} = this.state;
+    const minDisabled = genPercentage <= COUPON_GEN.minDiscount;
+    const maxDisabled = genPercentage >= COUPON_GEN.maxDiscount;
     return <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={this.decrementPercentage}
-                        disabled={genPercentage < 4}
-                        style={[styles.roundButton, styles.halfLeft, genPercentage < 4 && styles.disabled]}>
+                        disabled={minDisabled}
+                        style={[styles.roundButton, styles.halfLeft, minDisabled && styles.disabled]}>
         <FontAwesome5Icon name={'minus'} size={15} color={'white'}/>
       </TouchableOpacity>
       <Text style={styles.buttonText}>{genPercentage}</Text>
       <TouchableOpacity onPress={this.incrementPercentage}
-                        disabled={genPercentage > 14}
-                        style={[styles.roundButton, styles.halfRight, genPercentage > 14 && styles.disabled]}>
+                        disabled={maxDisabled}
+                        style={[styles.roundButton, styles.halfRight, maxDisabled && styles.disabled]}>
         <FontAwesome5Icon name={'plus'} size={15} color={'white'}/>
       </TouchableOpacity>
     </View>
   }
   renderCouponValidity = () => {
     const {genValidity} = this.state;
+    const minDisabled = genValidity <= COUPON_GEN.minValidity;
+    const maxDisabled = genValidity >= COUPON_GEN.maxValidity;
     return <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={this.decrementValidity}
-                        disabled={genValidity < 2}
-                        style={[styles.roundButton, styles.halfLeft, genValidity < 2 && styles.disabled]}>
+                        disabled={minDisabled}
+                        style={[styles.roundButton, styles.halfLeft, minDisabled && styles.disabled]}>
         <FontAwesome5Icon name={'minus'} size={15} color={'white'}/>
       </TouchableOpacity>
       <Text style={[styles.buttonText, {marginLeft: 'auto', marginRight: 'auto'}]}>{genValidity} {strings.MONTHS}</Text>
       <TouchableOpacity onPress={this.incrementValidity}
-                        disabled={genValidity > 5}
-                        style={[styles.roundButton, styles.halfRight, genValidity > 5 && styles.disabled]}>
+                        disabled={maxDisabled}
+                        style={[styles.roundButton, styles.halfRight, maxDisabled && styles.disabled]}>
         <FontAwesome5Icon name={'plus'} size={15} color={'white'}/>
       </TouchableOpacity>
     </View>

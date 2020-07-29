@@ -28,7 +28,6 @@ import colors, {appTheme} from "../../../constants/colors";
 import strings from "../../../constants/strings";
 import fonts from "../../../constants/fonts";
 import fontSizes from "../../../constants/fontSizes";
-import LinearGradient from "react-native-linear-gradient";
 import {militaryTimeToString, toTitleCase} from "../../../utils/utils";
 import {appName, paymentKey} from "../../../constants/appConstants";
 import {showError, showSuccess} from "../../../utils/notification";
@@ -178,7 +177,7 @@ class Packages extends PureComponent {
     const {discount} = await getCouponDiscount(couponCode, trainerId);
     if (!discount) {
       showError(strings.INVALID_COUPON);
-      this.setState({couponLoading:false});
+      this.setState({couponLoading: false});
       return;
     }
 
@@ -189,7 +188,7 @@ class Packages extends PureComponent {
   onCouponCodeChange = (couponCode) =>
     this.setState({couponCode: couponCode.toUpperCase().slice(0, 9)});
   renderCouponInput = () => {
-    const submitDisabled = this.state.couponLoading || this.state.couponCode.length<6;
+    const submitDisabled = this.state.couponLoading || this.state.couponCode.length < 6;
     return (
       <View
         style={styles.applyCoupon}
@@ -206,7 +205,7 @@ class Packages extends PureComponent {
 
         <TouchableOpacity
           onPress={this.applyCoupon}
-          style={[styles.applyCouponbutton, submitDisabled?styles.disabled:null]}
+          style={[styles.applyCouponbutton, submitDisabled ? styles.disabled : null]}
           disabled={submitDisabled}
         >
           {this.state.couponLoading && <ActivityIndicator color={appTheme.textPrimary} size={20}/>}
@@ -236,6 +235,13 @@ class Packages extends PureComponent {
       days,
       couponCode
     );
+    if (result && result.payment === false) {
+      this.setState({subscribeLoading: false});
+      showSuccess(strings.SUBSCRIBE_SUCCESS);
+      navigation.popToTop();
+      syncSubscriptions();
+      return;
+    }
     if (result && result.success) {
       const {orderId, subscriptionId} = result;
       const options = {
@@ -258,7 +264,7 @@ class Packages extends PureComponent {
 
       RazorpayCheckout.open(options)
         .then((data) => {
-          showSuccess("Payment successful");
+          showSuccess(strings.PAYMENT_SUCCESS);
           navigation.popToTop();
           sendPaymentData(data);
           syncSubscriptions();
@@ -278,8 +284,7 @@ class Packages extends PureComponent {
 
   render() {
     return (
-      <LinearGradient
-        colors={[appTheme.darkGrey, appTheme.background]}
+      <View
         style={styles.container}
       >
         <KeyboardAwareScrollView
@@ -316,7 +321,7 @@ class Packages extends PureComponent {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
-      </LinearGradient>
+      </View>
     );
   }
 }
@@ -325,7 +330,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: spacing.medium_sm,
-    paddingVertical:0
+    paddingVertical: 0
   },
   subtitle: {
     backgroundColor: appTheme.darkBackground,
@@ -476,8 +481,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: fonts.CenturyGothic,
   },
-  disabled:{
-    backgroundColor:appTheme.grey
+  disabled: {
+    backgroundColor: appTheme.grey
   }
 });
 

@@ -1,7 +1,8 @@
 import React, {PureComponent} from 'react';
 import {
   ActivityIndicator,
-  FlatList, LayoutAnimation,
+  FlatList,
+  LayoutAnimation,
   ScrollView,
   StyleSheet,
   Text,
@@ -41,6 +42,8 @@ import {hitSlop20} from "../../constants/styles";
 import {WEEK_DAYS} from "../../constants/appConstants";
 import RBSheet from "react-native-raw-bottom-sheet";
 import DatePicker from "react-native-datepicker";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import Entypo from "react-native-vector-icons/Entypo";
 
 const rbContentType = {
   WEIGHT: 'WEIGHT',
@@ -50,20 +53,6 @@ const rbContentType = {
 class BMI extends PureComponent {
 
   state = {
-    weight: {
-      initial: {
-        value: 100,
-        date: '2020-05-21T13:12:39.415Z'
-      },
-      target: {
-        value: 50,
-        date: '2020-07-20T14:06:33.879Z'
-      },
-      current: {
-        value: 75,
-        date: '2020-09-18T13:13:25.194Z'
-      }
-    },
     graphType: 'day',
     graphHeaderText: strings.LAST_DAYS,
     target: null,
@@ -76,17 +65,21 @@ class BMI extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.updateBmiRecords();
+    const {navigation, updateBmiRecords} = this.props;
+    this.unsubscribeFocus = navigation.addListener('focus', e => {
+      updateBmiRecords();
+    })
+  }
+  componentWillUnmount() {
+    this.unsubscribeFocus();
   }
 
-  openProfile = () => {
-    this.props.navigation.navigate(RouteNames.MyProfile);
-  }
   setDays = () => this.setState({graphType: 'day', graphHeaderText: strings.LAST_DAYS})
   setMonths = () => this.setState({graphType: 'month', graphHeaderText: strings.LAST_MONTHS})
   setWeight = (newWeight) => this.setState({newWeight})
   setTargetWeight = (targetWeight) => this.setState({targetWeight})
   setTargetDate = (targetDate) => this.setState({targetDate})
+  openHeightSetter = () => this.props.navigation.navigate(RouteNames.ProfileEdit, {physical: true})
   renderHeader = () => {
     const {displayPictureUrl, height, name} = this.props.userData;
     return (
@@ -97,14 +90,26 @@ class BMI extends PureComponent {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <TouchableOpacity onPress={this.openProfile}
-                          style={{marginRight: 'auto', flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{marginRight: 'auto', flex: 1, flexDirection: 'row', alignItems: 'center'}}>
           <Avatar roundedMultiplier={1} size={spacing.thumbnailMini} url={displayPictureUrl}/>
           <View>
             <Text style={[styles.menuText, {fontSize: fontSizes.h1}]}>{name}</Text>
-            <Text style={styles.menuText}>{height} cms</Text>
+            {!!height && (
+              <TouchableOpacity
+                onPress={this.openHeightSetter}
+                style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text style={styles.menuText}>{height} cms</Text>
+                <Entypo name={'edit'} size={14} style={{marginLeft: spacing.small_sm}} color={appTheme.brightContent}/>
+              </TouchableOpacity>
+            )}
+            {!height && (
+              <TouchableOpacity onPress={this.openHeightSetter}>
+                <Text style={styles.menuText}>{strings.SET_HEIGHT}</Text>
+              </TouchableOpacity>
+            )}
+
           </View>
-        </TouchableOpacity>
+        </View>
         <Menu style={styles.menuContainer}>
           <MenuTrigger customStyles={{padding: spacing.small_lg}}>
             <Text style={styles.menuTitle}>{this.state.graphHeaderText}</Text>
@@ -219,8 +224,9 @@ class BMI extends PureComponent {
     }}>{text}</Text>
   }
   renderBMI = () => {
-    const {bmiRecords} = this.props;
-    if (!bmiRecords || bmiRecords.length === 0)
+    const {bmiRecords, userData} = this.props;
+
+    if (!bmiRecords || bmiRecords.length === 0 || !userData.height)
       return null;
     const {bmi} = bmiRecords[0];
     return (
@@ -273,7 +279,7 @@ class BMI extends PureComponent {
         <FlatList
           data={bmiRecords}
           renderItem={({item}) => this.historyCard(item)}
-          keyExtractor={({item, index}) => index}
+          keyExtractor={(item) => item._id}
           ListHeaderComponent={() => <View style={{height: spacing.small_lg}}/>}
           ListFooterComponent={() => <View style={{height: spacing.medium}}/>}
           ItemSeparatorComponent={() => <View style={{height: spacing.small_lg}}/>}
@@ -513,7 +519,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
-  bmiRecords:state.fitness.bmiRecords,
+  bmiRecords: state.fitness.bmiRecords,
   targetWeight: state.fitness.targetWeight,
   targetDate: state.fitness.targetDate
 });

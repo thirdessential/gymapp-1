@@ -209,8 +209,7 @@ class SlotList extends PureComponent {
 
   render() {
     return (
-      <LinearGradient
-        colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
+      <View
         style={styles.container}>
         {
           this.state.settingInitialSlots &&
@@ -230,7 +229,7 @@ class SlotList extends PureComponent {
           )
         }
         <this.fab/>
-      </LinearGradient>
+      </View>
     );
   }
 }
@@ -239,7 +238,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor:appTheme.background
   },
   listContainer: {
     justifyContent: 'center',

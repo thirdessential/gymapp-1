@@ -6,21 +6,21 @@ import {FlatList, StyleSheet, Text, View} from "react-native";
 const data = [];
 for (let i = 0; i < 50; i++) {
   if (i < 7)
-    data.push({ color: bmiColors.blue, value: i});
+    data.push({color: bmiColors.blue, value: i});
   else if (i < 20)
     data.push({color: bmiColors.lightBlue, value: i});
   else if (i < 30)
     data.push({color: bmiColors.yellow, value: i});
-  else data.push({ color: bmiColors.red, value: i});
+  else data.push({color: bmiColors.red, value: i});
 }
 
 
 const bmiBar = (props) => {
   const renderBar = ({color, value}) => {
-    const selfValue = value/2 + 15;
-    const active = Math.floor(props.value+0.5) ===(selfValue);
+    const selfValue = value / 2 + 15;
+    const active = Math.floor(props.value + 0.5) === (selfValue);
     return (
-      <View style={[styles.bar,active?styles.active:null,  {backgroundColor: color}]}/>
+      <View style={[styles.bar, active ? styles.active : null, {backgroundColor: color}]}/>
     )
   }
   const separator = () => <View style={styles.separator}/>
@@ -28,12 +28,12 @@ const bmiBar = (props) => {
     <View style={styles.container}>
       <FlatList
         data={data}
-        contentContainerStyle={{alignItems:'center'}}
+        contentContainerStyle={{alignItems: 'center'}}
         initialNumToRender={50}
         horizontal={true}
         ItemSeparatorComponent={separator}
-        renderItem={({item, index}) => renderBar(item)}
-        keyExtractor={({item,index})=>index}
+        renderItem={({item}) => renderBar(item)}
+        keyExtractor={item => item.value}
         showsHorizontalScrollIndicator={false}
       />
       <View style={{flexDirection: 'row', marginTop: spacing.small, justifyContent: 'space-between'}}>
@@ -51,7 +51,7 @@ const bmiBar = (props) => {
 const width = 3 * 50 + 2.5 * 49; // separator + bars
 const styles = StyleSheet.create({
   container: {
-    width:width
+    width: width
   },
   bar: {
     height: 20,
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   title: {
     color: appTheme.grey
   },
-  active:{
+  active: {
     height: 35,
   }
 });

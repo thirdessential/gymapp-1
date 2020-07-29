@@ -6,33 +6,31 @@ import RouteNames from "../RouteNames";
 import {appTheme} from "../../constants/colors";
 import openDrawerButton from "../openDrawerButton";
 import Activity from "../../screens/App/Activity";
-import fonts from "../../constants/fonts";
 import Profile from "../../screens/App/Profile";
+import {defaultHeaderStyle} from "../../constants/styles";
+import PackageList from "../../screens/App/Trainer/PackageList";
+import PackageEdit from "../../screens/App/Trainer/PackageEdit";
 
 const activity = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={defaultHeaderStyle}>
       <Stack.Screen
         name={RouteNames.Activity}
-        component={Activity}
+        component={PackageList}
         options={{
           title: 'Activity',
-          headerTintColor: appTheme.brightContent,
-          headerStyle: {
-            backgroundColor: appTheme.darkBackground,
-          },
-          headerTitleStyle: {
-            fontFamily: fonts.PoppinsRegular
-          },
           headerLeft: openDrawerButton
         }}
+      />
+      <Stack.Screen
+        name={RouteNames.PackageEdit}
+        component={PackageEdit}
+        options={{title: '', headerTransparent: true}}
       />
       <Stack.Screen name={RouteNames.Profile} component={Profile}
                     options={{title: '', headerTintColor: appTheme.brightContent, headerTransparent: true}}/>
     </Stack.Navigator>
   )
 }
-
-
 
 export default activity;

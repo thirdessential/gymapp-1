@@ -14,6 +14,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import {getRandomImage} from "../../constants/images";
 import colors, {appTheme, darkPallet} from "../../constants/colors";
 import {hitSlop20} from "../../constants/styles";
+import {packageImages, packageTypes} from "../../constants/appConstants";
 
 const toggleAnimation = (callback, value) => {
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -21,12 +22,12 @@ const toggleAnimation = (callback, value) => {
 }
 
 const PackageOverview = (props) => {
-  const {open=false} = props;
+  const {open = false} = props;
   const [collapsed, setCollapsed] = useState(!open);
   const chevron = !collapsed ? 'chevron-up' : 'chevron-down';
-  const [imageSrc] = useState(getRandomImage());
+  // const [imageSrc] = useState(getRandomImage());
 
-  const EditButtons = ()=> (
+  const EditButtons = () => (
     <View style={styles.editContainer}>
       <TouchableOpacity
         style={styles.enrollButton}
@@ -39,7 +40,8 @@ const PackageOverview = (props) => {
           size={24}
         />
       </TouchableOpacity>
-      <TouchableOpacity style={{marginLeft:spacing.medium}} onPress={props.deleteCallback} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+      <TouchableOpacity style={{marginLeft: spacing.medium}} onPress={props.deleteCallback}
+                        hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
       >
         <FontAwesome
           name={'trash'}
@@ -54,9 +56,9 @@ const PackageOverview = (props) => {
     <TouchableOpacity activeOpacity={0.9} onPress={() => toggleAnimation(setCollapsed, !collapsed)}>
       <ImageBackground
         style={styles.container}
-        blurRadius={4}
+        blurRadius={2}
         borderRadius={12}
-        source={imageSrc}>
+        source={packageImages[props.category]}>
         <View style={[styles.textContainer, {flexDirection: 'row', justifyContent: 'space-between'}]}>
           <Text style={styles.title}>{props.title}</Text>
           <FontAwesome
@@ -71,6 +73,7 @@ const PackageOverview = (props) => {
             <>
               <View style={styles.textContainer}>
                 <Text style={styles.description}>{props.description}</Text>
+                <Text style={styles.description}>{packageTypes[props.category]}</Text>
               </View>
             </>
           )
