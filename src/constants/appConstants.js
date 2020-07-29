@@ -1,5 +1,7 @@
-export const rootURL = 'https://fitness-first-services.herokuapp.com';
-// export const rootURL = 'http://192.168.31.125:3001';
+import {cardBackgrounds} from "./images";
+
+// export const rootURL = 'https://fitness-first-services.herokuapp.com';
+export const rootURL = 'http://192.168.31.125:3001';
 if (__DEV__) {
   console.log('Development');
 } else {
@@ -80,9 +82,37 @@ export const POST_TYPE = {
   TYPE_POST: 'TYPE_POST',
   TYPE_WORKOUT: 'TYPE_WORKOUT',
   TYPE_QUESTION: 'TYPE_QUESTION',
-  TYPE_VIDEO:'TYPE_VIDEO',
+  TYPE_VIDEO: 'TYPE_VIDEO',
 }
-export const CONTENT_TYPE={
-  IMAGE:'IMAGE',
-  VIDEO:'VIDEO'
+export const CONTENT_TYPE = {
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO'
+}
+export const COUPON_GEN = {
+  minGen: 1,
+  maxGen: 10,
+  minDiscount: 3,
+  maxDiscount: 100,
+  minValidity: 1,
+  maxValidity: 6
+}
+export const packageTypes = {
+  FAT_LOSS: 'Fat Loss',
+  WEIGHT_LOSS: 'Weight Loss',
+  WEIGHT_GAIN: 'Weight Gain',
+  MUSCLE_GAIN: 'Muscle Gain',
+  BODY_MASS_GAIN: 'Body Mass Gain',
+  LEAN_BODY_MASS: 'Lean Body Mass',
+  POWER_LIFTING: 'Power Lifting',
+  STRENGTH_GAIN: 'Strength Gain'
+}
+export const packageImages = {
+  FAT_LOSS: cardBackgrounds.bg1,
+  WEIGHT_LOSS: cardBackgrounds.bg2,
+  WEIGHT_GAIN: cardBackgrounds.bg3,
+  MUSCLE_GAIN: cardBackgrounds.bg4,
+  BODY_MASS_GAIN: cardBackgrounds.bg5,
+  LEAN_BODY_MASS: cardBackgrounds.bg6,
+  POWER_LIFTING: cardBackgrounds.bg7,
+  STRENGTH_GAIN: cardBackgrounds.bg8
 }

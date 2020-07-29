@@ -66,6 +66,7 @@ class SlotsView extends PureComponent {
     if (!userData.name) userData = subscription.trainer;
     const {name: userName, displayPictureUrl: dpUrl, _id: userId} = userData;
     const {time, daysOfWeek} = slot;
+
     const {userType} = this.props.userData;
     const SubscriptionCard = userType === userTypes.TRAINER ? TrainerSubscriptionCard : UserSubscriptionCard;
     return <View style={styles.cardContainer}>
@@ -151,14 +152,14 @@ class SlotsView extends PureComponent {
     let days = Object.keys(this.state.days);
     let filteredTimings = timings.filter(time => this.state.timings[time]);
     let filteredDays = days.filter(day => this.state.days[day]);
-
     const newSubs = subscriptions.filter(subscription => {
       const {time, daysOfWeek} = subscription.slot;
       if (!filteredTimings.includes(time)) return false;
+      let dayMissingFlag = false;
       daysOfWeek.map(day => {
-        if (!filteredDays.includes(day)) return false;
+        if (filteredDays.includes(day)) dayMissingFlag = true;
       });
-      return true;
+      return dayMissingFlag;
     });
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({subscriptions: newSubs});

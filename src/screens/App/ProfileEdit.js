@@ -14,7 +14,6 @@ import ImagePicker from 'react-native-image-picker';
 import {connect} from "react-redux";
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import FastImage from "react-native-fast-image";
-import LinearGradient from "react-native-linear-gradient";
 
 import {updateUserInfo} from '../../API';
 import defaultPic from '../../../assets/images/male_pic_default.jpg';
@@ -137,8 +136,7 @@ class ProfileEdit extends PureComponent {
 
   render() {
     return (
-      <LinearGradient
-        colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
+      <View
         style={styles.container}>
         <StatusBar backgroundColor={appTheme.darkBackground}/>
         <ScrollView enableOnAndroid={true} contentContainerStyle={styles.contentContainer}
@@ -224,7 +222,7 @@ class ProfileEdit extends PureComponent {
           <KeyboardSpacer/>
         </ScrollView>
 
-      </LinearGradient>
+      </View>
     );
   }
 }

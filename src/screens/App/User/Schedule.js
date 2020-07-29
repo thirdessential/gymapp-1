@@ -149,8 +149,7 @@ class Schedule extends PureComponent {
 
   render() {
     return (
-      <LinearGradient
-        colors={[darkPallet.darkBlue, appTheme.lightBackground]}
+      <View
         style={styles.container}>
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
           <View style={styles.calendarContainer}>
@@ -166,7 +165,7 @@ class Schedule extends PureComponent {
           </View>
           <this.renderSlots/>
         </ScrollView>
-      </LinearGradient>
+      </View>
     );
   }
 }

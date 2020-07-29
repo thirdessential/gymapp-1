@@ -1,13 +1,14 @@
 import axios from "./config";
 import {validateResponseCode} from "../utils/utils";
 
-export const createPackage = async ({title, noOfSessions, price, description}) => {
+export const createPackage = async ({title, noOfSessions, price, description, category}) => {
   try {
     let response = await axios.post(`/package/create`, {
       title,
       noOfSessions,
       price,
-      description
+      description,
+      category
     });
     if (validateResponseCode(response.status)) {
       return response.data;
@@ -32,13 +33,14 @@ export const getPackage = async (packageId) => {
   }
 }
 
-export const updatePackage = async (packageId, {title, noOfSessions, price, description}) => {
+export const updatePackage = async (packageId, {title, noOfSessions, price, description, category}) => {
   try {
     let response = await axios.put(`/package/${packageId}`, {
       title,
       noOfSessions,
       price,
-      description
+      description,
+      category
     });
     if (validateResponseCode(response.status)) {
       return response.data;
@@ -115,7 +117,7 @@ export const getMyCoupons = async () => {
   }
 }
 
-export const generateCoupons = async (count, percentageOff=5,validity=3) => {
+export const generateCoupons = async (count, percentageOff = 5, validity = 3) => {
   try {
     let response = await axios.post(`/payment/generateCoupons`, {
       count,

@@ -21,12 +21,7 @@ class Tools extends PureComponent {
   openPackages = () => this.props.navigation.navigate(RouteNames.Packages)
   openAppointments = () => this.props.navigation.navigate(RouteNames.MyAppointments)
   openSlots = () => this.props.navigation.navigate(RouteNames.SlotsView)
-  openSubscriptions = () => {
-    const {userType} = this.props;
-    if (userType === userTypes.TRAINER)
-      this.props.navigation.navigate(RouteNames.Subscriptions);
-    else this.openSlots();
-  }
+  openSubscriptions = () => this.openSlots()
   openSchedule = () => this.props.navigation.navigate(RouteNames.Schedule)
   openQuestion = () => this.props.navigation.navigate(RouteNames.CreatePost, {type: POST_TYPE.TYPE_QUESTION})
   openBMI = () => this.props.navigation.navigate(RouteNames.BMI);
@@ -46,7 +41,7 @@ class Tools extends PureComponent {
         callback: this.openPackages,
         enabled: userType === userTypes.TRAINER
       }, {
-        title: strings.APPOINTMENTS,
+        title: strings.CALLBACK_REQUESTS,
         image: iconBackgrounds.appointments,
         callback: this.openAppointments,
         enabled: true
@@ -60,7 +55,7 @@ class Tools extends PureComponent {
         title: strings.SUBSCRIPTIONS,
         image: iconBackgrounds.subscriptions,
         callback: this.openSubscriptions,
-        enabled: true,
+        enabled: userType===userTypes.USER,
       }, {
         title: strings.SCHEDULE,
         image: iconBackgrounds.workouts,

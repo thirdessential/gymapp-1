@@ -19,12 +19,11 @@ import CallButton from '../CallButton';
 import Entypo from "react-native-vector-icons/Entypo";
 
 import {screenWidth} from "../../utils/screenDimensions";
-import LinearGradient from "react-native-linear-gradient";
 
 const ProfileOverview = (props) => {
   const {hits} = props;
   return (
-    <LinearGradient
+    <View
       colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
       style={styles.container}>
 
@@ -81,7 +80,7 @@ const ProfileOverview = (props) => {
           )
         }
       </TouchableOpacity>
-    </LinearGradient>
+    </View>
   );
 }
 

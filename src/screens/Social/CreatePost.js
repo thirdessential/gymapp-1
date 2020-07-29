@@ -43,7 +43,7 @@ class CreatePost extends PureComponent {
     imagePath: "",
     imageSrc: null,
     submitting: false,
-    type: "",
+    type: POST_TYPE.TYPE_POST,
     videoSrc: null,
     videoPath: "",
   };

@@ -13,7 +13,6 @@ import PackageFlatList from "../../../components/Trainer/PackageFlatList";
 import fontSizes from "../../../constants/fontSizes";
 import fonts from "../../../constants/fonts";
 import BarButton from '../../../components/BarButton';
-import LinearGradient from "react-native-linear-gradient";
 
 class PackageList extends PureComponent {
 
@@ -28,7 +27,7 @@ class PackageList extends PureComponent {
 
   addButton = () => (
     <View style={styles.addButtonContainer}>
-      <BarButton onPress={this.createPackage}/>
+      <BarButton color={appTheme.background} onPress={this.createPackage}/>
     </View>
   )
 
@@ -39,8 +38,7 @@ class PackageList extends PureComponent {
 
   render() {
     return (
-      <LinearGradient
-        colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
+      <View
         style={styles.container}>
         <View style={styles.listContainer}>
           <PackageFlatList
@@ -50,7 +48,7 @@ class PackageList extends PureComponent {
           />
         </View>
         <this.addButton/>
-      </LinearGradient>
+      </View>
     );
   }
 }
@@ -83,7 +81,7 @@ const styles = StyleSheet.create({
   addButtonContainer: {
     paddingTop: spacing.medium_sm,
     paddingBottom: spacing.medium_sm,
-    backgroundColor: appTheme.darkBackground,
+    backgroundColor: appTheme.lightBackground,
     alignItems: 'center'
   }
 });

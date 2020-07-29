@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {
   Text,
   View,
-  StatusBar,
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
@@ -11,19 +10,20 @@ import {
 } from "react-native";
 import {Item, Input} from "native-base";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+
+import TripleLine from '../../../assets/images/tripleLine.png';
 import RouteNames from "../../navigation/RouteNames";
 import {attemptGoogleAuth, signInWithEmail} from "../../API";
 import Loader from "../../components/Loader";
 import {showMessage} from "react-native-flash-message";
 import strings from "../../constants/strings";
 import fonts from "../../constants/fonts";
-import {string} from "prop-types";
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from "../../utils/screenDimensions";
-import {spacing} from "../../constants/dimension";
 import Logo from "../../../assets/images/newlogo.png";
 import Icon from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather";
+import {showError} from "../../utils/notification";
 
 export default class SignInNew extends Component {
   constructor(props) {
@@ -42,20 +42,13 @@ export default class SignInNew extends Component {
     this.setState({loading: false});
     if (res) this.setState({googleLoading: true});
     else
-      showMessage({
-        message: strings.LOGIN_FAILED,
-        type: "danger",
-      });
+      showError(strings.LOGIN_FAILED);
   };
   signIn = async () => {
     if (
-      this.state.email === (null || "") ||
-      this.state.password === (null || "")
+      this.state.email === "" || this.state.password === ""
     ) {
-      showMessage({
-        message: strings.CREDENTIAL,
-        type: "danger",
-      });
+      showError(strings.CREDENTIAL);
       return null;
     }
     Keyboard.dismiss();
@@ -64,10 +57,7 @@ export default class SignInNew extends Component {
     this.setState({loading: false});
     if (result) {
     } else
-      showMessage({
-        message: strings.LOGIN_FAILED,
-        type: "danger",
-      });
+      showError(strings.LOGIN_FAILED)
   };
   setEmail = (text) => {
     this.setState({email: text});
@@ -79,6 +69,12 @@ export default class SignInNew extends Component {
     this.props.navigation.navigate(RouteNames.SignUpNew);
   };
 
+  renderBars = ()=>(
+    <View style={{position:'absolute', right:-screenWidth/10,top:-screenWidth/10}}>
+      <Image style={{height:screenWidth/2.5, width:screenWidth/2.5}} resizeMode={'contain'} source={TripleLine}/>
+    </View>
+  )
+
   render() {
     return (
       <KeyboardAwareScrollView
@@ -87,9 +83,9 @@ export default class SignInNew extends Component {
         keyboardShouldPersistTaps={"handled"}
         style={styles.container}
       >
-        <StatusBar backgroundColor="black"/>
         <Loader loading={this.state.loading}/>
-        <Image source={Logo} style={styles.image}/>
+        <Image resizeMode={'contain'} source={Logo} style={styles.image}/>
+        {this.renderBars()}
         <View style={styles.itemContainer}>
           <Text style={styles.signin}>{strings.SIGN_IN}</Text>
 
@@ -126,7 +122,7 @@ export default class SignInNew extends Component {
               style={{marginTop: "10%", marginLeft: "5%"}}
               onPress={() => this.signIn()}
             >
-              <View style={styles.circlebutton}>
+              <View style={styles.circleButton}>
                 <Feather name="arrow-right" color="white" size={30}/>
               </View>
             </TouchableOpacity>
@@ -136,7 +132,7 @@ export default class SignInNew extends Component {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.line}></View>
+          <View style={styles.line}/>
 
           <TouchableOpacity onPress={() => this.googleLogin()}
                             style={styles.googleLogin}>
@@ -171,11 +167,11 @@ const styles = StyleSheet.create({
   },
   image: {
     height: screenHeight * 0.1,
-    width: screenWidth * 0.8,
+    width: screenWidth * 0.6,
     marginTop: "10%",
   },
   itemContainer: {
-    marginTop: "20%",
+    marginTop: "10%",
     backgroundColor: appTheme.background,
     flex: 1,
     borderTopLeftRadius: 50,
@@ -193,7 +189,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  circlebutton: {
+  circleButton: {
     height: 60,
     width: 60,
     backgroundColor: appTheme.brightContent,

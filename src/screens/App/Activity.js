@@ -56,8 +56,7 @@ class Activity extends PureComponent {
     const {todaysEvents, tomorrowsEvents} = activities;
 
     return (
-      <LinearGradient
-        colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
+      <View
         style={styles.container}>
         {this.renderUser()}
         <View style={{flex: 1, width: '100%', marginTop: spacing.medium_lg}}>
@@ -68,7 +67,7 @@ class Activity extends PureComponent {
           />
         </View>
 
-      </LinearGradient>
+      </View>
     );
   }
 }

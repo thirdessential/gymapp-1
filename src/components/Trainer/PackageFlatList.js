@@ -11,7 +11,7 @@ import {appTheme} from "../../constants/colors";
 const packageFlatList = (props) => {
 
   const renderPlan = (plan) => {
-    const {title, noOfSessions, sessionsPerWeek, price, description, _id} = plan;
+    const {title, noOfSessions, sessionsPerWeek, price, description, category, _id} = plan;
     const editCallback = props.editCallback ? () => props.editCallback(_id) : null;
     const deleteCallback = props.deleteCallback ? () => props.deleteCallback(_id) : null;
     const enrollCallback = props.enrollCallback ? () => props.enrollCallback(_id) : null;
@@ -24,6 +24,7 @@ const packageFlatList = (props) => {
           sessionsPerWeek={sessionsPerWeek}
           price={price}
           description={description}
+          category={category}
           editCallback={editCallback}
           deleteCallback={deleteCallback}
           enrollCallback={enrollCallback}

@@ -49,9 +49,16 @@ const trainerSlides = [
   }
 ]
 
+const physicalSlide = [ {
+  key: RouteNames.PhysicalData,
+  component: PhysicalData,
+  index: 0
+}]
+
 class PreferenceSwiper extends PureComponent {
   state = {
-    currentSlide: 0
+    currentSlide: 0,
+    slides:userSlides
   }
   setCurrentSlide = (index) => {
     if (this.state.currentSlide !== index)
@@ -79,6 +86,13 @@ class PreferenceSwiper extends PureComponent {
 
   componentDidMount() {
     this.props.updatePreferences(); // preload preferences from api
+    const {route,userType} = this.props;
+    if (route.params && route.params.physical) {
+      this.setState({slides:physicalSlide});
+    }else {
+      const slides = userType === userTypes.USER ? userSlides : trainerSlides;
+      this.setState({slides});
+    }
   }
 
   _renderNextButton = () => {
@@ -90,13 +104,13 @@ class PreferenceSwiper extends PureComponent {
   };
 
   render() {
-    const {userType} = this.props;
-    const data = userType === userTypes.USER ? userSlides : trainerSlides;
+    // const {userType} = this.props;
+    // const data = userType === userTypes.USER ? userSlides : trainerSlides;
     return (
       <AppIntroSlider
         style={styles.container}
         renderItem={this._renderItem}
-        data={data}
+        data={this.state.slides}
         onSlideChange={(index) => this.setCurrentSlide(index)}
         renderDoneButton={this._renderDoneButton}
         renderNextButton={this._renderNextButton}

@@ -5,14 +5,14 @@ import {TouchableOpacity} from "react-native";
 import React from "react";
 import PropTypes from "prop-types";
 
-const barButton = ({onPress, name='plus'})=> {
+const barButton = ({onPress, name='plus',color=appTheme.lightBackground})=> {
   return (
     <TouchableOpacity onPress={onPress}>
       <FontAwesome
         name={name}
         color={'white'}
         size={30}
-        style={{backgroundColor: appTheme.lightBackground, borderRadius: 200, padding: spacing.small}}
+        style={{backgroundColor: color, borderRadius: 200, padding: spacing.small}}
       />
     </TouchableOpacity>
   )

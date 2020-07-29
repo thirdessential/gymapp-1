@@ -43,10 +43,14 @@ const coupon = (props) => {
       </View>
       {roundEdgeSeparator()}
       <View style={styles.row}>
-        <Text style={styles.subtitle}>{strings.SHARE_COUPON}</Text>
-        <View style={styles.fabPosition}>
-          {shareFab(props.onShare)}
-        </View>
+        <Text style={styles.subtitle}>{props.onShare? strings.SHARE_COUPON: strings.COUPON_EXHAUSTED}</Text>
+        {
+          props.onShare && (
+            <View style={styles.fabPosition}>
+              {shareFab(props.onShare)}
+            </View>
+          )
+        }
       </View>
     </View>
   );
