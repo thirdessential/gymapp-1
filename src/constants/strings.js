@@ -165,7 +165,9 @@ const strings = {
   SET_HEIGHT: 'Set Height',
   SUBSCRIBE_SUCCESS: 'Successfully subscribed to package',
   PAYMENT_SUCCESS: "Payment successful",
-  COUPON_EXHAUSTED: 'Coupon redeemed'
+  COUPON_EXHAUSTED: 'Coupon redeemed',
+  CATEGORY: 'Category',
+  SELECT_CATEGORY: 'Select category'
 };
 
 export const bmiVerdicts = {

@@ -118,7 +118,7 @@ class PostViewer extends Component {
       showComment={false}
       unlikeCallback={() => unlikeComment(comment._id)}
       likeCallback={() => likeComment(comment._id)}
-      onProfilePress={()=>this.openProfile(post.createdBy.userId)}
+      onProfilePress={()=>this.openProfile(comment.commentedBy.userId)}
     />
   }
   itemSeparator = () => <View style={{marginTop: spacing.medium}}/>
