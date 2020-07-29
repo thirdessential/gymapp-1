@@ -129,7 +129,6 @@ const strings = {
   INR: 'INR',
   EXPORT_OVERVIEW: 'Export Overview',
   OVERVIEW: 'Overview',
-  ACCOUNT: 'Account',
   STATEMENT: 'Statement',
   CHECK_NOW: 'Check Now',
   PAID_AMOUNT: "Paid Amount",
@@ -161,9 +160,10 @@ const strings = {
   COMPRESSING_VIDEO: 'Compressing video before upload',
   UPLOADING:'Uploading video',
   BANK:'BANK',
+  ACCOUNT_LOWER: 'Account',
   ACCOUNT:'ACCOUNT',
   DETAILS: 'DETAILS',
-  ACCOUNT_CREATE_INFO:'Account details',
+  ACCOUNT_CREATE_INFO:'Enter Account Details',
   AGREE:'I agree to all terms and conditions',
   CLICK_READ:'Click here to read',
   PLEASE_ENTER_DETAILS:'Please enter details',
@@ -175,7 +175,9 @@ const strings = {
   PAYMENT_SUCCESS: "Payment successful",
   COUPON_EXHAUSTED: 'Coupon redeemed',
   CATEGORY: 'Category',
-  SELECT_CATEGORY: 'Select Category'
+  SELECT_CATEGORY: 'Select Category',
+  MY_ACCOUNTS: 'My Accounts',
+  ADD_ACCOUNT: 'Add Account'
 };
 
 export const bmiVerdicts = {

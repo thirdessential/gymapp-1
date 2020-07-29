@@ -2,8 +2,8 @@ import React from "react";
 
 import Stack from "./stack";
 import RouteNames from "../RouteNames";
-import { appTheme } from "../../constants/colors";
-import openDrawerButton, { openDrawerButtonDark } from "../openDrawerButton";
+import {appTheme} from "../../constants/colors";
+import openDrawerButton, {openDrawerButtonDark} from "../openDrawerButton";
 import fonts from "../../constants/fonts";
 import Tools from "../../screens/App/Tools";
 import MyAppointments from "../../screens/App/MyAppointments";
@@ -72,8 +72,11 @@ const toolStack = () => {
           title: 'Schedule',
         }}
       />
-      <Stack.Screen name={RouteNames.Profile} component={Profile}
-                    options={{title: '', headerTransparent: true}}/>
+      <Stack.Screen
+        name={RouteNames.Profile}
+        component={Profile}
+        options={{title: '', headerTransparent: true}}
+      />
       <Stack.Screen
         name={RouteNames.BMI}
         component={BMI}
@@ -116,10 +119,9 @@ const toolStack = () => {
         component={AddAccount}
         options={{
           title: "Add Account",
-          headerTintColor: appTheme.darkBackground,
-      }}
+        }}
       />
-        <Stack.Screen
+      <Stack.Screen
         name={RouteNames.ProfileEdit}
         component={PreferenceSwiper}
         options={{

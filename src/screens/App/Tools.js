@@ -78,7 +78,7 @@ class Tools extends PureComponent {
         enabled: userType === userTypes.TRAINER
       },
       {
-        title: strings.ACCOUNT,
+        title: strings.ACCOUNT_LOWER,
         image: iconBackgrounds.graphMan,
         callback: this.openAccountDash,
         enabled: userType === userTypes.TRAINER

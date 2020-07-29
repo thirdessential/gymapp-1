@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
   View,
   StyleSheet,
@@ -10,54 +10,56 @@ import {
   ScrollView,
   Image,
   TextInput,
-  FlatList,
+  FlatList, LayoutAnimation, ActivityIndicator, Keyboard,
 } from "react-native";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 
-import { appTheme } from "../../../constants/colors";
+import {appTheme} from "../../../constants/colors";
 import fontSizes from "../../../constants/fontSizes";
 import fonts from "../../../constants/fonts";
 import strings from "../../../constants/strings";
-import { spacing } from "../../../constants/dimension";
-import { iconBackgrounds } from "../../../constants/images";
+import {spacing} from "../../../constants/dimension";
+import {iconBackgrounds} from "../../../constants/images";
 import * as actionCreators from "../../../store/actions";
 import RouteNames from "../../../navigation/RouteNames";
 import Entypo from "react-native-vector-icons/Entypo";
-import { showMessage } from "react-native-flash-message";
+import {showMessage} from "react-native-flash-message";
+import {showError, showSuccess} from "../../../utils/notification";
+
+const initialState = {
+  ifscCode: "",
+  accountNumber: "",
+  holderName: "",
+  bankName: "",
+  submitting: false
+};
+
 class AddAccount extends Component {
-  state = {
-    ifscCode: "",
-    accountNumber: "",
-    holderName: "",
-    bankName: "",
-  };
+  state = initialState;
+
+  componentDidMount() {
+    this.props.getMyAccounts();
+  }
 
   saveAccount = async () => {
-    const { accountNumber, ifscCode, bankName, holderName } = this.state;
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    Keyboard.dismiss();
+    const {accountNumber, ifscCode, bankName, holderName} = this.state;
     if (
       accountNumber === "" ||
       ifscCode === "" ||
       bankName === "" ||
       holderName === ""
-    ) {
-      showMessage({
-        message: strings.PLEASE_ENTER_DETAILS,
-        type: "danger",
-      });
-      return;
-    } else {
+    )
+      showError(strings.PLEASE_ENTER_DETAILS);
+    else {
+      this.setState({submitting: true});
       await this.props.addAccount(this.state);
-      showMessage({
-        message: strings.ACCOUNT_CREATED,
-        type: "success",
-      });
-      this.setState({
-        ifscCode: "",
-        accountNumber: "",
-        holderName: "",
-        bankName: "",
-      });
-      this.props.getMyAccounts();
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      await this.props.getMyAccounts();
+      showSuccess(strings.ACCOUNT_CREATED);
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      this.setState(initialState);
     }
   };
   renderCard = () => {
@@ -67,33 +69,34 @@ class AddAccount extends Component {
           <View style={styles.accountNumber}>
             <TextInput
               placeholder="Enter account number"
-              style={{ color: appTheme.brightContent, paddingLeft: 6 }}
+              style={{color: appTheme.brightContent, paddingLeft: 6}}
               placeholderTextColor="#CCC"
               value={this.state.accountNumber}
-              onChangeText={(text) => this.setState({ accountNumber: text })}
+              keyboardType={'numeric'}
+              onChangeText={(text) => this.setState({accountNumber: text})}
             />
           </View>
           <View style={styles.ifsc}>
             <TextInput
               placeholder="IFSC Code"
-              style={{ color: appTheme.brightContent, paddingLeft: 6 }}
+              style={{color: appTheme.brightContent, paddingLeft: 6}}
               placeholderTextColor="#CCC"
               value={this.state.ifscCode}
               onChangeText={(text) =>
-                this.setState({ ifscCode: text.toUpperCase() })
+                this.setState({ifscCode: text.toUpperCase()})
               }
             />
           </View>
         </View>
-        <View style={{ marginTop: spacing.medium_sm }}>
+        <View style={{marginTop: spacing.medium_sm}}>
           <View style={styles.holderName}>
             <TextInput
               placeholder="Account holder name"
-              style={{ color: appTheme.brightContent, paddingLeft: 6 }}
+              style={{color: appTheme.brightContent, paddingLeft: 6}}
               placeholderTextColor="#CCC"
               value={this.state.holderName}
               onChangeText={(text) =>
-                this.setState({ holderName: text.toUpperCase() })
+                this.setState({holderName: text.toUpperCase()})
               }
             />
           </View>
@@ -102,9 +105,9 @@ class AddAccount extends Component {
               placeholder="Bank name"
               placeholderTextColor="#CCC"
               value={this.state.bankName}
-              style={{ color: appTheme.brightContent, paddingLeft: 6 }}
+              style={{color: appTheme.brightContent, paddingLeft: 6}}
               onChangeText={(text) =>
-                this.setState({ bankName: text.toUpperCase() })
+                this.setState({bankName: text.toUpperCase()})
               }
             />
           </View>
@@ -117,24 +120,24 @@ class AddAccount extends Component {
       <View style={styles.flatlistcard}>
         <View style={styles.accandifsc}>
           <View style={styles.showaccountnumber}>
-            <Text style={{ color: "#CCC", paddingLeft: 6 }}>
+            <Text style={{color: "#CCC", paddingLeft: 6}}>
               {item.accountNumber}
             </Text>
           </View>
           <View style={styles.ifscflatlist}>
-            <Text style={{ color: "#CCC", paddingLeft: 6 }}>
+            <Text style={{color: "#CCC", paddingLeft: 6}}>
               {item.ifscCode}
             </Text>
           </View>
         </View>
-        <View style={{ marginTop: spacing.medium }}>
+        <View style={{marginTop: spacing.medium}}>
           <View style={styles.show_accounts_holdername}>
-            <Text style={{ color: "#CCC", paddingLeft: 6 }}>
+            <Text style={{color: "#CCC", paddingLeft: 6}}>
               {item.holderName}
             </Text>
           </View>
           <View style={styles.show_accounts_holdername}>
-            <Text style={{ color: "#CCC", paddingLeft: 6 }}>
+            <Text style={{color: "#CCC", paddingLeft: 6}}>
               {item.bankName}
             </Text>
           </View>
@@ -142,12 +145,13 @@ class AddAccount extends Component {
       </View>
     );
   };
+
   render() {
     return (
       <View showsVerticalScrollIndicator={false} style={styles.container}>
-        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-          <View style={{ flexDirection: "row", marginLeft: spacing.large_lg }}>
-            <View style={{ flex: 1, alignItems: "flex-start" }}>
+        <ScrollView style={{flex: 1}} keyboardShouldPersistTaps={'always'} showsVerticalScrollIndicator={false}>
+          <View style={{flexDirection: "row", marginLeft: spacing.large_lg}}>
+            <View style={{flex: 1, alignItems: "flex-start", marginTop: spacing.medium_sm}}>
               <Text style={styles.bankaccountdetailstext}>{strings.BANK}</Text>
               <Text style={styles.bankaccountdetailstext}>
                 {strings.ACCOUNT}
@@ -156,10 +160,10 @@ class AddAccount extends Component {
                 {strings.DETAILS}
               </Text>
             </View>
-            <View style={{ flex: 1, alignItems: "center", marginLeft: -20 }}>
+            <View style={{flex: 1, alignItems: "center", marginLeft: -20}}>
               <Image
                 source={iconBackgrounds.addaccount}
-                style={{ height: 150, width: 160 }}
+                style={{height: 150, width: 160}}
               />
             </View>
           </View>
@@ -171,43 +175,43 @@ class AddAccount extends Component {
           <View style={styles.buttonView}>
             <TouchableOpacity
               style={styles.saveButton}
-              onPress={() => this.saveAccount()}
+              onPress={this.saveAccount}
+              disabled={this.state.submitting}
             >
-              <Entypo color="white" name="plus" size={30} />
+              {this.state.submitting && <ActivityIndicator size={24} color={appTheme.textPrimary}/>}
+              {!this.state.submitting && <Entypo color={appTheme.textPrimary} name="plus" size={30}/>}
             </TouchableOpacity>
           </View>
-          {this.props.accounts.length != 0 && (
-            <ScrollView
-              enableOnAndroid={true}
-              contentContainerStyle={{
-                marginTop: spacing.medium,
-
-                borderRadius: 10,
-                marginHorizontal: 13,
-                paddingBottom: spacing.medium,
-              }}
-            >
+          {this.props.accounts.length !== 0 && (
+            <>
+              <View style={[styles.extraTextCard, {marginBottom: 0}]}>
+                <Text style={styles.extraText}>{strings.MY_ACCOUNTS}</Text>
+              </View>
               <FlatList
                 data={this.props.accounts}
-                renderItem={({ item }) => this.renderItem(item)}
+                renderItem={({item}) => this.renderItem(item)}
                 keyExtractor={(item) => item._id}
+                contentContainerStyle={styles.listContainer}
               />
-            </ScrollView>
+            </>
           )}
+          <View style={styles.tncView}>
+            <Text style={styles.agree}>{strings.AGREE} </Text>
+            <TouchableOpacity onPress={() => {
+            }}>
+              <Text style={styles.read}>{strings.CLICK_READ}</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
-        <View style={styles.tncView}>
-          <Text style={styles.agree}>{strings.AGREE} </Text>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.read}>{strings.CLICK_READ}</Text>
-          </TouchableOpacity>
-        </View>
+
       </View>
     );
   }
 }
+
 const mapStateToProps = (state) => ({
   accountData: state.trainer.accountData,
-  accounts: state.trainer.accounts,
+  accounts: state.trainer.accounts || [],
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -232,7 +236,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     borderRadius: 5,
   },
-
   show_accounts_holdername: {
     backgroundColor: appTheme.background,
     marginHorizontal: 10,
@@ -314,7 +317,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginHorizontal: 10,
   },
-  buttonView: { alignItems: "flex-end", marginRight: 25, marginTop: 20 },
+  buttonView: {alignItems: "flex-end", marginRight: 25, marginTop: 20},
 
   saveButton: {
     justifyContent: "center",
@@ -328,12 +331,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
-    marginBottom: 5,
+    marginVertical: spacing.small_lg,
   },
   agree: {
     color: appTheme.brightContent,
     fontSize: fontSizes.h4,
     fontFamily: fonts.CenturyGothic,
+
   },
-  read: { color: "white", fontSize: fontSizes.h4, fontFamily: fonts.CenturyGothic },
+  read: {color: "white", fontSize: fontSizes.h4, fontFamily: fonts.CenturyGothic},
+  listContainer: {
+    marginTop: spacing.medium,
+    borderRadius: 10,
+    marginHorizontal: 13,
+    paddingBottom: spacing.medium,
+  }
 });
