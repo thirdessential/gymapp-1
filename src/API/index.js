@@ -33,7 +33,9 @@ export {
   getMySubscriptions,
   generateCoupons,
   getMyCoupons,
-  getAccountSummary
+  getAccountSummary,
+  addAccount,
+  getMyAccounts
 } from './trainer';
 
 export {

@@ -42,5 +42,7 @@ export const SET_TARGET ='SET_TARGET';
 export const SET_EARNINGS ='SET_EARNINGS';
 export const SET_STATEMENTS ='SET_STATEMENTS';
 
+export const ADD_ACCOUNT ='ADD_ACCOUNT';
+export const GET_MY_ACCOUNTS='GET_MY_ACCOUNTS';
 
 export const RESET_APP = 'RESET_APP';

@@ -160,6 +160,14 @@ const strings = {
   SHARE_COUPON: 'Share coupon with users',
   COMPRESSING_VIDEO: 'Compressing video before upload',
   UPLOADING:'Uploading video',
+  BANK:'BANK',
+  ACCOUNT:'ACCOUNT',
+  DETAILS: 'DETAILS',
+  ACCOUNT_CREATE_INFO:'Account details',
+  AGREE:'I agree to all terms and conditions',
+  CLICK_READ:'Click here to read',
+  PLEASE_ENTER_DETAILS:'Please enter details',
+  ACCOUNT_CREATED:'Account created',
   COULD_NOT_INITIATE_CALL: 'Could not initiate call',
   CALLBACK_REQUESTS: 'Call requests',
   SET_HEIGHT: 'Set Height',
@@ -167,7 +175,7 @@ const strings = {
   PAYMENT_SUCCESS: "Payment successful",
   COUPON_EXHAUSTED: 'Coupon redeemed',
   CATEGORY: 'Category',
-  SELECT_CATEGORY: 'Select category'
+  SELECT_CATEGORY: 'Select Category'
 };
 
 export const bmiVerdicts = {

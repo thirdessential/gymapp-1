@@ -78,7 +78,7 @@ export default class SignInNew extends Component {
   render() {
     return (
       <KeyboardAwareScrollView
-        enableOnAndroid={true}
+        
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps={"handled"}
         style={styles.container}

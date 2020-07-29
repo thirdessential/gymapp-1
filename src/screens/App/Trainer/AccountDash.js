@@ -60,18 +60,12 @@ class AccountDash extends PureComponent {
   openStatement = () => {
     this.props.navigation.navigate(RouteNames.AccountStatement);
   }
-
-  renderHeader = () => (
-    <View style={styles.headerContainer}>
-      <Text style={styles.subtitle}>{strings.TOTAL_EARNING}</Text>
-      <Text style={styles.title}>{this.props.totalEarnings}<Text style={styles.subtitle}>{strings.INR}</Text></Text>
-      <View style={{alignSelf: 'flex-start'}}>
-        <TouchableOpacity activeOpacity={0.6} style={styles.pillButton}>
-          <Text style={styles.boldSubtitle}>{strings.EXPORT_OVERVIEW}</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  )
+openAccount=()=>{
+  this.props.navigation.navigate(RouteNames.AddAccount);
+}
+  // renderHeader = () => (
+   
+  // )
   renderSection = (data) => {
     return(
     <View style={[styles.bar, styles.sectionContainer]}>
@@ -82,12 +76,31 @@ class AccountDash extends PureComponent {
         <TouchableOpacity disabled={!data.callback} style={styles.sectionButtonContainer} onPress={data.callback}>
           <Text style={[styles.sectionButtonText, !data.callback && styles.disabled]}>{data.buttonText}</Text>
         </TouchableOpacity>
+        
       </View>
       <Image  style={styles.sectionImage} source={data.media}/>
     </View>
   )
   }
-  renderContent = () => (
+  // renderContent = () => (
+   
+  // )
+
+  render() {
+    return (
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+       <View style={styles.headerContainer}>
+      <Text style={styles.subtitle}>{strings.TOTAL_EARNING}</Text>
+      <Text style={styles.title}>{this.props.totalEarnings}<Text style={styles.subtitle}>{strings.INR}</Text></Text>
+      <View style={{alignSelf: 'flex-start'}}>
+        <TouchableOpacity activeOpacity={0.6} style={styles.pillButton}>
+          <Text style={styles.boldSubtitle}>{strings.EXPORT_OVERVIEW}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.6} style={styles.pillButton} onPress={()=>this.openAccount()}>
+          <Text style={styles.boldSubtitle}>Add account</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
     <View style={styles.contentContainer}>
       <View style={[styles.bar, styles.halfBar]}>
         <Text style={styles.sectionHeading}>{strings.OVERVIEW}</Text>
@@ -99,13 +112,6 @@ class AccountDash extends PureComponent {
         showsVerticalScrollIndicator={false}
       />
     </View>
-  )
-
-  render() {
-    return (
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-        {this.renderHeader()}
-        {this.renderContent()}
       </ScrollView>
     );
   }

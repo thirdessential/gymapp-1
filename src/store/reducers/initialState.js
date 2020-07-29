@@ -34,7 +34,9 @@ export const trainerState = {
   subscriptions: [],
   coupons: [],
   earnings: {totalEarnings: 0, claimableAmount: 0, claimedAmount: 0},
-  statements: []
+  statements: [],
+  accountData:[],
+  accounts:[],
 }
 
 export const socialState = {

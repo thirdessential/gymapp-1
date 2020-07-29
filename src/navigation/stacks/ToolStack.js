@@ -1,9 +1,9 @@
 import React from "react";
 
-import Stack from './stack';
+import Stack from "./stack";
 import RouteNames from "../RouteNames";
-import {appTheme} from "../../constants/colors";
-import openDrawerButton, {openDrawerButtonDark} from "../openDrawerButton";
+import { appTheme } from "../../constants/colors";
+import openDrawerButton, { openDrawerButtonDark } from "../openDrawerButton";
 import fonts from "../../constants/fonts";
 import Tools from "../../screens/App/Tools";
 import MyAppointments from "../../screens/App/MyAppointments";
@@ -17,6 +17,7 @@ import BMI from "../../screens/App/BMI";
 import CouponMachine from "../../screens/App/Trainer/CouponMachine";
 import AccountStatement from "../../screens/App/Trainer/AccountStatement";
 import AccountDash from "../../screens/App/Trainer/AccountDash";
+import AddAccount from "../../screens/App/Trainer/AddAccount";
 import PreferenceSwiper from "../../screens/App/Preference/PreferenceSwiper";
 import {defaultHeaderStyle} from "../../constants/styles";
 
@@ -87,11 +88,12 @@ const toolStack = () => {
           title: 'Coupons',
         }}
       />
+
       <Stack.Screen
         name={RouteNames.AccountDash}
         component={AccountDash}
         options={{
-          title: 'Dashboard',
+          title: "Dashboard",
           headerTintColor: appTheme.darkBackground,
           headerStyle: {
             backgroundColor: appTheme.brightContent,
@@ -102,7 +104,7 @@ const toolStack = () => {
         name={RouteNames.AccountStatement}
         component={AccountStatement}
         options={{
-          title: 'Account Statement',
+          title: "Account Statement",
           headerTintColor: appTheme.darkBackground,
           headerStyle: {
             backgroundColor: appTheme.brightContent,
@@ -110,6 +112,14 @@ const toolStack = () => {
         }}
       />
       <Stack.Screen
+        name={RouteNames.AddAccount}
+        component={AddAccount}
+        options={{
+          title: "Add Account",
+          headerTintColor: appTheme.darkBackground,
+      }}
+      />
+        <Stack.Screen
         name={RouteNames.ProfileEdit}
         component={PreferenceSwiper}
         options={{
@@ -118,7 +128,7 @@ const toolStack = () => {
         }}
       />
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 export default toolStack;

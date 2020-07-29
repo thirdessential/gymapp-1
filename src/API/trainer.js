@@ -146,3 +146,32 @@ export const getAccountSummary = async () => {
     return false;
   }
 }
+
+export const addAccount=async ({ifscCode,accountNumber,holderName,bankName})=>{
+  try {
+    let response = await axios.post('payment/addAccount',{ifscCode,accountNumber,holderName,bankName});
+    if(validateResponseCode(response.status)){
+      console.log("api/trainer/addacc "+response.data);
+      console.log("api/trainer/addacc "+error);
+      return response.data;
+    }else{
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+  }
+  export const getMyAccounts=async()=>{
+    try {
+      let response = await axios.get(`/payment/getMyAccounts`);
+      if (validateResponseCode(response.status)) {
+        console.log("api/trainer"+response.data);
+        return response.data;
+      } else
+        return false;
+    } catch (error) {
+      console.log("api/trainer"+error);
+      return false;
+    }
+  }
