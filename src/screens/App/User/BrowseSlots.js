@@ -22,7 +22,7 @@ import {bookAppointment} from "../../../API";
 import {showError, showSuccess} from "../../../utils/notification";
 import RouteNames from "../../../navigation/RouteNames";
 
-class Schedule extends PureComponent {
+class BrowseSlots extends PureComponent {
   state = {
     selectedDate: Date.now(),
     selectedSlots: [],
@@ -212,7 +212,7 @@ const mapDispatchToProps = (dispatch) => ({
   setUser: (userId) => dispatch(actionCreators.setUser(userId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Schedule);
+export default connect(mapStateToProps, mapDispatchToProps)(BrowseSlots);
 
 //Code to enable disable specific days, wip
 // if (days && days.length > 0) {

@@ -60,9 +60,9 @@ function CustomDrawerContent(props) {
           {
             userType === userTypes.USER && (
               <DrawerItem
-                label="Schedule"
+                label="BrowseSlots"
                 labelStyle={drawerLabelStyle}
-                onPress={() => props.navigation.navigate(RouteNames.Schedule)}
+                onPress={() => props.navigation.navigate(RouteNames.BrowseSlots)}
               />
             )
           }
