@@ -172,7 +172,7 @@ class Schedule extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: appTheme.lightBackground
+    backgroundColor: appTheme.darkBackground,
     flex: 1
   },
   calendarContainer: {
