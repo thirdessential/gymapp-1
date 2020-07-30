@@ -3,16 +3,17 @@ import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {connect} from "react-redux";
 import {SectionGrid} from 'react-native-super-grid';
 
-import {spacing} from "../../constants/dimension";
-import fontSizes from "../../constants/fontSizes";
-import fonts from "../../constants/fonts";
-import {appTheme,} from "../../constants/colors";
-import {isSameDay} from "../../utils/utils";
-import RouteNames from "../../navigation/RouteNames";
-import * as actionCreators from "../../store/actions";
-import AppointmentBox from "../../components/AppointmentBox";
+import {spacing} from "../../../constants/dimension";
+import fontSizes from "../../../constants/fontSizes";
+import fonts from "../../../constants/fonts";
+import {appTheme,} from "../../../constants/colors";
+import {isSameDay} from "../../../utils/utils";
+import RouteNames from "../../../navigation/RouteNames";
+import * as actionCreators from "../../../store/actions";
+import AppointmentBox from "../../../components/AppointmentBox";
+import strings from "../../../constants/strings";
 
-class MyAppointments extends PureComponent {
+class CallRequests extends PureComponent {
 
   state = {
     today: [],
@@ -21,30 +22,30 @@ class MyAppointments extends PureComponent {
   }
 
   componentDidMount() {
-    const {navigation, getAppointments} = this.props;
+    const {navigation, getRequests} = this.props;
 
     this.unsubscribeFocus = navigation.addListener('focus', async e => {
-      await getAppointments();
-      this.groupAppointments();
+      await getRequests();
+      this.groupRequests();
     })
-    this.groupAppointments();
+    this.groupRequests();
   }
 
-  groupAppointments = () => {
-    const {myAppointments} = this.props;
+  groupRequests = () => {
+    const {requests} = this.props;
     const todayDate = new Date();
     const tomorrowDate = new Date();
     const today = [], tomorrow = [], later = [];
     tomorrowDate.setDate(tomorrowDate.getDate() + 1);
-    myAppointments.map(appointment => {
-      if (isSameDay(todayDate, new Date(appointment.appointmentDate)))
-        today.push(appointment);
-      else if (isSameDay(tomorrowDate, new Date(appointment.appointmentDate)))
-        tomorrow.push(appointment);
-      else if (todayDate > new Date(appointment.appointmentDate)) {
+    requests.map(request => {
+      if (isSameDay(todayDate, new Date(request.appointmentDate)))
+        today.push(request);
+      else if (isSameDay(tomorrowDate, new Date(request.appointmentDate)))
+        tomorrow.push(request);
+      else if (todayDate > new Date(request.appointmentDate)) {
         //take no action for now
       } else
-        later.push(appointment);
+        later.push(request);
     });
     this.setState({
       today, tomorrow, later
@@ -64,8 +65,8 @@ class MyAppointments extends PureComponent {
   renderSectionHeader = (title) => {
     return <Text style={styles.title}>{title}</Text>;
   }
-  renderAppointment = (appointment) => {
-    const {appointmentDate, time, trainerId, userId} = appointment;
+  renderRequest = (request) => {
+    const {appointmentDate, time, trainerId, userId} = request;
     let name, displayPictureUrl, profileId;
     if (trainerId.name) {
       name = trainerId.name;
@@ -105,19 +106,19 @@ class MyAppointments extends PureComponent {
     return sections;
   }
 
-  renderAppointmentGrid = () => {
+  renderRequestGrid = () => {
     const sections = this.getSections();
     if (sections.length === 0)
       return (
         <View style={{marginTop: spacing.large_lg}}>
-          {this.renderSectionHeader('No appointments found')}
+          {this.renderSectionHeader(strings.NO_REQUESTS)}
         </View>
       )
     return (
       <SectionGrid
         sections={sections}
         style={{width: '100%'}}
-        renderItem={({item}) => this.renderAppointment(item)}
+        renderItem={({item}) => this.renderRequest(item)}
         renderSectionHeader={({section}) => this.renderSectionHeader(section.title)}
         keyExtractor={(item) => item._id}
         showsVerticalScrollIndicator={false}
@@ -130,8 +131,7 @@ class MyAppointments extends PureComponent {
     return (
       <View
         style={styles.container}>
-
-        {this.renderAppointmentGrid()}
+        {this.renderRequestGrid()}
       </View>
     );
   }
@@ -183,11 +183,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
-  myAppointments: state.user.myAppointments,
+  requests: state.user.myAppointments,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getAppointments: () => dispatch(actionCreators.getAppointments())
+  getRequests: () => dispatch(actionCreators.getAppointments())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAppointments);
+export default connect(mapStateToProps, mapDispatchToProps)(CallRequests);

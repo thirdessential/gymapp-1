@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: spacing.medium_sm,
     paddingTop:spacing.medium,
-    paddingBottom:spacing.medium
+    // paddingBottom:spacing.medium
   },
   titleContainer: {
     flexDirection: 'row',
@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
     fontFamily:fonts.CenturyGothicBold,
     fontSize:fontSizes.h2,
     marginTop:spacing.medium_sm,
-    height:fontSizes.h2*3
   }
 });
 

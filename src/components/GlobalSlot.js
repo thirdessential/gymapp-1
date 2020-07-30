@@ -29,7 +29,7 @@ const globalSlot = (props) => {
           <Text style={styles.timeText}>{props.duration} {strings.MINS}</Text>
         </View>
         <View style={styles.actionButtonContainer}>
-          <SelectableButton  onPress={props.bookCallback} selected={true} textContent={strings.BOOK}/>
+          <SelectableButton  onPress={props.bookCallback} selected={true} textContent={strings.REQUEST_CALL}/>
         </View>
       </View>
      </Card>

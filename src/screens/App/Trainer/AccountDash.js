@@ -21,6 +21,7 @@ import {spacing} from "../../../constants/dimension";
 import {iconBackgrounds} from "../../../constants/images";
 import * as actionCreators from "../../../store/actions";
 import RouteNames from "../../../navigation/RouteNames";
+
 class AccountDash extends PureComponent {
   state = {
     sections: []
@@ -60,58 +61,53 @@ class AccountDash extends PureComponent {
   openStatement = () => {
     this.props.navigation.navigate(RouteNames.AccountStatement);
   }
-openAccount=()=>{
-  this.props.navigation.navigate(RouteNames.AddAccount);
-}
-  // renderHeader = () => (
-   
-  // )
-  renderSection = (data) => {
-    return(
-    <View style={[styles.bar, styles.sectionContainer]}>
-      <View>
-        <Text style={styles.sectionHeading}>{data.subtitle}</Text>
-        <Text style={styles.sectionTitle}>{data.title}</Text>
-
-        <TouchableOpacity disabled={!data.callback} style={styles.sectionButtonContainer} onPress={data.callback}>
-          <Text style={[styles.sectionButtonText, !data.callback && styles.disabled]}>{data.buttonText}</Text>
-        </TouchableOpacity>
-        
-      </View>
-      <Image  style={styles.sectionImage} source={data.media}/>
-    </View>
-  )
+  openAccount = () => {
+    this.props.navigation.navigate(RouteNames.AddAccount);
   }
-  // renderContent = () => (
-   
-  // )
+
+  renderSection = (data) => {
+    return (
+      <View style={[styles.bar, styles.sectionContainer]}>
+        <View>
+          <Text style={styles.sectionHeading}>{data.subtitle}</Text>
+          <Text style={styles.sectionTitle}>{data.title}</Text>
+
+          <TouchableOpacity disabled={!data.callback} style={styles.sectionButtonContainer} onPress={data.callback}>
+            <Text style={[styles.sectionButtonText, !data.callback && styles.disabled]}>{data.buttonText}</Text>
+          </TouchableOpacity>
+
+        </View>
+        <Image style={styles.sectionImage} source={data.media}/>
+      </View>
+    )
+  }
 
   render() {
     return (
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-       <View style={styles.headerContainer}>
-      <Text style={styles.subtitle}>{strings.TOTAL_EARNING}</Text>
-      <Text style={styles.title}>{this.props.totalEarnings}<Text style={styles.subtitle}>{strings.INR}</Text></Text>
-      <View style={{alignSelf: 'flex-start'}}>
-        <TouchableOpacity activeOpacity={0.6} style={styles.pillButton}>
-          <Text style={styles.boldSubtitle}>{strings.EXPORT_OVERVIEW}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.6} style={styles.pillButton} onPress={()=>this.openAccount()}>
-          <Text style={styles.boldSubtitle}>Add account</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-    <View style={styles.contentContainer}>
-      <View style={[styles.bar, styles.halfBar]}>
-        <Text style={styles.sectionHeading}>{strings.OVERVIEW}</Text>
-      </View>
-      <FlatList
-        data={this.state.sections}
-        renderItem={({item, index}) => this.renderSection(item)}
-        keyExtractor={item => item.subtitle}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+        <View style={styles.headerContainer}>
+          <Text style={styles.subtitle}>{strings.TOTAL_EARNING}</Text>
+          <Text style={styles.title}>{this.props.totalEarnings}<Text style={styles.subtitle}>{strings.INR}</Text></Text>
+          <View style={{alignSelf: 'flex-start'}}>
+            <TouchableOpacity activeOpacity={0.6} style={styles.pillButton}>
+              <Text style={styles.boldSubtitle}>{strings.EXPORT_OVERVIEW}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.6} style={styles.pillButton} onPress={() => this.openAccount()}>
+              <Text style={styles.boldSubtitle}>{strings.ADD_ACCOUNT}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.contentContainer}>
+          <View style={[styles.bar, styles.halfBar]}>
+            <Text style={styles.sectionHeading}>{strings.OVERVIEW}</Text>
+          </View>
+          <FlatList
+            data={this.state.sections}
+            renderItem={({item, index}) => this.renderSection(item)}
+            keyExtractor={item => item.subtitle}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
       </ScrollView>
     );
   }
@@ -126,7 +122,7 @@ const styles = StyleSheet.create({
     marginHorizontal: spacing.large_lg,
     marginVertical: spacing.space_50
   },
-  sectionContainer:{
+  sectionContainer: {
     flexDirection: 'row',
     paddingVertical: spacing.medium
   },
@@ -145,7 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.darkBackground,
     padding: spacing.medium,
     paddingVertical: spacing.medium_sm,
-    marginTop: spacing.small
+    marginTop: spacing.small,
   },
   boldSubtitle: {
     color: appTheme.textPrimary,

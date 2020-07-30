@@ -19,10 +19,10 @@ import {iconBackgrounds} from "../../constants/images";
 class Tools extends PureComponent {
 
   openPackages = () => this.props.navigation.navigate(RouteNames.Packages)
-  openAppointments = () => this.props.navigation.navigate(RouteNames.MyAppointments)
+  openCallRequests = () => this.props.navigation.navigate(RouteNames.CallRequests)
   openSlots = () => this.props.navigation.navigate(RouteNames.SlotsView)
   openSubscriptions = () => this.openSlots()
-  openSchedule = () => this.props.navigation.navigate(RouteNames.Schedule)
+  openBrowseSlots = () => this.props.navigation.navigate(RouteNames.BrowseSlots)
   openQuestion = () => this.props.navigation.navigate(RouteNames.CreatePost, {type: POST_TYPE.TYPE_QUESTION})
   openBMI = () => this.props.navigation.navigate(RouteNames.BMI);
   openCouponMachine = () => this.props.navigation.navigate(RouteNames.CouponMachine);
@@ -41,10 +41,10 @@ class Tools extends PureComponent {
         callback: this.openPackages,
         enabled: userType === userTypes.TRAINER
       }, {
-        title: strings.CALLBACK_REQUESTS,
+        title: strings.CALL_REQUESTS,
         image: iconBackgrounds.appointments,
-        callback: this.openAppointments,
-        enabled: true
+        callback: this.openCallRequests,
+        enabled: true//userType===userTypes.TRAINER
       }, {
         title: strings.SLOTS,
         image: iconBackgrounds.slots,
@@ -57,9 +57,9 @@ class Tools extends PureComponent {
         callback: this.openSubscriptions,
         enabled: userType===userTypes.USER,
       }, {
-        title: strings.SCHEDULE,
+        title: strings.BROWSE_SLOTS,
         image: iconBackgrounds.workouts,
-        callback: this.openSchedule,
+        callback: this.openBrowseSlots,
         enabled: userType === userTypes.USER
       }, {
         title: strings.ASK_EXPERT,
@@ -78,7 +78,7 @@ class Tools extends PureComponent {
         enabled: userType === userTypes.TRAINER
       },
       {
-        title: strings.ACCOUNT,
+        title: strings.ACCOUNT_LOWER,
         image: iconBackgrounds.graphMan,
         callback: this.openAccountDash,
         enabled: userType === userTypes.TRAINER
