@@ -9,6 +9,7 @@ import {
   ToastAndroid,
   Keyboard,
   Image,
+  ScrollView,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 import { Item, Input } from "native-base";
@@ -27,7 +28,9 @@ import Logo from "../../../assets/images/newlogo.png";
 import Icon from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather";
 import TripleLine from "../../../assets/images/tripleLine.png";
-export default class SignInNew extends Component {
+import Dash from "react-native-dash";
+
+export default class SignUpNew extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -98,36 +101,53 @@ export default class SignInNew extends Component {
   setPassword = (text) => {
     this.setState({ password: text });
   };
-  renderBars = ()=>(
-    <View style={{position:'absolute', right:-screenWidth/10,top:-screenWidth/10}}>
-      <Image style={{height:screenWidth/2.5, width:screenWidth/2.5}} resizeMode={'contain'} source={TripleLine}/>
+  renderBars = () => (
+    <View
+      style={{
+        position: "absolute",
+        right: -screenWidth / 10,
+        top: -screenWidth / 10,
+        flex: 1,
+      }}
+    >
+      <Image
+        style={{ height: screenWidth / 2.5, width: screenWidth / 2.5 }}
+        resizeMode={"contain"}
+        source={TripleLine}
+      />
     </View>
-  )
-
+  );
 
   render() {
     return (
       <KeyboardAwareScrollView
-       
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps={"handled"}
         style={styles.container}
       >
+        <StatusBar backgroundColor="black" />
         {this.renderBars()}
         <Loader loading={this.state.loading} />
-        <Image resizeMode={'contain'} source={Logo} style={styles.image}/>
+        <Image resizeMode={"contain"} source={Logo} style={styles.image} />
 
-        <View style={styles.itemContainer}>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={styles.signin}>{strings.SIGN_UP}</Text>
-            <View style={styles.line}></View>
-            <TouchableOpacity style={styles.googlelogo}>
+        <View style={styles.detailsView}>
+          <View style={{ flexDirection: "row", justifyContent: "center" }}>
+            <Text style={styles.signUp}>{strings.SIGN_UP}</Text>
+            <View style={styles.Dash}>
+              <Dash
+                style={{ width: 1, flexDirection: "column", height: 40 }}
+                dashGap={0}
+                dashColor={appTheme.brightContent}
+                dashThickness={0.8}
+              />
+            </View>
+            <TouchableOpacity style={styles.googleLogo}>
               <View>
                 <Icon
                   onPress={() => this.googleSignup()}
                   name="google-"
-                  color={appTheme.brightContent}
-                  size={40}
+                  color="#c33a09"
+                  size={30}
                 />
               </View>
             </TouchableOpacity>
@@ -141,9 +161,7 @@ export default class SignInNew extends Component {
                   onChangeText={(text) => {
                     this.setEmail(text);
                   }}
-                  placeholder="Email"
                   style={styles.input}
-                  placeholderTextColor="#fff"
                 />
               </Item>
               {!!this.state.emailError && (
@@ -156,9 +174,7 @@ export default class SignInNew extends Component {
               <Icon name="key" color={appTheme.brightContent} size={25} />
               <Input
                 secureTextEntry={true}
-                placeholder="Password"
                 style={styles.input}
-                placeholderTextColor="#fff"
                 onChangeText={(text) => this.setPassword(text)}
               />
             </Item>
@@ -177,8 +193,8 @@ export default class SignInNew extends Component {
                   }}
                   style={styles.terms}
                 >
-                  <Text style={styles.termsOne}>I accept the </Text>
-                  <Text style={styles.termTwo}>terms & conditions</Text>
+                  <Text style={styles.termsOne}>{strings.I_ACCEPT}</Text>
+                  <Text style={styles.termTwo}>{strings.TNC}</Text>
                 </TouchableOpacity>
               }
               containerStyle={styles.checkBoxContainerStyle}
@@ -190,20 +206,18 @@ export default class SignInNew extends Component {
           <View
             style={{
               flexDirection: "row",
-              marginTop: 10,
+              alignItems: "center",
+              marginLeft: 20,
             }}
           >
-            <TouchableOpacity
-              style={{ marginTop: "10%", marginLeft: "5%" }}
-              onPress={() => this.signUp()}
-            >
-              <View style={styles.circlebutton}>
+            <TouchableOpacity onPress={() => this.signUp()}>
+              <View style={styles.signUpButton}>
                 <Feather name="arrow-right" color="white" size={30} />
               </View>
             </TouchableOpacity>
-            <View style={styles.alreadyaccount}>
+            <View style={styles.AlreadySigned}>
               <TouchableOpacity
-                style={{ justifyContent: "center", alignItems: "center" }}
+                style={{ justifyContent: "center", marginTop: -20 }}
                 onPress={() => {
                   this.props.navigation.pop();
                 }}
@@ -229,65 +243,65 @@ const styles = StyleSheet.create({
     height: screenHeight * 0.1,
     width: screenWidth * 0.6,
     marginTop: "10%",
+    flex: 1,
   },
-  itemContainer: {
-    marginTop: "20%",
+
+  detailsView: {
+    marginTop: 60,
     backgroundColor: appTheme.background,
     flex: 1,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
-    height: screenHeight * 0.8,
+    height: screenHeight * 0.85,
     paddingTop: "5%",
-    paddingHorizontal: "8%",
+    paddingHorizontal: 30,
   },
   input: {
     marginLeft: "3%",
     color: "white",
   },
-  signin: {
+
+  signUp: {
     fontSize: 45,
     fontWeight: "bold",
     color: "white",
+
     fontFamily: fonts.CenturyGothicBold,
-    marginLeft: "4%",
   },
-  googlelogo: {
+  googleLogo: {
     backgroundColor: appTheme.darkBackground,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 30,
     height: 60,
     width: 60,
-    marginLeft: "10%",
+    marginLeft: 20,
     marginTop: "4%",
   },
-  circlebutton: {
-    height: 60,
-    width: 60,
-    backgroundColor: appTheme.brightContent,
-    borderRadius: 30,
-    justifyContent: "center",
+  Dash: {
+    marginTop: 10,
+    paddingTop: 10,
+    marginLeft: 20,
     alignItems: "center",
-  },
-  alreadyaccount: {
-    marginTop: 20,
     justifyContent: "center",
-    alignItems: "center",
-    marginLeft: "10%",
   },
+  circlebutton: {},
 
-  line: {
-    borderLeftWidth: 1,
-    borderColor: appTheme.brightContent,
-    marginTop: "5%",
-    marginLeft: "10%",
-  },
+  line: {},
 
   label: {
     fontSize: 14,
     color: appTheme.greyC,
     marginLeft: "10%",
     paddingBottom: "2%",
+  },
+  signUpButton: {
+    height: 60,
+    width: 60,
+    backgroundColor: appTheme.brightContent,
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
   },
   item: {
     backgroundColor: appTheme.darkBackground,
@@ -297,8 +311,8 @@ const styles = StyleSheet.create({
   },
   formElementsFooter: {
     marginTop: 30,
-    width: "100%",
-    alignItems: "center",
+    
+    
   },
   formError: {
     color: "white",
@@ -314,16 +328,14 @@ const styles = StyleSheet.create({
   terms: {
     flexDirection: "row",
   },
-
-  alternateOptionsText: {
-    color: "#BCBCBF",
-    fontSize: 18,
-    marginTop: 30,
-    fontWeight: "bold",
+  AlreadySigned: {
+    marginTop: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: "10%",
   },
   termsOne: {
-    fontSize: 16,
-    // color: '',
+    fontSize: 14,
     color: "#BCBCBF",
   },
 
@@ -332,7 +344,7 @@ const styles = StyleSheet.create({
   },
   termTwo: {
     color: "white",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
   },
 });

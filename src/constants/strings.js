@@ -175,7 +175,9 @@ const strings = {
   PAYMENT_SUCCESS: "Payment successful",
   COUPON_EXHAUSTED: 'Coupon redeemed',
   CATEGORY: 'Category',
-  SELECT_CATEGORY: 'Select Category'
+  SELECT_CATEGORY: 'Select Category',
+  TNC:'terms and conditions',
+  I_ACCEPT:'I accept ',
 };
 
 export const bmiVerdicts = {
