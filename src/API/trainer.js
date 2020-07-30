@@ -175,3 +175,29 @@ export const addAccount=async ({ifscCode,accountNumber,holderName,bankName})=>{
       return false;
     }
   }
+
+
+export const acceptCallBack = async (appointmentId) => {
+  try {
+    let response = await axios.get(`/appointment/${appointmentId}/accept`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const rejectCallBack = async (appointmentId) => {
+  try {
+    let response = await axios.get(`/appointment/${appointmentId}/reject`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

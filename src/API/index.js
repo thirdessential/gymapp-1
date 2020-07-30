@@ -35,7 +35,9 @@ export {
   getMyCoupons,
   getAccountSummary,
   addAccount,
-  getMyAccounts
+  getMyAccounts,
+  acceptCallBack,
+  rejectCallBack
 } from './trainer';
 
 export {

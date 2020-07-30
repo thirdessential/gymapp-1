@@ -223,3 +223,19 @@ export const addAccount=(accountDetails) => {
       }
     }
   }
+
+export const acceptCallBack = (appointmentId) => {
+  return async (dispatch) => {
+    try {
+      const {success} = await API.acceptCallBack(appointmentId);
+      if(!success){
+        //todo handle it here
+        throw new Error("Accept callback failed")
+      }
+      return true;
+    } catch (error) {
+      console.log("Trainer acc summary update failed", error);
+      return false;
+    }
+  };
+};

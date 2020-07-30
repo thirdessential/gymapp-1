@@ -3,15 +3,15 @@ import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {connect} from "react-redux";
 import {SectionGrid} from 'react-native-super-grid';
 
-import {spacing} from "../../../constants/dimension";
-import fontSizes from "../../../constants/fontSizes";
-import fonts from "../../../constants/fonts";
-import {appTheme,} from "../../../constants/colors";
-import {isSameDay} from "../../../utils/utils";
-import RouteNames from "../../../navigation/RouteNames";
-import * as actionCreators from "../../../store/actions";
-import AppointmentBox from "../../../components/AppointmentBox";
-import strings from "../../../constants/strings";
+import {spacing} from "../../constants/dimension";
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
+import {appTheme,} from "../../constants/colors";
+import {isSameDay} from "../../utils/utils";
+import RouteNames from "../../navigation/RouteNames";
+import * as actionCreators from "../../store/actions";
+import AppointmentBox from "../../components/AppointmentBox";
+import strings from "../../constants/strings";
 
 class CallRequests extends PureComponent {
 

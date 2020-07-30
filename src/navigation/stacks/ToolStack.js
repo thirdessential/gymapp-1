@@ -6,7 +6,7 @@ import {appTheme} from "../../constants/colors";
 import openDrawerButton, {openDrawerButtonDark} from "../openDrawerButton";
 
 import Tools from "../../screens/App/Tools";
-import CallRequests from "../../screens/App/Trainer/CallRequests";
+import CallRequests from "../../screens/App/CallRequests";
 import PackageList from "../../screens/App/Trainer/PackageList";
 import PackageEdit from "../../screens/App/Trainer/PackageEdit";
 import SlotsView from "../../screens/App/Trainer/SlotsView";
