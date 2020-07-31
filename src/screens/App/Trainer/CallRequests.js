@@ -58,7 +58,7 @@ class CallRequests extends PureComponent {
       <CallbackBox
         date={createdOn}
         city={city}
-        displayName={name+name}
+        displayName={name}
         displayPictureUrl={displayPictureUrl}
         status={status}
         openProfile={() => this.openProfile(userId)}
@@ -85,7 +85,8 @@ class CallRequests extends PureComponent {
         renderSectionHeader={({section}) => this.renderSectionHeader(section.title)}
         keyExtractor={(item) => item._id}
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={() => <View style={{marginTop: spacing.medium_sm}}/>}
+        ListHeaderComponent={() => <View style={{marginTop: spacing.medium}}/>}
+        ItemSeparatorComponent={()=> <View style={{marginTop: spacing.medium}}/>}
         data={callbacks}
       />
     )

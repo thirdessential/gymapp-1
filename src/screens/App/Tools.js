@@ -44,7 +44,7 @@ class Tools extends PureComponent {
         title: strings.CALL_REQUESTS,
         image: iconBackgrounds.appointments,
         callback: this.openCallRequests,
-        enabled: true//userType===userTypes.TRAINER
+        enabled: userType===userTypes.TRAINER
       }, {
         title: strings.SLOTS,
         image: iconBackgrounds.slots,

@@ -37,7 +37,7 @@ const callbackBox = (props) => {
             {status === callbackStatus.REQUESTED && (
               <>
                 <TouchableOpacity
-                  style={styles.buttonContainer}
+                  style={[styles.buttonContainer,{marginLeft:'auto'}]}
                   onPress={props.acceptRequest}
                 >
                   <FontAwesome
@@ -52,7 +52,7 @@ const callbackBox = (props) => {
               status === callbackStatus.ACCEPTED && (
                 <>
                   <TouchableOpacity onPress={props.done}
-                                    style={[styles.button, {backgroundColor: appTheme.brightContent}]}>
+                                    style={[styles.button, {backgroundColor: appTheme.brightContent, marginRight:spacing.medium}]}>
                     <Text style={styles.buttonText}>{strings.DONE}</Text>
                   </TouchableOpacity>
                   <CallButton height={30} onPress={props.call} size={20}/>
