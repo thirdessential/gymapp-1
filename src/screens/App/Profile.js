@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, ActivityIndicator, LayoutAnimation, Text} from 'react-native'
+import {View, StyleSheet, ActivityIndicator, LayoutAnimation, Text, TouchableOpacity} from 'react-native'
 import {createImageProgress} from 'react-native-image-progress';
 import FastImage from 'react-native-fast-image';
 
@@ -21,16 +21,18 @@ import strings from "../../constants/strings";
 import {defaultDP, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
 import {spacing} from "../../constants/dimension";
-import {likePost, reportPost, unlikePost} from "../../API";
+import {likePost, reportPost, requestCallback, unlikePost} from "../../API";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import PostList from "../../components/Social/PostList";
+import {showError, showSuccess} from "../../utils/notification";
 
 class Profile extends Component {
 
   state = {
     bgImage: getRandomImage(),
-    nextPage: INITIAL_PAGE
+    nextPage: INITIAL_PAGE,
+    requestingCallback:false
   }
 
   componentDidMount() {
@@ -111,6 +113,18 @@ class Profile extends Component {
         userId: _id
       });
   }
+  requestCallback = async () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({requestingCallback:true});
+    const {_id: userId} = this.getUser();
+    const {success, message} = await requestCallback(userId);
+    if (success)
+      showSuccess(message);
+    else showError(message);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({requestingCallback:false});
+
+  }
   renderContent = () => {
     const user = this.getUser();
     const posts = this.getPosts();
@@ -142,6 +156,16 @@ class Profile extends Component {
           onHitsPress={this.openPackage}
         />
         {
+          userType === userTypes.TRAINER && (
+            <View style={styles.callbackContainer}>
+              <TouchableOpacity disabled={this.state.requestingCallback} style={styles.callbackButton} onPress={this.requestCallback}>
+                {this.state.requestingCallback && <ActivityIndicator color={appTheme.brightContent} size={20}/> }
+                {!this.state.requestingCallback && <Text style={styles.subtitle}>{strings.REQUEST_CALLBACK}</Text>}
+              </TouchableOpacity>
+            </View>
+          )
+        }
+        {
           posts &&
           <View style={styles.postListContainer}>
             <View style={styles.sectionTitleContainer}>
@@ -158,6 +182,13 @@ class Profile extends Component {
               />
             </View>
           </View>
+        }
+        {
+          !posts || posts.length === 0 && (
+            <View style={styles.noPostsContainer}>
+              <Text numberOfLines={2} style={styles.sectionTitle}>{strings.NO_POSTS_BY_USER} (Replace image)</Text>
+            </View>
+          )
         }
       </View>
     )
@@ -192,26 +223,41 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: screenHeight / 3
   },
-
-  titleStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 18,
+  subtitle: {
+    color: appTheme.brightContent,
+    fontSize: 14,
+    fontFamily: fonts.CenturyGothicBold,
   },
   sectionTitleContainer: {
-    // marginTop: spacing.medium_lg,
     marginBottom: spacing.medium
   },
   sectionTitle: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h1,
-    fontFamily: fonts.MontserratMedium
+    fontFamily: fonts.CenturyGothicBold,
+
   },
   postListContainer: {
-    marginLeft: spacing.medium,
-    marginRight: spacing.medium,
+    marginHorizontal: spacing.medium,
     marginTop: spacing.medium
   },
+  callbackContainer: {
+    backgroundColor: appTheme.background,
+    paddingHorizontal: spacing.large,
+    paddingBottom: spacing.medium_sm,
+    alignItems: 'flex-start'
+  },
+  noPostsContainer: {
+    height: screenHeight / 4,
+    alignItems:'center'
+  },
+  callbackButton: {
+    padding: spacing.small,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: appTheme.brightContent,
+    paddingHorizontal: spacing.small_lg
+  }
 });
 
 const mapStateToProps = (state) => ({

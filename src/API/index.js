@@ -19,9 +19,9 @@ export {
   subscribeToPackage,
   bookAppointment,
   sendPaymentData,
-  myAppointments,
   recentActivity,
-  subscribeRollback
+  subscribeRollback,
+  requestCallback
 } from './user';
 
 export {
@@ -37,7 +37,8 @@ export {
   addAccount,
   getMyAccounts,
   acceptCallBack,
-  rejectCallBack
+  rejectCallBack,
+  getCallbacks,
 } from './trainer';
 
 export {

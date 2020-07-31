@@ -19,8 +19,8 @@ import AccountDash from "../../screens/App/Trainer/AccountDash";
 import AddAccount from "../../screens/App/Trainer/AddAccount";
 import PreferenceSwiper from "../../screens/App/Preference/PreferenceSwiper";
 import {defaultHeaderStyle} from "../../constants/styles";
-import BrowseSlots from "../../screens/App/User/BrowseSlots";
-import strings from "../../constants/strings";
+// import BrowseSlots from "../../screens/App/User/BrowseSlots";
+// import strings from "../../constants/strings";
 
 const toolStack = () => {
   return (
@@ -66,13 +66,13 @@ const toolStack = () => {
           title: 'Subscriptions',
         }}
       />
-      <Stack.Screen
-        name={RouteNames.BrowseSlots}
-        component={BrowseSlots}
-        options={{
-          title: strings.BROWSE_SLOTS,
-        }}
-      />
+      {/*<Stack.Screen*/}
+      {/*  name={RouteNames.BrowseSlots}*/}
+      {/*  component={BrowseSlots}*/}
+      {/*  options={{*/}
+      {/*    title: strings.BROWSE_SLOTS,*/}
+      {/*  }}*/}
+      {/*/>*/}
       <Stack.Screen
         name={RouteNames.Profile}
         component={Profile}

@@ -29,6 +29,8 @@ const RouteNames = {
   ActivityTab: 'ActivityTab',
   SocialTab: 'SocialTab',
   ToolTab: 'ToolTab',
+  ListingTab: 'ListingTab',
+  MyProfileTab:'MyProfileTab',
   SlotsView: 'SlotsView',
   Subscriptions: 'Subscriptions',
   PackagesView: 'PackagesView',
@@ -48,6 +50,9 @@ const RouteNames = {
   AccountDash: 'AccountDash',
   AccountStatement: 'AccountStatement',
   AddAccount: 'AddAccount',
+
+
+
 };
 
 export const TabRoutes = {

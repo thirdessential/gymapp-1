@@ -11,8 +11,7 @@ export {
   setInitialLoginOff,
   updateUserData,
   subscribePackage,
-  getActivities,
-  getAppointments
+  getActivities
 } from "./user.actions";
 
 export {
@@ -38,7 +37,10 @@ export {
   syncCoupons,
   getAccountSummary,
   addAccount,
-  getMyAccounts
+  getMyAccounts,
+  getCallbacks,
+  acceptCallBack,
+  rejectCallback,
 } from './trainer.actions';
 
 export {

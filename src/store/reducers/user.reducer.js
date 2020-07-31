@@ -18,10 +18,6 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, action.payload);
     case actionTypes.SET_ACTIVITIES:
       return updateObject(state, action.payload);
-    case actionTypes.SET_MY_APPOINTMENTS:
-      return updateObject(state, action.payload);
-    case actionTypes.RESET_USER:
-      return initialState;
     default:
       return state;
   }

@@ -41,13 +41,16 @@ function CustomDrawerContent(props) {
           <DrawerItem
             label="Edit Profile"
             labelStyle={drawerLabelStyle}
-            onPress={() => props.navigation.navigate(RouteNames.ProfileEdit)}
+            onPress={async () => {
+              // await props.navigation.navigate(RouteNames.MyProfileTab);
+              props.navigation.navigate(RouteNames.ProfileEdit);
+            }}
           />
-          <DrawerItem
-            label="Appointments"
-            labelStyle={drawerLabelStyle}
-            onPress={() => props.navigation.navigate(RouteNames.MyAppointments)}
-          />
+          {/*<DrawerItem*/}
+          {/*  label="Appointments"*/}
+          {/*  labelStyle={drawerLabelStyle}*/}
+          {/*  onPress={() => props.navigation.navigate(RouteNames.MyAppointments)}*/}
+          {/*/>*/}
           <DrawerItem
             label="Subscriptions"
             labelStyle={drawerLabelStyle}

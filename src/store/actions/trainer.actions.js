@@ -224,17 +224,52 @@ export const addAccount=(accountDetails) => {
     }
   }
 
-export const acceptCallBack = (appointmentId) => {
+export const setCallbacks = (callbacks) => ({
+  type: actionTypes.SET_CALLBACKS,
+  payload: {
+    callbacks
+  },
+});
+export const getCallbacks = () => {
   return async (dispatch) => {
     try {
-      const {success} = await API.acceptCallBack(appointmentId);
+      const {success, callbacks} = await API.getCallbacks();
+      if(success)
+        dispatch(setCallbacks(callbacks));
+      return true;
+    } catch (error) {
+      console.log("Trainer list callback failed", error);
+      return false;
+    }
+  };
+};
+
+export const acceptCallBack = (callbackId) => {
+  return async (dispatch) => {
+    try {
+      const {success} = await API.acceptCallBack(callbackId);
       if(!success){
         //todo handle it here
         throw new Error("Accept callback failed")
       }
       return true;
     } catch (error) {
-      console.log("Trainer acc summary update failed", error);
+      console.log("Trainer Accept callback failed", error);
+      return false;
+    }
+  };
+};
+export const rejectCallback = (callbackId) => {
+  return async (dispatch) => {
+    try {
+      const {success} = await API.rejectCallBack(callbackId);
+      if(!success){
+        //todo handle it here
+        throw new Error("Accept callback failed")
+      }
+      return true;
+    } catch (error) {
+      console.log("Trainer Accept callback failed", error);
       return false;
     }
   };

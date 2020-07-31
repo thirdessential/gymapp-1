@@ -6,6 +6,7 @@ import openDrawerButton from "../openDrawerButton";
 import Activity from "../../screens/App/Activity";
 import Profile from "../../screens/App/Profile";
 import {defaultHeaderStyle} from "../../constants/styles";
+import CallRequests from "../../screens/App/CallRequests";
 
 
 const activity = () => {
@@ -13,7 +14,7 @@ const activity = () => {
     <Stack.Navigator screenOptions={defaultHeaderStyle}>
       <Stack.Screen
         name={RouteNames.Activity}
-        component={Activity}
+        component={CallRequests}
         options={{
           title: 'Activity',
           headerLeft: openDrawerButton

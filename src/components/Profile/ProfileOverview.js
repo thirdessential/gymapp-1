@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     marginTop: -20,
     paddingLeft: spacing.large,
     paddingRight: spacing.large,
-    paddingBottom:spacing.medium_lg
+    paddingBottom:spacing.medium_sm
   },
   titleContainer: {
     flexDirection: 'row',
