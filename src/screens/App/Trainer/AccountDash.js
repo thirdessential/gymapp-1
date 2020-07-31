@@ -89,9 +89,9 @@ class AccountDash extends PureComponent {
           <Text style={styles.subtitle}>{strings.TOTAL_EARNING}</Text>
           <Text style={styles.title}>{this.props.totalEarnings}<Text style={styles.subtitle}>{strings.INR}</Text></Text>
           <View style={{alignSelf: 'flex-start'}}>
-            <TouchableOpacity activeOpacity={0.6} style={styles.pillButton}>
-              <Text style={styles.boldSubtitle}>{strings.EXPORT_OVERVIEW}</Text>
-            </TouchableOpacity>
+            {/*<TouchableOpacity activeOpacity={0.6} style={styles.pillButton}>*/}
+            {/*  <Text style={styles.boldSubtitle}>{strings.EXPORT_OVERVIEW}</Text>*/}
+            {/*</TouchableOpacity>*/}
             <TouchableOpacity activeOpacity={0.6} style={styles.pillButton} onPress={() => this.openAccount()}>
               <Text style={styles.boldSubtitle}>{strings.ADD_ACCOUNT}</Text>
             </TouchableOpacity>

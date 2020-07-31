@@ -175,7 +175,7 @@ const setStatements = (statements) => ({
 export const getAccountSummary = () => {
   return async (dispatch) => {
     try {
-      const {earnings, statements} = await API.getAccountSummary();
+      const {earnings, statements=[]} = await API.getAccountSummary();
       earnings && dispatch(setEarnings(earnings));
       statements && dispatch(setStatements(statements));
       return true;
