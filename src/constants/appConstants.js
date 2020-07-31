@@ -116,3 +116,9 @@ export const packageImages = {
   POWER_LIFTING: cardBackgrounds.bg7,
   STRENGTH_GAIN: cardBackgrounds.bg8
 }
+export const callbackStatus = {
+  REQUESTED: 'REQUESTED',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  COMPLETED: 'COMPLETED'
+}

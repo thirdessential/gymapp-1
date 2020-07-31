@@ -38,6 +38,7 @@ export {
   getMyAccounts,
   acceptCallBack,
   rejectCallBack,
+  callbackDone,
   getCallbacks,
 } from './trainer';
 

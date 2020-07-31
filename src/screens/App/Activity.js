@@ -19,9 +19,10 @@ class Activity extends PureComponent {
 
   componentDidMount() {
     setAvailable();
-    this.props.syncCoupons();
-    const {navigation, getActivities, updateUserData} = this.props;
-    updateUserData()
+    const {navigation, getActivities, updateUserData,syncCoupons,getCallbacks} = this.props;
+    updateUserData();
+    syncCoupons();
+    getCallbacks();
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       getActivities();
     })
@@ -127,7 +128,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getActivities: () => dispatch(actionCreators.getActivities()),
   updateUserData: () => dispatch(actionCreators.updateUserData()),
-  syncCoupons: () => dispatch(actionCreators.syncCoupons())
+  syncCoupons: () => dispatch(actionCreators.syncCoupons()),
+  getCallbacks: () => dispatch(actionCreators.getCallbacks()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activity);

@@ -182,7 +182,12 @@ const strings = {
   REQUEST_CALL: 'Request Call',
   BROWSE_SLOTS: 'Browse Slots',
   REQUEST_CALLBACK: 'Request Call back',
-  NO_POSTS_BY_USER: 'No posts by user'
+  NO_POSTS_BY_USER: 'No posts by user',
+  REJECT: 'Reject',
+  ACCEPT:'Accept',
+  ACCEPTED:'Accepted',
+  FINISHED: 'Call Finished'
+
 };
 
 export const bmiVerdicts = {

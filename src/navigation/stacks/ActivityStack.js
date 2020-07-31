@@ -6,15 +6,13 @@ import openDrawerButton from "../openDrawerButton";
 import Activity from "../../screens/App/Activity";
 import Profile from "../../screens/App/Profile";
 import {defaultHeaderStyle} from "../../constants/styles";
-import CallRequests from "../../screens/App/CallRequests";
-
 
 const activity = () => {
   return (
     <Stack.Navigator screenOptions={defaultHeaderStyle}>
       <Stack.Screen
         name={RouteNames.Activity}
-        component={CallRequests}
+        component={Activity}
         options={{
           title: 'Activity',
           headerLeft: openDrawerButton

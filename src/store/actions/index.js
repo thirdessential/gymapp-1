@@ -39,7 +39,8 @@ export {
   addAccount,
   getMyAccounts,
   getCallbacks,
-  acceptCallBack,
+  acceptCallback,
+  callbackDone,
   rejectCallback,
 } from './trainer.actions';
 

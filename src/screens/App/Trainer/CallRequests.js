@@ -1,17 +1,19 @@
 import React, {PureComponent} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {FlatList, LayoutAnimation, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {connect} from "react-redux";
 import {FlatGrid, SectionGrid} from 'react-native-super-grid';
 
-import {spacing} from "../../constants/dimension";
-import fontSizes from "../../constants/fontSizes";
-import fonts from "../../constants/fonts";
-import {appTheme,} from "../../constants/colors";
-import {isSameDay} from "../../utils/utils";
-import RouteNames from "../../navigation/RouteNames";
-import * as actionCreators from "../../store/actions";
-import AppointmentBox from "../../components/AppointmentBox";
-import strings from "../../constants/strings";
+import {spacing} from "../../../constants/dimension";
+import fontSizes from "../../../constants/fontSizes";
+import fonts from "../../../constants/fonts";
+import {appTheme,} from "../../../constants/colors";
+import {initialiseVideoCall, isSameDay} from "../../../utils/utils";
+import RouteNames from "../../../navigation/RouteNames";
+import * as actionCreators from "../../../store/actions";
+import CallbackBox from "../../../components/CallbackBox";
+import strings from "../../../constants/strings";
+import {call} from "react-native-reanimated";
+import {requestCameraAndAudioPermission} from "../../../utils/permission";
 
 class CallRequests extends PureComponent {
 
@@ -29,27 +31,42 @@ class CallRequests extends PureComponent {
   renderSectionHeader = (title) => {
     return <Text style={styles.title}>{title}</Text>;
   }
+
+  rejectRequest = (requestId) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.props.rejectCallback(requestId)
+  }
+  acceptRequest = (requestId) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.props.acceptCallback(requestId);
+  }
+  requestFulfilled = (requestId)=>{
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.props.callbackDone(requestId);
+  }
+  initiateCall = async (userId) => {
+    const permissionGranted = await requestCameraAndAudioPermission();
+    if (permissionGranted) {
+      await initialiseVideoCall(userId);
+    } else console.log("Cant initiate video call without permission");
+  }
+
   renderRequest = (request) => {
-    const {appointmentDate, time, trainerId, userId} = request;
-    let name, displayPictureUrl, profileId;
-    if (trainerId.name) {
-      name = trainerId.name;
-      displayPictureUrl = trainerId.displayPictureUrl;
-      profileId = trainerId._id;
-    } else {
-      name = userId.name;
-      displayPictureUrl = userId.displayPictureUrl;
-      profileId = userId._id;
-    }
+    const {createdOn, status, userId: userData, _id: requestId} = request;
+    const {name, city, displayPictureUrl, _id: userId} = userData;
     return (
-      <TouchableOpacity activeOpacity={0.8} onPress={() => this.openProfile(profileId)}>
-        <AppointmentBox
-          date={appointmentDate}
-          time={time}
-          displayName={name}
-          displayPictureUrl={displayPictureUrl}
-        />
-      </TouchableOpacity>
+      <CallbackBox
+        date={createdOn}
+        city={city}
+        displayName={name+name}
+        displayPictureUrl={displayPictureUrl}
+        status={status}
+        openProfile={() => this.openProfile(userId)}
+        rejectRequest={() => this.rejectRequest(requestId)}
+        acceptRequest={() => this.acceptRequest(requestId)}
+        call={() => this.initiateCall(userId)}
+        done={()=>this.requestFulfilled(requestId)}
+      />
     )
   }
 
@@ -62,14 +79,15 @@ class CallRequests extends PureComponent {
         </View>
       )
     return (
-      <FlatGrid
+      <FlatList
         style={{width: '100%'}}
         renderItem={({item}) => this.renderRequest(item)}
         renderSectionHeader={({section}) => this.renderSectionHeader(section.title)}
         keyExtractor={(item) => item._id}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => <View style={{marginTop: spacing.medium_sm}}/>}
-       data={[]}/>
+        data={callbacks}
+      />
     )
   }
 
@@ -134,8 +152,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getCallbacks: () => dispatch(actionCreators.getCallbacks()),
-  acceptCallBack: (id) => dispatch(actionCreators.acceptCallBack(id)),
+  acceptCallback: (id) => dispatch(actionCreators.acceptCallback(id)),
   rejectCallback: (id) => dispatch(actionCreators.rejectCallback(id)),
+  callbackDone: (id) => dispatch(actionCreators.callbackDone(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CallRequests);

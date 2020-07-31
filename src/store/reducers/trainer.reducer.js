@@ -46,7 +46,22 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, action.payload);
     case actionTypes.SET_CALLBACKS:
       return updateObject(state, action.payload);
-
+    case actionTypes.SET_CALLBACK_STATUS:{
+      const {callbackId, status} = action.payload;
+      let callbacks = [...state.callbacks];
+      callbacks = callbacks.map(callback => {
+        if (callback._id === callbackId) {
+          callback.status = status;
+        }
+        return callback;
+      })
+      return updateObject(state, {callbacks});
+    }
+    case actionTypes.REMOVE_CALLBACK:
+      const {callbackId} = action.payload;
+      let callbacks = [...state.callbacks];
+      callbacks = callbacks.filter(callback => callback._id!==callbackId);
+      return updateObject(state, {callbacks});
     default:
       return state;
   }

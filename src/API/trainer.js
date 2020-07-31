@@ -203,7 +203,19 @@ export const acceptCallBack = async (callbackId) => {
 }
 export const rejectCallBack = async (callbackId) => {
   try {
-    let response = await axios.put(`/callbackId/${callbackId}/reject`);
+    let response = await axios.put(`/callback/${callbackId}/reject`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const callbackDone = async (callbackId) => {
+  try {
+    let response = await axios.put(`/callback/${callbackId}/done`);
     if (validateResponseCode(response.status)) {
       return response.data;
     } else

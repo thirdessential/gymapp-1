@@ -8,7 +8,14 @@ import {NavigationContainer} from "@react-navigation/native";
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import * as actionCreators from '../store/actions';
 import {updateAxiosToken} from "../API";
-import {firebaseTopics, INITIAL_PAGE, remoteMessageTypes, storageKeys, videoTestMode} from "../constants/appConstants";
+import {
+  callbackStatus,
+  firebaseTopics,
+  INITIAL_PAGE,
+  remoteMessageTypes,
+  storageKeys,
+  videoTestMode
+} from "../constants/appConstants";
 import {callHandler, configureFCMNotification, showInfo} from "../utils/notification";
 import {deleteFromStorage, readFromStorage} from "../utils/utils";
 import {appTheme} from "../constants/colors";
@@ -135,14 +142,19 @@ class App extends React.Component {
   }
 
   coreDrawer = () => {
-    const {userType, userData} = this.props;
+    const {userType, userData, newCallbacks} = this.props;
     return (
       <Drawer.Navigator
 
         drawerType={'slide'}
-        drawerContent={(drawerProps) => <CustomDrawerContent {...drawerProps}
-                                                             userType={userType}
-                                                             userData={userData}/>}
+        drawerContent={(drawerProps) =>
+          <CustomDrawerContent
+            {...drawerProps}
+            userType={userType}
+            userData={userData}
+            newCallbacks={newCallbacks}
+          />
+        }
         drawerStyle={{
           width: 240,
         }}
@@ -205,7 +217,8 @@ const mapStateToProps = (state) => ({
   userType: state.user.userType,
   userData: state.user.userData,
   userId: state.user.userId,
-  newUser: state.auth.newUser
+  newUser: state.auth.newUser,
+  newCallbacks: state.trainer.callbacks.filter(callback => callback.status === callbackStatus.REQUESTED).length > 0
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -5,8 +5,6 @@ import RouteNames from "../RouteNames";
 import Stack from './stack';
 
 import ChooseUserType from "../../screens/Auth/ChooseUserType";
-import Login from "../../screens/Auth/Login";
-import Signup from "../../screens/Auth/Signup";
 import SignInWithRegisteredEmail from "../../screens/Auth/SignInWithRegisteredEmail";
 import SignInNew from '../../screens/Auth/SignInNew';
 import SignUpNew from '../../screens/Auth/SignUpNew';
