@@ -105,7 +105,7 @@ class CreatePost extends PureComponent {
       : strings.ADD_IMAGE;
     return (
       <View style={styles.imageContainer}>
-        {this.state.imgSrc && (
+        {this.state.imageSrc && (
           <Image source={this.state.imageSrc} style={styles.imageStyle}/>
         )}
         <View style={{marginRight: "auto", padding: spacing.medium_sm}}>

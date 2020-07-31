@@ -13,9 +13,10 @@ import {defaultDP, userTypes} from "../constants/appConstants";
 import RouteNames from "./RouteNames";
 import LinearGradient from "react-native-linear-gradient";
 import {drawerLabelStyle} from "../constants/styles";
+import Entypo from "react-native-vector-icons/Entypo";
 
 function CustomDrawerContent(props) {
-  const {userData, userType} = props;
+  const {userData, userType, newCallbacks} = props;
   let name, displayPictureUrl;
   if (!userData) {
     name = 'User';
@@ -41,20 +42,40 @@ function CustomDrawerContent(props) {
           <DrawerItem
             label="Edit Profile"
             labelStyle={drawerLabelStyle}
-            onPress={() => props.navigation.navigate(RouteNames.ProfileEdit)}
+            onPress={async () => {
+              // await props.navigation.navigate(RouteNames.MyProfileTab);
+              props.navigation.navigate(RouteNames.ProfileEdit);
+            }}
           />
-          <DrawerItem
-            label="Appointments"
-            labelStyle={drawerLabelStyle}
-            onPress={() => props.navigation.navigate(RouteNames.MyAppointments)}
-          />
+          {/*<DrawerItem*/}
+          {/*  label="Appointments"*/}
+          {/*  labelStyle={drawerLabelStyle}*/}
+          {/*  onPress={() => props.navigation.navigate(RouteNames.MyAppointments)}*/}
+          {/*/>*/}
+          {
+            userType === userTypes.TRAINER && (
+              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
+                <DrawerItem
+                  label="Call Requests"
+                  labelStyle={drawerLabelStyle}
+                  onPress={() => {
+                    props.navigation.navigate(RouteNames.CallRequests);
+                  }}
+                />
+                {newCallbacks &&
+                <Entypo name={'dot-single'} color={appTheme.brightContent} size={30}
+                        style={{marginLeft: -spacing.large_lg}}/>
+                }
+              </View>
+            )
+          }
           <DrawerItem
             label="Subscriptions"
             labelStyle={drawerLabelStyle}
             onPress={() => {
               if (userType === userTypes.TRAINER)
                 props.navigation.navigate(RouteNames.Subscriptions);
-                else props.navigation.navigate(RouteNames.SlotsView);
+              else props.navigation.navigate(RouteNames.SlotsView);
             }}
           />
           {
@@ -85,12 +106,12 @@ function CustomDrawerContent(props) {
             )
           }
           {
-            __DEV__?
+            __DEV__ ?
               <DrawerItem
                 label="Sign Out"
                 labelStyle={drawerLabelStyle}
                 onPress={() => store.dispatch(signOutUser())}
-              />:null
+              /> : null
           }
         </View>
       </LinearGradient>

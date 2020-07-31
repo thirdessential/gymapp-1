@@ -12,7 +12,7 @@ export const userState = {
   initialLogin: true,
   userName: '',
   userData: {},
-  myAppointments: [],
+  // myAppointments: [],
   activities: {},
 };
 
@@ -37,6 +37,7 @@ export const trainerState = {
   statements: [],
   accountData:[],
   accounts:[],
+  callbacks:[]
 }
 
 export const socialState = {

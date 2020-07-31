@@ -1,7 +1,7 @@
 import {cardBackgrounds} from "./images";
 
-export const rootURL = 'https://fitness-first-services.herokuapp.com';
-// export const rootURL = 'http://192.168.31.125:3001';
+// export const rootURL = 'https://fitness-first-services.herokuapp.com';
+export const rootURL = 'http://192.168.31.125:3001';
 if (__DEV__) {
   console.log('Development');
 } else {
@@ -115,4 +115,10 @@ export const packageImages = {
   LEAN_BODY_MASS: cardBackgrounds.bg6,
   POWER_LIFTING: cardBackgrounds.bg7,
   STRENGTH_GAIN: cardBackgrounds.bg8
+}
+export const callbackStatus = {
+  REQUESTED: 'REQUESTED',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  COMPLETED: 'COMPLETED'
 }
