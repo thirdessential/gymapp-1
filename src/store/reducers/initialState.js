@@ -1,18 +1,16 @@
-import {userTypes} from "../../constants/appConstants";
+import {INITIAL_USER_TYPE, userTypes} from "../../constants/appConstants";
 
 export const authState = {
   authenticated: false,
-  newUser: false
 };
 
 export const userState = {
   authToken: '',
-  userType: userTypes.USER,
+  userType: INITIAL_USER_TYPE,
   userId: '',
   initialLogin: true,
   userName: '',
   userData: {},
-  // myAppointments: [],
   activities: {},
 };
 

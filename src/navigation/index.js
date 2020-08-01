@@ -22,7 +22,6 @@ import {appTheme} from "../constants/colors";
 import {navigationRef} from './RootNavigation';
 
 import Stack from "./stacks/stack";
-import NewUser from './stacks/newUserStack';
 import VideoTest from './stacks/videoTestStack';
 import Splash from './stacks/splashStack';
 import InitialLogin from './stacks/initialLoginStack';
@@ -187,7 +186,7 @@ class App extends React.Component {
 
   render() {
     const {loading, videoTestMode} = this.state;
-    const {authenticated, initialLogin, callData, callActive, userType, userData, newUser} = this.props;
+    const {authenticated, initialLogin, callData, callActive, userType, userData} = this.props;
 
     if (loading)
       return <Splash/>
@@ -197,8 +196,6 @@ class App extends React.Component {
       return <Calling navigationRef={navigationRef}/>
     }
     if (authenticated) {
-      if (newUser)
-        return <NewUser navigationRef={navigationRef}/>
       if (initialLogin)
         return <InitialLogin navigationRef={navigationRef}/>
       else
@@ -217,7 +214,6 @@ const mapStateToProps = (state) => ({
   userType: state.user.userType,
   userData: state.user.userData,
   userId: state.user.userId,
-  newUser: state.auth.newUser,
   newCallbacks: state.trainer.callbacks.filter(callback => callback.status === callbackStatus.REQUESTED).length > 0
 });
 

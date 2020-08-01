@@ -2,7 +2,9 @@ const RouteNames = {
   //Stack Names
   AppStack: 'AppStack',
   Splash: 'Splash',
-  ChooseUserType: 'ChooseUserType',
+
+  SignIn: 'SignIn',
+  SignUp: 'SignUp',
 
   UserListing: 'UserListing',
   MyClients: 'MyClients',
@@ -37,11 +39,6 @@ const RouteNames = {
   BMI: 'BMI',
   CouponMachine: 'CouponMachine',
 
-  Login: 'Login',
-  Signup: 'Signup',
-  SignInNew: 'SignInNew',
-  SignUpNew: 'SignUpNew',
-
   WorkoutDays: 'WorkoutDays',
   WorkoutPreference: 'WorkoutPreference',
   UserInfo: 'UserInfo',
@@ -50,9 +47,6 @@ const RouteNames = {
   AccountDash: 'AccountDash',
   AccountStatement: 'AccountStatement',
   AddAccount: 'AddAccount',
-
-
-
 };
 
 export const TabRoutes = {

@@ -1,7 +1,6 @@
 export {
   updateAxiosToken,
   firebaseGoogleAuth,
-  syncUserType
 } from './auth';
 
 export {

@@ -4,10 +4,8 @@ import {NavigationContainer} from "@react-navigation/native";
 import RouteNames from "../RouteNames";
 import Stack from './stack';
 
-import ChooseUserType from "../../screens/Auth/ChooseUserType";
-import SignInWithRegisteredEmail from "../../screens/Auth/SignInWithRegisteredEmail";
-import SignInNew from '../../screens/Auth/SignInNew';
-import SignUpNew from '../../screens/Auth/SignUpNew';
+import SignIn from '../../screens/Auth/SignIn';
+import SignUp from '../../screens/Auth/SignUp';
 
 const authStack = ({navigationRef}) => {
   return (
@@ -15,11 +13,8 @@ const authStack = ({navigationRef}) => {
       <Stack.Navigator screenOptions={{
         headerShown: false
       }}>
-        <Stack.Screen name={RouteNames.SignInNew} component={SignInNew} options={{title: ''}}/>
-        <Stack.Screen name={RouteNames.SignUpNew} component={SignUpNew} options={{title: 'Sign up'}}/>
-        <Stack.Screen name="signInWithRegisteredEmail" component={SignInWithRegisteredEmail}
-                      options={{title: 'Sign in'}}/>
-        <Stack.Screen name={RouteNames.ChooseUserType} component={ChooseUserType}/>
+        <Stack.Screen name={RouteNames.SignIn} component={SignIn} options={{title: ''}}/>
+        <Stack.Screen name={RouteNames.SignUp} component={SignUp} options={{title: 'Sign up'}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

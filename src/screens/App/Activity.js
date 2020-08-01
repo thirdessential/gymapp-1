@@ -10,7 +10,7 @@ import {appTheme, darkPallet} from "../../constants/colors";
 import Avatar from "../../components/Avatar";
 import {getJoinDurationString, toTitleCase} from "../../utils/utils";
 import RouteNames from "../../navigation/RouteNames";
-import {defaultDP} from "../../constants/appConstants";
+import {defaultDP, userTypes} from "../../constants/appConstants";
 import TimelineTabview from "../../components/TimelineTabview";
 import * as actionCreators from "../../store/actions";
 import {setAvailable} from "../../API";
@@ -19,10 +19,10 @@ class Activity extends PureComponent {
 
   componentDidMount() {
     setAvailable();
-    const {navigation, getActivities, updateUserData,syncCoupons,getCallbacks} = this.props;
+    const {navigation, getActivities, updateUserData,syncCoupons,getCallbacks, userType} = this.props;
     updateUserData();
     syncCoupons();
-    getCallbacks();
+    userType===userTypes.TRAINER &&  getCallbacks();
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       getActivities();
     })
@@ -122,7 +122,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
-  activities: state.user.activities
+  activities: state.user.activities,
+  userType:state.user.userType
 });
 
 const mapDispatchToProps = (dispatch) => ({

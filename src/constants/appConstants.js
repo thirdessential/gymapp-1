@@ -1,7 +1,7 @@
 import {cardBackgrounds} from "./images";
 
-export const rootURL = 'https://fitness-first-services.herokuapp.com';
-// export const rootURL = 'http://192.168.31.125:3001';
+// export const rootURL = 'https://fitness-first-services.herokuapp.com';
+export const rootURL = 'http://192.168.31.125:3001';
 if (__DEV__) {
   console.log('Development');
 } else {
@@ -13,7 +13,7 @@ export const userTypes = {
   USER: 'USER',
   TRAINER: 'TRAINER'
 }
-
+export const INITIAL_USER_TYPE = userTypes.USER;
 export const videoFeedConfig = {
   width: 360,
   height: 640,
