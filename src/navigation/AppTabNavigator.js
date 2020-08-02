@@ -77,7 +77,7 @@ const appTabNavigator = (props) => {
       {
         userType === userTypes.USER && (
           <Tab.Screen
-            name={RouteNames.UserListing}
+            name={RouteNames.ListingTab}
             component={ListingStack}
             options={{
               title: listingTitle,
@@ -116,7 +116,7 @@ const appTabNavigator = (props) => {
         }}/>
 
       <Tab.Screen
-        name={RouteNames.MyProfile}
+        name={RouteNames.MyProfileTab}
         component={MyProfileStack}
         options={{
           title: 'Profile',

@@ -29,8 +29,10 @@ import Icon from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather";
 import TripleLine from "../../../assets/images/tripleLine.png";
 import Dash from "react-native-dash";
+import {showError} from "../../utils/notification";
+import {forgotPassword} from "../../API/firebaseMethods";
 
-export default class SignUpNew extends Component {
+export default class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,6 +44,7 @@ export default class SignUpNew extends Component {
       loading: false,
     };
   }
+
   showMessage(msg) {
     if (Platform.OS === "android") {
       ToastAndroid.show(msg, ToastAndroid.SHORT);
@@ -72,16 +75,12 @@ export default class SignUpNew extends Component {
       this.setState({ loading: false });
       if (result) {
       } else
-        showMessage({
-          message: strings.SIGNUP_FAILED,
-          type: "danger",
-        });
+        showError(strings.SIGNUP_FAILED)
+
       this.setState({ loading: false });
     } else
-      showMessage({
-        message: strings.SIGNUP_FAILED,
-        type: "danger",
-      });
+      showError(strings.SIGNUP_FAILED)
+
   }
 
   googleSignup = async () => {
@@ -90,10 +89,7 @@ export default class SignUpNew extends Component {
     this.setState({ loading: false });
     if (res) {
     } else
-      showMessage({
-        message: strings.SIGNUP_FAILED,
-        type: "danger",
-      });
+      showError(strings.SIGNUP_FAILED)
   };
   setEmail = (text) => {
     this.setState({ email: text });
@@ -161,6 +157,7 @@ export default class SignUpNew extends Component {
                   onChangeText={(text) => {
                     this.setEmail(text);
                   }}
+                  keyboardType={'email-address'}
                   style={styles.input}
                 />
               </Item>
@@ -311,8 +308,6 @@ const styles = StyleSheet.create({
   },
   formElementsFooter: {
     marginTop: 30,
-    
-    
   },
   formError: {
     color: "white",

@@ -22,7 +22,7 @@ class Tools extends PureComponent {
   openCallRequests = () => this.props.navigation.navigate(RouteNames.CallRequests)
   openSlots = () => this.props.navigation.navigate(RouteNames.SlotsView)
   openSubscriptions = () => this.openSlots()
-  openBrowseSlots = () => this.props.navigation.navigate(RouteNames.BrowseSlots)
+  // openBrowseSlots = () => this.props.navigation.navigate(RouteNames.BrowseSlots)
   openQuestion = () => this.props.navigation.navigate(RouteNames.CreatePost, {type: POST_TYPE.TYPE_QUESTION})
   openBMI = () => this.props.navigation.navigate(RouteNames.BMI);
   openCouponMachine = () => this.props.navigation.navigate(RouteNames.CouponMachine);
@@ -44,7 +44,7 @@ class Tools extends PureComponent {
         title: strings.CALL_REQUESTS,
         image: iconBackgrounds.appointments,
         callback: this.openCallRequests,
-        enabled: true//userType===userTypes.TRAINER
+        enabled: userType===userTypes.TRAINER
       }, {
         title: strings.SLOTS,
         image: iconBackgrounds.slots,
@@ -55,13 +55,15 @@ class Tools extends PureComponent {
         title: strings.SUBSCRIPTIONS,
         image: iconBackgrounds.subscriptions,
         callback: this.openSubscriptions,
-        enabled: userType===userTypes.USER,
-      }, {
-        title: strings.BROWSE_SLOTS,
-        image: iconBackgrounds.workouts,
-        callback: this.openBrowseSlots,
-        enabled: userType === userTypes.USER
-      }, {
+        enabled: userType === userTypes.USER,
+      },
+      // {
+      //   title: strings.BROWSE_SLOTS,
+      //   image: iconBackgrounds.workouts,
+      //   callback: this.openBrowseSlots,
+      //   enabled: userType === userTypes.USER
+      // },
+      {
         title: strings.ASK_EXPERT,
         image: iconBackgrounds.waterIntake,
         callback: this.openQuestion,

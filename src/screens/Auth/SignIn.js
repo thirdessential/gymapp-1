@@ -32,7 +32,7 @@ import Dash from "react-native-dash";
 
 
 
-export default class SignInNew extends Component {
+export default class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,7 +69,7 @@ export default class SignInNew extends Component {
     this.setState({ password: text });
   };
   navigateToSignup = () => {
-    this.props.navigation.navigate(RouteNames.SignUpNew);
+    this.props.navigation.navigate(RouteNames.SignUp);
   };
 
   renderBars = () => (
@@ -119,6 +119,7 @@ showVideoStream=()=>{
                   onChangeText={(text) => {
                     this.setEmail(text);
                   }}
+                  keyboardType={'email-address'}
                   style={styles.input}
                 />
               </Item>

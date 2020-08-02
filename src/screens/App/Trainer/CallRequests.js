@@ -1,59 +1,25 @@
 import React, {PureComponent} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {FlatList, LayoutAnimation, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {connect} from "react-redux";
-import {SectionGrid} from 'react-native-super-grid';
+import {FlatGrid, SectionGrid} from 'react-native-super-grid';
 
 import {spacing} from "../../../constants/dimension";
 import fontSizes from "../../../constants/fontSizes";
 import fonts from "../../../constants/fonts";
 import {appTheme,} from "../../../constants/colors";
-import {isSameDay} from "../../../utils/utils";
+import {initialiseVideoCall, isSameDay} from "../../../utils/utils";
 import RouteNames from "../../../navigation/RouteNames";
 import * as actionCreators from "../../../store/actions";
-import AppointmentBox from "../../../components/AppointmentBox";
+import CallbackBox from "../../../components/CallbackBox";
 import strings from "../../../constants/strings";
+import {call} from "react-native-reanimated";
+import {requestCameraAndAudioPermission} from "../../../utils/permission";
 
 class CallRequests extends PureComponent {
 
-  state = {
-    today: [],
-    tomorrow: [],
-    later: []
-  }
-
   componentDidMount() {
-    const {navigation, getRequests} = this.props;
-
-    this.unsubscribeFocus = navigation.addListener('focus', async e => {
-      await getRequests();
-      this.groupRequests();
-    })
-    this.groupRequests();
-  }
-
-  groupRequests = () => {
-    const {requests} = this.props;
-    const todayDate = new Date();
-    const tomorrowDate = new Date();
-    const today = [], tomorrow = [], later = [];
-    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
-    requests.map(request => {
-      if (isSameDay(todayDate, new Date(request.appointmentDate)))
-        today.push(request);
-      else if (isSameDay(tomorrowDate, new Date(request.appointmentDate)))
-        tomorrow.push(request);
-      else if (todayDate > new Date(request.appointmentDate)) {
-        //take no action for now
-      } else
-        later.push(request);
-    });
-    this.setState({
-      today, tomorrow, later
-    })
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeFocus();
+    const {getCallbacks} = this.props;
+    getCallbacks();
   }
 
   openProfile = (userId) => {
@@ -65,64 +31,63 @@ class CallRequests extends PureComponent {
   renderSectionHeader = (title) => {
     return <Text style={styles.title}>{title}</Text>;
   }
+
+  rejectRequest = (requestId) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.props.rejectCallback(requestId)
+  }
+  acceptRequest = (requestId) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.props.acceptCallback(requestId);
+  }
+  requestFulfilled = (requestId)=>{
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.props.callbackDone(requestId);
+  }
+  initiateCall = async (userId) => {
+    const permissionGranted = await requestCameraAndAudioPermission();
+    if (permissionGranted) {
+      await initialiseVideoCall(userId);
+    } else console.log("Cant initiate video call without permission");
+  }
+
   renderRequest = (request) => {
-    const {appointmentDate, time, trainerId, userId} = request;
-    let name, displayPictureUrl, profileId;
-    if (trainerId.name) {
-      name = trainerId.name;
-      displayPictureUrl = trainerId.displayPictureUrl;
-      profileId = trainerId._id;
-    } else {
-      name = userId.name;
-      displayPictureUrl = userId.displayPictureUrl;
-      profileId = userId._id;
-    }
+    const {createdOn, status, userId: userData, _id: requestId} = request;
+    const {name, city, displayPictureUrl, _id: userId} = userData;
     return (
-      <TouchableOpacity activeOpacity={0.8} onPress={() => this.openProfile(profileId)}>
-        <AppointmentBox
-          date={appointmentDate}
-          time={time}
-          displayName={name}
-          displayPictureUrl={displayPictureUrl}
-        />
-      </TouchableOpacity>
+      <CallbackBox
+        date={createdOn}
+        city={city}
+        displayName={name}
+        displayPictureUrl={displayPictureUrl}
+        status={status}
+        openProfile={() => this.openProfile(userId)}
+        rejectRequest={() => this.rejectRequest(requestId)}
+        acceptRequest={() => this.acceptRequest(requestId)}
+        call={() => this.initiateCall(userId)}
+        done={()=>this.requestFulfilled(requestId)}
+      />
     )
   }
 
-  getSections = () => {
-    let sections = [];
-    if (this.state.today.length > 0) sections.push({
-      title: 'Today',
-      data: this.state.today
-    });
-    if (this.state.tomorrow.length > 0) sections.push({
-      title: 'Tomorrow',
-      data: this.state.tomorrow,
-    })
-    if (this.state.later.length > 0) sections.push({
-      title: 'Later',
-      data: this.state.later
-    })
-    return sections;
-  }
-
   renderRequestGrid = () => {
-    const sections = this.getSections();
-    if (sections.length === 0)
+    const {callbacks} = this.props;
+    if (callbacks.length === 0)
       return (
         <View style={{marginTop: spacing.large_lg}}>
           {this.renderSectionHeader(strings.NO_REQUESTS)}
         </View>
       )
     return (
-      <SectionGrid
-        sections={sections}
+      <FlatList
         style={{width: '100%'}}
         renderItem={({item}) => this.renderRequest(item)}
         renderSectionHeader={({section}) => this.renderSectionHeader(section.title)}
         keyExtractor={(item) => item._id}
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={() => <View style={{marginTop: spacing.medium_sm}}/>}
+        ListHeaderComponent={() => <View style={{marginTop: spacing.medium}}/>}
+        ItemSeparatorComponent={()=> <View style={{marginTop: spacing.medium}}/>}
+        data={callbacks}
       />
     )
   }
@@ -144,7 +109,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingLeft: spacing.medium_sm,
     paddingRight: spacing.medium_sm,
-    alignItems: "center",
+    // alignItems: "center",
     backgroundColor: appTheme.background,
   },
   titleContainer: {
@@ -183,11 +148,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
-  requests: state.user.myAppointments,
+  callbacks: state.trainer.callbacks || [],
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getRequests: () => dispatch(actionCreators.getAppointments())
+  getCallbacks: () => dispatch(actionCreators.getCallbacks()),
+  acceptCallback: (id) => dispatch(actionCreators.acceptCallback(id)),
+  rejectCallback: (id) => dispatch(actionCreators.rejectCallback(id)),
+  callbackDone: (id) => dispatch(actionCreators.callbackDone(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CallRequests);

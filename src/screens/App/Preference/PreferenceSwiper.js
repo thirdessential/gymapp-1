@@ -49,7 +49,7 @@ const trainerSlides = [
   }
 ]
 
-const physicalSlide = [ {
+const physicalSlide = [{
   key: RouteNames.PhysicalData,
   component: PhysicalData,
   index: 0
@@ -58,14 +58,14 @@ const physicalSlide = [ {
 class PreferenceSwiper extends PureComponent {
   state = {
     currentSlide: 0,
-    slides:userSlides
+    slides: userSlides
   }
   setCurrentSlide = (index) => {
     if (this.state.currentSlide !== index)
       this.setState({currentSlide: index})
   }
   _renderItem = ({item}) => {
-    return <item.component active={this.state.currentSlide === item.index}/>;
+    return <item.component index={item.index.toString()} active={this.state.currentSlide === item.index}/>;
   };
   _onDone = () => {
     this.setCurrentSlide({currentSlide: this.state.currentSlide + 1}); // to inform last component that it is becoming inactive, and needs to submit data to api
@@ -86,10 +86,10 @@ class PreferenceSwiper extends PureComponent {
 
   componentDidMount() {
     this.props.updatePreferences(); // preload preferences from api
-    const {route,userType} = this.props;
+    const {route, userType} = this.props;
     if (route.params && route.params.physical) {
-      this.setState({slides:physicalSlide});
-    }else {
+      this.setState({slides: physicalSlide});
+    } else {
       const slides = userType === userTypes.USER ? userSlides : trainerSlides;
       this.setState({slides});
     }
@@ -104,8 +104,6 @@ class PreferenceSwiper extends PureComponent {
   };
 
   render() {
-    // const {userType} = this.props;
-    // const data = userType === userTypes.USER ? userSlides : trainerSlides;
     return (
       <AppIntroSlider
         style={styles.container}

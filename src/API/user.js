@@ -69,7 +69,7 @@ export const getGlobalSlots = async () => {
   }
 }
 
-export const subscribeToPackage = async (trainerId, packageId, time, days,couponCode) => {
+export const subscribeToPackage = async (trainerId, packageId, time, days, couponCode) => {
   try {
     let response = await axios.post(`/subscription/${trainerId}/${packageId}`, {
       time,
@@ -132,18 +132,18 @@ export const bookAppointment = async (trainerId, day, time, appointmentDate) => 
   }
 }
 
-export const myAppointments = async () => {
-  try {
-    let response = await axios.get(`/appointment/myAppointments`);
-    if (validateResponseCode(response.status)) {
-      return response.data;
-    } else
-      return false;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
+// export const myAppointments = async () => {
+//   try {
+//     let response = await axios.get(`/appointment/myAppointments`);
+//     if (validateResponseCode(response.status)) {
+//       return response.data;
+//     } else
+//       return false;
+//   } catch (error) {
+//     console.log(error);
+//     return false;
+//   }
+// }
 
 export const recentActivity = async () => {
   try {
@@ -159,7 +159,19 @@ export const recentActivity = async () => {
 }
 export const getCouponDiscount = async (couponCode, trainerId) => {
   try {
-    let response = await axios.post(`/payment/getCouponDiscount/`, {couponCode,trainerId});
+    let response = await axios.post(`/payment/getCouponDiscount/`, {couponCode, trainerId});
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const requestCallback = async (trainerId) => {
+  try {
+    let response = await axios.post(`/callback/${trainerId}/request`);
     if (validateResponseCode(response.status)) {
       return response.data;
     } else

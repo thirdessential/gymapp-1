@@ -10,18 +10,20 @@ import {appTheme, darkPallet} from "../../constants/colors";
 import Avatar from "../../components/Avatar";
 import {getJoinDurationString, toTitleCase} from "../../utils/utils";
 import RouteNames from "../../navigation/RouteNames";
-import {defaultDP} from "../../constants/appConstants";
+import {defaultDP, userTypes} from "../../constants/appConstants";
 import TimelineTabview from "../../components/TimelineTabview";
 import * as actionCreators from "../../store/actions";
+import {setAvailable} from "../../API";
 
 class Activity extends PureComponent {
 
   componentDidMount() {
-    this.props.syncCoupons();
-    const {navigation, getActivities, getAppointments, updateUserData} = this.props;
-    updateUserData()
+    setAvailable();
+    const {navigation, getActivities, updateUserData,syncCoupons,getCallbacks, userType} = this.props;
+    updateUserData();
+    syncCoupons();
+    userType===userTypes.TRAINER &&  getCallbacks();
     this.unsubscribeFocus = navigation.addListener('focus', e => {
-      getAppointments();
       getActivities();
     })
   }
@@ -120,15 +122,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
-  myAppointments: state.user.myAppointments,
-  activities: state.user.activities
+  activities: state.user.activities,
+  userType:state.user.userType
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getActivities: () => dispatch(actionCreators.getActivities()),
-  getAppointments: () => dispatch(actionCreators.getAppointments()),
   updateUserData: () => dispatch(actionCreators.updateUserData()),
-  syncCoupons: ()=>dispatch(actionCreators.syncCoupons())
+  syncCoupons: () => dispatch(actionCreators.syncCoupons()),
+  getCallbacks: () => dispatch(actionCreators.getCallbacks()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activity);

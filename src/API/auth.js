@@ -11,26 +11,11 @@ export const updateAxiosToken = (token) => {
   }
 };
 
-export const firebaseGoogleAuth = async (idToken, fcmToken) => {
+export const firebaseGoogleAuth = async (idToken, fcmToken, userType) => {
   try {
     let response = await axios.post('/register/googleAuth', {
       idToken,
-      fcmToken
-    });
-    if (validateResponseCode(response.status)) {
-      return response.data;
-    } else
-      return false;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
-
-export const syncUserType = async (idToken, userType) => {
-  try {
-    let response = await axios.post('/register/setUserType', {
-      idToken,
+      fcmToken,
       userType
     });
     if (validateResponseCode(response.status)) {

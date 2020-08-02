@@ -7,7 +7,6 @@ import Activity from "../../screens/App/Activity";
 import Profile from "../../screens/App/Profile";
 import {defaultHeaderStyle} from "../../constants/styles";
 
-
 const activity = () => {
   return (
     <Stack.Navigator screenOptions={defaultHeaderStyle}>

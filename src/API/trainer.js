@@ -147,31 +147,81 @@ export const getAccountSummary = async () => {
   }
 }
 
-export const addAccount=async ({ifscCode,accountNumber,holderName,bankName})=>{
+export const addAccount = async ({ifscCode, accountNumber, holderName, bankName}) => {
   try {
-    let response = await axios.post('payment/addAccount',{ifscCode,accountNumber,holderName,bankName});
-    if(validateResponseCode(response.status)){
-      console.log("api/trainer/addacc "+response.data);
-      console.log("api/trainer/addacc "+error);
+    let response = await axios.post('payment/addAccount', {ifscCode, accountNumber, holderName, bankName});
+    if (validateResponseCode(response.status)) {
+      console.log("api/trainer/addacc " + response.data);
+      console.log("api/trainer/addacc " + error);
       return response.data;
-    }else{
+    } else {
       return false;
     }
   } catch (error) {
     console.log(error);
     return false;
   }
-  }
-  export const getMyAccounts=async()=>{
-    try {
-      let response = await axios.get(`/payment/getMyAccounts`);
-      if (validateResponseCode(response.status)) {
-        console.log("api/trainer"+response.data);
-        return response.data;
-      } else
-        return false;
-    } catch (error) {
-      console.log("api/trainer"+error);
+}
+export const getMyAccounts = async () => {
+  try {
+    let response = await axios.get(`/payment/getMyAccounts`);
+    if (validateResponseCode(response.status)) {
+      console.log("api/trainer" + response.data);
+      return response.data;
+    } else
       return false;
-    }
+  } catch (error) {
+    console.log("api/trainer" + error);
+    return false;
   }
+}
+
+export const getCallbacks = async () => {
+  try {
+    let response = await axios.get(`/callback/myCallbacks`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export const acceptCallBack = async (callbackId) => {
+  try {
+    let response = await axios.put(`/callback/${callbackId}/accept`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const rejectCallBack = async (callbackId) => {
+  try {
+    let response = await axios.put(`/callback/${callbackId}/reject`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const callbackDone = async (callbackId) => {
+  try {
+    let response = await axios.put(`/callback/${callbackId}/done`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

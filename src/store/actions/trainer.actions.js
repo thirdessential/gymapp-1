@@ -1,6 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
 import {set, sub} from "react-native-reanimated";
+import {callbackStatus} from "../../constants/appConstants";
 
 export const setPackages = (packages) => ({
   type: actionTypes.SET_PACKAGES,
@@ -174,7 +175,7 @@ const setStatements = (statements) => ({
 export const getAccountSummary = () => {
   return async (dispatch) => {
     try {
-      const {earnings, statements} = await API.getAccountSummary();
+      const {earnings, statements=[]} = await API.getAccountSummary();
       earnings && dispatch(setEarnings(earnings));
       statements && dispatch(setStatements(statements));
       return true;
@@ -223,3 +224,86 @@ export const addAccount=(accountDetails) => {
       }
     }
   }
+
+const setCallbacks = (callbacks) => ({
+  type: actionTypes.SET_CALLBACKS,
+  payload: {
+    callbacks
+  },
+});
+const setCallbackStatus = (callbackId, status) => ({
+  type: actionTypes.SET_CALLBACK_STATUS,
+  payload: {
+    callbackId,
+    status
+  },
+});
+const removeCallback = (callbackId) => ({
+  type: actionTypes.REMOVE_CALLBACK,
+  payload: {
+    callbackId
+  },
+});
+
+export const getCallbacks = () => {
+  return async (dispatch) => {
+    try {
+      const {success, callbacks} = await API.getCallbacks();
+      if(success)
+        dispatch(setCallbacks(callbacks));
+      return true;
+    } catch (error) {
+      console.log("Trainer list callback failed", error);
+      return false;
+    }
+  };
+};
+
+export const acceptCallback = (callbackId) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setCallbackStatus(callbackId,callbackStatus.ACCEPTED));
+      const {success} = await API.acceptCallBack(callbackId);
+      if(!success){
+        //todo handle it here
+        throw new Error("Accept callback failed")
+      }
+      return true;
+    } catch (error) {
+      console.log("Trainer Accept callback failed", error);
+      return false;
+    }
+  };
+};
+export const rejectCallback = (callbackId) => {
+  return async (dispatch) => {
+    try {
+      dispatch(removeCallback(callbackId));
+      const {success} = await API.rejectCallBack(callbackId);
+      if(!success){
+        //todo handle it here
+        throw new Error("reject callback failed")
+      }
+      return true;
+    } catch (error) {
+      console.log("Trainer reject callback failed", error);
+      return false;
+    }
+  };
+};
+export const callbackDone = (callbackId) => {
+  return async (dispatch) => {
+    try {
+      dispatch(removeCallback(callbackId));
+      const {success} = await API.callbackDone(callbackId);
+      if(!success){
+        //todo handle it here
+        throw new Error("done callback failed")
+      }
+      return true;
+    } catch (error) {
+      console.log("Trainer done callback failed", error);
+      return false;
+    }
+  };
+};

@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
-import {setAuthToken, genericUserFieldSetter} from './user.actions';
+import {setAuthToken, genericUserFieldSetter, setUserData} from './user.actions';
 import {userTypes} from "../../constants/appConstants";
 
 export const setAuthenticated = (authenticated) => ({
@@ -10,32 +10,20 @@ export const setAuthenticated = (authenticated) => ({
   },
 });
 
-export const setNewUser = (value) => ({
-  type: actionTypes.SET_NEW_USER,
-  payload: {
-    newUser:value
-  },
-});
-
 export const syncFirebaseAuth = (idToken, fcmToken) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      let result = await API.firebaseGoogleAuth(idToken, fcmToken);
+      const userType = getState().user.userType;
+      let result = await API.firebaseGoogleAuth(idToken, fcmToken, userType);
       if (result) {
-        if (result.newUser) {
-          dispatch(setNewUser(true));
-          return true;
-        } else {
-          const {userId, authToken, userType} = result;
-          await dispatch(setAuthToken(authToken));
-          await dispatch(genericUserFieldSetter({
-            userId,
-            userType
-          }));
-          dispatch(setNewUser(false));
-          return true;
-        }
-
+        const {userId, authToken, userType, userData} = result;
+        await dispatch(setAuthToken(authToken));
+        await dispatch(genericUserFieldSetter({
+          userId,
+          userType
+        }));
+        await dispatch(setUserData(userData));
+        return true;
       }
       return false;
     } catch (error) {
@@ -44,7 +32,3 @@ export const syncFirebaseAuth = (idToken, fcmToken) => {
     }
   };
 };
-
-export const resetAuth = () => ({
-  type: actionTypes.RESET_AUTH,
-});

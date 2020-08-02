@@ -182,7 +182,17 @@ const strings = {
   ADD_ACCOUNT: 'Add Account',
   NO_REQUESTS: 'No requests',
   REQUEST_CALL: 'Request Call',
-  BROWSE_SLOTS: 'Browse Slots'
+  BROWSE_SLOTS: 'Browse Slots',
+  REQUEST_CALLBACK: 'Request Call back',
+  NO_POSTS_BY_USER: 'No posts by user',
+  REJECT: 'Reject',
+  ACCEPT:'Accept',
+  ACCEPTED:'Accepted',
+  FINISHED: 'Call Finished',
+  PASSWORD_RESET_SENT: 'Sent a password reset link to ',
+  ERROR:'Error',
+  SENT_VERIFICATION_MAIL: "Sent a verfication mail to to "
+
 };
 
 export const bmiVerdicts = {

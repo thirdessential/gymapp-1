@@ -13,7 +13,7 @@ export const userTypes = {
   USER: 'USER',
   TRAINER: 'TRAINER'
 }
-
+export const INITIAL_USER_TYPE = userTypes.TRAINER;
 export const videoFeedConfig = {
   width: 360,
   height: 640,
@@ -115,4 +115,10 @@ export const packageImages = {
   LEAN_BODY_MASS: cardBackgrounds.bg6,
   POWER_LIFTING: cardBackgrounds.bg7,
   STRENGTH_GAIN: cardBackgrounds.bg8
+}
+export const callbackStatus = {
+  REQUESTED: 'REQUESTED',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  COMPLETED: 'COMPLETED'
 }

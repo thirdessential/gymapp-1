@@ -8,14 +8,20 @@ import {NavigationContainer} from "@react-navigation/native";
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import * as actionCreators from '../store/actions';
 import {updateAxiosToken} from "../API";
-import {firebaseTopics, INITIAL_PAGE, remoteMessageTypes, storageKeys, videoTestMode} from "../constants/appConstants";
+import {
+  callbackStatus,
+  firebaseTopics,
+  INITIAL_PAGE,
+  remoteMessageTypes,
+  storageKeys,
+  videoTestMode
+} from "../constants/appConstants";
 import {callHandler, configureFCMNotification, showInfo} from "../utils/notification";
 import {deleteFromStorage, readFromStorage} from "../utils/utils";
 import {appTheme} from "../constants/colors";
 import {navigationRef} from './RootNavigation';
 
 import Stack from "./stacks/stack";
-import NewUser from './stacks/newUserStack';
 import VideoTest from './stacks/videoTestStack';
 import Splash from './stacks/splashStack';
 import InitialLogin from './stacks/initialLoginStack';
@@ -111,6 +117,13 @@ class App extends React.Component {
         updateAxiosToken(authToken);
         setAuthenticated(true);
       } else {
+        if (!user.emailVerified) {
+          user.sendEmailVerification();
+          showInfo(strings.SENT_VERIFICATION_MAIL + user.email);
+          console.log("Sent email verification mail")
+        } else {
+          console.log('Verified user');
+        }
         console.log("No auth token, getting one");
         let fcmToken = await messaging().getToken();
         let idToken = await auth().currentUser.getIdToken(true);
@@ -135,14 +148,19 @@ class App extends React.Component {
   }
 
   coreDrawer = () => {
-    const {userType, userData} = this.props;
+    const {userType, userData, newCallbacks} = this.props;
     return (
       <Drawer.Navigator
 
         drawerType={'slide'}
-        drawerContent={(drawerProps) => <CustomDrawerContent {...drawerProps}
-                                                             userType={userType}
-                                                             userData={userData}/>}
+        drawerContent={(drawerProps) =>
+          <CustomDrawerContent
+            {...drawerProps}
+            userType={userType}
+            userData={userData}
+            newCallbacks={newCallbacks}
+          />
+        }
         drawerStyle={{
           width: 240,
         }}
@@ -175,7 +193,7 @@ class App extends React.Component {
 
   render() {
     const {loading, videoTestMode} = this.state;
-    const {authenticated, initialLogin, callData, callActive, userType, userData, newUser} = this.props;
+    const {authenticated, initialLogin, callData, callActive, userType, userData} = this.props;
 
     if (loading)
       return <Splash/>
@@ -185,8 +203,6 @@ class App extends React.Component {
       return <Calling navigationRef={navigationRef}/>
     }
     if (authenticated) {
-      if (newUser)
-        return <NewUser navigationRef={navigationRef}/>
       if (initialLogin)
         return <InitialLogin navigationRef={navigationRef}/>
       else
@@ -205,7 +221,7 @@ const mapStateToProps = (state) => ({
   userType: state.user.userType,
   userData: state.user.userData,
   userId: state.user.userId,
-  newUser: state.auth.newUser
+  newCallbacks: state.trainer.callbacks.filter(callback => callback.status === callbackStatus.REQUESTED).length > 0
 });
 
 const mapDispatchToProps = (dispatch) => ({

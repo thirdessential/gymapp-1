@@ -13,7 +13,7 @@ import {
 import {connect} from "react-redux";
 
 import TrainerThumb from '../../components/Trainer/TrainerThumb';
-import  {appTheme, darkPallet} from "../../constants/colors";
+import {appTheme, darkPallet} from "../../constants/colors";
 import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
 import {defaultDP, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
@@ -22,7 +22,6 @@ import {spacing} from "../../constants/dimension";
 import {generateTrainerHits, generateUserHits} from "../../utils/utils";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import {setAvailable} from "../../API";
 
 class UserListing extends Component {
 
@@ -31,13 +30,7 @@ class UserListing extends Component {
   }
 
   componentDidMount() {
-    setAvailable();
-    const { navigation,getActivities,getAppointments} = this.props;
-    getAppointments();
-    getActivities();
-    this.unsubscribeFocus = navigation.addListener('focus', e => {
-      this.updateUsers();
-    })
+    this.updateUsers();
   }
 
   updateUsers = async () => {
@@ -46,59 +39,42 @@ class UserListing extends Component {
     if (!!nextPage)
       this.setState({nextPage: await updateUsersList(nextPage)});
   }
-
-  componentWillUnmount() {
-    this.unsubscribeFocus()
-  }
-
   openProfile = (userId) => {
     const {navigation} = this.props;
     navigation.navigate(RouteNames.Profile, {
       userId: userId,
     });
   }
-  openPackage = (userId,packageId)=>{
+  openPackage = (userId, packageId) => {
     const {navigation} = this.props;
     navigation.navigate(RouteNames.PackagesView, {
       userId,
       packageId
     });
   }
+  getPostCount = userId => {
+    const { postsForUser} = this.props;
+    if (postsForUser[userId])
+      return postsForUser[userId].length;
+    return 0;
+  }
 
   renderUserThumb = (user, index) => {
     let {name, userType, experience = 0, rating, displayPictureUrl, packages, city, slots} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
-
+    const postCount = this.getPostCount(user._id);
     return (
       <View style={styles.userContainer}>
-        {
-          userType === userTypes.USER && (
-            <UserThumb
-              name={name || 'User'}
-              dpUrl={displayPictureUrl}
-              location={city}
-              plan={Math.random() > 0.5 ? 'Basic' : 'Advanced'}
-              onPress={() => this.openProfile(user._id)}
-              hits={generateUserHits({})}
-            />
-          )
-        }
-        {
-          userType === userTypes.TRAINER && (
-            <TrainerThumb
-              name={name || 'Trainer'}
-              location={city}
-              hits={generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length})}
-              dpUrl={displayPictureUrl}
-              description={"No description provided for this trainer"}
-              rating={rating}
-              packages={packages}
-              onPress={() => this.openProfile(user._id)}
-              onPackagePress={(packageId) => this.openPackage(user._id, packageId)}
-              // callClicked={() => this.callClicked(user._id)}
-            />
-          )
-        }
+        <TrainerThumb
+          name={name || 'Trainer'}
+          location={city}
+          hits={generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length, post:postCount})}
+          dpUrl={displayPictureUrl}
+          rating={rating}
+          packages={packages}
+          onPress={() => this.openProfile(user._id)}
+          onPackagePress={(packageId) => this.openPackage(user._id, packageId)}
+        />
       </View>
     )
   }
@@ -116,7 +92,6 @@ class UserListing extends Component {
     return (<>
         <StatusBar backgroundColor={appTheme.lightBackground}/>
         <View
-          colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
           style={styles.listContainer}>
           <FlatList
             showsVerticalScrollIndicator={false}
@@ -183,12 +158,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   userList: state.app.userList,
+  postsForUser: state.social.postsForUser
 });
 
 const mapDispatchToProps = (dispatch) => ({
   updateUsersList: (nextPage) => dispatch(actionCreators.updateUsersList(nextPage)),
-  getActivities: ()=>dispatch(actionCreators.getActivities()),
-  getAppointments: ()=>dispatch(actionCreators.getAppointments())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserListing);

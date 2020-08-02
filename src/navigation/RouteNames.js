@@ -2,7 +2,9 @@ const RouteNames = {
   //Stack Names
   AppStack: 'AppStack',
   Splash: 'Splash',
-  ChooseUserType: 'ChooseUserType',
+
+  SignIn: 'SignIn',
+  SignUp: 'SignUp',
 
   UserListing: 'UserListing',
   MyClients: 'MyClients',
@@ -29,6 +31,8 @@ const RouteNames = {
   ActivityTab: 'ActivityTab',
   SocialTab: 'SocialTab',
   ToolTab: 'ToolTab',
+  ListingTab: 'ListingTab',
+  MyProfileTab:'MyProfileTab',
   SlotsView: 'SlotsView',
   Subscriptions: 'Subscriptions',
   PackagesView: 'PackagesView',

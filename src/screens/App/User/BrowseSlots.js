@@ -213,22 +213,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BrowseSlots);
-
-//Code to enable disable specific days, wip
-// if (days && days.length > 0) {
-// let validDates = [];
-// days.map(day => {
-//
-//   const start = moment(),
-//     end = moment().add(35, 'days'),
-//     dayToInt = Object.keys(WEEK_DAYS).indexOf(day);
-//   const current = start.clone();
-//   while (current.day(7 + dayToInt).isBefore(end)) {
-//     validDates.push(current.clone());
-//   }
-// })
-// validDates.sort((d1,d2)=> d1>d2);
-// console.log(validDates.map(m => m.format('LLLL')));
-// console.log(validDates.length)
-// this.setState({dates:validDates});
-// }

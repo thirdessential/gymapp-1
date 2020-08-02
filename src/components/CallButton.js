@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 const callButton = (props) => {
   const [loading, setLoading] = useState(false);
-  const {type = 'Accept', size = 25} = props; // TODO: make reject red button here
+  const {type = 'Accept', size = 25, height=40} = props; // TODO: make reject red button here
 
   const onPress = () => {
     props.onPress();
@@ -20,7 +20,7 @@ const callButton = (props) => {
   }
   return (
     <TouchableOpacity
-      style={[styles.callButton, styles.shadow, {backgroundColor:appTheme.brightContent}]}
+      style={[styles.callButton, styles.shadow, {backgroundColor:appTheme.brightContent, height, width:height}]}
       activeOpacity={0.7}
       disabled={loading}
       onPress={onPress}
@@ -43,8 +43,6 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   callButton: {
-    height: 40,
-    width: 40,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 35
