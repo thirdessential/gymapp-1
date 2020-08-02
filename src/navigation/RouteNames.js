@@ -39,6 +39,14 @@ const RouteNames = {
   BMI: 'BMI',
   CouponMachine: 'CouponMachine',
 
+  Login: 'Login',
+  Signup: 'Signup',
+  SignInNew: 'SignInNew',
+  SignUpNew: 'SignUpNew',
+StreamScreen: 'StreamScreen',
+ShowStreamVideo: 'ShowStreamVideo',
+ForgotPasswordScreen:'ForgotPasswordScreen',
+
   WorkoutDays: 'WorkoutDays',
   WorkoutPreference: 'WorkoutPreference',
   UserInfo: 'UserInfo',
@@ -47,6 +55,7 @@ const RouteNames = {
   AccountDash: 'AccountDash',
   AccountStatement: 'AccountStatement',
   AddAccount: 'AddAccount',
+
 };
 
 export const TabRoutes = {

@@ -87,7 +87,12 @@ export default class SignIn extends Component {
       />
     </View>
   );
-
+liveStream=()=>{
+  this.props.navigation.navigate(RouteNames.StreamScreen);
+}
+showVideoStream=()=>{
+  this.props.navigation.navigate(RouteNames.ForgotPasswordScreen);
+}
   render() {
     return (
       <>
@@ -143,7 +148,12 @@ export default class SignIn extends Component {
               </TouchableOpacity>
             
             <View style={{ flex: 1, marginTop: 10, marginRight: 20 }}>
-              <TouchableOpacity style={styles.forgotPassword}>
+              <TouchableOpacity style={styles.forgotPassword} onPress={()=>this.liveStream()} >
+                <Text style={{ fontSize: fontSizes.h3, color: appTheme.greyC }}>
+                  {strings.FORGOT_PASSWORD}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.forgotPassword} onPress={()=>this.showVideoStream()} >
                 <Text style={{ fontSize: fontSizes.h3, color: appTheme.greyC }}>
                   {strings.FORGOT_PASSWORD}
                 </Text>
