@@ -30,6 +30,7 @@ import Feather from "react-native-vector-icons/Feather";
 import TripleLine from "../../../assets/images/tripleLine.png";
 import Dash from "react-native-dash";
 import {showError} from "../../utils/notification";
+import {forgotPassword} from "../../API/firebaseMethods";
 
 export default class SignUp extends Component {
   constructor(props) {
@@ -43,6 +44,7 @@ export default class SignUp extends Component {
       loading: false,
     };
   }
+
   showMessage(msg) {
     if (Platform.OS === "android") {
       ToastAndroid.show(msg, ToastAndroid.SHORT);

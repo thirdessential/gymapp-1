@@ -2,6 +2,8 @@ import {GoogleSignin, statusCodes} from '@react-native-community/google-signin';
 import auth from '@react-native-firebase/auth';
 
 import {webClientId} from "../constants/appConstants";
+import {showError, showInfo} from "../utils/notification";
+import strings from "../constants/strings";
 
 GoogleSignin.configure({webClientId});
 
@@ -16,7 +18,7 @@ export const attemptGoogleAuth = async () => {
     return auth().signInWithCredential(googleCredential);
   } catch (error) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      
+
     } else if (error.code === statusCodes.IN_PROGRESS) {
     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
     } else {
@@ -63,3 +65,13 @@ export const signOutFirebase = ()=> {
     .then(() => console.log('User signed out!'));
 }
 
+
+export const forgotPassword = async (email) => {
+  try {
+    await auth().sendPasswordResetEmail(email);
+    showInfo(strings.PASSWORD_RESET_SENT + email);
+  } catch (error) {
+    showError(strings.ERROR);
+    console.log(error)
+  }
+}

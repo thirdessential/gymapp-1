@@ -117,6 +117,13 @@ class App extends React.Component {
         updateAxiosToken(authToken);
         setAuthenticated(true);
       } else {
+        if (!user.emailVerified) {
+          user.sendEmailVerification();
+          showInfo(strings.SENT_VERIFICATION_MAIL + user.email);
+          console.log("Sent email verification mail")
+        } else {
+          console.log('Verified user');
+        }
         console.log("No auth token, getting one");
         let fcmToken = await messaging().getToken();
         let idToken = await auth().currentUser.getIdToken(true);
