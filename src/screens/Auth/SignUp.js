@@ -66,8 +66,8 @@ export default class SignUp extends Component {
   }
   async signUp() {
     Keyboard.dismiss();
-    this.setState({ loading: true });
     if (this.validateInputs()) {
+      this.setState({ loading: true });
       var result = await registerWithEmail(
         this.state.email,
         this.state.password

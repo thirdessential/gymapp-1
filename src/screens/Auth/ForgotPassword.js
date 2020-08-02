@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
   Text,
   View,
@@ -7,49 +7,45 @@ import {
   ActivityIndicator,
   Keyboard,
   Image,
-  ScrollView,
   StatusBar,
 } from "react-native";
-import { Item, Input, Button } from "native-base";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {Item, Input} from "native-base";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 import TripleLine from "../../../assets/images/tripleLine.png";
-import RouteNames from "../../navigation/RouteNames";
-import { attemptGoogleAuth, signInWithEmail } from "../../API";
 
 import Loader from "../../components/Loader";
-import { showMessage } from "react-native-flash-message";
-import strings from "../../constants/strings";
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
-import { appTheme } from "../../constants/colors";
-import { screenHeight, screenWidth } from "../../utils/screenDimensions";
+import {appTheme} from "../../constants/colors";
+import {screenHeight, screenWidth} from "../../utils/screenDimensions";
 import Logo from "../../../assets/images/newlogo.png";
 import Icon from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather";
-import { showError } from "../../utils/notification";
-import Dash from "react-native-dash";
+import {forgotPassword} from "../../API/firebaseMethods";
 
 export default class SignInNew extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
-
-      googleLoading: false,
       loading: false,
     };
   }
 
   setEmail = (text) => {
-    this.setState({ email: text });
+    this.setState({email: text});
   };
-resetPass = ()=>{
-    showMessage({
-        message: "Please check your email for reset link",
-        type: "success",
-      });
-}
+  resetPassword = async () => {
+    const {email} = this.state;
+    if (!email) return;
+    Keyboard.dismiss();
+    this.setState({loading: true});
+    let response = await forgotPassword(email);
+    if(response)
+      this.props.navigation.goBack();
+    this.setState({loading: false});
+  }
   renderBars = () => (
     <View
       style={{
@@ -59,7 +55,7 @@ resetPass = ()=>{
       }}
     >
       <Image
-        style={{ height: screenWidth / 2.5, width: screenWidth / 2.5 }}
+        style={{height: screenWidth / 2.5, width: screenWidth / 2.5}}
         resizeMode={"contain"}
         source={TripleLine}
       />
@@ -74,10 +70,10 @@ resetPass = ()=>{
           keyboardShouldPersistTaps={"handled"}
           style={styles.container}
         >
-          <StatusBar backgroundColor="black" />
-          <Loader loading={this.state.loading} />
+          <StatusBar backgroundColor="black"/>
+          <Loader loading={this.state.loading}/>
 
-          <Image resizeMode={"contain"} source={Logo} style={styles.image} />
+          <Image resizeMode={"contain"} source={Logo} style={styles.image}/>
           {this.renderBars()}
           <View style={styles.itemContainer}>
             <View
@@ -89,12 +85,12 @@ resetPass = ()=>{
             >
               <Text style={styles.signin}>Forgot Password?</Text>
             </View>
-            <View style={{ alignItems: "center", alignSelf: "center" }}>
-              <Text
-                style={{ color: appTheme.greyC, fontSize: 18, marginTop: 20 }}
-              >
-                That's ok..
-              </Text>
+            <View style={{alignItems: "center", alignSelf: "center"}}>
+              {/*<Text*/}
+              {/*  style={{ color: appTheme.greyC, fontSize: 18, marginTop: 20 }}*/}
+              {/*>*/}
+              {/*  That's ok..*/}
+              {/*</Text>*/}
               <Text
                 style={{
                   color: appTheme.greyC,
@@ -103,13 +99,13 @@ resetPass = ()=>{
                   textAlign: "center",
                 }}
               >
-                Just enter the email address you've used to register your
-                account.{" "}
+                Enter the email address you've used to register your
+                account{" "}
               </Text>
             </View>
-            <View style={{ marginTop: 30 }}>
+            <View style={{marginTop: 30}}>
               <Item rounded style={styles.item}>
-                <Icon name="mail" color={appTheme.brightContent} size={25} />
+                <Icon name="mail" color={appTheme.brightContent} size={25}/>
                 <Input
                   onChangeText={(text) => {
                     this.setEmail(text);
@@ -123,11 +119,14 @@ resetPass = ()=>{
 
             <View style={styles.loginandforgot}>
               <TouchableOpacity
-                style={{ marginTop: 30, marginRight: 10 }}
-                onPress={() => {this.resetPass()}}
+                disabled={!this.state.email}
+                style={{marginTop: 30, marginRight: 10}}
+                onPress={() => {
+                  this.resetPassword()
+                }}
               >
                 <View style={styles.circleButton}>
-                  <Feather name="arrow-right" color="white" size={30} />
+                  <Feather name="arrow-right" color="white" size={30}/>
                 </View>
               </TouchableOpacity>
             </View>

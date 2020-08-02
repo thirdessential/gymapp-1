@@ -87,22 +87,20 @@ export default class SignIn extends Component {
       />
     </View>
   );
-liveStream=()=>{
-  this.props.navigation.navigate(RouteNames.StreamScreen);
-}
-showVideoStream=()=>{
-  this.props.navigation.navigate(RouteNames.ForgotPasswordScreen);
+
+forgotPassword=()=>{
+  this.props.navigation.navigate(RouteNames.ForgotPassword);
 }
   render() {
     return (
       <>
-    
+
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps={"handled"}
         style={styles.container}
       >
-       <StatusBar backgroundColor='black'/>      
+       <StatusBar backgroundColor='black'/>
         <Loader loading={this.state.loading} />
 
         <Image resizeMode={"contain"} source={Logo} style={styles.image} />
@@ -111,7 +109,7 @@ showVideoStream=()=>{
           <Text style={styles.signin}>{strings.SIGN_IN}</Text>
 
           <View style={{ marginTop: 20 }}>
-            
+
               <Text style={styles.label}>{strings.EMAIL}</Text>
               <Item rounded style={styles.item}>
                 <Icon name="mail" color={appTheme.brightContent} size={25} />
@@ -123,7 +121,7 @@ showVideoStream=()=>{
                   style={styles.input}
                 />
               </Item>
-            
+
             <View style={{ marginTop: 20 }}>
               <Text style={styles.label}>{strings.PASSWORD}</Text>
               <Item rounded style={styles.item}>
@@ -137,7 +135,7 @@ showVideoStream=()=>{
             </View>
           </View>
           <View style={styles.loginandforgot}>
-            
+
               <TouchableOpacity
                 style={{ marginTop: 30, marginLeft: 20 }}
                 onPress={() => this.signIn()}
@@ -146,14 +144,9 @@ showVideoStream=()=>{
                   <Feather name="arrow-right" color="white" size={30} />
                 </View>
               </TouchableOpacity>
-            
+
             <View style={{ flex: 1, marginTop: 10, marginRight: 20 }}>
-              <TouchableOpacity style={styles.forgotPassword} onPress={()=>this.liveStream()} >
-                <Text style={{ fontSize: fontSizes.h3, color: appTheme.greyC }}>
-                  {strings.FORGOT_PASSWORD}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.forgotPassword} onPress={()=>this.showVideoStream()} >
+              <TouchableOpacity style={styles.forgotPassword} onPress={()=>this.forgotPassword()} >
                 <Text style={{ fontSize: fontSizes.h3, color: appTheme.greyC }}>
                   {strings.FORGOT_PASSWORD}
                 </Text>
@@ -183,7 +176,7 @@ showVideoStream=()=>{
                     name="google-"
                     color="#c33a09"
                     size={40}
-                   
+
                   />
                 )}
               </View>
@@ -221,7 +214,7 @@ const styles = StyleSheet.create({
     paddingTop: "5%",
     paddingHorizontal: "8%",
     height:screenHeight*0.85
-    
+
   },
   input: {
     marginLeft: "3%",
@@ -259,7 +252,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 50,
     height: 50,
-    
+
   },
   label: {
     fontSize: fontSizes.h3,

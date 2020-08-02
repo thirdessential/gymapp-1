@@ -45,7 +45,7 @@ const RouteNames = {
   SignUpNew: 'SignUpNew',
 StreamScreen: 'StreamScreen',
 ShowStreamVideo: 'ShowStreamVideo',
-ForgotPasswordScreen:'ForgotPasswordScreen',
+ForgotPassword:'ForgotPasswordScreen',
 
   WorkoutDays: 'WorkoutDays',
   WorkoutPreference: 'WorkoutPreference',
