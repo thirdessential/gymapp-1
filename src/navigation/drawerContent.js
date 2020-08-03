@@ -47,11 +47,6 @@ function CustomDrawerContent(props) {
               props.navigation.navigate(RouteNames.ProfileEdit);
             }}
           />
-          {/*<DrawerItem*/}
-          {/*  label="Appointments"*/}
-          {/*  labelStyle={drawerLabelStyle}*/}
-          {/*  onPress={() => props.navigation.navigate(RouteNames.MyAppointments)}*/}
-          {/*/>*/}
           {
             userType === userTypes.TRAINER && (
               <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
@@ -69,24 +64,6 @@ function CustomDrawerContent(props) {
               </View>
             )
           }
-          <DrawerItem
-            label="Subscriptions"
-            labelStyle={drawerLabelStyle}
-            onPress={() => {
-              if (userType === userTypes.TRAINER)
-                props.navigation.navigate(RouteNames.Subscriptions);
-              else props.navigation.navigate(RouteNames.SlotsView);
-            }}
-          />
-          {
-            userType === userTypes.USER && (
-              <DrawerItem
-                label="BrowseSlots"
-                labelStyle={drawerLabelStyle}
-                onPress={() => props.navigation.navigate(RouteNames.BrowseSlots)}
-              />
-            )
-          }
           {
             userType === userTypes.TRAINER && (
               <DrawerItem
@@ -99,9 +76,9 @@ function CustomDrawerContent(props) {
           {
             userType === userTypes.TRAINER && (
               <DrawerItem
-                label="My Slots"
+                label="My Clients"
                 labelStyle={drawerLabelStyle}
-                onPress={() => props.navigation.navigate(RouteNames.SlotsView)}
+                onPress={() => props.navigation.navigate(RouteNames.SubscriptionsView)}
               />
             )
           }

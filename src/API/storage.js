@@ -12,7 +12,6 @@ export const uploadImage = async (path, token, imageType = imageTypes.AVATAR) =>
     console.log("Uploading from ", path);
     let compressedPath = await compressImage(path, imageType.dimension);
     const url = imageType.type === imageTypes.AVATAR.type ? '/user/displayImage' : '/user/wallImage';
-
     const uploadData = [
       {
         name: "mediaContent",

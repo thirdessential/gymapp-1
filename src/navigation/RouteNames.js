@@ -33,7 +33,7 @@ const RouteNames = {
   ToolTab: 'ToolTab',
   ListingTab: 'ListingTab',
   MyProfileTab:'MyProfileTab',
-  SlotsView: 'SlotsView',
+  SubscriptionsView: 'SubscriptionsView',
   Subscriptions: 'Subscriptions',
   PackagesView: 'PackagesView',
   BMI: 'BMI',
