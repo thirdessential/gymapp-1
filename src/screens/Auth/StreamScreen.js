@@ -64,6 +64,7 @@ export default class StreamScreen extends Component {
             ref={(vb) => {
               this.vb = vb;
             }}
+            //outputUrl={`rtmp://a.rtmp.youtube.com/live2/332x-66dz-44rd-7ue6-4see`}
             outputUrl={`rtmp://live.restream.io/live/re_2763090_4d1e18d24532d116f676`}
             //outputUrl={`rtmp://live.restream.io/live/re_2763090_4d1e18d24532d116f676`}
             //stream key=e3b90dd3-d181-7489-2271-7d4b5c757d61
