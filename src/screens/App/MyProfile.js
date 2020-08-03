@@ -76,6 +76,7 @@ class MyProfile extends PureComponent {
       });
 
       await uploadImage(response.path, this.props.authToken, imageTypes.COVER);
+      this.props.updateUserData();
     });
   }
 
@@ -103,7 +104,7 @@ class MyProfile extends PureComponent {
     let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots, activeSubscriptions} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const hits = userType === userTypes.TRAINER ?
-      generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length}) :
+      generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length, post:posts&&posts.length}) :
       generateUserHits({subscription: activeSubscriptions, post: posts && posts.length});
     return (
       <>

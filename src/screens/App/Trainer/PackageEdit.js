@@ -89,7 +89,7 @@ class Packages extends PureComponent {
     if (route.params && route.params.packageId)
       showSuccess(strings.CHANGES_SAVED);
     else showSuccess(strings.PACKAGE_CREATED);
-    this.props.navigation.goBack()
+    this.props.navigation.goBack();
   }
   cancelEdit = () => {
     this.props.navigation.goBack()

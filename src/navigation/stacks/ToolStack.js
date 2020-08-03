@@ -9,8 +9,7 @@ import Tools from "../../screens/App/Tools";
 import CallRequests from "../../screens/App/Trainer/CallRequests";
 import PackageList from "../../screens/App/Trainer/PackageList";
 import PackageEdit from "../../screens/App/Trainer/PackageEdit";
-import SlotsView from "../../screens/App/Trainer/SlotsView";
-import TrainerSubscriptions from "../../screens/App/Trainer/Subscriptions";
+import SlotsView from "../../screens/App/Trainer/Subscriptions";
 import Profile from "../../screens/App/Profile";
 import BMI from "../../screens/App/BMI";
 import CouponMachine from "../../screens/App/Trainer/CouponMachine";
@@ -53,26 +52,12 @@ const toolStack = () => {
         options={{title: '', headerTransparent: true}}
       />
       <Stack.Screen
-        name={RouteNames.SlotsView}
+        name={RouteNames.SubscriptionsView}
         component={SlotsView}
         options={{
-          title: 'Slots',
+          title: 'My Clients',
         }}
       />
-      <Stack.Screen
-        name={RouteNames.Subscriptions}
-        component={TrainerSubscriptions}
-        options={{
-          title: 'Subscriptions',
-        }}
-      />
-      {/*<Stack.Screen*/}
-      {/*  name={RouteNames.BrowseSlots}*/}
-      {/*  component={BrowseSlots}*/}
-      {/*  options={{*/}
-      {/*    title: strings.BROWSE_SLOTS,*/}
-      {/*  }}*/}
-      {/*/>*/}
       <Stack.Screen
         name={RouteNames.Profile}
         component={Profile}

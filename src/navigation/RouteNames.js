@@ -33,7 +33,7 @@ const RouteNames = {
   ToolTab: 'ToolTab',
   ListingTab: 'ListingTab',
   MyProfileTab:'MyProfileTab',
-  SlotsView: 'SlotsView',
+  SubscriptionsView: 'SubscriptionsView',
   Subscriptions: 'Subscriptions',
   PackagesView: 'PackagesView',
   BMI: 'BMI',
@@ -45,7 +45,7 @@ const RouteNames = {
   SignUpNew: 'SignUpNew',
 StreamScreen: 'StreamScreen',
 ShowStreamVideo: 'ShowStreamVideo',
-ForgotPasswordScreen:'ForgotPasswordScreen',
+ForgotPassword:'ForgotPasswordScreen',
 
   WorkoutDays: 'WorkoutDays',
   WorkoutPreference: 'WorkoutPreference',

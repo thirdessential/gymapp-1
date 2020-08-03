@@ -70,8 +70,10 @@ export const forgotPassword = async (email) => {
   try {
     await auth().sendPasswordResetEmail(email);
     showInfo(strings.PASSWORD_RESET_SENT + email);
+    return true;
   } catch (error) {
-    showError(strings.ERROR);
-    console.log(error)
+    showError(error.message.split(' ').slice(1).join(' '));
+    console.log(error.message);
+    return false;
   }
 }
