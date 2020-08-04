@@ -21,7 +21,7 @@ import strings from "../../constants/strings";
 import {defaultDP, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
 import {getRandomImage} from "../../constants/images";
 import {spacing} from "../../constants/dimension";
-import {likePost, reportPost, requestCallback, unlikePost} from "../../API";
+import {requestCallback} from "../../API";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import PostList from "../../components/Social/PostList";
@@ -32,7 +32,7 @@ class Profile extends Component {
   state = {
     bgImage: getRandomImage(),
     nextPage: INITIAL_PAGE,
-    requestingCallback:false
+    requestingCallback: false
   }
 
   componentDidMount() {
@@ -73,10 +73,10 @@ class Profile extends Component {
     return users[userId];
   }
   getPosts = () => {
-    const {route, postsForUser} = this.props;
+    const {route, postsForUser, postDetails} = this.props;
     const {userId} = route.params;
     if (postsForUser[userId])
-      return postsForUser[userId];
+      return postsForUser[userId].map(postId => postDetails[postId]);
     return [];
   }
 
@@ -115,14 +115,14 @@ class Profile extends Component {
   }
   requestCallback = async () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({requestingCallback:true});
+    this.setState({requestingCallback: true});
     const {_id: userId} = this.getUser();
     const {success, message} = await requestCallback(userId);
     if (success)
       showSuccess(message);
     else showError(message);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({requestingCallback:false});
+    this.setState({requestingCallback: false});
 
   }
   renderContent = () => {
@@ -158,8 +158,9 @@ class Profile extends Component {
         {
           userType === userTypes.TRAINER && (
             <View style={styles.callbackContainer}>
-              <TouchableOpacity disabled={this.state.requestingCallback} style={styles.callbackButton} onPress={this.requestCallback}>
-                {this.state.requestingCallback && <ActivityIndicator color={appTheme.brightContent} size={20}/> }
+              <TouchableOpacity disabled={this.state.requestingCallback} style={styles.callbackButton}
+                                onPress={this.requestCallback}>
+                {this.state.requestingCallback && <ActivityIndicator color={appTheme.brightContent} size={20}/>}
                 {!this.state.requestingCallback && <Text style={styles.subtitle}>{strings.REQUEST_CALLBACK}</Text>}
               </TouchableOpacity>
             </View>
@@ -176,9 +177,9 @@ class Profile extends Component {
                 posts={posts}
                 open={this.openPost}
                 update={this.updatePosts}
-                like={likePost}
-                unlike={unlikePost}
-                report={reportPost}
+                like={this.props.likePost}
+                unlike={this.props.unlikePost}
+                report={this.props.reportPost}
               />
             </View>
           </View>
@@ -249,7 +250,7 @@ const styles = StyleSheet.create({
   },
   noPostsContainer: {
     height: screenHeight / 4,
-    alignItems:'center'
+    alignItems: 'center'
   },
   callbackButton: {
     padding: spacing.small,
@@ -263,12 +264,16 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   users: state.app.users,
   myUserType: state.user.userType,
-  postsForUser: state.social.postsForUser
+  postsForUser: state.social.postsForUser,
+  postDetails: state.social.postDetails
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setUser: (userId) => dispatch(actionCreators.setUser(userId)),
-  getPostsForUser: userId => dispatch(actionCreators.getPostsForUser(userId))
+  getPostsForUser: userId => dispatch(actionCreators.getPostsForUser(userId)),
+  likePost: (postId) => dispatch(actionCreators.likePost(postId)),
+  unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId)),
+  reportPost: postId => dispatch(actionCreators.reportPost(postId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

@@ -98,7 +98,7 @@ class MyProfile extends PureComponent {
     this.props.navigation.navigate(RouteNames.CreatePost);
   }
   renderContent = () => {
-    const {posts, likePost, unlikePost, deletePost} = this.props;
+    const {posts,postDetails, likePost, unlikePost, deletePost} = this.props;
     const user = this.props.userData;
 
     let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots, activeSubscriptions} = user;
@@ -128,7 +128,7 @@ class MyProfile extends PureComponent {
                 <HalfRoundedButton onPress={this.createPost} title={strings.ADD_POST}/>
               </View>
               <PostList
-                posts={posts}
+                posts={posts.map(postId=>postDetails[postId])}
                 open={this.openPost}
                 update={this.updatePosts}
                 like={likePost}
@@ -214,6 +214,7 @@ const mapStateToProps = (state) => ({
   subscriptions: state.trainer.subscriptions,
   authToken: state.user.authToken,
   posts: state.social.myPosts,
+  postDetails:state.social.postDetails
 });
 
 const mapDispatchToProps = (dispatch) => ({
