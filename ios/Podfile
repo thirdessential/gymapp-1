@@ -77,6 +77,8 @@ target 'FitnessFirst' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'TextToSpeech', :path => '../node_modules/react-native-tts'
+
   target 'FitnessFirstTests' do
     inherit! :complete
     # Pods for testing
