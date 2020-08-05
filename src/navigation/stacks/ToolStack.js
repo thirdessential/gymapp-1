@@ -18,6 +18,7 @@ import AccountDash from "../../screens/App/Trainer/AccountDash";
 import AddAccount from "../../screens/App/Trainer/AddAccount";
 import PreferenceSwiper from "../../screens/App/Preference/PreferenceSwiper";
 import {defaultHeaderStyle} from "../../constants/styles";
+import Speech from "../../screens/App/Speech";
 // import BrowseSlots from "../../screens/App/User/BrowseSlots";
 // import strings from "../../constants/strings";
 
@@ -70,6 +71,13 @@ const toolStack = () => {
           title: 'BMI',
         }}
       />
+       <Stack.Screen
+        name={RouteNames.Speech}
+        component={Speech}
+        options={{
+          title: 'Speech',
+        }}
+      />
       <Stack.Screen
         name={RouteNames.CouponMachine}
         component={CouponMachine}
@@ -114,6 +122,7 @@ const toolStack = () => {
           headerTransparent: true,
         }}
       />
+     
     </Stack.Navigator>
   );
 };

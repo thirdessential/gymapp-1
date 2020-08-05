@@ -220,7 +220,7 @@ const mapDispatchToProps = (dispatch) => ({
   getMyAccounts: () => dispatch(actionCreators.getMyAccounts()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddAccount);
+
 const styles = StyleSheet.create({
   accountNumber: {
     backgroundColor: appTheme.background,
@@ -347,3 +347,4 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.medium,
   }
 });
+export default connect(mapStateToProps, mapDispatchToProps)(AddAccount);
