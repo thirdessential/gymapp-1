@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, View, Button, Alert } from "react-native";
 import { NodeCameraView } from "react-native-nodemediaclient";
 import Permissions from "react-native-permissions";
-
+import {spacing} from "../../constants/dimension";
 import axios from "axios";
 import {PERMISSIONS, request} from 'react-native-permissions';
 export default class StreamScreen extends Component {
@@ -96,6 +96,11 @@ export default class StreamScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
+    paddingLeft: spacing.medium_lg,
+    paddingRight: spacing.medium_lg,
+    // paddingTop: spacing.medium_lg,
+    backgroundColor: appTheme.background,
   },
   wrapper: {
     flex: 1,
