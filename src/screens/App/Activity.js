@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList,ScrollView } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { getRandomGradient } from "../../constants/colors";
+
 import { connect } from "react-redux";
 
 import { spacing } from "../../constants/dimension";
@@ -15,7 +15,7 @@ import { defaultDP, userTypes } from "../../constants/appConstants";
 import TimelineTabview from "../../components/TimelineTabview";
 import * as actionCreators from "../../store/actions";
 import { setAvailable } from "../../API";
-import { Card } from "react-native-elements";
+import CardList from './CardList'
 const data = [
   {
     day: "Monday",
@@ -101,45 +101,7 @@ class Activity extends PureComponent {
       </View>
     );
   };
-  renderCards = () => {
-    return (
-      <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{flexGrow:0,height:180}}
-        
-        data={this.state.data}
-        renderItem={({ item: rowData }) => {
-          return (
-            <LinearGradient
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              colors={getRandomGradient()}
-              style={{
-                marginHorizontal: 10,
-                borderColor: appTheme.greyC,
-                borderWidth: 2,
-                borderRadius: 10,
-                width: 150,
-                height: 150,
-                marginTop: 20,
-                flex:1
-              }}
-            >
-              <View style={{alignItems: 'center',textAlign: 'left',}}>
-                <Text style={{fontSize:20,color:'white',marginTop:5,fontWeight:'bold'}}>{rowData.day}</Text>
-                
-                <Text style={{fontSize:18,color:'white',marginTop:5,fontFamily: fonts.CenturyGothic}}>{rowData.time}</Text>
-                <Text style={{fontSize:18,color:'white',marginTop:5,fontFamily: fonts.CenturyGothic}}>{rowData.duration}</Text>
-                <Text style={{fontSize:20,color:'white',marginTop:5,fontWeight: 'bold'}}>{rowData.bodyPart}</Text>
-              </View>
-            </LinearGradient>
-          );
-        }}
-        keyExtractor={(item, index) => index}
-      />
-    );
-  };
+ 
   openProfile = (userId) => {
     const { navigation } = this.props;
     navigation.navigate(RouteNames.Profile, {
@@ -152,9 +114,9 @@ class Activity extends PureComponent {
     const { todaysEvents, tomorrowsEvents } = activities;
 
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         {this.renderUser()}
-        {this.renderCards()}
+       <CardList data={this.state.data} />
         <View style={{ flex: 1, width: "100%", marginTop: spacing.medium_lg }}>
           <TimelineTabview
             today={todaysEvents}
@@ -162,7 +124,7 @@ class Activity extends PureComponent {
             onProfilePress={this.openProfile}
           />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -175,7 +137,7 @@ const styles = StyleSheet.create({
     paddingRight: spacing.medium_lg,
     paddingTop: spacing.medium_lg,
     // paddingBottom: spacing.medium,
-    alignItems: "center",
+     alignItems: "center",
     backgroundColor: appTheme.background,
   },
   titleContainer: {
