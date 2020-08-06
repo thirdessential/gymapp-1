@@ -84,12 +84,12 @@ class Community extends Component {
     </View>
   );
   renderPosts = () => {
-    const {posts, likePost, unlikePost, reportPost, deletePost} = this.props;
+    const {posts, postDetails, likePost, unlikePost, reportPost, deletePost} = this.props;
     if (!posts || posts.length===0)
       return this.loader();
     return (
       <PostList
-        posts={posts}
+        posts={posts.map(postId=>postDetails[postId])}
         open={this.openPost}
         update={this.updatePosts}
         like={likePost}
@@ -105,12 +105,12 @@ class Community extends Component {
     answerQuestion(questionId, answerText);
   };
   renderQuestions = () => {
-    const {questions,reportQuestion} = this.props;
+    const {questions,reportQuestion, postDetails} = this.props;
     if (!questions || questions.length===0)
       return this.loader();
     return (
       <QuestionList
-        questions={questions}
+        questions={questions.map(questionId=>postDetails[questionId])}
         onCreateAnswer={this.createAnswer}
         update={this.updateQuestions}
         onProfilePress={this.openProfile}
@@ -282,6 +282,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   posts: state.social.posts,
   questions: state.social.questions,
+  postDetails: state.social.postDetails
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -41,19 +41,19 @@ const post = (props) => {
     renderFooter, imagePressCallback, deleteCallback,
     contentType
   } = props;
-  const [liked, setLiked] = useState(isLiked);
-  const [localLikeCount, setLocalLikeCount] = useState(likeCount);
+  // const [liked, setLiked] = useState(isLiked);
+  // const [localLikeCount, setLocalLikeCount] = useState(likeCount);
   const [isModalVisible, setModalVisible] = useState(false);
   // const [videoPlayerRef, setVideoPlayerRef] = useState(null);
   const toggleLike = () => {
-    if (liked) {
+    if (isLiked) {
       unlikeCallback();
-      setLocalLikeCount(localLikeCount - 1);
+      // setLocalLikeCount(localLikeCount - 1);
     } else {
       likeCallback();
-      setLocalLikeCount(localLikeCount + 1);
+      // setLocalLikeCount(localLikeCount + 1);
     }
-    setLiked(!liked);
+    // setLiked(!liked);
   }
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -146,8 +146,9 @@ const post = (props) => {
         !hideOptions && (
           <View style={styles.buttonGroup}>
             <TouchableOpacity onPress={toggleLike} activeOpacity={0.6} style={styles.hitButton}>
-              <AntDesign name={'like1'} size={28} color={liked ? appTheme.brightContent : appTheme.grey}/>
-              <Text style={styles.hits}>{localLikeCount}</Text>
+              <AntDesign name={'like1'} size={28} color={isLiked ? appTheme.brightContent : appTheme.grey}/>
+              <Text style={styles.hits}>{likeCount}</Text>
+              {/*<Text style={styles.hits}>{localLikeCount}</Text>*/}
             </TouchableOpacity>
             {
               showComment &&

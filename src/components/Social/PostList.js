@@ -16,6 +16,7 @@ import {appTheme} from "../../constants/colors";
 import {spacing} from "../../constants/dimension";
 
 import Post from "../../components/Social/Post";
+import {check} from "react-native-permissions";
 
 const postList = (props) => {
   const {
@@ -38,6 +39,8 @@ const postList = (props) => {
   }
   const renderPost = (post) => {
     const isOwnPost = post.createdBy.userId === store.getState().user.userId; // TODO: can we improve this comparison?
+    const isLiked = checkLiked(post.likes);
+
     return <TouchableOpacity
       onPress={() => open(post._id)}
       activeOpacity={0.7}
@@ -51,7 +54,7 @@ const postList = (props) => {
         text={post.textContent}
         createdBy={post.createdBy.name}
         displayImageUrl={post.createdBy.displayPictureUrl}
-        isLiked={() => checkLiked(post.likes)}
+        isLiked={isLiked}
         likeCallback={() => like(post._id)}
         unlikeCallback={() => unlike(post._id)}
         flagCallback={isOwnPost?null: () => report(post._id)}

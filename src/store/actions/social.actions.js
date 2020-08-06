@@ -42,12 +42,6 @@ export const setQuestions = (questions) => ({
     questions
   }
 });
-export const setQuestion = (question) => ({
-  type: actionTypes.SET_QUESTION,
-  payload: {
-    question
-  }
-});
 export const appendQuestions = (questions) => ({
   type: actionTypes.APPEND_QUESTIONS,
   payload: {
@@ -65,7 +59,7 @@ export const updatePosts = (page = '', my = false) => {
         if (page === INITIAL_PAGE)
           await dispatch(setPosts(posts, my)); // initialise list from scratch
         else dispatch(appendPosts(posts, my)); // else append data to list
-        posts.map(post => dispatch(setPost(post)))
+        // posts.map(post => dispatch(setPost(post)))
       }
       return nextPage;
     } catch (error) {
@@ -144,7 +138,7 @@ export const deletePost = postId => {
   return async (dispatch) => {
     try {
       dispatch(removePost(postId));
-      let result = await API.deletePost(postId);
+      await API.deletePost(postId);
       showInfo('Post deleted');
       return true;
     } catch (error) {
@@ -157,7 +151,7 @@ export const reportPost = postId => {
   return async (dispatch, getState) => {
     try {
       dispatch(removePost(postId));
-      let result = await API.reportPost(postId);
+      await API.reportPost(postId);
       showInfo('Post Reported');
       return true;
     } catch (error) {
@@ -171,7 +165,7 @@ export const reportQuestion = questionId => {
     try {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       dispatch(removeQuestion(questionId));
-      let result = await API.reportQuestion(questionId);
+      await API.reportQuestion(questionId);
       showInfo('Content Reported');
       return true;
     } catch (error) {
@@ -184,7 +178,7 @@ export const reportQuestion = questionId => {
 export const reportComment = (postId, commentId) => {
   return async (dispatch, getState) => {
     try {
-      let result = await API.reportComment(commentId);
+      await API.reportComment(commentId);
       showInfo('Comment Reported');
       return true;
     } catch (error) {
@@ -223,7 +217,7 @@ export const updateQuestions = (page = '') => {
         if (page === INITIAL_PAGE)
           await dispatch(setQuestions(questions)); // initialise list from scratch
         else dispatch(appendQuestions(questions)); // else append data to list
-        questions.map(question => dispatch(setQuestion(question)))
+        // questions.map(question => dispatch(setQuestion(question)))
       }
       return nextPage;
     } catch (error) {
@@ -238,26 +232,22 @@ export const answerQuestion = (questionId, answerText) => {
     try {
       API.answerQuestion(questionId, answerText)
         .then(() => dispatch(updateQuestions(INITIAL_PAGE)));
-      const questions = [...getState().social.questions];
-      let filteredQuestions = questions.filter(question => question._id === questionId);
-      if (filteredQuestions && filteredQuestions[0]) {
-        let question = filteredQuestions[0];
-        let answer = {
-          "_id": Math.random().toString(),
-          "answerText": answerText,
-          "spam": false,
-          "approved": true,
-          "postedBy": getState().user.userData,
-          "createdOn": Date.now(),
-          "updatedOn": Date.now(),
-          "__v": 0,
-          "likes": []
-        };
-        question.answers.push(answer);
-        dispatch(setQuestion(question));
-      }
+      let question = getState().social.postDetails[questionId];
+      let answer = {
+        "_id": Math.random().toString(),
+        "answerText": answerText,
+        "spam": false,
+        "approved": true,
+        "postedBy": getState().user.userData,
+        "createdOn": Date.now(),
+        "updatedOn": Date.now(),
+        "__v": 0,
+        "likes": []
+      };
+      question.answers.push(answer);
+      dispatch(setPost(question));
     } catch (error) {
-      console.log("question list update failed", error);
+      console.log("answer question failed", error);
       return null;
     }
   };

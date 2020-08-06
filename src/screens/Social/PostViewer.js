@@ -20,7 +20,7 @@ import fonts from "../../constants/fonts";
 import Post from "../../components/Social/Post";
 import strings from "../../constants/strings";
 import store from "../../store/configureStore";
-import {likeComment, likePost, unlikeComment, unlikePost} from "../../API";
+import {likeComment, unlikeComment,} from "../../API";
 import {MAX_POST_LENGTH} from "../../constants/appConstants";
 import post from "../../components/Social/Post";
 import RouteNames from "../../navigation/RouteNames";
@@ -39,6 +39,7 @@ class PostViewer extends Component {
     const {postId} = route.params;
     updatePost(postId);
   }
+
   closeViewer = () => this.setState({viewerOpen: false, viewerImageUrl: ''})
   openViewer = (imageUrl) => this.setState({viewerImageUrl: imageUrl, viewerOpen: true})
   getPost = () => {
@@ -80,7 +81,7 @@ class PostViewer extends Component {
   }
   renderPost = (post) => {
     const isOwnPost = post.createdBy.userId === store.getState().user.userId; // TODO: can we improve this comparison?
-
+    const {likePost, unlikePost} = this.props;
     return (
       <View style={{marginTop: spacing.medium}}>
         <Post
@@ -95,11 +96,11 @@ class PostViewer extends Component {
           isLiked={() => this.checkLiked(post.likes)}
           likeCallback={() => likePost(post._id)}
           unlikeCallback={() => unlikePost(post._id)}
-          flagCallback={isOwnPost?null: () => this.reportPost(post._id)}
-          deleteCallback={isOwnPost?()=>this.deletePost(post._id):null}
+          flagCallback={isOwnPost ? null : () => this.reportPost(post._id)}
+          deleteCallback={isOwnPost ? () => this.deletePost(post._id) : null}
           // shareCallback={() => {}}
-          imagePressCallback={()=>this.openViewer(post.contentURL)}
-          onProfilePress={()=>this.disableSelfProfileClick(post.createdBy.userId)}
+          imagePressCallback={() => this.openViewer(post.contentURL)}
+          onProfilePress={() => this.disableSelfProfileClick(post.createdBy.userId)}
         />
       </View>
     )
@@ -118,7 +119,7 @@ class PostViewer extends Component {
       showComment={false}
       unlikeCallback={() => unlikeComment(comment._id)}
       likeCallback={() => likeComment(comment._id)}
-      onProfilePress={()=>this.openProfile(comment.commentedBy.userId)}
+      onProfilePress={() => this.openProfile(comment.commentedBy.userId)}
     />
   }
   itemSeparator = () => <View style={{marginTop: spacing.medium}}/>
@@ -309,6 +310,8 @@ const mapDispatchToProps = (dispatch) => ({
   commentOnPost: (postId, commentText) => dispatch(actionCreators.commentOnPost(postId, commentText)),
   reportPost: postId => dispatch(actionCreators.reportPost(postId)),
   deletePost: postId => dispatch(actionCreators.deletePost(postId)),
+  likePost: (postId) => dispatch(actionCreators.likePost(postId)),
+  unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostViewer);
