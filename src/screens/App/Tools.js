@@ -26,7 +26,8 @@ class Tools extends PureComponent {
   openBMI = () => this.props.navigation.navigate(RouteNames.BMI);
   openCouponMachine = () => this.props.navigation.navigate(RouteNames.CouponMachine);
   openAccountDash = () => this.props.navigation.navigate(RouteNames.AccountDash);
-  speech=()=>this.props.navigation.navigate(RouteNames.Speech);
+  openSpeech=()=>this.props.navigation.navigate(RouteNames.Speech);
+  openStreamingScreen = () => this.props.navigation.navigate(RouteNames.StreamScreen);
   state = {
     toolsData: []
   }
@@ -75,9 +76,9 @@ class Tools extends PureComponent {
         enabled: true
       },
       {
-        title: "Speech",
+        title: strings.SPEECH,
         image: iconBackgrounds.waterIntake,
-        callback: this.speech,
+        callback: this.openSpeech,
         enabled: userType === userTypes.USER
       },
       {
@@ -90,6 +91,12 @@ class Tools extends PureComponent {
         title: strings.ACCOUNT_LOWER,
         image: iconBackgrounds.graphMan,
         callback: this.openAccountDash,
+        enabled: userType === userTypes.TRAINER
+      },
+      {
+        title: strings.STREAM,
+        image: iconBackgrounds.graphMan,
+        callback: this.openStreamingScreen,
         enabled: userType === userTypes.TRAINER
       },
      
