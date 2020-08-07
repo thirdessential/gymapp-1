@@ -1,21 +1,22 @@
-import React, { PureComponent } from "react";
-import { StyleSheet, Text, View, FlatList,ScrollView } from "react-native";
+import React, {PureComponent} from "react";
+import {StyleSheet, Text, View, FlatList, ScrollView} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 
-import { spacing } from "../../constants/dimension";
+import {spacing} from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import { appTheme, darkPallet } from "../../constants/colors";
+import {appTheme, darkPallet} from "../../constants/colors";
 import Avatar from "../../components/Avatar";
-import { getJoinDurationString, toTitleCase } from "../../utils/utils";
+import {getJoinDurationString, toTitleCase} from "../../utils/utils";
 import RouteNames from "../../navigation/RouteNames";
-import { defaultDP, userTypes } from "../../constants/appConstants";
+import {defaultDP, userTypes} from "../../constants/appConstants";
 import TimelineTabview from "../../components/TimelineTabview";
 import * as actionCreators from "../../store/actions";
-import { setAvailable } from "../../API";
-import CardList from './CardList'
+import {setAvailable} from "../../API";
+import LiveCardList from '../../components/LiveCardList'
+
 const data = [
   {
     day: "Monday",
@@ -54,6 +55,7 @@ const data = [
     bodyPart: "Legs",
   },
 ];
+
 class Activity extends PureComponent {
   constructor(props) {
     super(props);
@@ -61,6 +63,7 @@ class Activity extends PureComponent {
       data: data,
     };
   }
+
   componentDidMount() {
     setAvailable();
     const {
@@ -84,7 +87,7 @@ class Activity extends PureComponent {
   }
 
   renderUser = () => {
-    const { userData } = this.props;
+    const {userData} = this.props;
     if (!userData) return null;
     return (
       <View style={styles.userContainer}>
@@ -101,23 +104,23 @@ class Activity extends PureComponent {
       </View>
     );
   };
- 
+
   openProfile = (userId) => {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     navigation.navigate(RouteNames.Profile, {
       userId: userId,
     });
   };
 
   render() {
-    const { activities } = this.props;
-    const { todaysEvents, tomorrowsEvents } = activities;
+    const {activities} = this.props;
+    const {todaysEvents, tomorrowsEvents} = activities;
 
     return (
       <ScrollView contentContainerStyle={styles.container}>
         {this.renderUser()}
-       <CardList data={this.state.data} />
-        <View style={{ flex: 1, width: "100%", marginTop: spacing.medium_lg }}>
+        <LiveCardList data={this.state.data}/>
+        <View style={{flex: 1, width: "100%", marginTop: spacing.medium_lg}}>
           <TimelineTabview
             today={todaysEvents}
             tomorrow={tomorrowsEvents}
@@ -137,7 +140,7 @@ const styles = StyleSheet.create({
     paddingRight: spacing.medium_lg,
     paddingTop: spacing.medium_lg,
     // paddingBottom: spacing.medium,
-     alignItems: "center",
+    alignItems: "center",
     backgroundColor: appTheme.background,
   },
   titleContainer: {
