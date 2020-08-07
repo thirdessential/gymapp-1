@@ -97,7 +97,7 @@ class Tools extends PureComponent {
         title: strings.STREAM,
         image: iconBackgrounds.graphMan,
         callback: this.openStreamingScreen,
-        enabled: userType === userTypes.TRAINER
+        enabled: true
       },
      
     ]
