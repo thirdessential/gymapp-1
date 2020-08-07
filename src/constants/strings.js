@@ -193,7 +193,8 @@ const strings = {
   ERROR:'Error',
   SENT_VERIFICATION_MAIL: "Sent a verfication mail to to ",
   SPEECH:'Speech',
-  STREAM:'Stream'
+  STREAM:'Stream',
+  EXERCISES:'Exercise'
 
 };
 

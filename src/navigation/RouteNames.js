@@ -39,6 +39,7 @@ const RouteNames = {
   BMI: 'BMI',
   CouponMachine: 'CouponMachine',
   Speech:'Speech',
+  Exercises:'Exercises',
 
   Login: 'Login',
   Signup: 'Signup',
