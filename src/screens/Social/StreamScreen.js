@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Button, Alert } from "react-native";
-import { NodeCameraView } from "react-native-nodemediaclient";
-import Permissions from "react-native-permissions";
+import {appTheme} from "../../constants/colors";
 
+import { NodeCameraView } from "react-native-nodemediaclient";
+import { spacing } from "../../constants/dimension";
 import axios from "axios";
-import {PERMISSIONS, request} from 'react-native-permissions';
+import { PERMISSIONS, request } from "react-native-permissions";
+
+
 export default class StreamScreen extends Component {
   state = {
     cameraPermission: "undetermined",
@@ -18,24 +21,10 @@ export default class StreamScreen extends Component {
   }
 
   async componentDidMount() {
-    // const permission = await Permissions.checkMultiple(['camera', 'microphone']);
-
-    // let cameraPermission = permission.camera;
-    // let microphonePermission = permission.microphone;
-    // console.log(cameraPermission,microphonePermission);
-   
-      const granted = await request(PERMISSIONS.ANDROID.CAMERA);
-      console.log(granted);
-      const grant1 = await request(PERMISSIONS.ANDROID.RECORD_AUDIO);
-      console.log(grant1);
-     
-    //   cameraPermission = await Permissions.request('camera');
-    
-    //     microphonePermission = await Permissions.request('microphone');
-      
-    
-    // console.log(cameraPermission,microphonePermission);
-
+    const granted = await request(PERMISSIONS.ANDROID.CAMERA);
+    console.log(granted);
+    const grant1 = await request(PERMISSIONS.ANDROID.RECORD_AUDIO);
+    console.log(grant1);
   }
   _togglePublish = () => {
     if (this.state.isPublishing) {
@@ -64,6 +53,7 @@ export default class StreamScreen extends Component {
             ref={(vb) => {
               this.vb = vb;
             }}
+            //outputUrl={`rtmp://a.rtmp.youtube.com/live2/332x-66dz-44rd-7ue6-4see`}
             outputUrl={`rtmp://live.restream.io/live/re_2763090_4d1e18d24532d116f676`}
             //outputUrl={`rtmp://live.restream.io/live/re_2763090_4d1e18d24532d116f676`}
             //stream key=e3b90dd3-d181-7489-2271-7d4b5c757d61
@@ -95,6 +85,11 @@ export default class StreamScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
+    paddingLeft: spacing.medium_lg,
+    paddingRight: spacing.medium_lg,
+
+    backgroundColor: appTheme.background,
   },
   wrapper: {
     flex: 1,

@@ -80,6 +80,7 @@ export default class SignUp extends Component {
       this.setState({ loading: false });
     } else
       showError(strings.SIGNUP_FAILED)
+      this.setState({ loading: false });
 
   }
 

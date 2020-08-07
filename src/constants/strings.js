@@ -191,7 +191,9 @@ const strings = {
   FINISHED: 'Call Finished',
   PASSWORD_RESET_SENT: 'Sent a password reset link to ',
   ERROR:'Error',
-  SENT_VERIFICATION_MAIL: "Sent a verfication mail to to "
+  SENT_VERIFICATION_MAIL: "Sent a verfication mail to to ",
+  SPEECH:'Speech',
+  STREAM:'Stream'
 
 };
 

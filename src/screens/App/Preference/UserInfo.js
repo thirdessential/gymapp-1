@@ -174,8 +174,8 @@ class UserInfo extends React.Component {
                       placeholder="Date Of birth"
                       placeholderTextColor='white'
                       format="YYYY-MM-DD"
-                      minDate="1999-05-01"
-                      maxDate="2016-06-01"
+                      minDate="1920-01-01"
+                      maxDate="2016-01-01"
                       confirmBtnText="Confirm"
                       cancelBtnText="Cancel"
                       customStyles={{
