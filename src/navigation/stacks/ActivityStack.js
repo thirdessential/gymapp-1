@@ -7,13 +7,14 @@ import Activity from "../../screens/App/Activity";
 import Profile from "../../screens/App/Profile";
 import {defaultHeaderStyle} from "../../constants/styles";
 import SelectExercise from "../../screens/Fitness/SelectExercise";
+import Exercise from "../../screens/Fitness/Exercise";
 
 const activity = () => {
   return (
-    <Stack.Navigator screenOptions={defaultHeaderStyle}>
+    <Stack.Navigator  screenOptions={defaultHeaderStyle}>
       <Stack.Screen
         name={RouteNames.Activity}
-        component={SelectExercise}
+        component={Exercise}
         options={{
           title: 'Activity',
           headerLeft: openDrawerButton

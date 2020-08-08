@@ -57,7 +57,8 @@ const RouteNames = {
   AccountStatement: 'AccountStatement',
   AddAccount: 'AddAccount',
 
-  SelectExercise:'SelectExercise',
+  SelectExercise: 'SelectExercise',
+  Exercise: 'Exercise',
 
 
 };
