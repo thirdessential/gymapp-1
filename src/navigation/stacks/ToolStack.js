@@ -130,10 +130,7 @@ const toolStack = () => {
         component={StreamScreen}
         options={{
           title: "Stream",
-          headerTintColor: appTheme.darkBackground,
-          headerStyle: {
-            backgroundColor: appTheme.brightContent,
-          },
+         
         }}
       
       />
@@ -153,11 +150,9 @@ const toolStack = () => {
         component={Exercises}
         options={{
           title: "Exercises",
-          headerTintColor: appTheme.darkBackground,
-          headerStyle: {
-            backgroundColor: appTheme.brightContent,
-          },
+         
         }}
+       
       />
     </Stack.Navigator>
   );

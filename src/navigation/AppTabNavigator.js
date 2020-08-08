@@ -63,6 +63,9 @@ const appTabNavigator = (props) => {
             let iconName = focused ? 'activity' : 'activity';
             return <View style={{alignItems: 'center'}}><Feather name={iconName} size={20} color={color}/></View>
           },
+         
+           
+         
         }}/>
       <Tab.Screen
         name={RouteNames.SocialTab}
