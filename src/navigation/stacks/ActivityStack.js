@@ -11,6 +11,7 @@ import { defaultHeaderStyle } from "../../constants/styles";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import Feather from "react-native-vector-icons/Feather";
+import Dash from "react-native-dash";
 import {
   Dimensions,
   StyleSheet,
@@ -93,7 +94,7 @@ export default class activity extends Component {
                   customStyles={{
                     backgroundColor: appTheme.darkBackground,
                     flex: 1,
-                  }}
+                                     }}
                 >
                   <FlatList
                     data={
@@ -101,18 +102,39 @@ export default class activity extends Component {
                         ? this.state.data
                         : this.state.data.slice(0, 4)
                     }
+                    style={{width:'100%'}}
                     renderItem={({ item }) => (
-                      <MenuOption
-                        style={{
-                          flexDirection: "row",
-                          backgroundColor: appTheme.background,
+                      <>
+                        <MenuOption
+                          style={{
+                            flexDirection: "row",
+                            backgroundColor: appTheme.background,
 
-                          padding: spacing.small_lg,
-                        }}
-                      >
-                        <Text style={styles.text}>{item.id}</Text>
-                        <Text style={styles.text}>{item.text}</Text>
-                      </MenuOption>
+                           
+                          }}
+                        >
+                          <Image
+                            source={{
+                              uri:
+                                "https://avatars0.githubusercontent.com/u/49580371?s=460&u=74f444710198d10f41e44f01637c3de3529db178&v=4",
+                            }}
+                            style={{
+                              height: 30,
+                              width: 20,
+                              borderRadius: 20,
+                              marginTop: 5,
+                            }}
+                            resizeMode={"contain"}
+                          />
+                          <Text style={styles.text}>{item.text}</Text>
+                        </MenuOption>
+                        <Dash
+                          style={{ width: "100%",  }}
+                          dashGap={0.1}
+                          dashColor={appTheme.brightContent}
+                          dashThickness={0.8}
+                        />
+                      </>
                     )}
                     keyExtractor={(item) => item.id}
                   />
