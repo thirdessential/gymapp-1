@@ -28,6 +28,7 @@ class Tools extends PureComponent {
   openAccountDash = () => this.props.navigation.navigate(RouteNames.AccountDash);
   openSpeech=()=>this.props.navigation.navigate(RouteNames.Speech);
   openStreamingScreen = () => this.props.navigation.navigate(RouteNames.StreamScreen);
+  openExercisesScreen=() => this.props.navigation.navigate(RouteNames.Exercises);
   state = {
     toolsData: []
   }
@@ -98,6 +99,12 @@ class Tools extends PureComponent {
         image: iconBackgrounds.graphMan,
         callback: this.openStreamingScreen,
         enabled: userType === userTypes.TRAINER
+      },
+      {
+        title: strings.EXERCISES,
+        image: iconBackgrounds.graphMan,
+        callback: this.openExercisesScreen,
+        enabled: userType === userTypes.USER
       },
      
     ]
