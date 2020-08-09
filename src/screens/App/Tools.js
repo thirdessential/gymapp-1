@@ -29,6 +29,7 @@ class Tools extends PureComponent {
   openSpeech = () => this.props.navigation.navigate(RouteNames.Speech);
   openStreamingScreen = () => this.props.navigation.navigate(RouteNames.StreamScreen);
   openSelectExercise = () => this.props.navigation.navigate(RouteNames.SelectExercise);
+  openExercisesScreen=() => this.props.navigation.navigate(RouteNames.Exercises);
   state = {
     toolsData: []
   }
@@ -106,8 +107,12 @@ class Tools extends PureComponent {
         callback: this.openSelectExercise,
         enabled: true
       },
-
-
+      {
+        title: strings.EXERCISES,
+        image: iconBackgrounds.graphMan,
+        callback: this.openExercisesScreen,
+        enabled: userType === userTypes.USER
+      },
     ]
     this.setState({toolsData: toolsData.filter(toolData => toolData.enabled)});
   }

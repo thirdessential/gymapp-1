@@ -195,7 +195,11 @@ const strings = {
   SPEECH:'Speech',
   STREAM:'Stream',
   EXERCISE: 'Exercise',
-  START: 'START'
+  START: 'START',
+  EXERCISES:'Exercise',
+  FULL_BODY_WORKOUT:'Full body workout',
+  FEATURED_WORKOUT :'Featured Workouts',
+  DISCOVER:'Discover More',
 
 };
 

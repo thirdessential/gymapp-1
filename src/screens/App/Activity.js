@@ -117,7 +117,7 @@ class Activity extends PureComponent {
     const {todaysEvents, tomorrowsEvents} = activities;
 
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView style={styles.container}>
         {this.renderUser()}
         <LiveCardList data={this.state.data}/>
         <View style={{flex: 1, width: "100%", marginTop: spacing.medium_lg}}>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     paddingRight: spacing.medium_lg,
     paddingTop: spacing.medium_lg,
     // paddingBottom: spacing.medium,
-    alignItems: "center",
+    // alignItems: "center",
     backgroundColor: appTheme.background,
   },
   titleContainer: {

@@ -38,7 +38,9 @@ const RouteNames = {
   PackagesView: 'PackagesView',
   BMI: 'BMI',
   CouponMachine: 'CouponMachine',
-  Speech: 'Speech',
+
+  Speech:'Speech',
+  Exercises:'Exercises',
 
   Login: 'Login',
   Signup: 'Signup',
