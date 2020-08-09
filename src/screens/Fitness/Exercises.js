@@ -164,7 +164,6 @@ class Exercises extends PureComponent {
                             height: "100%",
                             width: '100%',
                             borderRadius: 10,
-
                             flex: 1,
                             flexDirection: "row",
                             overflow: "hidden",
@@ -183,9 +182,9 @@ class Exercises extends PureComponent {
                             <Text
                               style={{
                                 color: appTheme.textPrimary,
-                                fontSize: 16,
+                                fontSize: fontSizes.h2,
                                 fontFamily: fonts.CenturyGothic,
-                                marginLeft: 10,
+                                marginLeft: spacing.medium_sm,
                               }}
                             >
                               {item.type}
