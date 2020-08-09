@@ -24,7 +24,7 @@ import { screenHeight, screenWidth } from "../../utils/screenDimensions";
 import EmailValidation from "../../utils/validation/Email";
 import PasswordValidation from "../../utils/validation/Password";
 import { spacing } from "../../constants/dimension";
-import Logo from "../../../assets/images/newlogo.png";
+import Logo from "../../../assets/images/logo.png";
 import Icon from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather";
 import TripleLine from "../../../assets/images/tripleLine.png";

@@ -12,7 +12,7 @@ const LiveCardList = ({data}) => {
       style={{flexGrow: 0, height: 130}}
       data={data}
       renderItem={({item: rowData}) => renderCard(rowData)}
-      keyExtractor={(item, index) => index}
+      keyExtractor={(item, index) => index.toString()}
     />
   );
 };

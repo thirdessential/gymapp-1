@@ -19,7 +19,7 @@ import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from "../../utils/screenDimensions";
-import Logo from "../../../assets/images/newlogo.png";
+import Logo from "../../../assets/images/logo.png";
 import Icon from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather";
 import {forgotPassword} from "../../API/firebaseMethods";

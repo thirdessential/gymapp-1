@@ -32,12 +32,13 @@ const RouteNames = {
   SocialTab: 'SocialTab',
   ToolTab: 'ToolTab',
   ListingTab: 'ListingTab',
-  MyProfileTab:'MyProfileTab',
+  MyProfileTab: 'MyProfileTab',
   SubscriptionsView: 'SubscriptionsView',
   Subscriptions: 'Subscriptions',
   PackagesView: 'PackagesView',
   BMI: 'BMI',
   CouponMachine: 'CouponMachine',
+
   Speech:'Speech',
   Exercises:'Exercises',
 
@@ -45,9 +46,9 @@ const RouteNames = {
   Signup: 'Signup',
   SignInNew: 'SignInNew',
   SignUpNew: 'SignUpNew',
-StreamScreen: 'StreamScreen',
-ShowStreamVideo: 'ShowStreamVideo',
-ForgotPassword:'ForgotPasswordScreen',
+  StreamScreen: 'StreamScreen',
+  ShowStreamVideo: 'ShowStreamVideo',
+  ForgotPassword: 'ForgotPasswordScreen',
 
   WorkoutDays: 'WorkoutDays',
   WorkoutPreference: 'WorkoutPreference',
@@ -57,6 +58,10 @@ ForgotPassword:'ForgotPasswordScreen',
   AccountDash: 'AccountDash',
   AccountStatement: 'AccountStatement',
   AddAccount: 'AddAccount',
+
+  SelectExercise: 'SelectExercise',
+  Exercise: 'Exercise',
+
 
 };
 

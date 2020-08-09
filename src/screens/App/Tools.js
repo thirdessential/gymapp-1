@@ -26,8 +26,9 @@ class Tools extends PureComponent {
   openBMI = () => this.props.navigation.navigate(RouteNames.BMI);
   openCouponMachine = () => this.props.navigation.navigate(RouteNames.CouponMachine);
   openAccountDash = () => this.props.navigation.navigate(RouteNames.AccountDash);
-  openSpeech=()=>this.props.navigation.navigate(RouteNames.Speech);
+  openSpeech = () => this.props.navigation.navigate(RouteNames.Speech);
   openStreamingScreen = () => this.props.navigation.navigate(RouteNames.StreamScreen);
+  openSelectExercise = () => this.props.navigation.navigate(RouteNames.SelectExercise);
   openExercisesScreen=() => this.props.navigation.navigate(RouteNames.Exercises);
   state = {
     toolsData: []
@@ -46,7 +47,7 @@ class Tools extends PureComponent {
         title: strings.CALL_REQUESTS,
         image: iconBackgrounds.appointments,
         callback: this.openCallRequests,
-        enabled: userType===userTypes.TRAINER
+        enabled: userType === userTypes.TRAINER
       }, {
         title: strings.MY_CLIENTS,
         image: iconBackgrounds.slots,
@@ -101,12 +102,17 @@ class Tools extends PureComponent {
         enabled: userType === userTypes.TRAINER
       },
       {
+        title: strings.EXERCISE,
+        image: iconBackgrounds.graphMan,
+        callback: this.openSelectExercise,
+        enabled: true
+      },
+      {
         title: strings.EXERCISES,
         image: iconBackgrounds.graphMan,
         callback: this.openExercisesScreen,
         enabled: userType === userTypes.USER
       },
-     
     ]
     this.setState({toolsData: toolsData.filter(toolData => toolData.enabled)});
   }

@@ -7,6 +7,7 @@ import { appTheme } from "../../constants/colors";
 import Activity from "../../screens/App/Activity";
 import { spacing } from "../../constants/dimension";
 import Profile from "../../screens/App/Profile";
+
 import { defaultHeaderStyle } from "../../constants/styles";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";

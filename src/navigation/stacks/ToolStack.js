@@ -21,6 +21,7 @@ import { defaultHeaderStyle } from "../../constants/styles";
 import Speech from "../../screens/App/Speech";
 import StreamScreen from "../../screens/Social/StreamScreen";
 import ShowStreamVideo from "../../screens/Social/ShowStreamVideo";
+import SelectExercise from "../../screens/Fitness/SelectExercise";
 import Exercises from "../../screens/Fitness/Exercises";
 // import BrowseSlots from "../../screens/App/User/BrowseSlots";
 // import strings from "../../constants/strings";
@@ -146,13 +147,15 @@ const toolStack = () => {
         }}
       />
       <Stack.Screen
-        name={RouteNames.Exercises}
-        component={Exercises}
+        name={RouteNames.SelectExercise}
+        component={SelectExercise}
         options={{
-          title: "Exercises",
-         
-        }}
-       
+          title: "Exercise",
+          headerTintColor: appTheme.darkBackground,
+          headerStyle: {
+            backgroundColor: appTheme.brightContent,
+          },
+        }}    
       />
     </Stack.Navigator>
   );

@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.h3,
     color: "white",
     marginTop: 5,
-    fontWeight: "bold",
+    fontFamily: fonts.CenturyGothicBold
   },
   dateTime: {
     fontSize: fontSizes.h4,
