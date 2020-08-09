@@ -6,15 +6,16 @@ import openDrawerButton from "../openDrawerButton";
 import Activity from "../../screens/App/Activity";
 import Profile from "../../screens/App/Profile";
 import {defaultHeaderStyle} from "../../constants/styles";
-import SelectExercise from "../../screens/Fitness/SelectExercise";
-import Exercise from "../../screens/Fitness/Exercise";
+// import SelectExercise from "../../screens/Fitness/SelectExercise";
+// import Exercise from "../../screens/Fitness/Exercise";
+// import Zoom from "../../screens/Call/Zoom";
 
 const activity = () => {
   return (
     <Stack.Navigator  screenOptions={defaultHeaderStyle}>
       <Stack.Screen
         name={RouteNames.Activity}
-        component={Exercise}
+        component={Activity}
         options={{
           title: 'Activity',
           headerLeft: openDrawerButton
