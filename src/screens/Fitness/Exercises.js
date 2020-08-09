@@ -13,6 +13,8 @@ import {
   Keyboard,
   Button,
   TextInput,
+  TouchableHighlight, TouchableNativeFeedback, TouchableWithoutFeedback,
+  Alert
 } from "react-native";
 import { FlatGrid, SectionGrid } from "react-native-super-grid";
 import { connect } from "react-redux";
@@ -27,17 +29,11 @@ import strings from "../../constants/strings";
 import { screenHeight, screenWidth } from "../../utils/screenDimensions";
 import { updateExerciseIndex, updateUserInfo } from "../../API";
 import * as actionCreators from "../../store/actions";
-const data1 = [
-  {
-    url:
-      "https://manofmany.com/wp-content/uploads/2019/03/10-Best-Chest-Exercises-for-Men-1280x720.jpg",
-    type: "CHEST",
-  },
-  {
-    url:
-      "https://manofmany.com/wp-content/uploads/2019/03/10-Best-Shoulder-Exercises-for-Men-Man-lifting-weights-shoulder-muscle-1280x720.jpg",
-    type: "ARMS",
-  },
+
+
+
+
+const bodyParts = [
   {
     url:
       "https://3.bp.blogspot.com/-oFwofSWO-XQ/ViiCsb0p_nI/AAAAAAAAEfs/vKzc9-8AXIk/s1600/Six%2BPack%2BAbs%2BHD%2BWallpaper.jpg",
@@ -45,16 +41,38 @@ const data1 = [
   },
   {
     url:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQVp-zl4dc1ruR_Y_buSVgNjpWBPHMVbDDOxw&usqp=CAU",
-    type: "WAIST",
+      "https://images.unsplash.com/photo-1583454122781-8cf8f5af9d2b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+    type: "ARMS",
+  },
+  {
+    url:
+      "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+    type: "BACK",
+  },
+  {
+    url:
+      "https://media.self.com/photos/5dd2f7580e115400090e89be/16:9/w_1600,c_limit/190916_SELF_1101.jpg",
+    type: "BUTTOCKS",
+  },
+  {
+    url:
+      "https://manofmany.com/wp-content/uploads/2019/03/10-Best-Chest-Exercises-for-Men-1280x720.jpg",
+    type: "CHEST",
+  },
+ 
+ 
+  {
+    url:
+      "https://manofmany.com/wp-content/uploads/2019/03/10-Best-Shoulder-Exercises-for-Men-Man-lifting-weights-shoulder-muscle-1280x720.jpg",
+    type: "SHOULDERS",
   },
   {
     url:
       "https://cdn-ami-drupal.heartyhosting.com/sites/muscleandfitness.com/files/styles/full_node_image_1090x614/public/quad-exercise-routine-3.jpg?itok=sfR46rrH&timestamp=1370452907",
-    type: "LEG",
+    type: "LEGS",
   },
 ];
-const data2 = [
+const categories = [
   {
     url:
       "https://thewallpaper.co//wp-content/uploads/2016/03/yoga-high-resolution-wallpaper-images-full-free-for-desktop-background-widescreen-display-samsung-backgrounds-1920x1280.jpg",
@@ -67,22 +85,18 @@ const data2 = [
   },
   {
     url:
-      "https://3.bp.blogspot.com/-oFwofSWO-XQ/ViiCsb0p_nI/AAAAAAAAEfs/vKzc9-8AXIk/s1600/Six%2BPack%2BAbs%2BHD%2BWallpaper.jpg",
-    type: "FAT LOSS",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQToXUY2WuidMG6tCZBmujFN9wtIjSEL_WLvA&usqp=CAU",
+    type: "EXERCISE",
   },
-  {
-    url:
-      "https://thumbs.dreamstime.com/b/bearded-bodybuilder-man-exercising-monkey-bars-upper-body-modern-calisthenics-park-outdoors-sunny-day-show-biceps-177066266.jpg",
-    type: "CALISTHENICS",
-  },
+ 
 ];
 class Exercises extends PureComponent {
   // navigation.setOptions({ tabBarVisible: false })
   constructor(props) {
     super(props);
     this.state = {
-      data1: data1,
-      data2: data2,
+     bodyParts:bodyParts,
+      categories: categories,
     };
   }
   render() {
@@ -140,13 +154,15 @@ class Exercises extends PureComponent {
                     showsHorizontalScrollIndicator={false}
                     style={{ height: 120 }}
                     keyExtractor={(item) => item.type}
-                    data={this.state.data1}
+                    data={this.state.bodyParts}
                     renderItem={({ item }) => (
-                      <View style={{ marginHorizontal: 10, borderRadius: 20 }}>
+                     <TouchableOpacity style={{width: 200,height:'100%', marginHorizontal: 10 }} onPress={()=>Alert.alert(`Show card for ${item.type}`)} >
+                      <View style={{ borderRadius: 20, height: "100%",
+                            width: '100%', }}  >
                         <ImageBackground
                           style={{
                             height: "100%",
-                            width: 200,
+                            width: '100%',
                             borderRadius: 10,
 
                             flex: 1,
@@ -177,6 +193,8 @@ class Exercises extends PureComponent {
                           </View>
                         </ImageBackground>
                       </View>
+                      </TouchableOpacity>
+                     
                     )}
                   />
                 </View>
@@ -186,9 +204,11 @@ class Exercises extends PureComponent {
                     showsHorizontalScrollIndicator={false}
                     style={{ height: 120, marginTop: 20 }}
                     keyExtractor={(item) => item.type}
-                    data={this.state.data2}
+                    data={this.state.categories}
                     renderItem={({ item }) => (
-                      <View style={{ marginHorizontal: 10, borderRadius: 20 }}>
+                      <TouchableOpacity style={{width: 200,height:'100%', marginHorizontal: 10 }} onPress={()=>Alert.alert(`Show card for ${item.type}`)} >
+                      <View style={{ borderRadius: 20, height: "100%",
+                            width: '100%', }}  >
                         <ImageBackground
                           style={{
                             height: "100%",
@@ -222,7 +242,9 @@ class Exercises extends PureComponent {
                             </Text>
                           </View>
                         </ImageBackground>
+                        
                       </View>
+                      </TouchableOpacity>
                     )}
                   />
                 </View>
