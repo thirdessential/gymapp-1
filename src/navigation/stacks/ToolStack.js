@@ -157,6 +157,17 @@ const toolStack = () => {
           },
         }}    
       />
+      <Stack.Screen
+        name={RouteNames.Exercises}
+        component={Exercises}
+        options={{
+          title: "Exercise",
+          headerTintColor: appTheme.darkBackground,
+          headerStyle: {
+            backgroundColor: appTheme.brightContent,
+          },
+        }}    
+      />
     </Stack.Navigator>
   );
 };
