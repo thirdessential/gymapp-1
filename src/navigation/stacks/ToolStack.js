@@ -173,11 +173,8 @@ const toolStack = () => {
         name={RouteNames.PerformExercise}
         component={PerformExercise}
         options={{
-          title: "Exercise",
-          headerTintColor: appTheme.darkBackground,
-          headerStyle: {
-            backgroundColor: appTheme.brightContent,
-          },
+          title: "",
+          headerTransparent: true,
         }}
       />
     </Stack.Navigator>

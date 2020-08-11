@@ -27,24 +27,27 @@ import * as actionCreators from "../../store/actions";
 const categories = [
   {
     url:
-      "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=626&q=80",
-    type: "YOGA",
+      "https://images.unsplash.com/photo-1550259979-ed79b48d2a30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=60",
+    type: "CARDIO",
   },
   {
     url:
-      "https://us.123rf.com/450wm/vadymvdrobot/vadymvdrobot1509/vadymvdrobot150900418/45024728-portrait-of-a-fitness-man-doing-stretching-exercises-at-gym.jpg?ver=6",
+      "https://images.unsplash.com/photo-1562771379-eafdca7a02f8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
     type: "STRETCH",
   },
   {
     url:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQToXUY2WuidMG6tCZBmujFN9wtIjSEL_WLvA&usqp=CAU",
+      "https://image.shutterstock.com/mosaic_250/818215/1043370892/stock-photo-fit-young-man-in-sportswear-focused-on-lifting-a-dumbbell-during-an-exercise-class-in-a-gym-1043370892.jpg",
     type: "WORKOUT",
   },
   {
     url:
-      "https://images.unsplash.com/photo-1550259979-ed79b48d2a30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=704&q=80",
-    type: "CARDIO",
+      "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=626&q=80",
+    type: "YOGA",
   },
+ 
+ 
+  
 ];
 
 const bodyParts = [
@@ -78,17 +81,18 @@ const bodyParts = [
       "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
     type: "FULL BODY",
   },
+  {
+    url:
+      "https://cdn-ami-drupal.heartyhosting.com/sites/muscleandfitness.com/files/styles/full_node_image_1090x614/public/quad-exercise-routine-3.jpg?itok=sfR46rrH&timestamp=1370452907",
+    type: "LEGS",
+  },
 
   {
     url:
       "https://manofmany.com/wp-content/uploads/2019/03/10-Best-Shoulder-Exercises-for-Men-Man-lifting-weights-shoulder-muscle-1280x720.jpg",
     type: "SHOULDERS",
   },
-  {
-    url:
-      "https://cdn-ami-drupal.heartyhosting.com/sites/muscleandfitness.com/files/styles/full_node_image_1090x614/public/quad-exercise-routine-3.jpg?itok=sfR46rrH&timestamp=1370452907",
-    type: "LEGS",
-  },
+  
 ];
 
 class Exercises extends PureComponent {
@@ -111,11 +115,7 @@ class Exercises extends PureComponent {
       </View>
     </TouchableOpacity>
   );
-<<<<<<< HEAD
   feautred = (uri, type,desc) => (
-=======
-  featured = (uri, type) => (
->>>>>>> d84908b4e87d8533aa8da4d578530d248c9c767e
     <View style={styles.imageContainer}>
       <Image
         style={styles.image}
@@ -145,15 +145,9 @@ class Exercises extends PureComponent {
           >
             <Text style={styles.featuredText}>{strings.FEATURED_WORKOUT}</Text>
           </View>
-<<<<<<< HEAD
           {Math.floor(Math.random() * 10) % 2 == 0
             ? this.feautred(bodyParts[0].url, bodyParts[0].type,'Abdominal exercises affect the abdominal muscles ')
             : this.feautred(bodyParts[5].url, bodyParts[5].type,'Workout that aims to hit all the major muscle groups')}
-=======
-          {Math.floor(Math.random() * 10) % 2 === 0
-            ? this.featured(bodyParts[0].url, bodyParts[0].type)
-            : this.featured(bodyParts[5].url, bodyParts[5].type)}
->>>>>>> d84908b4e87d8533aa8da4d578530d248c9c767e
           <View style={styles.itemContainer}>
             <View style={styles.optionContainer}>
               <View style={{marginLeft: spacing.large_lg}}>
