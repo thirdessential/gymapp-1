@@ -1,6 +1,5 @@
 import React, {PureComponent} from "react";
 import {StyleSheet, Text, View, FlatList, ScrollView} from "react-native";
-import LinearGradient from "react-native-linear-gradient";
 
 import {connect} from "react-redux";
 
