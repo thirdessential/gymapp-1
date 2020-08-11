@@ -8,9 +8,34 @@ import {screenWidth} from "../utils/screenDimensions";
 import fonts from "../constants/fonts";
 import fontSizes from "../constants/fontSizes";
 import SelectExercise from "../screens/Fitness/SelectExercise";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import {Menu, MenuOption, MenuOptions, MenuTrigger} from "react-native-popup-menu";
+import {exerciseLevels} from "../constants/appConstants";
+import {toTitleCase} from "../utils/utils";
 
-const exerciseCard = ({uri, name}) => {
+const exerciseCard = ({uri, name, minutes, sets, level, selectLevel}) => {
   const renderSeparator = () => <View style={styles.separator}/>
+
+  const renderMenu = () => {
+    return (
+      <Menu style={styles.menuContainer}>
+        <MenuTrigger customStyles={{padding: spacing.small_lg}}>
+          <Text style={styles.menuTitle}>{level}</Text>
+        </MenuTrigger>
+        <MenuOptions customStyles={styles.menu} optionsContainerStyle={{width: 150, marginTop: 10}}>
+          <MenuOption style={styles.menuButton} onSelect={() => selectLevel(exerciseLevels.BEGINNER)}>
+            <Text style={styles.menuText}>{toTitleCase(exerciseLevels.BEGINNER)}</Text>
+          </MenuOption>
+          <MenuOption style={styles.menuButton} onSelect={() => selectLevel(exerciseLevels.INTERMEDIATE)}>
+            <Text style={styles.menuText}>{toTitleCase(exerciseLevels.INTERMEDIATE)}</Text>
+          </MenuOption>
+          <MenuOption style={styles.menuButton} onSelect={() => selectLevel(exerciseLevels.ADVANCED)}>
+            <Text style={styles.menuText}>{toTitleCase(exerciseLevels.ADVANCED)}</Text>
+          </MenuOption>
+        </MenuOptions>
+      </Menu>
+    )
+  }
 
   return (
     <View
@@ -24,23 +49,20 @@ const exerciseCard = ({uri, name}) => {
         <Text numberOfLines={3} style={styles.brightText}>{name.toUpperCase()}</Text>
         <View style={styles.row}>
           <View style={styles.rowItem}>
-            <Text style={styles.count}>6</Text>
+            <Text style={styles.count}>{minutes}</Text>
             <Text style={styles.subtitle}>{strings.AVG_MINUTES}</Text>
           </View>
           {renderSeparator()}
           <View style={styles.rowItem}>
-            <Text style={styles.count}>3</Text>
+            <Text style={styles.count}>{sets}</Text>
             <Text style={styles.subtitle}>{strings.SETS}</Text>
           </View>
           {renderSeparator()}
-          <View style={styles.rowItem}>
-            <Text style={styles.subtitle}>Intermediate</Text>
-            <Text style={styles.subtitle}>level</Text>
-          </View>
+          {renderMenu()}
         </View>
-        {/*<TouchableOpacity style={styles.}>*/}
-        {/**/}
-        {/*</TouchableOpacity>*/}
+        <TouchableOpacity style={styles.button}>
+          <Ionicons color={appTheme.textPrimary} name={'play-outline'} size={30}/>
+        </TouchableOpacity>
       </View>
     </View>
   )
@@ -103,24 +125,61 @@ const styles = StyleSheet.create({
   subtitle: {
     color: appTheme.textPrimary,
     fontFamily: fonts.CenturyGothic,
-    fontSize:fontSizes.h4
+    fontSize: fontSizes.h4
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: spacing.medium
+    marginVertical: spacing.medium,
+    marginTop: 'auto'
   },
-  rowItem:{
-    alignItems:'center',
-    justifyContent:'center'
+  rowItem: {
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   separator: {
     height: '70%',
     width: 1,
     backgroundColor: appTheme.greyC,
     marginHorizontal: spacing.medium_sm
-  }
+  },
+  button: {
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    backgroundColor: appTheme.brightContent,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: spacing.small,
+    marginBottom: spacing.small
+  },
+  menuContainer: {
+    borderColor: appTheme.grey,
+    borderWidth: 1,
+    borderRadius: 8,
+    justifyContent: 'center',
+    padding: spacing.small
+  },
+  menuTitle: {
+    color: appTheme.brightContent,
+    fontFamily: fonts.CenturyGothicBold,
+    fontSize: fontSizes.h4
+  },
+  menu: {
+    backgroundColor: appTheme.darkBackground,
+  },
+  menuButton: {
+    flexDirection: 'row',
+    backgroundColor: appTheme.background,
+    alignItems: 'center',
+    padding: spacing.small_lg,
+    paddingHorizontal: spacing.medium_lg
+  },
+  menuText: {
+    color: appTheme.brightContent,
+    fontFamily: fonts.CenturyGothicBold,
+    fontSize: fontSizes.h3,
+  },
 });
-
 
 export default exerciseCard;

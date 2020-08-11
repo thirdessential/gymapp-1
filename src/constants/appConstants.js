@@ -140,3 +140,9 @@ export const bodyParts = {
   SHOULDERS:'SHOULDERS',
   LEGS:'LEGS',
 }
+
+export const exerciseLevels = {
+  BEGINNER:'BEGINNER',
+  INTERMEDIATE:'INTERMEDIATE',
+  ADVANCED:'ADVANCED'
+}
