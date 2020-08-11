@@ -102,7 +102,7 @@ class Tools extends PureComponent {
         enabled: userType === userTypes.TRAINER
       },
       {
-        title: strings.EXERCISE,
+        title: 'Select exercise',
         image: iconBackgrounds.graphMan,
         callback: this.openSelectExercise,
         enabled: true
