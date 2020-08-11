@@ -46,7 +46,7 @@ function timeline(props) {
   }
   const noActivity = () => {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{flex: 1,minHeight:300, justifyContent: 'center', alignItems: 'center'}}>
         <Text style={[styles.sectionTitle, {color: appTheme.brightContent}]}>{strings.NO_ACTIVITY}</Text>
       </View>
     )

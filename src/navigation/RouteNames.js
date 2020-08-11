@@ -60,7 +60,7 @@ const RouteNames = {
   AddAccount: 'AddAccount',
 
   SelectExercise: 'SelectExercise',
-  Exercise: 'Exercise',
+  PerformExercise: 'PerformExercise',
 
 
 };
