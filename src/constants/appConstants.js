@@ -123,7 +123,7 @@ export const callbackStatus = {
   COMPLETED: 'COMPLETED'
 }
 
-export const categories = {
+export const fitnessCategories = {
   YOGA:'YOGA',
   STRETCH:'STRETCH',
   WORKOUT:'WORKOUT',
@@ -139,4 +139,17 @@ export const bodyParts = {
   FULL_BODY:'FULL_BODY',
   SHOULDERS:'SHOULDERS',
   LEGS:'LEGS',
+}
+
+export const exerciseLevels = {
+  BEGINNER:'BEGINNER',
+  INTERMEDIATE:'INTERMEDIATE',
+  ADVANCED:'ADVANCED'
+}
+
+export const equipmentTypes = {
+  DUMBBELL:'DUMBBELL',
+  BENCH:'BENCH',
+  BAND:'BAND',
+  ALL:'ALL'
 }

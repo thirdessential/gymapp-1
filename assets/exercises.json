@@ -8,8 +8,8 @@
             "ABS"
         ],
         "contentUrls": {
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596903078/exercise-gifs/360/3-4-Sit-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906739/exercise-gifs/720/3-4-Sit-Up.gif"
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596903078/exercise-gifs/360/3-4-Sit-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906739/exercise-gifs/720/3-4-Sit-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -65,9 +65,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596903082/exercise-gifs/180/Air-Bike-M.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596903083/exercise-gifs/360/Air-Bike-M.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906743/exercise-gifs/720/Air-Bike-M.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596903082/exercise-gifs/180/Air-Bike-M.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596903083/exercise-gifs/360/Air-Bike-M.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906743/exercise-gifs/720/Air-Bike-M.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -123,9 +123,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596903085/exercise-gifs/180/Alternate-Heel-Touchers.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596903086/exercise-gifs/360/Alternate-Heel-Touchers.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906748/exercise-gifs/720/Alternate-Heel-Touchers.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596903085/exercise-gifs/180/Alternate-Heel-Touchers.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596903086/exercise-gifs/360/Alternate-Heel-Touchers.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906748/exercise-gifs/720/Alternate-Heel-Touchers.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -181,9 +181,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596903089/exercise-gifs/180/Bench-Dip-Knees-Bent.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596903089/exercise-gifs/360/Bench-Dip-Knees-Bent.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906752/exercise-gifs/720/Bench-Dip-Knees-Bent.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596903089/exercise-gifs/180/Bench-Dip-Knees-Bent.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596903089/exercise-gifs/360/Bench-Dip-Knees-Bent.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906752/exercise-gifs/720/Bench-Dip-Knees-Bent.gif"
         },
         "equipment": "BENCH",
         "exerciseData": [
@@ -239,9 +239,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906753/exercise-gifs/180/Bent-Knee-Lying-Twist-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906754/exercise-gifs/360/Bent-Knee-Lying-Twist-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906755/exercise-gifs/720/Bent-Knee-Lying-Twist-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906753/exercise-gifs/180/Bent-Knee-Lying-Twist-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906754/exercise-gifs/360/Bent-Knee-Lying-Twist-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906755/exercise-gifs/720/Bent-Knee-Lying-Twist-Female.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -297,9 +297,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906756/exercise-gifs/180/Bent-Side-Knee-Push-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906757/exercise-gifs/360/Bent-Side-Knee-Push-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906758/exercise-gifs/720/Bent-Side-Knee-Push-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906756/exercise-gifs/180/Bent-Side-Knee-Push-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906757/exercise-gifs/360/Bent-Side-Knee-Push-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906758/exercise-gifs/720/Bent-Side-Knee-Push-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -355,9 +355,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906760/exercise-gifs/180/Boat-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906761/exercise-gifs/360/Boat-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906762/exercise-gifs/720/Boat-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906760/exercise-gifs/180/Boat-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906761/exercise-gifs/360/Boat-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906762/exercise-gifs/720/Boat-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -372,9 +372,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906763/exercise-gifs/180/Bottoms-Up-M.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906764/exercise-gifs/360/Bottoms-Up-M.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906765/exercise-gifs/720/Bottoms-Up-M.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906763/exercise-gifs/180/Bottoms-Up-M.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906764/exercise-gifs/360/Bottoms-Up-M.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906765/exercise-gifs/720/Bottoms-Up-M.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -430,9 +430,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906768/exercise-gifs/180/Bridge---Mountain-Climber-Cross-Body-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906769/exercise-gifs/360/Bridge---Mountain-Climber-Cross-Body-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906772/exercise-gifs/720/Bridge---Mountain-Climber-Cross-Body-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906768/exercise-gifs/180/Bridge---Mountain-Climber-Cross-Body-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906769/exercise-gifs/360/Bridge---Mountain-Climber-Cross-Body-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906772/exercise-gifs/720/Bridge---Mountain-Climber-Cross-Body-Female.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -488,9 +488,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906773/exercise-gifs/180/Close-Grip-Push-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906774/exercise-gifs/360/Close-Grip-Push-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906775/exercise-gifs/720/Close-Grip-Push-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906773/exercise-gifs/180/Close-Grip-Push-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906774/exercise-gifs/360/Close-Grip-Push-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906775/exercise-gifs/720/Close-Grip-Push-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -546,9 +546,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906776/exercise-gifs/180/Cross-Body-Crunch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906777/exercise-gifs/360/Cross-Body-Crunch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906778/exercise-gifs/720/Cross-Body-Crunch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906776/exercise-gifs/180/Cross-Body-Crunch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906777/exercise-gifs/360/Cross-Body-Crunch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906778/exercise-gifs/720/Cross-Body-Crunch.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -604,9 +604,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906780/exercise-gifs/180/Cross-Body-Twisting-Crunch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906781/exercise-gifs/360/Cross-Body-Twisting-Crunch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906782/exercise-gifs/720/Cross-Body-Twisting-Crunch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906780/exercise-gifs/180/Cross-Body-Twisting-Crunch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906781/exercise-gifs/360/Cross-Body-Twisting-Crunch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906782/exercise-gifs/720/Cross-Body-Twisting-Crunch.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -662,9 +662,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906783/exercise-gifs/180/Cross-Jacks.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906784/exercise-gifs/360/Cross-Jacks.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906787/exercise-gifs/720/Cross-Jacks.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906783/exercise-gifs/180/Cross-Jacks.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906784/exercise-gifs/360/Cross-Jacks.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906787/exercise-gifs/720/Cross-Jacks.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -720,9 +720,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906788/exercise-gifs/180/Crossover-Kneeling-Hip-Flexor-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906790/exercise-gifs/360/Crossover-Kneeling-Hip-Flexor-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906792/exercise-gifs/720/Crossover-Kneeling-Hip-Flexor-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906788/exercise-gifs/180/Crossover-Kneeling-Hip-Flexor-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906790/exercise-gifs/360/Crossover-Kneeling-Hip-Flexor-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906792/exercise-gifs/720/Crossover-Kneeling-Hip-Flexor-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -737,9 +737,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906793/exercise-gifs/180/Crunch-Arms-Straight.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906794/exercise-gifs/360/Crunch-Arms-Straight.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906795/exercise-gifs/720/Crunch-Arms-Straight.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906793/exercise-gifs/180/Crunch-Arms-Straight.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906794/exercise-gifs/360/Crunch-Arms-Straight.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906795/exercise-gifs/720/Crunch-Arms-Straight.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -795,9 +795,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906796/exercise-gifs/180/Crunch-Hands-Overhead.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906797/exercise-gifs/360/Crunch-Hands-Overhead.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906798/exercise-gifs/720/Crunch-Hands-Overhead.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906796/exercise-gifs/180/Crunch-Hands-Overhead.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906797/exercise-gifs/360/Crunch-Hands-Overhead.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906798/exercise-gifs/720/Crunch-Hands-Overhead.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -853,9 +853,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906799/exercise-gifs/180/Crunch-Leg-Raise.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906800/exercise-gifs/360/Crunch-Leg-Raise.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906802/exercise-gifs/720/Crunch-Leg-Raise.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906799/exercise-gifs/180/Crunch-Leg-Raise.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906800/exercise-gifs/360/Crunch-Leg-Raise.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906802/exercise-gifs/720/Crunch-Leg-Raise.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -911,9 +911,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906803/exercise-gifs/180/Crunch-Straight-Leg-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906804/exercise-gifs/360/Crunch-Straight-Leg-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906806/exercise-gifs/720/Crunch-Straight-Leg-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906803/exercise-gifs/180/Crunch-Straight-Leg-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906804/exercise-gifs/360/Crunch-Straight-Leg-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906806/exercise-gifs/720/Crunch-Straight-Leg-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -969,9 +969,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906807/exercise-gifs/180/Crunch-Floor-M.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906808/exercise-gifs/360/Crunch-Floor-M.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906810/exercise-gifs/720/Crunch-Floor-M.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906807/exercise-gifs/180/Crunch-Floor-M.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906808/exercise-gifs/360/Crunch-Floor-M.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906810/exercise-gifs/720/Crunch-Floor-M.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -1027,9 +1027,9 @@
             "CHEST"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906811/exercise-gifs/180/Decline-Push-Up-M.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906812/exercise-gifs/360/Decline-Push-Up-M.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906813/exercise-gifs/720/Decline-Push-Up-M.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906811/exercise-gifs/180/Decline-Push-Up-M.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906812/exercise-gifs/360/Decline-Push-Up-M.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906813/exercise-gifs/720/Decline-Push-Up-M.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -1085,9 +1085,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906814/exercise-gifs/180/Diamond-Push-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906815/exercise-gifs/360/Diamond-Push-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906816/exercise-gifs/720/Diamond-Push-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906814/exercise-gifs/180/Diamond-Push-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906815/exercise-gifs/360/Diamond-Push-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906816/exercise-gifs/720/Diamond-Push-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -1143,9 +1143,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906817/exercise-gifs/180/Dumbbell-Alternate-Biceps-Curl.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906819/exercise-gifs/360/Dumbbell-Alternate-Biceps-Curl.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906822/exercise-gifs/720/Dumbbell-Alternate-Biceps-Curl.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906817/exercise-gifs/180/Dumbbell-Alternate-Biceps-Curl.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906819/exercise-gifs/360/Dumbbell-Alternate-Biceps-Curl.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906822/exercise-gifs/720/Dumbbell-Alternate-Biceps-Curl.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -1201,9 +1201,9 @@
             "BACK"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906823/exercise-gifs/180/Dumbbell-Bent-Over-Row.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906824/exercise-gifs/360/Dumbbell-Bent-Over-Row.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906825/exercise-gifs/720/Dumbbell-Bent-Over-Row.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906823/exercise-gifs/180/Dumbbell-Bent-Over-Row.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906824/exercise-gifs/360/Dumbbell-Bent-Over-Row.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906825/exercise-gifs/720/Dumbbell-Bent-Over-Row.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -1259,9 +1259,9 @@
             "BACK"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906826/exercise-gifs/180/Dumbbell-Deadlift.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906827/exercise-gifs/360/Dumbbell-Deadlift.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906828/exercise-gifs/720/Dumbbell-Deadlift.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906826/exercise-gifs/180/Dumbbell-Deadlift.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906827/exercise-gifs/360/Dumbbell-Deadlift.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906828/exercise-gifs/720/Dumbbell-Deadlift.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -1317,9 +1317,9 @@
             "SHOULDERS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906829/exercise-gifs/180/Dumbbell-Front-Raise.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906830/exercise-gifs/360/Dumbbell-Front-Raise.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906831/exercise-gifs/720/Dumbbell-Front-Raise.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906829/exercise-gifs/180/Dumbbell-Front-Raise.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906830/exercise-gifs/360/Dumbbell-Front-Raise.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906831/exercise-gifs/720/Dumbbell-Front-Raise.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -1375,9 +1375,9 @@
             "SHOULDERS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906832/exercise-gifs/180/Dumbbell-Full-Can-Lateral-Raise.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906833/exercise-gifs/360/Dumbbell-Full-Can-Lateral-Raise.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906834/exercise-gifs/720/Dumbbell-Full-Can-Lateral-Raise.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906832/exercise-gifs/180/Dumbbell-Full-Can-Lateral-Raise.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906833/exercise-gifs/360/Dumbbell-Full-Can-Lateral-Raise.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906834/exercise-gifs/720/Dumbbell-Full-Can-Lateral-Raise.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -1433,9 +1433,9 @@
             "BACK"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906835/exercise-gifs/180/Dumbbell-Kickback-Copy.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906837/exercise-gifs/360/Dumbbell-Kickback-Copy.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906838/exercise-gifs/720/Dumbbell-Kickback-Copy.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906835/exercise-gifs/180/Dumbbell-Kickback-Copy.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906837/exercise-gifs/360/Dumbbell-Kickback-Copy.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906838/exercise-gifs/720/Dumbbell-Kickback-Copy.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -1492,9 +1492,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906839/exercise-gifs/180/Dumbbell-Lunge.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906840/exercise-gifs/360/Dumbbell-Lunge.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906841/exercise-gifs/720/Dumbbell-Lunge.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906839/exercise-gifs/180/Dumbbell-Lunge.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906840/exercise-gifs/360/Dumbbell-Lunge.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906841/exercise-gifs/720/Dumbbell-Lunge.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -1550,9 +1550,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906843/exercise-gifs/180/Dumbbell-Lying-One-Arm-Supinated-Triceps-Extension.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906845/exercise-gifs/360/Dumbbell-Lying-One-Arm-Supinated-Triceps-Extension.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906847/exercise-gifs/720/Dumbbell-Lying-One-Arm-Supinated-Triceps-Extension.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906843/exercise-gifs/180/Dumbbell-Lying-One-Arm-Supinated-Triceps-Extension.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906845/exercise-gifs/360/Dumbbell-Lying-One-Arm-Supinated-Triceps-Extension.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906847/exercise-gifs/720/Dumbbell-Lying-One-Arm-Supinated-Triceps-Extension.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -1606,9 +1606,9 @@
         "metaBodyPart": "SHOULDER",
         "bodyPart": [],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906848/exercise-gifs/180/Dumbbell-One-Arm-Lateral-Raise.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906848/exercise-gifs/360/Dumbbell-One-Arm-Lateral-Raise.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906850/exercise-gifs/720/Dumbbell-One-Arm-Lateral-Raise.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906848/exercise-gifs/180/Dumbbell-One-Arm-Lateral-Raise.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906848/exercise-gifs/360/Dumbbell-One-Arm-Lateral-Raise.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906850/exercise-gifs/720/Dumbbell-One-Arm-Lateral-Raise.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -1664,9 +1664,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906851/exercise-gifs/180/Dumbbell-One-Arm-Triceps-Extension-On-Bench.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906852/exercise-gifs/360/Dumbbell-One-Arm-Triceps-Extension-On-Bench.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906853/exercise-gifs/720/Dumbbell-One-Arm-Triceps-Extension-On-Bench.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906851/exercise-gifs/180/Dumbbell-One-Arm-Triceps-Extension-On-Bench.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906852/exercise-gifs/360/Dumbbell-One-Arm-Triceps-Extension-On-Bench.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906853/exercise-gifs/720/Dumbbell-One-Arm-Triceps-Extension-On-Bench.gif"
         },
         "equipment": "BENCH",
         "exerciseData": [
@@ -1722,9 +1722,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906854/exercise-gifs/180/Dumbbell-Over-Bench-Neutral-Wrist-Curl.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906855/exercise-gifs/360/Dumbbell-Over-Bench-Neutral-Wrist-Curl.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906857/exercise-gifs/720/Dumbbell-Over-Bench-Neutral-Wrist-Curl.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906854/exercise-gifs/180/Dumbbell-Over-Bench-Neutral-Wrist-Curl.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906855/exercise-gifs/360/Dumbbell-Over-Bench-Neutral-Wrist-Curl.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906857/exercise-gifs/720/Dumbbell-Over-Bench-Neutral-Wrist-Curl.gif"
         },
         "equipment": "BENCH",
         "exerciseData": [
@@ -1780,9 +1780,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906858/exercise-gifs/180/Dumbbell-Over-Bench-Wrist-Curl.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906860/exercise-gifs/360/Dumbbell-Over-Bench-Wrist-Curl.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906861/exercise-gifs/720/Dumbbell-Over-Bench-Wrist-Curl.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906858/exercise-gifs/180/Dumbbell-Over-Bench-Wrist-Curl.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906860/exercise-gifs/360/Dumbbell-Over-Bench-Wrist-Curl.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906861/exercise-gifs/720/Dumbbell-Over-Bench-Wrist-Curl.gif"
         },
         "equipment": "BENCH",
         "exerciseData": [
@@ -1838,9 +1838,9 @@
             "SHOULDERS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906863/exercise-gifs/180/Dumbbell-Rear-Fly.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906864/exercise-gifs/360/Dumbbell-Rear-Fly.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906866/exercise-gifs/720/Dumbbell-Rear-Fly.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906863/exercise-gifs/180/Dumbbell-Rear-Fly.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906864/exercise-gifs/360/Dumbbell-Rear-Fly.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906866/exercise-gifs/720/Dumbbell-Rear-Fly.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -1896,9 +1896,9 @@
             "SHOULDERS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906867/exercise-gifs/180/Dumbbell-Rear-Lateral-Raise.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906868/exercise-gifs/360/Dumbbell-Rear-Lateral-Raise.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906870/exercise-gifs/720/Dumbbell-Rear-Lateral-Raise.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906867/exercise-gifs/180/Dumbbell-Rear-Lateral-Raise.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906868/exercise-gifs/360/Dumbbell-Rear-Lateral-Raise.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906870/exercise-gifs/720/Dumbbell-Rear-Lateral-Raise.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -1954,9 +1954,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906872/exercise-gifs/180/Dumbbell-Seated-Bench-Extension.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906872/exercise-gifs/360/Dumbbell-Seated-Bench-Extension.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906874/exercise-gifs/720/Dumbbell-Seated-Bench-Extension.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906872/exercise-gifs/180/Dumbbell-Seated-Bench-Extension.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906872/exercise-gifs/360/Dumbbell-Seated-Bench-Extension.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906874/exercise-gifs/720/Dumbbell-Seated-Bench-Extension.gif"
         },
         "equipment": "BENCH",
         "exerciseData": [
@@ -2012,9 +2012,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906875/exercise-gifs/180/Dumbbell-Seated-Revers-Grip-Concentration-Curl.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906876/exercise-gifs/360/Dumbbell-Seated-Revers-Grip-Concentration-Curl.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906879/exercise-gifs/720/Dumbbell-Seated-Revers-Grip-Concentration-Curl.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906875/exercise-gifs/180/Dumbbell-Seated-Revers-Grip-Concentration-Curl.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906876/exercise-gifs/360/Dumbbell-Seated-Revers-Grip-Concentration-Curl.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906879/exercise-gifs/720/Dumbbell-Seated-Revers-Grip-Concentration-Curl.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -2070,9 +2070,9 @@
             "BACK"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906880/exercise-gifs/180/Dumbbell-Shrug.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906881/exercise-gifs/360/Dumbbell-Shrug.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906884/exercise-gifs/720/Dumbbell-Shrug.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906880/exercise-gifs/180/Dumbbell-Shrug.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906881/exercise-gifs/360/Dumbbell-Shrug.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906884/exercise-gifs/720/Dumbbell-Shrug.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -2128,9 +2128,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906885/exercise-gifs/180/Dumbbell-Side-Bend.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906887/exercise-gifs/360/Dumbbell-Side-Bend.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906890/exercise-gifs/720/Dumbbell-Side-Bend.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906885/exercise-gifs/180/Dumbbell-Side-Bend.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906887/exercise-gifs/360/Dumbbell-Side-Bend.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906890/exercise-gifs/720/Dumbbell-Side-Bend.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -2186,9 +2186,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906891/exercise-gifs/180/Dumbbell-Single-Leg-Split-Squat.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906893/exercise-gifs/360/Dumbbell-Single-Leg-Split-Squat.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906897/exercise-gifs/720/Dumbbell-Single-Leg-Split-Squat.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906891/exercise-gifs/180/Dumbbell-Single-Leg-Split-Squat.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906893/exercise-gifs/360/Dumbbell-Single-Leg-Split-Squat.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906897/exercise-gifs/720/Dumbbell-Single-Leg-Split-Squat.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -2244,9 +2244,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906898/exercise-gifs/180/Dumbbell-Standing-One-Arm-Extension.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906899/exercise-gifs/360/Dumbbell-Standing-One-Arm-Extension.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906901/exercise-gifs/720/Dumbbell-Standing-One-Arm-Extension.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906898/exercise-gifs/180/Dumbbell-Standing-One-Arm-Extension.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906899/exercise-gifs/360/Dumbbell-Standing-One-Arm-Extension.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906901/exercise-gifs/720/Dumbbell-Standing-One-Arm-Extension.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -2302,9 +2302,9 @@
             "CHEST"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906902/exercise-gifs/180/Dumbbell-Straight-Arm-Pullover.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906903/exercise-gifs/360/Dumbbell-Straight-Arm-Pullover.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906906/exercise-gifs/720/Dumbbell-Straight-Arm-Pullover.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906902/exercise-gifs/180/Dumbbell-Straight-Arm-Pullover.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906903/exercise-gifs/360/Dumbbell-Straight-Arm-Pullover.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906906/exercise-gifs/720/Dumbbell-Straight-Arm-Pullover.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -2358,9 +2358,9 @@
         "metaBodyPart": "SHOULDER",
         "bodyPart": [],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906908/exercise-gifs/180/Dumbbell-Upright-Row.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906909/exercise-gifs/360/Dumbbell-Upright-Row.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906911/exercise-gifs/720/Dumbbell-Upright-Row.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906908/exercise-gifs/180/Dumbbell-Upright-Row.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906909/exercise-gifs/360/Dumbbell-Upright-Row.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906911/exercise-gifs/720/Dumbbell-Upright-Row.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -2416,9 +2416,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906912/exercise-gifs/180/Elbow-To-Knee-Twists.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906914/exercise-gifs/360/Elbow-To-Knee-Twists.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906920/exercise-gifs/720/Elbow-To-Knee-Twists.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906912/exercise-gifs/180/Elbow-To-Knee-Twists.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906914/exercise-gifs/360/Elbow-To-Knee-Twists.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906920/exercise-gifs/720/Elbow-To-Knee-Twists.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -2475,9 +2475,9 @@
             "BACK"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906921/exercise-gifs/180/Elbows-Back-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906922/exercise-gifs/360/Elbows-Back-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906924/exercise-gifs/720/Elbows-Back-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906921/exercise-gifs/180/Elbows-Back-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906922/exercise-gifs/360/Elbows-Back-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906924/exercise-gifs/720/Elbows-Back-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -2492,9 +2492,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906925/exercise-gifs/180/Flexion-Leg-Sit-Up-Straight-Arm.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906927/exercise-gifs/360/Flexion-Leg-Sit-Up-Straight-Arm.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906930/exercise-gifs/720/Flexion-Leg-Sit-Up-Straight-Arm.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906925/exercise-gifs/180/Flexion-Leg-Sit-Up-Straight-Arm.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906927/exercise-gifs/360/Flexion-Leg-Sit-Up-Straight-Arm.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906930/exercise-gifs/720/Flexion-Leg-Sit-Up-Straight-Arm.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -2550,9 +2550,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906931/exercise-gifs/180/High-Knee-Skips.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906932/exercise-gifs/360/High-Knee-Skips.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906935/exercise-gifs/720/High-Knee-Skips.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906931/exercise-gifs/180/High-Knee-Skips.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906932/exercise-gifs/360/High-Knee-Skips.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906935/exercise-gifs/720/High-Knee-Skips.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -2608,9 +2608,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906936/exercise-gifs/180/High-Knee-Squat.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906938/exercise-gifs/360/High-Knee-Squat.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906942/exercise-gifs/720/High-Knee-Squat.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906936/exercise-gifs/180/High-Knee-Squat.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906938/exercise-gifs/360/High-Knee-Squat.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906942/exercise-gifs/720/High-Knee-Squat.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -2666,9 +2666,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906943/exercise-gifs/180/High-Knees-Butt-Kicks.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906945/exercise-gifs/360/High-Knees-Butt-Kicks.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906949/exercise-gifs/720/High-Knees-Butt-Kicks.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906943/exercise-gifs/180/High-Knees-Butt-Kicks.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906945/exercise-gifs/360/High-Knees-Butt-Kicks.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906949/exercise-gifs/720/High-Knees-Butt-Kicks.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -2724,9 +2724,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906951/exercise-gifs/180/Hip-Crunch-Knees-Bent.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906952/exercise-gifs/360/Hip-Crunch-Knees-Bent.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906956/exercise-gifs/720/Hip-Crunch-Knees-Bent.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906951/exercise-gifs/180/Hip-Crunch-Knees-Bent.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906952/exercise-gifs/360/Hip-Crunch-Knees-Bent.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906956/exercise-gifs/720/Hip-Crunch-Knees-Bent.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -2782,9 +2782,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906957/exercise-gifs/180/Hip-Raise-Bent-Knee.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906959/exercise-gifs/360/Hip-Raise-Bent-Knee.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906964/exercise-gifs/720/Hip-Raise-Bent-Knee.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906957/exercise-gifs/180/Hip-Raise-Bent-Knee.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906959/exercise-gifs/360/Hip-Raise-Bent-Knee.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906964/exercise-gifs/720/Hip-Raise-Bent-Knee.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -2840,9 +2840,9 @@
             "CHEST"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906966/exercise-gifs/180/Incline-Push-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906969/exercise-gifs/360/Incline-Push-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906977/exercise-gifs/720/Incline-Push-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906966/exercise-gifs/180/Incline-Push-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906969/exercise-gifs/360/Incline-Push-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906977/exercise-gifs/720/Incline-Push-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -2898,9 +2898,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906978/exercise-gifs/180/Jack-Knife-Floor.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906979/exercise-gifs/360/Jack-Knife-Floor.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906982/exercise-gifs/720/Jack-Knife-Floor.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906978/exercise-gifs/180/Jack-Knife-Floor.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906979/exercise-gifs/360/Jack-Knife-Floor.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906982/exercise-gifs/720/Jack-Knife-Floor.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -2956,9 +2956,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906982/exercise-gifs/180/Jack-Split-Crunches.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906984/exercise-gifs/360/Jack-Split-Crunches.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906985/exercise-gifs/720/Jack-Split-Crunches.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906982/exercise-gifs/180/Jack-Split-Crunches.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906984/exercise-gifs/360/Jack-Split-Crunches.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906985/exercise-gifs/720/Jack-Split-Crunches.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3014,9 +3014,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906986/exercise-gifs/180/Janda-Sit-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906988/exercise-gifs/360/Janda-Sit-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906991/exercise-gifs/720/Janda-Sit-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906986/exercise-gifs/180/Janda-Sit-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906988/exercise-gifs/360/Janda-Sit-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906991/exercise-gifs/720/Janda-Sit-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3072,9 +3072,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906992/exercise-gifs/180/Jump-Lunge-To-Feet-Jack.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906994/exercise-gifs/360/Jump-Lunge-To-Feet-Jack.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596906996/exercise-gifs/720/Jump-Lunge-To-Feet-Jack.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906992/exercise-gifs/180/Jump-Lunge-To-Feet-Jack.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906994/exercise-gifs/360/Jump-Lunge-To-Feet-Jack.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596906996/exercise-gifs/720/Jump-Lunge-To-Feet-Jack.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3128,9 +3128,9 @@
         "metaBodyPart": "PLYOMETRICS",
         "bodyPart": [],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596906997/exercise-gifs/180/Jump-Split.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596906998/exercise-gifs/360/Jump-Split.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907003/exercise-gifs/720/Jump-Split.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596906997/exercise-gifs/180/Jump-Split.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596906998/exercise-gifs/360/Jump-Split.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907003/exercise-gifs/720/Jump-Split.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3186,9 +3186,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907004/exercise-gifs/180/Jumping-Jack.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907006/exercise-gifs/360/Jumping-Jack.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907014/exercise-gifs/720/Jumping-Jack.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907004/exercise-gifs/180/Jumping-Jack.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907006/exercise-gifs/360/Jumping-Jack.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907014/exercise-gifs/720/Jumping-Jack.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3245,9 +3245,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907015/exercise-gifs/180/Knee-To-Chest-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907016/exercise-gifs/360/Knee-To-Chest-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907019/exercise-gifs/720/Knee-To-Chest-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907015/exercise-gifs/180/Knee-To-Chest-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907016/exercise-gifs/360/Knee-To-Chest-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907019/exercise-gifs/720/Knee-To-Chest-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -3262,9 +3262,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907020/exercise-gifs/180/Kneeling-Wrist-Flexor-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907022/exercise-gifs/360/Kneeling-Wrist-Flexor-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907025/exercise-gifs/720/Kneeling-Wrist-Flexor-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907020/exercise-gifs/180/Kneeling-Wrist-Flexor-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907022/exercise-gifs/360/Kneeling-Wrist-Flexor-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907025/exercise-gifs/720/Kneeling-Wrist-Flexor-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -3279,9 +3279,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907027/exercise-gifs/180/Lunge-Push-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907029/exercise-gifs/360/Lunge-Push-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907036/exercise-gifs/720/Lunge-Push-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907027/exercise-gifs/180/Lunge-Push-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907029/exercise-gifs/360/Lunge-Push-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907036/exercise-gifs/720/Lunge-Push-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3338,9 +3338,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907037/exercise-gifs/180/Lunge.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907038/exercise-gifs/360/Lunge.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907041/exercise-gifs/720/Lunge.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907037/exercise-gifs/180/Lunge.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907038/exercise-gifs/360/Lunge.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907041/exercise-gifs/720/Lunge.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3396,9 +3396,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907042/exercise-gifs/180/Lying-Crossover-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907043/exercise-gifs/360/Lying-Crossover-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907045/exercise-gifs/720/Lying-Crossover-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907042/exercise-gifs/180/Lying-Crossover-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907043/exercise-gifs/360/Lying-Crossover-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907045/exercise-gifs/720/Lying-Crossover-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -3413,9 +3413,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907046/exercise-gifs/180/Lying-Scissor-Kick.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907048/exercise-gifs/360/Lying-Scissor-Kick.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907050/exercise-gifs/720/Lying-Scissor-Kick.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907046/exercise-gifs/180/Lying-Scissor-Kick.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907048/exercise-gifs/360/Lying-Scissor-Kick.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907050/exercise-gifs/720/Lying-Scissor-Kick.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3471,9 +3471,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907051/exercise-gifs/180/Mountain-Climber.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907052/exercise-gifs/360/Mountain-Climber.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907055/exercise-gifs/720/Mountain-Climber.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907051/exercise-gifs/180/Mountain-Climber.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907052/exercise-gifs/360/Mountain-Climber.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907055/exercise-gifs/720/Mountain-Climber.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3529,9 +3529,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907056/exercise-gifs/180/Oblique-Crunches-Floor.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907057/exercise-gifs/360/Oblique-Crunches-Floor.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907060/exercise-gifs/720/Oblique-Crunches-Floor.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907056/exercise-gifs/180/Oblique-Crunches-Floor.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907057/exercise-gifs/360/Oblique-Crunches-Floor.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907060/exercise-gifs/720/Oblique-Crunches-Floor.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3585,9 +3585,9 @@
         "metaBodyPart": "HIP",
         "bodyPart": [],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907061/exercise-gifs/180/Outside-Leg-Kick-Push-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907062/exercise-gifs/360/Outside-Leg-Kick-Push-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907066/exercise-gifs/720/Outside-Leg-Kick-Push-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907061/exercise-gifs/180/Outside-Leg-Kick-Push-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907062/exercise-gifs/360/Outside-Leg-Kick-Push-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907066/exercise-gifs/720/Outside-Leg-Kick-Push-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3643,9 +3643,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907067/exercise-gifs/180/Overhead-Triceps-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907069/exercise-gifs/360/Overhead-Triceps-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907073/exercise-gifs/720/Overhead-Triceps-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907067/exercise-gifs/180/Overhead-Triceps-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907069/exercise-gifs/360/Overhead-Triceps-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907073/exercise-gifs/720/Overhead-Triceps-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -3660,9 +3660,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907074/exercise-gifs/180/Pretzel-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907075/exercise-gifs/360/Pretzel-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907079/exercise-gifs/720/Pretzel-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907074/exercise-gifs/180/Pretzel-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907075/exercise-gifs/360/Pretzel-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907079/exercise-gifs/720/Pretzel-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -3677,9 +3677,9 @@
             "CHEST"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907080/exercise-gifs/180/Push-Up-M.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907081/exercise-gifs/360/Push-Up-M.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907085/exercise-gifs/720/Push-Up-M.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907080/exercise-gifs/180/Push-Up-M.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907081/exercise-gifs/360/Push-Up-M.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907085/exercise-gifs/720/Push-Up-M.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3735,9 +3735,9 @@
             "CHEST"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907086/exercise-gifs/180/Push-Up-W.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907088/exercise-gifs/360/Push-Up-W.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907091/exercise-gifs/720/Push-Up-W.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907086/exercise-gifs/180/Push-Up-W.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907088/exercise-gifs/360/Push-Up-W.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907091/exercise-gifs/720/Push-Up-W.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3793,9 +3793,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907092/exercise-gifs/180/Rear-Decline-Bridge.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907093/exercise-gifs/360/Rear-Decline-Bridge.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907097/exercise-gifs/720/Rear-Decline-Bridge.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907092/exercise-gifs/180/Rear-Decline-Bridge.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907093/exercise-gifs/360/Rear-Decline-Bridge.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907097/exercise-gifs/720/Rear-Decline-Bridge.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3851,9 +3851,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907098/exercise-gifs/180/Reverse-Dip.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907099/exercise-gifs/360/Reverse-Dip.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907103/exercise-gifs/720/Reverse-Dip.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907098/exercise-gifs/180/Reverse-Dip.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907099/exercise-gifs/360/Reverse-Dip.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907103/exercise-gifs/720/Reverse-Dip.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3909,9 +3909,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907104/exercise-gifs/180/Rolling-Bridge.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907106/exercise-gifs/360/Rolling-Bridge.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907111/exercise-gifs/720/Rolling-Bridge.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907104/exercise-gifs/180/Rolling-Bridge.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907106/exercise-gifs/360/Rolling-Bridge.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907111/exercise-gifs/720/Rolling-Bridge.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -3967,9 +3967,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907112/exercise-gifs/180/Seated-Leg-Raise.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907113/exercise-gifs/360/Seated-Leg-Raise.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907116/exercise-gifs/720/Seated-Leg-Raise.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907112/exercise-gifs/180/Seated-Leg-Raise.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907113/exercise-gifs/360/Seated-Leg-Raise.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907116/exercise-gifs/720/Seated-Leg-Raise.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -4025,9 +4025,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907117/exercise-gifs/180/Seated-Twist-Straight-Arm.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907119/exercise-gifs/360/Seated-Twist-Straight-Arm.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907123/exercise-gifs/720/Seated-Twist-Straight-Arm.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907117/exercise-gifs/180/Seated-Twist-Straight-Arm.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907119/exercise-gifs/360/Seated-Twist-Straight-Arm.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907123/exercise-gifs/720/Seated-Twist-Straight-Arm.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -4081,9 +4081,9 @@
         "metaBodyPart": "PLYOMETRICS",
         "bodyPart": [],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907124/exercise-gifs/180/Shoulder-Tap-Push-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907125/exercise-gifs/360/Shoulder-Tap-Push-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907129/exercise-gifs/720/Shoulder-Tap-Push-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907124/exercise-gifs/180/Shoulder-Tap-Push-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907125/exercise-gifs/360/Shoulder-Tap-Push-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907129/exercise-gifs/720/Shoulder-Tap-Push-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -4139,9 +4139,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907130/exercise-gifs/180/Side-Hip-Abduction.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907131/exercise-gifs/360/Side-Hip-Abduction.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907134/exercise-gifs/720/Side-Hip-Abduction.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907130/exercise-gifs/180/Side-Hip-Abduction.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907131/exercise-gifs/360/Side-Hip-Abduction.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907134/exercise-gifs/720/Side-Hip-Abduction.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -4197,9 +4197,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907135/exercise-gifs/180/Side-Push-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907136/exercise-gifs/360/Side-Push-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907140/exercise-gifs/720/Side-Push-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907135/exercise-gifs/180/Side-Push-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907136/exercise-gifs/360/Side-Push-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907140/exercise-gifs/720/Side-Push-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -4255,9 +4255,9 @@
             "CHEST"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907141/exercise-gifs/180/Single-Arm-Push-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907142/exercise-gifs/360/Single-Arm-Push-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907146/exercise-gifs/720/Single-Arm-Push-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907141/exercise-gifs/180/Single-Arm-Push-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907142/exercise-gifs/360/Single-Arm-Push-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907146/exercise-gifs/720/Single-Arm-Push-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -4313,9 +4313,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907147/exercise-gifs/180/Sit-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907149/exercise-gifs/360/Sit-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907153/exercise-gifs/720/Sit-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907147/exercise-gifs/180/Sit-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907149/exercise-gifs/360/Sit-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907153/exercise-gifs/720/Sit-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -4371,9 +4371,9 @@
             "BACK"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907154/exercise-gifs/180/Slopes-Towards-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907155/exercise-gifs/360/Slopes-Towards-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907158/exercise-gifs/720/Slopes-Towards-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907154/exercise-gifs/180/Slopes-Towards-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907155/exercise-gifs/360/Slopes-Towards-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907158/exercise-gifs/720/Slopes-Towards-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -4388,9 +4388,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907159/exercise-gifs/180/Spider-Crawl-Push-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907160/exercise-gifs/360/Spider-Crawl-Push-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907162/exercise-gifs/720/Spider-Crawl-Push-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907159/exercise-gifs/180/Spider-Crawl-Push-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907160/exercise-gifs/360/Spider-Crawl-Push-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907162/exercise-gifs/720/Spider-Crawl-Push-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -4447,9 +4447,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907163/exercise-gifs/180/Squat.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907164/exercise-gifs/360/Squat.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907167/exercise-gifs/720/Squat.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907163/exercise-gifs/180/Squat.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907164/exercise-gifs/360/Squat.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907167/exercise-gifs/720/Squat.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -4505,9 +4505,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907168/exercise-gifs/180/Standing-Hamstring-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907169/exercise-gifs/360/Standing-Hamstring-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907172/exercise-gifs/720/Standing-Hamstring-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907168/exercise-gifs/180/Standing-Hamstring-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907169/exercise-gifs/360/Standing-Hamstring-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907172/exercise-gifs/720/Standing-Hamstring-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -4522,9 +4522,9 @@
             "SHOULDERS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907174/exercise-gifs/180/Standing-Lateral-Raise-With-Band.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907175/exercise-gifs/360/Standing-Lateral-Raise-With-Band.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907178/exercise-gifs/720/Standing-Lateral-Raise-With-Band.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907174/exercise-gifs/180/Standing-Lateral-Raise-With-Band.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907175/exercise-gifs/360/Standing-Lateral-Raise-With-Band.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907178/exercise-gifs/720/Standing-Lateral-Raise-With-Band.gif"
         },
         "equipment": "BAND",
         "exerciseData": [
@@ -4580,9 +4580,9 @@
             "BACK"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907179/exercise-gifs/180/Standing-Lateral-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907180/exercise-gifs/360/Standing-Lateral-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907183/exercise-gifs/720/Standing-Lateral-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907179/exercise-gifs/180/Standing-Lateral-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907180/exercise-gifs/360/Standing-Lateral-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907183/exercise-gifs/720/Standing-Lateral-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -4597,9 +4597,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907183/exercise-gifs/180/Standing-Single-Leg-Curl.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907185/exercise-gifs/360/Standing-Single-Leg-Curl.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907187/exercise-gifs/720/Standing-Single-Leg-Curl.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907183/exercise-gifs/180/Standing-Single-Leg-Curl.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907185/exercise-gifs/360/Standing-Single-Leg-Curl.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907187/exercise-gifs/720/Standing-Single-Leg-Curl.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -4655,9 +4655,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907188/exercise-gifs/180/Star-Jump.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907190/exercise-gifs/360/Star-Jump.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907192/exercise-gifs/720/Star-Jump.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907188/exercise-gifs/180/Star-Jump.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907190/exercise-gifs/360/Star-Jump.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907192/exercise-gifs/720/Star-Jump.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -4713,9 +4713,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907193/exercise-gifs/180/Step-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907194/exercise-gifs/360/Step-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907197/exercise-gifs/720/Step-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907193/exercise-gifs/180/Step-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907194/exercise-gifs/360/Step-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907197/exercise-gifs/720/Step-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -4771,9 +4771,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907198/exercise-gifs/180/Sumo-Squat.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907200/exercise-gifs/360/Sumo-Squat.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907203/exercise-gifs/720/Sumo-Squat.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907198/exercise-gifs/180/Sumo-Squat.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907200/exercise-gifs/360/Sumo-Squat.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907203/exercise-gifs/720/Sumo-Squat.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -4829,9 +4829,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907204/exercise-gifs/180/Superman.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907205/exercise-gifs/360/Superman.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907207/exercise-gifs/720/Superman.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907204/exercise-gifs/180/Superman.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907205/exercise-gifs/360/Superman.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907207/exercise-gifs/720/Superman.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -4887,9 +4887,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907208/exercise-gifs/180/Triceps-Dip-Between-Benches.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907209/exercise-gifs/360/Triceps-Dip-Between-Benches.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907212/exercise-gifs/720/Triceps-Dip-Between-Benches.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907208/exercise-gifs/180/Triceps-Dip-Between-Benches.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907209/exercise-gifs/360/Triceps-Dip-Between-Benches.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907212/exercise-gifs/720/Triceps-Dip-Between-Benches.gif"
         },
         "equipment": "BENCH",
         "exerciseData": [
@@ -4945,9 +4945,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907214/exercise-gifs/180/Triceps-Dips-Floor.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907215/exercise-gifs/360/Triceps-Dips-Floor.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907221/exercise-gifs/720/Triceps-Dips-Floor.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907214/exercise-gifs/180/Triceps-Dips-Floor.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907215/exercise-gifs/360/Triceps-Dips-Floor.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907221/exercise-gifs/720/Triceps-Dips-Floor.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -5003,9 +5003,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907223/exercise-gifs/180/Triceps-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907225/exercise-gifs/360/Triceps-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907228/exercise-gifs/720/Triceps-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907223/exercise-gifs/180/Triceps-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907225/exercise-gifs/360/Triceps-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907228/exercise-gifs/720/Triceps-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -5020,9 +5020,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907229/exercise-gifs/180/Twist-Crunch-Leg-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907231/exercise-gifs/360/Twist-Crunch-Leg-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907235/exercise-gifs/720/Twist-Crunch-Leg-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907229/exercise-gifs/180/Twist-Crunch-Leg-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907231/exercise-gifs/360/Twist-Crunch-Leg-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907235/exercise-gifs/720/Twist-Crunch-Leg-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -5078,9 +5078,9 @@
             "SHOULDERS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907236/exercise-gifs/180/Twist-Side-Bridge.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907238/exercise-gifs/360/Twist-Side-Bridge.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907242/exercise-gifs/720/Twist-Side-Bridge.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907236/exercise-gifs/180/Twist-Side-Bridge.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907238/exercise-gifs/360/Twist-Side-Bridge.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907242/exercise-gifs/720/Twist-Side-Bridge.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -5136,9 +5136,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907243/exercise-gifs/180/Twisting-Crunch-Arms-Straight.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907245/exercise-gifs/360/Twisting-Crunch-Arms-Straight.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907266/exercise-gifs/720/Twisting-Crunch-Arms-Straight.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907243/exercise-gifs/180/Twisting-Crunch-Arms-Straight.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907245/exercise-gifs/360/Twisting-Crunch-Arms-Straight.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907266/exercise-gifs/720/Twisting-Crunch-Arms-Straight.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -5194,9 +5194,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907267/exercise-gifs/180/V-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907270/exercise-gifs/360/V-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907272/exercise-gifs/720/V-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907267/exercise-gifs/180/V-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907270/exercise-gifs/360/V-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907272/exercise-gifs/720/V-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -5252,9 +5252,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907273/exercise-gifs/180/Tuck-Crunch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907275/exercise-gifs/360/Tuck-Crunch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907280/exercise-gifs/720/Tuck-Crunch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907273/exercise-gifs/180/Tuck-Crunch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907275/exercise-gifs/360/Tuck-Crunch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907280/exercise-gifs/720/Tuck-Crunch.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -5310,9 +5310,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907282/exercise-gifs/180/Band-Kneeling-Rear-Kick.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907284/exercise-gifs/360/Band-Kneeling-Rear-Kick.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907287/exercise-gifs/720/Band-Kneeling-Rear-Kick.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907282/exercise-gifs/180/Band-Kneeling-Rear-Kick.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907284/exercise-gifs/360/Band-Kneeling-Rear-Kick.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907287/exercise-gifs/720/Band-Kneeling-Rear-Kick.gif"
         },
         "equipment": "BAND",
         "exerciseData": [
@@ -5368,9 +5368,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907288/exercise-gifs/180/Adductor-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907291/exercise-gifs/360/Adductor-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907296/exercise-gifs/720/Adductor-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907288/exercise-gifs/180/Adductor-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907291/exercise-gifs/360/Adductor-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907296/exercise-gifs/720/Adductor-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -5385,9 +5385,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907298/exercise-gifs/180/Calves-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907300/exercise-gifs/360/Calves-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907303/exercise-gifs/720/Calves-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907298/exercise-gifs/180/Calves-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907300/exercise-gifs/360/Calves-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907303/exercise-gifs/720/Calves-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -5402,9 +5402,9 @@
             "BACK"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907304/exercise-gifs/180/Chair-Pose-Ii-Utkatasana-Ii-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907305/exercise-gifs/360/Chair-Pose-Ii-Utkatasana-Ii-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907310/exercise-gifs/720/Chair-Pose-Ii-Utkatasana-Ii-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907304/exercise-gifs/180/Chair-Pose-Ii-Utkatasana-Ii-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907305/exercise-gifs/360/Chair-Pose-Ii-Utkatasana-Ii-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907310/exercise-gifs/720/Chair-Pose-Ii-Utkatasana-Ii-Female.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -5417,9 +5417,9 @@
         "metaBodyPart": "1080.GIF",
         "bodyPart": [],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907311/exercise-gifs/180/Child-Pose-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907313/exercise-gifs/360/Child-Pose-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907320/exercise-gifs/720/Child-Pose-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907311/exercise-gifs/180/Child-Pose-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907313/exercise-gifs/360/Child-Pose-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907320/exercise-gifs/720/Child-Pose-Female.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -5475,9 +5475,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907322/exercise-gifs/180/Crane-Pose-Bakasana-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907327/exercise-gifs/360/Crane-Pose-Bakasana-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907333/exercise-gifs/720/Crane-Pose-Bakasana-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907322/exercise-gifs/180/Crane-Pose-Bakasana-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907327/exercise-gifs/360/Crane-Pose-Bakasana-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907333/exercise-gifs/720/Crane-Pose-Bakasana-Female.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -5490,9 +5490,9 @@
         "metaBodyPart": "1080.GIF",
         "bodyPart": [],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907334/exercise-gifs/180/Crescent-Moon-Pose-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907336/exercise-gifs/360/Crescent-Moon-Pose-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907339/exercise-gifs/720/Crescent-Moon-Pose-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907334/exercise-gifs/180/Crescent-Moon-Pose-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907336/exercise-gifs/360/Crescent-Moon-Pose-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907339/exercise-gifs/720/Crescent-Moon-Pose-Female.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -5548,9 +5548,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907340/exercise-gifs/180/Fish-Pose-Matsyasana-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907341/exercise-gifs/360/Fish-Pose-Matsyasana-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907343/exercise-gifs/720/Fish-Pose-Matsyasana-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907340/exercise-gifs/180/Fish-Pose-Matsyasana-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907341/exercise-gifs/360/Fish-Pose-Matsyasana-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907343/exercise-gifs/720/Fish-Pose-Matsyasana-Female.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -5565,9 +5565,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907345/exercise-gifs/180/Half-Moon-Pose-Ardha-Chandrasana-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907347/exercise-gifs/360/Half-Moon-Pose-Ardha-Chandrasana-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907352/exercise-gifs/720/Half-Moon-Pose-Ardha-Chandrasana-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907345/exercise-gifs/180/Half-Moon-Pose-Ardha-Chandrasana-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907347/exercise-gifs/360/Half-Moon-Pose-Ardha-Chandrasana-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907352/exercise-gifs/720/Half-Moon-Pose-Ardha-Chandrasana-Female.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -5582,9 +5582,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907353/exercise-gifs/180/Lotus-Yoga-Pose-Padmasana-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907355/exercise-gifs/360/Lotus-Yoga-Pose-Padmasana-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907360/exercise-gifs/720/Lotus-Yoga-Pose-Padmasana-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907353/exercise-gifs/180/Lotus-Yoga-Pose-Padmasana-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907355/exercise-gifs/360/Lotus-Yoga-Pose-Padmasana-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907360/exercise-gifs/720/Lotus-Yoga-Pose-Padmasana-Female.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -5599,9 +5599,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907361/exercise-gifs/180/Spread-Leg-Forward-Fold-Upavista-Konasana-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907363/exercise-gifs/360/Spread-Leg-Forward-Fold-Upavista-Konasana-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907368/exercise-gifs/720/Spread-Leg-Forward-Fold-Upavista-Konasana-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907361/exercise-gifs/180/Spread-Leg-Forward-Fold-Upavista-Konasana-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907363/exercise-gifs/360/Spread-Leg-Forward-Fold-Upavista-Konasana-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907368/exercise-gifs/720/Spread-Leg-Forward-Fold-Upavista-Konasana-Female.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -5616,9 +5616,9 @@
             "FULL_BODY"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907369/exercise-gifs/180/Standing-Forward-Bend-Uttanasana-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907371/exercise-gifs/360/Standing-Forward-Bend-Uttanasana-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907373/exercise-gifs/720/Standing-Forward-Bend-Uttanasana-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907369/exercise-gifs/180/Standing-Forward-Bend-Uttanasana-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907371/exercise-gifs/360/Standing-Forward-Bend-Uttanasana-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907373/exercise-gifs/720/Standing-Forward-Bend-Uttanasana-Female.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -5633,9 +5633,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907375/exercise-gifs/180/Band-Alternating-Biceps-Curl.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907376/exercise-gifs/360/Band-Alternating-Biceps-Curl.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907381/exercise-gifs/720/Band-Alternating-Biceps-Curl.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907375/exercise-gifs/180/Band-Alternating-Biceps-Curl.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907376/exercise-gifs/360/Band-Alternating-Biceps-Curl.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907381/exercise-gifs/720/Band-Alternating-Biceps-Curl.gif"
         },
         "equipment": "BAND",
         "exerciseData": [
@@ -5691,9 +5691,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907383/exercise-gifs/180/Band-Concentration-Curl.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907386/exercise-gifs/360/Band-Concentration-Curl.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907393/exercise-gifs/720/Band-Concentration-Curl.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907383/exercise-gifs/180/Band-Concentration-Curl.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907386/exercise-gifs/360/Band-Concentration-Curl.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907393/exercise-gifs/720/Band-Concentration-Curl.gif"
         },
         "equipment": "BAND",
         "exerciseData": [
@@ -5749,9 +5749,9 @@
             "SHOULDERS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907395/exercise-gifs/180/Band-Front-Raise.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907397/exercise-gifs/360/Band-Front-Raise.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907402/exercise-gifs/720/Band-Front-Raise.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907395/exercise-gifs/180/Band-Front-Raise.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907397/exercise-gifs/360/Band-Front-Raise.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907402/exercise-gifs/720/Band-Front-Raise.gif"
         },
         "equipment": "BAND",
         "exerciseData": [
@@ -5807,9 +5807,9 @@
             "CHEST"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907403/exercise-gifs/180/Chest-And-Front-Of-Shoulder-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907404/exercise-gifs/360/Chest-And-Front-Of-Shoulder-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907407/exercise-gifs/720/Chest-And-Front-Of-Shoulder-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907403/exercise-gifs/180/Chest-And-Front-Of-Shoulder-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907404/exercise-gifs/360/Chest-And-Front-Of-Shoulder-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907407/exercise-gifs/720/Chest-And-Front-Of-Shoulder-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -5824,9 +5824,9 @@
             "CHEST"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907409/exercise-gifs/180/Wide-Hand-Push-Up.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907410/exercise-gifs/360/Wide-Hand-Push-Up.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907414/exercise-gifs/720/Wide-Hand-Push-Up.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907409/exercise-gifs/180/Wide-Hand-Push-Up.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907410/exercise-gifs/360/Wide-Hand-Push-Up.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907414/exercise-gifs/720/Wide-Hand-Push-Up.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -5882,9 +5882,9 @@
             "BACK"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907415/exercise-gifs/180/Kneeling-Lat-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907417/exercise-gifs/360/Kneeling-Lat-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907421/exercise-gifs/720/Kneeling-Lat-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907415/exercise-gifs/180/Kneeling-Lat-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907417/exercise-gifs/360/Kneeling-Lat-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907421/exercise-gifs/720/Kneeling-Lat-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -5899,9 +5899,9 @@
             "BACK"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907422/exercise-gifs/180/Sphinx.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907423/exercise-gifs/360/Sphinx.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907425/exercise-gifs/720/Sphinx.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907422/exercise-gifs/180/Sphinx.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907423/exercise-gifs/360/Sphinx.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907425/exercise-gifs/720/Sphinx.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -5957,9 +5957,9 @@
             "BACK"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907427/exercise-gifs/180/Spine-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907429/exercise-gifs/360/Spine-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907433/exercise-gifs/720/Spine-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907427/exercise-gifs/180/Spine-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907429/exercise-gifs/360/Spine-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907433/exercise-gifs/720/Spine-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -5974,9 +5974,9 @@
             "BACK"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907434/exercise-gifs/180/Upper-Back-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907436/exercise-gifs/360/Upper-Back-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907439/exercise-gifs/720/Upper-Back-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907434/exercise-gifs/180/Upper-Back-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907436/exercise-gifs/360/Upper-Back-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907439/exercise-gifs/720/Upper-Back-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -5991,9 +5991,9 @@
             "BACK"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907440/exercise-gifs/180/Upward-Facing-Dog.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907441/exercise-gifs/360/Upward-Facing-Dog.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907443/exercise-gifs/720/Upward-Facing-Dog.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907440/exercise-gifs/180/Upward-Facing-Dog.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907441/exercise-gifs/360/Upward-Facing-Dog.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907443/exercise-gifs/720/Upward-Facing-Dog.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -6049,9 +6049,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907444/exercise-gifs/180/Ankle-Circles.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907446/exercise-gifs/360/Ankle-Circles.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907449/exercise-gifs/720/Ankle-Circles.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907444/exercise-gifs/180/Ankle-Circles.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907446/exercise-gifs/360/Ankle-Circles.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907449/exercise-gifs/720/Ankle-Circles.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -6107,9 +6107,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907450/exercise-gifs/180/Calf-Stretch-With-Hands-Against-Wall.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907453/exercise-gifs/360/Calf-Stretch-With-Hands-Against-Wall.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907461/exercise-gifs/720/Calf-Stretch-With-Hands-Against-Wall.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907450/exercise-gifs/180/Calf-Stretch-With-Hands-Against-Wall.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907453/exercise-gifs/360/Calf-Stretch-With-Hands-Against-Wall.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907461/exercise-gifs/720/Calf-Stretch-With-Hands-Against-Wall.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -6124,9 +6124,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907466/exercise-gifs/180/Seated-Calf-Stretch-Male.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907480/exercise-gifs/360/Seated-Calf-Stretch-Male.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907492/exercise-gifs/720/Seated-Calf-Stretch-Male.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907466/exercise-gifs/180/Seated-Calf-Stretch-Male.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907480/exercise-gifs/360/Seated-Calf-Stretch-Male.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907492/exercise-gifs/720/Seated-Calf-Stretch-Male.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -6141,9 +6141,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907493/exercise-gifs/180/Bench-Dip-On-Floor.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907495/exercise-gifs/360/Bench-Dip-On-Floor.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907498/exercise-gifs/720/Bench-Dip-On-Floor.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907493/exercise-gifs/180/Bench-Dip-On-Floor.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907495/exercise-gifs/360/Bench-Dip-On-Floor.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907498/exercise-gifs/720/Bench-Dip-On-Floor.gif"
         },
         "equipment": "BENCH",
         "exerciseData": [
@@ -6200,9 +6200,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907498/exercise-gifs/180/Squat-Side-Kick.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907500/exercise-gifs/360/Squat-Side-Kick.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907502/exercise-gifs/720/Squat-Side-Kick.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907498/exercise-gifs/180/Squat-Side-Kick.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907500/exercise-gifs/360/Squat-Side-Kick.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907502/exercise-gifs/720/Squat-Side-Kick.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -6258,9 +6258,9 @@
             "SHOULDERS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907503/exercise-gifs/180/Neck-Side-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907505/exercise-gifs/360/Neck-Side-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907507/exercise-gifs/720/Neck-Side-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907503/exercise-gifs/180/Neck-Side-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907505/exercise-gifs/360/Neck-Side-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907507/exercise-gifs/720/Neck-Side-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -6275,9 +6275,9 @@
             "BACK"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907508/exercise-gifs/180/Back-Pec-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907509/exercise-gifs/360/Back-Pec-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907511/exercise-gifs/720/Back-Pec-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907508/exercise-gifs/180/Back-Pec-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907509/exercise-gifs/360/Back-Pec-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907511/exercise-gifs/720/Back-Pec-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -6292,9 +6292,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907512/exercise-gifs/180/Calf-Push-Stretch-With-Hands-Against-Wall.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907513/exercise-gifs/360/Calf-Push-Stretch-With-Hands-Against-Wall.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907515/exercise-gifs/720/Calf-Push-Stretch-With-Hands-Against-Wall.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907512/exercise-gifs/180/Calf-Push-Stretch-With-Hands-Against-Wall.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907513/exercise-gifs/360/Calf-Push-Stretch-With-Hands-Against-Wall.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907515/exercise-gifs/720/Calf-Push-Stretch-With-Hands-Against-Wall.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -6309,9 +6309,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907516/exercise-gifs/180/Iron-Cross-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907517/exercise-gifs/360/Iron-Cross-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907520/exercise-gifs/720/Iron-Cross-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907516/exercise-gifs/180/Iron-Cross-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907517/exercise-gifs/360/Iron-Cross-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907520/exercise-gifs/720/Iron-Cross-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -6326,9 +6326,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907521/exercise-gifs/180/Seated-Glute-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907523/exercise-gifs/360/Seated-Glute-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907526/exercise-gifs/720/Seated-Glute-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907521/exercise-gifs/180/Seated-Glute-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907523/exercise-gifs/360/Seated-Glute-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907526/exercise-gifs/720/Seated-Glute-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -6341,9 +6341,9 @@
         "metaBodyPart": "HAND",
         "bodyPart": [],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907528/exercise-gifs/180/Dumbbell-Finger-Curls.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907530/exercise-gifs/360/Dumbbell-Finger-Curls.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907536/exercise-gifs/720/Dumbbell-Finger-Curls.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907528/exercise-gifs/180/Dumbbell-Finger-Curls.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907530/exercise-gifs/360/Dumbbell-Finger-Curls.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907536/exercise-gifs/720/Dumbbell-Finger-Curls.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -6400,9 +6400,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907538/exercise-gifs/180/Walking-Lunge-Male.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907545/exercise-gifs/360/Walking-Lunge-Male.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907554/exercise-gifs/720/Walking-Lunge-Male.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907538/exercise-gifs/180/Walking-Lunge-Male.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907545/exercise-gifs/360/Walking-Lunge-Male.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907554/exercise-gifs/720/Walking-Lunge-Male.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -6458,9 +6458,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907555/exercise-gifs/180/Crab-Twist-Toe-Touch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907557/exercise-gifs/360/Crab-Twist-Toe-Touch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907559/exercise-gifs/720/Crab-Twist-Toe-Touch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907555/exercise-gifs/180/Crab-Twist-Toe-Touch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907557/exercise-gifs/360/Crab-Twist-Toe-Touch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907559/exercise-gifs/720/Crab-Twist-Toe-Touch.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -6516,9 +6516,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907562/exercise-gifs/180/Lateral-Side-Plank-Bent-Leg.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907563/exercise-gifs/360/Lateral-Side-Plank-Bent-Leg.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907565/exercise-gifs/720/Lateral-Side-Plank-Bent-Leg.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907562/exercise-gifs/180/Lateral-Side-Plank-Bent-Leg.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907563/exercise-gifs/360/Lateral-Side-Plank-Bent-Leg.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907565/exercise-gifs/720/Lateral-Side-Plank-Bent-Leg.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -6574,9 +6574,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907566/exercise-gifs/180/Lateral-Side-Plank.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907567/exercise-gifs/360/Lateral-Side-Plank.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907569/exercise-gifs/720/Lateral-Side-Plank.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907566/exercise-gifs/180/Lateral-Side-Plank.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907567/exercise-gifs/360/Lateral-Side-Plank.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907569/exercise-gifs/720/Lateral-Side-Plank.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -6632,9 +6632,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907570/exercise-gifs/180/Inchworm.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907571/exercise-gifs/360/Inchworm.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907575/exercise-gifs/720/Inchworm.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907570/exercise-gifs/180/Inchworm.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907571/exercise-gifs/360/Inchworm.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907575/exercise-gifs/720/Inchworm.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -6691,9 +6691,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907575/exercise-gifs/180/One-Leg-Squat.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907577/exercise-gifs/360/One-Leg-Squat.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907578/exercise-gifs/720/One-Leg-Squat.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907575/exercise-gifs/180/One-Leg-Squat.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907577/exercise-gifs/360/One-Leg-Squat.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907578/exercise-gifs/720/One-Leg-Squat.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -6749,9 +6749,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907580/exercise-gifs/180/Butterfly-Yoga-Pose.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907581/exercise-gifs/360/Butterfly-Yoga-Pose.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907585/exercise-gifs/720/Butterfly-Yoga-Pose.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907580/exercise-gifs/180/Butterfly-Yoga-Pose.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907581/exercise-gifs/360/Butterfly-Yoga-Pose.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907585/exercise-gifs/720/Butterfly-Yoga-Pose.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -6766,9 +6766,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907586/exercise-gifs/180/Hamstring-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907587/exercise-gifs/360/Hamstring-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907589/exercise-gifs/720/Hamstring-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907586/exercise-gifs/180/Hamstring-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907587/exercise-gifs/360/Hamstring-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907589/exercise-gifs/720/Hamstring-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -6783,9 +6783,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907590/exercise-gifs/180/All-Fours-Squad-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907591/exercise-gifs/360/All-Fours-Squad-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907594/exercise-gifs/720/All-Fours-Squad-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907590/exercise-gifs/180/All-Fours-Squad-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907591/exercise-gifs/360/All-Fours-Squad-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907594/exercise-gifs/720/All-Fours-Squad-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -6800,9 +6800,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907595/exercise-gifs/180/Reclining-Big-Toe-Pose-With-Rope.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907596/exercise-gifs/360/Reclining-Big-Toe-Pose-With-Rope.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907600/exercise-gifs/720/Reclining-Big-Toe-Pose-With-Rope.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907595/exercise-gifs/180/Reclining-Big-Toe-Pose-With-Rope.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907596/exercise-gifs/360/Reclining-Big-Toe-Pose-With-Rope.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907600/exercise-gifs/720/Reclining-Big-Toe-Pose-With-Rope.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -6858,9 +6858,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907600/exercise-gifs/180/Runners-Stretch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907602/exercise-gifs/360/Runners-Stretch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907604/exercise-gifs/720/Runners-Stretch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907600/exercise-gifs/180/Runners-Stretch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907602/exercise-gifs/360/Runners-Stretch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907604/exercise-gifs/720/Runners-Stretch.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -6875,9 +6875,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907605/exercise-gifs/180/Seated-Wide-Angle-Pose-Sequence.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907606/exercise-gifs/360/Seated-Wide-Angle-Pose-Sequence.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907612/exercise-gifs/720/Seated-Wide-Angle-Pose-Sequence.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907605/exercise-gifs/180/Seated-Wide-Angle-Pose-Sequence.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907606/exercise-gifs/360/Seated-Wide-Angle-Pose-Sequence.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907612/exercise-gifs/720/Seated-Wide-Angle-Pose-Sequence.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -6933,9 +6933,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907614/exercise-gifs/180/Single-Leg-Foot-Touch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907616/exercise-gifs/360/Single-Leg-Foot-Touch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907621/exercise-gifs/720/Single-Leg-Foot-Touch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907614/exercise-gifs/180/Single-Leg-Foot-Touch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907616/exercise-gifs/360/Single-Leg-Foot-Touch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907621/exercise-gifs/720/Single-Leg-Foot-Touch.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -6991,9 +6991,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907622/exercise-gifs/180/Side-Bridge-Hip-Abduction.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907624/exercise-gifs/360/Side-Bridge-Hip-Abduction.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907628/exercise-gifs/720/Side-Bridge-Hip-Abduction.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907622/exercise-gifs/180/Side-Bridge-Hip-Abduction.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907624/exercise-gifs/360/Side-Bridge-Hip-Abduction.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907628/exercise-gifs/720/Side-Bridge-Hip-Abduction.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -7049,9 +7049,9 @@
             "SHOULDERS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907629/exercise-gifs/180/Dumbbell-Cuban-Press-Version-2.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907631/exercise-gifs/360/Dumbbell-Cuban-Press-Version-2.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907636/exercise-gifs/720/Dumbbell-Cuban-Press-Version-2.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907629/exercise-gifs/180/Dumbbell-Cuban-Press-Version-2.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907631/exercise-gifs/360/Dumbbell-Cuban-Press-Version-2.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907636/exercise-gifs/720/Dumbbell-Cuban-Press-Version-2.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -7107,9 +7107,9 @@
             "SHOULDERS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907637/exercise-gifs/180/Dumbbell-Arnold-Press.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907639/exercise-gifs/360/Dumbbell-Arnold-Press.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907642/exercise-gifs/720/Dumbbell-Arnold-Press.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907637/exercise-gifs/180/Dumbbell-Arnold-Press.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907639/exercise-gifs/360/Dumbbell-Arnold-Press.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907642/exercise-gifs/720/Dumbbell-Arnold-Press.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -7165,9 +7165,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907644/exercise-gifs/180/Dumbbell-Seated-Triceps-Extension.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907645/exercise-gifs/360/Dumbbell-Seated-Triceps-Extension.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907648/exercise-gifs/720/Dumbbell-Seated-Triceps-Extension.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907644/exercise-gifs/180/Dumbbell-Seated-Triceps-Extension.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907645/exercise-gifs/360/Dumbbell-Seated-Triceps-Extension.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907648/exercise-gifs/720/Dumbbell-Seated-Triceps-Extension.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -7223,9 +7223,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907649/exercise-gifs/180/Dumbbells-Seated-Triceps-Extension.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907650/exercise-gifs/360/Dumbbells-Seated-Triceps-Extension.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907653/exercise-gifs/720/Dumbbells-Seated-Triceps-Extension.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907649/exercise-gifs/180/Dumbbells-Seated-Triceps-Extension.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907650/exercise-gifs/360/Dumbbells-Seated-Triceps-Extension.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907653/exercise-gifs/720/Dumbbells-Seated-Triceps-Extension.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -7281,9 +7281,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907654/exercise-gifs/180/Dumbbell-Sumo-Squat-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907656/exercise-gifs/360/Dumbbell-Sumo-Squat-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907658/exercise-gifs/720/Dumbbell-Sumo-Squat-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907654/exercise-gifs/180/Dumbbell-Sumo-Squat-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907656/exercise-gifs/360/Dumbbell-Sumo-Squat-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907658/exercise-gifs/720/Dumbbell-Sumo-Squat-Female.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -7339,9 +7339,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907659/exercise-gifs/180/Spine-Twist.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907661/exercise-gifs/360/Spine-Twist.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907665/exercise-gifs/720/Spine-Twist.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907659/exercise-gifs/180/Spine-Twist.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907661/exercise-gifs/360/Spine-Twist.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907665/exercise-gifs/720/Spine-Twist.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -7397,9 +7397,9 @@
             "SHOULDERS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907666/exercise-gifs/180/Dumbbell-Standing-Overhead-Press-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907667/exercise-gifs/360/Dumbbell-Standing-Overhead-Press-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907669/exercise-gifs/720/Dumbbell-Standing-Overhead-Press-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907666/exercise-gifs/180/Dumbbell-Standing-Overhead-Press-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907667/exercise-gifs/360/Dumbbell-Standing-Overhead-Press-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907669/exercise-gifs/720/Dumbbell-Standing-Overhead-Press-Female.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -7455,9 +7455,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907670/exercise-gifs/180/Dumbbell-Standing-Triceps-Extension-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907671/exercise-gifs/360/Dumbbell-Standing-Triceps-Extension-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907673/exercise-gifs/720/Dumbbell-Standing-Triceps-Extension-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907670/exercise-gifs/180/Dumbbell-Standing-Triceps-Extension-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907671/exercise-gifs/360/Dumbbell-Standing-Triceps-Extension-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907673/exercise-gifs/720/Dumbbell-Standing-Triceps-Extension-Female.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -7513,9 +7513,9 @@
             "ABS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907674/exercise-gifs/180/Frog-Crunch.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907676/exercise-gifs/360/Frog-Crunch.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907681/exercise-gifs/720/Frog-Crunch.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907674/exercise-gifs/180/Frog-Crunch.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907676/exercise-gifs/360/Frog-Crunch.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907681/exercise-gifs/720/Frog-Crunch.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -7572,9 +7572,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907682/exercise-gifs/180/Dumbbell-Bar-Grip-Sumo-Squat-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907684/exercise-gifs/360/Dumbbell-Bar-Grip-Sumo-Squat-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907687/exercise-gifs/720/Dumbbell-Bar-Grip-Sumo-Squat-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907682/exercise-gifs/180/Dumbbell-Bar-Grip-Sumo-Squat-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907684/exercise-gifs/360/Dumbbell-Bar-Grip-Sumo-Squat-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907687/exercise-gifs/720/Dumbbell-Bar-Grip-Sumo-Squat-Female.gif"
         },
         "equipment": "DUMBBELL",
         "exerciseData": [
@@ -7630,9 +7630,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907688/exercise-gifs/180/Glute-Bridge-Two-Legs-On-Floor-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907690/exercise-gifs/360/Glute-Bridge-Two-Legs-On-Floor-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907694/exercise-gifs/720/Glute-Bridge-Two-Legs-On-Floor-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907688/exercise-gifs/180/Glute-Bridge-Two-Legs-On-Floor-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907690/exercise-gifs/360/Glute-Bridge-Two-Legs-On-Floor-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907694/exercise-gifs/720/Glute-Bridge-Two-Legs-On-Floor-Female.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -7688,9 +7688,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907695/exercise-gifs/180/Glute-Bridge-One-Leg-On-Floor-Straight-Leg-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907696/exercise-gifs/360/Glute-Bridge-One-Leg-On-Floor-Straight-Leg-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907700/exercise-gifs/720/Glute-Bridge-One-Leg-On-Floor-Straight-Leg-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907695/exercise-gifs/180/Glute-Bridge-One-Leg-On-Floor-Straight-Leg-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907696/exercise-gifs/360/Glute-Bridge-One-Leg-On-Floor-Straight-Leg-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907700/exercise-gifs/720/Glute-Bridge-One-Leg-On-Floor-Straight-Leg-Female.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -7746,9 +7746,9 @@
             "LEGS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907701/exercise-gifs/180/Cossack-Squats-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907703/exercise-gifs/360/Cossack-Squats-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907708/exercise-gifs/720/Cossack-Squats-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907701/exercise-gifs/180/Cossack-Squats-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907703/exercise-gifs/360/Cossack-Squats-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907708/exercise-gifs/720/Cossack-Squats-Female.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -7804,9 +7804,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907709/exercise-gifs/180/Close-Grip-Push-Up-On-Knees-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907711/exercise-gifs/360/Close-Grip-Push-Up-On-Knees-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907715/exercise-gifs/720/Close-Grip-Push-Up-On-Knees-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907709/exercise-gifs/180/Close-Grip-Push-Up-On-Knees-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907711/exercise-gifs/360/Close-Grip-Push-Up-On-Knees-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907715/exercise-gifs/720/Close-Grip-Push-Up-On-Knees-Female.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -7862,9 +7862,9 @@
             "ARMS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907716/exercise-gifs/180/Close-Grip-Push-Up-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907718/exercise-gifs/360/Close-Grip-Push-Up-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907722/exercise-gifs/720/Close-Grip-Push-Up-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907716/exercise-gifs/180/Close-Grip-Push-Up-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907718/exercise-gifs/360/Close-Grip-Push-Up-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907722/exercise-gifs/720/Close-Grip-Push-Up-Female.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -7918,9 +7918,9 @@
         "metaBodyPart": "1080.GIF",
         "bodyPart": [],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907723/exercise-gifs/180/Floor-T-Raise-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907724/exercise-gifs/360/Floor-T-Raise-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907728/exercise-gifs/720/Floor-T-Raise-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907723/exercise-gifs/180/Floor-T-Raise-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907724/exercise-gifs/360/Floor-T-Raise-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907728/exercise-gifs/720/Floor-T-Raise-Female.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -7976,9 +7976,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907729/exercise-gifs/180/Iron-Cross-Stretch-Female.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907731/exercise-gifs/360/Iron-Cross-Stretch-Female.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907735/exercise-gifs/720/Iron-Cross-Stretch-Female.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907729/exercise-gifs/180/Iron-Cross-Stretch-Female.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907731/exercise-gifs/360/Iron-Cross-Stretch-Female.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907735/exercise-gifs/720/Iron-Cross-Stretch-Female.gif"
         },
         "equipment": "",
         "exerciseData": [],
@@ -7993,9 +7993,9 @@
             "BUTTOCKS"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907736/exercise-gifs/180/Side-Lying-Hip-Adduction-Male.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907737/exercise-gifs/360/Side-Lying-Hip-Adduction-Male.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907741/exercise-gifs/720/Side-Lying-Hip-Adduction-Male.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907736/exercise-gifs/180/Side-Lying-Hip-Adduction-Male.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907737/exercise-gifs/360/Side-Lying-Hip-Adduction-Male.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907741/exercise-gifs/720/Side-Lying-Hip-Adduction-Male.gif"
         },
         "equipment": "",
         "exerciseData": [
@@ -8052,9 +8052,9 @@
             "CHEST"
         ],
         "contentUrls": {
-            "180": "http://res.cloudinary.com/primefitness/image/upload/v1596907742/exercise-gifs/180/Sit-Up-With-Arms-On-Chest.gif",
-            "360": "http://res.cloudinary.com/primefitness/image/upload/v1596907744/exercise-gifs/360/Sit-Up-With-Arms-On-Chest.gif",
-            "720": "http://res.cloudinary.com/primefitness/image/upload/v1596907747/exercise-gifs/720/Sit-Up-With-Arms-On-Chest.gif"
+            "180": "https://res.cloudinary.com/primefitness/image/upload/v1596907742/exercise-gifs/180/Sit-Up-With-Arms-On-Chest.gif",
+            "360": "https://res.cloudinary.com/primefitness/image/upload/v1596907744/exercise-gifs/360/Sit-Up-With-Arms-On-Chest.gif",
+            "720": "https://res.cloudinary.com/primefitness/image/upload/v1596907747/exercise-gifs/720/Sit-Up-With-Arms-On-Chest.gif"
         },
         "equipment": "",
         "exerciseData": [

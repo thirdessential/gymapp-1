@@ -1,59 +1,118 @@
 import React, {PureComponent} from "react";
 import {
+  LayoutAnimation, ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-
 } from "react-native";
 import {connect} from "react-redux";
 import Carousel from 'react-native-snap-carousel';
-import FastImage from "react-native-fast-image";
+
 
 import {spacing} from "../../constants/dimension";
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from "../../utils/screenDimensions";
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
-import strings from "../../constants/strings";
-import {getRandomImage} from "../../constants/images";
+
 import exerciseData from '../../../assets/exercises.json';
+import ExerciseCard from "../../components/ExerciseCard";
+import {bodyParts, equipmentTypes, exerciseLevels, fitnessCategories} from "../../constants/appConstants";
+import {toTitleCase} from "../../utils/utils";
+import RouteNames from "../../navigation/RouteNames";
+import strings from "../../constants/strings";
+import {eq} from "react-native-reanimated";
+
+const cardWidth = screenWidth / 1.4;
 
 class SelectExercise extends PureComponent {
 
+  state = {
+    level: exerciseLevels.BEGINNER,
+    exercises: [],
+    filteredExercises: [],
+    equipment: [],
+    selectedEquipment: equipmentTypes.ALL
+  }
+
+  componentDidMount() {
+    const {type} = this.props.route.params;
+    this.props.navigation.setOptions({title: type});
+    let exercises = [];
+    if (fitnessCategories[type])
+      exercises = exerciseData.filter(exercise => exercise.category === type);
+    else if (bodyParts[type])
+      exercises = exerciseData.filter(exercise => exercise.bodyPart.includes(type));
+
+    const equipment = new Set([equipmentTypes.ALL]);
+    exercises.map(exercise => !!exercise.equipment ? equipment.add(exercise.equipment) : null);
+    this.setState({exercises, filteredExercises: exercises, equipment: Array.from(equipment)});
+  }
+
+  selectLevel = (level) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({level});
+  }
+
+  openPerformExercise = (exerciseData) => {
+    const {level} = this.state;
+    this.props.navigation.navigate(RouteNames.PerformExercise, {exerciseData, level});
+  }
   renderCard = ({item, source}) => {
-    const uri = item.contentUrls['360'];
+    const uri = item.contentUrls['180'] || item.contentUrls['360'];
+    let {exerciseData} = item;
+    exerciseData = exerciseData.filter(data => data.level === this.state.level)[0] || {};
     return (
-      <View
-        style={styles.cardContainer}>
-        <FastImage
-          resizeMode={FastImage.resizeMode.contain}
-          style={styles.image}
-          source={{uri}}
-        />
-        <Text numberOfLines={3} style={styles.brightText}>{item.name.toUpperCase()}</Text>
-        <TouchableOpacity activeOpacity={0.8} style={styles.brightButton}>
-          <Text style={styles.darkText}>{strings.START}</Text>
-        </TouchableOpacity>
-      </View>
+      <ExerciseCard
+        uri={uri}
+        name={item.name}
+        minutes={exerciseData.time || ''}
+        sets={exerciseData.sets || ''}
+        level={toTitleCase(this.state.level)}
+        selectLevel={this.selectLevel}
+        onStart={() => this.openPerformExercise(item)}
+      />
+    )
+  }
+
+  renderPill = (title, selected, callback) => (
+    <TouchableOpacity key={title} onPress={callback} style={[styles.pill, selected ? styles.active : styles.inactive]}>
+      <Text style={styles.pillText}>{title}</Text>
+    </TouchableOpacity>
+  )
+  toggleEquipment = (type) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    if (type === equipmentTypes.ALL)
+      this.setState({selectedEquipment: type, filteredExercises: this.state.exercises});
+    else {
+      const filteredExercises = this.state.exercises.filter(exercise => exercise.equipment === type);
+      this.setState({filteredExercises, selectedEquipment: type});
+    }
+  }
+  renderFilters = () => {
+    const {equipment, selectedEquipment} = this.state;
+    if(equipment.length===1)return null;
+    return (
+      <ScrollView style={{width: 100, height: 0, width: cardWidth}} showsHorizontalScrollIndicator={false}
+                  horizontal={true}>
+        {equipment.map(equipmentType => this.renderPill(equipmentType, selectedEquipment === equipmentType, () => this.toggleEquipment(equipmentType)))}
+      </ScrollView>
     )
   }
 
   render() {
     return (
       <View style={styles.container}>
+        {this.renderFilters()}
         <Carousel
-          ref={(c) => {
-            this._carousel = c;
-          }}
-          data={exerciseData.slice(0, 10)}
+          data={this.state.filteredExercises}
           renderItem={this.renderCard}
-          sliderWidth={screenWidth / 1.2}
-          layout={'stack'}
+          sliderWidth={screenWidth}
+          // layout={'stack'}
           layoutCardOffset={18}
-          itemWidth={screenWidth / 1.4}
+          itemWidth={cardWidth}
           contentContainerCustomStyle={{alignItems: 'center'}}
-          firstItem={9}
         />
       </View>
     );
@@ -64,49 +123,53 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    paddingHorizontal: spacing.large_lg,
+    paddingVertical: spacing.large_lg,
     backgroundColor: appTheme.background,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  cardContainer: {
-    height: '80%',
-    backgroundColor: appTheme.textPrimary,
+  row: {
+    flexDirection: 'row'
+  },
+  pill: {
+    padding: spacing.small,
+    paddingHorizontal: spacing.medium,
     borderRadius: 20,
-    elevation: 8,
-    alignItems: 'center',
-    // justifyContent: 'center'
+    marginRight: spacing.medium_sm
   },
-  image: {
-    height: '100%',
-    width: '100%',
-    // backgroundColor:'red'
+  pillText: {
+    fontFamily: fonts.MontserratMedium,
+    fontSize: fontSizes.h4
   },
-  brightText: {
-    color: appTheme.darkBackground,
+  active: {
+    backgroundColor: appTheme.brightContent
+  },
+  inactive: {
+    backgroundColor: appTheme.grey
+  },
+  button: {
+    marginRight: spacing.medium_sm
+  },
+  menuTitle: {
+    color: appTheme.brightContent,
     fontFamily: fonts.CenturyGothicBold,
-    fontSize: fontSizes.h0,
-    position: 'absolute',
-    bottom: 70,
-    textAlign: 'center'
+    fontSize: fontSizes.h4
   },
-  darkText: {
-    color: appTheme.textPrimary,
-    fontFamily: fonts.PoppinsSemiBold,
-    fontSize: fontSizes.h1,
-    textAlign: 'center'
-  },
-  brightButton: {
+  menu: {
     backgroundColor: appTheme.darkBackground,
-    width: '101%',
-    borderRadius: 20,
-    borderTopEndRadius: 0,
-    borderTopStartRadius: 0,
-    height: 50,
-    justifyContent: 'center',
-    position: 'absolute',
-    bottom: -1
-  }
+  },
+  menuButton: {
+    flexDirection: 'row',
+    backgroundColor: appTheme.background,
+    alignItems: 'center',
+    padding: spacing.small_lg,
+    paddingHorizontal: spacing.medium_lg
+  },
+  menuText: {
+    color: appTheme.brightContent,
+    fontFamily: fonts.CenturyGothicBold,
+    fontSize: fontSizes.h3,
+  },
 });
 
 export default SelectExercise;

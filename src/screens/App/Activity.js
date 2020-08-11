@@ -1,6 +1,5 @@
 import React, {PureComponent} from "react";
 import {StyleSheet, Text, View, FlatList, ScrollView} from "react-native";
-import LinearGradient from "react-native-linear-gradient";
 
 import {connect} from "react-redux";
 
@@ -117,7 +116,7 @@ class Activity extends PureComponent {
     const {todaysEvents, tomorrowsEvents} = activities;
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         {this.renderUser()}
         <LiveCardList data={this.state.data}/>
         <View style={{flex: 1, width: "100%", marginTop: spacing.medium_lg}}>
