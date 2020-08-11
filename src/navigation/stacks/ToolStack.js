@@ -2,8 +2,8 @@ import React from "react";
 
 import Stack from "./stack";
 import RouteNames from "../RouteNames";
-import { appTheme } from "../../constants/colors";
-import openDrawerButton, { openDrawerButtonDark } from "../openDrawerButton";
+import {appTheme} from "../../constants/colors";
+import openDrawerButton, {openDrawerButtonDark} from "../openDrawerButton";
 
 import Tools from "../../screens/App/Tools";
 import CallRequests from "../../screens/App/Trainer/CallRequests";
@@ -17,7 +17,7 @@ import AccountStatement from "../../screens/App/Trainer/AccountStatement";
 import AccountDash from "../../screens/App/Trainer/AccountDash";
 import AddAccount from "../../screens/App/Trainer/AddAccount";
 import PreferenceSwiper from "../../screens/App/Preference/PreferenceSwiper";
-import { defaultHeaderStyle } from "../../constants/styles";
+import {defaultHeaderStyle} from "../../constants/styles";
 import Speech from "../../screens/App/Speech";
 import StreamScreen from "../../screens/Social/StreamScreen";
 import ShowStreamVideo from "../../screens/Social/ShowStreamVideo";
@@ -54,7 +54,7 @@ const toolStack = () => {
       <Stack.Screen
         name={RouteNames.PackageEdit}
         component={PackageEdit}
-        options={{ title: "", headerTransparent: true }}
+        options={{title: "", headerTransparent: true}}
       />
       <Stack.Screen
         name={RouteNames.SubscriptionsView}
@@ -66,7 +66,7 @@ const toolStack = () => {
       <Stack.Screen
         name={RouteNames.Profile}
         component={Profile}
-        options={{ title: "", headerTransparent: true }}
+        options={{title: "", headerTransparent: true}}
       />
       <Stack.Screen
         name={RouteNames.BMI}
@@ -131,9 +131,9 @@ const toolStack = () => {
         component={StreamScreen}
         options={{
           title: "Stream",
-         
+
         }}
-      
+
       />
       <Stack.Screen
         name={RouteNames.ShowStreamVideo}
@@ -155,18 +155,18 @@ const toolStack = () => {
           headerStyle: {
             backgroundColor: appTheme.brightContent,
           },
-        }}    
+        }}
       />
       <Stack.Screen
         name={RouteNames.Exercises}
         component={Exercises}
         options={{
-          title: "Exercise",
+          title: "Exercises",
           headerTintColor: appTheme.darkBackground,
           headerStyle: {
             backgroundColor: appTheme.brightContent,
           },
-        }}    
+        }}
       />
     </Stack.Navigator>
   );
