@@ -23,6 +23,7 @@ import StreamScreen from "../../screens/Social/StreamScreen";
 import ShowStreamVideo from "../../screens/Social/ShowStreamVideo";
 import SelectExercise from "../../screens/Fitness/SelectExercise";
 import Exercises from "../../screens/Fitness/Exercises";
+import PerformExercise from "../../screens/Fitness/PerformExercise";
 // import BrowseSlots from "../../screens/App/User/BrowseSlots";
 // import strings from "../../constants/strings";
 
@@ -162,6 +163,17 @@ const toolStack = () => {
         component={Exercises}
         options={{
           title: "Exercises",
+          headerTintColor: appTheme.darkBackground,
+          headerStyle: {
+            backgroundColor: appTheme.brightContent,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.PerformExercise}
+        component={PerformExercise}
+        options={{
+          title: "Exercise",
           headerTintColor: appTheme.darkBackground,
           headerStyle: {
             backgroundColor: appTheme.brightContent,

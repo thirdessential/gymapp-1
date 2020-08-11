@@ -31,7 +31,7 @@ class SelectExercise extends PureComponent {
           style={styles.image}
           source={{uri}}
         />
-        <Text style={styles.brightText}>{item.name.toUpperCase()}</Text>
+        <Text numberOfLines={3} style={styles.brightText}>{item.name.toUpperCase()}</Text>
         <TouchableOpacity activeOpacity={0.8} style={styles.brightButton}>
           <Text style={styles.darkText}>{strings.START}</Text>
         </TouchableOpacity>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    paddingHorizontal: spacing.medium_lg,
+    paddingHorizontal: spacing.large_lg,
     backgroundColor: appTheme.background,
     alignItems: 'center',
     justifyContent: 'center'
@@ -75,11 +75,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     elevation: 8,
     alignItems: 'center',
-    justifyContent: 'center'
+    // justifyContent: 'center'
   },
   image: {
     height: '100%',
     width: '100%',
+    // backgroundColor:'red'
   },
   brightText: {
     color: appTheme.darkBackground,

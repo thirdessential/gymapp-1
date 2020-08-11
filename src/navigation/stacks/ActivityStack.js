@@ -32,6 +32,7 @@ import {
   MenuTrigger,
   MenuDivider,
 } from "react-native-popup-menu";
+import SelectExercise from "../../screens/Fitness/SelectExercise";
 
 const data = [
   {
@@ -73,7 +74,7 @@ export default class activity extends Component {
       <Stack.Navigator screenOptions={defaultHeaderStyle}>
         <Stack.Screen
           name={RouteNames.Activity}
-          component={Activity}
+          component={SelectExercise}
           options={{
             title: "Activity",
             headerLeft: openDrawerButton,

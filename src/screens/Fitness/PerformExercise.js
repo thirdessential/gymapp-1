@@ -19,7 +19,7 @@ import {hitSlop20} from "../../constants/styles";
 import FastImage from "react-native-fast-image";
 
 
-class SelectExercise extends PureComponent {
+class PerformExercise extends PureComponent {
 
   renderExercise = () => {
     return (
@@ -107,4 +107,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SelectExercise;
+export default PerformExercise;
