@@ -47,7 +47,7 @@ class Exercises extends PureComponent {
       </View>
     </TouchableOpacity>
   );
-  feautred = (uri, type) => (
+  feautred = (uri, type,desc) => (
     <View style={styles.imageContainer}>
       <Image
         style={styles.image}
@@ -57,7 +57,7 @@ class Exercises extends PureComponent {
       />
       <View style={styles.imageTitle}>
         <Text style={styles.cardText}>{type}</Text>
-        <Text style={styles.imageSubtitle}>50 min</Text>
+        <Text style={styles.imageSubtitle}>{desc}</Text>
       </View>
     </View>
   );
@@ -77,8 +77,8 @@ class Exercises extends PureComponent {
             <Text style={styles.feautredText}>{strings.FEATURED_WORKOUT}</Text>
           </View>
           {Math.floor(Math.random() * 10) % 2 == 0
-            ? this.feautred(bodyParts[0].url, bodyParts[0].type)
-            : this.feautred(bodyParts[5].url, bodyParts[5].type)}
+            ? this.feautred(bodyParts[0].url, bodyParts[0].type,'Abdominal exercises affect the abdominal muscles ')
+            : this.feautred(bodyParts[5].url, bodyParts[5].type,'Workout that aims to hit all the major muscle groups')}
           <View style={styles.itemContainer}>
             <View style={styles.optionContainer}>
               <View style={{ marginLeft: spacing.large_lg }}>
