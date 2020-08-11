@@ -82,7 +82,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     elevation: 8,
     alignItems: 'center',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    paddingTop:spacing.medium
   },
   content: {
     height: '50%',
