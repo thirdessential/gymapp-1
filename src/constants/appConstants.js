@@ -122,3 +122,70 @@ export const callbackStatus = {
   REJECTED: 'REJECTED',
   COMPLETED: 'COMPLETED'
 }
+
+export const categories = [
+  {
+    url:
+      "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=626&q=80",
+    type: "YOGA",
+  },
+  {
+    url:
+      "https://us.123rf.com/450wm/vadymvdrobot/vadymvdrobot1509/vadymvdrobot150900418/45024728-portrait-of-a-fitness-man-doing-stretching-exercises-at-gym.jpg?ver=6",
+    type: "STRETCH",
+  },
+  {
+    url:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQToXUY2WuidMG6tCZBmujFN9wtIjSEL_WLvA&usqp=CAU",
+    type: "WORKOUT",
+  },
+  {
+    url:
+      "https://images.unsplash.com/photo-1550259979-ed79b48d2a30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=704&q=80",
+    type: "CARDIO",
+  },
+];
+
+export const bodyParts = [
+  {
+    url:
+      "https://3.bp.blogspot.com/-oFwofSWO-XQ/ViiCsb0p_nI/AAAAAAAAEfs/vKzc9-8AXIk/s1600/Six%2BPack%2BAbs%2BHD%2BWallpaper.jpg",
+    type: "ABS",
+  },
+  {
+    url:
+      "https://images.unsplash.com/photo-1583454122781-8cf8f5af9d2b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+    type: "ARMS",
+  },
+  {
+    url:
+      "https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    type: "BACK",
+  },
+  {
+    url:
+      "https://media.self.com/photos/5dd2f7580e115400090e89be/16:9/w_1600,c_limit/190916_SELF_1101.jpg",
+    type: "BUTTOCKS",
+  },
+  {
+    url:
+      "https://manofmany.com/wp-content/uploads/2019/03/10-Best-Chest-Exercises-for-Men-1280x720.jpg",
+    type: "CHEST",
+  },
+  {
+    url:
+      "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
+    type: "FULL BODY",
+  },
+
+  {
+    url:
+      "https://manofmany.com/wp-content/uploads/2019/03/10-Best-Shoulder-Exercises-for-Men-Man-lifting-weights-shoulder-muscle-1280x720.jpg",
+    type: "SHOULDERS",
+  },
+  {
+    url:
+      "https://cdn-ami-drupal.heartyhosting.com/sites/muscleandfitness.com/files/styles/full_node_image_1090x614/public/quad-exercise-routine-3.jpg?itok=sfR46rrH&timestamp=1370452907",
+    type: "LEGS",
+  },
+];
