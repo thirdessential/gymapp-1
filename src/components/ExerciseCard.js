@@ -4,16 +4,15 @@ import FastImage from "react-native-fast-image";
 import strings from "../constants/strings";
 import {spacing} from "../constants/dimension";
 import {appTheme} from "../constants/colors";
-import {screenWidth} from "../utils/screenDimensions";
+import {screenHeight, screenWidth} from "../utils/screenDimensions";
 import fonts from "../constants/fonts";
 import fontSizes from "../constants/fontSizes";
-import SelectExercise from "../screens/Fitness/SelectExercise";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {Menu, MenuOption, MenuOptions, MenuTrigger} from "react-native-popup-menu";
 import {exerciseLevels} from "../constants/appConstants";
 import {toTitleCase} from "../utils/utils";
 
-const exerciseCard = ({uri, name, minutes, sets, level, selectLevel}) => {
+const exerciseCard = ({uri, name, minutes, sets, level, selectLevel, onStart}) => {
   const renderSeparator = () => <View style={styles.separator}/>
 
   const renderMenu = () => {
@@ -22,7 +21,7 @@ const exerciseCard = ({uri, name, minutes, sets, level, selectLevel}) => {
         <MenuTrigger customStyles={{padding: spacing.small_lg}}>
           <Text style={styles.menuTitle}>{level}</Text>
         </MenuTrigger>
-        <MenuOptions customStyles={styles.menu} optionsContainerStyle={{width: 150, marginTop: 10}}>
+        <MenuOptions customStyles={styles.menu} optionsContainerStyle={styles.menuOptionsContainer}>
           <MenuOption style={styles.menuButton} onSelect={() => selectLevel(exerciseLevels.BEGINNER)}>
             <Text style={styles.menuText}>{toTitleCase(exerciseLevels.BEGINNER)}</Text>
           </MenuOption>
@@ -47,20 +46,28 @@ const exerciseCard = ({uri, name, minutes, sets, level, selectLevel}) => {
       />
       <View style={styles.content}>
         <Text numberOfLines={3} style={styles.brightText}>{name.toUpperCase()}</Text>
+
         <View style={styles.row}>
-          <View style={styles.rowItem}>
-            <Text style={styles.count}>{minutes}</Text>
-            <Text style={styles.subtitle}>{strings.AVG_MINUTES}</Text>
-          </View>
-          {renderSeparator()}
-          <View style={styles.rowItem}>
-            <Text style={styles.count}>{sets}</Text>
-            <Text style={styles.subtitle}>{strings.SETS}</Text>
-          </View>
-          {renderSeparator()}
-          {renderMenu()}
+          {
+            !!minutes && (
+              <>
+                <View style={styles.rowItem}>
+                  <Text style={styles.count}>{minutes}</Text>
+                  <Text style={styles.subtitle}>{strings.AVG_MINUTES}</Text>
+                </View>
+                {renderSeparator()}
+                <View style={styles.rowItem}>
+                  <Text style={styles.count}>{sets}</Text>
+                  <Text style={styles.subtitle}>{strings.SETS}</Text>
+                </View>
+                {renderSeparator()}
+                {renderMenu()}
+              </>
+            )
+          }
         </View>
-        <TouchableOpacity style={styles.button}>
+
+        <TouchableOpacity onPress={onStart} style={styles.button}>
           <Ionicons color={appTheme.textPrimary} name={'play-outline'} size={30}/>
         </TouchableOpacity>
       </View>
@@ -69,9 +76,8 @@ const exerciseCard = ({uri, name, minutes, sets, level, selectLevel}) => {
 }
 
 const styles = StyleSheet.create({
-
   cardContainer: {
-    height: '80%',
+    height: screenHeight * 0.7,
     backgroundColor: appTheme.textPrimary,
     borderRadius: 20,
     elevation: 8,
@@ -180,6 +186,11 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothicBold,
     fontSize: fontSizes.h3,
   },
+  menuOptionsContainer: {
+    width: 150,
+    marginTop: 10
+  }
+
 });
 
-export default exerciseCard;
+export default React.memo(exerciseCard);

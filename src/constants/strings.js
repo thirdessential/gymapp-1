@@ -203,7 +203,9 @@ const strings = {
   ABS:'Abs',
   AVG_MINUTES: 'Avg. minutes',
   SETS:'Sets',
-  LEVEL:'Level'
+  LEVEL:'Level',
+  ALL:'ALL',
+
 };
 
 export const bmiVerdicts = {

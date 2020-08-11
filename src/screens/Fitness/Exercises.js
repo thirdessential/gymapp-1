@@ -23,6 +23,7 @@ import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
 import {screenHeight, screenWidth} from "../../utils/screenDimensions";
 import * as actionCreators from "../../store/actions";
+import RouteNames from "../../navigation/RouteNames";
 
 const categories = [
   {
@@ -93,16 +94,19 @@ const bodyParts = [
 
 class Exercises extends PureComponent {
   // navigation.setOptions({ tabBarVisible: false })
+  openSelectExercise = (type) => {
+    this.props.navigation.navigate(RouteNames.SelectExercise, {type});
+  }
 
   renderItem = ({item}) => (
     <TouchableOpacity
       style={styles.touchableCards}
-      onPress={() => Alert.alert(`Show card for ${item.type}`)}
+      onPress={() => this.openSelectExercise(item.type)}
     >
       <View style={styles.cardView}>
         <ImageBackground
           style={styles.cardImage}
-          source={{uri: `${item.url}`}}
+          source={{uri: item.url}}
         >
           <View style={styles.cardTextView}>
             <Text style={styles.cardListText}>{item.type}</Text>
