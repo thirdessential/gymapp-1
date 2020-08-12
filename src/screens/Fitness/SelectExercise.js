@@ -56,8 +56,11 @@ class SelectExercise extends PureComponent {
   }
 
   openPerformExercise = (exercise) => {
+    const data=exercise.exerciseData.filter((exercise)=>exercise.level===this.state.level)[0];
+    const {reps,restTime}=data
+    
     const {level} = this.state;
-    this.props.navigation.navigate(RouteNames.PerformExercise, {exercise, level});
+    this.props.navigation.navigate(RouteNames.PerformExercise, {exercise, level,reps,restTime});
   }
   renderCard = ({item, source}) => {
     const uri = item.contentUrls['180'] || item.contentUrls['360'];
