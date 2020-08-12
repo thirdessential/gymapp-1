@@ -7,6 +7,7 @@ import openDrawerButton from "../openDrawerButton";
 import Tools from "../../screens/App/Tools";
 import {defaultHeaderStyle} from "../../constants/styles";
 
+
 const toolStack = () => {
   return (
     <Stack.Navigator screenOptions={defaultHeaderStyle}>

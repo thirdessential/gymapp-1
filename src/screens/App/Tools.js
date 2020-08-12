@@ -30,7 +30,7 @@ class Tools extends PureComponent {
   openStreamingScreen = () => this.props.navigation.navigate(RouteNames.StreamScreen);
   openSelectExercise = () => this.props.navigation.navigate(RouteNames.SelectExercise);
   openExercisesScreen = () => this.props.navigation.navigate(RouteNames.Exercises);
-  openPerformExercise = () => this.props.navigation.navigate(RouteNames.PerformExercise);
+
 
   state = {
     toolsData: []

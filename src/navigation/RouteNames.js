@@ -63,6 +63,8 @@ const RouteNames = {
 
   SelectExercise: 'SelectExercise',
   PerformExercise: 'PerformExercise',
+  PerformStretch: 'PerformStretch',
+
   RootTab: 'RootTab'
 };
 

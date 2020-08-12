@@ -80,7 +80,7 @@ const bodyParts = [
   {
     url:
       "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-    type: "FULL BODY",
+    type: "FULL_BODY",
   },
   {
     url:
@@ -120,7 +120,8 @@ class Exercises extends PureComponent {
     </TouchableOpacity>
   );
   feautred = (uri, type,desc) => (
-    <View style={styles.imageContainer}>
+    <TouchableOpacity onPress={()=>this.openSelectExercise(type)} style={{}}>
+    <View style={styles.imageContainer}   >
       <Image
         style={styles.image}
         source={{
@@ -132,6 +133,7 @@ class Exercises extends PureComponent {
         <Text style={styles.imageSubtitle}>{desc}</Text>
       </View>
     </View>
+    </TouchableOpacity>
   );
 
   render() {
