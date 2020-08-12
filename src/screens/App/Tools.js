@@ -103,24 +103,24 @@ class Tools extends PureComponent {
         callback: this.openStreamingScreen,
         enabled: userType === userTypes.TRAINER
       },
-      {
-        title: 'Select exercise',
-        image: iconBackgrounds.graphMan,
-        callback: this.openSelectExercise,
-        enabled: true
-      },
+      // {
+      //   title: 'Select exercise',
+      //   image: iconBackgrounds.graphMan,
+      //   callback: this.openSelectExercise,
+      //   enabled: true
+      // },
       {
         title: strings.EXERCISES,
         image: iconBackgrounds.graphMan,
         callback: this.openExercisesScreen,
         enabled: true
       },
-      {
-        title: 'Perform exercise',
-        image: iconBackgrounds.bmr,
-        callback: this.openPerformExercise,
-        enabled: true
-      },
+      // {
+      //   title: 'Perform exercise',
+      //   image: iconBackgrounds.bmr,
+      //   callback: this.openPerformExercise,
+      //   enabled: true
+      // },
     ]
     this.setState({toolsData: toolsData.filter(toolData => toolData.enabled)});
   }
