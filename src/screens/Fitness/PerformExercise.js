@@ -32,7 +32,7 @@ class PerformExercise extends PureComponent {
       timer: 0,
       stages: [],
       exercise: {},
-     
+     pause:true
     };
   }
 
@@ -41,7 +41,7 @@ class PerformExercise extends PureComponent {
       timer: this.state.reps[parseInt(this.state.currentRepIndex) - 1] * 4,
     });
     this.clockCall = setInterval(() => {
-      this.decrementClock(this.state.timer);
+      this.decrementClock(this.state.timer,this.state.pause);
     }, 1000);
   };
 
@@ -50,11 +50,14 @@ class PerformExercise extends PureComponent {
     this.init();
   }
 
-  decrementClock = (time) => {
-    this.setState(
+  decrementClock = (time,pause) => {
+   pause? this.setState(
+    {
+      timer: time,
+    }):(this.setState(
       {
         timer: time - 1,
-      },
+      }) ,
       async () => {
         if (this.state.timer === 0) {
           if (this.state.currentRepIndex !== this.state.reps.length) {
@@ -145,7 +148,10 @@ reset= async () => {
   renderButtons = () => (
     <View style={styles.buttonView}>
       <TouchableOpacity hitSlop={hitSlop20}
-      onPress={() =>{}}
+      onPress={() =>{
+        this.setState({timer:this.state.reps[0]});
+        this.setState({currentRepIndex:1})
+      }}
       >
         <MaterialCommunityIcons
           color={appTheme.darkBackground}
@@ -153,11 +159,13 @@ reset= async () => {
           size={30}
         />
       </TouchableOpacity>
-      <TouchableOpacity hitSlop={hitSlop20}>
+      <TouchableOpacity hitSlop={hitSlop20}
+      onPress={() =>{this.setState({pause:!this.state.pause})}}
+      >
         <Ionicons
           color={appTheme.darkBackground}
-          // name={this.state.start ? "play" : "pause"}
-          name='play'
+           name={this.state.pause ? "play":"pause"}
+          
           size={30}
         />
       </TouchableOpacity>
