@@ -56,15 +56,13 @@ class SelectExercise extends PureComponent {
   }
 
   openPerformExercise = (exercise) => {
-    const data=exercise.exerciseData.filter((exercise)=>exercise.level===this.state.level)[0];
-  console.log(exercise)
-    if(data){
-      const {reps,restTime}=data
+    const data = exercise.exerciseData.filter((exercise) => exercise.level === this.state.level)[0];
+    if (data) {
+      const {reps, restTime} = data
       const {level} = this.state;
-      console.log(level);
-    return this.props.navigation.navigate(RouteNames.PerformExercise, {exercise, level,reps,restTime});
-    }else{
-    return  this.props.navigation.navigate(RouteNames.PerformStretch, {exercise});
+      return this.props.navigation.navigate(RouteNames.PerformExercise, {exercise, level, reps, restTime});
+    } else {
+      return this.props.navigation.navigate(RouteNames.PerformStretch, {exercise});
     }
   }
   renderCard = ({item, source}) => {
@@ -96,11 +94,13 @@ class SelectExercise extends PureComponent {
     else {
       const filteredExercises = this.state.exercises.filter(exercise => exercise.equipment === type);
       this.setState({filteredExercises, selectedEquipment: type});
+      this._carousel.snapToItem(0);
     }
+
   }
   renderFilters = () => {
     const {equipment, selectedEquipment} = this.state;
-    if(equipment.length===1)return null;
+    if (equipment.length === 1) return null;
     return (
       <ScrollView style={{width: 100, height: 0, width: cardWidth}} showsHorizontalScrollIndicator={false}
                   horizontal={true}>
@@ -114,10 +114,12 @@ class SelectExercise extends PureComponent {
       <View style={styles.container}>
         {this.renderFilters()}
         <Carousel
+          ref={(c) => {
+            this._carousel = c;
+          }}
           data={this.state.filteredExercises}
           renderItem={this.renderCard}
           sliderWidth={screenWidth}
-          // layout={'stack'}
           layoutCardOffset={18}
           itemWidth={cardWidth}
           contentContainerCustomStyle={{alignItems: 'center'}}
@@ -144,7 +146,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.medium,
     borderRadius: 20,
     marginRight: spacing.medium_sm,
-    justifyContent:'center'
+    justifyContent: 'center',
+    height: 35,
+    alignSelf: 'flex-end'
   },
   pillText: {
     fontFamily: fonts.MontserratMedium,

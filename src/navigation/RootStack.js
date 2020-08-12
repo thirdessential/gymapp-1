@@ -29,6 +29,7 @@ import ShowStreamVideo from "../screens/Social/ShowStreamVideo";
 import SelectExercise from "../screens/Fitness/SelectExercise";
 import Exercises from "../screens/Fitness/Exercises";
 import PerformExercise from "../screens/Fitness/PerformExercise";
+import PerformStretch from "../screens/Fitness/PerformStretch";
 
 const rootStack = () => {
   return (
@@ -203,6 +204,14 @@ const rootStack = () => {
       <Stack.Screen
         name={RouteNames.PerformExercise}
         component={PerformExercise}
+        options={{
+          title: "",
+          headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.PerformStretch}
+        component={PerformStretch}
         options={{
           title: "",
           headerTransparent: true,

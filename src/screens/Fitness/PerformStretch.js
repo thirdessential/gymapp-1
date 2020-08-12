@@ -1,26 +1,14 @@
-import React, { PureComponent } from "react";
+import React, {PureComponent} from "react";
 import {
   StyleSheet,
-  Image,
-  ImageBackground,
   Text,
-  TouchableOpacity,
   View,
-  Keyboard,
-  Button,
 } from "react-native";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import fonts from "../../constants/fonts";
-import fontSizes from "../../constants/fontSizes";
-import { spacing } from "../../constants/dimension";
-import { appTheme } from "../../constants/colors";
-import { screenWidth } from "../../utils/screenDimensions";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { hitSlop20 } from "../../constants/styles";
+import {spacing} from "../../constants/dimension";
+import {appTheme} from "../../constants/colors";
 import FastImage from "react-native-fast-image";
-import { Bar } from "react-native-progress";
-import RouteNames from "../../navigation/RouteNames";
 
 class PerformStretch extends PureComponent {
   constructor(props) {
@@ -49,9 +37,9 @@ class PerformStretch extends PureComponent {
   );
 
   setExerciseData = () => {
-    const { exercise } = this.props.route.params;
+    const {exercise} = this.props.route.params;
 
-    this.setState({ exercise });
+    this.setState({exercise});
   };
 
   renderExerciseName = () => (
@@ -98,7 +86,7 @@ const styles = StyleSheet.create({
     color: "black",
     fontFamily: fonts.CenturyGothicBold,
     textAlign: "center",
-    
+
   },
 });
 
