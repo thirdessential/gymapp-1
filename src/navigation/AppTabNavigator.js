@@ -18,7 +18,6 @@ import SlotEditStack from "./stacks/SlotEditStack";
 import ActivityStack from "./stacks/ActivityStack";
 import SocialStack from "./stacks/SocialStack";
 import ToolStack from "./stacks/ToolStack";
-import Exercises from "../screens/Fitness/Exercises";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import WorkoutStack from "./stacks/WorkoutStack";
 
@@ -36,9 +35,9 @@ const appTabNavigator = (props) => {
   return (
     <Tab.Navigator
       swipeEnabled={false}
-      lazy={true}
-      lazyPreloadDistance={0}
-      lazyPlaceholder={bgView}
+      // lazy={true}
+      // lazyPreloadDistance={0}
+      // lazyPlaceholder={bgView}
       backBehavior={'initialRoute'}
       tabBarPosition={'bottom'}
       tabBarOptions={{
@@ -131,17 +130,6 @@ const appTabNavigator = (props) => {
               <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>);
           },
         }}/>
-      {/*<Tab.Screen*/}
-      {/*  name={RouteNames.MyProfileTab}*/}
-      {/*  component={MyProfileStack}*/}
-      {/*  options={{*/}
-      {/*    title: 'Profile',*/}
-      {/*    tabBarIcon: ({focused, color, size}) => {*/}
-      {/*      let iconName = focused ? 'md-person' : 'md-person';*/}
-      {/*      return <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>*/}
-      {/*    },*/}
-      {/*  }}*/}
-      {/*/>*/}
     </Tab.Navigator>
   );
 }

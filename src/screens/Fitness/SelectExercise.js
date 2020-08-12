@@ -66,7 +66,7 @@ class SelectExercise extends PureComponent {
     }
   }
   renderCard = ({item, source}) => {
-    const uri = item.contentUrls['180'] || item.contentUrls['360'];
+    const uri = item.contentUrls['360'];
     let {exerciseData} = item;
     exerciseData = exerciseData.filter(data => data.level === this.state.level)[0] || {};
     return (

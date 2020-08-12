@@ -79,12 +79,12 @@ class Tools extends PureComponent {
         callback: this.openBMI,
         enabled: true
       },
-      {
-        title: strings.SPEECH,
-        image: iconBackgrounds.waterIntake,
-        callback: this.openSpeech,
-        enabled: userType === userTypes.USER
-      },
+      // {
+      //   title: strings.SPEECH,
+      //   image: iconBackgrounds.waterIntake,
+      //   callback: this.openSpeech,
+      //   enabled: userType === userTypes.USER
+      // },
       {
         title: strings.COUPONS,
         image: iconBackgrounds.coupon,
