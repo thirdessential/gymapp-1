@@ -34,6 +34,7 @@ import VideoCall from "../screens/Call/VideoCall";
 import {drawerLabelStyle} from "../constants/styles";
 import strings from "../constants/strings";
 import {setWhatsappInstalled} from "../utils/share";
+import RootStack from "./RootStack";
 
 messaging().setBackgroundMessageHandler(callHandler);
 configureFCMNotification();
@@ -151,7 +152,6 @@ class App extends React.Component {
     const {userType, userData, newCallbacks} = this.props;
     return (
       <Drawer.Navigator
-
         drawerType={'slide'}
         drawerContent={(drawerProps) =>
           <CustomDrawerContent
@@ -165,7 +165,7 @@ class App extends React.Component {
           width: 240,
         }}
       >
-        <Drawer.Screen name="Home" component={appTabNavigator} options={{
+        <Drawer.Screen name="Home" component={RootStack} options={{
           drawerLabel: ({focused, color}) => <Text style={drawerLabelStyle}>Home</Text>
         }}/>
       </Drawer.Navigator>

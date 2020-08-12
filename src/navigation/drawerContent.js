@@ -40,11 +40,11 @@ function CustomDrawerContent(props) {
         <View style={styles.list}>
           <DrawerItemList {...props} labelStyle={{color: 'white'}}/>
           <DrawerItem
-            label="Edit Profile"
+            label="Profile"
             labelStyle={drawerLabelStyle}
             onPress={async () => {
               // await props.navigation.navigate(RouteNames.MyProfileTab);
-              props.navigation.navigate(RouteNames.ProfileEdit);
+              props.navigation.navigate(RouteNames.MyProfile);
             }}
           />
           {
@@ -73,15 +73,11 @@ function CustomDrawerContent(props) {
               />
             )
           }
-          {
-            userType === userTypes.TRAINER && (
-              <DrawerItem
-                label="My Clients"
-                labelStyle={drawerLabelStyle}
-                onPress={() => props.navigation.navigate(RouteNames.SubscriptionsView)}
-              />
-            )
-          }
+          <DrawerItem
+            label= {userType === userTypes.TRAINER ? "My Clients":"Subscriptions "}
+            labelStyle={drawerLabelStyle}
+            onPress={() => props.navigation.navigate(RouteNames.SubscriptionsView)}
+          />
           {
             __DEV__ ?
               <DrawerItem
