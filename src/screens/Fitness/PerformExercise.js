@@ -26,13 +26,12 @@ class PerformExercise extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      
       reps: this.props.route.params.reps,
       currentRepIndex: 1,
       timer: 0,
       stages: [],
       exercise: {},
-     pause:true
+      pause: true,
     };
   }
 
@@ -41,7 +40,7 @@ class PerformExercise extends PureComponent {
       timer: this.state.reps[parseInt(this.state.currentRepIndex) - 1] * 4,
     });
     this.clockCall = setInterval(() => {
-      this.decrementClock(this.state.timer,this.state.pause);
+      this.decrementClock(this.state.timer>1?this.state.timer:1, this.state.pause);
     }, 1000);
   };
 
@@ -50,33 +49,34 @@ class PerformExercise extends PureComponent {
     this.init();
   }
 
-  decrementClock = (time,pause) => {
-   pause? this.setState(
-    {
-      timer: time,
-    }):(this.setState(
-      {
-        timer: time - 1,
-      }) ,
-      async () => {
-        if (this.state.timer === 0) {
-          if (this.state.currentRepIndex !== this.state.reps.length) {
-            await this.setState({
-              currentRepIndex: this.state.currentRepIndex + 1,
-            });
-            await this.setState({
-              timer: this.state.reps[this.state.currentRepIndex - 1] ,
-            });
-          } else {
-            clearInterval(this.clockCall);
+  decrementClock = (time, pause) => {
+    //if paused then dont decrement timer
+    pause
+      ? this.setState({
+          timer: time,
+        })
+      : this.setState({
+          timer: time - 1,
+        },
+        async () => {
+          if (this.state.timer === 0) {
+            //if timer has reached 0 and we havent reached last index then increment
+            if (this.state.currentRepIndex !== this.state.reps.length) {
+              await this.setState({
+                currentRepIndex: this.state.currentRepIndex + 1,
+              });
+              //set timer according to curent rep index
+              await this.setState({
+                timer: this.state.reps[this.state.currentRepIndex - 1],
+              });
+            } else {
+              //if timer has reached 0 and all elements of reps array are treaversed then clear interval
+              this.decrementClock(this.state.timer, true);
+            }
           }
-        }
-      }
-    );
+        });
   };
-reset= async () => {
 
-}
   componentWillUnmount() {
     clearInterval(this.clockCall);
   }
@@ -95,12 +95,10 @@ reset= async () => {
     </View>
   );
 
-
   setExerciseData = () => {
-    const { restTime, reps, exercise, level } = this.props.route.params;
-//functions to enter rest time between elements;
+    const { restTime, reps, exercise } = this.props.route.params;
+    //functions to enter rest time between elements;
     for (i = 0; i < this.state.reps.length; i++) {
-      
       if (i % 2 == 0) {
         this.setState({
           stages: this.state.stages.push(reps[i] * 4),
@@ -118,40 +116,52 @@ reset= async () => {
       }
     }
     //console.log(this.state.stages);
-    this.setState({reps:this.state.stages})
+    this.setState({ reps: this.state.stages });
     this.setState({ exercise });
   };
 
-  showTime = (index) => (
-    index%2===0?(<Text style={styles.time}>
-      {this.state.timer ? this.state.timer : "Well done"}
-    </Text>):(<Text style={styles.time}>
-      {this.state.timer ? <Text>Rest Time {this.state.timer}</Text> : "Well done"}
-    </Text>)
-    
-  );
+  showTime = (index) =>
+    //since alternate elements are given rest time , then skip those elements
+    index % 2 === 0 ? (
+      <Text style={styles.time}>
+        {this.state.timer ? this.state.timer : "Well done"}
+      </Text>
+    ) : (
+      <Text style={styles.time}>
+        {this.state.timer ? (
+          <Text>Rest Time {this.state.timer}</Text>
+        ) : (
+          "Well done"
+        )}
+      </Text>
+    );
   renderProgressBar = (time, reps) => {
     let progress;
-    progress = 1 - time / (reps);
+    progress = 1 - time / reps;
     return (
       <Bar progress={progress ? progress : 0} width={null} color="green" />
     );
   };
-  
+
   renderExerciseName = () => (
     <View
-      style={{ justifyContent: "center", alignItems: "center", marginTop: 30 }}
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: spacing.medium,
+      }}
     >
       <Text style={styles.exerciseName}>{this.state.exercise.name}</Text>
     </View>
   );
   renderButtons = () => (
     <View style={styles.buttonView}>
-      <TouchableOpacity hitSlop={hitSlop20}
-      onPress={() =>{
-        this.setState({timer:this.state.reps[0]});
-        this.setState({currentRepIndex:1})
-      }}
+      <TouchableOpacity
+        hitSlop={hitSlop20}
+        onPress={() => {
+          this.setState({ timer: this.state.reps[0] });
+          this.setState({ currentRepIndex: 1 });
+        }}
       >
         <MaterialCommunityIcons
           color={appTheme.darkBackground}
@@ -159,20 +169,27 @@ reset= async () => {
           size={30}
         />
       </TouchableOpacity>
-      <TouchableOpacity hitSlop={hitSlop20}
-      onPress={() =>{this.setState({pause:!this.state.pause})}}
+      <TouchableOpacity
+        hitSlop={hitSlop20}
+        onPress={() => {
+          this.setState({ pause: !this.state.pause });
+        }}
       >
         <Ionicons
           color={appTheme.darkBackground}
-           name={this.state.pause ? "play":"pause"}
-          
+          name={this.state.pause ? "play" : "pause"}
           size={30}
         />
       </TouchableOpacity>
-      <TouchableOpacity hitSlop={hitSlop20}
-      onPress={()=>{
-        this.setState({currentRepIndex:this.state.currentRepIndex+1});
-        this.setState({timer:this.state.reps[this.state.currentRepIndex]});
+      <TouchableOpacity
+        hitSlop={hitSlop20}
+        onPress={() => {
+          if (this.state.currentRepIndex !== this.state.reps.length) {
+            this.setState({ currentRepIndex: this.state.currentRepIndex + 1 });
+            this.setState({
+              timer: this.state.reps[this.state.currentRepIndex],
+            });
+          }
         }}
       >
         <Ionicons
@@ -191,31 +208,37 @@ reset= async () => {
         {this.renderGif()}
 
         <View style={styles.numView}>
-          {this.state.reps.map((rep, index) => (
-            index%2===0?(
+          {this.state.reps.map((rep, index) =>
+            index % 2 === 0 ? (
               <View>
-              <Text
-                style={{
-                  fontSize: 25,
-                  fontWeight: "bold",
-                  color: this.state.currentRepIndex > index ? "green" : "black",
-                }}
-              >
-                x{rep}
-              </Text>
-            </View>
-            ):(null)
-
-          ))}
+                <Text
+                  style={
+                    [
+                      styles.xText,
+                      {
+                        color:
+                          this.state.currentRepIndex > index
+                            ? "green"
+                            : "black",
+                      },
+                    ]
+                    //make it green when we reach that exercise
+                  }
+                >
+                  x{rep / 4}
+                </Text>
+              </View>
+            ) : null
+          )}
         </View>
-        <View style={{ alignItems: "center", flex: 1 }}>
+        <View style={styles.timerView}>
           {this.state.reps.map((rep, index) =>
             index === this.state.currentRepIndex - 1 ? (
               <>{this.showTime(index)}</>
             ) : null
           )}
         </View>
-        <View style={{ marginTop: 0, flex: 1 }}>
+        <View style={{ flex: 1 }}>
           {this.renderProgressBar(
             this.state.timer,
             this.state.reps[this.state.currentRepIndex - 1]
@@ -248,6 +271,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: "black",
     fontFamily: fonts.CenturyGothicBold,
+    textAlign: "center",
   },
   buttonView: {
     flexDirection: "row",
@@ -263,14 +287,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
-    marginTop: 10,
+
     flex: 1,
   },
   time: {
     fontSize: fontSizes.midTitle * 2,
     fontFamily: fonts.CenturyGothic,
   },
-  numText: {},
+  timerView: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+    marginTop: -10,
+  },
+  xText: {
+    fontSize: 25,
+    fontWeight: "bold",
+  },
 });
 
 export default PerformExercise;

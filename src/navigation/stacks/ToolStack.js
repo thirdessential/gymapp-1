@@ -24,6 +24,7 @@ import ShowStreamVideo from "../../screens/Social/ShowStreamVideo";
 import SelectExercise from "../../screens/Fitness/SelectExercise";
 import Exercises from "../../screens/Fitness/Exercises";
 import PerformExercise from "../../screens/Fitness/PerformExercise";
+import PerformStretch from "../../screens/Fitness/PerformStretch";
 // import BrowseSlots from "../../screens/App/User/BrowseSlots";
 // import strings from "../../constants/strings";
 
@@ -172,6 +173,14 @@ const toolStack = () => {
       <Stack.Screen
         name={RouteNames.PerformExercise}
         component={PerformExercise}
+        options={{
+          title: "",
+          headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.PerformStretch}
+        component={PerformStretch}
         options={{
           title: "",
           headerTransparent: true,

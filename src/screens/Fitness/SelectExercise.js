@@ -57,10 +57,15 @@ class SelectExercise extends PureComponent {
 
   openPerformExercise = (exercise) => {
     const data=exercise.exerciseData.filter((exercise)=>exercise.level===this.state.level)[0];
-    const {reps,restTime}=data
-    
-    const {level} = this.state;
-    this.props.navigation.navigate(RouteNames.PerformExercise, {exercise, level,reps,restTime});
+  console.log(exercise)
+    if(data){
+      const {reps,restTime}=data
+      const {level} = this.state;
+      console.log(level);
+    return this.props.navigation.navigate(RouteNames.PerformExercise, {exercise, level,reps,restTime});
+    }else{
+    return  this.props.navigation.navigate(RouteNames.PerformStretch, {exercise});
+    }
   }
   renderCard = ({item, source}) => {
     const uri = item.contentUrls['180'] || item.contentUrls['360'];
@@ -138,7 +143,8 @@ const styles = StyleSheet.create({
     padding: spacing.small,
     paddingHorizontal: spacing.medium,
     borderRadius: 20,
-    marginRight: spacing.medium_sm
+    marginRight: spacing.medium_sm,
+    justifyContent:'center'
   },
   pillText: {
     fontFamily: fonts.MontserratMedium,
