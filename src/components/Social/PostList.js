@@ -25,7 +25,7 @@ const postList = (props) => {
   } = props;
 
   const checkLiked = (likes) => {
-    if(!likes)return false;
+    if (!likes) return false;
     const {userId} = store.getState().user;
     let liked = false;
     likes.map(like => {
@@ -39,6 +39,7 @@ const postList = (props) => {
     if (userId !== targetUserId) onProfilePress(targetUserId);
   }
   const renderPost = (post) => {
+    if (!post) return null;
     const isOwnPost = post.createdBy.userId === store.getState().user.userId; // TODO: can we improve this comparison?
     const isLiked = checkLiked(post.likes);
 
@@ -58,8 +59,8 @@ const postList = (props) => {
         isLiked={isLiked}
         likeCallback={() => like(post._id)}
         unlikeCallback={() => unlike(post._id)}
-        flagCallback={isOwnPost?null: () => report(post._id)}
-        deleteCallback={isOwnPost?()=>deletePost(post._id):null}
+        flagCallback={isOwnPost ? null : () => report(post._id)}
+        deleteCallback={isOwnPost ? () => deletePost(post._id) : null}
         // imagePressCallback={()=>props.viewImage(post.contentURL)}
         // shareCallback={() => {}}
         onProfilePress={() => disableSelfProfileClick(post.createdBy.userId)}
@@ -77,7 +78,7 @@ const postList = (props) => {
           style={styles.container}
           data={posts || []}
           renderItem={({item}) => renderPost(item)}
-          keyExtractor={(item) => item._id}
+          keyExtractor={(item) => item && item._id}
           ListHeaderComponent={() => <View style={{height: spacing.medium}}/>}
           ListFooterComponent={() => <View style={{height: spacing.large}}/>}
           onEndReached={update}

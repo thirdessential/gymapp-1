@@ -165,7 +165,8 @@ class App extends React.Component {
           width: 240,
         }}
       >
-        <Drawer.Screen name="Home" component={RootStack} options={{
+        <Drawer.Screen name="Home" component={RootStack}
+                       options={{
           drawerLabel: ({focused, color}) => <Text style={drawerLabelStyle}>Home</Text>
         }}/>
       </Drawer.Navigator>

@@ -2,7 +2,7 @@ import {
   DrawerContentScrollView, DrawerItemList, DrawerItem
 } from "@react-navigation/drawer";
 import {appTheme, darkPallet} from "../constants/colors";
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import * as React from "react";
 import store from '../store/configureStore';
 import Avatar from "../components/Avatar";
@@ -14,6 +14,7 @@ import RouteNames from "./RouteNames";
 import LinearGradient from "react-native-linear-gradient";
 import {drawerLabelStyle} from "../constants/styles";
 import Entypo from "react-native-vector-icons/Entypo";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 function CustomDrawerContent(props) {
   const {userData, userType, newCallbacks} = props;
@@ -29,23 +30,19 @@ function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props} style={{backgroundColor: appTheme.darkBackground, marginTop: -spacing.small}}>
       <LinearGradient
-        colors={[darkPallet.lightBlue, darkPallet.extraDarkBlue]}
-      >
-        <View style={styles.container}>
+        colors={[darkPallet.lightBlue, darkPallet.extraDarkBlue]}>
+        <TouchableOpacity onPress={() => props.navigation.navigate(RouteNames.MyProfile)} style={styles.container}>
           <Avatar url={displayPictureUrl}/>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>{name}</Text>
           </View>
-        </View>
+        </TouchableOpacity>
         <View style={styles.list}>
           <DrawerItemList {...props} labelStyle={{color: 'white'}}/>
           <DrawerItem
             label="Profile"
             labelStyle={drawerLabelStyle}
-            onPress={async () => {
-              // await props.navigation.navigate(RouteNames.MyProfileTab);
-              props.navigation.navigate(RouteNames.MyProfile);
-            }}
+            onPress={() => props.navigation.navigate(RouteNames.MyProfile)}
           />
           {
             userType === userTypes.TRAINER && (
@@ -74,7 +71,7 @@ function CustomDrawerContent(props) {
             )
           }
           <DrawerItem
-            label= {userType === userTypes.TRAINER ? "My Clients":"Subscriptions "}
+            label={userType === userTypes.TRAINER ? "My Clients" : "Subscriptions "}
             labelStyle={drawerLabelStyle}
             onPress={() => props.navigation.navigate(RouteNames.SubscriptionsView)}
           />
