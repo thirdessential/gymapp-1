@@ -41,7 +41,7 @@ class PerformExercise extends PureComponent {
       timer: this.state.reps[parseInt(this.state.currentRepIndex) - 1] * 4,
     });
     this.clockCall = setInterval(() => {
-      this.decrementClock();
+      this.decrementClock(this.state.timer);
     }, 1000);
   };
 
@@ -50,11 +50,11 @@ class PerformExercise extends PureComponent {
     this.init();
   }
 
-  decrementClock = () => {
+  decrementClock = (time) => {
     this.setState(
-      (prevstate) => ({
-        timer: prevstate.timer - 1,
-      }),
+      {
+        timer: time - 1,
+      },
       async () => {
         if (this.state.timer === 0) {
           if (this.state.currentRepIndex !== this.state.reps.length) {
@@ -71,7 +71,9 @@ class PerformExercise extends PureComponent {
       }
     );
   };
+reset= async () => {
 
+}
   componentWillUnmount() {
     clearInterval(this.clockCall);
   }
@@ -161,7 +163,8 @@ class PerformExercise extends PureComponent {
       </TouchableOpacity>
       <TouchableOpacity hitSlop={hitSlop20}
       onPress={()=>{
-        this.setState({currentRepIndex:this.state.currentRepIndex+1})
+        this.setState({currentRepIndex:this.state.currentRepIndex+1});
+        this.setState({timer:this.state.reps[this.state.currentRepIndex]});
         }}
       >
         <Ionicons
