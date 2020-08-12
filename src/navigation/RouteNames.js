@@ -32,15 +32,17 @@ const RouteNames = {
   SocialTab: 'SocialTab',
   ToolTab: 'ToolTab',
   ListingTab: 'ListingTab',
+  WorkoutTab: 'WorkoutTab',
   MyProfileTab: 'MyProfileTab',
+
   SubscriptionsView: 'SubscriptionsView',
   Subscriptions: 'Subscriptions',
   PackagesView: 'PackagesView',
   BMI: 'BMI',
   CouponMachine: 'CouponMachine',
 
-  Speech:'Speech',
-  Exercises:'Exercises',
+  Speech: 'Speech',
+  Exercises: 'Exercises',
 
   Login: 'Login',
   Signup: 'Signup',
@@ -63,7 +65,7 @@ const RouteNames = {
   PerformExercise: 'PerformExercise',
   PerformStretch: 'PerformStretch',
 
-
+  RootTab: 'RootTab'
 };
 
 export const TabRoutes = {

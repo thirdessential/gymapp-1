@@ -7,7 +7,7 @@ import Feather from "react-native-vector-icons/Feather";
 import store from '../store/configureStore';
 
 import RouteNames from "./RouteNames";
-import  {appTheme} from "../constants/colors";
+import {appTheme} from "../constants/colors";
 import Profile from "../screens/App/Profile";
 import MyProfileStack from './stacks/myProfileStack';
 import {userTypes} from "../constants/appConstants";
@@ -18,13 +18,16 @@ import SlotEditStack from "./stacks/SlotEditStack";
 import ActivityStack from "./stacks/ActivityStack";
 import SocialStack from "./stacks/SocialStack";
 import ToolStack from "./stacks/ToolStack";
+import Exercises from "../screens/Fitness/Exercises";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import WorkoutStack from "./stacks/WorkoutStack";
 
 const Tab = createMaterialTopTabNavigator();
 
 const bgView = () => (
-  <View style={{backgroundColor: appTheme.darkBackground, flex: 1, justifyContent:'center',alignItems:'center'}}>
-     <ActivityIndicator size={40} color={appTheme.lightContent}/>
-   </View>)
+  <View style={{backgroundColor: appTheme.darkBackground, flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <ActivityIndicator size={40} color={appTheme.lightContent}/>
+  </View>)
 ;
 
 const appTabNavigator = (props) => {
@@ -32,6 +35,7 @@ const appTabNavigator = (props) => {
   const listingTitle = userType === userTypes.USER ? 'Trainers' : 'Users';
   return (
     <Tab.Navigator
+      swipeEnabled={false}
       lazy={true}
       lazyPreloadDistance={0}
       lazyPlaceholder={bgView}
@@ -63,9 +67,6 @@ const appTabNavigator = (props) => {
             let iconName = focused ? 'activity' : 'activity';
             return <View style={{alignItems: 'center'}}><Feather name={iconName} size={20} color={color}/></View>
           },
-         
-           
-         
         }}/>
       <Tab.Screen
         name={RouteNames.SocialTab}
@@ -107,6 +108,19 @@ const appTabNavigator = (props) => {
         )
       }
       <Tab.Screen
+        name={RouteNames.WorkoutTab}
+        component={WorkoutStack}
+        options={{
+          title: 'Workout',
+          tabBarIcon: ({focused, color, size}) => {
+            let iconName = focused ? 'dumbbell' : 'dumbbell';
+            return (
+              <View style={{alignItems: 'center'}}>
+                <MaterialCommunityIcons name={iconName} size={20} color={color}/>
+              </View>);
+          },
+        }}/>
+      <Tab.Screen
         name={RouteNames.ToolTab}
         component={ToolStack}
         options={{
@@ -117,18 +131,17 @@ const appTabNavigator = (props) => {
               <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>);
           },
         }}/>
-
-      <Tab.Screen
-        name={RouteNames.MyProfileTab}
-        component={MyProfileStack}
-        options={{
-          title: 'Profile',
-          tabBarIcon: ({focused, color, size}) => {
-            let iconName = focused ? 'md-person' : 'md-person';
-            return <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>
-          },
-        }}
-      />
+      {/*<Tab.Screen*/}
+      {/*  name={RouteNames.MyProfileTab}*/}
+      {/*  component={MyProfileStack}*/}
+      {/*  options={{*/}
+      {/*    title: 'Profile',*/}
+      {/*    tabBarIcon: ({focused, color, size}) => {*/}
+      {/*      let iconName = focused ? 'md-person' : 'md-person';*/}
+      {/*      return <View style={{alignItems: 'center'}}><Ionicons name={iconName} size={20} color={color}/></View>*/}
+      {/*    },*/}
+      {/*  }}*/}
+      {/*/>*/}
     </Tab.Navigator>
   );
 }

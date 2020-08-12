@@ -32,6 +32,12 @@ const reducer = (state = initialState, action) => {
       postDetails[post._id] = post;
       return updateObject(state, {postDetails});
     }
+    case actionTypes.SET_COMMENTS: {
+      const {comments, postId} = action.payload;
+      const commentsForPost = {...state.commentsForPost};
+      commentsForPost[postId] = comments;
+      return updateObject(state, {commentsForPost});
+    }
     case actionTypes.REMOVE_POST: {
       const {postId} = action.payload;
       const oldPosts = [...state.posts];

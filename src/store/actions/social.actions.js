@@ -3,6 +3,7 @@ import * as API from "../../API";
 import {INITIAL_PAGE} from "../../constants/appConstants";
 import {showInfo} from "../../utils/notification";
 import {LayoutAnimation} from "react-native";
+import {get} from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export const setPosts = (posts, my = false) => ({
   type: actionTypes.SET_POSTS,
@@ -22,6 +23,13 @@ export const setPost = (post) => ({
   type: actionTypes.SET_POST,
   payload: {
     post
+  }
+});
+const setComments = (postId, comments) => ({
+  type: actionTypes.SET_COMMENTS,
+  payload: {
+    postId,
+    comments
   }
 });
 export const removePost = (postId) => ({
@@ -70,14 +78,12 @@ export const updatePosts = (page = '', my = false) => {
 };
 
 export const updatePost = (postId) => {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     try {
-      let {comments} = await API.getPost(postId);
-      if (comments) {
-        let post = getState().social.postDetails[postId];
-        post.comments = comments;
-        dispatch(setPost(post));
-      }
+      let {comments, post} = await API.getPost(postId);
+      dispatch(setPost(post));
+      if (comments)
+        dispatch(setComments(postId, comments));
       return true;
     } catch (error) {
       console.log("post update failed", error);
@@ -95,7 +101,7 @@ export const likePost = (postId) => {
       await API.likePost(postId);
       return true;
     } catch (error) {
-      console.log("post update failed", error);
+      console.log("Like post failed", error);
       return null;
     }
   };
@@ -104,17 +110,57 @@ export const likePost = (postId) => {
 export const unlikePost = (postId) => {
   return async (dispatch, getState) => {
     try {
-      let post = getState().social.postDetails[postId];
-      post.likes.pop();
+      let post = {...getState().social.postDetails[postId]};
+      post.likes = post.likes.filter(like => like.likedBy !== getState().user.userId);
       dispatch(setPost(post));
       await API.unlikePost(postId);
       return true;
     } catch (error) {
-      console.log("post update failed", error);
+      console.log("unlike post failed", error);
       return null;
     }
   };
 };
+
+export const likeComment = (postId, commentId) => {
+  return async (dispatch, getState) => {
+    try {
+      let comments = [...getState().social.commentsForPost[postId]];
+      comments = comments.map(comment => {
+        if (comment._id === commentId)
+          comment.likes.push({likedBy: getState().user.userId});
+        return comment;
+      });
+      dispatch(setComments(postId, comments));
+      await API.likeComment(commentId);
+      return true;
+    } catch (error) {
+      console.log("like comment failed", error);
+      return null;
+    }
+  };
+};
+
+export const unlikeComment = (postId, commentId) => {
+  return async (dispatch, getState) => {
+    try {
+      let comments = [...getState().social.commentsForPost[postId]];
+      comments = comments.map(comment => {
+          if (comment._id === commentId)
+            comment.likes = comment.likes.filter(like => like.likedBy !== getState().user.userId);
+          return comment;
+        }
+      );
+      dispatch(setComments(postId, comments));
+      await API.unlikeComment(commentId);
+      return true;
+    } catch
+      (error) {
+      console.log("unlike comment failed", error);
+      return null;
+    }
+  }
+}
 
 export const commentOnPost = (postId, commentText) => {
   return async (dispatch, getState) => {

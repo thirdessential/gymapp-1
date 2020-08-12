@@ -2,20 +2,19 @@ import React from "react";
 
 import Stack from "./stack";
 import RouteNames from "../RouteNames";
+import {appTheme} from "../../constants/colors";
+import {defaultHeaderStyle} from "../../constants/styles";
+import Exercises from "../../screens/Fitness/Exercises";
 import openDrawerButton from "../openDrawerButton";
 
-import Tools from "../../screens/App/Tools";
-import {defaultHeaderStyle} from "../../constants/styles";
-
-
-const toolStack = () => {
+const workoutStack = () => {
   return (
     <Stack.Navigator screenOptions={defaultHeaderStyle}>
       <Stack.Screen
-        name={RouteNames.Tools}
-        component={Tools}
+        name={RouteNames.Exercises}
+        component={Exercises}
         options={{
-          title: "Tools",
+          title: "Workout",
           headerLeft: openDrawerButton,
         }}
       />
@@ -23,4 +22,4 @@ const toolStack = () => {
   );
 };
 
-export default toolStack;
+export default workoutStack;

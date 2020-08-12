@@ -20,9 +20,7 @@ import fonts from "../../constants/fonts";
 import Post from "../../components/Social/Post";
 import strings from "../../constants/strings";
 import store from "../../store/configureStore";
-import {likeComment, unlikeComment,} from "../../API";
 import {MAX_POST_LENGTH} from "../../constants/appConstants";
-import post from "../../components/Social/Post";
 import RouteNames from "../../navigation/RouteNames";
 import SingleImageViewer from "../../components/SingleImageViewer";
 
@@ -51,6 +49,7 @@ class PostViewer extends Component {
     else return null;
   }
   checkLiked = (likes) => {
+    if (!likes) return false;
     const {userId} = store.getState().user;
     let liked = false;
     likes.map(like => {
@@ -87,8 +86,8 @@ class PostViewer extends Component {
         <Post
           contentType={post.contentType}
           contentUrl={post.contentURL}
-          likeCount={post.likes.length}
-          commentCount={post.comments.length}
+          likeCount={post.likes && post.likes.length}
+          commentCount={post.totalComments}
           createdOn={post.createdOn}
           text={post.textContent}
           createdBy={post.createdBy.name}
@@ -106,33 +105,39 @@ class PostViewer extends Component {
     )
   }
   renderComment = (comment) => {
+    const {route} = this.props;
+    const {postId} = route.params;
     if (!comment.likes) return null;
     if (!comment.approved) return null;
+    const {likeComment, unlikeComment} = this.props;
+    const isLiked = this.checkLiked(comment.likes);
     return <Post
       key={comment._id}
       likeCount={comment.likes.length}
       createdOn={comment.createdOn}
       text={comment.commentText}
-      isLiked={() => this.checkLiked(comment.likes)}
+      isLiked={isLiked}
       createdBy={comment.commentedBy.name}
       displayImageUrl={comment.commentedBy.displayPictureUrl}
       showComment={false}
-      unlikeCallback={() => unlikeComment(comment._id)}
-      likeCallback={() => likeComment(comment._id)}
+      unlikeCallback={() => unlikeComment(postId, comment._id)}
+      likeCallback={() => likeComment(postId, comment._id)}
       onProfilePress={() => this.openProfile(comment.commentedBy.userId)}
     />
   }
   itemSeparator = () => <View style={{marginTop: spacing.medium}}/>
 
   renderComments = () => {
-    const post = this.getPost();
-    if (!post) return null;
+    const {route, commentsForPost} = this.props;
+    const {postId} = route.params;
+
+    if (!commentsForPost[postId]) return null;
     return (
       <>
         <Text style={styles.sectionTitle}>{strings.COMMENTS}</Text>
         {this.createComment()}
         <FlatList
-          data={post.comments}
+          data={commentsForPost[postId]}
           renderItem={({item}) => this.renderComment(item)}
           keyExtractor={(item) => item._id}
           ItemSeparatorComponent={this.itemSeparator}
@@ -303,6 +308,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   postDetails: state.social.postDetails,
+  commentsForPost: state.social.commentsForPost || {},
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -312,6 +318,8 @@ const mapDispatchToProps = (dispatch) => ({
   deletePost: postId => dispatch(actionCreators.deletePost(postId)),
   likePost: (postId) => dispatch(actionCreators.likePost(postId)),
   unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId)),
+  likeComment: (postId, commentId) => dispatch(actionCreators.likeComment(postId, commentId)),
+  unlikeComment: (postId, commentId) => dispatch(actionCreators.unlikeComment(postId, commentId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostViewer);
