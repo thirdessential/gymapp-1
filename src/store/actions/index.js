@@ -49,6 +49,8 @@ export {
   updatePost,
   unlikePost,
   likePost,
+  likeComment,
+  unlikeComment,
   commentOnPost,
   reportPost,
   getPostsForUser,

@@ -25,6 +25,7 @@ const postList = (props) => {
   } = props;
 
   const checkLiked = (likes) => {
+    if(!liked)return false;
     const {userId} = store.getState().user;
     let liked = false;
     likes.map(like => {
@@ -38,6 +39,7 @@ const postList = (props) => {
     if (userId !== targetUserId) onProfilePress(targetUserId);
   }
   const renderPost = (post) => {
+    console.log(post);
     const isOwnPost = post.createdBy.userId === store.getState().user.userId; // TODO: can we improve this comparison?
     const isLiked = checkLiked(post.likes);
 
@@ -48,8 +50,8 @@ const postList = (props) => {
       <Post
         contentType={post.contentType}
         contentUrl={post.contentURL}
-        likeCount={post.likes.length}
-        commentCount={post.comments.length}
+        likeCount={post.likes && post.likes.length}
+        commentCount={post.totalComments || 0}
         createdOn={post.createdOn}
         text={post.textContent}
         createdBy={post.createdBy.name}

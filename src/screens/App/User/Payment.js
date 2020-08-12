@@ -330,7 +330,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: spacing.medium_sm,
-    paddingVertical: 0
+    paddingVertical: 0,
+    backgroundColor:appTheme.background
   },
   subtitle: {
     backgroundColor: appTheme.darkBackground,

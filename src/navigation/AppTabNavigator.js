@@ -32,6 +32,7 @@ const appTabNavigator = (props) => {
   const listingTitle = userType === userTypes.USER ? 'Trainers' : 'Users';
   return (
     <Tab.Navigator
+      swipeEnabled={false}
       lazy={true}
       lazyPreloadDistance={0}
       lazyPlaceholder={bgView}
