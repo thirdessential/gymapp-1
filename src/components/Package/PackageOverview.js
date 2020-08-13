@@ -25,7 +25,7 @@ const PackageOverview = (props) => {
   const {open = false} = props;
   const [collapsed, setCollapsed] = useState(!open);
   const chevron = !collapsed ? 'chevron-up' : 'chevron-down';
-  // const [imageSrc] = useState(getRandomImage());
+  const [imageSrc] = useState(getRandomImage());
 
   const EditButtons = () => (
     <View style={styles.editContainer}>
@@ -58,7 +58,7 @@ const PackageOverview = (props) => {
         style={styles.container}
         blurRadius={2}
         borderRadius={12}
-        source={packageImages[props.category]}>
+        source={packageImages[props.category] || imageSrc}>
         <View style={[styles.textContainer, {flexDirection: 'row', justifyContent: 'space-between'}]}>
           <Text style={styles.title}>{props.title}</Text>
           <FontAwesome

@@ -29,7 +29,9 @@ class Tools extends PureComponent {
   openSpeech = () => this.props.navigation.navigate(RouteNames.Speech);
   openStreamingScreen = () => this.props.navigation.navigate(RouteNames.StreamScreen);
   openSelectExercise = () => this.props.navigation.navigate(RouteNames.SelectExercise);
-  openExercisesScreen=() => this.props.navigation.navigate(RouteNames.Exercises);
+  openExercisesScreen = () => this.props.navigation.navigate(RouteNames.Exercises);
+
+
   state = {
     toolsData: []
   }
@@ -48,17 +50,19 @@ class Tools extends PureComponent {
         image: iconBackgrounds.appointments,
         callback: this.openCallRequests,
         enabled: userType === userTypes.TRAINER
-      }, {
-        title: strings.MY_CLIENTS,
-        image: iconBackgrounds.slots,
-        callback: this.openClients,
-        enabled: userType === userTypes.TRAINER
-
-      }, {
-        title: strings.SUBSCRIPTIONS,
+      },
+      // {
+      //   title: strings.MY_CLIENTS,
+      //   image: iconBackgrounds.slots,
+      //   callback: this.openClients,
+      //   enabled: userType === userTypes.TRAINER
+      //
+      // },
+      {
+        title: userType===userTypes.USER? strings.SUBSCRIPTIONS: strings.MY_CLIENTS,
         image: iconBackgrounds.subscriptions,
         callback: this.openClients,
-        enabled: userType === userTypes.USER,
+        enabled: true
       },
       // {
       //   title: strings.BROWSE_SLOTS,
@@ -77,12 +81,12 @@ class Tools extends PureComponent {
         callback: this.openBMI,
         enabled: true
       },
-      {
-        title: strings.SPEECH,
-        image: iconBackgrounds.waterIntake,
-        callback: this.openSpeech,
-        enabled: userType === userTypes.USER
-      },
+      // {
+      //   title: strings.SPEECH,
+      //   image: iconBackgrounds.waterIntake,
+      //   callback: this.openSpeech,
+      //   enabled: userType === userTypes.USER
+      // },
       {
         title: strings.COUPONS,
         image: iconBackgrounds.coupon,
@@ -95,24 +99,19 @@ class Tools extends PureComponent {
         callback: this.openAccountDash,
         enabled: userType === userTypes.TRAINER
       },
-      {
-        title: strings.STREAM,
-        image: iconBackgrounds.graphMan,
-        callback: this.openStreamingScreen,
-        enabled: userType === userTypes.TRAINER
-      },
-      {
-        title: 'Select exercise',
-        image: iconBackgrounds.graphMan,
-        callback: this.openSelectExercise,
-        enabled: true
-      },
-      {
-        title: strings.EXERCISES,
-        image: iconBackgrounds.graphMan,
-        callback: this.openExercisesScreen,
-        enabled: userType === userTypes.USER
-      },
+      // {
+      //   title: strings.STREAM,
+      //   image: iconBackgrounds.graphMan,
+      //   callback: this.openStreamingScreen,
+      //   enabled: userType === userTypes.TRAINER
+      // },
+      // {
+      //   title: strings.EXERCISES,
+      //   image: iconBackgrounds.graphMan,
+      //   callback: this.openExercisesScreen,
+      //   enabled: true
+      // },
+
     ]
     this.setState({toolsData: toolsData.filter(toolData => toolData.enabled)});
   }

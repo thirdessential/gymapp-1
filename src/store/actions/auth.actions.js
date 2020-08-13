@@ -16,11 +16,12 @@ export const syncFirebaseAuth = (idToken, fcmToken) => {
       const userType = getState().user.userType;
       let result = await API.firebaseGoogleAuth(idToken, fcmToken, userType);
       if (result) {
-        const {userId, authToken, userType, userData} = result;
+        const {userId, authToken, userType, userData, isNewUser} = result;
         await dispatch(setAuthToken(authToken));
         await dispatch(genericUserFieldSetter({
           userId,
-          userType
+          userType,
+          initialLogin: isNewUser // go to initialLogin only if newUser
         }));
         await dispatch(setUserData(userData));
         return true;

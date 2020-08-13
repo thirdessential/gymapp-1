@@ -1,6 +1,5 @@
 import React, {PureComponent} from "react";
-import {StyleSheet, Text, View, FlatList, ScrollView} from "react-native";
-import LinearGradient from "react-native-linear-gradient";
+import {StyleSheet, Text, View, FlatList, ScrollView, TouchableOpacity} from "react-native";
 
 import {connect} from "react-redux";
 
@@ -90,7 +89,7 @@ class Activity extends PureComponent {
     const {userData} = this.props;
     if (!userData) return null;
     return (
-      <View style={styles.userContainer}>
+      <TouchableOpacity onPress={this.openMyProfile} style={styles.userContainer}>
         <Avatar
           url={userData.displayPictureUrl || defaultDP}
           size={spacing.thumbnailSmall}
@@ -101,13 +100,18 @@ class Activity extends PureComponent {
             {getJoinDurationString(userData.dateJoined, userData.userType)}
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
-
+  openMyProfile = () => {
+    const {navigation} = this.props;
+    navigation.navigate(RouteNames.MyProfile);
+  };
   openProfile = (userId) => {
     const {navigation} = this.props;
-    navigation.navigate(RouteNames.Profile, {
+    if (!userId)
+      navigation.navigate(RouteNames.MyProfile);
+    else navigation.navigate(RouteNames.Profile, {
       userId: userId,
     });
   };
@@ -117,7 +121,7 @@ class Activity extends PureComponent {
     const {todaysEvents, tomorrowsEvents} = activities;
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         {this.renderUser()}
         <LiveCardList data={this.state.data}/>
         <View style={{flex: 1, width: "100%", marginTop: spacing.medium_lg}}>

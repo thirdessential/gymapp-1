@@ -22,20 +22,6 @@ const listing = (props) => {
           title: 'Community',
           headerLeft: openDrawerButton,
         }}/>
-      <Stack.Screen
-        name={RouteNames.PostViewer}
-        component={PostViewer}
-        options={{
-          title: 'Comments',
-        }}/>
-      <Stack.Screen name={RouteNames.Profile} component={Profile}
-                    options={{title: '', headerTransparent: true}}/>
-      <Stack.Screen
-        name={RouteNames.CreatePost}
-        component={CreatePost}
-        options={{
-          title: 'Create post',
-        }}/>
     </Stack.Navigator>
   );
 }

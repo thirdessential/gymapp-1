@@ -115,7 +115,6 @@ export const resetApp = () => ({
   type: actionTypes.RESET_APP,
 });
 
-
 export const signOutUser = () => {
   return async (dispatch) => {
     await signOutFirebase();

@@ -187,7 +187,7 @@ class Profile extends Component {
         {
           !posts || posts.length === 0 && (
             <View style={styles.noPostsContainer}>
-              <Text numberOfLines={2} style={styles.sectionTitle}>{strings.NO_POSTS_BY_USER} (Replace image)</Text>
+              <Text numberOfLines={2} style={styles.sectionTitle}>{strings.NO_POSTS_BY_USER}</Text>
             </View>
           )
         }

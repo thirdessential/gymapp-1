@@ -201,7 +201,12 @@ const strings = {
   FEATURED_WORKOUT :'Featured Workouts',
   DISCOVER:'Discover More',
   ABS:'Abs',
-
+  AVG_MINUTES: 'Avg. minutes',
+  SETS:'Sets',
+  LEVEL:'Level',
+  ALL:'ALL',
+  REST: 'Rest',
+  WELL_DONE: "Well done"
 };
 
 export const bmiVerdicts = {

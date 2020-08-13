@@ -22,15 +22,14 @@ import {packageTypes} from "../../../constants/appConstants";
 
 class WorkoutPreference extends Component {
   state = {
-    data:[]
+    data: []
   };
 
   componentDidMount() {
-    this.updateLocalState();
-    let data =Object.values(packageTypes).map((packageName,index)=>{
-      return {id:index,text:packageName,checked:false};
+    let data = Object.values(packageTypes).map((packageName, index) => {
+      return {id: index, text: packageName, checked: false};
     })
-    this.setState({data});
+    this.setState({data}, this.updateLocalState);
   }
 
   updateLocalState = () => {
@@ -46,8 +45,9 @@ class WorkoutPreference extends Component {
     });
     this.setState({data});
   }
+
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if(this.props.active && !nextProps.active)
+    if (this.props.active && !nextProps.active)
       this.submit(); // hacky way of checking if screen unfocused
     return true;
   }
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  preferences: state.fitness.preferences ||[],
+  preferences: state.fitness.preferences || [],
 });
 
 const mapDispatchToProps = (dispatch) => ({

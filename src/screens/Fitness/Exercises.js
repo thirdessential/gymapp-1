@@ -1,4 +1,4 @@
-import React, { PureComponent, Component } from "react";
+import React, {PureComponent, Component} from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -14,31 +14,102 @@ import {
   Button,
   Alert,
 } from "react-native";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import {connect} from "react-redux";
 
-import { appTheme } from "../../constants/colors";
-import { spacing } from "../../constants/dimension";
+import {appTheme} from "../../constants/colors";
+import {spacing} from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
-import { screenHeight, screenWidth } from "../../utils/screenDimensions";
-import { updateExerciseIndex, updateUserInfo } from "../../API";
+import {screenHeight, screenWidth} from "../../utils/screenDimensions";
 import * as actionCreators from "../../store/actions";
-import { bodyParts, categories } from "../../constants/appConstants";
+import RouteNames from "../../navigation/RouteNames";
+
+const categories = [
+  {
+    url:
+      "https://images.unsplash.com/photo-1550259979-ed79b48d2a30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=60",
+    type: "CARDIO",
+  },
+  {
+    url:
+      "https://images.unsplash.com/photo-1562771379-eafdca7a02f8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+    type: "STRETCH",
+  },
+  {
+    url:
+      "https://image.shutterstock.com/mosaic_250/818215/1043370892/stock-photo-fit-young-man-in-sportswear-focused-on-lifting-a-dumbbell-during-an-exercise-class-in-a-gym-1043370892.jpg",
+    type: "WORKOUT",
+  },
+  {
+    url:
+      "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=626&q=80",
+    type: "YOGA",
+  },
+
+
+];
+
+const bodyParts = [
+  {
+    url:
+      "https://3.bp.blogspot.com/-oFwofSWO-XQ/ViiCsb0p_nI/AAAAAAAAEfs/vKzc9-8AXIk/s1600/Six%2BPack%2BAbs%2BHD%2BWallpaper.jpg",
+    type: "ABS",
+  },
+  {
+    url:
+      "https://images.unsplash.com/photo-1583454122781-8cf8f5af9d2b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+    type: "ARMS",
+  },
+  {
+    url:
+      "https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+    type: "BACK",
+  },
+  {
+    url:
+      "https://media.self.com/photos/5dd2f7580e115400090e89be/16:9/w_1600,c_limit/190916_SELF_1101.jpg",
+    type: "BUTTOCKS",
+  },
+  {
+    url:
+      "https://manofmany.com/wp-content/uploads/2019/03/10-Best-Chest-Exercises-for-Men-1280x720.jpg",
+    type: "CHEST",
+  },
+  {
+    url:
+      "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
+    type: "FULL_BODY",
+  },
+  {
+    url:
+      "https://cdn-ami-drupal.heartyhosting.com/sites/muscleandfitness.com/files/styles/full_node_image_1090x614/public/quad-exercise-routine-3.jpg?itok=sfR46rrH&timestamp=1370452907",
+    type: "LEGS",
+  },
+
+  {
+    url:
+      "https://manofmany.com/wp-content/uploads/2019/03/10-Best-Shoulder-Exercises-for-Men-Man-lifting-weights-shoulder-muscle-1280x720.jpg",
+    type: "SHOULDERS",
+  },
+
+];
 
 class Exercises extends PureComponent {
   // navigation.setOptions({ tabBarVisible: false })
- 
-  renederItems = ({ item }) => (
+  openSelectExercise = (type) => {
+    this.props.navigation.navigate(RouteNames.SelectExercise, {type});
+  }
+
+  renderItem = ({item}) => (
     <TouchableOpacity
       style={styles.touchableCards}
-      onPress={() => Alert.alert(`Show card for ${item.type}`)}
+      onPress={() => this.openSelectExercise(item.type)}
     >
       <View style={styles.cardView}>
         <ImageBackground
           style={styles.cardImage}
-          source={{ uri: `${item.url}` }}
+          source={{uri: item.url}}
         >
           <View style={styles.cardTextView}>
             <Text style={styles.cardListText}>{item.type}</Text>
@@ -47,69 +118,63 @@ class Exercises extends PureComponent {
       </View>
     </TouchableOpacity>
   );
-  feautred = (uri, type) => (
-    <View style={styles.imageContainer}>
-      <Image
-        style={styles.image}
-        source={{
-          uri: uri,
-        }}
-      />
-      <View style={styles.imageTitle}>
-        <Text style={styles.cardText}>{type}</Text>
-        <Text style={styles.imageSubtitle}>50 min</Text>
+  feautred = (uri, type, desc) => (
+    <TouchableOpacity onPress={() => this.openSelectExercise(type)} style={{}}>
+      <View style={styles.imageContainer}>
+        <Image
+          style={styles.image}
+          source={{
+            uri: uri,
+          }}
+        />
+        <View style={styles.imageTitle}>
+          <Text style={styles.cardText}>{type}</Text>
+          <Text style={styles.imageSubtitle}>{desc}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
+
   render() {
     return (
-      <>
-        <ScrollView
-          style={styles.container}
-          showsVerticalScrollIndicator={false}
+      <ScrollView
+        style={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
+        <View
+          style={styles.headingContainer}
         >
-          <View
-            style={{
-              marginTop: spacing.medium_sm,
-              marginLeft: spacing.space_40,
-            }}
-          >
-            <Text style={styles.feautredText}>{strings.FEATURED_WORKOUT}</Text>
-          </View>
-          {Math.floor(Math.random() * 10) % 2 == 0
-            ? this.feautred(bodyParts[0].url, bodyParts[0].type)
-            : this.feautred(bodyParts[5].url, bodyParts[5].type)}
-          <View style={styles.itemContainer}>
-            <View style={styles.optionContainer}>
-              <View style={{ marginLeft: spacing.large_lg }}>
-                <Text style={styles.discover}>{strings.DISCOVER}</Text>
-              </View>
-              <ScrollView>
-                <View style={styles.horizontalList}>
-                  <FlatList
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    style={styles.flatlist}
-                    keyExtractor={(item) => item.type}
-                    data={bodyParts}
-                    renderItem={this.renederItems}
-                  />
-                </View>
-                <View style={styles.horizontalList}>
-                  <FlatList
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    style={styles.flatlist}
-                    keyExtractor={(item) => item.type}
-                    data={categories}
-                    renderItem={this.renederItems}
-                  />
-                </View>
-              </ScrollView>
+          <Text style={styles.featuredText}>{strings.FEATURED_WORKOUT}</Text>
+        </View>
+        {Math.floor(Math.random() * 10) % 2 === 0
+          ? this.feautred(bodyParts[0].url, bodyParts[0].type, 'Abdominal exercises affect the abdominal muscles ')
+          : this.feautred(bodyParts[5].url, bodyParts[5].type, 'Workout that aims to hit all the major muscle groups')}
+        <View style={styles.itemContainer}>
+            <View style={{marginLeft: spacing.large_lg}}>
+              <Text style={styles.discover}>{strings.DISCOVER}</Text>
             </View>
-          </View>
-        </ScrollView>
-      </>
+            <View style={styles.horizontalList}>
+              <FlatList
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                style={styles.flatList}
+                keyExtractor={(item) => item.type}
+                data={bodyParts}
+                renderItem={this.renderItem}
+              />
+            </View>
+            <View style={styles.horizontalList}>
+              <FlatList
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                style={styles.flatList}
+                keyExtractor={(item) => item.type}
+                data={categories}
+                renderItem={this.renderItem}
+              />
+            </View>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -118,12 +183,15 @@ const styles = StyleSheet.create({
   gridView: {
     flex: 1,
   },
-
   container: {
     backgroundColor: appTheme.background,
     flex: 1,
   },
-  feautredText: {
+  headingContainer:{
+    marginTop: spacing.medium_sm,
+    marginLeft: spacing.space_40,
+  },
+  featuredText: {
     color: appTheme.textPrimary,
     fontSize: fontSizes.h0,
     fontFamily: fonts.CenturyGothic,
@@ -160,22 +228,19 @@ const styles = StyleSheet.create({
     flex: 1,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
-    height: screenHeight / 2,
+    paddingVertical: spacing.medium_lg,
+    // height: screenHeight / 2,
   },
   discover: {
     color: appTheme.textPrimary,
     fontSize: fontSizes.h0,
     fontFamily: fonts.CenturyGothic,
   },
-
-  optionContainer: {
-    marginTop: spacing.medium_lg,
-  },
   horizontalList: {
     marginTop: spacing.medium_lg,
     marginHorizontal: spacing.small,
   },
-  flatlist: { height: 120, marginTop: 5 },
+  flatList: {height: 120, marginTop: 5},
   touchableCards: {
     width: 200,
     height: "100%",

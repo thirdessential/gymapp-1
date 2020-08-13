@@ -85,8 +85,8 @@ class PreferenceSwiper extends PureComponent {
   };
 
   componentDidMount() {
-    this.props.updatePreferences(); // preload preferences from api
-    const {route, userType} = this.props;
+    const {route, userType, getPreferences} = this.props;
+    getPreferences(); // preload preferences from api
     if (route.params && route.params.physical) {
       this.setState({slides: physicalSlide});
     } else {
@@ -139,7 +139,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setInitialLoginOff: () => dispatch(actionCreators.setInitialLoginOff()),
   updateUserData: () => dispatch(actionCreators.updateUserData()),
-  updatePreferences: () => dispatch(actionCreators.updatePreferences())
+  getPreferences: () => dispatch(actionCreators.getPreferences())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PreferenceSwiper);
