@@ -32,12 +32,18 @@ class PerformExercise extends PureComponent {
       stages: [],
       exercise: {},
       pause: true,
+      levelMultiplier:{
+        'BEGINNER':4,
+        'INTERMEDIATE':3,
+        'ADVANCED':2
+      },
+      level:this.props.route.params.level
     };
   }
 
   init = async () => {
     await this.setState({
-      timer: this.state.reps[parseInt(this.state.currentRepIndex) - 1] * 4,
+      timer: this.state.reps[parseInt(this.state.currentRepIndex) - 1] *this.state.levelMultiplier[this.state.level] ,
     });
     this.clockCall = setInterval(() => {
       this.decrementClock(this.state.timer>1?this.state.timer:1, this.state.pause);
@@ -101,14 +107,14 @@ class PerformExercise extends PureComponent {
     for (i = 0; i < this.state.reps.length; i++) {
       if (i % 2 == 0) {
         this.setState({
-          stages: this.state.stages.push(reps[i] * 4),
+          stages: this.state.stages.push(reps[i] * this.state.levelMultiplier[this.state.level]),
         });
         if (i != reps.length - 1) {
           this.setState({ stages: this.state.stages.push(restTime) });
         }
       } else {
         this.setState({
-          stages: this.state.stages.push(reps[i] * 4),
+          stages: this.state.stages.push(reps[i] * this.state.levelMultiplier[this.state.level]),
         });
         if (i != reps.length - 1) {
           this.setState({ stages: this.state.stages.push(restTime) });
@@ -225,7 +231,7 @@ class PerformExercise extends PureComponent {
                     //make it green when we reach that exercise
                   }
                 >
-                  x{rep / 4}
+                  x{rep/this.state.levelMultiplier[this.state.level]}
                 </Text>
               </View>
             ) : null
