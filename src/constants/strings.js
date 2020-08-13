@@ -205,7 +205,8 @@ const strings = {
   SETS:'Sets',
   LEVEL:'Level',
   ALL:'ALL',
-
+  REST: 'Rest',
+  WELL_DONE: "Well done"
 };
 
 export const bmiVerdicts = {

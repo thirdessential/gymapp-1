@@ -50,17 +50,19 @@ class Tools extends PureComponent {
         image: iconBackgrounds.appointments,
         callback: this.openCallRequests,
         enabled: userType === userTypes.TRAINER
-      }, {
-        title: strings.MY_CLIENTS,
-        image: iconBackgrounds.slots,
-        callback: this.openClients,
-        enabled: userType === userTypes.TRAINER
-
-      }, {
-        title: strings.SUBSCRIPTIONS,
+      },
+      // {
+      //   title: strings.MY_CLIENTS,
+      //   image: iconBackgrounds.slots,
+      //   callback: this.openClients,
+      //   enabled: userType === userTypes.TRAINER
+      //
+      // },
+      {
+        title: userType===userTypes.USER? strings.SUBSCRIPTIONS: strings.MY_CLIENTS,
         image: iconBackgrounds.subscriptions,
         callback: this.openClients,
-        enabled: userType === userTypes.USER,
+        enabled: true
       },
       // {
       //   title: strings.BROWSE_SLOTS,
@@ -97,30 +99,19 @@ class Tools extends PureComponent {
         callback: this.openAccountDash,
         enabled: userType === userTypes.TRAINER
       },
-      {
-        title: strings.STREAM,
-        image: iconBackgrounds.graphMan,
-        callback: this.openStreamingScreen,
-        enabled: userType === userTypes.TRAINER
-      },
       // {
-      //   title: 'Select exercise',
+      //   title: strings.STREAM,
       //   image: iconBackgrounds.graphMan,
-      //   callback: this.openSelectExercise,
-      //   enabled: true
+      //   callback: this.openStreamingScreen,
+      //   enabled: userType === userTypes.TRAINER
       // },
-      {
-        title: strings.EXERCISES,
-        image: iconBackgrounds.graphMan,
-        callback: this.openExercisesScreen,
-        enabled: true
-      },
       // {
-      //   title: 'Perform exercise',
-      //   image: iconBackgrounds.bmr,
-      //   callback: this.openPerformExercise,
+      //   title: strings.EXERCISES,
+      //   image: iconBackgrounds.graphMan,
+      //   callback: this.openExercisesScreen,
       //   enabled: true
       // },
+
     ]
     this.setState({toolsData: toolsData.filter(toolData => toolData.enabled)});
   }
