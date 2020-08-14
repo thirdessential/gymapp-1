@@ -32,6 +32,14 @@ export const formattedDayDate = date => {
   const monthName = MONTH_NAMES[dateObj.getMonth()];
   return `${dayName}, ${monthName} ${dateObj.getDate()}`;
 }
+export const roundTimeQuarterHour = (time) => {
+  let timeToReturn = new Date(time);
+
+  timeToReturn.setMilliseconds(Math.round(timeToReturn.getMilliseconds() / 1000) * 1000);
+  timeToReturn.setSeconds(Math.round(timeToReturn.getSeconds() / 60) * 60);
+  timeToReturn.setMinutes(Math.round(timeToReturn.getMinutes() / 15) * 15);
+  return timeToReturn;
+}
 
 export const militaryTimeToString = time => {
   if (!time) return '';
@@ -40,9 +48,9 @@ export const militaryTimeToString = time => {
 }
 export const formattedMilitaryRange = (time, duration) => {
   const timeObj = new Date(time);
-  timeObj.setMinutes(timeObj.getMinutes()+parseInt(duration))
+  timeObj.setMinutes(timeObj.getMinutes() + parseInt(duration))
 
-  return `${formattedTime(time)}  -  ${formattedTime(timeObj) }`;
+  return `${formattedTime(time)}  -  ${formattedTime(timeObj)}`;
 }
 export const findMissingDays = days => {
   let AllDays = Object.values(WEEK_DAYS);

@@ -18,18 +18,21 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {formattedDayDate, formattedMilitaryRange} from "../../utils/utils";
+import {formattedDayDate, formattedMilitaryRange, roundTimeQuarterHour} from "../../utils/utils";
+import {Menu, MenuOption, MenuOptions, MenuTrigger} from "react-native-popup-menu";
 
 class LiveScheduler extends PureComponent {
 
   state = {
     title: '',
     date: Date.now(),
-    time: Date.now(),
+    time: roundTimeQuarterHour(Date.now()),
     duration: '60',
     instantLive: false,
     pickerVisible: false,
     pickerMode: 'date',
+    today: Date.now(),
+    futureDate: new Date().setDate(new Date().getDate() + 10)
   }
   isInputValid = () => {
     const {title, date, time, duration} = this.state;
@@ -46,6 +49,7 @@ class LiveScheduler extends PureComponent {
   }
   onDateChange = (result) => {
     const {timestamp} = result.nativeEvent;
+    if (!timestamp) return;
     if (this.state.pickerMode === 'date') {
       this.setState({date: timestamp, pickerVisible: false})
     } else {
@@ -55,9 +59,8 @@ class LiveScheduler extends PureComponent {
   onTimePress = () => {
     this.showMode('time');
   }
-  onDurationPress = () => {
+  setDuration = (duration) => this.setState({duration})
 
-  }
   showMode = (pickerMode) => {
     this.setState({pickerVisible: true, pickerMode});
   };
@@ -105,12 +108,28 @@ class LiveScheduler extends PureComponent {
             </>
           )
         }
-        <TouchableOpacity activeOpacity={0.8} style={styles.row}>
-          <View style={styles.iconButton}>
-            <FontAwesome5Icon name={'hourglass-half'} color={bmiColors.lightBlue} size={20}/>
-          </View>
-          <Text style={styles.infoText}>{this.state.duration} {strings.MINUTES}</Text>
-        </TouchableOpacity>
+
+        <Menu style={styles.menuContainer}>
+          <MenuTrigger >
+            <View style={[styles.row,{marginTop:0}]}>
+              <View style={styles.iconButton}>
+                <FontAwesome5Icon name={'hourglass-half'} color={bmiColors.lightBlue} size={20}/>
+              </View>
+              <Text style={styles.infoText}>{this.state.duration} {strings.MINUTES}</Text>
+            </View>
+          </MenuTrigger>
+          <MenuOptions customStyles={styles.menu}>
+            <MenuOption style={styles.menuButton} onSelect={()=>this.setDuration('30')}>
+              <Text style={styles.menuText}>30 {strings.MINUTES}</Text>
+            </MenuOption>
+            <MenuOption style={styles.menuButton} onSelect={()=>this.setDuration('45')}>
+              <Text style={styles.menuText}>45 {strings.MINUTES}</Text>
+            </MenuOption>
+            <MenuOption style={styles.menuButton} onSelect={()=>this.setDuration('60')}>
+              <Text style={styles.menuText}>60 {strings.MINUTES}</Text>
+            </MenuOption>
+          </MenuOptions>
+        </Menu>
 
         <TouchableOpacity disabled={!inputsValid} activeOpacity={0.7}
                           style={[styles.submitButton, {backgroundColor: inputsValid ? bmiColors.red : bmiColors.redFaded}]}>
@@ -123,6 +142,8 @@ class LiveScheduler extends PureComponent {
             is24Hour={false}
             display="default"
             onChange={this.onDateChange}
+            minimumDate={this.state.today}
+            maximumDate={this.state.futureDate}
           />
         )}
       </KeyboardAwareScrollView>
@@ -202,7 +223,30 @@ const styles = StyleSheet.create({
     color: appTheme.greyC,
     fontFamily: fonts.CenturyGothicBold
   },
-
+  menuContainer: {
+    width:'100%',
+    marginTop: spacing.medium
+  },
+  menuTitle: {
+    color: appTheme.brightContent,
+    fontFamily: fonts.CenturyGothicBold,
+    fontSize: fontSizes.h3
+  },
+  menu: {
+    backgroundColor: appTheme.darkBackground,
+  },
+  menuButton: {
+    flexDirection: 'row',
+    backgroundColor: appTheme.darkBackground,
+    alignItems: 'center',
+    justifyContent:'center',
+    padding: spacing.small_lg,
+  },
+  menuText: {
+    color: appTheme.textPrimary,
+    fontFamily: fonts.CenturyGothicBold,
+    fontSize: fontSizes.h2,
+  },
 });
 
 const mapStateToProps = (state) => ({});

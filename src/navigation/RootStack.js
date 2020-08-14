@@ -17,7 +17,7 @@ import PackageList from "../screens/App/Trainer/PackageList";
 import PackageEdit from "../screens/App/Trainer/PackageEdit";
 import SlotsView from "../screens/App/Trainer/Subscriptions";
 import Profile from "../screens/App/Profile";
-import BMI from "../screens/App/BMI";
+import BMI from "../screens/Fitness/BMI";
 import Speech from "../screens/App/Speech";
 import CouponMachine from "../screens/App/Trainer/CouponMachine";
 import AccountDash from "../screens/App/Trainer/AccountDash";
