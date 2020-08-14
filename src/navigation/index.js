@@ -28,7 +28,6 @@ import InitialLogin from './stacks/initialLoginStack';
 import Auth from './stacks/authStack';
 import Calling from './stacks/callingStack';
 import CustomDrawerContent from "./drawerContent";
-import appTabNavigator from "./AppTabNavigator";
 import RouteNames from "./RouteNames";
 import VideoCall from "../screens/Call/VideoCall";
 import {drawerLabelStyle} from "../constants/styles";
@@ -165,10 +164,12 @@ class App extends React.Component {
           width: 240,
         }}
       >
-        <Drawer.Screen name="Home" component={RootStack}
-                       options={{
-          drawerLabel: ({focused, color}) => <Text style={drawerLabelStyle}>Home</Text>
-        }}/>
+        <Drawer.Screen
+          name="Home"
+          component={RootStack}
+          options={{
+            drawerLabel: ({focused, color}) => <Text style={drawerLabelStyle}>Home</Text>
+          }}/>
       </Drawer.Navigator>
     );
   }

@@ -237,3 +237,15 @@ export const scheduleStream = async (streamdata) => {
     return false;
   }
 }
+export const startStream = async (streamId) => {
+  try {
+    let response = await axios.put(`/live/start`, {streamId});
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

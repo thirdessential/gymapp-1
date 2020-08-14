@@ -157,3 +157,10 @@ export const equipmentTypes = {
   BAND: 'BAND',
   ALL: 'ALL'
 }
+
+export const zoomConfig = {
+  key:'hKodHeKdo7c0g7Qh4Dx5MnQMp6j19tc1WGbs',
+  secret:'Pxu4Jq7BjGG50kXxoDizV1FkAcLxdwTmDtPq',
+  userId:'oggybuddy10@gmail.com',
+  domain:'zoom.us'
+}

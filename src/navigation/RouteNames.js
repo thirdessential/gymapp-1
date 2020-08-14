@@ -66,7 +66,8 @@ const RouteNames = {
   PerformStretch: 'PerformStretch',
 
   RootTab: 'RootTab',
-  LiveScheduler: 'LiveScheduler'
+  LiveScheduler: 'LiveScheduler',
+  // ZoomMeeting:'ZoomMeeting'
 };
 
 export const TabRoutes = {

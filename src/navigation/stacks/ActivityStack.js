@@ -33,7 +33,6 @@ import {
   MenuDivider,
 } from "react-native-popup-menu";
 import SelectExercise from "../../screens/Fitness/SelectExercise";
-import Zoom from "../../screens/Call/Zoom";
 import LiveScheduler from "../../screens/Social/LiveScheduler";
 
 const data = [

@@ -21,6 +21,8 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {formattedDayDate, formattedMilitaryRange, roundTimeQuarterHour} from "../../utils/utils";
 import {Menu, MenuOption, MenuOptions, MenuTrigger} from "react-native-popup-menu";
 import {showError, showSuccess} from "../../utils/notification";
+import {startStream} from "../../API";
+import {hostMeeting} from "../../utils/zoomMeeting";
 
 class LiveScheduler extends PureComponent {
 
@@ -69,7 +71,6 @@ class LiveScheduler extends PureComponent {
   scheduleStream = async () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({submitting: true});
-
     const {title, date, time, duration, instantLive} = this.state;
     const mergedDate = new Date(date);
     const timeObj = new Date(time);
@@ -81,15 +82,18 @@ class LiveScheduler extends PureComponent {
       duration
     };
     const stream = await this.props.scheduleStream(streamData);
-    if(!stream)
+    if (!stream)
       showError(strings.FAILED_TO_CREATE_STREAM);
     else {
       let successText = strings.LIVE_STREAM_SUCCESS;
-      if(instantLive)successText = successText.concat(strings.GOING_LIVE);
+      if (instantLive) successText = successText.concat(strings.GOING_LIVE);
       showSuccess(successText);
-      if(instantLive){
-        //go live
-      }else {
+      if (instantLive) {
+        const res = await startStream(stream._id);
+        if (res.success) {
+          await hostMeeting(stream.meetingId, res.token, this.props.userName);
+        }
+      } else {
         //pop screen
       }
     }
@@ -161,8 +165,11 @@ class LiveScheduler extends PureComponent {
   render() {
     const inputsValid = this.isInputValid();
     return (
-      <KeyboardAwareScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.centerAlign}
-                               style={styles.container}>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps={'handled'}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.centerAlign}
+        style={styles.container}>
         <Image style={styles.image} resizeMode={'contain'} source={iconBackgrounds.physical}/>
         <Text style={styles.title}>{strings.GO_LIVE}</Text>
         <Text style={styles.subtitle}>{strings.STREAM_INFO}</Text>
@@ -292,7 +299,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  userName:state.user.userData.name
+});
 
 const mapDispatchToProps = (dispatch) => ({
   scheduleStream: (data, instantLive) => dispatch(actionCreators.scheduleStream(data, instantLive))
