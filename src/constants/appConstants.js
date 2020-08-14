@@ -44,6 +44,10 @@ export const WEEK_DAYS = {
   FRI: 'FRI',
   SAT: 'SAT',
 };
+export const WEEK_DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+export const MONTH_NAMES = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 export const allowedDurations = [30, 45, 60];
 
 export const imageTypes = {
@@ -124,32 +128,32 @@ export const callbackStatus = {
 }
 
 export const fitnessCategories = {
-  YOGA:'YOGA',
-  STRETCH:'STRETCH',
-  WORKOUT:'WORKOUT',
-  CARDIO:'CARDIO'
+  YOGA: 'YOGA',
+  STRETCH: 'STRETCH',
+  WORKOUT: 'WORKOUT',
+  CARDIO: 'CARDIO'
 }
 
 export const bodyParts = {
-  ABS:'ABS',
-  ARMS:'ARMS',
-  BACK:'BACK',
-  BUTTOCKS:'BUTTOCKS',
-  CHEST:'CHEST',
-  FULL_BODY:'FULL_BODY',
-  SHOULDERS:'SHOULDERS',
-  LEGS:'LEGS',
+  ABS: 'ABS',
+  ARMS: 'ARMS',
+  BACK: 'BACK',
+  BUTTOCKS: 'BUTTOCKS',
+  CHEST: 'CHEST',
+  FULL_BODY: 'FULL_BODY',
+  SHOULDERS: 'SHOULDERS',
+  LEGS: 'LEGS',
 }
 
 export const exerciseLevels = {
-  BEGINNER:'BEGINNER',
-  INTERMEDIATE:'INTERMEDIATE',
-  ADVANCED:'ADVANCED'
+  BEGINNER: 'BEGINNER',
+  INTERMEDIATE: 'INTERMEDIATE',
+  ADVANCED: 'ADVANCED'
 }
 
 export const equipmentTypes = {
-  DUMBBELL:'DUMBBELL',
-  BENCH:'BENCH',
-  BAND:'BAND',
-  ALL:'ALL'
+  DUMBBELL: 'DUMBBELL',
+  BENCH: 'BENCH',
+  BAND: 'BAND',
+  ALL: 'ALL'
 }

@@ -6,13 +6,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import {connect} from "react-redux";
 import Carousel from 'react-native-snap-carousel';
 
 
 import {spacing} from "../../constants/dimension";
 import {appTheme} from "../../constants/colors";
-import {screenHeight, screenWidth} from "../../utils/screenDimensions";
+import { screenWidth} from "../../utils/screenDimensions";
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
 
@@ -21,8 +20,6 @@ import ExerciseCard from "../../components/ExerciseCard";
 import {bodyParts, equipmentTypes, exerciseLevels, fitnessCategories} from "../../constants/appConstants";
 import {toTitleCase} from "../../utils/utils";
 import RouteNames from "../../navigation/RouteNames";
-import strings from "../../constants/strings";
-import {eq} from "react-native-reanimated";
 
 const cardWidth = screenWidth / 1.4;
 

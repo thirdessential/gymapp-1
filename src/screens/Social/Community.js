@@ -56,6 +56,10 @@ class Community extends Component {
         nextQuestionPage: await updateQuestions(nextQuestionPage),
       });
   };
+  openLiveScheduler= ()=>{
+    this.closeRbSheet();
+    this.props.navigation.navigate(RouteNames.LiveScheduler)
+  }
 
   componentDidMount() {
     this.updatePosts();
@@ -189,7 +193,12 @@ class Community extends Component {
         <ImageCard
           title={strings.WORKOUT}
           onPress={this.createVideo}
-          image={iconBackgrounds.appointments}
+          image={iconBackgrounds.coinMan}
+        />
+        <ImageCard
+          title={strings.GO_LIVE}
+          onPress={this.openLiveScheduler}
+          image={iconBackgrounds.physical}
         />
       </ScrollView>
     </RBSheet>

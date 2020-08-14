@@ -65,7 +65,8 @@ const RouteNames = {
   PerformExercise: 'PerformExercise',
   PerformStretch: 'PerformStretch',
 
-  RootTab: 'RootTab'
+  RootTab: 'RootTab',
+  LiveScheduler: 'LiveScheduler'
 };
 
 export const TabRoutes = {

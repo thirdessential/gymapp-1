@@ -206,7 +206,12 @@ const strings = {
   LEVEL:'Level',
   ALL:'ALL',
   REST: 'Rest',
-  WELL_DONE: "Well done"
+  WELL_DONE: "Well done",
+  GO_LIVE: 'Go Live',
+  STREAM_INFO: 'Schedule your stream, or go live now',
+  TITLE: 'Title',
+  GO_LIVE_NOW: 'Go live now',
+  MINUTES: 'Minutes'
 };
 
 export const bmiVerdicts = {

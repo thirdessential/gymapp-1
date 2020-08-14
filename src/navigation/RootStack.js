@@ -30,6 +30,7 @@ import SelectExercise from "../screens/Fitness/SelectExercise";
 import Exercises from "../screens/Fitness/Exercises";
 import PerformExercise from "../screens/Fitness/PerformExercise";
 import PerformStretch from "../screens/Fitness/PerformStretch";
+import LiveScheduler from "../screens/Social/LiveScheduler";
 
 const rootStack = () => {
   return (
@@ -212,6 +213,14 @@ const rootStack = () => {
       <Stack.Screen
         name={RouteNames.PerformStretch}
         component={PerformStretch}
+        options={{
+          title: "",
+          headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.LiveScheduler}
+        component={LiveScheduler}
         options={{
           title: "",
           headerTransparent: true,
