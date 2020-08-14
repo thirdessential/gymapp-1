@@ -211,7 +211,10 @@ const strings = {
   STREAM_INFO: 'Schedule your stream, or go live now',
   TITLE: 'Title',
   GO_LIVE_NOW: 'Go live now',
-  MINUTES: 'Minutes'
+  MINUTES: 'Minutes',
+  FAILED_TO_CREATE_STREAM: 'Failed to schedule live stream',
+  LIVE_STREAM_SUCCESS: 'Live stream created',
+  GOING_LIVE: ', Going Live'
 };
 
 export const bmiVerdicts = {

@@ -175,7 +175,7 @@ const setStatements = (statements) => ({
 export const getAccountSummary = () => {
   return async (dispatch) => {
     try {
-      const {earnings, statements=[]} = await API.getAccountSummary();
+      const {earnings, statements = []} = await API.getAccountSummary();
       earnings && dispatch(setEarnings(earnings));
       statements && dispatch(setStatements(statements));
       return true;
@@ -191,12 +191,12 @@ export const createAccount = (accountData) => ({
     accountData
   },
 });
-export const addAccount=(accountDetails) => {
-  return async (dispatch)=>{
+export const addAccount = (accountDetails) => {
+  return async (dispatch) => {
     try {
-      const {ifscCode,accountNumber,holderName,bankName}=accountDetails;
-      result=await API.addAccount({ifscCode,accountNumber,holderName,bankName});
-      const accountData=result.account;
+      const {ifscCode, accountNumber, holderName, bankName} = accountDetails;
+      result = await API.addAccount({ifscCode, accountNumber, holderName, bankName});
+      const accountData = result.account;
       dispatch(createAccount(accountData));
       console.log(result)
     } catch (error) {
@@ -204,26 +204,26 @@ export const addAccount=(accountDetails) => {
       return false;
     }
   }
-  }
-  export const getAccounts = (accounts) => ({
-    type: actionTypes.GET_MY_ACCOUNTS,
-    payload: {
-      accounts
-    },
-  });
-  export const getMyAccounts=()=>{
-    return async (dispatch) => {
-      try {
-  result = await API.getMyAccounts();
-  const accounts=result.accounts;
-  dispatch(getAccounts(accounts));
-  console.log(result);
-      }catch (error) {
-        console.log("aacount creation failed in trainer.actions.js", error);
-        return false;
-      }
+}
+export const getAccounts = (accounts) => ({
+  type: actionTypes.GET_MY_ACCOUNTS,
+  payload: {
+    accounts
+  },
+});
+export const getMyAccounts = () => {
+  return async (dispatch) => {
+    try {
+      result = await API.getMyAccounts();
+      const accounts = result.accounts;
+      dispatch(getAccounts(accounts));
+      console.log(result);
+    } catch (error) {
+      console.log("aacount creation failed in trainer.actions.js", error);
+      return false;
     }
   }
+}
 
 const setCallbacks = (callbacks) => ({
   type: actionTypes.SET_CALLBACKS,
@@ -249,7 +249,7 @@ export const getCallbacks = () => {
   return async (dispatch) => {
     try {
       const {success, callbacks} = await API.getCallbacks();
-      if(success)
+      if (success)
         dispatch(setCallbacks(callbacks));
       return true;
     } catch (error) {
@@ -262,9 +262,9 @@ export const getCallbacks = () => {
 export const acceptCallback = (callbackId) => {
   return async (dispatch) => {
     try {
-      dispatch(setCallbackStatus(callbackId,callbackStatus.ACCEPTED));
+      dispatch(setCallbackStatus(callbackId, callbackStatus.ACCEPTED));
       const {success} = await API.acceptCallBack(callbackId);
-      if(!success){
+      if (!success) {
         //todo handle it here
         throw new Error("Accept callback failed")
       }
@@ -280,7 +280,7 @@ export const rejectCallback = (callbackId) => {
     try {
       dispatch(removeCallback(callbackId));
       const {success} = await API.rejectCallBack(callbackId);
-      if(!success){
+      if (!success) {
         //todo handle it here
         throw new Error("reject callback failed")
       }
@@ -296,13 +296,28 @@ export const callbackDone = (callbackId) => {
     try {
       dispatch(removeCallback(callbackId));
       const {success} = await API.callbackDone(callbackId);
-      if(!success){
+      if (!success) {
         //todo handle it here
         throw new Error("done callback failed")
       }
       return true;
     } catch (error) {
       console.log("Trainer done callback failed", error);
+      return false;
+    }
+  };
+};
+
+export const scheduleStream = (streamData, instantLive = false) => {
+  return async (dispatch) => {
+    try {
+      const {success, stream} = await API.scheduleStream(streamData);
+      if (!success) {
+        throw new Error("live stream schedule failed")
+      }
+      return stream;
+    } catch (error) {
+      console.log("live stream schedule failed", error);
       return false;
     }
   };

@@ -42,6 +42,7 @@ export {
   acceptCallback,
   callbackDone,
   rejectCallback,
+  scheduleStream
 } from './trainer.actions';
 
 export {

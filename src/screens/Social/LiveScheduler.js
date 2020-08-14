@@ -4,7 +4,7 @@
 import React, {PureComponent} from "react";
 import {
   View,
-  StyleSheet, Image, Text, TextInput, KeyboardAvoidingView, TouchableOpacity, LayoutAnimation,
+  StyleSheet, Image, Text, TextInput, TouchableOpacity, LayoutAnimation, ActivityIndicator,
 } from "react-native";
 import {connect} from "react-redux";
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -20,6 +20,7 @@ import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {formattedDayDate, formattedMilitaryRange, roundTimeQuarterHour} from "../../utils/utils";
 import {Menu, MenuOption, MenuOptions, MenuTrigger} from "react-native-popup-menu";
+import {showError, showSuccess} from "../../utils/notification";
 
 class LiveScheduler extends PureComponent {
 
@@ -32,7 +33,8 @@ class LiveScheduler extends PureComponent {
     pickerVisible: false,
     pickerMode: 'date',
     today: Date.now(),
-    futureDate: new Date().setDate(new Date().getDate() + 10)
+    futureDate: new Date().setDate(new Date().getDate() + 10),
+    submitting: false
   }
   isInputValid = () => {
     const {title, date, time, duration} = this.state;
@@ -64,6 +66,96 @@ class LiveScheduler extends PureComponent {
   showMode = (pickerMode) => {
     this.setState({pickerVisible: true, pickerMode});
   };
+  scheduleStream = async () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({submitting: true});
+
+    const {title, date, time, duration, instantLive} = this.state;
+    const mergedDate = new Date(date);
+    const timeObj = new Date(time);
+    mergedDate.setHours(timeObj.getHours());
+    mergedDate.setMinutes(timeObj.getMinutes());
+    const streamData = {
+      title,
+      date: mergedDate,
+      duration
+    };
+    const stream = await this.props.scheduleStream(streamData);
+    if(!stream)
+      showError(strings.FAILED_TO_CREATE_STREAM);
+    else {
+      let successText = strings.LIVE_STREAM_SUCCESS;
+      if(instantLive)successText = successText.concat(strings.GOING_LIVE);
+      showSuccess(successText);
+      if(instantLive){
+        //go live
+      }else {
+        //pop screen
+      }
+    }
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({submitting: false});
+  }
+
+  renderInputs = () => (
+    <>
+      <TextInput
+        style={styles.titleInput}
+        placeholder={strings.TITLE}
+        placeholderTextColor={appTheme.greyC}
+        value={this.state.title}
+        onChangeText={this.onTitleChange}
+      />
+
+      <TouchableOpacity activeOpacity={0.8} onPress={this.toggleInstantLive} style={styles.row}>
+        <View style={styles.iconButton}>
+          <FontAwesome5Icon name={'check'} color={this.state.instantLive ? bmiColors.yellow : appTheme.grey}
+                            size={20}/>
+        </View>
+        <Text style={styles.infoText}>{strings.GO_LIVE_NOW}</Text>
+      </TouchableOpacity>
+      {
+        !this.state.instantLive && (
+          <>
+            <TouchableOpacity onPress={this.onDatePress} activeOpacity={0.8} style={styles.row}>
+              <View style={styles.iconButton}>
+                <FontAwesome5Icon name={'calendar-alt'} color={appTheme.brightContent} size={20}/>
+              </View>
+              <Text style={styles.infoText}>{formattedDayDate(this.state.date)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.onTimePress} activeOpacity={0.8} style={styles.row}>
+              <View style={styles.iconButton}>
+                <FontAwesome5Icon name={'clock'} color={bmiColors.blue} size={20}/>
+              </View>
+              <Text style={styles.infoText}>{formattedMilitaryRange(this.state.time, this.state.duration)}</Text>
+            </TouchableOpacity>
+          </>
+        )
+      }
+
+      <Menu style={styles.menuContainer}>
+        <MenuTrigger>
+          <View style={[styles.row, {marginTop: 0}]}>
+            <View style={styles.iconButton}>
+              <FontAwesome5Icon name={'hourglass-half'} color={bmiColors.lightBlue} size={20}/>
+            </View>
+            <Text style={styles.infoText}>{this.state.duration} {strings.MINUTES}</Text>
+          </View>
+        </MenuTrigger>
+        <MenuOptions customStyles={styles.menu}>
+          <MenuOption style={styles.menuButton} onSelect={() => this.setDuration('30')}>
+            <Text style={styles.menuText}>30 {strings.MINUTES}</Text>
+          </MenuOption>
+          <MenuOption style={styles.menuButton} onSelect={() => this.setDuration('45')}>
+            <Text style={styles.menuText}>45 {strings.MINUTES}</Text>
+          </MenuOption>
+          <MenuOption style={styles.menuButton} onSelect={() => this.setDuration('60')}>
+            <Text style={styles.menuText}>60 {strings.MINUTES}</Text>
+          </MenuOption>
+        </MenuOptions>
+      </Menu>
+    </>
+  )
 
 
   render() {
@@ -75,65 +167,16 @@ class LiveScheduler extends PureComponent {
         <Text style={styles.title}>{strings.GO_LIVE}</Text>
         <Text style={styles.subtitle}>{strings.STREAM_INFO}</Text>
 
-        <TextInput
-          style={styles.titleInput}
-          placeholder={strings.TITLE}
-          placeholderTextColor={appTheme.greyC}
-          value={this.state.title}
-          onChangeText={this.onTitleChange}
-        />
+        {!this.state.submitting && this.renderInputs()}
 
-        <TouchableOpacity activeOpacity={0.8} onPress={this.toggleInstantLive} style={styles.row}>
-          <View style={styles.iconButton}>
-            <FontAwesome5Icon name={'check'} color={this.state.instantLive ? bmiColors.yellow : appTheme.grey}
-                              size={20}/>
-          </View>
-          <Text style={styles.infoText}>{strings.GO_LIVE_NOW}</Text>
-        </TouchableOpacity>
-        {
-          !this.state.instantLive && (
-            <>
-              <TouchableOpacity onPress={this.onDatePress} activeOpacity={0.8} style={styles.row}>
-                <View style={styles.iconButton}>
-                  <FontAwesome5Icon name={'calendar-alt'} color={appTheme.brightContent} size={20}/>
-                </View>
-                <Text style={styles.infoText}>{formattedDayDate(this.state.date)}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this.onTimePress} activeOpacity={0.8} style={styles.row}>
-                <View style={styles.iconButton}>
-                  <FontAwesome5Icon name={'clock'} color={bmiColors.blue} size={20}/>
-                </View>
-                <Text style={styles.infoText}>{formattedMilitaryRange(this.state.time, this.state.duration)}</Text>
-              </TouchableOpacity>
-            </>
-          )
-        }
-
-        <Menu style={styles.menuContainer}>
-          <MenuTrigger >
-            <View style={[styles.row,{marginTop:0}]}>
-              <View style={styles.iconButton}>
-                <FontAwesome5Icon name={'hourglass-half'} color={bmiColors.lightBlue} size={20}/>
-              </View>
-              <Text style={styles.infoText}>{this.state.duration} {strings.MINUTES}</Text>
-            </View>
-          </MenuTrigger>
-          <MenuOptions customStyles={styles.menu}>
-            <MenuOption style={styles.menuButton} onSelect={()=>this.setDuration('30')}>
-              <Text style={styles.menuText}>30 {strings.MINUTES}</Text>
-            </MenuOption>
-            <MenuOption style={styles.menuButton} onSelect={()=>this.setDuration('45')}>
-              <Text style={styles.menuText}>45 {strings.MINUTES}</Text>
-            </MenuOption>
-            <MenuOption style={styles.menuButton} onSelect={()=>this.setDuration('60')}>
-              <Text style={styles.menuText}>60 {strings.MINUTES}</Text>
-            </MenuOption>
-          </MenuOptions>
-        </Menu>
-
-        <TouchableOpacity disabled={!inputsValid} activeOpacity={0.7}
+        <TouchableOpacity onPress={this.scheduleStream} disabled={!inputsValid || this.state.submitting}
+                          activeOpacity={0.7}
                           style={[styles.submitButton, {backgroundColor: inputsValid ? bmiColors.red : bmiColors.redFaded}]}>
-          <Text style={styles.submitText}>{this.state.instantLive ? strings.GO_LIVE : strings.SCHEDULE}</Text>
+          {this.state.submitting && <ActivityIndicator size={25} color={appTheme.greyC}/>}
+          {
+            !this.state.submitting &&
+            <Text style={styles.submitText}>{this.state.instantLive ? strings.GO_LIVE : strings.SCHEDULE}</Text>
+          }
         </TouchableOpacity>
         {this.state.pickerVisible && (
           <DateTimePicker
@@ -224,7 +267,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothicBold
   },
   menuContainer: {
-    width:'100%',
+    width: '100%',
     marginTop: spacing.medium
   },
   menuTitle: {
@@ -239,7 +282,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: appTheme.darkBackground,
     alignItems: 'center',
-    justifyContent:'center',
+    justifyContent: 'center',
     padding: spacing.small_lg,
   },
   menuText: {
@@ -251,6 +294,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+  scheduleStream: (data, instantLive) => dispatch(actionCreators.scheduleStream(data, instantLive))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(LiveScheduler);
