@@ -3,6 +3,8 @@ import {zoomConfig} from "../constants/appConstants";
 
 const zoomUserType = 2; // 2 - pro user
 
+const a = ()=>    console.warn('MEETING ENDED');
+
 export const hostMeeting = async (meetingNumber, zakTokenRaw, displayName = 'Trainer') => {
   await ZoomUs.initialize(
     zoomConfig.key,
@@ -19,7 +21,8 @@ export const hostMeeting = async (meetingNumber, zakTokenRaw, displayName = 'Tra
       'random',
       userType,
       zakToken,
-      zoomToken
+      zoomToken,
+      true
     );
     console.log({startMeetingResult});
   } catch (e) {
@@ -38,7 +41,8 @@ export const joinMeeting = async (meetingNumber, password, displayName="User") =
     const joinMeetingResult = await ZoomUs.joinMeetingWithPassword(
       displayName,
       meetingNumber.toString(),
-      password
+      password,
+      true
     );
     console.log({joinMeetingResult});
   } catch (e) {

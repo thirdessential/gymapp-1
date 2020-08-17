@@ -1,13 +1,16 @@
 import {cardBackgrounds} from "./images";
 import {appTheme, bmiColors} from "./colors";
 
-// export const rootURL = 'https://fitness-first-services.herokuapp.com';
-export const rootURL = 'http://192.168.31.125:3001';
+let apiUrl = '';
 if (__DEV__) {
-  console.log('Development');
+  console.log('Development Server');
+  apiUrl = 'https://fitness-first-services.herokuapp.com';
+  // apiUrl = 'http://192.168.31.125:3001';
 } else {
-  console.log('Production');
+  console.log('Production Server');
+  apiUrl = 'https://fitness-first-services.herokuapp.com';
 }
+export const rootURL = apiUrl;
 export const appName = 'GymAdda';
 
 export const userTypes = {
@@ -177,10 +180,10 @@ export const streamStatus = {
 export const streamText = {
   SCHEDULED: 'UPCOMING',
   LIVE: 'LIVE',
-  FINISHED: 'ENDED'
+  FINISHED: 'FINISHED'
 }
 export const streamStatusColor = {
   SCHEDULED: bmiColors.redFaded,
-  LIVE:appTheme.live,
+  LIVE: appTheme.live,
   FINISHED: appTheme.darkGrey
 }

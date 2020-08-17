@@ -34,6 +34,7 @@ import LiveScheduler from "../screens/Social/LiveScheduler";
 import store from "../store/configureStore";
 import {userTypes} from "../constants/appConstants";
 import MyStreams from "../screens/Social/MyStreams";
+import strings from "../constants/strings";
 
 const rootStack = () => {
   let {userType} = store.getState().user;
@@ -150,7 +151,7 @@ const rootStack = () => {
               name={RouteNames.MyStreams}
               component={MyStreams}
               options={{
-                title: "My Live Streams",
+                title: strings.MY_LIVE_STREAMS,
               }}
             />
           </>

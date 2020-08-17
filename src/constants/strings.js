@@ -216,7 +216,8 @@ const strings = {
   LIVE_STREAM_SUCCESS: 'Live stream created',
   GOING_LIVE: ', Going Live',
   GOING_LIVE_:'Going Live',
-  LIVE: 'Live'
+  LIVE: 'Live',
+  MY_LIVE_STREAMS: 'My Live Streams'
 };
 
 export const bmiVerdicts = {

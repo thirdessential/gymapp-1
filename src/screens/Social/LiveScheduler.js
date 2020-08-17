@@ -23,7 +23,7 @@ import {Menu, MenuOption, MenuOptions, MenuTrigger} from "react-native-popup-men
 import {showError, showSuccess} from "../../utils/notification";
 import {listLiveStreams, startStream} from "../../API";
 import {hostMeeting} from "../../utils/zoomMeeting";
-import {INITIAL_PAGE} from "../../constants/appConstants";
+import {INITIAL_PAGE, streamStatus} from "../../constants/appConstants";
 import RouteNames from "../../navigation/RouteNames";
 
 class LiveScheduler extends PureComponent {
@@ -38,7 +38,8 @@ class LiveScheduler extends PureComponent {
     pickerMode: 'date',
     today: Date.now(),
     futureDate: new Date().setDate(new Date().getDate() + 10),
-    submitting: false
+    submitting: false,
+    streamStarted: false
   }
 
   isInputValid = () => {
@@ -104,15 +105,17 @@ class LiveScheduler extends PureComponent {
       if (instantLive) {
         const res = await startStream(stream._id);
         if (res.success) {
+          this.setState({streamStarted: true});
           await hostMeeting(stream.meetingId, res.token, this.props.userName);
+          this.props.setStreamFinished(stream._id);
           this.props.navigation.goBack();
         }
       } else {
-        this.props.updateLiveStreams();
-        this.props.updateMyLiveStreams();
         this.props.navigation.goBack();
         // this.props.navigation.replace(RouteNames.MyStreams);
       }
+      this.props.updateLiveStreams();
+      this.props.updateMyLiveStreams();
     }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({submitting: false});
@@ -324,6 +327,7 @@ const mapDispatchToProps = (dispatch) => ({
   scheduleStream: (data, instantLive) => dispatch(actionCreators.scheduleStream(data, instantLive)),
   updateLiveStreams: () => dispatch(actionCreators.updateLiveStreams(INITIAL_PAGE)),
   updateMyLiveStreams: () => dispatch(actionCreators.updateLiveStreams(INITIAL_PAGE, true)),
+  setStreamFinished: (streamId) => dispatch(actionCreators.setLiveStreamStatus(streamId, streamStatus.FINISHED))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LiveScheduler);

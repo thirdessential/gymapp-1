@@ -4,25 +4,21 @@
 import React, {PureComponent} from "react";
 import {
   View,
-  StyleSheet, Image, Text, TextInput, TouchableOpacity, LayoutAnimation, ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity
 } from "react-native";
 import {connect} from "react-redux";
-import DateTimePicker from '@react-native-community/datetimepicker';
 
-import {appTheme, bmiColors} from "../../constants/colors";
+import {appTheme} from "../../constants/colors";
 import * as actionCreators from "../../store/actions";
 import {spacing} from "../../constants/dimension";
-import {INITIAL_PAGE} from "../../constants/appConstants";
+import {INITIAL_PAGE, streamStatus} from "../../constants/appConstants";
 import {hostMeeting, joinMeeting} from "../../utils/zoomMeeting";
 import StreamList from "../../components/Social/StreamList";
 import {startStream} from "../../API";
 import Entypo from "react-native-vector-icons/Entypo";
 import RouteNames from "../../navigation/RouteNames";
 import Loader from "../../components/Loader";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {customDelay} from "../../utils/utils";
-import {showSuccess} from "../../utils/notification";
-import strings from "../../constants/strings";
 
 class MyStreams extends PureComponent {
 
@@ -48,9 +44,9 @@ class MyStreams extends PureComponent {
     this.setState({loading: true});
     const res = await startStream(stream._id);
     if (res.success) {
-      this.setState({loading: false});
-      // showSuccess(strings.GOING_LIVE_);
       await hostMeeting(stream.meetingId, res.token, this.props.userName);
+      this.setState({loading: false});
+      this.props.setStreamFinished(stream._id);
     }
 
   }
@@ -116,6 +112,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateLiveStreams: (page) => dispatch(actionCreators.updateLiveStreams(page, true)),
+  setStreamFinished: (streamId) => dispatch(actionCreators.setLiveStreamStatus(streamId, streamStatus.FINISHED))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyStreams);

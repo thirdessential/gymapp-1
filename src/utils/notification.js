@@ -31,11 +31,11 @@ export const callHandler = async (remoteMessage) => {
     case remoteMessageTypes.APPOINTMENT:
       const {content} = data;
       if (!!content)
-        LocalMessageNotification(content);
+        LocalMessageNotification(strings.NEW_APPOINTMENT,content);
       break;
     case remoteMessageTypes.GENERIC_NOTIFICATION:
       const {message} = data;
-      LocalMessageNotification(message);
+      LocalMessageNotification(strings.LIVE,message);
       break;
     default:
       break;
@@ -127,7 +127,7 @@ export const LocalCallNotification = (data) => {
     payload: data
   });
 }
-export const LocalMessageNotification = (message) => {
+export const LocalMessageNotification = (title, message) => {
   PushNotification.localNotification({
     autoCancel: false, // (optional) default: true
     largeIcon: "ic_launcher",
@@ -142,7 +142,7 @@ export const LocalMessageNotification = (message) => {
     ignoreInForeground: false,
     // ongoing:true,
     /* iOS and Android properties */
-    title: strings.NEW_APPOINTMENT,
+    title: title,
     message: message,
     playSound: true,
     number: 10,

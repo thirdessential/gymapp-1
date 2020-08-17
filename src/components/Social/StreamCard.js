@@ -36,7 +36,7 @@ const streamCard = ({title, status, duration, date, host, onJoin, onStart}) => {
         const now = new Date();
         let _startEnabled = false;
 
-        if (now > streamDate) _startEnabled=true;
+        if (now > streamDate) _startEnabled = true;
         if (Math.abs((now - streamDate) / 1000) < 600) // less than 600 secs or 10 mins
           _startEnabled = true;
         if (status !== streamStatus.SCHEDULED) _startEnabled = false;
@@ -46,7 +46,9 @@ const streamCard = ({title, status, duration, date, host, onJoin, onStart}) => {
     }, []);
   }
   return (
-    <TouchableOpacity disabled={status === streamStatus.SCHEDULED || !onJoin} onPress={onJoin} activeOpacity={0.7}>
+    <TouchableOpacity
+      disabled={status === streamStatus.SCHEDULED || status === streamStatus.FINISHED || !onJoin}
+      onPress={onJoin} activeOpacity={0.7}>
       <ImageBackground
         blurRadius={5}
         borderRadius={14}
@@ -69,7 +71,7 @@ const streamCard = ({title, status, duration, date, host, onJoin, onStart}) => {
         </View>
         <View style={styles.rightContent}>
           {
-            onStart && startEnabled && (
+            onStart && startEnabled && status !== streamStatus.FINISHED && (
               <TouchableOpacity onPress={onStart} style={styles.startButton}>
                 <Text style={styles.subHeading}>{strings.START}</Text>
               </TouchableOpacity>

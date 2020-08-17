@@ -313,7 +313,6 @@ export const answerQuestion = (questionId, answerText) => {
   };
 };
 
-
 export const updateLiveStreams = (page = '', my = false) => {
   return async (dispatch) => {
     try {
@@ -327,6 +326,30 @@ export const updateLiveStreams = (page = '', my = false) => {
       return nextPage;
     } catch (error) {
       console.log("post list update failed", error);
+      return null;
+    }
+  };
+};
+
+export const setLiveStreamStatus = (streamId, status) => {
+  return async (dispatch, getState) => {
+    try {
+      let myLiveStreams = [...getState().social.myLiveStreams];
+      let liveStreams = [...getState().social.liveStreams];
+      myLiveStreams = myLiveStreams.map(stream=>{
+        if(stream._id===streamId)
+          stream.status=status;
+        return stream;
+      });
+      dispatch(setStreams(myLiveStreams,true));
+      liveStreams = liveStreams.map(stream=>{
+        if(stream._id===streamId)
+          stream.status=status;
+        return stream;
+      });
+      dispatch(setStreams(liveStreams));
+    } catch (error) {
+      console.log("stream status update failed", error);
       return null;
     }
   };

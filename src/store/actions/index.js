@@ -60,6 +60,7 @@ export {
   deletePost,
   reportQuestion,
   updateLiveStreams,
+  setLiveStreamStatus,
 } from './social.actions';
 
 export {
