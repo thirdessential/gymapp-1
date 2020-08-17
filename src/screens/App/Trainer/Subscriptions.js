@@ -30,8 +30,9 @@ class Subscriptions extends PureComponent {
     subscriptions: []
   }
 
-  componentDidMount() {
-    const {userData, subscriptions} = this.props;
+  async componentDidMount() {
+    const {userData, subscriptions,syncSubscriptions} = this.props;
+    syncSubscriptions();
     const {userType} = userData;
     if (userType === userTypes.USER)
       this.props.navigation.setOptions({title: strings.SUBSCRIPTIONS});
@@ -236,7 +237,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateUserData: () => dispatch(actionCreators.updateUserData()),
+  syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Subscriptions);
