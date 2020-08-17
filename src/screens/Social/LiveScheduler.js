@@ -21,8 +21,9 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {formattedDayDate, formattedMilitaryRange, roundTimeQuarterHour} from "../../utils/utils";
 import {Menu, MenuOption, MenuOptions, MenuTrigger} from "react-native-popup-menu";
 import {showError, showSuccess} from "../../utils/notification";
-import {startStream} from "../../API";
+import {listLiveStreams, startStream} from "../../API";
 import {hostMeeting} from "../../utils/zoomMeeting";
+import {INITIAL_PAGE} from "../../constants/appConstants";
 
 class LiveScheduler extends PureComponent {
 
@@ -38,6 +39,7 @@ class LiveScheduler extends PureComponent {
     futureDate: new Date().setDate(new Date().getDate() + 10),
     submitting: false
   }
+
   isInputValid = () => {
     const {title, date, time, duration} = this.state;
     return title.length >= 3;
@@ -71,16 +73,26 @@ class LiveScheduler extends PureComponent {
   scheduleStream = async () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({submitting: true});
-    const {title, date, time, duration, instantLive} = this.state;
-    const mergedDate = new Date(date);
-    const timeObj = new Date(time);
-    mergedDate.setHours(timeObj.getHours());
-    mergedDate.setMinutes(timeObj.getMinutes());
-    const streamData = {
-      title,
-      date: mergedDate,
-      duration
-    };
+    let {title, date, time, duration, instantLive} = this.state;
+    let streamData = {};
+    if (instantLive)
+      streamData = {
+        title,
+        date: new Date(),
+        duration
+      }
+    else {
+      const mergedDate = new Date(date);
+      const timeObj = new Date(time);
+      mergedDate.setHours(timeObj.getHours());
+      mergedDate.setMinutes(timeObj.getMinutes());
+      streamData = {
+        title,
+        date: mergedDate,
+        duration
+      };
+    }
+
     const stream = await this.props.scheduleStream(streamData);
     if (!stream)
       showError(strings.FAILED_TO_CREATE_STREAM);
@@ -92,9 +104,11 @@ class LiveScheduler extends PureComponent {
         const res = await startStream(stream._id);
         if (res.success) {
           await hostMeeting(stream.meetingId, res.token, this.props.userName);
+          this.props.navigation.goBack();
         }
       } else {
-        //pop screen
+        this.props.updateLiveStreams(INITIAL_PAGE);
+        this.props.navigation.goBack();
       }
     }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -300,11 +314,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  userName:state.user.userData.name
+  userName: state.user.userData.name
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  scheduleStream: (data, instantLive) => dispatch(actionCreators.scheduleStream(data, instantLive))
+  scheduleStream: (data, instantLive) => dispatch(actionCreators.scheduleStream(data, instantLive)),
+  updateLiveStreams: (page) => dispatch(actionCreators.updateLiveStreams(page)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LiveScheduler);

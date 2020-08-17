@@ -123,7 +123,7 @@ class Activity extends PureComponent {
     return (
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         {this.renderUser()}
-        <LiveCardList data={this.state.data}/>
+        {/*<LiveCardList data={this.state.data}/>*/}
         <View style={{flex: 1, width: "100%", marginTop: spacing.medium_lg}}>
           <TimelineTabview
             today={todaysEvents}

@@ -58,7 +58,8 @@ export {
   updateQuestions,
   answerQuestion,
   deletePost,
-  reportQuestion
+  reportQuestion,
+  updateLiveStreams,
 } from './social.actions';
 
 export {

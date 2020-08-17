@@ -35,9 +35,9 @@ const appTabNavigator = (props) => {
   return (
     <Tab.Navigator
       swipeEnabled={false}
-      lazy={true}
-      lazyPreloadDistance={0}
-      lazyPlaceholder={bgView}
+      // lazy={true}
+      // lazyPreloadDistance={0}
+      // lazyPlaceholder={bgView}
       backBehavior={'initialRoute'}
       tabBarPosition={'bottom'}
       tabBarOptions={{

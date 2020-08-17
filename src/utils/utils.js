@@ -252,7 +252,6 @@ export const getBmiVerdict = (bmi) => {
   else return {text: bmiVerdicts.unhealthy, color: bmiColors.red};
 }
 
-
 export function calculateBmi(weight, height) {
   weight = parseInt(weight);
   height = parseInt(height)

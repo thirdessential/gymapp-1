@@ -27,18 +27,18 @@ export const hostMeeting = async (meetingNumber, zakTokenRaw, displayName = 'Tra
   }
 }
 
-export const joinMeeting = async (meetingNumber, password) => {
+export const joinMeeting = async (meetingNumber, password, displayName="User") => {
   await ZoomUs.initialize(
     zoomConfig.key,
     zoomConfig.secret,
     zoomConfig.domain
   );
-  const displayName = 'Test student';
 
   try {
-    const joinMeetingResult = await ZoomUs.joinMeeting(
+    const joinMeetingResult = await ZoomUs.joinMeetingWithPassword(
       displayName,
-      meetingNumber,
+      meetingNumber.toString(),
+      password
     );
     console.log({joinMeetingResult});
   } catch (e) {

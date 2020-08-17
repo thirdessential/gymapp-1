@@ -1,7 +1,8 @@
 import {cardBackgrounds} from "./images";
+import {appTheme, bmiColors} from "./colors";
 
-// export const rootURL = 'https://fitness-first-services.herokuapp.com';
-export const rootURL = 'http://192.168.31.125:3001';
+export const rootURL = 'https://fitness-first-services.herokuapp.com';
+// export const rootURL = 'http://192.168.31.125:3001';
 if (__DEV__) {
   console.log('Development');
 } else {
@@ -13,7 +14,7 @@ export const userTypes = {
   USER: 'USER',
   TRAINER: 'TRAINER'
 }
-export const INITIAL_USER_TYPE = userTypes.USER;
+export const INITIAL_USER_TYPE = userTypes.TRAINER;
 export const videoFeedConfig = {
   width: 360,
   height: 640,
@@ -74,19 +75,22 @@ export const remoteMessageTypes = {
   APPOINTMENT: "appointmentNotification",
   SESSION: 'sessionNotification',
   UPDATE_POSTS: 'UPDATE_POSTS',
+  GENERIC_NOTIFICATION: 'GENERIC_NOTIFICATION'
 }
 
 export const INITIAL_PAGE = 'INITIAL_PAGE';
 
 export const MAX_POST_LENGTH = 300;
 export const firebaseTopics = {
-  SILENT_NOTIFICATION: 'SILENT_NOTIFICATION'
+  SILENT_NOTIFICATION: 'SILENT_NOTIFICATION',
+  DISPLAY_NOTIFICATION: 'DISPLAY_NOTIFICATION',
 }
 export const POST_TYPE = {
   TYPE_POST: 'TYPE_POST',
   TYPE_WORKOUT: 'TYPE_WORKOUT',
   TYPE_QUESTION: 'TYPE_QUESTION',
   TYPE_VIDEO: 'TYPE_VIDEO',
+  TYPE_STREAM: 'TYPE_STREAM',
 }
 export const CONTENT_TYPE = {
   IMAGE: 'IMAGE',
@@ -159,8 +163,19 @@ export const equipmentTypes = {
 }
 
 export const zoomConfig = {
-  key:'hKodHeKdo7c0g7Qh4Dx5MnQMp6j19tc1WGbs',
-  secret:'Pxu4Jq7BjGG50kXxoDizV1FkAcLxdwTmDtPq',
-  userId:'oggybuddy10@gmail.com',
-  domain:'zoom.us'
+  key: 'hKodHeKdo7c0g7Qh4Dx5MnQMp6j19tc1WGbs',
+  secret: 'Pxu4Jq7BjGG50kXxoDizV1FkAcLxdwTmDtPq',
+  userId: 'oggybuddy10@gmail.com',
+  domain: 'zoom.us'
+}
+
+export const streamStatus = {
+  SCHEDULED: 'SCHEDULED',
+  LIVE: 'LIVE',
+  FINISHED: 'FINISHED'
+}
+export const streamStatusColor = {
+  SCHEDULED: bmiColors.redFaded,
+  LIVE:appTheme.live,
+  FINISHED: appTheme.darkGrey
 }

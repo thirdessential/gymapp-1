@@ -52,7 +52,7 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    const {setAuthenticated, setIncomingCall, updatePosts, userId} = this.props;
+    const {setAuthenticated, setIncomingCall, updatePosts, userId, updateLiveStreams} = this.props;
     setAuthenticated(false); // TODO: Remove this line and fix auth blacklisting
     changeNavigationBarColor(appTheme.darkBackground);
     this.authSubscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
@@ -80,6 +80,13 @@ class App extends React.Component {
             await updatePosts(INITIAL_PAGE);
             showInfo(strings.NEW_POSTS);
           }
+          break;
+        case remoteMessageTypes.GENERIC_NOTIFICATION:
+          const {hostId, message} = data;
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+          await updateLiveStreams(INITIAL_PAGE);
+          if (hostId !== userId)
+            showInfo(message);
           break;
         default:
           break;
@@ -232,6 +239,7 @@ const mapDispatchToProps = (dispatch) => ({
   syncFirebaseAuth: (idToken, fcmToken) => dispatch(actionCreators.syncFirebaseAuth(idToken, fcmToken)),
   setIncomingCall: (callData, inAppCall) => dispatch(actionCreators.setIncomingCall(callData, inAppCall)),
   updatePosts: (page) => dispatch(actionCreators.updatePosts(page)),
+  updateLiveStreams: (page) => dispatch(actionCreators.updateLiveStreams(page)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

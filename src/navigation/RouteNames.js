@@ -80,6 +80,8 @@ export const TabRoutes = {
   Tomorrow: 'Tomorrow',
 
   Questions: 'Questions',
+  LiveStreams:'LiveStreams',
+
 }
 
 export default RouteNames;

@@ -33,6 +33,10 @@ export const callHandler = async (remoteMessage) => {
       if (!!content)
         LocalMessageNotification(content);
       break;
+    case remoteMessageTypes.GENERIC_NOTIFICATION:
+      const {message} = data;
+      LocalMessageNotification(message);
+      break;
     default:
       break;
   }
@@ -41,9 +45,10 @@ export const callHandler = async (remoteMessage) => {
 export const configureFCMNotification = async () => {
   try {
     let deviceToken = await messaging().getToken();
-    messaging()
-      .subscribeToTopic(firebaseTopics.SILENT_NOTIFICATION);
+    messaging().subscribeToTopic(firebaseTopics.SILENT_NOTIFICATION);
+    // messaging().subscribeToTopic(firebaseTopics.DISPLAY_NOTIFICATION);
 
+    console.log("Subscribed to topics");
     PushNotification.configure({
       onRegister: (token) => {
         // console.log("TOKEN:", token);

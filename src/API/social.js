@@ -310,3 +310,17 @@ export const unlikeAnswer = async (answerId) => {
     return false;
   }
 }
+
+export const listLiveStreams = async (url = '') => {
+  try {
+    let response = !!url ?
+      await axios.get(url) :
+      await axios.get('/live/list');
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

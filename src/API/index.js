@@ -75,7 +75,8 @@ export {
   answerQuestion,
   unlikeAnswer,
   deletePost,
-  reportQuestion
+  reportQuestion,
+  listLiveStreams
 } from './social';
 
 export {
