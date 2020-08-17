@@ -17,7 +17,8 @@ const streamList = (props) => {
         duration={item.duration}
         date={item.date}
         host={item.host}
-        onJoin={()=>props.onJoin(item._id)}
+        onJoin={props.onJoin ? () => props.onJoin(item._id) : null}
+        onStart={props.onStart ? () => props.onStart(item) : null}
       />
     )
   }
@@ -29,7 +30,9 @@ const streamList = (props) => {
       ItemSeparatorComponent={renderSeparator}
       ListHeaderComponent={renderSeparator}
       ListFooterComponent={renderSeparator}
-      renderItem={renderCard}/>
+      renderItem={renderCard}
+      showsVerticalScrollIndicator={false}
+    />
   )
 }
 

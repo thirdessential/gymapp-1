@@ -215,6 +215,7 @@ const strings = {
   FAILED_TO_CREATE_STREAM: 'Failed to schedule live stream',
   LIVE_STREAM_SUCCESS: 'Live stream created',
   GOING_LIVE: ', Going Live',
+  GOING_LIVE_:'Going Live',
   LIVE: 'Live'
 };
 

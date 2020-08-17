@@ -24,6 +24,7 @@ import {showError, showSuccess} from "../../utils/notification";
 import {listLiveStreams, startStream} from "../../API";
 import {hostMeeting} from "../../utils/zoomMeeting";
 import {INITIAL_PAGE} from "../../constants/appConstants";
+import RouteNames from "../../navigation/RouteNames";
 
 class LiveScheduler extends PureComponent {
 
@@ -107,8 +108,10 @@ class LiveScheduler extends PureComponent {
           this.props.navigation.goBack();
         }
       } else {
-        this.props.updateLiveStreams(INITIAL_PAGE);
+        this.props.updateLiveStreams();
+        this.props.updateMyLiveStreams();
         this.props.navigation.goBack();
+        // this.props.navigation.replace(RouteNames.MyStreams);
       }
     }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -319,7 +322,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   scheduleStream: (data, instantLive) => dispatch(actionCreators.scheduleStream(data, instantLive)),
-  updateLiveStreams: (page) => dispatch(actionCreators.updateLiveStreams(page)),
+  updateLiveStreams: () => dispatch(actionCreators.updateLiveStreams(INITIAL_PAGE)),
+  updateMyLiveStreams: () => dispatch(actionCreators.updateLiveStreams(INITIAL_PAGE, true)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LiveScheduler);

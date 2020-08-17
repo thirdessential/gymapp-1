@@ -140,10 +140,10 @@ class Community extends Component {
   };
 
   onJoinStream = (streamId) => {
-    const {liveStreams} = this.props;
+    const {liveStreams,userName} = this.props;
     const targetStream = liveStreams.filter(liveStream=>liveStream._id===streamId)[0];
     const {meetingId, meetingPassword} = targetStream;
-    joinMeeting(meetingId,meetingPassword);
+    joinMeeting(meetingId,meetingPassword,userName);
   }
   renderLiveStreams = () => {
     return (
@@ -331,7 +331,8 @@ const mapStateToProps = (state) => ({
   questions: state.social.questions,
   liveStreams: state.social.liveStreams,
   postDetails: state.social.postDetails,
-  userType:state.user.userType
+  userType:state.user.userType,
+  userName: state.user.userData.name
 });
 
 const mapDispatchToProps = (dispatch) => ({

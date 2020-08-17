@@ -26,10 +26,20 @@ const reducer = (state = initialState, action) => {
         const oldPosts = [...state.posts];
         return updateObject(state, {postDetails, posts: oldPosts.concat(posts)});
       }
-    case actionTypes.SET_STREAMS:
-      return updateObject(state, action.payload);
-    case actionTypes.APPEND_STREAMS:
-      return updateObject(state, {liveStreams: state.liveStreams.concat(action.payload.liveStreams)})
+    case actionTypes.SET_STREAMS: {
+      const {my, liveStreams} = action.payload;
+      if (my)
+        return updateObject(state, {myLiveStreams: liveStreams});
+      else
+        return updateObject(state, action.payload);
+    }
+    case actionTypes.APPEND_STREAMS: {
+      const {my, liveStreams} = action.payload;
+      if (my)
+        return updateObject(state, {myLiveStreams: state.myLiveStreams.concat(liveStreams)})
+      else
+        return updateObject(state, {liveStreams: state.liveStreams.concat(liveStreams)})
+    }
     case actionTypes.SET_POST: {
       const {post} = action.payload;
       const postDetails = {...state.postDetails};

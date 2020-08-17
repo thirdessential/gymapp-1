@@ -1,8 +1,8 @@
 import {cardBackgrounds} from "./images";
 import {appTheme, bmiColors} from "./colors";
 
-export const rootURL = 'https://fitness-first-services.herokuapp.com';
-// export const rootURL = 'http://192.168.31.125:3001';
+// export const rootURL = 'https://fitness-first-services.herokuapp.com';
+export const rootURL = 'http://192.168.31.125:3001';
 if (__DEV__) {
   console.log('Development');
 } else {
@@ -173,6 +173,11 @@ export const streamStatus = {
   SCHEDULED: 'SCHEDULED',
   LIVE: 'LIVE',
   FINISHED: 'FINISHED'
+}
+export const streamText = {
+  SCHEDULED: 'UPCOMING',
+  LIVE: 'LIVE',
+  FINISHED: 'ENDED'
 }
 export const streamStatusColor = {
   SCHEDULED: bmiColors.redFaded,

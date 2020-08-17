@@ -19,16 +19,18 @@ export const appendPosts = (posts, my = false) => ({
     my
   }
 });
-const setStreams = (liveStreams) => ({
+const setStreams = (liveStreams, my) => ({
   type: actionTypes.SET_STREAMS,
   payload: {
-    liveStreams
+    liveStreams,
+    my
   }
 });
-const appendStreams = (liveStreams) => ({
+const appendStreams = (liveStreams, my) => ({
   type: actionTypes.APPEND_STREAMS,
   payload: {
-    liveStreams
+    liveStreams,
+    my
   }
 });
 export const setPost = (post) => ({
@@ -312,14 +314,15 @@ export const answerQuestion = (questionId, answerText) => {
 };
 
 
-export const updateLiveStreams = (page = '') => {
+export const updateLiveStreams = (page = '', my = false) => {
   return async (dispatch) => {
     try {
-      let {streams, nextPage} = await API.listLiveStreams(page === INITIAL_PAGE ? null : page);
+      const listStreams = my ? API.listMyLiveStreams : API.listLiveStreams;
+      let {streams, nextPage} = await listStreams(page === INITIAL_PAGE ? null : page);
       if (streams) {
         if (page === INITIAL_PAGE)
-          await dispatch(setStreams(streams)); // initialise list from scratch
-        else dispatch(appendStreams(streams)); // else append data to list
+          await dispatch(setStreams(streams, my)); // initialise list from scratch
+        else dispatch(appendStreams(streams, my)); // else append data to list
       }
       return nextPage;
     } catch (error) {

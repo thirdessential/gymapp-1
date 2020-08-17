@@ -67,7 +67,7 @@ const RouteNames = {
 
   RootTab: 'RootTab',
   LiveScheduler: 'LiveScheduler',
-  // ZoomMeeting:'ZoomMeeting'
+  MyStreams:'MyStreams'
 };
 
 export const TabRoutes = {

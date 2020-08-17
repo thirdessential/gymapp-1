@@ -34,6 +34,7 @@ import {
 } from "react-native-popup-menu";
 import SelectExercise from "../../screens/Fitness/SelectExercise";
 import LiveScheduler from "../../screens/Social/LiveScheduler";
+import MyStreams from "../../screens/Social/MyStreams";
 
 const data = [
   {
@@ -76,7 +77,7 @@ export default class activity extends Component {
       <Stack.Navigator screenOptions={defaultHeaderStyle}>
         <Stack.Screen
           name={RouteNames.Activity}
-          component={Activity}
+          component={MyStreams}
           options={{
             title: "Activity",
             headerLeft: openDrawerButton,
