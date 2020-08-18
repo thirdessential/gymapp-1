@@ -1,3 +1,4 @@
+export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
 export const SET_STREAMS = 'SET_STREAMS';
 export const APPEND_STREAMS = 'APPEND_STREAMS';
 export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';

@@ -175,17 +175,15 @@ renderChart=()=>{
 
     return (
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-        {/* {this.renderUser()} */}
         {this.renderChart()}
         <View style={{marginHorizontal:spacing.medium_lg}}><LiveCardList data={this.state.data}/></View>
-        {/*{this.renderUser()}*/}
-        <View style={{flex: 1, width: "100%", marginTop: spacing.medium_lg}}>
+        {/*<View style={{flex: 1, width: "100%", marginVertical: spacing.medium_lg}}>*/}
           <TimelineTabview
             today={todaysEvents}
             tomorrow={tomorrowsEvents}
             onProfilePress={this.openProfile}
           />
-        </View>
+        {/*</View>*/}
       </ScrollView>
     );
   }

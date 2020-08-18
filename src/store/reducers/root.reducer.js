@@ -9,7 +9,8 @@ import app from "./app.reducer";
 import trainer from './trainer.reducer';
 import social from './social.reducer';
 import fitness from './fitness.reducer';
-import {callState} from "./initialState";
+import notification from './notification.reducer';
+
 import * as actionTypes from "../actions/actionTypes";
 
 const authPersistConfig = {
@@ -20,8 +21,7 @@ const authPersistConfig = {
 const migrations = {
   0: (state) => {
     return {
-      ...state,
-      call:callState
+      ...state
     }
   }
 }
@@ -40,14 +40,15 @@ const appReducer = combineReducers({
   call,
   trainer,
   social,
-  fitness
+  fitness,
+  notification,
 });
 
 const rootReducer = (state, action) => {
   if (action.type === actionTypes.RESET_APP) {
     state = undefined
   }
-  return appReducer(state, action)
+  return appReducer(state, action);
 }
 
 export default persistReducer(rootPersistConfig, rootReducer);
