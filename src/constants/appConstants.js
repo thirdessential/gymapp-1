@@ -1,6 +1,7 @@
 import {cardBackgrounds} from "./images";
 import {appTheme, bmiColors} from "./colors";
 
+
 let apiUrl = '';
 if (__DEV__) {
   console.log('Development Server');

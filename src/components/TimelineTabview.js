@@ -1,106 +1,112 @@
 import React from "react";
-import {View, StyleSheet, Text, TouchableOpacity} from "react-native";
-import {screenWidth} from "../utils/screenDimensions";
-import {TabBar, TabView} from "react-native-tab-view";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  Image,
+} from "react-native";
+import { screenWidth } from "../utils/screenDimensions";
+import { TabBar, TabView } from "react-native-tab-view";
 
-import {appTheme} from "../constants/colors";
-import {spacing} from "../constants/dimension";
+import { appTheme } from "../constants/colors";
+import { spacing } from "../constants/dimension";
 import fontSizes from "../constants/fontSizes";
 import fonts from "../constants/fonts";
-import {TabRoutes} from "../navigation/RouteNames";
-import Timeline from "react-native-timeline-flatlist";
-import ActivityComponent from "./ActivityComponent";
-import {defaultDP} from "../constants/appConstants";
-import {militaryTimeToString} from "../utils/utils";
+import { TabRoutes } from "../navigation/RouteNames";
+import { defaultDP } from "../constants/appConstants";
+import { militaryTimeToString } from "../utils/utils";
 import strings from "../constants/strings";
 
-const initialLayout = {width: screenWidth};
+const initialLayout = { width: screenWidth };
 
 function timeline(props) {
-  const {today, tomorrow, onProfilePress} = props;
+  const { today, tomorrow, onProfilePress } = props;
   const [index, setIndex] = React.useState(0);
 
   const routeArray = [
-    {key: TabRoutes.Today, title: 'Today'},
-    {key: TabRoutes.Tomorrow, title: 'Tomorrow',},
+    { key: TabRoutes.Today, title: "Today" },
+    { key: TabRoutes.Tomorrow, title: "Tomorrow" },
   ];
 
   const [routes] = React.useState(routeArray);
-  const renderActivity = (data) => {
-    let user = data.user || data.trainer;
+
+  const renderTime = (time) => {
+    return (
+      <>
+        <Text style={{ color: "white", fontSize: fontSizes.h2 }}>
+          {militaryTimeToString(time)}
+        </Text>
+      </>
+    );
+  };
+  renderCards = (item) => {
+    let user = item.user || item.trainer;
     if (!user) return null;
-    let {displayPictureUrl, name, id} = user;
+    let { displayPictureUrl, name, id } = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     return (
-      <TouchableOpacity activeOpacity={0.8} onPress={() => onProfilePress(id)} style={styles.cardContainer}>
-        <ActivityComponent imageUrl={displayPictureUrl} displayName={name} day={''} type={'Session'}/>
-      </TouchableOpacity>
-    )
-  }
-  const renderTime = ({time}) => {
-    return (
-      <View style={{minWidth: 52}}>
-        <Text style={styles.timeStyle}> {militaryTimeToString(time)}</Text>
+      <View style={styles.cardView}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            onProfilePress(id);
+          }}
+        >
+          <View style={{ flexDirection: "row" }}>
+            <Image source={{ uri: displayPictureUrl }} style={styles.Image} />
+            <View style={styles.infoView}>
+              <Text style={styles.sessionText}>
+                {strings.SESSION_WITH} {name}
+              </Text>
+              <Text style={styles.timeInfo}>{renderTime(item.time)}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
       </View>
-    )
-  }
+    );
+  };
   const noActivity = () => {
     return (
-      <View style={{flex: 1,minHeight:300, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={[styles.sectionTitle, {color: appTheme.brightContent}]}>{strings.NO_ACTIVITY}</Text>
+      <View style={styles.noActivity}>
+        <Text style={[styles.sectionTitle, { color: appTheme.brightContent }]}>
+          {strings.NO_ACTIVITY}
+        </Text>
       </View>
-    )
-  }
+    );
+  };
   const renderScene = (props) => {
-    const {route} = props;
+    const { route } = props;
     switch (route.key) {
       case TabRoutes.Today:
-        if (!today || today.length === 0)
-          return noActivity();
+        if (!today || today.length === 0) return noActivity();
         return (
-          <Timeline
-            data={today}
-            style={{width: '100%'}}
-            circleSize={20}
-            circleColor={appTheme.brightContent}
-            lineColor='rgb(45,156,219)'
-            timeContainerStyle={{minWidth: 52}}
-            timeStyle={styles.timeStyle}
-            descriptionStyle={{color: 'gray'}}
-            innerCircle={'dot'}
-            renderDetail={renderActivity}
-            renderTime={renderTime}
-            options={{
-              style: {paddingTop: spacing.medium},
-              showsVerticalScrollIndicator: false,
-              ListFooterComponent: () => <View style={{marginTop: spacing.medium}}/>
-            }}
-          />
-        )
-        return null;
+          <View style={{ justifyContent: "center" }}>
+            <FlatList
+              data={today}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => renderCards(item)}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          </View>
+        );
+
       case TabRoutes.Tomorrow:
-        if (!tomorrow || tomorrow.length === 0)
-          return noActivity();
+        if (!tomorrow || tomorrow.length === 0) return noActivity();
+
         return (
-          <Timeline
-            data={tomorrow}
-            style={{width: '100%'}}
-            circleSize={20}
-            circleColor={appTheme.brightContent}
-            lineColor='rgb(45,156,219)'
-            timeContainerStyle={{minWidth: 52}}
-            timeStyle={styles.timeStyle}
-            descriptionStyle={{color: 'gray'}}
-            innerCircle={'dot'}
-            renderTime={renderTime}
-            renderDetail={renderActivity}
-            options={{
-              style: {paddingTop: spacing.medium},
-              showsVerticalScrollIndicator: false,
-              ListFooterComponent: () => <View style={{marginTop: spacing.medium}}/>
-            }}
-          />
-        )
+          <View style={{ justifyContent: "center" }}>
+            <FlatList
+              data={tomorrow}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => renderCards(item)}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          </View>
+        );
 
       default:
         return null;
@@ -109,20 +115,20 @@ function timeline(props) {
   return (
     <TabView
       lazy={true}
-      navigationState={{index, routes}}
+      navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}
       initialLayout={initialLayout}
       swipeEnabled={false}
-      renderTabBar={props =>
+      renderTabBar={(props) => (
         <TabBar
           {...props}
-          style={{backgroundColor: 'transparent'}}
-          indicatorStyle={{backgroundColor: appTheme.lightContent}}
+          style={{ backgroundColor: "transparent" }}
+          indicatorStyle={{ backgroundColor: appTheme.lightContent }}
           tabStyle={styles.bubble}
           labelStyle={styles.noLabel}
         />
-      }
+      )}
     />
   );
 }
@@ -132,33 +138,64 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   noLabel: {
-    fontSize: 14
+    fontSize: fontSizes.h3,
   },
   bubble: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     paddingHorizontal: 18,
     paddingVertical: 12,
-    borderRadius: 10
+    borderRadius: 10,
   },
   sectionTitleContainer: {
     marginTop: spacing.medium_lg,
-    marginBottom: spacing.medium_sm
+    marginBottom: spacing.medium_sm,
   },
   sectionTitle: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h1,
-    fontFamily: fonts.MontserratMedium
+    fontFamily: fonts.MontserratMedium,
   },
   timeStyle: {
-    textAlign: 'center',
+    textAlign: "center",
     backgroundColor: appTheme.brightContent,
-    color: 'white',
+    color: appTheme.textPrimary,
     fontFamily: fonts.MontserratMedium,
     padding: 5,
-    borderRadius: 13
+    borderRadius: 13,
   },
   cardContainer: {
-    marginBottom: spacing.small
+    marginBottom: spacing.small,
   },
-})
+  cardView: {
+    marginHorizontal: spacing.medium_sm,
+    marginTop: spacing.medium_lg,
+    height: 100,
+    backgroundColor: appTheme.darkBackground,
+    borderRadius: 20,
+    padding: spacing.medium_lg,
+    justifyContent: "center",
+  },
+  Image: { height: 80, width: 80, borderRadius: 40 },
+  infoView: {
+    width: 200,
+    marginLeft: spacing.medium_lg,
+    marginTop: spacing.medium_sm,
+  },
+  sessionText: {
+    color: appTheme.textPrimary,
+    fontSize: fontSizes.h3,
+    fontWeight: "bold",
+    fontFamily: fonts.CenturyGothicBold,
+  },
+  timeInfo: {
+    justifyContent: "center",
+    alignContent: "flex-end",
+  },
+  noActivity: {
+    flex: 1,
+    minHeight: 300,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 export default React.memo(timeline);

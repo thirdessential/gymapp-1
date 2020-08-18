@@ -205,6 +205,7 @@ const strings = {
   SETS:'Sets',
   LEVEL:'Level',
   ALL:'ALL',
+  SESSION_WITH: 'Session with',
   REST: 'Rest',
   WELL_DONE: "Well done",
   GO_LIVE: 'Go Live',
@@ -217,7 +218,7 @@ const strings = {
   GOING_LIVE: ', Going Live',
   GOING_LIVE_:'Going Live',
   LIVE: 'Live',
-  MY_LIVE_STREAMS: 'My Live Streams'
+  MY_LIVE_STREAMS: 'My Live Streams',
 };
 
 export const bmiVerdicts = {

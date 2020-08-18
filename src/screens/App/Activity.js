@@ -14,7 +14,16 @@ import {defaultDP, userTypes} from "../../constants/appConstants";
 import TimelineTabview from "../../components/TimelineTabview";
 import * as actionCreators from "../../store/actions";
 import {setAvailable} from "../../API";
-import LiveCardList from '../../components/LiveCardList'
+import LiveCardList from '../../components/LiveCardList';
+import {screenWidth} from "../../utils/screenDimensions";
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart
+} from "react-native-chart-kit";
 
 const data = [
   {
@@ -87,7 +96,48 @@ class Activity extends PureComponent {
   componentWillUnmount() {
     this.unsubscribeFocus();
   }
-
+renderChart=()=>{
+  const data = {
+    labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri","Sat"],
+    datasets: [
+      {
+        data: [60, 75,80, 80, 99, 100]
+      }
+    ]
+  };
+  return (
+    <View style={{marginLeft:-20}}>
+    <Text style={{fontSize:20,fontFamily:fonts.CenturyGothic,color:appTheme.textPrimary,textAlign:'center'}}>Weekly exercise</Text>
+<BarChart
+  //style={graphStyle}
+  data={data}
+  width={screenWidth }
+  height={220}
+  yAxisLabel=""
+  chartConfig={{
+  backgroundGradientFrom: appTheme.background,
+  backgroundGradientFromOpacity: 0,
+  backgroundGradientTo: appTheme.background,
+  
+  decimalPlaces: 0,
+  backgroundGradientToOpacity: 1,
+  color: (opacity = 1) => `rgba(255,127,80, 0.4)`,
+  fillShadowGradientOpacity:1,
+  labelColor: (opacity = 1) => appTheme.greyC,
+  propsForBackgroundLines: {
+     //strokeDasharray: "" // solid background lines with no dashes
+     strokeWidth: 0
+},
+  fillShadowGradient:appTheme.brightContent,
+  strokeWidth: 2, // optional, default 3
+  barPercentage: 0.5,
+  useShadowColorFromDataset: false // optional
+}}
+  verticalLabelRotation={330}
+/>
+</View>
+  )
+}
   renderUser = () => {
     const {userData} = this.props;
     if (!userData) return null;
@@ -125,6 +175,9 @@ class Activity extends PureComponent {
 
     return (
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+        {/* {this.renderUser()} */}
+        {this.renderChart()}
+        <View style={{marginHorizontal:spacing.medium_lg}}><LiveCardList data={this.state.data}/></View>
         {this.renderUser()}
         {/*<LiveCardList data={this.state.data}/>*/}
         <View style={{flex: 1, width: "100%", marginTop: spacing.medium_lg}}>
@@ -143,9 +196,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    paddingLeft: spacing.medium_lg,
-    paddingRight: spacing.medium_lg,
-    paddingTop: spacing.medium_lg,
+    
+     paddingTop: spacing.medium_lg,
     // paddingBottom: spacing.medium,
     // alignItems: "center",
     backgroundColor: appTheme.background,
