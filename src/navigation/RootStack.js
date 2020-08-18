@@ -35,6 +35,7 @@ import store from "../store/configureStore";
 import {userTypes} from "../constants/appConstants";
 import MyStreams from "../screens/Social/MyStreams";
 import strings from "../constants/strings";
+import Water from "../screens/Fitness/Water";
 
 const rootStack = () => {
   let {userType} = store.getState().user;
@@ -188,6 +189,13 @@ const rootStack = () => {
         component={BMI}
         options={{
           title: "BMI",
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.Water}
+        component={Water}
+        options={{
+          title: "Water",
         }}
       />
       <Stack.Screen
