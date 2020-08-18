@@ -205,6 +205,7 @@ const strings = {
   SETS:'Sets',
   LEVEL:'Level',
   ALL:'ALL',
+  SESSION_WITH: 'Session with'
 
 };
 

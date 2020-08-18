@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import Stack from "./stack";
 import RouteNames from "../RouteNames";
 import openDrawerButton from "../openDrawerButton";
@@ -13,7 +13,7 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import Feather from "react-native-vector-icons/Feather";
 import Dash from "react-native-dash";
-import {defaultDP, userTypes} from "../../constants/appConstants";
+import { defaultDP, userTypes } from "../../constants/appConstants";
 import {
   Dimensions,
   StyleSheet,
@@ -62,7 +62,7 @@ const data = [
   },
 ];
 
- class activity extends Component {
+class activity extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,10 +70,28 @@ const data = [
       all: false,
     };
   }
-
+  profileHeader = () => {
+    const { userData } = this.props;
+    return (
+      <>
+        <TouchableOpacity
+          onPress={() => {
+            this.props.navigation.navigate(RouteNames.MyProfile);
+          }}
+        >
+          <View style={{ marginRight: 15 }}>
+            <Image
+              source={{
+                uri: userData.displayPictureUrl || defaultDP,
+              }}
+              style={styles.imageHeader}
+            />
+          </View>
+        </TouchableOpacity>
+      </>
+    );
+  };
   render() {
-    const {userData} = this.props;
-    console.log(userData);
     return (
       <Stack.Navigator screenOptions={defaultHeaderStyle}>
         <Stack.Screen
@@ -82,19 +100,7 @@ const data = [
           options={{
             title: "Activity",
             headerLeft: openDrawerButton,
-            headerRight: () => (
-              <TouchableOpacity onPress={() =>{this.props.navigation.navigate(RouteNames.MyProfile)}}>
-              <View style={{ marginRight: 15 }}>
-                <Image
-                  source={{
-                    uri:
-                  userData.displayPictureUrl || defaultDP
-                  }}
-                  style={{ height: 30, width: 30, borderRadius: 20 }}
-                />
-              </View>
-              </TouchableOpacity>
-            ),
+            headerRight: this.profileHeader,
             // headerRight: () => (
             //   <Menu>
             //     <MenuTrigger style={{marginRight: 10}}>
@@ -221,14 +227,12 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
   },
+  imageHeader: { height: 30, width: 30, borderRadius: 20 },
 });
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
- 
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  
-});
+const mapDispatchToProps = (dispatch) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(activity)
+export default connect(mapStateToProps, mapDispatchToProps)(activity);
