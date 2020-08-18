@@ -206,7 +206,18 @@ const strings = {
   LEVEL:'Level',
   ALL:'ALL',
   REST: 'Rest',
-  WELL_DONE: "Well done"
+  WELL_DONE: "Well done",
+  GO_LIVE: 'Go Live',
+  STREAM_INFO: 'Schedule your stream, or go live now',
+  TITLE: 'Title',
+  GO_LIVE_NOW: 'Go live now',
+  MINUTES: 'Minutes',
+  FAILED_TO_CREATE_STREAM: 'Failed to schedule live stream',
+  LIVE_STREAM_SUCCESS: 'Live stream created',
+  GOING_LIVE: ', Going Live',
+  GOING_LIVE_:'Going Live',
+  LIVE: 'Live',
+  MY_LIVE_STREAMS: 'My Live Streams'
 };
 
 export const bmiVerdicts = {

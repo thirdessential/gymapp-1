@@ -44,7 +44,9 @@ export const socialState = {
   myPosts: null,
   postsForUser: {},
   questions: [],
-  commentsForPost:{}
+  commentsForPost:{},
+  liveStreams:[],
+  myLiveStreams:[],
 }
 
 export const fitnessState = {

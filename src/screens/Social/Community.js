@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
   View,
   StyleSheet,
@@ -12,58 +12,76 @@ import {
   Text,
   ScrollView,
 } from "react-native";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import RBSheet from "react-native-raw-bottom-sheet";
-import { TabView, TabBar } from "react-native-tab-view";
+import {TabView, TabBar} from "react-native-tab-view";
 import Entypo from "react-native-vector-icons/Entypo";
 
-import { appTheme } from "../../constants/colors";
+import {appTheme} from "../../constants/colors";
 import * as actionCreators from "../../store/actions";
-import { INITIAL_PAGE, POST_TYPE } from "../../constants/appConstants";
+import {INITIAL_PAGE, POST_TYPE, userTypes} from "../../constants/appConstants";
 
-import RouteNames, { TabRoutes } from "../../navigation/RouteNames";
+import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import PostList from "../../components/Social/PostList";
-import { spacing } from "../../constants/dimension";
+import {spacing} from "../../constants/dimension";
 import strings from "../../constants/strings";
 import QuestionList from "../../components/Social/QuestionList";
-import { likeAnswer, unlikeAnswer } from "../../API";
+import {likeAnswer, unlikeAnswer} from "../../API";
 import ImageCard from "../../components/ImageCard";
-import { iconBackgrounds } from "../../constants/images";
-import { screenWidth } from "../../utils/screenDimensions";
+import {iconBackgrounds} from "../../constants/images";
+import {screenWidth} from "../../utils/screenDimensions";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
+import LiveCardList from "../../components/LiveCardList";
+import StreamList from "../../components/Social/StreamList";
+import {joinMeeting} from "../../utils/zoomMeeting";
+import {parseComponentStack} from "react-native/Libraries/LogBox/Data/parseLogBoxLog";
 
-const initialLayout = { width: screenWidth };
+const initialLayout = {width: screenWidth};
 
 class Community extends Component {
   state = {
     nextPostPage: INITIAL_PAGE,
     nextQuestionPage: INITIAL_PAGE,
+    nextLiveStreamPage: INITIAL_PAGE,
     type: POST_TYPE.TYPE_POST,
     pageIndex: 0,
   };
   updatePosts = async () => {
-    const { updatePosts } = this.props;
-    const { nextPostPage } = this.state;
+    const {updatePosts} = this.props;
+    const {nextPostPage} = this.state;
     if (!!nextPostPage)
-      this.setState({ nextPostPage: await updatePosts(nextPostPage) });
+      this.setState({nextPostPage: await updatePosts(nextPostPage)});
   };
   updateQuestions = async () => {
-    const { updateQuestions } = this.props;
-    const { nextQuestionPage } = this.state;
+    const {updateQuestions} = this.props;
+    const {nextQuestionPage} = this.state;
     if (!!nextQuestionPage)
       this.setState({
         nextQuestionPage: await updateQuestions(nextQuestionPage),
       });
   };
+  updateLiveStreams = async () => {
+    const {updateLiveStreams} = this.props;
+    const {nextLiveStreamPage} = this.state;
+    if (!!nextLiveStreamPage)
+      this.setState({
+        nextLiveStreamPage: await updateLiveStreams(nextLiveStreamPage)
+      });
+  }
+  openLiveScheduler = () => {
+    this.closeRbSheet();
+    this.props.navigation.navigate(RouteNames.LiveScheduler)
+  }
 
   componentDidMount() {
     this.updatePosts();
     this.updateQuestions();
+    this.updateLiveStreams();
   }
 
   openPost = (postId) => {
-    this.props.navigation.navigate(RouteNames.PostViewer, { postId });
+    this.props.navigation.navigate(RouteNames.PostViewer, {postId});
   };
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -73,23 +91,23 @@ class Community extends Component {
   }
 
   openProfile = (userId) => {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     navigation.navigate(RouteNames.Profile, {
       userId: userId,
     });
   };
   loader = () => (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <ActivityIndicator color={appTheme.brightContent} size={50} />
+    <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+      <ActivityIndicator color={appTheme.brightContent} size={50}/>
     </View>
   );
   renderPosts = () => {
     const {posts, postDetails, likePost, unlikePost, reportPost, deletePost} = this.props;
-    if (!posts || posts.length===0)
+    if (!posts || posts.length === 0)
       return this.loader();
     return (
       <PostList
-        posts={posts.map(postId=>postDetails[postId])}
+        posts={posts.map(postId => postDetails[postId])}
         open={this.openPost}
         update={this.updatePosts}
         like={likePost}
@@ -101,16 +119,16 @@ class Community extends Component {
     );
   };
   createAnswer = (questionId, answerText) => {
-    const { answerQuestion } = this.props;
+    const {answerQuestion} = this.props;
     answerQuestion(questionId, answerText);
   };
   renderQuestions = () => {
-    const {questions,reportQuestion, postDetails} = this.props;
-    if (!questions || questions.length===0)
+    const {questions, reportQuestion, postDetails} = this.props;
+    if (!questions || questions.length === 0)
       return this.loader();
     return (
       <QuestionList
-        questions={questions.map(questionId=>postDetails[questionId])}
+        questions={questions.map(questionId => postDetails[questionId])}
         onCreateAnswer={this.createAnswer}
         update={this.updateQuestions}
         onProfilePress={this.openProfile}
@@ -120,19 +138,35 @@ class Community extends Component {
       />
     );
   };
+
+  onJoinStream = (streamId) => {
+    const {liveStreams,userName} = this.props;
+    const targetStream = liveStreams.filter(liveStream=>liveStream._id===streamId)[0];
+    const {meetingId, meetingPassword} = targetStream;
+    joinMeeting(meetingId,meetingPassword,userName);
+  }
+  renderLiveStreams = () => {
+    return (
+      <StreamList
+        streams={this.props.liveStreams}
+        onJoin={this.onJoinStream}
+
+      />
+    )
+  }
   fab = () => {
     return (
       <TouchableOpacity
         style={[styles.fab, styles.fabPosition]}
         onPress={this.openRbSheet}
       >
-        <Entypo name={"plus"} color={"white"} size={32} />
+        <Entypo name={"plus"} color={"white"} size={32}/>
       </TouchableOpacity>
     );
   };
   createPost = () => {
     this.closeRbSheet();
-    this.props.navigation.navigate(RouteNames.CreatePost,{type:POST_TYPE.TYPE_POST});
+    this.props.navigation.navigate(RouteNames.CreatePost, {type: POST_TYPE.TYPE_POST});
   };
   createQuestion = () => {
     this.closeRbSheet();
@@ -189,33 +223,46 @@ class Community extends Component {
         <ImageCard
           title={strings.WORKOUT}
           onPress={this.createVideo}
-          image={iconBackgrounds.appointments}
+          image={iconBackgrounds.coinMan}
         />
+        {
+          this.props.userType===userTypes.TRAINER && (
+            <ImageCard
+              title={strings.GO_LIVE}
+              onPress={this.openLiveScheduler}
+              image={iconBackgrounds.physical}
+            />
+          )
+        }
       </ScrollView>
     </RBSheet>
   );
   routes = [
-    { key: TabRoutes.Posts, title: strings.POSTS },
-    { key: TabRoutes.Questions, title: strings.QUESTIONS },
+    {key: TabRoutes.Posts, title: strings.POSTS},
+    {key: TabRoutes.Questions, title: strings.QUESTIONS},
+    {key: TabRoutes.LiveStreams, title: strings.LIVE}
   ];
-  renderScene = ({ route }) => {
+  renderScene = ({route}) => {
     switch (route.key) {
       case TabRoutes.Posts:
         return this.renderPosts();
       case TabRoutes.Questions:
         return this.renderQuestions();
+      case TabRoutes.LiveStreams:
+        return this.renderLiveStreams();
       default:
         return null;
     }
   };
-  setPage = (pageIndex) => this.setState({ pageIndex });
+  setPage = (pageIndex) => this.setState({pageIndex});
 
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar backgroundColor={appTheme.lightBackground} />
+        <StatusBar backgroundColor={appTheme.lightBackground}/>
+
         <TabView
-          navigationState={{ index: this.state.pageIndex, routes: this.routes }}
+          navigationState={{index: this.state.pageIndex, routes: this.routes}}
           renderScene={this.renderScene}
           onIndexChange={this.setPage}
           initialLayout={initialLayout}
@@ -223,8 +270,8 @@ class Community extends Component {
           renderTabBar={(props) => (
             <TabBar
               {...props}
-              style={{ backgroundColor: "transparent" }}
-              indicatorStyle={{ backgroundColor: appTheme.lightContent }}
+              style={{backgroundColor: "transparent"}}
+              indicatorStyle={{backgroundColor: appTheme.lightContent}}
               tabStyle={styles.bubble}
               labelStyle={styles.noLabel}
             />
@@ -263,7 +310,7 @@ const styles = StyleSheet.create({
     right: spacing.medium,
   },
   noLabel: {
-    fontSize: 14,
+    fontSize: 12,
   },
   bubble: {
     backgroundColor: "transparent",
@@ -282,12 +329,16 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   posts: state.social.posts,
   questions: state.social.questions,
-  postDetails: state.social.postDetails
+  liveStreams: state.social.liveStreams,
+  postDetails: state.social.postDetails,
+  userType:state.user.userType,
+  userName: state.user.userData.name
 });
 
 const mapDispatchToProps = (dispatch) => ({
   updatePosts: (page) => dispatch(actionCreators.updatePosts(page)),
   updateQuestions: (page) => dispatch(actionCreators.updateQuestions(page)),
+  updateLiveStreams: (page) => dispatch(actionCreators.updateLiveStreams(page)),
   likePost: (postId) => dispatch(actionCreators.likePost(postId)),
   unlikePost: (postId) => dispatch(actionCreators.unlikePost(postId)),
   reportPost: postId => dispatch(actionCreators.reportPost(postId)),

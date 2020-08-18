@@ -30,7 +30,7 @@ class Tools extends PureComponent {
   openStreamingScreen = () => this.props.navigation.navigate(RouteNames.StreamScreen);
   openSelectExercise = () => this.props.navigation.navigate(RouteNames.SelectExercise);
   openExercisesScreen = () => this.props.navigation.navigate(RouteNames.Exercises);
-
+  openMyStreams = () => this.props.navigation.navigate(RouteNames.MyStreams);
 
   state = {
     toolsData: []
@@ -51,25 +51,13 @@ class Tools extends PureComponent {
         callback: this.openCallRequests,
         enabled: userType === userTypes.TRAINER
       },
-      // {
-      //   title: strings.MY_CLIENTS,
-      //   image: iconBackgrounds.slots,
-      //   callback: this.openClients,
-      //   enabled: userType === userTypes.TRAINER
-      //
-      // },
       {
-        title: userType===userTypes.USER? strings.SUBSCRIPTIONS: strings.MY_CLIENTS,
+        title: userType === userTypes.USER ? strings.SUBSCRIPTIONS : strings.MY_CLIENTS,
         image: iconBackgrounds.subscriptions,
         callback: this.openClients,
         enabled: true
       },
-      // {
-      //   title: strings.BROWSE_SLOTS,
-      //   image: iconBackgrounds.workouts,
-      //   callback: this.openBrowseSlots,
-      //   enabled: userType === userTypes.USER
-      // },
+
       {
         title: strings.ASK_EXPERT,
         image: iconBackgrounds.waterIntake,
@@ -81,12 +69,6 @@ class Tools extends PureComponent {
         callback: this.openBMI,
         enabled: true
       },
-      // {
-      //   title: strings.SPEECH,
-      //   image: iconBackgrounds.waterIntake,
-      //   callback: this.openSpeech,
-      //   enabled: userType === userTypes.USER
-      // },
       {
         title: strings.COUPONS,
         image: iconBackgrounds.coupon,
@@ -99,18 +81,13 @@ class Tools extends PureComponent {
         callback: this.openAccountDash,
         enabled: userType === userTypes.TRAINER
       },
-      // {
-      //   title: strings.STREAM,
-      //   image: iconBackgrounds.graphMan,
-      //   callback: this.openStreamingScreen,
-      //   enabled: userType === userTypes.TRAINER
-      // },
-      // {
-      //   title: strings.EXERCISES,
-      //   image: iconBackgrounds.graphMan,
-      //   callback: this.openExercisesScreen,
-      //   enabled: true
-      // },
+      {
+        title: strings.MY_LIVE_STREAMS,
+        image: iconBackgrounds.calorie,
+        callback: this.openMyStreams,
+        enabled: userType === userTypes.TRAINER
+      },
+
 
     ]
     this.setState({toolsData: toolsData.filter(toolData => toolData.enabled)});

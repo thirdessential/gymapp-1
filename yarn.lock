@@ -6906,6 +6906,11 @@ react-native-windows@^0.62.0-0:
     uuid "^3.3.2"
     xml-parser "^1.2.1"
 
+react-native-zoom-us@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-zoom-us/-/react-native-zoom-us-3.0.0.tgz#a17a1299651dfd5504c7a9694a0d08dc0e40074b"
+  integrity sha512-aqeLSBWgpf0slFJFYo/B9opbD684wB0zDx5wOIxuXWVouRio4uWH7sezdTo6U7RWSSJ4QSrz1EGgiWLkHFR9xA==
+
 react-native@0.62.2:
   version "0.62.2"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.62.2.tgz#d831e11a3178705449142df19a70ac2ca16bad10"

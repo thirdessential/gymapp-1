@@ -28,13 +28,15 @@ const bgView = () => (
     <ActivityIndicator size={40} color={appTheme.lightContent}/>
   </View>)
 ;
+const lazyConfig = __DEV__?{lazy:true,lazyPreloadDistance: 0,lazyPlaceholder:bgView}:{}
 
 const appTabNavigator = (props) => {
   let {userType} = store.getState().user;
   const listingTitle = userType === userTypes.USER ? 'Trainers' : 'Users';
   return (
     <Tab.Navigator
-      swipeEnabled={false}
+      // swipeEnabled={false}
+      {...lazyConfig}
       // lazy={true}
       // lazyPreloadDistance={0}
       // lazyPlaceholder={bgView}

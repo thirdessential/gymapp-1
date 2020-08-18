@@ -61,7 +61,7 @@ export const createVideoPost = async (path, textContent, token, videoSrc) => {
   try {
     let fileExtension = getFileExtension(path);
     showInfo(strings.COMPRESSING_VIDEO);
-    const compressedPath = (await VideoCompress.compress(path, {compressQuality:2})).path;
+    const compressedPath = (await VideoCompress.compress(path, {compressQuality: 2})).path;
     showInfo(strings.UPLOADING);
     const uploadData = [
       {
@@ -302,6 +302,33 @@ export const likeAnswer = async (answerId) => {
 export const unlikeAnswer = async (answerId) => {
   try {
     let response = await axios.post(`/answer/${answerId}/unlike`);
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export const listLiveStreams = async (url = '') => {
+  try {
+    let response = !!url ?
+      await axios.get(url) :
+      await axios.get('/live/list');
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const listMyLiveStreams = async (url = '') => {
+  try {
+    let response = !!url ?
+      await axios.get(url) :
+      await axios.get('/live/listMy');
     if (validateResponseCode(response.status))
       return response.data;
     else return false;

@@ -6,7 +6,6 @@ import openDrawerButton from "../openDrawerButton";
 import {appTheme} from "../../constants/colors";
 import Activity from "../../screens/App/Activity";
 import {spacing} from "../../constants/dimension";
-import Profile from "../../screens/App/Profile";
 
 import {defaultHeaderStyle} from "../../constants/styles";
 import fontSizes from "../../constants/fontSizes";
@@ -30,10 +29,7 @@ import {
   MenuOptions,
   MenuOption,
   MenuTrigger,
-  MenuDivider,
 } from "react-native-popup-menu";
-import SelectExercise from "../../screens/Fitness/SelectExercise";
-
 const data = [
   {
     text: "Jinit booked your slot on 9PM",

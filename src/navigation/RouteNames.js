@@ -65,7 +65,9 @@ const RouteNames = {
   PerformExercise: 'PerformExercise',
   PerformStretch: 'PerformStretch',
 
-  RootTab: 'RootTab'
+  RootTab: 'RootTab',
+  LiveScheduler: 'LiveScheduler',
+  MyStreams:'MyStreams'
 };
 
 export const TabRoutes = {
@@ -78,6 +80,8 @@ export const TabRoutes = {
   Tomorrow: 'Tomorrow',
 
   Questions: 'Questions',
+  LiveStreams:'LiveStreams',
+
 }
 
 export default RouteNames;

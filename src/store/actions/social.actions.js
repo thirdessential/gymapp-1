@@ -19,6 +19,20 @@ export const appendPosts = (posts, my = false) => ({
     my
   }
 });
+const setStreams = (liveStreams, my) => ({
+  type: actionTypes.SET_STREAMS,
+  payload: {
+    liveStreams,
+    my
+  }
+});
+const appendStreams = (liveStreams, my) => ({
+  type: actionTypes.APPEND_STREAMS,
+  payload: {
+    liveStreams,
+    my
+  }
+});
 export const setPost = (post) => ({
   type: actionTypes.SET_POST,
   payload: {
@@ -294,6 +308,48 @@ export const answerQuestion = (questionId, answerText) => {
       dispatch(setPost(question));
     } catch (error) {
       console.log("answer question failed", error);
+      return null;
+    }
+  };
+};
+
+export const updateLiveStreams = (page = '', my = false) => {
+  return async (dispatch) => {
+    try {
+      const listStreams = my ? API.listMyLiveStreams : API.listLiveStreams;
+      let {streams, nextPage} = await listStreams(page === INITIAL_PAGE ? null : page);
+      if (streams) {
+        if (page === INITIAL_PAGE)
+          await dispatch(setStreams(streams, my)); // initialise list from scratch
+        else dispatch(appendStreams(streams, my)); // else append data to list
+      }
+      return nextPage;
+    } catch (error) {
+      console.log("post list update failed", error);
+      return null;
+    }
+  };
+};
+
+export const setLiveStreamStatus = (streamId, status) => {
+  return async (dispatch, getState) => {
+    try {
+      let myLiveStreams = [...getState().social.myLiveStreams];
+      let liveStreams = [...getState().social.liveStreams];
+      myLiveStreams = myLiveStreams.map(stream=>{
+        if(stream._id===streamId)
+          stream.status=status;
+        return stream;
+      });
+      dispatch(setStreams(myLiveStreams,true));
+      liveStreams = liveStreams.map(stream=>{
+        if(stream._id===streamId)
+          stream.status=status;
+        return stream;
+      });
+      dispatch(setStreams(liveStreams));
+    } catch (error) {
+      console.log("stream status update failed", error);
       return null;
     }
   };

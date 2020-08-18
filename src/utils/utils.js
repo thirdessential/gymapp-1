@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import store from '../store/configureStore';
 import {makeCall} from "../API";
 import strings, {bmiVerdicts} from "../constants/strings";
-import {defaultDP, userTypes, WEEK_DAYS} from "../constants/appConstants";
+import {defaultDP, MONTH_NAMES, userTypes, WEEK_DAY_NAMES, WEEK_DAYS} from "../constants/appConstants";
 import ImagePicker from "react-native-image-picker";
 import {showError} from "./notification";
 import {useCode} from "react-native-reanimated";
@@ -26,13 +26,32 @@ export const formattedTime = date => {
   let minZero = minutes === 0 ? '0' : '';
   return `${hours}:${minutes}${minZero} ${AM_PM}`;
 }
+export const formattedDayDate = date => {
+  const dateObj = new Date(date);
+  const dayName = WEEK_DAY_NAMES[dateObj.getDay()];
+  const monthName = MONTH_NAMES[dateObj.getMonth()];
+  return `${dayName}, ${monthName} ${dateObj.getDate()}`;
+}
+export const roundTimeQuarterHour = (time) => {
+  let timeToReturn = new Date(time);
+
+  timeToReturn.setMilliseconds(Math.round(timeToReturn.getMilliseconds() / 1000) * 1000);
+  timeToReturn.setSeconds(Math.round(timeToReturn.getSeconds() / 60) * 60);
+  timeToReturn.setMinutes(Math.round(timeToReturn.getMinutes() / 15) * 15);
+  return timeToReturn;
+}
 
 export const militaryTimeToString = time => {
   if (!time) return '';
   const suffix = time >= 1200 ? 'PM' : 'AM';
   return `${time.slice(0, 2)}:${time.slice(2)} ${suffix}`;
 }
+export const formattedMilitaryRange = (time, duration) => {
+  const timeObj = new Date(time);
+  timeObj.setMinutes(timeObj.getMinutes() + parseInt(duration))
 
+  return `${formattedTime(time)}  -  ${formattedTime(timeObj)}`;
+}
 export const findMissingDays = days => {
   let AllDays = Object.values(WEEK_DAYS);
   return AllDays.filter(x => !days.includes(x));
@@ -232,7 +251,6 @@ export const getBmiVerdict = (bmi) => {
     return {text: bmiVerdicts.high, color: bmiColors.yellow};
   else return {text: bmiVerdicts.unhealthy, color: bmiColors.red};
 }
-
 
 export function calculateBmi(weight, height) {
   weight = parseInt(weight);

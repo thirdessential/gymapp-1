@@ -7,7 +7,6 @@ import {
   ActivityIndicator,
   Keyboard,
   Image,
-  ScrollView,
   StatusBar
 } from "react-native";
 import { Item, Input } from "native-base";
@@ -16,9 +15,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import TripleLine from "../../../assets/images/tripleLine.png";
 import RouteNames from "../../navigation/RouteNames";
 import { attemptGoogleAuth, signInWithEmail } from "../../API";
-import LinearGradient from "react-native-linear-gradient";
 import Loader from "../../components/Loader";
-import { showMessage } from "react-native-flash-message";
 import strings from "../../constants/strings";
 import fonts from "../../constants/fonts";
 import fontSizes from '../../constants/fontSizes'
@@ -29,8 +26,6 @@ import Icon from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather";
 import { showError } from "../../utils/notification";
 import Dash from "react-native-dash";
-
-
 
 export default class SignIn extends Component {
   constructor(props) {

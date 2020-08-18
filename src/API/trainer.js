@@ -225,3 +225,27 @@ export const callbackDone = async (callbackId) => {
     return false;
   }
 }
+export const scheduleStream = async (streamdata) => {
+  try {
+    let response = await axios.post(`/live/schedule`, streamdata);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const startStream = async (streamId) => {
+  try {
+    let response = await axios.put(`/live/start`, {streamId});
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

@@ -38,7 +38,6 @@ class PerformStretch extends PureComponent {
 
   setExerciseData = () => {
     const {exercise} = this.props.route.params;
-
     this.setState({exercise});
   };
 

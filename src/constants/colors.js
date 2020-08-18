@@ -62,7 +62,7 @@ export const appTheme = {
   tertiaryGradient: darkPallet.gradients.blue,
   quaternaryGradient: darkPallet.gradients.purple,
   disabledGradient: darkPallet.gradients.grey,
-
+  live:'#E51D23',
   textPrimary:'white',
 }
 
@@ -70,7 +70,8 @@ export const bmiColors = {
   blue:'#4da9e7',
   lightBlue:'#00e6cf',
   yellow:'#d0bb1f',
-  red:'#e91457'
+  red:'#e91457',
+  redFaded:'#e9145788'
 }
 
 export default colors;
