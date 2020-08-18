@@ -41,7 +41,7 @@ function timeline(props) {
       </>
     );
   };
-  renderCards = (item) => {
+  const renderCards = (item) => {
     let user = item.user || item.trainer;
     if (!user) return null;
     let { displayPictureUrl, name, id } = user;

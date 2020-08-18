@@ -1,16 +1,16 @@
-
-import React, {PureComponent} from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import {connect} from "react-redux";
+import React, { PureComponent } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import FastImage from "react-native-fast-image";
+import { Bar } from "react-native-progress";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import fonts from "../../constants/fonts";
-import {spacing} from "../../constants/dimension";
-import {appTheme} from "../../constants/colors";
-import FastImage from "react-native-fast-image";
+import fontSizes from "../../constants/fontSizes";
+import { spacing } from "../../constants/dimension";
+import { appTheme } from "../../constants/colors";
+import { screenWidth } from "../../utils/screenDimensions";
+import { hitSlop20 } from "../../constants/styles";
 
 class PerformStretch extends PureComponent {
   constructor(props) {
@@ -20,10 +20,6 @@ class PerformStretch extends PureComponent {
       timer: 45,
       pause: true,
     };
-  }
-
-  componentDidMount() {
-    this.setExerciseData();
   }
 
   init = async () => {
@@ -44,18 +40,18 @@ class PerformStretch extends PureComponent {
     //if paused then dont decrement timer
     pause
       ? this.setState({
-          timer: time,
-        })
+        timer: time,
+      })
       : this.setState(
-          {
-            timer: time - 1,
-          },
-          async () => {
-            if (this.state.timer === 0) {
-              this.decrementClock(this.state.timer, true);
-            }
-          }
-        );
+      {
+        timer: time - 1,
+      },
+      async () => {
+        if (this.state.timer === 0) {
+          this.decrementClock(this.state.timer, true);
+        }
+      }
+      );
   };
 
   componentWillUnmount() {
@@ -82,8 +78,9 @@ class PerformStretch extends PureComponent {
   );
 
   setExerciseData = () => {
-    const {exercise} = this.props.route.params;
-    this.setState({exercise});
+    const { exercise } = this.props.route.params;
+
+    this.setState({ exercise });
   };
 
   renderExerciseName = () => (
@@ -137,11 +134,6 @@ class PerformStretch extends PureComponent {
         />
       </TouchableOpacity>
     </View>
-  );
-  showTime = () => (
-    <Text style={styles.time}>
-      {this.state.timer ? this.state.timer : "Well done"}
-    </Text>
   );
 
   renderProgressBar = () => {

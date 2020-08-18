@@ -178,8 +178,7 @@ renderChart=()=>{
         {/* {this.renderUser()} */}
         {this.renderChart()}
         <View style={{marginHorizontal:spacing.medium_lg}}><LiveCardList data={this.state.data}/></View>
-        {this.renderUser()}
-        {/*<LiveCardList data={this.state.data}/>*/}
+        {/*{this.renderUser()}*/}
         <View style={{flex: 1, width: "100%", marginTop: spacing.medium_lg}}>
           <TimelineTabview
             today={todaysEvents}
