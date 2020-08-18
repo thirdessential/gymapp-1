@@ -48,7 +48,6 @@ class MyStreams extends PureComponent {
       this.setState({loading: false});
       this.props.setStreamFinished(stream._id);
     }
-
   }
   renderLiveStreams = () => {
     return (

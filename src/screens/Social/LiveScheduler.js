@@ -107,15 +107,18 @@ class LiveScheduler extends PureComponent {
         if (res.success) {
           this.setState({streamStarted: true});
           await hostMeeting(stream.meetingId, res.token, this.props.userName);
-          this.props.setStreamFinished(stream._id);
           this.props.navigation.goBack();
+          await this.props.updateLiveStreams();
+          await this.props.updateMyLiveStreams();
+          this.props.setStreamFinished(stream._id);
         }
       } else {
         this.props.navigation.goBack();
+        this.props.updateLiveStreams();
+        this.props.updateMyLiveStreams();
         // this.props.navigation.replace(RouteNames.MyStreams);
       }
-      this.props.updateLiveStreams();
-      this.props.updateMyLiveStreams();
+
     }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({submitting: false});

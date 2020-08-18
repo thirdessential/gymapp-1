@@ -85,8 +85,9 @@ class App extends React.Component {
           const {hostId, message} = data;
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
           await updateLiveStreams(INITIAL_PAGE);
-          if (hostId !== userId)
+          if (hostId != userId){
             showInfo(message);
+          }
           break;
         default:
           break;
