@@ -76,7 +76,7 @@ class activity extends Component {
             this.props.navigation.navigate(RouteNames.MyProfile);
           }}
         >
-          <View style={{ marginRight: 15 }}>
+          <View style={styles.rightMargin}>
             <Image
               source={{
                 uri: userData.displayPictureUrl || defaultDP,
@@ -225,6 +225,9 @@ const styles = StyleSheet.create({
     width: 20,
   },
   imageHeader: { height: 30, width: 30, borderRadius: 20 },
+  rightMargin:{
+    marginRight: spacing.medium
+  }
 });
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
