@@ -74,6 +74,7 @@ class Activity extends PureComponent {
 
   componentDidMount() {
     setAvailable();
+
     const {
       navigation,
       getActivities,
@@ -81,9 +82,11 @@ class Activity extends PureComponent {
       syncCoupons,
       getCallbacks,
       userType,
+      syncSubscriptions,
     } = this.props;
     updateUserData();
     syncCoupons();
+    syncSubscriptions();
     userType === userTypes.TRAINER && getCallbacks();
     this.unsubscribeFocus = navigation.addListener("focus", (e) => {
       getActivities();
@@ -175,6 +178,8 @@ renderChart=()=>{
         {/* {this.renderUser()} */}
         {this.renderChart()}
         <View style={{marginHorizontal:spacing.medium_lg}}><LiveCardList data={this.state.data}/></View>
+        {this.renderUser()}
+        {/*<LiveCardList data={this.state.data}/>*/}
         <View style={{flex: 1, width: "100%", marginTop: spacing.medium_lg}}>
           <TimelineTabview
             today={todaysEvents}
@@ -242,6 +247,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateUserData: () => dispatch(actionCreators.updateUserData()),
   syncCoupons: () => dispatch(actionCreators.syncCoupons()),
   getCallbacks: () => dispatch(actionCreators.getCallbacks()),
+  syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activity);

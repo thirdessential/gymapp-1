@@ -17,7 +17,7 @@ import PackageList from "../screens/App/Trainer/PackageList";
 import PackageEdit from "../screens/App/Trainer/PackageEdit";
 import SlotsView from "../screens/App/Trainer/Subscriptions";
 import Profile from "../screens/App/Profile";
-import BMI from "../screens/App/BMI";
+import BMI from "../screens/Fitness/BMI";
 import Speech from "../screens/App/Speech";
 import CouponMachine from "../screens/App/Trainer/CouponMachine";
 import AccountDash from "../screens/App/Trainer/AccountDash";
@@ -30,8 +30,15 @@ import SelectExercise from "../screens/Fitness/SelectExercise";
 import Exercises from "../screens/Fitness/Exercises";
 import PerformExercise from "../screens/Fitness/PerformExercise";
 import PerformStretch from "../screens/Fitness/PerformStretch";
+import LiveScheduler from "../screens/Social/LiveScheduler";
+import store from "../store/configureStore";
+import {userTypes} from "../constants/appConstants";
+import MyStreams from "../screens/Social/MyStreams";
+import strings from "../constants/strings";
 
 const rootStack = () => {
+  let {userType} = store.getState().user;
+  const isTrainer = userType === userTypes.TRAINER;
   return (
     <Stack.Navigator screenOptions={defaultHeaderStyle}>
       <Stack.Screen name={RouteNames.RootTab} component={AppTabNavigator} options={{title: '', headerShown: false,}}/>
@@ -51,23 +58,105 @@ const rootStack = () => {
           headerTransparent: true,
         }}
       />
-      <Stack.Screen
-        name={RouteNames.Enroll} component={Enroll}
-        options={{
-          title: 'Slots',
-        }}/>
-      <Stack.Screen
-        name={RouteNames.Payment}
-        component={Payment}
-        options={{
-          title: 'Complete Payment',
-        }}/>
-      <Stack.Screen
-        name={RouteNames.PackagesView}
-        component={PackagesView}
-        options={{
-          title: 'Packages',
-        }}/>
+      {
+        !isTrainer && ( // User specific screens
+          <>
+            <Stack.Screen
+              name={RouteNames.Enroll} component={Enroll}
+              options={{
+                title: 'Slots',
+              }}/>
+            <Stack.Screen
+              name={RouteNames.Payment}
+              component={Payment}
+              options={{
+                title: 'Complete Payment',
+              }}/>
+            <Stack.Screen
+              name={RouteNames.PackagesView}
+              component={PackagesView}
+              options={{
+                title: 'Packages',
+              }}/>
+          </>
+        )
+      }
+      {
+        isTrainer && ( // Trainer specific screens
+          <>
+            <Stack.Screen
+              name={RouteNames.CallRequests}
+              component={CallRequests}
+              options={{
+                title: "Call Requests",
+              }}
+            />
+            <Stack.Screen
+              name={RouteNames.Packages}
+              component={PackageList}
+              options={{
+                title: "My Packages",
+              }}
+            />
+            <Stack.Screen
+              name={RouteNames.PackageEdit}
+              component={PackageEdit}
+              options={{title: "", headerTransparent: true}}
+            />
+            <Stack.Screen
+              name={RouteNames.CouponMachine}
+              component={CouponMachine}
+              options={{
+                title: "Coupons",
+              }}
+            />
+            <Stack.Screen
+              name={RouteNames.AccountDash}
+              component={AccountDash}
+              options={{
+                title: "Dashboard",
+                headerTintColor: appTheme.darkBackground,
+                headerStyle: {
+                  backgroundColor: appTheme.brightContent,
+                },
+              }}
+            />
+            <Stack.Screen
+              name={RouteNames.AccountStatement}
+              component={AccountStatement}
+              options={{
+                title: "Account Statement",
+                headerTintColor: appTheme.darkBackground,
+                headerStyle: {
+                  backgroundColor: appTheme.brightContent,
+                },
+              }}
+            />
+            <Stack.Screen
+              name={RouteNames.AddAccount}
+              component={AddAccount}
+              options={{
+                title: "Add Account",
+              }}
+            />
+            <Stack.Screen
+              name={RouteNames.LiveScheduler}
+              component={LiveScheduler}
+              options={{
+                title: "",
+                headerTransparent: true,
+              }}
+            />
+            <Stack.Screen
+              name={RouteNames.MyStreams}
+              component={MyStreams}
+              options={{
+                title: strings.MY_LIVE_STREAMS,
+              }}
+            />
+          </>
+        )
+      }
       <Stack.Screen
         name={RouteNames.PostViewer}
         component={PostViewer}
@@ -80,25 +169,8 @@ const rootStack = () => {
         options={{
           title: 'Create post',
         }}/>
-      <Stack.Screen
-        name={RouteNames.CallRequests}
-        component={CallRequests}
-        options={{
-          title: "Call Requests",
-        }}
-      />
-      <Stack.Screen
-        name={RouteNames.Packages}
-        component={PackageList}
-        options={{
-          title: "My Packages",
-        }}
-      />
-      <Stack.Screen
-        name={RouteNames.PackageEdit}
-        component={PackageEdit}
-        options={{title: "", headerTransparent: true}}
-      />
+
+
       <Stack.Screen
         name={RouteNames.SubscriptionsView}
         component={SlotsView}
@@ -123,42 +195,6 @@ const rootStack = () => {
         component={Speech}
         options={{
           title: "Speech",
-        }}
-      />
-      <Stack.Screen
-        name={RouteNames.CouponMachine}
-        component={CouponMachine}
-        options={{
-          title: "Coupons",
-        }}
-      />
-      <Stack.Screen
-        name={RouteNames.AccountDash}
-        component={AccountDash}
-        options={{
-          title: "Dashboard",
-          headerTintColor: appTheme.darkBackground,
-          headerStyle: {
-            backgroundColor: appTheme.brightContent,
-          },
-        }}
-      />
-      <Stack.Screen
-        name={RouteNames.AccountStatement}
-        component={AccountStatement}
-        options={{
-          title: "Account Statement",
-          headerTintColor: appTheme.darkBackground,
-          headerStyle: {
-            backgroundColor: appTheme.brightContent,
-          },
-        }}
-      />
-      <Stack.Screen
-        name={RouteNames.AddAccount}
-        component={AddAccount}
-        options={{
-          title: "Add Account",
         }}
       />
       <Stack.Screen

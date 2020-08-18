@@ -39,6 +39,8 @@ export {
   rejectCallBack,
   callbackDone,
   getCallbacks,
+  scheduleStream,
+  startStream
 } from './trainer';
 
 export {
@@ -73,7 +75,9 @@ export {
   answerQuestion,
   unlikeAnswer,
   deletePost,
-  reportQuestion
+  reportQuestion,
+  listLiveStreams,
+  listMyLiveStreams,
 } from './social';
 
 export {

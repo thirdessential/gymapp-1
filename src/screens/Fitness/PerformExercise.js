@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, {PureComponent} from "react";
 import {
   StyleSheet,
   Image,
@@ -9,18 +9,19 @@ import {
   Keyboard,
   Button,
 } from "react-native";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
-import { spacing } from "../../constants/dimension";
-import { appTheme } from "../../constants/colors";
-import { screenWidth } from "../../utils/screenDimensions";
+import {spacing} from "../../constants/dimension";
+import {appTheme, bmiColors} from "../../constants/colors";
+import {screenWidth} from "../../utils/screenDimensions";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { hitSlop20 } from "../../constants/styles";
+import {hitSlop20} from "../../constants/styles";
 import FastImage from "react-native-fast-image";
-import { Bar } from "react-native-progress";
+import {Bar} from "react-native-progress";
 import RouteNames from "../../navigation/RouteNames";
+import strings from "../../constants/strings";
 
 class PerformExercise extends PureComponent {
   constructor(props) {
@@ -46,7 +47,7 @@ class PerformExercise extends PureComponent {
       timer: this.state.reps[parseInt(this.state.currentRepIndex) - 1] *this.state.levelMultiplier[this.state.level] ,
     });
     this.clockCall = setInterval(() => {
-      this.decrementClock(this.state.timer>1?this.state.timer:1, this.state.pause);
+      this.decrementClock(this.state.timer > 1 ? this.state.timer : 1, this.state.pause);
     }, 1000);
   };
 
@@ -59,28 +60,28 @@ class PerformExercise extends PureComponent {
     //if paused then dont decrement timer
     pause
       ? this.setState({
-          timer: time,
-        })
+        timer: time,
+      })
       : this.setState({
-          timer: time - 1,
-        },
-        async () => {
-          if (this.state.timer === 0) {
-            //if timer has reached 0 and we havent reached last index then increment
-            if (this.state.currentRepIndex !== this.state.reps.length) {
-              await this.setState({
-                currentRepIndex: this.state.currentRepIndex + 1,
-              });
-              //set timer according to curent rep index
-              await this.setState({
-                timer: this.state.reps[this.state.currentRepIndex - 1],
-              });
-            } else {
-              //if timer has reached 0 and all elements of reps array are treaversed then clear interval
-              this.decrementClock(this.state.timer, true);
-            }
+        timer: time - 1,
+      },
+      async () => {
+        if (this.state.timer === 0) {
+          //if timer has reached 0 and we havent reached last index then increment
+          if (this.state.currentRepIndex !== this.state.reps.length) {
+            await this.setState({
+              currentRepIndex: this.state.currentRepIndex + 1,
+            });
+            //set timer according to curent rep index
+            await this.setState({
+              timer: this.state.reps[this.state.currentRepIndex - 1],
+            });
+          } else {
+            //if timer has reached 0 and all elements of reps array are treaversed then clear interval
+            this.decrementClock(this.state.timer, true);
           }
-        });
+        }
+      });
   };
 
   componentWillUnmount() {
@@ -102,7 +103,7 @@ class PerformExercise extends PureComponent {
   );
 
   setExerciseData = () => {
-    const { restTime, reps, exercise } = this.props.route.params;
+    const {restTime, reps, exercise} = this.props.route.params;
     //functions to enter rest time between elements;
     for (i = 0; i < this.state.reps.length; i++) {
       if (i % 2 == 0) {
@@ -110,42 +111,50 @@ class PerformExercise extends PureComponent {
           stages: this.state.stages.push(reps[i] * this.state.levelMultiplier[this.state.level]),
         });
         if (i != reps.length - 1) {
-          this.setState({ stages: this.state.stages.push(restTime) });
+          this.setState({stages: this.state.stages.push(restTime)});
         }
       } else {
         this.setState({
           stages: this.state.stages.push(reps[i] * this.state.levelMultiplier[this.state.level]),
         });
         if (i != reps.length - 1) {
-          this.setState({ stages: this.state.stages.push(restTime) });
+          this.setState({stages: this.state.stages.push(restTime)});
         }
       }
     }
     //console.log(this.state.stages);
-    this.setState({ reps: this.state.stages });
-    this.setState({ exercise });
+    this.setState({reps: this.state.stages});
+    this.setState({exercise});
   };
 
-  showTime = (index) =>
-    //since alternate elements are given rest time , then skip those elements
-    index % 2 === 0 ? (
+  showTime = index => {
+    if (index % 2) {
+      return this.state.timer ? (
+        <View style={styles.centerContent}>
+          <Text style={styles.subtitle}>{strings.REST}</Text>
+          <Text style={styles.time}>{this.state.timer}</Text>
+        </View>
+      ) : <Text style={styles.time}>{strings.WELL_DONE}</Text>
+    } else return (
       <Text style={styles.time}>
-        {this.state.timer ? this.state.timer : "Well done"}
-      </Text>
-    ) : (
-      <Text style={styles.time}>
-        {this.state.timer ? (
-          <Text>Rest Time {this.state.timer}</Text>
-        ) : (
-          "Well done"
-        )}
+        {this.state.timer ? this.state.timer : strings.WELL_DONE}
       </Text>
     );
+  }
+
   renderProgressBar = (time, reps) => {
     let progress;
     progress = 1 - time / reps;
     return (
-      <Bar progress={progress ? progress : 0} width={null} color="green" />
+      <Bar
+        progress={progress ? progress : 0}
+        width={null}
+        color={bmiColors.blue}
+        borderWidth={0}
+        borderRadius={0}
+        height={4}
+        unfilledColor={appTheme.greyC}
+      />
     );
   };
 
@@ -165,8 +174,8 @@ class PerformExercise extends PureComponent {
       <TouchableOpacity
         hitSlop={hitSlop20}
         onPress={() => {
-          this.setState({ timer: this.state.reps[0] });
-          this.setState({ currentRepIndex: 1 });
+          this.setState({timer: this.state.reps[0]});
+          this.setState({currentRepIndex: 1});
         }}
       >
         <MaterialCommunityIcons
@@ -178,7 +187,7 @@ class PerformExercise extends PureComponent {
       <TouchableOpacity
         hitSlop={hitSlop20}
         onPress={() => {
-          this.setState({ pause: !this.state.pause });
+          this.setState({pause: !this.state.pause});
         }}
       >
         <Ionicons
@@ -191,7 +200,7 @@ class PerformExercise extends PureComponent {
         hitSlop={hitSlop20}
         onPress={() => {
           if (this.state.currentRepIndex !== this.state.reps.length) {
-            this.setState({ currentRepIndex: this.state.currentRepIndex + 1 });
+            this.setState({currentRepIndex: this.state.currentRepIndex + 1});
             this.setState({
               timer: this.state.reps[this.state.currentRepIndex],
             });
@@ -216,7 +225,7 @@ class PerformExercise extends PureComponent {
         <View style={styles.numView}>
           {this.state.reps.map((rep, index) =>
             index % 2 === 0 ? (
-              <View>
+              <View key={index.toString()}>
                 <Text
                   style={
                     [
@@ -224,11 +233,11 @@ class PerformExercise extends PureComponent {
                       {
                         color:
                           this.state.currentRepIndex > index
-                            ? "green"
+                            ? bmiColors.blue
                             : "black",
                       },
                     ]
-                    //make it green when we reach that exercise
+                    //make it blue when we reach that exercise
                   }
                 >
                   x{rep/this.state.levelMultiplier[this.state.level]}
@@ -244,7 +253,7 @@ class PerformExercise extends PureComponent {
             ) : null
           )}
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={{}}>
           {this.renderProgressBar(
             this.state.timer,
             this.state.reps[this.state.currentRepIndex - 1]
@@ -259,7 +268,7 @@ class PerformExercise extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: spacing.medium_lg,
+    // paddingHorizontal: spacing.medium_lg,
     backgroundColor: appTheme.textPrimary,
   },
   gifView: {
@@ -282,12 +291,14 @@ const styles = StyleSheet.create({
   buttonView: {
     flexDirection: "row",
     justifyContent: "space-around",
-    borderColor: appTheme.greyC,
-    borderTopWidth: 1,
+    // borderColor: appTheme.greyC,
+    // borderTopWidth: 1,
     width: screenWidth,
-    position: "absolute",
-    bottom: 0,
     paddingVertical: spacing.medium_sm,
+  },
+  centerContent: {
+    alignItems: 'center',
+    paddingBottom: spacing.medium_sm
   },
   numView: {
     flexDirection: "row",
@@ -310,6 +321,10 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
   },
+  subtitle:{
+    fontSize: 30,
+    fontFamily: fonts.CenturyGothic,
+  }
 });
 
 export default PerformExercise;

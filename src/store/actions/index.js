@@ -42,6 +42,7 @@ export {
   acceptCallback,
   callbackDone,
   rejectCallback,
+  scheduleStream
 } from './trainer.actions';
 
 export {
@@ -57,7 +58,9 @@ export {
   updateQuestions,
   answerQuestion,
   deletePost,
-  reportQuestion
+  reportQuestion,
+  updateLiveStreams,
+  setLiveStreamStatus,
 } from './social.actions';
 
 export {

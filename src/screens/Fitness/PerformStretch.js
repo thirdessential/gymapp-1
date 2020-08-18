@@ -1,16 +1,16 @@
-import React, { PureComponent } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+import React, {PureComponent} from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import {connect} from "react-redux";
+
 import fonts from "../../constants/fonts";
-import fontSizes from "../../constants/fontSizes";
-import { spacing } from "../../constants/dimension";
-import { appTheme } from "../../constants/colors";
-import { screenWidth } from "../../utils/screenDimensions";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { hitSlop20 } from "../../constants/styles";
+import {spacing} from "../../constants/dimension";
+import {appTheme} from "../../constants/colors";
 import FastImage from "react-native-fast-image";
-import { Bar } from "react-native-progress";
-import RouteNames from "../../navigation/RouteNames";
 
 class PerformStretch extends PureComponent {
   constructor(props) {
@@ -82,9 +82,8 @@ class PerformStretch extends PureComponent {
   );
 
   setExerciseData = () => {
-    const { exercise } = this.props.route.params;
-
-    this.setState({ exercise });
+    const {exercise} = this.props.route.params;
+    this.setState({exercise});
   };
 
   renderExerciseName = () => (

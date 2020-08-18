@@ -1,3 +1,5 @@
+export const SET_STREAMS = 'SET_STREAMS';
+export const APPEND_STREAMS = 'APPEND_STREAMS';
 export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
 export const SET_AUTHENTICATED = 'SET_AUTHENTICATED';
 export const SET_USER_LIST = 'SET_USER_LIST';

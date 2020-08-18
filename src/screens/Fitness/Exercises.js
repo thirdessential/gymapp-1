@@ -46,9 +46,8 @@ const categories = [
       "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=626&q=80",
     type: "YOGA",
   },
- 
- 
-  
+
+
 ];
 
 const bodyParts = [
@@ -93,7 +92,7 @@ const bodyParts = [
       "https://manofmany.com/wp-content/uploads/2019/03/10-Best-Shoulder-Exercises-for-Men-Man-lifting-weights-shoulder-muscle-1280x720.jpg",
     type: "SHOULDERS",
   },
-  
+
 ];
 
 class Exercises extends PureComponent {
@@ -119,72 +118,63 @@ class Exercises extends PureComponent {
       </View>
     </TouchableOpacity>
   );
-  feautred = (uri, type,desc) => (
-    <TouchableOpacity onPress={()=>this.openSelectExercise(type)} style={{}}>
-    <View style={styles.imageContainer}   >
-      <Image
-        style={styles.image}
-        source={{
-          uri: uri,
-        }}
-      />
-      <View style={styles.imageTitle}>
-        <Text style={styles.cardText}>{type}</Text>
-        <Text style={styles.imageSubtitle}>{desc}</Text>
+  feautred = (uri, type, desc) => (
+    <TouchableOpacity onPress={() => this.openSelectExercise(type)} style={{}}>
+      <View style={styles.imageContainer}>
+        <Image
+          style={styles.image}
+          source={{
+            uri: uri,
+          }}
+        />
+        <View style={styles.imageTitle}>
+          <Text style={styles.cardText}>{type}</Text>
+          <Text style={styles.imageSubtitle}>{desc}</Text>
+        </View>
       </View>
-    </View>
     </TouchableOpacity>
   );
 
   render() {
     return (
-      <>
-        <ScrollView
-          style={styles.container}
-          showsVerticalScrollIndicator={false}
+      <ScrollView
+        style={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
+        <View
+          style={styles.headingContainer}
         >
-          <View
-            style={{
-              marginTop: spacing.medium_sm,
-              marginLeft: spacing.space_40,
-            }}
-          >
-            <Text style={styles.featuredText}>{strings.FEATURED_WORKOUT}</Text>
-          </View>
-          {Math.floor(Math.random() * 10) % 2 == 0
-            ? this.feautred(bodyParts[0].url, bodyParts[0].type,'Abdominal exercises affect the abdominal muscles ')
-            : this.feautred(bodyParts[5].url, bodyParts[5].type,'Workout that aims to hit all the major muscle groups')}
-          <View style={styles.itemContainer}>
-            <View style={styles.optionContainer}>
-              <View style={{marginLeft: spacing.large_lg}}>
-                <Text style={styles.discover}>{strings.DISCOVER}</Text>
-              </View>
-              <ScrollView>
-                <View style={styles.horizontalList}>
-                  <FlatList
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    style={styles.flatList}
-                    keyExtractor={(item) => item.type}
-                    data={bodyParts}
-                    renderItem={this.renderItem}
-                  />
-                </View>
-                <View style={styles.horizontalList}>
-                  <FlatList
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    style={styles.flatList}
-                    keyExtractor={(item) => item.type}
-                    data={categories}
-                    renderItem={this.renderItem}
-                  />
-                </View>
-              </ScrollView>
+          <Text style={styles.featuredText}>{strings.FEATURED_WORKOUT}</Text>
+        </View>
+        {Math.floor(Math.random() * 10) % 2 === 0
+          ? this.feautred(bodyParts[0].url, bodyParts[0].type, 'Abdominal exercises affect the abdominal muscles ')
+          : this.feautred(bodyParts[5].url, bodyParts[5].type, 'Workout that aims to hit all the major muscle groups')}
+        <View style={styles.itemContainer}>
+            <View style={{marginLeft: spacing.large_lg}}>
+              <Text style={styles.discover}>{strings.DISCOVER}</Text>
             </View>
-          </View>
-        </ScrollView>
-      </>
+            <View style={styles.horizontalList}>
+              <FlatList
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                style={styles.flatList}
+                keyExtractor={(item) => item.type}
+                data={bodyParts}
+                renderItem={this.renderItem}
+              />
+            </View>
+            <View style={styles.horizontalList}>
+              <FlatList
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                style={styles.flatList}
+                keyExtractor={(item) => item.type}
+                data={categories}
+                renderItem={this.renderItem}
+              />
+            </View>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -193,10 +183,13 @@ const styles = StyleSheet.create({
   gridView: {
     flex: 1,
   },
-
   container: {
     backgroundColor: appTheme.background,
     flex: 1,
+  },
+  headingContainer:{
+    marginTop: spacing.medium_sm,
+    marginLeft: spacing.space_40,
   },
   featuredText: {
     color: appTheme.textPrimary,
@@ -235,16 +228,13 @@ const styles = StyleSheet.create({
     flex: 1,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
-    height: screenHeight / 2,
+    paddingVertical: spacing.medium_lg,
+    // height: screenHeight / 2,
   },
   discover: {
     color: appTheme.textPrimary,
     fontSize: fontSizes.h0,
     fontFamily: fonts.CenturyGothic,
-  },
-
-  optionContainer: {
-    marginTop: spacing.medium_lg,
   },
   horizontalList: {
     marginTop: spacing.medium_lg,
