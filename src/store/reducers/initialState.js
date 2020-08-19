@@ -58,5 +58,5 @@ export const fitnessState = {
 }
 
 export const notificationState = {
-  notifications:{}
+  notifications:[]
 }

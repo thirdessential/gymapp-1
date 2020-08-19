@@ -11,7 +11,7 @@ import {updateAxiosToken} from "../API";
 import {
   callbackStatus,
   firebaseTopics,
-  INITIAL_PAGE,
+  INITIAL_PAGE, notificationActionTypes,
   remoteMessageTypes,
   storageKeys,
   videoTestMode
@@ -34,6 +34,7 @@ import {drawerLabelStyle} from "../constants/styles";
 import strings from "../constants/strings";
 import {setWhatsappInstalled} from "../utils/share";
 import RootStack from "./RootStack";
+import {not} from "react-native-reanimated";
 
 messaging().setBackgroundMessageHandler(callHandler);
 configureFCMNotification();
@@ -52,47 +53,71 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    const {setAuthenticated, setIncomingCall, updatePosts, userId, updateLiveStreams} = this.props;
+    const {setAuthenticated} = this.props;
+    // addNotification('Hola amigo a notification arrived')
     setAuthenticated(false); // TODO: Remove this line and fix auth blacklisting
     changeNavigationBarColor(appTheme.darkBackground);
     this.authSubscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
     this.syncing = false;
     await this.checkCallData();
+    this.checkNotificationData();
     AppState.addEventListener("change", this._handleAppStateChange);
     messaging().onMessage(async remoteMessage => {
       console.log("Remote message received in app", remoteMessage);
       const {data} = remoteMessage;
-      switch (data.type) {
-        case remoteMessageTypes.CALL:
-          setIncomingCall(remoteMessage.data, true);
-          break;
-        case remoteMessageTypes.APPOINTMENT:
-          const {content} = data;
-          if (!!content)
-            showInfo(content);
-          break;
-        case remoteMessageTypes.UPDATE_POSTS:
-          if (data.userId === userId) {
-            console.log("received self post update notiff, taking no action");
-          } else {
-            console.log("received post update notiff, updating posts");
-            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-            await updatePosts(INITIAL_PAGE);
-            showInfo(strings.NEW_POSTS);
-          }
-          break;
-        case remoteMessageTypes.GENERIC_NOTIFICATION:
-          const {hostId, message} = data;
-          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-          await updateLiveStreams(INITIAL_PAGE);
-          if (hostId != userId){
-            showInfo(message);
-          }
-          break;
-        default:
-          break;
-      }
+      this.notificationActionHandler(data);
     })
+  }
+
+  notificationActionHandler = async (data) => {
+    const {setIncomingCall, updatePosts, userId, updateLiveStreams, addNotification} = this.props;
+    switch (data.type) {
+      case remoteMessageTypes.CALL:
+        setIncomingCall(data, true);
+        break;
+      case remoteMessageTypes.APPOINTMENT:
+        const {content} = data;
+        if (!!content)
+          showInfo(content);
+        break;
+      case remoteMessageTypes.CALLBACK_REQ: {
+        const {content, displayImage} = data;
+        if (!!content)
+          showInfo(content);
+        addNotification(content, displayImage, notificationActionTypes.CALL_REQUEST)
+      }
+        break;
+      case remoteMessageTypes.CALLBACK_ACCEPT: {
+        const {content, displayImage} = data;
+        if (!!content)
+          showInfo(content);
+        addNotification(content, displayImage, notificationActionTypes.CALL_ACCEPT)
+      }
+        break;
+      case remoteMessageTypes.UPDATE_POSTS:
+        if (data.userId === userId) {
+          console.log("received self post update notiff, taking no action");
+        } else {
+          console.log("received post update notiff, updating posts");
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+          await updatePosts(INITIAL_PAGE);
+          showInfo(strings.NEW_POSTS);
+        }
+        break;
+      case remoteMessageTypes.GENERIC_NOTIFICATION: {
+        const {hostId, message, displayImage} = data;
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        await updateLiveStreams(INITIAL_PAGE);
+        if (hostId != userId) {
+          showInfo(message);
+          addNotification(message, displayImage, notificationActionTypes.STREAM);
+        } else addNotification(message, displayImage, notificationActionTypes.STREAM);
+
+      }
+        break;
+      default:
+        break;
+    }
   }
 
   checkCallData = async () => {
@@ -105,6 +130,13 @@ class App extends React.Component {
         this.props.setIncomingCall(callData);
         console.log("Set call data", callData);
       } else console.log("Stale call data detected and deleted");
+    }
+  }
+  checkNotificationData = async () => {
+    const notifications = await readFromStorage(storageKeys.PENDING_NOTIFICATIONS);
+    if (notifications) {
+      deleteFromStorage(storageKeys.PENDING_NOTIFICATIONS);
+      notifications.map(data=>this.notificationActionHandler(data))
     }
   }
 
@@ -241,6 +273,7 @@ const mapDispatchToProps = (dispatch) => ({
   setIncomingCall: (callData, inAppCall) => dispatch(actionCreators.setIncomingCall(callData, inAppCall)),
   updatePosts: (page) => dispatch(actionCreators.updatePosts(page)),
   updateLiveStreams: (page) => dispatch(actionCreators.updateLiveStreams(page)),
+  addNotification: (text, displayImage, type) => dispatch(actionCreators.addNotification(text, displayImage, type))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -2,22 +2,9 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {PureComponent} from 'react';
-import {
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  View,
-  Text,
-  FlatList,
-} from "react-native";
+import {FlatList, Image, StyleSheet, Text, View,} from "react-native";
 import {connect} from "react-redux";
-import {
-  MenuProvider,
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-} from "react-native-popup-menu";
+import {Menu, MenuOption, MenuOptions, MenuTrigger,} from "react-native-popup-menu";
 import Feather from "react-native-vector-icons/Feather";
 import Dash from "react-native-dash";
 
@@ -26,6 +13,8 @@ import {spacing} from "../constants/dimension";
 import fonts from "../constants/fonts";
 import fontSizes from "../constants/fontSizes";
 import strings from "../constants/strings";
+import {defaultDP} from "../constants/appConstants";
+import {screenWidth} from "../utils/screenDimensions";
 
 class NotificationList extends PureComponent {
   renderNotification = ({item}) => {
@@ -34,10 +23,7 @@ class NotificationList extends PureComponent {
         style={styles.menuOption}
       >
         <Image
-          source={{
-            uri:
-              "https://avatars0.githubusercontent.com/u/49580371?s=460&u=74f444710198d10f41e44f01637c3de3529db178&v=4",
-          }}
+          source={{uri: item.displayImage || defaultDP,}}
           style={styles.image}
           resizeMode={"contain"}
         />
@@ -46,22 +32,16 @@ class NotificationList extends PureComponent {
     )
   }
   separator = () => (
-    <Dash
-      style={styles.fullWidth}
-      dashGap={0.1}
-      dashColor={appTheme.brightContent}
-      dashThickness={0.8}
+    <View
+      style={styles.separator}
     />
   )
   renderFooter = () => {
     const {notifications} = this.props;
+    if (notifications.length > 0) return null;
     return (
       <MenuOption
-        style={{
-          flexDirection: "row",
-          backgroundColor: appTheme.background,
-          justifyContent: "center",
-        }}
+        style={[styles.menuOption,{justifyContent:'center'}]}
       >
         {
           notifications.length === 0 && (
@@ -71,6 +51,7 @@ class NotificationList extends PureComponent {
       </MenuOption>
     )
   }
+
 
   render() {
     const {notifications} = this.props;
@@ -112,12 +93,10 @@ class NotificationList extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: appTheme.background,
     flex: 1,
     paddingHorizontal: spacing.medium_sm,
   },
   darkBackground: {
-    backgroundColor: appTheme.darkBackground,
     flex: 1,
   },
   text: {
@@ -125,14 +104,14 @@ const styles = StyleSheet.create({
     color: appTheme.greyC,
     fontFamily: fonts.CenturyGothic,
     fontSize: fontSizes.h2,
-    marginRight: 20,
+    // marginRight: 20,
   },
   showOrHide: {
     marginLeft: spacing.medium_sm,
     color: appTheme.brightContent,
     fontFamily: fonts.CenturyGothic,
     fontSize: fontSizes.h2,
-    paddingVertical: spacing.small
+    // paddingVertical: spacing.small
   },
   bellIcon: {
     justifyContent: "center",
@@ -147,22 +126,25 @@ const styles = StyleSheet.create({
   },
   menuOption: {
     flexDirection: "row",
-    backgroundColor: appTheme.background,
+    backgroundColor: appTheme.darkGrey,
   },
   image: {
-    height: 30,
-    width: 30,
-    borderRadius: 20,
-    marginTop: 5,
+    height: 35,
+    width: 35,
+    borderRadius: 40,
+    marginTop: spacing.small,
   },
   fullWidth: {
     width: "100%"
   },
   optionsContainer: {
-    width: 250,
-    marginTop: 10
+    width: screenWidth / 1.5,
+  },
+  separator:{
+    width:'100%',
+    height:0.8,
+    backgroundColor:appTheme.brightContent
   }
-
 });
 
 const mapStateToProps = (state) => ({

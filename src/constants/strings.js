@@ -170,6 +170,8 @@ const strings = {
   ACCOUNT_CREATED: 'Account created',
   COULD_NOT_INITIATE_CALL: 'Could not initiate call',
   CALL_REQUESTS: 'Call Requests',
+  CALL_REQUEST: 'Call Request',
+  CALL_REQUEST_ACCEPTED: 'Call Request Accepted',
   SET_HEIGHT: 'Set Height',
   SUBSCRIBE_SUCCESS: 'Successfully subscribed to package',
   PAYMENT_SUCCESS: "Payment successful",
