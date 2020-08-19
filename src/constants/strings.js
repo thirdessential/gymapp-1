@@ -221,7 +221,8 @@ const strings = {
   GOING_LIVE_:'Going Live',
   LIVE: 'Live',
   MY_LIVE_STREAMS: 'My Live Streams',
-  NO_NOTIFICATIONS: 'No notifications'
+  NO_NOTIFICATIONS: 'No notifications',
+  MARK_ALL_READ: 'Mark All Read'
 
 };
 

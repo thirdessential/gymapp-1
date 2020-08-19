@@ -105,13 +105,24 @@ class App extends React.Component {
         }
         break;
       case remoteMessageTypes.GENERIC_NOTIFICATION: {
-        const {hostId, message, displayImage} = data;
+        const {hostId, message, displayImage, meetingId, meetingPassword} = data;
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         await updateLiveStreams(INITIAL_PAGE);
         if (hostId != userId) {
           showInfo(message);
-          addNotification(message, displayImage, notificationActionTypes.STREAM);
-        } else addNotification(message, displayImage, notificationActionTypes.STREAM);
+          addNotification(
+            message,
+            displayImage,
+            notificationActionTypes.STREAM,
+            {
+              meetingId,
+              meetingPassword
+            }
+          );
+        } else addNotification(message, displayImage, notificationActionTypes.STREAM, {
+          meetingId,
+          meetingPassword
+        });
 
       }
         break;
@@ -136,7 +147,7 @@ class App extends React.Component {
     const notifications = await readFromStorage(storageKeys.PENDING_NOTIFICATIONS);
     if (notifications) {
       deleteFromStorage(storageKeys.PENDING_NOTIFICATIONS);
-      notifications.map(data=>this.notificationActionHandler(data))
+      notifications.map(data => this.notificationActionHandler(data))
     }
   }
 
@@ -273,7 +284,7 @@ const mapDispatchToProps = (dispatch) => ({
   setIncomingCall: (callData, inAppCall) => dispatch(actionCreators.setIncomingCall(callData, inAppCall)),
   updatePosts: (page) => dispatch(actionCreators.updatePosts(page)),
   updateLiveStreams: (page) => dispatch(actionCreators.updateLiveStreams(page)),
-  addNotification: (text, displayImage, type) => dispatch(actionCreators.addNotification(text, displayImage, type))
+  addNotification: (text, displayImage, type, extraData) => dispatch(actionCreators.addNotification(text, displayImage, type, extraData))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -74,5 +74,6 @@ export {
 
 export {
   addNotification,
+  readNotification,
   syncNotifications,
 } from './notification.actions';

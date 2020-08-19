@@ -2,16 +2,24 @@ import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
 import cuid from "cuid";
 
-export const addNotification = (text, displayImage = null, type) => ({
+export const addNotification = (text, displayImage = null, type, data) => ({
   type: actionTypes.ADD_NOTIFICATION,
   payload: {
     notification: {
       id: cuid(),
       text,
       displayImage,
-      seen:false,
-      type
+      read:false,
+      type,
+      data
     }
+  },
+});
+
+export const readNotification = (id) => ({
+  type: actionTypes.READ_NOTIFICATION,
+  payload: {
+    id
   },
 });
 
