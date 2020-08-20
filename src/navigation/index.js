@@ -106,7 +106,6 @@ class App extends React.Component {
         break;
       case remoteMessageTypes.GENERIC_NOTIFICATION: {
         const {hostId, message, displayImage, meetingId, meetingPassword, sentDate} = data;
-        console.log("SDAE", sentDate)
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         await updateLiveStreams(INITIAL_PAGE);
         if (hostId != userId) {
@@ -121,11 +120,7 @@ class App extends React.Component {
               meetingPassword
             }
           );
-        } else addNotification(message, displayImage, notificationActionTypes.STREAM, sentDate, {
-          meetingId,
-          meetingPassword
-        });
-
+        }
       }
         break;
       default:

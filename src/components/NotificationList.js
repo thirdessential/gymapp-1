@@ -4,10 +4,11 @@
 import React, {PureComponent} from 'react';
 import {FlatList, Image, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import {connect} from "react-redux";
-import {Menu, MenuOption, MenuOptions, MenuTrigger,} from "react-native-popup-menu";
+import {Menu, MenuOption, MenuOptions, MenuTrigger, renderers} from "react-native-popup-menu";
 import Feather from "react-native-vector-icons/Feather";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en'
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo('en-US');
@@ -25,11 +26,12 @@ import {navigate} from "../navigation/RootNavigation";
 import {joinMeeting} from "../utils/zoomMeeting";
 
 class NotificationList extends PureComponent {
-  renderNotification = ({item}) => {
+  renderNotification = ({item, index}) => {
+
     const {sentDate} = item;
     const date = new Date(sentDate);
     console.log(date), sentDate;
-    const bgStyle = {backgroundColor: item.read ? appTheme.background : appTheme.darkGrey};
+    const bgStyle = {backgroundColor: index % 2 ? appTheme.background : appTheme.darkGrey};
     return (
       <MenuOption
         style={[styles.menuOption, bgStyle]}
@@ -43,12 +45,16 @@ class NotificationList extends PureComponent {
           />
           <View>
             <Text style={styles.text}>{item.text}</Text>
-            <Text style={styles.subtitle}>{timeAgo.format(date)}</Text>
+            <View style={[styles.row, {justifyContent: 'space-between', marginRight: spacing.space_40}]}>
+              <Text style={styles.subtitle}>{timeAgo.format(date)}</Text>
+              <Ionicons name='checkmark-done-sharp' color={item.read ? bmiColors.lightBlue : appTheme.greyC}/>
+            </View>
           </View>
         </View>
       </MenuOption>
     )
   }
+
   handleAction = (item) => {
     const {id, read, data, type} = item;
     console.log(item);
@@ -95,19 +101,19 @@ class NotificationList extends PureComponent {
             <Text style={styles.showOrHide}>{strings.MARK_ALL_READ}</Text>
           </TouchableOpacity>
           }
-          <TouchableOpacity onPress={this.openNotificationScreen}>
-            <Text style={styles.showOrHide}>{strings.VIEW_ALL}</Text>
+          <TouchableOpacity onPress={this.clearAll}>
+            <Text style={styles.showOrHide}>{strings.CLEAR_ALL}</Text>
           </TouchableOpacity>
         </MenuOption>
       </>
     )
   }
-  renderNoNotifications = () => {
+  noNotifications = () => {
     const {notifications} = this.props;
     if (notifications.length > 0) return null;
     return (
       <MenuOption
-        style={[styles.menuOption, {justifyContent: 'center'}]}
+        style={[styles.menuOption, {justifyContent: 'center', backgroundColor: appTheme.darkGrey}]}
       >
         {
           notifications.length === 0 && (
@@ -122,16 +128,24 @@ class NotificationList extends PureComponent {
     const {notifications, readNotification} = this.props;
     notifications.map(notification => readNotification(notification.id));
   }
-  openNotificationScreen = () => {
+  clearAll = () => {
     this.menu.close();
+    this.props.clearAll();
   }
 
   render() {
     const {notifications} = this.props;
     const unreadCount = this.getUnreadCount();
     return (
-      <Menu ref={ref_ => this.menu = ref_}>
-        <MenuTrigger style={{marginRight: 10}}>
+      <Menu
+        style={styles.rightMargin}
+        rendererProps={{ placement: 'bottom', anchorStyle:{
+          backgroundColor:appTheme.darkGrey
+          } }}
+        renderer={renderers.Popover}
+        anchorStyle={{height:100}}
+        ref={ref_ => this.menu = ref_}>
+        <MenuTrigger>
           <Feather
             name="bell"
             color={appTheme.brightContent}
@@ -152,15 +166,15 @@ class NotificationList extends PureComponent {
           optionsContainerStyle={styles.optionsContainer}
         >
           <FlatList
-            data={notifications.slice(0, 4)}
-            // style={styles.fullWidth}
+            data={notifications}
+            style={notifications.length > 0 ? styles.fullWidth : {}}
             renderItem={this.renderNotification}
             ItemSeparatorComponent={this.separator}
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}
           />
           {this.renderMarkRead()}
-          {this.renderNoNotifications()}
+          {this.noNotifications()}
         </MenuOptions>
       </Menu>
     )
@@ -171,6 +185,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: spacing.medium_sm,
+  },
+  rightMargin:{
+    marginRight: spacing.medium_sm
   },
   darkBackground: {
     flex: 1,
@@ -185,7 +202,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothic,
     fontSize: fontSizes.h2,
   },
-  subtitle:{
+  subtitle: {
     marginLeft: spacing.medium_sm,
     color: appTheme.textPrimary,
     fontFamily: fonts.CenturyGothicBold,
@@ -218,7 +235,8 @@ const styles = StyleSheet.create({
     marginTop: spacing.small,
   },
   fullWidth: {
-    height: screenHeight / 1.5
+    maxHeight: screenHeight / 1.5,
+    backgroundColor: appTheme.darkGrey
   },
   optionsContainer: {
     width: screenWidth / 1.5,
@@ -236,7 +254,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  readNotification: id => dispatch(actionCreators.readNotification(id))
+  readNotification: id => dispatch(actionCreators.readNotification(id)),
+  clearAll: () => dispatch(actionCreators.clearAllNotifications())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationList);

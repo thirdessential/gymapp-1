@@ -23,6 +23,9 @@ export const readNotification = (id) => ({
     id
   },
 });
+export const clearAllNotifications = () => ({
+  type: actionTypes.CLEAR_ALL_NOTIFICATIONS,
+});
 
 export const syncNotifications = () => {
   return async (dispatch, getState) => {

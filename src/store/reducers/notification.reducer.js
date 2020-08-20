@@ -18,6 +18,8 @@ const reducer = (state = initialState, action) => {
       });
       return updateObject(state, {notifications})
     }
+    case actionTypes.CLEAR_ALL_NOTIFICATIONS:
+      return initialState;
     default:
       return state;
   }
