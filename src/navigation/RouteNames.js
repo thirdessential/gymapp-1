@@ -70,7 +70,10 @@ const RouteNames = {
   MyStreams:'MyStreams',
 
 
-  Water:'Water'
+CalorieCounter:'CalorieCounter',
+RecipeRecommend:'RecipeRecommend',
+  Water:'Water',
+  Calorie1: 'Calorie1',
 };
 
 export const TabRoutes = {

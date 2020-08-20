@@ -1015,7 +1015,7 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@react-native-community/art@^1.1.2":
+"@react-native-community/art@^1.1.2", "@react-native-community/art@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/art/-/art-1.2.0.tgz#386d95393f6042d9006f9d4bc6063fb898794460"
   integrity sha512-a+ZcRGl/BzLa89yi33Mbn5SHavsEXqKUMdbfLf3U8MDLElndPqUetoJyGkv63+BcPO49UMWiQRP1YUz6/zfJ+A==
@@ -6400,6 +6400,13 @@ react-native-24h-timepicker@^1.1.0:
   dependencies:
     react-native-raw-bottom-sheet "^1.0.0"
 
+react-native-activity-rings@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-activity-rings/-/react-native-activity-rings-1.1.2.tgz#b5ddf2f0c0da0b206594e8aa4769fb9a5264b631"
+  integrity sha512-f98xWVXf3BsUhsC05Y97NJ4beBzABxCr2TvkHosQSgnUvAA4CrYWtLS9gYobfk4HXZCTeSsFF49Ab54oZ6BGMg==
+  dependencies:
+    paths-js "^0.4.10"
+
 react-native-agora@^3.0.1-beta.8:
   version "3.0.1-rc.4"
   resolved "https://registry.yarnpkg.com/react-native-agora/-/react-native-agora-3.0.1-rc.4.tgz#4d1e0894c2d6e2c9217cf25116f403cfda27cf1e"
@@ -6420,6 +6427,11 @@ react-native-app-intro-slider@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/react-native-app-intro-slider/-/react-native-app-intro-slider-4.0.4.tgz#fa5cda7057db62c448ac975ffd2ba0cff94cc8d8"
   integrity sha512-Zkjaol6X3BbZkHUpVDj2LjdidpS6rCgKi0fx80xgGKa0pHxBRd4swWTv2bHnnvu5k1/HXwYk0mY2TbK+2jHl5w==
+
+react-native-art-hcdwave@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-art-hcdwave/-/react-native-art-hcdwave-0.0.5.tgz#2185d1d516dccdf9e996c2e9726b42b40779337c"
+  integrity sha512-K10Yv9NB8w2+Vcog+chDnaQyKnDm4nwg0IDVbFj5PioO84PpNHzhBssAxFuDeK9JwAZc1jh+R7tiTREep9QUaw==
 
 react-native-bring-foreground@^0.0.3:
   version "0.0.3"
@@ -6905,11 +6917,6 @@ react-native-windows@^0.62.0-0:
     username "^5.1.0"
     uuid "^3.3.2"
     xml-parser "^1.2.1"
-
-react-native-zoom-us@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-zoom-us/-/react-native-zoom-us-3.0.0.tgz#a17a1299651dfd5504c7a9694a0d08dc0e40074b"
-  integrity sha512-aqeLSBWgpf0slFJFYo/B9opbD684wB0zDx5wOIxuXWVouRio4uWH7sezdTo6U7RWSSJ4QSrz1EGgiWLkHFR9xA==
 
 react-native@0.62.2:
   version "0.62.2"

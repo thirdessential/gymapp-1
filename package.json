@@ -37,6 +37,7 @@
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-24h-timepicker": "^1.1.0",
+    "react-native-activity-rings": "^1.1.2",
     "react-native-agora": "^3.0.1-beta.8",
     "react-native-android-pip": "https://github.com/Yatanvesh/rn-android-pip",
     "react-native-app-intro-slider": "^4.0.4",

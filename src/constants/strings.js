@@ -219,6 +219,18 @@ const strings = {
   GOING_LIVE_:'Going Live',
   LIVE: 'Live',
   MY_LIVE_STREAMS: 'My Live Streams',
+  RECIPE:"Recipe",
+  WATER:'Water',
+  CALORIECOUNTER:'Calorie Counter',
+  BREAKFAST: 'Breakfast',
+  LUNCH: 'Lunch',
+  SNACKS:'Snacks',
+  DINNER:'Dinner',
+  CALORIE_INTAKE_TEXT:'Calorie Intake',
+  TARGET_TEXT:'Target',
+  PROTEIN:'Protein',
+  CARBS:'Carbs',
+  FATS:'Fats',
 };
 
 export const bmiVerdicts = {

@@ -46,7 +46,7 @@ import HcdWaveView from "./HcdWaveView";
 
 class Water extends PureComponent {
   state = {
-      water:0,
+      waterIntake:0,
       target:5000,
 
   };
@@ -55,7 +55,7 @@ class Water extends PureComponent {
   componentWillUnmount() {}
 
   render() {
-      var percent=(this.state.water/this.state.target)*100;
+      //var percent=(this.state.waterIntake/this.state.target)*100;
     return (
       <>
         <ScrollView
@@ -69,20 +69,20 @@ class Water extends PureComponent {
           <HcdWaveView
             surfaceWidth={230}
             surfaceHeigth={230}
-            powerPercent={percent>100?100:percent}
+            powerPercent={(this.state.waterIntake/this.state.target)*100}
             type="dc"
             style={{ backgroundColor: "#FF7800" }}
           ></HcdWaveView>
           <View style={{flexDirection: 'row',justifyContent: 'space-between', margin: spacing.medium_sm,flex:1}}>
-              <TouchableOpacity style={{marginHorizontal:10}} onPress={()=>this.setState({water:this.state.water+50})}><Text style={{color: 'white',fontSize:20}}>+50ml</Text></TouchableOpacity>
-              <TouchableOpacity style={{marginHorizontal:10}} onPress={()=>this.setState({water:this.state.water+250})}><Text style={{color: 'white',fontSize:20}}>+250ml</Text></TouchableOpacity>
-              <TouchableOpacity style={{marginHorizontal:10}} onPress={()=>this.setState({water:this.state.water+500})}><Text style={{color: 'white',fontSize:20}}>+500ml</Text></TouchableOpacity>
+              <TouchableOpacity style={{marginHorizontal:10}} onPress={()=>this.setState({waterIntake:this.state.waterIntake+50})}><Text style={{color: 'white',fontSize:20}}>+50ml</Text></TouchableOpacity>
+              <TouchableOpacity style={{marginHorizontal:10}} onPress={()=>this.setState({waterIntake:this.state.waterIntake+250})}><Text style={{color: 'white',fontSize:20}}>+250ml</Text></TouchableOpacity>
+              <TouchableOpacity style={{marginHorizontal:10}} onPress={()=>this.setState({waterIntake:this.state.waterIntake+500})}><Text style={{color: 'white',fontSize:20}}>+500ml</Text></TouchableOpacity>
           </View>
           <View style={{flexDirection: 'row',justifyContent: 'space-between', margin: spacing.medium_sm,flex:1}}>
           <Text style={{color: 'white',fontSize:20}}>Target : {this.state.target/1000}{" "}Litres</Text>
           </View>
           <View style={{flexDirection: 'row',justifyContent: 'space-between', margin: spacing.medium_sm,flex:1}}>
-          <Text style={{color: 'white',fontSize:20}}>Achieved : {this.state.water}{" "}ml's</Text>
+          <Text style={{color: 'white',fontSize:20}}>Achieved : {this.state.waterIntake}{" "}ml's</Text>
           </View>
         </ScrollView>
       </>

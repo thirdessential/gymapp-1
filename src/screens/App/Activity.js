@@ -133,7 +133,7 @@ renderChart=()=>{
   barPercentage: 0.5,
   useShadowColorFromDataset: false // optional
 }}
-  verticalLabelRotation={330}
+  verticalLabelRotation={0}
 />
 </View>
   )

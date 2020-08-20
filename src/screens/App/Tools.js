@@ -32,6 +32,8 @@ class Tools extends PureComponent {
   openExercisesScreen = () => this.props.navigation.navigate(RouteNames.Exercises);
   openMyStreams = () => this.props.navigation.navigate(RouteNames.MyStreams);
 openWater= () => this.props.navigation.navigate(RouteNames.Water)
+openCalorie= () => this.props.navigation.navigate(RouteNames.CalorieCounter)
+openRecipe= () => this.props.navigation.navigate(RouteNames.RecipeRecommend)
   state = {
     toolsData: []
   }
@@ -88,9 +90,21 @@ openWater= () => this.props.navigation.navigate(RouteNames.Water)
         enabled: userType === userTypes.TRAINER
       },
       {
-        title: "Water",
+        title: strings.WATER,
         image: iconBackgrounds.subscriptions,
         callback: this.openWater,
+        enabled: true
+      },
+       {
+        title: strings.CALORIECOUNTER,
+        image: iconBackgrounds.subscriptions,
+        callback: this.openCalorie,
+        enabled: true
+      },
+      {
+        title: strings.RECIPE,
+        image: iconBackgrounds.subscriptions,
+        callback: this.openRecipe,
         enabled: true
       },
 
