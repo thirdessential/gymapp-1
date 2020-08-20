@@ -67,7 +67,13 @@ const RouteNames = {
 
   RootTab: 'RootTab',
   LiveScheduler: 'LiveScheduler',
-  MyStreams:'MyStreams'
+  MyStreams:'MyStreams',
+
+
+CalorieCounter:'CalorieCounter',
+RecipeRecommend:'RecipeRecommend',
+  Water:'Water',
+  Calorie1: 'Calorie1',
 };
 
 export const TabRoutes = {

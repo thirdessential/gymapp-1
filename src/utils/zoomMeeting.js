@@ -1,4 +1,5 @@
-import ZoomUs from 'react-native-zoom-us';
+ import ZoomUs from 'react-native-zoom-us';
+//const ZoomUs={}
 import {zoomConfig} from "../constants/appConstants";
 
 const zoomUserType = 2; // 2 - pro user

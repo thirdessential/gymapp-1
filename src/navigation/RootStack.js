@@ -35,6 +35,10 @@ import store from "../store/configureStore";
 import {userTypes} from "../constants/appConstants";
 import MyStreams from "../screens/Social/MyStreams";
 import strings from "../constants/strings";
+import Water from "../screens/Fitness/Water";
+import RecipeRecommend from "../screens/Fitness/RecipeRecommend";
+import CalorieCounter from "../screens/Fitness/CalorieCounter";
+import Calorie1 from "../screens/Fitness/Calorie1";
 
 const rootStack = () => {
   let {userType} = store.getState().user;
@@ -188,6 +192,34 @@ const rootStack = () => {
         component={BMI}
         options={{
           title: "BMI",
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.Water}
+        component={Water}
+        options={{
+          title: "Water",
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.CalorieCounter}
+        component={CalorieCounter}
+        options={{
+          title: "CalorieCounter",
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.Calorie1}
+        component={Calorie1}
+        options={{
+          title: "SearchFood",
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.RecipeRecommend}
+        component={RecipeRecommend}
+        options={{
+          title: "Recipe",
         }}
       />
       <Stack.Screen
