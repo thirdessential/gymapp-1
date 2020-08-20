@@ -45,6 +45,32 @@ export const getRandomGradient = () => {
   return darkPallet.gradients[gradients[index]];
 }
 
+const purplePalette = {
+  light: '#4b5d67',
+  dark: '#322f3d',
+  primary: '#59405c',
+  secondary: '#87556f'
+}
+const pinkPalette = {
+  light: '#162447',
+  dark: '#1f4068',
+  primary: '#1b1b2f',
+  secondary: '#e43f5a'
+}
+const orangePalette = {
+  light: '#202040',
+  dark: '#543864',
+  primary: '#ff6363',
+  secondary: '#ffbd69'
+}
+
+const shinyBlue = {
+  light: '#202040',
+  dark: '#543864',
+  primary: '#ff6363',
+  secondary: '#ffbd69'
+}
+
 export const appTheme = {
   darkBackground: darkPallet.extraDarkBlue,
   background: darkPallet.darkBlue,

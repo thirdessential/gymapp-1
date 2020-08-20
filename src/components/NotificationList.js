@@ -198,9 +198,10 @@ const styles = StyleSheet.create({
   },
   text: {
     marginLeft: spacing.medium_sm,
+    marginRight: spacing.medium,
     color: appTheme.greyC,
     fontFamily: fonts.CenturyGothic,
-    fontSize: fontSizes.h2,
+    fontSize: fontSizes.h3,
   },
   subtitle: {
     marginLeft: spacing.medium_sm,
