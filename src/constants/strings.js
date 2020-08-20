@@ -222,7 +222,8 @@ const strings = {
   LIVE: 'Live',
   MY_LIVE_STREAMS: 'My Live Streams',
   NO_NOTIFICATIONS: 'No notifications',
-  MARK_ALL_READ: 'Mark All Read'
+  MARK_ALL_READ: 'Mark All Read',
+  VIEW_ALL: 'View All'
 
 };
 

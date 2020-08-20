@@ -81,17 +81,17 @@ class App extends React.Component {
           showInfo(content);
         break;
       case remoteMessageTypes.CALLBACK_REQ: {
-        const {content, displayImage} = data;
+        const {content, displayImage, sentDate} = data;
         if (!!content)
           showInfo(content);
-        addNotification(content, displayImage, notificationActionTypes.CALL_REQUEST)
+        addNotification(content, displayImage, notificationActionTypes.CALL_REQUEST, sentDate)
       }
         break;
       case remoteMessageTypes.CALLBACK_ACCEPT: {
-        const {content, displayImage} = data;
+        const {content, displayImage, sentDate} = data;
         if (!!content)
           showInfo(content);
-        addNotification(content, displayImage, notificationActionTypes.CALL_ACCEPT)
+        addNotification(content, displayImage, notificationActionTypes.CALL_ACCEPT, sentDate)
       }
         break;
       case remoteMessageTypes.UPDATE_POSTS:
@@ -105,7 +105,8 @@ class App extends React.Component {
         }
         break;
       case remoteMessageTypes.GENERIC_NOTIFICATION: {
-        const {hostId, message, displayImage, meetingId, meetingPassword} = data;
+        const {hostId, message, displayImage, meetingId, meetingPassword, sentDate} = data;
+        console.log("SDAE", sentDate)
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         await updateLiveStreams(INITIAL_PAGE);
         if (hostId != userId) {
@@ -114,12 +115,13 @@ class App extends React.Component {
             message,
             displayImage,
             notificationActionTypes.STREAM,
+            sentDate,
             {
               meetingId,
               meetingPassword
             }
           );
-        } else addNotification(message, displayImage, notificationActionTypes.STREAM, {
+        } else addNotification(message, displayImage, notificationActionTypes.STREAM, sentDate, {
           meetingId,
           meetingPassword
         });
@@ -284,7 +286,8 @@ const mapDispatchToProps = (dispatch) => ({
   setIncomingCall: (callData, inAppCall) => dispatch(actionCreators.setIncomingCall(callData, inAppCall)),
   updatePosts: (page) => dispatch(actionCreators.updatePosts(page)),
   updateLiveStreams: (page) => dispatch(actionCreators.updateLiveStreams(page)),
-  addNotification: (text, displayImage, type, extraData) => dispatch(actionCreators.addNotification(text, displayImage, type, extraData))
+  addNotification: (text, displayImage, type, sentDate, extraData) =>
+    dispatch(actionCreators.addNotification(text, displayImage, type, sentDate, extraData))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

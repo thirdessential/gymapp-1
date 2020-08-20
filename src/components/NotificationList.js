@@ -2,13 +2,18 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {PureComponent} from 'react';
-import {FlatList, Image, StyleSheet, Text, View,} from "react-native";
+import {FlatList, Image, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 import {connect} from "react-redux";
 import {Menu, MenuOption, MenuOptions, MenuTrigger,} from "react-native-popup-menu";
 import Feather from "react-native-vector-icons/Feather";
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en'
+
+TimeAgo.addLocale(en);
+const timeAgo = new TimeAgo('en-US');
 
 import * as actionCreators from '../store/actions';
-import {appTheme} from "../constants/colors";
+import {appTheme, bmiColors} from "../constants/colors";
 import {spacing} from "../constants/dimension";
 import fonts from "../constants/fonts";
 import fontSizes from "../constants/fontSizes";
@@ -18,22 +23,29 @@ import {screenHeight, screenWidth} from "../utils/screenDimensions";
 import RouteNames from "../navigation/RouteNames";
 import {navigate} from "../navigation/RootNavigation";
 import {joinMeeting} from "../utils/zoomMeeting";
-import {not} from "react-native-reanimated";
 
 class NotificationList extends PureComponent {
   renderNotification = ({item}) => {
+    const {sentDate} = item;
+    const date = new Date(sentDate);
+    console.log(date), sentDate;
     const bgStyle = {backgroundColor: item.read ? appTheme.background : appTheme.darkGrey};
     return (
       <MenuOption
         style={[styles.menuOption, bgStyle]}
         onSelect={() => this.handleAction(item)}
       >
-        <Image
-          source={{uri: item.displayImage || defaultDP,}}
-          style={styles.image}
-          resizeMode={"contain"}
-        />
-        <Text style={styles.text}>{item.text}</Text>
+        <View style={styles.row}>
+          <Image
+            source={{uri: item.displayImage || defaultDP,}}
+            style={styles.image}
+            resizeMode={"contain"}
+          />
+          <View>
+            <Text style={styles.text}>{item.text}</Text>
+            <Text style={styles.subtitle}>{timeAgo.format(date)}</Text>
+          </View>
+        </View>
       </MenuOption>
     )
   }
@@ -63,21 +75,34 @@ class NotificationList extends PureComponent {
     const {notifications} = this.props;
     return notifications.filter(notification => !notification.read).length;
   }
-  renderHeader = () => {
+  renderMarkRead = () => {
     const {notifications} = this.props;
     const unreadCount = this.getUnreadCount();
-    if (notifications.length === 0 || unreadCount === 0) return null;
+    if (notifications.length <= 4 && unreadCount === 0) return null;
     return (
-      <MenuOption
-        style={[styles.menuOption, {justifyContent: 'center', backgroundColor: appTheme.background}]}
-        onSelect={this.readAll}
-      >
-
-        <Text style={styles.showOrHide}>{strings.MARK_ALL_READ}</Text>
-      </MenuOption>
+      <>
+        {this.separator()}
+        <MenuOption
+          style={[styles.menuOption, {
+            justifyContent: unreadCount === 0 ? 'flex-end' : 'space-between',
+            paddingVertical: spacing.small_lg,
+            backgroundColor: appTheme.background,
+            flexDirection: 'row'
+          }]}
+        >
+          {unreadCount !== 0 &&
+          <TouchableOpacity onPress={this.readAll}>
+            <Text style={styles.showOrHide}>{strings.MARK_ALL_READ}</Text>
+          </TouchableOpacity>
+          }
+          <TouchableOpacity onPress={this.openNotificationScreen}>
+            <Text style={styles.showOrHide}>{strings.VIEW_ALL}</Text>
+          </TouchableOpacity>
+        </MenuOption>
+      </>
     )
   }
-  renderFooter = () => {
+  renderNoNotifications = () => {
     const {notifications} = this.props;
     if (notifications.length > 0) return null;
     return (
@@ -93,21 +118,24 @@ class NotificationList extends PureComponent {
     )
   }
   readAll = () => {
+    this.menu.close();
     const {notifications, readNotification} = this.props;
     notifications.map(notification => readNotification(notification.id));
   }
-
+  openNotificationScreen = () => {
+    this.menu.close();
+  }
 
   render() {
     const {notifications} = this.props;
     const unreadCount = this.getUnreadCount();
     return (
-      <Menu>
+      <Menu ref={ref_ => this.menu = ref_}>
         <MenuTrigger style={{marginRight: 10}}>
           <Feather
             name="bell"
             color={appTheme.brightContent}
-            size={30}
+            size={25}
           />
           {
             unreadCount > 0 && (
@@ -123,16 +151,16 @@ class NotificationList extends PureComponent {
           customStyles={styles.darkBackground}
           optionsContainerStyle={styles.optionsContainer}
         >
-          {this.renderHeader()}
           <FlatList
-            data={notifications}
-            style={styles.fullWidth}
+            data={notifications.slice(0, 4)}
+            // style={styles.fullWidth}
             renderItem={this.renderNotification}
             ItemSeparatorComponent={this.separator}
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}
           />
-          {this.renderFooter()}
+          {this.renderMarkRead()}
+          {this.renderNoNotifications()}
         </MenuOptions>
       </Menu>
     )
@@ -146,21 +174,27 @@ const styles = StyleSheet.create({
   },
   darkBackground: {
     flex: 1,
-    marginRight: spacing.medium_sm
+    marginRight: spacing.medium_sm,
+  },
+  row: {
+    flexDirection: 'row',
   },
   text: {
     marginLeft: spacing.medium_sm,
     color: appTheme.greyC,
     fontFamily: fonts.CenturyGothic,
     fontSize: fontSizes.h2,
-    // marginRight: 20,
+  },
+  subtitle:{
+    marginLeft: spacing.medium_sm,
+    color: appTheme.textPrimary,
+    fontFamily: fonts.CenturyGothicBold,
+    fontSize: fontSizes.h4,
   },
   showOrHide: {
-    marginLeft: spacing.medium_sm,
     color: appTheme.brightContent,
     fontFamily: fonts.CenturyGothic,
-    fontSize: fontSizes.h2,
-    // paddingVertical: spacing.small
+    fontSize: fontSizes.h4,
   },
   bellIcon: {
     justifyContent: "center",
@@ -174,9 +208,8 @@ const styles = StyleSheet.create({
     width: 20,
   },
   menuOption: {
-    flexDirection: "row",
-    backgroundColor: appTheme.darkGrey,
-    paddingRight:spacing.medium_sm
+    paddingVertical: spacing.medium,
+    paddingHorizontal: spacing.medium_sm
   },
   image: {
     height: 35,
@@ -185,7 +218,6 @@ const styles = StyleSheet.create({
     marginTop: spacing.small,
   },
   fullWidth: {
-    width: "100%",
     height: screenHeight / 1.5
   },
   optionsContainer: {
@@ -193,8 +225,8 @@ const styles = StyleSheet.create({
   },
   separator: {
     width: '100%',
-    height: 0.8,
-    backgroundColor: appTheme.brightContent,
+    height: 0.6,
+    backgroundColor: appTheme.grey,
   }
 });
 
