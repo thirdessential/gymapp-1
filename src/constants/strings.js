@@ -170,6 +170,8 @@ const strings = {
   ACCOUNT_CREATED: 'Account created',
   COULD_NOT_INITIATE_CALL: 'Could not initiate call',
   CALL_REQUESTS: 'Call Requests',
+  CALL_REQUEST: 'Call Request',
+  CALL_REQUEST_ACCEPTED: 'Call Request Accepted',
   SET_HEIGHT: 'Set Height',
   SUBSCRIBE_SUCCESS: 'Successfully subscribed to package',
   PAYMENT_SUCCESS: "Payment successful",
@@ -231,6 +233,10 @@ const strings = {
   PROTEIN:'Protein',
   CARBS:'Carbs',
   FATS:'Fats',
+  NO_NOTIFICATIONS: 'No notifications',
+  MARK_ALL_READ: 'Mark All Read',
+  VIEW_ALL: 'View All',
+  CLEAR_ALL: 'Clear All'
 };
 
 export const bmiVerdicts = {

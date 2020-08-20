@@ -6,6 +6,7 @@ import openDrawerButton from "../openDrawerButton";
 
 import Tools from "../../screens/App/Tools";
 import {defaultHeaderStyle} from "../../constants/styles";
+import NotificationList from "../../components/NotificationList";
 
 
 const toolStack = () => {
@@ -17,6 +18,7 @@ const toolStack = () => {
         options={{
           title: "Tools",
           headerLeft: openDrawerButton,
+          headerRight: ()=><NotificationList/>
         }}
       />
     </Stack.Navigator>

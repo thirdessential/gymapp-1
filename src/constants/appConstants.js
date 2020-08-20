@@ -5,8 +5,8 @@ import {appTheme, bmiColors} from "./colors";
 let apiUrl = '';
 if (__DEV__) {
   console.log('Development Server');
-  apiUrl = 'https://fitness-first-services.herokuapp.com';
-  // apiUrl = 'http://192.168.31.125:3001';
+  // apiUrl = 'https://fitness-first-services.herokuapp.com';
+  apiUrl = 'http://192.168.31.125:3001';
 } else {
   console.log('Production Server');
   apiUrl = 'https://fitness-first-services.herokuapp.com';
@@ -33,7 +33,8 @@ export const notificationActions = {
 }
 
 export const storageKeys = {
-  PENDING_CALL: 'PENDING_CALL'
+  PENDING_CALL: 'PENDING_CALL',
+  PENDING_NOTIFICATIONS:'PENDING_NOTIFICATIONS'
 }
 export const webClientId = '284208119571-nt9fitb9l2o4qulefvju8gqeo7aaug01.apps.googleusercontent.com';
 
@@ -79,7 +80,9 @@ export const remoteMessageTypes = {
   APPOINTMENT: "appointmentNotification",
   SESSION: 'sessionNotification',
   UPDATE_POSTS: 'UPDATE_POSTS',
-  GENERIC_NOTIFICATION: 'GENERIC_NOTIFICATION'
+  GENERIC_NOTIFICATION: 'GENERIC_NOTIFICATION',
+  CALLBACK_REQ: 'CALLBACK_REQ',
+  CALLBACK_ACCEPT: 'CALLBACK_ACCEPT',
 }
 
 export const INITIAL_PAGE = 'INITIAL_PAGE';
@@ -187,4 +190,9 @@ export const streamStatusColor = {
   SCHEDULED: bmiColors.redFaded,
   LIVE: appTheme.live,
   FINISHED: appTheme.darkGrey
+}
+export const notificationActionTypes = {
+  STREAM:'STREAM',
+  CALL_REQUEST:'CALL_REQUEST',
+  CALL_ACCEPT:'CALL_ACCEPT'
 }
