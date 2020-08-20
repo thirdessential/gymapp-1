@@ -56,3 +56,7 @@ export const fitnessState = {
   targetWeight: null,
   targetDate: null
 }
+
+export const notificationState = {
+  notifications:[]
+}

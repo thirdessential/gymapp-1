@@ -71,3 +71,10 @@ export {
   updateExerciseIndex,
   updateTarget
 } from './fitness.actions';
+
+export {
+  addNotification,
+  readNotification,
+  clearAllNotifications,
+  syncNotifications,
+} from './notification.actions';

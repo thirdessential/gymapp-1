@@ -2,15 +2,10 @@ import React from "react";
 
 import Stack from './stack';
 import RouteNames from "../RouteNames";
-import {appTheme} from "../../constants/colors";
-import fonts from "../../constants/fonts";
 import openDrawerButton from "../openDrawerButton";
 import Community from "../../screens/Social/Community";
-import PostViewer from "../../screens/Social/PostViewer";
-import Profile from "../../screens/App/Profile";
-import CreatePost from "../../screens/Social/CreatePost";
 import {defaultHeaderStyle} from "../../constants/styles";
-
+import NotificationList from "../../components/NotificationList";
 
 const listing = (props) => {
   return (
@@ -21,6 +16,7 @@ const listing = (props) => {
         options={{
           title: 'Community',
           headerLeft: openDrawerButton,
+          headerRight: ()=><NotificationList/>
         }}/>
     </Stack.Navigator>
   );

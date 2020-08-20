@@ -1,4 +1,4 @@
-import {saveToStorage} from "./utils";
+import {readFromStorage, saveToStorage} from "./utils";
 
 const PushNotification = require("react-native-push-notification");
 import messaging from '@react-native-firebase/messaging';
@@ -8,7 +8,7 @@ import LaunchApplication from "react-native-bring-foreground";
 import {
   appPackageId,
   firebaseTopics,
-  notificationActions,
+  notificationActions, notificationActionTypes,
   remoteMessageTypes,
   storageKeys
 } from "../constants/appConstants";
@@ -17,6 +17,7 @@ import RouteNames from "../navigation/RouteNames";
 import {requestCameraAndAudioPermission} from "./permission";
 import {showMessage, hideMessage} from "react-native-flash-message";
 import strings from "../constants/strings";
+import {not} from "react-native-reanimated";
 
 export const callHandler = async (remoteMessage) => {
   console.log('Remote Message handled in the background!', remoteMessage);
@@ -31,15 +32,37 @@ export const callHandler = async (remoteMessage) => {
     case remoteMessageTypes.APPOINTMENT:
       const {content} = data;
       if (!!content)
-        LocalMessageNotification(strings.NEW_APPOINTMENT,content);
+        LocalMessageNotification(strings.NEW_APPOINTMENT, content);
+      break;
+    case remoteMessageTypes.CALLBACK_REQ: {
+      const {content} = data;
+      if (!!content)
+        LocalMessageNotification(strings.CALL_REQUEST, content);
+      await appendOfflineNotification(data);
+    }
+      break;
+    case remoteMessageTypes.CALLBACK_ACCEPT: {
+      const {content, displayImage} = data;
+      if (!!content)
+        LocalMessageNotification(strings.CALL_REQUEST_ACCEPTED, content);
+      await appendOfflineNotification(data);
+    }
       break;
     case remoteMessageTypes.GENERIC_NOTIFICATION:
       const {message} = data;
-      LocalMessageNotification(strings.LIVE,message);
+      LocalMessageNotification(strings.LIVE, message);
+      await appendOfflineNotification(data);
       break;
     default:
       break;
   }
+}
+
+const appendOfflineNotification = async (data) => {
+  let notifications = await readFromStorage(storageKeys.PENDING_NOTIFICATIONS);
+  if(!notifications)notifications = [];
+  notifications.push(data);
+  await saveToStorage(storageKeys.PENDING_NOTIFICATIONS, notifications);
 }
 
 export const configureFCMNotification = async () => {

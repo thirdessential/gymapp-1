@@ -2,10 +2,10 @@ import React from "react";
 
 import Stack from "./stack";
 import RouteNames from "../RouteNames";
-import {appTheme} from "../../constants/colors";
 import {defaultHeaderStyle} from "../../constants/styles";
 import Exercises from "../../screens/Fitness/Exercises";
 import openDrawerButton from "../openDrawerButton";
+import NotificationList from "../../components/NotificationList";
 
 const workoutStack = () => {
   return (
@@ -16,6 +16,7 @@ const workoutStack = () => {
         options={{
           title: "Workout",
           headerLeft: openDrawerButton,
+          headerRight: ()=><NotificationList/>
         }}
       />
     </Stack.Navigator>
