@@ -61,20 +61,30 @@ class CalorieCounter extends PureComponent {
   }
 
   async componentDidMount() {
-
-
-    const { calorieData } = this.props;
-    console.log(calorieData);
-    await this.setState({ foodItems: calorieData });
-    this.calcTotal();
-    this.calcProtein();
-    this.calcFats();
-    this.calcCarbs();
-    this.calcBreakfast();
-    this.calcDinner();
-    this.calcLunch();
-    this.calcSnacks();
+    this.willFocusSubscription = this.props.navigation.addListener(
+      'focus',
+    async  () => {
+       this.functionCalls();
+      }
+    );
+  
+    this.functionCalls();
+   
   }
+functionCalls=async()=>{
+  const { calorieData } = this.props;
+  console.log(calorieData);
+  await this.setState({ foodItems: calorieData });
+  this.calcTotal();
+  this.calcProtein();
+  this.calcFats();
+  this.calcCarbs();
+  this.calcBreakfast();
+  this.calcDinner();
+  this.calcLunch();
+  this.calcSnacks();
+}
+
   calcBreakfast = () => {
     const filteredList = this.state.foodItems.filter(
       (food) => food.type === "BREAKFAST"
@@ -144,7 +154,7 @@ class CalorieCounter extends PureComponent {
     this.setState({ carbsIntake: initial });
   };
   componentWillUnmount() {
-   // this.willFocusSubscription.remove();
+    this.willFocusSubscription.remove();
   }
 
   renderIcon = () => (
