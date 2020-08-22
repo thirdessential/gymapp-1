@@ -197,8 +197,11 @@ export const addAccount = (accountDetails) => {
       const {ifscCode, accountNumber, holderName, bankName} = accountDetails;
       result = await API.addAccount({ifscCode, accountNumber, holderName, bankName});
       const accountData = result.account;
+      // console.log("123");
+      // console.log(accountData);
+      // console.log("123");
       dispatch(createAccount(accountData));
-      console.log(result)
+      
     } catch (error) {
       console.log("aacount creation failed in trainer.actions.js", error);
       return false;
@@ -216,6 +219,9 @@ export const getMyAccounts = () => {
     try {
       result = await API.getMyAccounts();
       const accounts = result.accounts;
+      console.log("123");
+console.log(accounts);
+console.log("123");
       dispatch(getAccounts(accounts));
       console.log(result);
     } catch (error) {

@@ -54,3 +54,6 @@ export const ADD_ACCOUNT = 'ADD_ACCOUNT';
 export const GET_MY_ACCOUNTS = 'GET_MY_ACCOUNTS';
 
 export const RESET_APP = 'RESET_APP';
+
+//CALORIES
+export const ADD_CALORIE_DATA= 'ADD_CALORIE_DATA';

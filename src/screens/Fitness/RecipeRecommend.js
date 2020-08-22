@@ -44,7 +44,6 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import DatePicker from "react-native-datepicker";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import Entypo from "react-native-vector-icons/Entypo";
-import HcdWaveView from "./HcdWaveView";
 import {
   LineChart,
   BarChart,

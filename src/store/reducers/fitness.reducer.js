@@ -12,6 +12,17 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, action.payload);
     case actionTypes.SET_TARGET:
       return updateObject(state, action.payload);
+    case actionTypes.ADD_CALORIE_DATA:{
+      //console.log(action.payload);
+      // const {calorieData}=action.payload;
+      // console.log(calorieData);
+      const oldFoods=[...state.calorieData];
+console.log("321");
+      console.log(oldFoods);
+
+      console.log("123")
+      return updateObject(state, {calorieData:oldFoods.concat(action.payload.calorieData)});
+    }
     default:
       return state;
   }

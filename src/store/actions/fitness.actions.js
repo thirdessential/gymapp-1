@@ -102,4 +102,24 @@ export const updateTarget = (weight,date) => {
   };
 };
 
+export const addFoods = (calorieData) => {
+  return {
+  type: actionTypes.ADD_CALORIE_DATA,
+  payload: {
+    calorieData,
+  }
+};
+}
 
+export const addCalorieData= (calorieData)=> {
+  return async (dispatch) => {
+    try {
+      dispatch(addFoods(calorieData));
+    } catch (error) {
+      console.log("food update failed ",error);
+      return false;
+    }
+  }
+}
+
+ 

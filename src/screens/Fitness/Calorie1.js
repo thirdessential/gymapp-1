@@ -14,6 +14,7 @@ import {
   Alert,
 } from "react-native";
 import { connect } from "react-redux";
+import cuid from "cuid";
 import { Bar } from "react-native-progress";
 import { spacing } from "../../constants/dimension";
 import TimeAgo from "javascript-time-ago";
@@ -30,47 +31,39 @@ import colors, {
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import { screenWidth } from "../../utils/screenDimensions";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import strings from "../../constants/strings";
-import BmiBar from "../../components/BmiBar";
-import { calculateBmi, getBmiVerdict, toTitleCase } from "../../utils/utils";
 import Feather from "react-native-vector-icons/Feather";
-import CustomLineChart from "../../components/CustomLineChart";
-import Avatar from "../../components/Avatar";
-import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from "../../store/actions";
 import { hitSlop20 } from "../../constants/styles";
 import { WEEK_DAYS } from "../../constants/appConstants";
-import RBSheet from "react-native-raw-bottom-sheet";
 import DatePicker from "react-native-datepicker";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Entypo from "react-native-vector-icons/Entypo";
-import HcdWaveView from "./HcdWaveView";
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from "react-native-chart-kit";
-
+import { showError, showSuccess } from "../../utils/notification";
+import { TabRouter } from "@react-navigation/native";
 class Calorie1 extends PureComponent {
   state = {
     food: "",
-    foodItems: [],
-    total: 1,
-    showChart: false,
-    proteins: 1.8,
-    fats: 1,
-    carbs: 1.5,
+    type: "",
     load: false,
+    foods: [],
   };
-
-  componentDidMount() {}
-  componentWillUnmount() {}
+  componentDidMount() {
+    
+    
+    const type = this.props.route.params.type;
+    this.setState({ type });
+    
+  }
+addFoodData=async()=>{
+let result= await  this.props.addCalorieData(this.state.foods);
+console.log(result);
+}
   getCalories = async () => {
+    Keyboard.dismiss();
     this.setState({ load: !this.state.load });
-
     const url =
       "https://api.edamam.com/api/nutrition-details?app_id=3794d72a&app_key=97878e1f8b135ae65328bd7fbbcc0453";
     const response = await fetch(url, {
@@ -80,82 +73,92 @@ class Calorie1 extends PureComponent {
       },
       body: JSON.stringify({
         title: "morning breakfast",
-        ingr: [this.state.food],
+        ingr: [`100 gram of ${this.state.food}`],
       }),
     });
     const resData = await response.json();
-    // console.log(resData.totalNutrientsKCal);
-    await this.setState({
+    
+    const foodItem = {
+      id: cuid(),
+      type: this.state.type,
+      item: this.state.food,
+      quantity: 100,
       total: resData.totalNutrientsKCal.ENERC_KCAL.quantity,
-    });
-    await this.setState({
-      proteins: resData.totalNutrientsKCal.PROCNT_KCAL.quantity,
-    });
-    await this.setState({ fats: resData.totalNutrientsKCal.FAT_KCAL.quantity });
-    await this.setState({
+      totalpre:resData.totalNutrientsKCal.ENERC_KCAL.quantity,
+      fats: resData.totalNutrientsKCal.FAT_KCAL.quantity,
       carbs: resData.totalNutrientsKCal.CHOCDF_KCAL.quantity,
-    });
-
-    console.log(this.state);
+      proteins: resData.totalNutrientsKCal.PROCNT_KCAL.quantity,
+    };
+    const foods = [...this.state.foods];
+    foods.push(foodItem);
+    this.setState({ foods });
     await this.setState({ food: "" });
-    await this.setState({ showChart: true });
     await this.setState({ load: !this.state.load });
   };
+  fab = () => {
+    if (this.state.foods.length===0) return null;
+    return (
+      <TouchableOpacity 
+      style={[styles.fab, styles.fabPosition]}
+      onPress={()=>{this.addFoodData()}}
+      >
+        {/* {
+          this.state.submitPending && (
+            <ActivityIndicator size={28} color={'white'}/>
+          )
+        } */}
+        {
+          //!this.state.submitPending &&
+          <FontAwesome name={"check"} color={"white"} size={22} />
+        }
+      </TouchableOpacity>
+    );
+  };
+
+  deleteItem = (foodId) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    const filteredFoods = this.state.foods.filter((food) => food.id !== foodId);
+    this.setState({ foods: filteredFoods });
+  };
+
+  getFood = (foodId) => {
+    const filteredFoods = this.state.foods.filter((food) => food.id == foodId);
+    if (filteredFoods.length == 0) return null;
+    return { ...filteredFoods[0] };
+  };
+  updateFood = (foodId, updatedFood) => {
+    let foods = this.state.foods.map((food) =>
+      food.id === foodId ? updatedFood : food
+    );
+    this.setState({ foods });
+  };
+  decreaseQuantity = (foodId) => {
+    const food = this.getFood(foodId);
+    
+    food.quantity = food.quantity - 100;
+    food.total-=food.totalpre
+    this.updateFood(foodId, food);
+  };
+  increaseQuantity = (foodId) => {
+    const food = this.getFood(foodId);
+    
+    food.quantity = food.quantity + 100;
+    food.total+=food.totalpre;
+    this.updateFood(foodId, food);
+  };
+
   render() {
     return (
-      <>
-        <ScrollView
+      <View style={styles.container}>
+        <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          style={styles.container}
+          style={{ flex: 1 }}
         >
-          {this.state.showChart&&
-            <>
-              <ProgressChart
-                data={{
-                  labels: ["Proteins", "Fats", "Carbs"], // optional
-                  data: [
-                    this.state.proteins / this.state.total,
-                    this.state.fats / this.state.total,
-                    this.state.carbs / this.state.total,
-                  ],
-                }}
-                width={screenWidth * 0.9}
-                height={220}
-                strokeWidth={16}
-                radius={32}
-                chartConfig={{
-                  backgroundGradientFrom: appTheme.background,
-                  backgroundGradientFromOpacity: 0,
-                  backgroundGradientTo: appTheme.background,
-                  backgroundGradientToOpacity: 0.5,
-                  color: (opacity = 1) => `rgba(255, 127, 80, ${opacity})`,
-                  strokeWidth: 2, // optional, default 3
-                  barPercentage: 0.5,
-                  labelColor: (opacity = 1) => appTheme.greyC,
-                  useShadowColorFromDataset: false, // optional
-                }}
-                hideLegend={false}
-              />
-              <Text
-                style={{
-                  color: appTheme.greyC,
-                  fontSize: 18,
-                  textAlign: "center",
-                }}
-              >
-                Total : {this.state.total} kcals.
-              </Text>
-            </>
-          }
-
           <View style={styles.searchSection}>
             <TextInput
               style={styles.input}
               placeholder="Enter food name"
+              autoCapitalize="words"
               onChangeText={(food) => {
                 this.setState({ food });
               }}
@@ -177,21 +180,112 @@ class Calorie1 extends PureComponent {
               >
                 <FontAwesome5Icon
                   style={styles.searchIcon}
-                  name="search"
+                  name="plus"
                   size={20}
                   color="#000"
                 />
               </TouchableOpacity>
             )}
           </View>
-          <View>
-            
+
+          <View style={styles.listView}>
+            {this.state.foods.map((food, index) => (
+              <View key={food.id} style={styles.eachCardOuter}>
+                <View style={styles.eachCard}>
+                  <View style={styles.nameView}>
+                    <Text style={styles.nameText}>{food.item}</Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.deleteItem(food.id);
+                      }}
+                      hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                    >
+                      <FontAwesome
+                        name={"trash"}
+                        color={colors.rejectRed}
+                        size={22}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.quantityView}>
+                    <Text style={styles.quanityText1}>Quantity</Text>
+                    <TouchableOpacity
+                      style={styles.minus}
+                      disabled={food.quantity > 100 ? false : true}
+                      onPress={() => {
+                        this.decreaseQuantity(food.id);
+                      }}
+                    >
+                      <FontAwesome5Icon name="minus" size={20} color="white" />
+                    </TouchableOpacity>
+                    <Text style={styles.quantityAndTotal}>
+                      {food.quantity} grams
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.plus}
+                      onPress={() => {
+                        this.increaseQuantity(food.id);
+                      }}
+                    >
+                      <FontAwesome5Icon name="plus" size={20} color="white" />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.categoryView}>
+                    <Text style={styles.totalText}>Total</Text>
+
+                    <Text style={styles.quantityAndTotal}>
+                      {(food.total)} cals
+                    </Text>
+                  </View>
+                  <View style={styles.categoryView}>
+                    <View>
+                      <Text style={[styles.categoryText, { color: "#c1ff00" }]}>
+                        Protein
+                      </Text>
+
+                      <Text style={styles.valueText}>
+                        {(food.proteins * food.quantity) / 100} cals
+                      </Text>
+                    </View>
+                    <View>
+                      <Text style={[styles.categoryText, { color: "#ef135f" }]}>
+                        Carbs
+                      </Text>
+
+                      <Text style={styles.valueText}>
+                        {(food.carbs * food.quantity) / 100} cals
+                      </Text>
+                    </View>
+                    <View>
+                      <Text style={[styles.categoryText, { color: "#54f0f7" }]}>
+                        Fats
+                      </Text>
+
+                      <Text style={styles.valueText}>
+                        {(food.fats * food.quantity) / 100} cals
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            ))}
           </View>
-        </ScrollView>
-      </>
+        </KeyboardAwareScrollView>
+        <this.fab />
+      </View>
     );
   }
-}
+};
+
+const mapStateToProps = (state) => ({
+  
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addCalorieData:(foods)=>dispatch(actionCreators.addCalorieData(foods))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calorie1);
 
 const styles = StyleSheet.create({
   container: {
@@ -203,7 +297,6 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.background,
   },
   searchSection: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -226,15 +319,221 @@ const styles = StyleSheet.create({
     color: appTheme.darkBackground,
     marginLeft: 10,
   },
-  buttonText: {
-    fontFamily: fonts.CenturyGothicBold,
-    fontSize: fontSizes.h3,
-    textAlign: "center",
+  listView: {
+    justifyContent: "center",
+    marginTop: spacing.medium_lg,
+    marginLeft: spacing.medium,
+    marginRight: spacing.medium,
+  },
+  eachCardOuter: {
+    backgroundColor: appTheme.darkBackground,
+    marginBottom: spacing.medium_lg,
+  },
+  eachCard: {
+    elevation: 14,
+    width: "99%",
+    padding: spacing.medium,
+    borderRadius: 4,
+    paddingLeft: spacing.large,
+    paddingRight: spacing.large,
+    margin: 2,
+    backgroundColor: appTheme.darkBackground,
+  },
+  nameView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  nameText: {
+    color: appTheme.brightContent,
+    fontSize: fontSizes.h1,
+    fontFamily: fonts.MontserratMedium,
+  },
+  quantityView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 15,
+  },
+  quanityText1: {
+    color: appTheme.greyC,
+    fontSize: fontSizes.h2,
+    fontFamily: fonts.MontserratMedium,
+    marginRight: 20,
+  },
+  minus: { marginLeft: 20, justifyContent: "center" },
+  plus: { justifyContent: "center" },
+  quantityAndTotal: {
+    fontSize: 16,
+    fontFamily: fonts.CenturyGothic,
+    color: appTheme.textPrimary,
+  },
+  categoryView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 15,
+  },
+  categoryText: {
+    fontSize: fontSizes.h2,
+    fontFamily: fonts.MontserratMedium,
+    marginRight: 20,
+  },
+  totalText: {
+    color: appTheme.greyC,
+    fontSize: fontSizes.h2,
+    fontFamily: fonts.MontserratMedium,
+    marginRight: 20,
+  },
+  valueText: {
+    fontSize: fontSizes.h2,
+    fontFamily: fonts.CenturyGothic,
+    color: appTheme.textPrimary,
+  },
+  fab: {
+    height: spacing.space_50,
+    width: spacing.space_50,
+    borderRadius: spacing.thumbnailMini / 2,
+    elevation: 4,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.acceptGreen,
+  },
+  fabPosition: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
   },
 });
 
-const mapStateToProps = (state) => ({});
+  //     await this.setState({
+    //       total: resData.totalNutrientsKCal.ENERC_KCAL.quantity,
+    //     });
+    //     await this.setState({
+    //       proteins: resData.totalNutrientsKCal.PROCNT_KCAL.quantity,
+    //     });
+    //     await this.setState({ fats: resData.totalNutrientsKCal.FAT_KCAL.quantity });
+    //     await this.setState({
+    //       carbs: resData.totalNutrientsKCal.CHOCDF_KCAL.quantity,
+    //     });
+    //    
+    //     await this.setState({ food: "" });
+    //     await this.setState({ showDetails: true });
+    //     await this.setState({ load: !this.state.load });
+    //   };
+    //   showNotification=async()=>{
+    //     showSuccess("Food added successfully.");
+    // await this.setState({ showDetails: false,quantity:1 });
+// {this.state.showDetails && (
+//   <View>
+//     <View
+//       style={{
+//         flexDirection: "row",
+//         flex: 1,
+//         backgroundColor: appTheme.darkBackground,
+//         alignItems: "center",
+//         paddingHorizontal: 15,
+//         paddingVertical: 10,
+//         marginHorizontal: 20,
+//         marginTop: 10,
+//         borderRadius: 10,
+//       }}
+//     >
+//       <TouchableOpacity style={{ flex: 1 }} disabled={this.state.quantity>1?false:true} onPress={()=>this.setState({quantity:this.state.quantity-1})}>
+//         <FontAwesome5Icon
+//           style={styles.iconStyle}
+//           name="minus"
+//           size={20}
+//           color="white"
+//         />
+//       </TouchableOpacity>
+//       <Text
+//         style={{
+//           fontSize: 16,
+//           fontFamily: fonts.CenturyGothic,
+//           color: appTheme.textPrimary,
+//           flex: 2,
+//         }}
+//       >
+//         Quantity {this.state.quantity*100} grams
+//       </Text>
+//       <TouchableOpacity style={{ flex: 1 }} onPress={()=>this.setState({quantity:this.state.quantity+1})} >
+//         <FontAwesome5Icon
+//           style={styles.iconStyle}
+//           name="plus"
+//           size={20}
+//           color="white"
+//         />
+//       </TouchableOpacity>
+//       <Button
+//         title="ADD"
+//         onPress={()=>this.showNotification()}
+//         style={{ justifyContent: "flex-end", borderRadius: 20 }}
+//         color={appTheme.brightContent}
+//       />
+//     </View>
+//     <View
+//       style={{
+//         flex: 1,
+//         backgroundColor: appTheme.darkBackground,
+//         width: "90%",
+//         //marginTop: 10,
+//         paddingHorizontal: 15,
+//         paddingVertical: 10,
+//         margin: 20,
+//         marginTop: 10,
+//         borderRadius: 10,
+//       }}
+//     >
+//       <View
+//         style={{
+//           flexDirection: "row",
+//           justifyContent: "space-between",
+//           marginVertical: 10,
+//         }}
+//       >
+//         <Text
+//           style={{
+//             color: appTheme.greyC,
+//             fontSize: 18,
+//             fontFamily: fonts.CenturyGothic,
+//           }}
+//         >
+//           Total: {this.state.total * this.state.quantity} kcal
+//         </Text>
 
-const mapDispatchToProps = (dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Calorie1);
+//         <Text
+//           style={{
+//             color: appTheme.greyC,
+//             fontSize: 18,
+//             fontFamily: fonts.CenturyGothic,
+//           }}
+//         >
+//           Carbs: {this.state.carbs * this.state.quantity} kcal
+//         </Text>
+//       </View>
+//       <View
+//         style={{
+//           flexDirection: "row",
+//           justifyContent: "space-between",
+//         }}
+//       >
+//         <Text
+//           style={{
+//             color: appTheme.greyC,
+//             fontSize: 18,
+//             fontFamily: fonts.CenturyGothic,
+//           }}
+//         >
+//           Fats: {this.state.fats * this.state.quantity} kcal
+//         </Text>
+//         <Text
+//           style={{
+//             color: appTheme.greyC,
+//             fontSize: 18,
+//             fontFamily: fonts.CenturyGothic,
+//           }}
+//         >
+//           Protein: {this.state.proteins * this.state.quantity} kcal
+//         </Text>
+//       </View>
+//     </View>
+//   </View>
+// )}

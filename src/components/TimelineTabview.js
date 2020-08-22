@@ -183,13 +183,17 @@ const styles = StyleSheet.create({
   },
   sessionText: {
     color: appTheme.textPrimary,
-    fontSize: fontSizes.h3,
-    fontWeight: "bold",
-    fontFamily: fonts.CenturyGothicBold,
+    fontSize: fontSizes.h2,
+    
+    fontFamily: fonts.CenturyGothic,
   },
   timeInfo: {
     justifyContent: "center",
     alignContent: "flex-end",
+    color: appTheme.textPrimary,
+    fontSize: fontSizes.h2,
+    
+    fontFamily: fonts.CenturyGothic,
   },
   noActivity: {
     flex: 1,
