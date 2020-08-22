@@ -236,7 +236,9 @@ const strings = {
   NO_NOTIFICATIONS: 'No notifications',
   MARK_ALL_READ: 'Mark All Read',
   VIEW_ALL: 'View All',
-  CLEAR_ALL: 'Clear All'
+  CLEAR_ALL: 'Clear All',
+  ADD_ITEM:'Add Item',
+  CALS:'cal'
 };
 
 export const bmiVerdicts = {

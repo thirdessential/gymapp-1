@@ -158,13 +158,13 @@ console.log(result);
             <TextInput
               style={styles.input}
               placeholder="Enter food name"
-              autoCapitalize="words"
+              autoCapitalize='words'
               onChangeText={(food) => {
                 this.setState({ food });
               }}
               placeholderTextColor={appTheme.darkBackground}
               value={this.state.food}
-              underlineColorAndroid="transparent"
+              
             />
             {this.state.load ? (
               <ActivityIndicator

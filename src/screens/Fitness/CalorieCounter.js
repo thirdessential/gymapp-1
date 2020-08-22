@@ -73,7 +73,7 @@ class CalorieCounter extends PureComponent {
   }
 functionCalls=async()=>{
   const { calorieData } = this.props;
-  console.log(calorieData);
+  // console.log(calorieData);
   await this.setState({ foodItems: calorieData });
   this.calcTotal();
   this.calcProtein();
@@ -138,33 +138,22 @@ functionCalls=async()=>{
   calcProtein = async () => {
     let initial = 0;
     await this.state.foodItems.map((item, index) => (initial += item.proteins));
-    console.log(initial+" prote")
+    // console.log(initial+" prote")
     this.setState({ proteinIntake: initial });
   };
   calcFats = async () => {
     let initial = 0;
     await this.state.foodItems.map((item, index) => (initial += item.fats));
-   console.log(initial+" fats")
+  //  console.log(initial+" fats")
     this.setState({ fatsIntake: initial });
   };
   calcCarbs = async () => {
     let initial = 0;
     await this.state.foodItems.map((item, index) => (initial += item.carbs));
-   console.log(initial+" carbs")
+  //  console.log(initial+" carbs")
     this.setState({ carbsIntake: initial });
   };
-  componentWillUnmount() {
-    this.willFocusSubscription.remove();
-  }
 
-  renderIcon = () => (
-    <FontAwesome5Icon
-      style={styles.iconStyle}
-      name="plus"
-      size={20}
-      color="white"
-    />
-  );
 
   render() {
     return (
@@ -180,14 +169,14 @@ functionCalls=async()=>{
           showsVerticalScrollIndicator={false}
           style={{ flex: 1 }}
         >
-          <View style={{ margin: 10, flex: 1, alignItems: "center" }}>
+          <View style={styles.totalCircle}>
             <Progress.Circle
-              style={{ marginVertical: 5 }}
+              style={{ marginVertical: spacing.small }}
               showsText={true}
               thickness={7}
               size={170}
               borderWidth={4}
-              textStyle={{ fontSize: 25 }}
+              textStyle={{ fontSize: fontSizes.midTitle }}
               progress={this.state.intakeCal / (this.state.targetCal || 1)}
               animated={false}
               color="#1177f3"
@@ -195,30 +184,26 @@ functionCalls=async()=>{
           </View>
 
           <Text style={styles.calorieText}>
-            {strings.CALORIE_INTAKE_TEXT} : {this.state.intakeCal} cals
+            {strings.CALORIE_INTAKE_TEXT} : {this.state.intakeCal} {strings.CALS}
           </Text>
-          <View style={{ marginTop: 10 }}>
+          <View style={{ marginTop: spacing.medium_sm }}>
             <Text style={styles.calorieText}>
-              {strings.TARGET_TEXT} : {this.state.targetCal} cals
+              {strings.TARGET_TEXT} : {this.state.targetCal} {strings.CALS}
             </Text>
           </View>
           <View style={styles.mainCardsView}>
             <View style={styles.cardView}>
               <Text style={styles.category}>{strings.PROTEIN}</Text>
               <Text
-                style={{
-                  textAlign: "center",
-                  color: appTheme.greyC,
-                  marginVertical: 6,
-                }}
+                style={styles.calsIntake}
               >
-                {this.state.proteinIntake} cals
+                {this.state.proteinIntake} {strings.CALS}
               </Text>
               <Progress.Circle
-                style={{ marginVertical: 5 }}
+                style={{ marginVertical: spacing.small }}
                 showsText={true}
                 size={70}
-                textStyle={{ fontSize: 18 }}
+                textStyle={{ fontSize: fontSizes.h1 }}
                 progress={
                   this.state.proteinIntake / (this.state.intakeCal || 1)
                 }
@@ -231,13 +216,13 @@ functionCalls=async()=>{
               <Text style={styles.category}>{strings.CARBS}</Text>
               <Text style={styles.calsIntake}>
                 {" "}
-                {this.state.carbsIntake} cals
+                {this.state.carbsIntake} {strings.CALS}
               </Text>
               <Progress.Circle
-                style={{ marginVertical: 5 }}
+                style={{ marginVertical: spacing.small }}
                 showsText={true}
                 size={70}
-                textStyle={{ fontSize: 18 }}
+                textStyle={{ fontSize: fontSizes.h1 }}
                 progress={this.state.carbsIntake / (this.state.intakeCal || 1)}
                 animated={false}
                 color="#ef135f"
@@ -248,83 +233,27 @@ functionCalls=async()=>{
               <Text style={styles.category}>{strings.FATS}</Text>
               <Text style={styles.calsIntake}>
                 {" "}
-                {this.state.fatsIntake} cals
+                {this.state.fatsIntake} {strings.CALS}
               </Text>
               <Progress.Circle
-                style={{ marginVertical: 5 }}
+                style={{ marginVertical: spacing.small }}
                 showsText={true}
                 size={70}
-                textStyle={{ fontSize: 18 }}
+                textStyle={{ fontSize: fontSizes.h1 }}
                 progress={this.state.fatsIntake / (this.state.intakeCal || 1)}
                 animated={false}
                 color="#54f0f7"
               />
             </View>
           </View>
-
-          {/* <View style={styles.cardMainView}>
-            <View style={styles.optionView}>
-              <Text style={styles.optionText}>{strings.BREAKFAST}</Text>
-
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.navigate(RouteNames.Calorie1, {
-                    type: "BREAKFAST",
-                  });
-                }}
-              >
-                {this.renderIcon()}
-              </TouchableOpacity>
-            </View>
-            <View style={styles.optionView}>
-              <Text style={styles.optionText}>{strings.LUNCH}</Text>
-
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.navigate(RouteNames.Calorie1, {
-                    type: "LUNCH",
-                  });
-                }}
-              >
-                {this.renderIcon()}
-              </TouchableOpacity>
-            </View> */}
-
-          {/* <View style={styles.optionView}>
-              <Text style={styles.optionText}>{strings.SNACKS}</Text>
-
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.navigate(RouteNames.Calorie1, {
-                    type: "SNACKS",
-                  });
-                }}
-              >
-                {this.renderIcon()}
-              </TouchableOpacity>
-            </View> */}
-
-          {/* <View style={styles.optionView}>
-            <Text style={styles.optionText}>{strings.DINNER}</Text>
-
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate(RouteNames.Calorie1, {
-                  type: "DINNER",
-                });
-              }}
-            >
-              {this.renderIcon()}
-            </TouchableOpacity>
-          </View> */}
           <View style={styles.listView}>
             <View style={styles.eachContainer}>
               <View style={styles.eachCard}>
                 <View style={styles.typeView}>
-                  <Text style={styles.typeText}>Breakfast</Text>
+                  <Text style={styles.typeText}>{strings.BREAKFAST}</Text>
 
                   <Text style={styles.quantityInteger}>
-                    {this.state.breakFastTotal} cals
+                    {this.state.breakFastTotal} {strings.CALS}
                   </Text>
                 </View>
                 {this.state.breakFast.map((item, index) => (
@@ -334,13 +263,13 @@ functionCalls=async()=>{
                     <Text style={styles.foodCal}>{item.total}</Text>
                   </View>
                 ))}
-                <TouchableOpacity style={{ marginTop: 8 }}
+                <TouchableOpacity style={{ marginTop: spacing.small_lg }}
                 onPress={() => {
                   this.props.navigation.navigate(RouteNames.Calorie1, {
                     type: "BREAKFAST",
                   });
                 }}>
-                  <Text style={styles.addFood}>Add item</Text>
+                  <Text style={styles.addFood}>{strings.ADD_ITEM}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -349,10 +278,10 @@ functionCalls=async()=>{
             <View style={styles.eachContainer}>
               <View style={styles.eachCard}>
                 <View style={styles.typeView}>
-                  <Text style={styles.typeText}>Lunch</Text>
+                  <Text style={styles.typeText}>{strings.LUNCH}</Text>
 
                   <Text style={styles.quantityInteger}>
-                    {this.state.lunchTotal} cals
+                    {this.state.lunchTotal} {strings.CALS}
                   </Text>
                 </View>
                 {this.state.lunch.map((item, index) => (
@@ -362,13 +291,13 @@ functionCalls=async()=>{
                     <Text style={styles.foodCal}>{item.total}</Text>
                   </View>
                 ))}
-                <TouchableOpacity style={{ marginTop: 8 }}
+                <TouchableOpacity style={{ marginTop: spacing.small_lg }}
                 onPress={() => {
                   this.props.navigation.navigate(RouteNames.Calorie1, {
                     type: "LUNCH",
                   });
                 }}>
-                  <Text style={styles.addFood}>Add item</Text>
+                  <Text style={styles.addFood}>{strings.ADD_ITEM}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -377,10 +306,10 @@ functionCalls=async()=>{
             <View style={styles.eachContainer}>
               <View style={styles.eachCard}>
                 <View style={styles.typeView}>
-                  <Text style={styles.typeText}>Snacks</Text>
+                  <Text style={styles.typeText}>{strings.SNACKS}</Text>
 
                   <Text style={styles.quantityInteger}>
-                    {this.state.snacksTotal}  cals
+                    {this.state.snacksTotal}  {strings.CALS}
                   </Text>
                 </View>
                 {this.state.snacks.map((item, index) => (
@@ -390,13 +319,13 @@ functionCalls=async()=>{
                     <Text style={styles.foodCal}>{item.total}</Text>
                   </View>
                 ))}
-                <TouchableOpacity style={{ marginTop: 8 }}
+                <TouchableOpacity style={{ marginTop: spacing.small_lg }}
                 onPress={() => {
                   this.props.navigation.navigate(RouteNames.Calorie1, {
                     type: "SNACKS",
                   });
                 }}>
-                  <Text style={styles.addFood}>Add item</Text>
+                  <Text style={styles.addFood}>{strings.ADD_ITEM}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -405,10 +334,10 @@ functionCalls=async()=>{
             <View style={styles.eachContainer}>
               <View style={styles.eachCard}>
                 <View style={styles.typeView}>
-                  <Text style={styles.typeText}>Dinner</Text>
+                  <Text style={styles.typeText}>{strings.DINNER}</Text>
 
                   <Text style={styles.quantityInteger}>
-                    {this.state.dinnerTotal} cals
+                    {this.state.dinnerTotal} {strings.CALS}
                   </Text>
                 </View>
                 {this.state.dinner.map((item, index) => (
@@ -418,13 +347,13 @@ functionCalls=async()=>{
                     <Text style={styles.foodCal}>{item.total}</Text>
                   </View>
                 ))}
-                <TouchableOpacity style={{ marginTop: 8 }}
+                <TouchableOpacity style={{ marginTop: spacing.small_lg }}
                 onPress={() => {
                   this.props.navigation.navigate(RouteNames.Calorie1, {
                     type: "DINNER",
                   });
                 }}>
-                  <Text style={styles.addFood}>Add item</Text>
+                  <Text style={styles.addFood}>{strings.ADD_ITEM}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -448,30 +377,10 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.background,
     flex: 1,
   },
-  optionView: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: appTheme.darkBackground,
-    marginTop: 10,
-    paddingHorizontal: 5,
-    marginHorizontal: 15,
-    borderRadius: 10,
-  },
-  optionText: {
-    flex: 1,
-    padding: 10,
-    fontSize: 18,
-    fontFamily: fonts.CenturyGothic,
-    color: appTheme.textPrimary,
-  },
-  iconStyle: {
-    padding: 10,
-  },
+  totalCircle:{ margin: 10, flex: 1, alignItems: "center" },
   calorieText: {
     color: appTheme.textPrimary,
-    fontSize: 18,
+    fontSize: fontSizes.h1,
     textAlign: "center",
     fontFamily: fonts.CenturyGothic,
   },
@@ -487,15 +396,8 @@ const styles = StyleSheet.create({
   category: {
     textAlign: "center",
     color: appTheme.greyC,
-    fontSize: 18,
+    fontSize: fontSizes.h1,
     marginBottom: 6,
-  },
-  cardMainView: {
-    flex: 1,
-    justifyContent: "center",
-    flexDirection: "column",
-    alignItems: "flex-end",
-    marginTop: 10,
   },
   mainCardsView: {
     flex: 1,
