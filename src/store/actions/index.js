@@ -71,7 +71,8 @@ export {
   updateExerciseIndex,
   updateTarget,
   addCalorieData,
-  addFoods
+  addFoods,
+  addWaterIntake,
 } from './fitness.actions';
 
 export {

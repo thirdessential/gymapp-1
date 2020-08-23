@@ -43,6 +43,8 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Entypo from "react-native-vector-icons/Entypo";
 import { showError, showSuccess } from "../../utils/notification";
 import { TabRouter } from "@react-navigation/native";
+import { getTodayFormattedDate } from "../../utils/utils";
+const todaysDate=getTodayFormattedDate();
 class Calorie1 extends PureComponent {
   state = {
     food: "",
@@ -64,38 +66,7 @@ class Calorie1 extends PureComponent {
       //   type: "BREAKFAST",
       // },
       // {
-      //   carbs: 19,
-      //   fats: 29,
-      //   id: cuid(),
-      //   item: "milk",
-      //   proteins: 13,
-      //   quantity: 400,
-      //   total: 244,
-      //   pretotal: 61,
-      //   type: "LUNCH",
-      // },
-      // {
-      //   carbs: 195,
-      //   fats: 29,
-      //   id: cuid(),
-      //   item: "bread",
-      //   proteins: 43,
-      //   quantity: 400,
-      //   total: 1068,
-      //   pretotal: 267,
-      //   type: "SNACKS",
-      // },
-      // {
-      //   carbs: 195,
-      //   fats: 29,
-      //   id: cuid(),
-      //   item: "bread",
-      //   proteins: 43,
-      //   quantity: 100,
-      //   total: 267,
-      //   pretotal: 267,
-      //   type: "BREAKFAST",
-      // },
+     
     ],
   };
   componentDidMount() {
@@ -236,7 +207,7 @@ class Calorie1 extends PureComponent {
               <ActivityIndicator
                 size="small"
                 color="#0000ff"
-                style={{ marginRight: 5 }}
+                style={{ marginRight: spacing.small }}
               />
             ) : (
               <TouchableOpacity
@@ -274,7 +245,7 @@ class Calorie1 extends PureComponent {
                     </TouchableOpacity>
                   </View>
                   <View style={styles.quantityView}>
-                    <Text style={styles.quanityText1}>Quantity</Text>
+                    <Text style={styles.quanityText1}>{strings.QUANTITY}</Text>
                     <TouchableOpacity
                       style={styles.minus}
                       disabled={food.quantity > 100 ? false : true}
@@ -297,7 +268,7 @@ class Calorie1 extends PureComponent {
                     </TouchableOpacity>
                   </View>
                   <View style={styles.categoryView}>
-                    <Text style={styles.totalText}>Total</Text>
+                    <Text style={styles.totalText}>{strings.TOTAL}</Text>
 
                     <Text style={styles.quantityAndTotal}>
                       {food.total} {strings.CALS}

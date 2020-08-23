@@ -20,42 +20,41 @@ import en from "javascript-time-ago/locale/en";
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
-import colors, {
-  appTheme,
-  bmiColors,
-  darkPallet,
-} from "../../constants/colors";
+import colors, { appTheme } from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import { screenWidth } from "../../utils/screenDimensions";
 import strings from "../../constants/strings";
-import BmiBar from "../../components/BmiBar";
-import { calculateBmi, getBmiVerdict, toTitleCase } from "../../utils/utils";
-import Feather from "react-native-vector-icons/Feather";
-import CustomLineChart from "../../components/CustomLineChart";
-import Avatar from "../../components/Avatar";
-import RouteNames from "../../navigation/RouteNames";
+import { getTodayFormattedDate } from "../../utils/utils";
 import * as actionCreators from "../../store/actions";
-import { hitSlop20 } from "../../constants/styles";
-import { WEEK_DAYS } from "../../constants/appConstants";
-import RBSheet from "react-native-raw-bottom-sheet";
-import DatePicker from "react-native-datepicker";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import Entypo from "react-native-vector-icons/Entypo";
 import HcdWaveView from "../../components/HcdWaveView";
-
+const todaysDate = getTodayFormattedDate();
 class Water extends PureComponent {
   state = {
-      waterIntake:0,
-      target:5000,
-
+    waterIntake: 0,
+    target: 5000,
   };
 
-  componentDidMount() {}
-  componentWillUnmount() {}
+  async componentDidMount() {
+    //console.log(this.props.waterIntake);
+    const { waterIntake } = this.props;
+    if (waterIntake) {
+      this.setState({ waterIntake });
+    }
 
+    //console.log(todaysDate);
+  }
+  updateWaterState = async (count) => {
+    await this.setState({ waterIntake: this.state.waterIntake + count });
+    this.updateWaterIntake();
+  };
+  updateWaterIntake = async () => {
+    let result = await this.props.addWaterIntake(this.state.waterIntake);
+    console.log(result);
+  };
   render() {
-      //var percent=(this.state.waterIntake/this.state.target)*100;
     return (
       <>
         <ScrollView
@@ -69,20 +68,43 @@ class Water extends PureComponent {
           <HcdWaveView
             surfaceWidth={230}
             surfaceHeigth={230}
-            powerPercent={(this.state.waterIntake/this.state.target)*100}
+            powerPercent={parseInt(
+              (this.state.waterIntake / this.state.target) * 100
+            )}
             type="dc"
             style={{ backgroundColor: "#FF7800" }}
           ></HcdWaveView>
-          <View style={{flexDirection: 'row',justifyContent: 'space-between', margin: spacing.medium_sm,flex:1}}>
-              <TouchableOpacity style={{marginHorizontal:10}} onPress={()=>this.setState({waterIntake:this.state.waterIntake+50})}><Text style={{color: 'white',fontSize:20}}>+50ml</Text></TouchableOpacity>
-              <TouchableOpacity style={{marginHorizontal:10}} onPress={()=>this.setState({waterIntake:this.state.waterIntake+250})}><Text style={{color: 'white',fontSize:20}}>+250ml</Text></TouchableOpacity>
-              <TouchableOpacity style={{marginHorizontal:10}} onPress={()=>this.setState({waterIntake:this.state.waterIntake+500})}><Text style={{color: 'white',fontSize:20}}>+500ml</Text></TouchableOpacity>
+          <View
+            style={styles.mainView}
+          >
+            <TouchableOpacity
+              style={styles.increaseMargin}
+              onPress={() => this.updateWaterState(50)}
+            >
+              <Text style={styles.increaseText}>+50ml</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.increaseMargin}
+              onPress={() => this.updateWaterState(250)}
+            >
+              <Text style={styles.increaseText}>+250ml</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.increaseMargin}
+              onPress={() => this.updateWaterState(500)}
+            >
+              <Text style={styles.increaseText}>+500ml</Text>
+            </TouchableOpacity>
           </View>
-          <View style={{flexDirection: 'row',justifyContent: 'space-between', margin: spacing.medium_sm,flex:1}}>
-          <Text style={{color: 'white',fontSize:20}}>Target : {this.state.target/1000}{" "}Litres</Text>
+          <View style={styles.counterView}>
+            <Text style={{ color: "white", fontSize: 20 }}>
+              {strings.TARGET_TEXT} : {this.state.target / 1000} Litres
+            </Text>
           </View>
-          <View style={{flexDirection: 'row',justifyContent: 'space-between', margin: spacing.medium_sm,flex:1}}>
-          <Text style={{color: 'white',fontSize:20}}>Achieved : {this.state.waterIntake}{" "}ml's</Text>
+          <View style={styles.counterView}>
+            <Text style={styles.increaseText}>
+              {strings.ACHIEVED} : {this.state.waterIntake} ml's
+            </Text>
           </View>
         </ScrollView>
       </>
@@ -90,6 +112,15 @@ class Water extends PureComponent {
   }
 }
 
+const mapStateToProps = (state) => ({
+  waterIntake: state.fitness.waterIntake[todaysDate],
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addWaterIntake: (water) => dispatch(actionCreators.addWaterIntake(water)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Water);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -99,10 +130,18 @@ const styles = StyleSheet.create({
 
     backgroundColor: appTheme.background,
   },
+  increaseText: { color: appTheme.textPrimary, fontSize: fontSizes.h1 },
+  counterView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    margin: spacing.medium_sm,
+    flex: 1,
+  },
+  mainView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    margin: spacing.medium_sm,
+    flex: 1,
+  },
+  increaseMargin: { marginHorizontal: spacing.medium },
 });
-
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = (dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Water);

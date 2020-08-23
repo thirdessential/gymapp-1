@@ -35,6 +35,8 @@ import * as actionCreators from "../../store/actions";
 import { hitSlop20 } from "../../constants/styles";
 import { WEEK_DAYS } from "../../constants/appConstants";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import { getTodayFormattedDate } from "../../utils/utils";
+const todaysDate=getTodayFormattedDate();
 
 class CalorieCounter extends PureComponent {
   constructor(props) {
@@ -383,7 +385,7 @@ if(calorieData){
 }
 
 const mapStateToProps = (state) => ({
-  calorieData: state.fitness.calorieData[new Date().toLocaleDateString()],
+  calorieData: state.fitness.calorieData[todaysDate],
 });
 
 const mapDispatchToProps = (dispatch) => ({});

@@ -57,3 +57,4 @@ export const RESET_APP = 'RESET_APP';
 
 //CALORIES
 export const ADD_CALORIE_DATA= 'ADD_CALORIE_DATA';
+export const ADD_WATER_INTAKE = 'ADD_WATER_INTAKE';

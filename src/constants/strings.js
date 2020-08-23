@@ -238,7 +238,9 @@ const strings = {
   VIEW_ALL: 'View All',
   CLEAR_ALL: 'Clear All',
   ADD_ITEM:'Add Item',
-  CALS:'cal'
+  CALS:'cal',
+  ACHIEVED:'Achieved',
+  QUANTITY:"Quantity"
 };
 
 export const bmiVerdicts = {
