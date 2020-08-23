@@ -20,14 +20,14 @@ export const updatePackage = (packageData) => ({
 export const createPackage = (packageData) => {
   return async (dispatch, getState) => {
     try {
-      const {title, noOfSessions, price, description, _id, category} = packageData;
+      const {title, noOfSessions, price, description, _id, category, group,maxParticipants,slot,startDate} = packageData;
       let result = null;
       if (_id) {
         dispatch(updatePackage(packageData)); //optimistic TODO:rollback
-        result = await API.updatePackage(_id, {title, noOfSessions, description, price, category});
+        result = await API.updatePackage(_id, {title, noOfSessions, description, price, category,group,maxParticipants,slot,startDate});
         console.log("package updated", result);
       } else {
-        result = await API.createPackage({title, noOfSessions, description, price, category});
+        result = await API.createPackage({title, noOfSessions, description, price, category,group,maxParticipants,slot,startDate});
         console.log("package created", result);
         const packageData = result.package;
         dispatch(updatePackage(packageData));

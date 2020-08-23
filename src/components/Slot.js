@@ -2,8 +2,6 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {useState} from "react";
-// import Material from "react-native-vector-icons/MaterialCommunityIcons";
-// import Ion from "react-native-vector-icons/Ionicons";
 import PropTypes from "prop-types";
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import {spacing} from "../constants/dimension";
@@ -12,8 +10,7 @@ import colors, {appTheme} from "../constants/colors";
 import WeekdayPicker from "react-native-weekday-picker";
 import fontSizes from "../constants/fontSizes";
 import fonts from "../constants/fonts";
-import {findMissingDays, formattedTime, stringToDate} from "../utils/utils";
-import strings from "../constants/strings";
+import { formattedTime, stringToDate} from "../utils/utils";
 import SelectableButtonGroup from "./selectableButtonGroup";
 import {allowedDurations, WEEK_DAYS} from "../constants/appConstants";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -88,7 +85,7 @@ const slot = (props) => {
 
   }
   return (
-    <View style={styles.container}>
+    <View style={props.containerStyle ? props.containerStyle : styles.container}>
       <Title/>
       <TouchableOpacity disabled={!props.onTimeChange} style={styles.timeContainer} onPress={() => setShow(!show)}>
         <Text style={styles.title}>Time : </Text>

@@ -1,14 +1,18 @@
 import axios from "./config";
 import {validateResponseCode} from "../utils/utils";
 
-export const createPackage = async ({title, noOfSessions, price, description, category}) => {
+export const createPackage = async ({title, noOfSessions, price, description, category, group, maxParticipants, slot, startDate}) => {
   try {
     let response = await axios.post(`/package/create`, {
       title,
       noOfSessions,
       price,
       description,
-      category
+      category,
+      group,
+      maxParticipants,
+      slot,
+      startDate
     });
     if (validateResponseCode(response.status)) {
       return response.data;
@@ -33,14 +37,18 @@ export const getPackage = async (packageId) => {
   }
 }
 
-export const updatePackage = async (packageId, {title, noOfSessions, price, description, category}) => {
+export const updatePackage = async (packageId, {title, noOfSessions, price, description, category, group, maxParticipants, slot, startDate}) => {
   try {
     let response = await axios.put(`/package/${packageId}`, {
       title,
       noOfSessions,
       price,
       description,
-      category
+      category,
+      group,
+      maxParticipants,
+      slot,
+      startDate
     });
     if (validateResponseCode(response.status)) {
       return response.data;
