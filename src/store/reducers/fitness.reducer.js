@@ -16,7 +16,6 @@ const reducer = (state = initialState, action) => {
       var date = new Date().toLocaleDateString();
       const oldCalorieData = { ...state.calorieData };
       const { calorieData } = action.payload;
-      console.log("123");
       if (oldCalorieData) {
         if (oldCalorieData[date]) {
           oldCalorieData[date] = oldCalorieData[date].concat(calorieData);
@@ -28,8 +27,6 @@ const reducer = (state = initialState, action) => {
       }
       console.log(calorieData);
       console.log(oldCalorieData);
-      console.log("134");
-      console.log(state);
       return updateObject(state, {calorieData:oldCalorieData});
       //
     }
