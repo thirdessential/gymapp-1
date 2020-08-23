@@ -1,6 +1,6 @@
-import {fitnessState as initialState} from './initialState';
-import * as actionTypes from '../actions/actionTypes';
-import {updateObject} from "../../utils/utils";
+import { fitnessState as initialState } from "./initialState";
+import * as actionTypes from "../actions/actionTypes";
+import { updateObject } from "../../utils/utils";
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -12,16 +12,26 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, action.payload);
     case actionTypes.SET_TARGET:
       return updateObject(state, action.payload);
-    case actionTypes.ADD_CALORIE_DATA:{
-      //console.log(action.payload);
-      // const {calorieData}=action.payload;
-      // console.log(calorieData);
-      const oldFoods=[...state.calorieData];
-console.log("321");
-      console.log(oldFoods);
-
-      console.log("123")
-      return updateObject(state, {calorieData:oldFoods.concat(action.payload.calorieData)});
+    case actionTypes.ADD_CALORIE_DATA: {
+      var date = new Date().toLocaleDateString();
+      const oldCalorieData = { ...state.calorieData };
+      const { calorieData } = action.payload;
+      console.log("123");
+      if (oldCalorieData) {
+        if (oldCalorieData[date]) {
+          oldCalorieData[date] = oldCalorieData[date].concat(calorieData);
+        } else {
+          oldCalorieData[date] = calorieData;
+        }
+      } else {
+        oldCalorieData[date] = calorieData;
+      }
+      console.log(calorieData);
+      console.log(oldCalorieData);
+      console.log("134");
+      console.log(state);
+      return updateObject(state, {calorieData:oldCalorieData});
+      //
     }
     default:
       return state;

@@ -56,7 +56,7 @@ export const fitnessState = {
   exerciseIndex: 3,
   targetWeight: null,
   targetDate: null,
-  calorieData:[]
+  calorieData:{}
 }
 
 export const notificationState = {

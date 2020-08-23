@@ -48,20 +48,71 @@ class Calorie1 extends PureComponent {
     food: "",
     type: "",
     load: false,
-    foods: [],
+    foods: [
+      // {
+      //   item: "egg",
+      //   quantity: 100,
+      //   carbs: 3,
+      //   precarbs: 3,
+      //   fats: 88,
+      //   prefats: 88,
+      //   proteins: 52,
+      //   preproteins: 52,
+      //   id: cuid(),
+      //   total: 143,
+      //   pretotal: 143,
+      //   type: "BREAKFAST",
+      // },
+      // {
+      //   carbs: 19,
+      //   fats: 29,
+      //   id: cuid(),
+      //   item: "milk",
+      //   proteins: 13,
+      //   quantity: 400,
+      //   total: 244,
+      //   pretotal: 61,
+      //   type: "LUNCH",
+      // },
+      // {
+      //   carbs: 195,
+      //   fats: 29,
+      //   id: cuid(),
+      //   item: "bread",
+      //   proteins: 43,
+      //   quantity: 400,
+      //   total: 1068,
+      //   pretotal: 267,
+      //   type: "SNACKS",
+      // },
+      // {
+      //   carbs: 195,
+      //   fats: 29,
+      //   id: cuid(),
+      //   item: "bread",
+      //   proteins: 43,
+      //   quantity: 100,
+      //   total: 267,
+      //   pretotal: 267,
+      //   type: "BREAKFAST",
+      // },
+    ],
   };
   componentDidMount() {
-    
-    
     const type = this.props.route.params.type;
     this.setState({ type });
-    
   }
-addFoodData=async()=>{
-let result= await  this.props.addCalorieData(this.state.foods);
-console.log(result);
-}
+  addFoodData = async () => {
+    let result = await this.props.addCalorieData(this.state.foods);
+    console.log(result);
+    showSuccess("Items added successfully");
+    this.props.navigation.goBack();
+  };
   getCalories = async () => {
+    if (this.state.food === "") {
+      showError("Please enter food to be searched.");
+      return null;
+    }
     Keyboard.dismiss();
     this.setState({ load: !this.state.load });
     const url =
@@ -77,30 +128,40 @@ console.log(result);
       }),
     });
     const resData = await response.json();
-    
-    const foodItem = {
-      id: cuid(),
-      type: this.state.type,
-      item: this.state.food,
-      quantity: 100,
-      total: resData.totalNutrientsKCal.ENERC_KCAL.quantity,
-      totalpre:resData.totalNutrientsKCal.ENERC_KCAL.quantity,
-      fats: resData.totalNutrientsKCal.FAT_KCAL.quantity,
-      carbs: resData.totalNutrientsKCal.CHOCDF_KCAL.quantity,
-      proteins: resData.totalNutrientsKCal.PROCNT_KCAL.quantity,
-    };
-    const foods = [...this.state.foods];
-    foods.push(foodItem);
-    this.setState({ foods });
-    await this.setState({ food: "" });
-    await this.setState({ load: !this.state.load });
+    if (resData.totalNutrientsKCal) {
+      const foodItem = {
+        id: cuid(),
+        type: this.state.type,
+        item: this.state.food,
+        quantity: 100,
+        total: resData.totalNutrientsKCal.ENERC_KCAL.quantity,
+        pretotal: resData.totalNutrientsKCal.ENERC_KCAL.quantity,
+        prefats: resData.totalNutrientsKCal.FAT_KCAL.quantity,
+        fats: resData.totalNutrientsKCal.FAT_KCAL.quantity,
+        precarbs: resData.totalNutrientsKCal.CHOCDF_KCAL.quantity,
+        carbs: resData.totalNutrientsKCal.CHOCDF_KCAL.quantity,
+        preproteins: resData.totalNutrientsKCal.PROCNT_KCAL.quantity,
+        proteins: resData.totalNutrientsKCal.PROCNT_KCAL.quantity,
+      };
+      const foods = [...this.state.foods];
+      foods.push(foodItem);
+      this.setState({ foods });
+      await this.setState({ food: "" });
+      await this.setState({ load: !this.state.load });
+    } else {
+      showError("Unable to find food.");
+      await this.setState({ food: "" });
+      await this.setState({ load: !this.state.load });
+    }
   };
   fab = () => {
-    if (this.state.foods.length===0) return null;
+    if (this.state.foods.length === 0) return null;
     return (
-      <TouchableOpacity 
-      style={[styles.fab, styles.fabPosition]}
-      onPress={()=>{this.addFoodData()}}
+      <TouchableOpacity
+        style={[styles.fab, styles.fabPosition]}
+        onPress={() => {
+          this.addFoodData();
+        }}
       >
         {/* {
           this.state.submitPending && (
@@ -134,16 +195,22 @@ console.log(result);
   };
   decreaseQuantity = (foodId) => {
     const food = this.getFood(foodId);
-    
+
     food.quantity = food.quantity - 100;
-    food.total-=food.totalpre
+    food.total -= food.pretotal;
+    food.carbs-=food.precarbs
+    food.fats-=food.prefats
+    food.proteins-=food.preproteins
     this.updateFood(foodId, food);
   };
   increaseQuantity = (foodId) => {
     const food = this.getFood(foodId);
-    
+
     food.quantity = food.quantity + 100;
-    food.total+=food.totalpre;
+    food.total += food.pretotal;
+    food.carbs+=food.precarbs
+    food.fats+=food.prefats
+    food.proteins+=food.preproteins
     this.updateFood(foodId, food);
   };
 
@@ -158,13 +225,12 @@ console.log(result);
             <TextInput
               style={styles.input}
               placeholder="Enter food name"
-              autoCapitalize='words'
+              autoCapitalize="words"
               onChangeText={(food) => {
                 this.setState({ food });
               }}
               placeholderTextColor={appTheme.darkBackground}
               value={this.state.food}
-              
             />
             {this.state.load ? (
               <ActivityIndicator
@@ -234,35 +300,35 @@ console.log(result);
                     <Text style={styles.totalText}>Total</Text>
 
                     <Text style={styles.quantityAndTotal}>
-                      {(food.total)} cals
+                      {food.total} {strings.CALS}
                     </Text>
                   </View>
                   <View style={styles.categoryView}>
                     <View>
                       <Text style={[styles.categoryText, { color: "#c1ff00" }]}>
-                        Protein
+                        {strings.PROTEIN}
                       </Text>
 
                       <Text style={styles.valueText}>
-                        {(food.proteins * food.quantity) / 100} cals
+                        {food.proteins} {strings.CALS}
                       </Text>
                     </View>
                     <View>
                       <Text style={[styles.categoryText, { color: "#ef135f" }]}>
-                        Carbs
+                        {strings.CARBS}
                       </Text>
 
                       <Text style={styles.valueText}>
-                        {(food.carbs * food.quantity) / 100} cals
+                        {food.carbs} {strings.CALS}
                       </Text>
                     </View>
                     <View>
                       <Text style={[styles.categoryText, { color: "#54f0f7" }]}>
-                        Fats
+                        {strings.FATS}
                       </Text>
 
                       <Text style={styles.valueText}>
-                        {(food.fats * food.quantity) / 100} cals
+                        {food.fats} {strings.CALS}
                       </Text>
                     </View>
                   </View>
@@ -275,14 +341,12 @@ console.log(result);
       </View>
     );
   }
-};
+}
 
-const mapStateToProps = (state) => ({
-  
-});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => ({
-  addCalorieData:(foods)=>dispatch(actionCreators.addCalorieData(foods))
+  addCalorieData: (foods) => dispatch(actionCreators.addCalorieData(foods)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calorie1);
@@ -403,24 +467,24 @@ const styles = StyleSheet.create({
   },
 });
 
-  //     await this.setState({
-    //       total: resData.totalNutrientsKCal.ENERC_KCAL.quantity,
-    //     });
-    //     await this.setState({
-    //       proteins: resData.totalNutrientsKCal.PROCNT_KCAL.quantity,
-    //     });
-    //     await this.setState({ fats: resData.totalNutrientsKCal.FAT_KCAL.quantity });
-    //     await this.setState({
-    //       carbs: resData.totalNutrientsKCal.CHOCDF_KCAL.quantity,
-    //     });
-    //    
-    //     await this.setState({ food: "" });
-    //     await this.setState({ showDetails: true });
-    //     await this.setState({ load: !this.state.load });
-    //   };
-    //   showNotification=async()=>{
-    //     showSuccess("Food added successfully.");
-    // await this.setState({ showDetails: false,quantity:1 });
+//     await this.setState({
+//       total: resData.totalNutrientsKCal.ENERC_KCAL.quantity,
+//     });
+//     await this.setState({
+//       proteins: resData.totalNutrientsKCal.PROCNT_KCAL.quantity,
+//     });
+//     await this.setState({ fats: resData.totalNutrientsKCal.FAT_KCAL.quantity });
+//     await this.setState({
+//       carbs: resData.totalNutrientsKCal.CHOCDF_KCAL.quantity,
+//     });
+//
+//     await this.setState({ food: "" });
+//     await this.setState({ showDetails: true });
+//     await this.setState({ load: !this.state.load });
+//   };
+//   showNotification=async()=>{
+//     showSuccess("Food added successfully.");
+// await this.setState({ showDetails: false,quantity:1 });
 // {this.state.showDetails && (
 //   <View>
 //     <View

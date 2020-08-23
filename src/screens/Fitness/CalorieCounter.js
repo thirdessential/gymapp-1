@@ -61,19 +61,23 @@ class CalorieCounter extends PureComponent {
   }
 
   async componentDidMount() {
+    console.log(this.props.calorieData);
+
     this.willFocusSubscription = this.props.navigation.addListener(
-      'focus',
-    async  () => {
-       this.functionCalls();
+      "focus",
+      async () => {
+        console.log("focus");
+        this.functionCalls();
       }
     );
-  
+
     this.functionCalls();
-   
   }
-functionCalls=async()=>{
-  const { calorieData } = this.props;
-  // console.log(calorieData);
+
+
+  functionCalls = async () => {
+    const { calorieData } = this.props;
+if(calorieData){
   await this.setState({ foodItems: calorieData });
   this.calcTotal();
   this.calcProtein();
@@ -84,15 +88,19 @@ functionCalls=async()=>{
   this.calcLunch();
   this.calcSnacks();
 }
+   else{
+     return null;
+   }
+  };
 
   calcBreakfast = () => {
     const filteredList = this.state.foodItems.filter(
       (food) => food.type === "BREAKFAST"
     );
-   
+
     let breakFastTotal = 0;
     filteredList.map((item, index) => (breakFastTotal += item.total));
-   
+
     this.setState({ breakFastTotal });
     this.setState({ breakFast: filteredList });
   };
@@ -100,10 +108,10 @@ functionCalls=async()=>{
     const filteredList = this.state.foodItems.filter(
       (food) => food.type === "DINNER"
     );
-   
+
     let dinnerTotal = 0;
     filteredList.map((item, index) => (dinnerTotal += item.total));
-    
+
     this.setState({ dinnerTotal });
     this.setState({ dinner: filteredList });
   };
@@ -111,10 +119,10 @@ functionCalls=async()=>{
     const filteredList = this.state.foodItems.filter(
       (food) => food.type === "LUNCH"
     );
-   
+
     let lunchTotal = 0;
     filteredList.map((item, index) => (lunchTotal += item.total));
-    
+
     this.setState({ lunchTotal });
     this.setState({ lunch: filteredList });
   };
@@ -122,38 +130,37 @@ functionCalls=async()=>{
     const filteredList = this.state.foodItems.filter(
       (food) => food.type === "SNACKS"
     );
-   
+
     let snacksTotal = 0;
     filteredList.map((item, index) => (snacksTotal += item.total));
-    
+
     this.setState({ snacksTotal });
     this.setState({ snacks: filteredList });
   };
   calcTotal = async () => {
     let initial = 0;
     await this.state.foodItems.map((item, index) => (initial += item.total));
-    
+
     this.setState({ intakeCal: initial });
   };
   calcProtein = async () => {
     let initial = 0;
     await this.state.foodItems.map((item, index) => (initial += item.proteins));
-    // console.log(initial+" prote")
+
     this.setState({ proteinIntake: initial });
   };
   calcFats = async () => {
     let initial = 0;
     await this.state.foodItems.map((item, index) => (initial += item.fats));
-  //  console.log(initial+" fats")
+
     this.setState({ fatsIntake: initial });
   };
   calcCarbs = async () => {
     let initial = 0;
     await this.state.foodItems.map((item, index) => (initial += item.carbs));
-  //  console.log(initial+" carbs")
+
     this.setState({ carbsIntake: initial });
   };
-
 
   render() {
     return (
@@ -177,14 +184,19 @@ functionCalls=async()=>{
               size={170}
               borderWidth={4}
               textStyle={{ fontSize: fontSizes.midTitle }}
-              progress={this.state.intakeCal / (this.state.targetCal || 1)}
+              progress={
+                this.state.intakeCal / (this.state.targetCal || 1) > 1
+                  ? 1
+                  : this.state.intakeCal / (this.state.targetCal || 1)
+              }
               animated={false}
               color="#1177f3"
             />
           </View>
 
           <Text style={styles.calorieText}>
-            {strings.CALORIE_INTAKE_TEXT} : {this.state.intakeCal} {strings.CALS}
+            {strings.CALORIE_INTAKE_TEXT} : {this.state.intakeCal}{" "}
+            {strings.CALS}
           </Text>
           <View style={{ marginTop: spacing.medium_sm }}>
             <Text style={styles.calorieText}>
@@ -194,9 +206,7 @@ functionCalls=async()=>{
           <View style={styles.mainCardsView}>
             <View style={styles.cardView}>
               <Text style={styles.category}>{strings.PROTEIN}</Text>
-              <Text
-                style={styles.calsIntake}
-              >
+              <Text style={styles.calsIntake}>
                 {this.state.proteinIntake} {strings.CALS}
               </Text>
               <Progress.Circle
@@ -263,12 +273,14 @@ functionCalls=async()=>{
                     <Text style={styles.foodCal}>{item.total}</Text>
                   </View>
                 ))}
-                <TouchableOpacity style={{ marginTop: spacing.small_lg }}
-                onPress={() => {
-                  this.props.navigation.navigate(RouteNames.Calorie1, {
-                    type: "BREAKFAST",
-                  });
-                }}>
+                <TouchableOpacity
+                  style={{ marginTop: spacing.small_lg }}
+                  onPress={() => {
+                    this.props.navigation.navigate(RouteNames.Calorie1, {
+                      type: "BREAKFAST",
+                    });
+                  }}
+                >
                   <Text style={styles.addFood}>{strings.ADD_ITEM}</Text>
                 </TouchableOpacity>
               </View>
@@ -291,12 +303,14 @@ functionCalls=async()=>{
                     <Text style={styles.foodCal}>{item.total}</Text>
                   </View>
                 ))}
-                <TouchableOpacity style={{ marginTop: spacing.small_lg }}
-                onPress={() => {
-                  this.props.navigation.navigate(RouteNames.Calorie1, {
-                    type: "LUNCH",
-                  });
-                }}>
+                <TouchableOpacity
+                  style={{ marginTop: spacing.small_lg }}
+                  onPress={() => {
+                    this.props.navigation.navigate(RouteNames.Calorie1, {
+                      type: "LUNCH",
+                    });
+                  }}
+                >
                   <Text style={styles.addFood}>{strings.ADD_ITEM}</Text>
                 </TouchableOpacity>
               </View>
@@ -309,7 +323,7 @@ functionCalls=async()=>{
                   <Text style={styles.typeText}>{strings.SNACKS}</Text>
 
                   <Text style={styles.quantityInteger}>
-                    {this.state.snacksTotal}  {strings.CALS}
+                    {this.state.snacksTotal} {strings.CALS}
                   </Text>
                 </View>
                 {this.state.snacks.map((item, index) => (
@@ -319,12 +333,14 @@ functionCalls=async()=>{
                     <Text style={styles.foodCal}>{item.total}</Text>
                   </View>
                 ))}
-                <TouchableOpacity style={{ marginTop: spacing.small_lg }}
-                onPress={() => {
-                  this.props.navigation.navigate(RouteNames.Calorie1, {
-                    type: "SNACKS",
-                  });
-                }}>
+                <TouchableOpacity
+                  style={{ marginTop: spacing.small_lg }}
+                  onPress={() => {
+                    this.props.navigation.navigate(RouteNames.Calorie1, {
+                      type: "SNACKS",
+                    });
+                  }}
+                >
                   <Text style={styles.addFood}>{strings.ADD_ITEM}</Text>
                 </TouchableOpacity>
               </View>
@@ -347,12 +363,14 @@ functionCalls=async()=>{
                     <Text style={styles.foodCal}>{item.total}</Text>
                   </View>
                 ))}
-                <TouchableOpacity style={{ marginTop: spacing.small_lg }}
-                onPress={() => {
-                  this.props.navigation.navigate(RouteNames.Calorie1, {
-                    type: "DINNER",
-                  });
-                }}>
+                <TouchableOpacity
+                  style={{ marginTop: spacing.small_lg }}
+                  onPress={() => {
+                    this.props.navigation.navigate(RouteNames.Calorie1, {
+                      type: "DINNER",
+                    });
+                  }}
+                >
                   <Text style={styles.addFood}>{strings.ADD_ITEM}</Text>
                 </TouchableOpacity>
               </View>
@@ -365,7 +383,7 @@ functionCalls=async()=>{
 }
 
 const mapStateToProps = (state) => ({
-  calorieData: state.fitness.calorieData,
+  calorieData: state.fitness.calorieData[new Date().toLocaleDateString()],
 });
 
 const mapDispatchToProps = (dispatch) => ({});
@@ -377,7 +395,7 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.background,
     flex: 1,
   },
-  totalCircle:{ margin: 10, flex: 1, alignItems: "center" },
+  totalCircle: { margin: 10, flex: 1, alignItems: "center" },
   calorieText: {
     color: appTheme.textPrimary,
     fontSize: fontSizes.h1,
@@ -415,7 +433,7 @@ const styles = StyleSheet.create({
   },
   listView: {
     justifyContent: "center",
-    marginTop:5,
+    marginTop: 5,
     marginLeft: spacing.medium,
     marginRight: spacing.medium,
   },

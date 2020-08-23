@@ -103,6 +103,7 @@ export const updateTarget = (weight,date) => {
 };
 
 export const addFoods = (calorieData) => {
+  console.log("02")
   return {
   type: actionTypes.ADD_CALORIE_DATA,
   payload: {
@@ -112,6 +113,8 @@ export const addFoods = (calorieData) => {
 }
 
 export const addCalorieData= (calorieData)=> {
+  console.log("01");
+  console.log(calorieData);
   return async (dispatch) => {
     try {
       dispatch(addFoods(calorieData));
