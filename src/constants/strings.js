@@ -242,7 +242,9 @@ const strings = {
   SESSION_COUNT: 'Session Count',
   MAX_ALLOWED_PARTICIPANTS: 'Max Allowed Participants',
   SET_TIMING: 'Set Timing',
-  START_DATE: 'Start Date'
+  START_DATE: 'Start Date',
+  CLIENTS: 'Clients',
+  HIDE: 'Hide'
 };
 
 export const bmiVerdicts = {

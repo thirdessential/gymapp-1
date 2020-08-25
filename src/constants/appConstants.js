@@ -196,3 +196,7 @@ export const notificationActionTypes = {
   CALL_REQUEST:'CALL_REQUEST',
   CALL_ACCEPT:'CALL_ACCEPT'
 }
+export const subscriptionType = {
+  SINGLE:'SINGLE',
+  BATCH:'BATCH'
+}

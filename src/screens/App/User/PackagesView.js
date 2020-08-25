@@ -27,13 +27,33 @@ class PackagesView extends PureComponent {
     let {name, packages} = user;
     const filteredPackages = packages.filter(packageData => packageData._id === packageId);
     if (filteredPackages && filteredPackages.length > 0) {
-      // const sessionCount = filteredPackages[0].noOfSessions;
-      navigation.navigate(RouteNames.Enroll, {
-        userId,
-        packageId,
-        packageData:filteredPackages[0],
-        trainerData:user
-      });
+      const targetPackage = filteredPackages[0];
+
+      if (targetPackage.group) {
+        const {slot} = targetPackage;
+        const {time, days} = slot;
+        const metadata = {
+          packageName: targetPackage.title,
+          sessionCount: targetPackage.noOfSessions,
+          price: targetPackage.price,
+          time,
+          days,
+          trainerName: user.name,
+        }
+        navigation.navigate(RouteNames.Payment, {
+          metadata,
+          userId,
+          packageId
+        })
+      } else {
+        navigation.navigate(RouteNames.Enroll, {
+          userId,
+          packageId,
+          packageData: targetPackage,
+          trainerData: user
+        });
+      }
+
     }
   }
 

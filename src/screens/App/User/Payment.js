@@ -223,12 +223,12 @@ class Packages extends PureComponent {
   onConfirmPress = async () => {
     const {couponCode} = this.state;
     this.setState({subscribeLoading: true});
-    const {route, userData, navigation, syncSubscriptions} = this.props;
+    const {route, userData, navigation, syncSubscriptions, subscribePackage} = this.props;
     const {metadata, userId, packageId} = route.params;
     const {time, days} = metadata;
     const {packageName, price} = metadata;
 
-    let result = await this.props.subscribePackage(
+    let result = await subscribePackage(
       userId,
       packageId,
       time,
@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: spacing.medium_sm,
     paddingVertical: 0,
-    backgroundColor:appTheme.background
+    backgroundColor: appTheme.background
   },
   subtitle: {
     backgroundColor: appTheme.darkBackground,
