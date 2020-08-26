@@ -111,7 +111,7 @@ const strings = {
   COUPONS_CREATED: 'Coupons created',
   ENTER_COUPON_CODE: 'Apply Coupon Code',
   APPLY: 'Apply',
-  TOTAl: 'Total',
+  TOTAL: 'Total',
   WORKOUT: 'Workout Video',
   CHANGE_VIDEO: 'Change Video',
   ADD_VIDEO: 'Add Video',
