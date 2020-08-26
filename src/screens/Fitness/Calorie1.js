@@ -1,82 +1,58 @@
 import React, { PureComponent } from "react";
 import {
   ActivityIndicator,
-  FlatList,
   LayoutAnimation,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
   Keyboard,
-  Button,
-  Alert,
 } from "react-native";
 import { connect } from "react-redux";
-import cuid from "cuid";
-import { Bar } from "react-native-progress";
 import { spacing } from "../../constants/dimension";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
-
-import colors, {
-  appTheme,
-  bmiColors,
-  darkPallet,
-} from "../../constants/colors";
+import colors, { appTheme } from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import { screenWidth } from "../../utils/screenDimensions";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import strings from "../../constants/strings";
-import Feather from "react-native-vector-icons/Feather";
 import * as actionCreators from "../../store/actions";
 import { hitSlop20 } from "../../constants/styles";
-import { WEEK_DAYS } from "../../constants/appConstants";
-import DatePicker from "react-native-datepicker";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Entypo from "react-native-vector-icons/Entypo";
 import { showError, showSuccess } from "../../utils/notification";
-import { TabRouter } from "@react-navigation/native";
 import { getTodayFormattedDate } from "../../utils/utils";
-const todaysDate=getTodayFormattedDate();
+import * as API from "../../API";
+const todaysDate = getTodayFormattedDate();
+
 class Calorie1 extends PureComponent {
   state = {
     food: "",
     type: "",
     load: false,
-    foods: [
-      // {
-      //   item: "egg",
-      //   quantity: 100,
-      //   carbs: 3,
-      //   precarbs: 3,
-      //   fats: 88,
-      //   prefats: 88,
-      //   proteins: 52,
-      //   preproteins: 52,
-      //   id: cuid(),
-      //   total: 143,
-      //   pretotal: 143,
-      //   type: "BREAKFAST",
-      // },
-      // {
-     
-    ],
+    foods: [],
   };
   componentDidMount() {
     const type = this.props.route.params.type;
     this.setState({ type });
   }
   addFoodData = async () => {
-    let result = await this.props.addCalorieData(this.state.foods);
+    //to send to database
+    let result = await API.updateMealIntake(todaysDate, this.state.foods);
+
     console.log(result);
+
+    //to save in redux
+    let response = await this.props.addCalorieData(this.state.foods);
+    console.log(response);
     showSuccess("Items added successfully");
+
+    this.setState({ foods: [] });
+
     this.props.navigation.goBack();
   };
   getCalories = async () => {
@@ -86,44 +62,37 @@ class Calorie1 extends PureComponent {
     }
     Keyboard.dismiss();
     this.setState({ load: !this.state.load });
-    const url =
-      "https://api.edamam.com/api/nutrition-details?app_id=3794d72a&app_key=97878e1f8b135ae65328bd7fbbcc0453";
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: "morning breakfast",
-        ingr: [`100 gram of ${this.state.food}`],
-      }),
-    });
-    const resData = await response.json();
-    if (resData.totalNutrientsKCal) {
-      const foodItem = {
-        id: cuid(),
-        type: this.state.type,
-        item: this.state.food,
-        quantity: 100,
-        total: resData.totalNutrientsKCal.ENERC_KCAL.quantity,
-        pretotal: resData.totalNutrientsKCal.ENERC_KCAL.quantity,
-        prefats: resData.totalNutrientsKCal.FAT_KCAL.quantity,
-        fats: resData.totalNutrientsKCal.FAT_KCAL.quantity,
-        precarbs: resData.totalNutrientsKCal.CHOCDF_KCAL.quantity,
-        carbs: resData.totalNutrientsKCal.CHOCDF_KCAL.quantity,
-        preproteins: resData.totalNutrientsKCal.PROCNT_KCAL.quantity,
-        proteins: resData.totalNutrientsKCal.PROCNT_KCAL.quantity,
-      };
-      const foods = [...this.state.foods];
-      foods.push(foodItem);
-      this.setState({ foods });
-      await this.setState({ food: "" });
-      await this.setState({ load: !this.state.load });
-    } else {
+    let result = await API.searchFood(this.state.food);
+
+    if (result)
+      if (result.foodItem) {
+        const newFoodItem = {
+          id: result.foodItem._id,
+          type: this.state.type,
+          item: this.state.food,
+          quantity: 100,
+          total: result.foodItem.totalEnergy,
+          pretotal: result.foodItem.totalEnergy,
+          prefats: result.foodItem.fats,
+          fats: result.foodItem.fats,
+          precarbs: result.foodItem.carbs,
+          carbs: result.foodItem.carbs,
+          preproteins: result.foodItem.proteins,
+          proteins: result.foodItem.proteins,
+        };
+        const foods = [...this.state.foods];
+        foods.push(newFoodItem);
+        await this.setState({ foods, food: "" });
+      } else {
+        showError("Unable to find food.");
+        await this.setState({ food: "", load: false });
+      }
+    else {
       showError("Unable to find food.");
-      await this.setState({ food: "" });
-      await this.setState({ load: !this.state.load });
+      await this.setState({ food: "", load: false });
     }
+
+    this.setState({ load: false });
   };
   fab = () => {
     if (this.state.foods.length === 0) return null;
@@ -134,15 +103,7 @@ class Calorie1 extends PureComponent {
           this.addFoodData();
         }}
       >
-        {/* {
-          this.state.submitPending && (
-            <ActivityIndicator size={28} color={'white'}/>
-          )
-        } */}
-        {
-          //!this.state.submitPending &&
-          <FontAwesome name={"check"} color={"white"} size={22} />
-        }
+        <FontAwesome name={"check"} color={"white"} size={22} />
       </TouchableOpacity>
     );
   };
@@ -169,9 +130,9 @@ class Calorie1 extends PureComponent {
 
     food.quantity = food.quantity - 100;
     food.total -= food.pretotal;
-    food.carbs-=food.precarbs
-    food.fats-=food.prefats
-    food.proteins-=food.preproteins
+    food.carbs -= food.precarbs;
+    food.fats -= food.prefats;
+    food.proteins -= food.preproteins;
     this.updateFood(foodId, food);
   };
   increaseQuantity = (foodId) => {
@@ -179,9 +140,9 @@ class Calorie1 extends PureComponent {
 
     food.quantity = food.quantity + 100;
     food.total += food.pretotal;
-    food.carbs+=food.precarbs
-    food.fats+=food.prefats
-    food.proteins+=food.preproteins
+    food.carbs += food.precarbs;
+    food.fats += food.prefats;
+    food.proteins += food.preproteins;
     this.updateFood(foodId, food);
   };
 
@@ -336,23 +297,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
-    marginTop: 10,
-    paddingHorizontal: 5,
-    marginHorizontal: 20,
-    borderRadius: 10,
+    marginTop: spacing.medium_sm,
+    paddingHorizontal: spacing.small,
+    marginHorizontal: spacing.medium_lg,
+    borderRadius: spacing.medium_sm,
   },
   searchIcon: {
-    padding: 10,
+    padding: spacing.medium_sm,
   },
   input: {
     flex: 1,
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
+    paddingTop: spacing.medium_sm,
+    paddingRight: spacing.medium_sm,
+    paddingBottom: spacing.medium_sm,
     paddingLeft: 0,
     backgroundColor: "#fff",
     color: appTheme.darkBackground,
-    marginLeft: 10,
+    marginLeft: spacing.medium_sm,
   },
   listView: {
     justifyContent: "center",
@@ -392,9 +353,9 @@ const styles = StyleSheet.create({
     color: appTheme.greyC,
     fontSize: fontSizes.h2,
     fontFamily: fonts.MontserratMedium,
-    marginRight: 20,
+    marginRight: spacing.medium_lg,
   },
-  minus: { marginLeft: 20, justifyContent: "center" },
+  minus: { marginLeft: spacing.medium_lg, justifyContent: "center" },
   plus: { justifyContent: "center" },
   quantityAndTotal: {
     fontSize: 16,
@@ -409,13 +370,13 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: fontSizes.h2,
     fontFamily: fonts.MontserratMedium,
-    marginRight: 20,
+    marginRight: spacing.medium_lg,
   },
   totalText: {
     color: appTheme.greyC,
     fontSize: fontSizes.h2,
     fontFamily: fonts.MontserratMedium,
-    marginRight: 20,
+    marginRight: spacing.medium_lg,
   },
   valueText: {
     fontSize: fontSizes.h2,
@@ -433,142 +394,21 @@ const styles = StyleSheet.create({
   },
   fabPosition: {
     position: "absolute",
-    bottom: 20,
-    right: 20,
+    bottom: spacing.medium_lg,
+    right: spacing.medium_lg,
   },
 });
-
-//     await this.setState({
-//       total: resData.totalNutrientsKCal.ENERC_KCAL.quantity,
-//     });
-//     await this.setState({
-//       proteins: resData.totalNutrientsKCal.PROCNT_KCAL.quantity,
-//     });
-//     await this.setState({ fats: resData.totalNutrientsKCal.FAT_KCAL.quantity });
-//     await this.setState({
-//       carbs: resData.totalNutrientsKCal.CHOCDF_KCAL.quantity,
-//     });
-//
-//     await this.setState({ food: "" });
-//     await this.setState({ showDetails: true });
-//     await this.setState({ load: !this.state.load });
-//   };
-//   showNotification=async()=>{
-//     showSuccess("Food added successfully.");
-// await this.setState({ showDetails: false,quantity:1 });
-// {this.state.showDetails && (
-//   <View>
-//     <View
-//       style={{
-//         flexDirection: "row",
-//         flex: 1,
-//         backgroundColor: appTheme.darkBackground,
-//         alignItems: "center",
-//         paddingHorizontal: 15,
-//         paddingVertical: 10,
-//         marginHorizontal: 20,
-//         marginTop: 10,
-//         borderRadius: 10,
-//       }}
-//     >
-//       <TouchableOpacity style={{ flex: 1 }} disabled={this.state.quantity>1?false:true} onPress={()=>this.setState({quantity:this.state.quantity-1})}>
-//         <FontAwesome5Icon
-//           style={styles.iconStyle}
-//           name="minus"
-//           size={20}
-//           color="white"
-//         />
-//       </TouchableOpacity>
-//       <Text
-//         style={{
-//           fontSize: 16,
-//           fontFamily: fonts.CenturyGothic,
-//           color: appTheme.textPrimary,
-//           flex: 2,
-//         }}
-//       >
-//         Quantity {this.state.quantity*100} grams
-//       </Text>
-//       <TouchableOpacity style={{ flex: 1 }} onPress={()=>this.setState({quantity:this.state.quantity+1})} >
-//         <FontAwesome5Icon
-//           style={styles.iconStyle}
-//           name="plus"
-//           size={20}
-//           color="white"
-//         />
-//       </TouchableOpacity>
-//       <Button
-//         title="ADD"
-//         onPress={()=>this.showNotification()}
-//         style={{ justifyContent: "flex-end", borderRadius: 20 }}
-//         color={appTheme.brightContent}
-//       />
-//     </View>
-//     <View
-//       style={{
-//         flex: 1,
-//         backgroundColor: appTheme.darkBackground,
-//         width: "90%",
-//         //marginTop: 10,
-//         paddingHorizontal: 15,
-//         paddingVertical: 10,
-//         margin: 20,
-//         marginTop: 10,
-//         borderRadius: 10,
-//       }}
-//     >
-//       <View
-//         style={{
-//           flexDirection: "row",
-//           justifyContent: "space-between",
-//           marginVertical: 10,
-//         }}
-//       >
-//         <Text
-//           style={{
-//             color: appTheme.greyC,
-//             fontSize: 18,
-//             fontFamily: fonts.CenturyGothic,
-//           }}
-//         >
-//           Total: {this.state.total * this.state.quantity} kcal
-//         </Text>
-
-//         <Text
-//           style={{
-//             color: appTheme.greyC,
-//             fontSize: 18,
-//             fontFamily: fonts.CenturyGothic,
-//           }}
-//         >
-//           Carbs: {this.state.carbs * this.state.quantity} kcal
-//         </Text>
-//       </View>
-//       <View
-//         style={{
-//           flexDirection: "row",
-//           justifyContent: "space-between",
-//         }}
-//       >
-//         <Text
-//           style={{
-//             color: appTheme.greyC,
-//             fontSize: 18,
-//             fontFamily: fonts.CenturyGothic,
-//           }}
-//         >
-//           Fats: {this.state.fats * this.state.quantity} kcal
-//         </Text>
-//         <Text
-//           style={{
-//             color: appTheme.greyC,
-//             fontSize: 18,
-//             fontFamily: fonts.CenturyGothic,
-//           }}
-//         >
-//           Protein: {this.state.proteins * this.state.quantity} kcal
-//         </Text>
-//       </View>
-//     </View>
-//   </View>
-// )}
+// {
+//   item: "egg",
+//   quantity: 100,
+//   carbs: 3,
+//   precarbs: 3,
+//   fats: 88,
+//   prefats: 88,
+//   proteins: 52,
+//   preproteins: 52,
+//   id: cuid(),
+//   total: 143,
+//   pretotal: 143,
+//   type: "BREAKFAST",
+// },

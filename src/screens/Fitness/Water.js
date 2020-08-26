@@ -1,36 +1,27 @@
 import React, { PureComponent } from "react";
 import {
-  ActivityIndicator,
-  FlatList,
-  LayoutAnimation,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
-  Keyboard,
 } from "react-native";
 import { connect } from "react-redux";
-import { Bar } from "react-native-progress";
 import { spacing } from "../../constants/dimension";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-
+import * as API from "../../API";
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
 import colors, { appTheme } from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import { screenWidth } from "../../utils/screenDimensions";
 import strings from "../../constants/strings";
 import { getTodayFormattedDate } from "../../utils/utils";
 import * as actionCreators from "../../store/actions";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import Entypo from "react-native-vector-icons/Entypo";
 import HcdWaveView from "../../components/HcdWaveView";
-const todaysDate = getTodayFormattedDate();
+const date = getTodayFormattedDate();
 class Water extends PureComponent {
   state = {
     waterIntake: 0,
@@ -38,14 +29,20 @@ class Water extends PureComponent {
   };
 
   async componentDidMount() {
-    //console.log(this.props.waterIntake);
+    console.log(this.props.waterIntake);
     const { waterIntake } = this.props;
     if (waterIntake) {
       this.setState({ waterIntake });
     }
-
-    //console.log(todaysDate);
+    this.unsubscribe = this.props.navigation.addListener("blur", (e) => {
+      this.submit();
+    });
   }
+  submit = async () => {
+    let record = await API.waterIntake(date, this.state.waterIntake);
+
+    console.log(record);
+  };
   updateWaterState = async (count) => {
     await this.setState({ waterIntake: this.state.waterIntake + count });
     this.updateWaterIntake();
@@ -54,6 +51,7 @@ class Water extends PureComponent {
     let result = await this.props.addWaterIntake(this.state.waterIntake);
     console.log(result);
   };
+
   render() {
     return (
       <>
@@ -74,9 +72,7 @@ class Water extends PureComponent {
             type="dc"
             style={{ backgroundColor: "#FF7800" }}
           ></HcdWaveView>
-          <View
-            style={styles.mainView}
-          >
+          <View style={styles.mainView}>
             <TouchableOpacity
               style={styles.increaseMargin}
               onPress={() => this.updateWaterState(50)}
@@ -113,7 +109,7 @@ class Water extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  waterIntake: state.fitness.waterIntake[todaysDate],
+  waterIntake: state.fitness.waterIntake[date],
 });
 
 const mapDispatchToProps = (dispatch) => ({
