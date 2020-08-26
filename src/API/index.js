@@ -86,5 +86,8 @@ export {
   updatePreferences,
   getPreferences,
   updateExerciseIndex,
-  updateTarget
+  updateTarget,
+  waterIntake,
+  searchFood,
+  updateMealIntake
 } from './fitness'
