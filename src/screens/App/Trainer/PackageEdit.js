@@ -11,7 +11,10 @@ import {
   TouchableOpacity,
   StatusBar,
   ActivityIndicator,
-  LayoutAnimation, Image, ImageBackground
+  LayoutAnimation,
+  Image,
+  ImageBackground,
+  Switch
 } from 'react-native'
 import {connect} from "react-redux";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
@@ -36,6 +39,7 @@ import Slot from "../../../components/Slot";
 import cuid from "cuid/index";
 import {dateToString} from "../../../utils/utils";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import NotificationList from "../../../components/NotificationList";
 
 class Packages extends PureComponent {
 
@@ -57,11 +61,12 @@ class Packages extends PureComponent {
     startDate: new Date(),
     today: Date.now(),
     futureDate: new Date().setDate(new Date().getDate() + 30),
-    pickerVisible: false
+    pickerVisible: false,
+    active: true // package active
   }
 
   componentDidMount() {
-    const {route} = this.props;
+    const {route, navigation} = this.props;
     if (route.params) {
       const {packageId} = route.params;
       if (packageId) {
@@ -106,13 +111,34 @@ class Packages extends PureComponent {
     if (route.params && route.params.packageId)
       showSuccess(strings.CHANGES_SAVED);
     else showSuccess(strings.PACKAGE_CREATED);
-    if(this.state.group)
+    if (this.state.group)
       this.props.updateUserData()
     this.props.navigation.goBack();
   }
   toggleGroup = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({group: !this.state.group})
+  }
+
+  renderSwitch = () => {
+    const {active, _id} = this.state;
+    if (!_id) return null;
+    return (
+      <View style={[styles.row, styles.center]}>
+        <Text style={styles.title}>{active ? strings.ACTIVE : strings.DISABLED}</Text>
+        <Switch
+          trackColor={{false: appTheme.grey, true: bmiColors.blue}}
+          thumbColor={this.state.active ? bmiColors.yellow : "#f4f3f4"}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={this.toggleActive}
+          value={this.state.active}
+        />
+      </View>
+    )
+  }
+  toggleActive = (value) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({active: value})
   }
   maxParticipantsChange = (maxParticipants) => {
     if (Number.isNaN(parseInt(maxParticipants)))
@@ -212,6 +238,7 @@ class Packages extends PureComponent {
               onChangeText={this.onTitleChange}
               value={this.state.title}
             />
+            {this.renderSwitch()}
           </ImageBackground>
         )}
         {
@@ -223,6 +250,7 @@ class Packages extends PureComponent {
                 onChangeText={this.onTitleChange}
                 value={this.state.title}
               />
+              {this.renderSwitch()}
             </View>
           )
         }
@@ -234,6 +262,7 @@ class Packages extends PureComponent {
               <Text style={styles.contentInput}>{!!category ? packageTypes[category] : strings.SELECT_CATEGORY}</Text>
             </TouchableOpacity>
           </View>
+
           <View style={styles.row}>
             <View style={[styles.inputRow, {width: '50%', marginRight: 'auto'}]}>
               <Text style={styles.title}>{strings.SESSIONS}</Text>
@@ -424,6 +453,9 @@ const styles = StyleSheet.create({
     fontFamily: fonts.PoppinsRegular,
     textAlignVertical: "top",
     elevation: 6
+  },
+  center: {
+    alignItems: 'center'
   },
   inputRow: {
     marginTop: spacing.medium_lg,

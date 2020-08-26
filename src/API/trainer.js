@@ -37,7 +37,7 @@ export const getPackage = async (packageId) => {
   }
 }
 
-export const updatePackage = async (packageId, {title, noOfSessions, price, description, category, group, maxParticipants, slot, startDate}) => {
+export const updatePackage = async (packageId, {title, noOfSessions, price, description, category, group, maxParticipants, slot, startDate,active}) => {
   try {
     let response = await axios.put(`/package/${packageId}`, {
       title,
@@ -48,7 +48,8 @@ export const updatePackage = async (packageId, {title, noOfSessions, price, desc
       group,
       maxParticipants,
       slot,
-      startDate
+      startDate,
+      active
     });
     if (validateResponseCode(response.status)) {
       return response.data;

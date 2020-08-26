@@ -244,7 +244,9 @@ const strings = {
   SET_TIMING: 'Set Timing',
   START_DATE: 'Start Date',
   CLIENTS: 'Clients',
-  HIDE: 'Hide'
+  HIDE: 'Hide',
+  ACTIVE:'Active',
+  DISABLED:'Disabled'
 };
 
 export const bmiVerdicts = {
