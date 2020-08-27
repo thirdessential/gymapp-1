@@ -12,9 +12,25 @@ export const recordBmi = async (bmi, weight) => {
     console.log(error);
     return false;
   }
+};
+
+export const getRecommendation=async()=>{
+  try{
+
+let response=await axios.get('/recommend');
+if (validateResponseCode(response.status))
+  return response.data; 
+else return false;
+} catch (error) {
+console.log(error);
+return false;
 }
+}
+
 export const updateMealIntake= async (date,foodItems)=>{
   try {
+   
+    console.log(date,foodItems);
     let response=await axios.post('/caloriesIntake/save',{date,foodItems});
     if (validateResponseCode(response.status))
       return response.data;

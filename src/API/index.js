@@ -89,5 +89,6 @@ export {
   updateTarget,
   waterIntake,
   searchFood,
-  updateMealIntake
+  updateMealIntake,
+  getRecommendation
 } from './fitness'
