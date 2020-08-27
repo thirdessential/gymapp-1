@@ -45,7 +45,7 @@ class CalorieCounter extends PureComponent {
       foodItems: [],
 
       targetCal: 2000,
-      intakeCal: 1,
+      intakeCal: 0,
       proteinIntake: 0,
       fatsIntake: 0,
       carbsIntake: 0,

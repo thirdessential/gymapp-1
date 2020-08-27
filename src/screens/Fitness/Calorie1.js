@@ -36,12 +36,20 @@ class Calorie1 extends PureComponent {
     load: false,
     foods: [],
   };
-  componentDidMount() {
+ async componentDidMount() {
     const type = this.props.route.params.type;
-    this.setState({ type });
+   await this.setState({ type });
+   // let result = await API.getRecommendation();
+    //console.log("compo call him");
+    //console.log(result);
   }
+
+
+  
+
   addFoodData = async () => {
     //to send to database
+   // console.log("Addfooddate");
     let result = await API.updateMealIntake(todaysDate, this.state.foods);
 
     console.log(result);
