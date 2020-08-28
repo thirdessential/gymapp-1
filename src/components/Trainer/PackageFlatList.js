@@ -40,6 +40,7 @@ const packageFlatList = (props) => {
       data={props.packages}
       renderItem={({item}) => renderPlan(item)}
       keyExtractor={(item, index) => index.toString()}
+      showsVerticalScrollIndicator={false}
     />
   );
 }

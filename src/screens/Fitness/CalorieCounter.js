@@ -63,19 +63,20 @@ class CalorieCounter extends PureComponent {
   }
 
   async componentDidMount() {
-    console.log(this.props.calorieData);
+    // console.log(this.props.calorieData);
 
     this.willFocusSubscription = this.props.navigation.addListener(
       "focus",
       async () => {
-        console.log("focus");
         this.functionCalls();
       }
     );
-
     this.functionCalls();
   }
 
+  componentWillUnmount() {
+    this.willFocusSubscription();
+  }
 
   functionCalls = async () => {
     const { calorieData } = this.props;
@@ -412,6 +413,7 @@ const styles = StyleSheet.create({
     padding: 12,
     flex: 1,
     marginHorizontal: 5,
+    elevation:4
   },
   category: {
     textAlign: "center",
@@ -427,6 +429,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     marginTop: 20,
+    marginBottom:spacing.small_lg
   },
   calsIntake: {
     textAlign: "center",
@@ -438,13 +441,14 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginLeft: spacing.medium,
     marginRight: spacing.medium,
+    marginBottom:spacing.medium_sm
   },
   eachContainer: {
-    backgroundColor: appTheme.darkBackground,
+    // backgroundColor: appTheme.darkBackground,
     marginBottom: 3,
   },
   eachCard: {
-    elevation: 14,
+    elevation: 4,
     width: "99%",
     padding: spacing.medium,
     borderRadius: 4,
