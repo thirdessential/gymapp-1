@@ -236,7 +236,17 @@ const strings = {
   NO_NOTIFICATIONS: 'No notifications',
   MARK_ALL_READ: 'Mark All Read',
   VIEW_ALL: 'View All',
-  CLEAR_ALL: 'Clear All'
+  CLEAR_ALL: 'Clear All',
+  GROUP_SESSIONS: 'Group Sessions',
+  MAX_PARTICIPANTS: 'Max Participants',
+  SESSION_COUNT: 'Session Count',
+  MAX_ALLOWED_PARTICIPANTS: 'Max Allowed Participants',
+  SET_TIMING: 'Set Timing',
+  START_DATE: 'Start Date',
+  CLIENTS: 'Clients',
+  HIDE: 'Hide',
+  ACTIVE:'Active',
+  DISABLED:'Disabled'
 };
 
 export const bmiVerdicts = {

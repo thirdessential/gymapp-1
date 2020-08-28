@@ -9,10 +9,11 @@ import {appTheme} from "../../../constants/colors";
 import {spacing} from "../../../constants/dimension";
 import * as actionCreators from "../../../store/actions";
 import TrainerSubscriptionCard from "../../../components/Trainer/SubscriptionCard";
+import BatchSubscriptionCard from "../../../components/Trainer/BatchSubscriptionCard";
 import UserSubscriptionCard from "../../../components/User/SubscriptionCard";
 import {initialiseVideoCall, militaryTimeToString, sortDays, toTitleCase} from "../../../utils/utils";
 import {requestCameraAndAudioPermission} from "../../../utils/permission";
-import {userTypes} from "../../../constants/appConstants";
+import {subscriptionType, userTypes} from "../../../constants/appConstants";
 import strings from "../../../constants/strings";
 import RBSheet from "react-native-raw-bottom-sheet";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -31,14 +32,20 @@ class Subscriptions extends PureComponent {
   }
 
   async componentDidMount() {
-    const {userData, subscriptions,syncSubscriptions} = this.props;
-    syncSubscriptions();
+    const {userData, syncSubscriptions} = this.props;
+    this.updateView();
     const {userType} = userData;
     if (userType === userTypes.USER)
       this.props.navigation.setOptions({title: strings.SUBSCRIPTIONS});
     else {
       this.props.navigation.setOptions({headerRight: this.renderOptions});
     }
+    await syncSubscriptions();
+    this.updateView();
+  }
+
+  updateView = () => {
+    const {subscriptions} = this.props;
     const days = {}, timings = {};
     subscriptions.map(subscription => {
       const {slot} = subscription;
@@ -61,15 +68,31 @@ class Subscriptions extends PureComponent {
     } else console.log("Cant initiate video call without permission");
   }
   renderSubscriptionCard = (subscription) => {
-    const {heldSessions, totalSessions, startDate, endDate, package: packageData, slot} = subscription;
+    const {heldSessions, totalSessions, startDate, endDate, package: packageData, slot, type, users,subscribedCount,maxParticipants} = subscription;
+    const {time, daysOfWeek} = slot;
     const {title: packageTitle, price} = packageData;
+    if (type === subscriptionType.BATCH)
+      return <View style={styles.cardContainer}>
+        <BatchSubscriptionCard
+          users={users}
+          time={militaryTimeToString(time)}
+          title={packageTitle}
+          onPressCall={this.callClicked}
+          startDate={(new Date(startDate)).toLocaleDateString()}
+          endDate={(new Date(endDate)).toLocaleDateString()}
+          sessions={`(${heldSessions}/${totalSessions})`}
+          participants={`(${subscribedCount}/${maxParticipants})`}
+          price={price}
+          days={daysOfWeek}
+        />
+      </View>
+
     let userData = subscription.user;
     if (!userData.name) userData = subscription.trainer;
     const {name: userName, displayPictureUrl: dpUrl, _id: userId} = userData;
-    const {time, daysOfWeek} = slot;
-
     const {userType} = this.props.userData;
     const SubscriptionCard = userType === userTypes.TRAINER ? TrainerSubscriptionCard : UserSubscriptionCard;
+
     return <View style={styles.cardContainer}>
       <SubscriptionCard
         displayName={userName}
