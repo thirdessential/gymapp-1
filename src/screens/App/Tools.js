@@ -101,12 +101,12 @@ openRecipe= () => this.props.navigation.navigate(RouteNames.RecipeRecommend)
         callback: this.openCalorie,
         enabled: true
       },
-      {
-        title: strings.RECIPE,
-        image: iconBackgrounds.subscriptions,
-        callback: this.openRecipe,
-        enabled: true
-      },
+      // {
+      //   title: strings.RECIPE,
+      //   image: iconBackgrounds.subscriptions,
+      //   callback: this.openRecipe,
+      //   enabled: true
+      // },
 
 
     ]

@@ -69,7 +69,10 @@ export {
   getPreferences,
   updatePreferences,
   updateExerciseIndex,
-  updateTarget
+  updateTarget,
+  addCalorieData,
+  addFoods,
+  addWaterIntake,
 } from './fitness.actions';
 
 export {

@@ -1,173 +1,182 @@
 import React, { PureComponent } from "react";
 import {
   ActivityIndicator,
-  FlatList,
   LayoutAnimation,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
   Keyboard,
-  Button,
-  Alert,
 } from "react-native";
 import { connect } from "react-redux";
-import { Bar } from "react-native-progress";
 import { spacing } from "../../constants/dimension";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
-
-import colors, {
-  appTheme,
-  bmiColors,
-  darkPallet,
-} from "../../constants/colors";
+import colors, { appTheme } from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import { screenWidth } from "../../utils/screenDimensions";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import strings from "../../constants/strings";
-import BmiBar from "../../components/BmiBar";
-import { calculateBmi, getBmiVerdict, toTitleCase } from "../../utils/utils";
-import Feather from "react-native-vector-icons/Feather";
-import CustomLineChart from "../../components/CustomLineChart";
-import Avatar from "../../components/Avatar";
-import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from "../../store/actions";
 import { hitSlop20 } from "../../constants/styles";
-import { WEEK_DAYS } from "../../constants/appConstants";
-import RBSheet from "react-native-raw-bottom-sheet";
-import DatePicker from "react-native-datepicker";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import Entypo from "react-native-vector-icons/Entypo";
-import HcdWaveView from "./HcdWaveView";
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from "react-native-chart-kit";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { showError, showSuccess } from "../../utils/notification";
+import { getTodayFormattedDate } from "../../utils/utils";
+import * as API from "../../API";
+const todaysDate = getTodayFormattedDate();
 
 class Calorie1 extends PureComponent {
   state = {
     food: "",
-    foodItems: [],
-    total: 1,
-    showChart: false,
-    proteins: 1.8,
-    fats: 1,
-    carbs: 1.5,
+    type: "",
     load: false,
+    foods: [],
   };
+ async componentDidMount() {
+    const type = this.props.route.params.type;
+   await this.setState({ type });
+   // let result = await API.getRecommendation();
+    //console.log("compo call him");
+    //console.log(result);
+  }
 
-  componentDidMount() {}
-  componentWillUnmount() {}
+
+  
+
+  addFoodData = async () => {
+    //to send to database
+   // console.log("Addfooddate");
+    let result = await API.updateMealIntake(todaysDate, this.state.foods);
+
+    console.log(result);
+
+    //to save in redux
+    let response = await this.props.addCalorieData(this.state.foods);
+    console.log(response);
+    showSuccess("Items added successfully");
+
+    this.setState({ foods: [] });
+
+    this.props.navigation.goBack();
+  };
   getCalories = async () => {
+    if (this.state.food === "") {
+      showError("Please enter food to be searched.");
+      return null;
+    }
+    Keyboard.dismiss();
     this.setState({ load: !this.state.load });
+    let result = await API.searchFood(this.state.food);
 
-    const url =
-      "https://api.edamam.com/api/nutrition-details?app_id=3794d72a&app_key=97878e1f8b135ae65328bd7fbbcc0453";
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: "morning breakfast",
-        ingr: [this.state.food],
-      }),
-    });
-    const resData = await response.json();
-    // console.log(resData.totalNutrientsKCal);
-    await this.setState({
-      total: resData.totalNutrientsKCal.ENERC_KCAL.quantity,
-    });
-    await this.setState({
-      proteins: resData.totalNutrientsKCal.PROCNT_KCAL.quantity,
-    });
-    await this.setState({ fats: resData.totalNutrientsKCal.FAT_KCAL.quantity });
-    await this.setState({
-      carbs: resData.totalNutrientsKCal.CHOCDF_KCAL.quantity,
-    });
+    if (result)
+      if (result.foodItem) {
+        const newFoodItem = {
+          id: result.foodItem._id,
+          type: this.state.type,
+          item: this.state.food,
+          quantity: 100,
+          total: result.foodItem.totalEnergy,
+          pretotal: result.foodItem.totalEnergy,
+          prefats: result.foodItem.fats,
+          fats: result.foodItem.fats,
+          precarbs: result.foodItem.carbs,
+          carbs: result.foodItem.carbs,
+          preproteins: result.foodItem.proteins,
+          proteins: result.foodItem.proteins,
+        };
+        const foods = [...this.state.foods];
+        foods.push(newFoodItem);
+        await this.setState({ foods, food: "" });
+      } else {
+        showError("Unable to find food.");
+        await this.setState({ food: "", load: false });
+      }
+    else {
+      showError("Unable to find food.");
+      await this.setState({ food: "", load: false });
+    }
 
-    console.log(this.state);
-    await this.setState({ food: "" });
-    await this.setState({ showChart: true });
-    await this.setState({ load: !this.state.load });
+    this.setState({ load: false });
   };
+  fab = () => {
+    if (this.state.foods.length === 0) return null;
+    return (
+      <TouchableOpacity
+        style={[styles.fab, styles.fabPosition]}
+        onPress={() => {
+          this.addFoodData();
+        }}
+      >
+        <FontAwesome name={"check"} color={"white"} size={22} />
+      </TouchableOpacity>
+    );
+  };
+
+  deleteItem = (foodId) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    const filteredFoods = this.state.foods.filter((food) => food.id !== foodId);
+    this.setState({ foods: filteredFoods });
+  };
+
+  getFood = (foodId) => {
+    const filteredFoods = this.state.foods.filter((food) => food.id == foodId);
+    if (filteredFoods.length == 0) return null;
+    return { ...filteredFoods[0] };
+  };
+  updateFood = (foodId, updatedFood) => {
+    let foods = this.state.foods.map((food) =>
+      food.id === foodId ? updatedFood : food
+    );
+    this.setState({ foods });
+  };
+  decreaseQuantity = (foodId) => {
+    const food = this.getFood(foodId);
+
+    food.quantity = food.quantity - 100;
+    food.total -= food.pretotal;
+    food.carbs -= food.precarbs;
+    food.fats -= food.prefats;
+    food.proteins -= food.preproteins;
+    this.updateFood(foodId, food);
+  };
+  increaseQuantity = (foodId) => {
+    const food = this.getFood(foodId);
+
+    food.quantity = food.quantity + 100;
+    food.total += food.pretotal;
+    food.carbs += food.precarbs;
+    food.fats += food.prefats;
+    food.proteins += food.preproteins;
+    this.updateFood(foodId, food);
+  };
+
   render() {
     return (
-      <>
-        <ScrollView
+      <View style={styles.container}>
+        <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          style={styles.container}
+          style={{ flex: 1 }}
         >
-          {this.state.showChart&&
-            <>
-              <ProgressChart
-                data={{
-                  labels: ["Proteins", "Fats", "Carbs"], // optional
-                  data: [
-                    this.state.proteins / this.state.total,
-                    this.state.fats / this.state.total,
-                    this.state.carbs / this.state.total,
-                  ],
-                }}
-                width={screenWidth * 0.9}
-                height={220}
-                strokeWidth={16}
-                radius={32}
-                chartConfig={{
-                  backgroundGradientFrom: appTheme.background,
-                  backgroundGradientFromOpacity: 0,
-                  backgroundGradientTo: appTheme.background,
-                  backgroundGradientToOpacity: 0.5,
-                  color: (opacity = 1) => `rgba(255, 127, 80, ${opacity})`,
-                  strokeWidth: 2, // optional, default 3
-                  barPercentage: 0.5,
-                  labelColor: (opacity = 1) => appTheme.greyC,
-                  useShadowColorFromDataset: false, // optional
-                }}
-                hideLegend={false}
-              />
-              <Text
-                style={{
-                  color: appTheme.greyC,
-                  fontSize: 18,
-                  textAlign: "center",
-                }}
-              >
-                Total : {this.state.total} kcals.
-              </Text>
-            </>
-          }
-
           <View style={styles.searchSection}>
             <TextInput
               style={styles.input}
               placeholder="Enter food name"
+              autoCapitalize="words"
               onChangeText={(food) => {
                 this.setState({ food });
               }}
               placeholderTextColor={appTheme.darkBackground}
               value={this.state.food}
-              underlineColorAndroid="transparent"
             />
             {this.state.load ? (
               <ActivityIndicator
                 size="small"
                 color="#0000ff"
-                style={{ marginRight: 5 }}
+                style={{ marginRight: spacing.small }}
               />
             ) : (
               <TouchableOpacity
@@ -177,21 +186,110 @@ class Calorie1 extends PureComponent {
               >
                 <FontAwesome5Icon
                   style={styles.searchIcon}
-                  name="search"
+                  name="plus"
                   size={20}
                   color="#000"
                 />
               </TouchableOpacity>
             )}
           </View>
-          <View>
-            
+
+          <View style={styles.listView}>
+            {this.state.foods.map((food, index) => (
+              <View key={food.id} style={styles.eachCardOuter}>
+                <View style={styles.eachCard}>
+                  <View style={styles.nameView}>
+                    <Text style={styles.nameText}>{food.item}</Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.deleteItem(food.id);
+                      }}
+                      hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                    >
+                      <FontAwesome
+                        name={"trash"}
+                        color={colors.rejectRed}
+                        size={22}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.quantityView}>
+                    <Text style={styles.quanityText1}>{strings.QUANTITY}</Text>
+                    <TouchableOpacity
+                      style={styles.minus}
+                      disabled={food.quantity > 100 ? false : true}
+                      onPress={() => {
+                        this.decreaseQuantity(food.id);
+                      }}
+                    >
+                      <FontAwesome5Icon name="minus" size={20} color="white" />
+                    </TouchableOpacity>
+                    <Text style={styles.quantityAndTotal}>
+                      {food.quantity} grams
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.plus}
+                      onPress={() => {
+                        this.increaseQuantity(food.id);
+                      }}
+                    >
+                      <FontAwesome5Icon name="plus" size={20} color="white" />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.categoryView}>
+                    <Text style={styles.totalText}>{strings.TOTAL}</Text>
+
+                    <Text style={styles.quantityAndTotal}>
+                      {food.total} {strings.CALS}
+                    </Text>
+                  </View>
+                  <View style={styles.categoryView}>
+                    <View>
+                      <Text style={[styles.categoryText, { color: "#c1ff00" }]}>
+                        {strings.PROTEIN}
+                      </Text>
+
+                      <Text style={styles.valueText}>
+                        {food.proteins} {strings.CALS}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text style={[styles.categoryText, { color: "#ef135f" }]}>
+                        {strings.CARBS}
+                      </Text>
+
+                      <Text style={styles.valueText}>
+                        {food.carbs} {strings.CALS}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text style={[styles.categoryText, { color: "#54f0f7" }]}>
+                        {strings.FATS}
+                      </Text>
+
+                      <Text style={styles.valueText}>
+                        {food.fats} {strings.CALS}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            ))}
           </View>
-        </ScrollView>
-      </>
+        </KeyboardAwareScrollView>
+        <this.fab />
+      </View>
     );
   }
 }
+
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => ({
+  addCalorieData: (foods) => dispatch(actionCreators.addCalorieData(foods)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calorie1);
 
 const styles = StyleSheet.create({
   container: {
@@ -203,38 +301,122 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.background,
   },
   searchSection: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
-    marginTop: 10,
-    paddingHorizontal: 5,
-    marginHorizontal: 20,
-    borderRadius: 10,
+    marginTop: spacing.medium_sm,
+    paddingHorizontal: spacing.small,
+    marginHorizontal: spacing.medium_lg,
+    borderRadius: spacing.medium_sm,
   },
   searchIcon: {
-    padding: 10,
+    padding: spacing.medium_sm,
   },
   input: {
     flex: 1,
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
+    paddingTop: spacing.medium_sm,
+    paddingRight: spacing.medium_sm,
+    paddingBottom: spacing.medium_sm,
     paddingLeft: 0,
     backgroundColor: "#fff",
     color: appTheme.darkBackground,
-    marginLeft: 10,
+    marginLeft: spacing.medium_sm,
   },
-  buttonText: {
-    fontFamily: fonts.CenturyGothicBold,
-    fontSize: fontSizes.h3,
-    textAlign: "center",
+  listView: {
+    justifyContent: "center",
+    marginTop: spacing.medium_lg,
+    marginLeft: spacing.medium,
+    marginRight: spacing.medium,
+  },
+  eachCardOuter: {
+    backgroundColor: appTheme.darkBackground,
+    marginBottom: spacing.medium_lg,
+  },
+  eachCard: {
+    elevation: 14,
+    width: "99%",
+    padding: spacing.medium,
+    borderRadius: 4,
+    paddingLeft: spacing.large,
+    paddingRight: spacing.large,
+    margin: 2,
+    backgroundColor: appTheme.darkBackground,
+  },
+  nameView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  nameText: {
+    color: appTheme.brightContent,
+    fontSize: fontSizes.h1,
+    fontFamily: fonts.MontserratMedium,
+  },
+  quantityView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 15,
+  },
+  quanityText1: {
+    color: appTheme.greyC,
+    fontSize: fontSizes.h2,
+    fontFamily: fonts.MontserratMedium,
+    marginRight: spacing.medium_lg,
+  },
+  minus: { marginLeft: spacing.medium_lg, justifyContent: "center" },
+  plus: { justifyContent: "center" },
+  quantityAndTotal: {
+    fontSize: 16,
+    fontFamily: fonts.CenturyGothic,
+    color: appTheme.textPrimary,
+  },
+  categoryView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 15,
+  },
+  categoryText: {
+    fontSize: fontSizes.h2,
+    fontFamily: fonts.MontserratMedium,
+    marginRight: spacing.medium_lg,
+  },
+  totalText: {
+    color: appTheme.greyC,
+    fontSize: fontSizes.h2,
+    fontFamily: fonts.MontserratMedium,
+    marginRight: spacing.medium_lg,
+  },
+  valueText: {
+    fontSize: fontSizes.h2,
+    fontFamily: fonts.CenturyGothic,
+    color: appTheme.textPrimary,
+  },
+  fab: {
+    height: spacing.space_50,
+    width: spacing.space_50,
+    borderRadius: spacing.thumbnailMini / 2,
+    elevation: 4,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.acceptGreen,
+  },
+  fabPosition: {
+    position: "absolute",
+    bottom: spacing.medium_lg,
+    right: spacing.medium_lg,
   },
 });
-
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = (dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Calorie1);
+// {
+//   item: "egg",
+//   quantity: 100,
+//   carbs: 3,
+//   precarbs: 3,
+//   fats: 88,
+//   prefats: 88,
+//   proteins: 52,
+//   preproteins: 52,
+//   id: cuid(),
+//   total: 143,
+//   pretotal: 143,
+//   type: "BREAKFAST",
+// },

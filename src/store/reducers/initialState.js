@@ -12,6 +12,7 @@ export const userState = {
   userName: '',
   userData: {},
   activities: {},
+
 };
 
 export const callState = {
@@ -54,7 +55,9 @@ export const fitnessState = {
   preferences: [],
   exerciseIndex: 3,
   targetWeight: null,
-  targetDate: null
+  targetDate: null,
+  calorieData:{},
+  waterIntake:{},
 }
 
 export const notificationState = {

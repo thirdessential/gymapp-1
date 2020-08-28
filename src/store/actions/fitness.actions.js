@@ -102,4 +102,46 @@ export const updateTarget = (weight,date) => {
   };
 };
 
+export const addFoods = (calorieData) => {
+ 
+  return {
+  type: actionTypes.ADD_CALORIE_DATA,
+  payload: {
+    calorieData,
+  }
+};
+}
 
+export const addCalorieData= (calorieData)=> {
+ 
+  return async (dispatch) => {
+    try {
+      dispatch(addFoods(calorieData));
+    } catch (error) {
+      console.log("food update failed ",error);
+      return false;
+    }
+  }
+}
+
+export const updateWater=(waterIntake)=>{
+ 
+  return {
+    type:actionTypes.ADD_WATER_INTAKE,
+    payload: {
+      waterIntake
+    }
+  }
+}
+
+ export const addWaterIntake = (waterIntake)=>{
+  
+return async (dispatch) => {
+  try {
+    dispatch(updateWater(waterIntake));
+  } catch (error) {
+    console.error("unable to update water info",error);
+    return false
+  }
+}
+ }

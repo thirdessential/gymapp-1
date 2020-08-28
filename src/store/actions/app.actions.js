@@ -60,7 +60,7 @@ export const setUser = (userId) => {
     try {
       let {user} = await API.getUserInfo(userId);
       if (user) {
-        dispatch(setUserAction(user));
+       await dispatch(setUserAction(user));
       }
     } catch (error) {
       console.log("UserData update failed", error);
