@@ -69,11 +69,12 @@ export const getGlobalSlots = async () => {
   }
 }
 
-export const subscribeToPackage = async (trainerId, packageId, time, days, couponCode) => {
+export const subscribeToPackage = async (trainerId, packageId, time, days,duration, couponCode) => {
   try {
     let response = await axios.post(`/subscription/${trainerId}/${packageId}`, {
       time,
       days,
+      duration,
       couponCode
     });
     if (validateResponseCode(response.status)) {

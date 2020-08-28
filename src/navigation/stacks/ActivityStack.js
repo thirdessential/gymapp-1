@@ -10,12 +10,9 @@ import {connect} from "react-redux";
 import Stack from "./stack";
 import RouteNames from "../RouteNames";
 import openDrawerButton from "../openDrawerButton";
-import {appTheme} from "../../constants/colors";
 import Activity from "../../screens/App/Activity";
 import {spacing} from "../../constants/dimension";
 import {defaultHeaderStyle} from "../../constants/styles";
-import fontSizes from "../../constants/fontSizes";
-import fonts from "../../constants/fonts";
 import {defaultDP} from "../../constants/appConstants";
 import NotificationList from "../../components/NotificationList";
 

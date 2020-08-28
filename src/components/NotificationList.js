@@ -84,9 +84,9 @@ class NotificationList extends PureComponent {
   renderMarkRead = () => {
     const {notifications} = this.props;
     const unreadCount = this.getUnreadCount();
-    if (notifications.length <= 4 && unreadCount === 0) return null;
+    if (notifications.length ===0) return null;
     return (
-      <>
+      <View>
         {this.separator()}
         <MenuOption
           style={[styles.menuOption, {
@@ -105,7 +105,7 @@ class NotificationList extends PureComponent {
             <Text style={styles.showOrHide}>{strings.CLEAR_ALL}</Text>
           </TouchableOpacity>
         </MenuOption>
-      </>
+      </View>
     )
   }
   noNotifications = () => {
@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
     color: appTheme.brightContent,
     fontFamily: fonts.CenturyGothic,
     fontSize: fontSizes.h4,
+    alignSelf:'center'
   },
   bellIcon: {
     justifyContent: "center",

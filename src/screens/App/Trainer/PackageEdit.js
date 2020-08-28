@@ -11,7 +11,10 @@ import {
   TouchableOpacity,
   StatusBar,
   ActivityIndicator,
-  LayoutAnimation, Image, ImageBackground
+  LayoutAnimation,
+  Image,
+  ImageBackground,
+  Switch
 } from 'react-native'
 import {connect} from "react-redux";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
@@ -21,7 +24,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 import {spacing} from "../../../constants/dimension";
 import * as actionCreators from "../../../store/actions";
-import colors, {appTheme, darkPallet} from "../../../constants/colors";
+import colors, {appTheme, bmiColors, darkPallet} from "../../../constants/colors";
 import strings from "../../../constants/strings";
 import fonts from "../../../constants/fonts";
 import fontSizes from "../../../constants/fontSizes";
@@ -29,8 +32,14 @@ import {validatePackage} from "../../../utils/validators";
 import {showSuccess} from "../../../utils/notification";
 import {FlatGrid} from "react-native-super-grid";
 import ImageCard, {cardSize} from "../../../components/ImageCard";
-import {packageImages, packageTypes} from "../../../constants/appConstants";
+import {packageImages, packageTypes, WEEK_DAYS} from "../../../constants/appConstants";
 import {screenHeight, screenWidth} from "../../../utils/screenDimensions";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import Slot from "../../../components/Slot";
+import cuid from "cuid/index";
+import {dateToString} from "../../../utils/utils";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import NotificationList from "../../../components/NotificationList";
 
 class Packages extends PureComponent {
 
@@ -42,10 +51,22 @@ class Packages extends PureComponent {
     category: '',
     submitPending: false,
     categories: [],
+    group: false,
+    maxParticipants: 10,
+    slot: {
+      duration: 60,
+      time: '1500',
+      days: [WEEK_DAYS.MON, WEEK_DAYS.TUE, WEEK_DAYS.WED, WEEK_DAYS.THU, WEEK_DAYS.FRI],
+    },
+    startDate: new Date(),
+    today: Date.now(),
+    futureDate: new Date().setDate(new Date().getDate() + 30),
+    pickerVisible: false,
+    active: true // package active
   }
 
   componentDidMount() {
-    const {route} = this.props;
+    const {route, navigation} = this.props;
     if (route.params) {
       const {packageId} = route.params;
       if (packageId) {
@@ -76,7 +97,8 @@ class Packages extends PureComponent {
     this.props.navigation.goBack()
   }
   setCategory = (category) => {
-    this.setState({category, title: packageTypes[category]});
+    const title = !!this.state.title ? this.state.title : packageTypes[category];
+    this.setState({category, title});
     this.closeRbSheet();
   }
   savePackage = async () => {
@@ -89,7 +111,41 @@ class Packages extends PureComponent {
     if (route.params && route.params.packageId)
       showSuccess(strings.CHANGES_SAVED);
     else showSuccess(strings.PACKAGE_CREATED);
+    if (this.state.group)
+      this.props.updateUserData()
     this.props.navigation.goBack();
+  }
+  toggleGroup = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({group: !this.state.group})
+  }
+
+  renderSwitch = () => {
+    const {active, _id} = this.state;
+    if (!_id) return null;
+    return (
+      <View style={[styles.row, styles.center]}>
+        <Text style={styles.title}>{active ? strings.ACTIVE : strings.DISABLED}</Text>
+        <Switch
+          trackColor={{false: appTheme.grey, true: bmiColors.blue}}
+          thumbColor={this.state.active ? bmiColors.yellow : "#f4f3f4"}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={this.toggleActive}
+          value={this.state.active}
+        />
+      </View>
+    )
+  }
+  toggleActive = (value) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({active: value})
+  }
+  maxParticipantsChange = (maxParticipants) => {
+    if (Number.isNaN(parseInt(maxParticipants)))
+      maxParticipants = '';
+    else if (maxParticipants < 2) maxParticipants = 2;
+    if (maxParticipants > 50) maxParticipants = 50;
+    this.setState({maxParticipants});
   }
   cancelEdit = () => {
     this.props.navigation.goBack()
@@ -121,6 +177,10 @@ class Packages extends PureComponent {
       {this.renderCategories()}
     </RBSheet>
   )
+
+  showDatePicker = () => {
+    this.setState({pickerVisible: true});
+  }
   renderCategory = (item) => (
     <TouchableOpacity onPress={() => this.setCategory(item.title)} style={{alignItems: 'center'}}>
       <Image style={styles.imageCard} source={item.image}/>
@@ -136,9 +196,36 @@ class Packages extends PureComponent {
     />
   }
 
+  validateGroup = () => {
+    const {group, maxParticipants} = this.state;
+    if (!group) return true;
+    else return maxParticipants >= 2 && maxParticipants <= 50;
+  }
+  handleTimeChange = (time) => {
+    const slot = {...this.state.slot};
+    slot.time = dateToString(time);
+    this.setState({slot});
+  }
+  handleDurationChange = (duration) => {
+    const slot = {...this.state.slot};
+    slot.duration = duration;
+    this.setState({slot});
+  }
+  handleDaysChange = (days) => {
+    const slot = {...this.state.slot};
+    slot.days = days;
+    this.setState({slot});
+  }
+  onDateChange = (result) => {
+    const {timestamp} = result.nativeEvent;
+    if (!timestamp) return;
+    this.setState({startDate: timestamp, pickerVisible: false})
+  }
+
   render() {
-    const inputsValid = validatePackage(this.state);
-    const {category} = this.state;
+    const inputsValid = validatePackage(this.state) && this.validateGroup();
+    const {category, slot, startDate} = this.state;
+    const date = new Date(startDate).toLocaleDateString();
     return (
       <KeyboardAwareScrollView style={styles.container} showsVerticalScrollIndicator={false} enableOnAndroid={true}
                                keyboardShouldPersistTaps={'handled'}>
@@ -151,6 +238,7 @@ class Packages extends PureComponent {
               onChangeText={this.onTitleChange}
               value={this.state.title}
             />
+            {this.renderSwitch()}
           </ImageBackground>
         )}
         {
@@ -162,6 +250,7 @@ class Packages extends PureComponent {
                 onChangeText={this.onTitleChange}
                 value={this.state.title}
               />
+              {this.renderSwitch()}
             </View>
           )
         }
@@ -169,21 +258,78 @@ class Packages extends PureComponent {
         <View style={styles.content}>
           <View style={styles.inputRow}>
             <Text style={styles.title}>{strings.CATEGORY}</Text>
-            <TouchableOpacity onPress={this.openRbSheet}>
+            <TouchableOpacity activeOpacity={0.7} onPress={this.openRbSheet}>
               <Text style={styles.contentInput}>{!!category ? packageTypes[category] : strings.SELECT_CATEGORY}</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.inputRow}>
-            <Text style={styles.title}>{strings.SESSIONS}</Text>
-            <TextInput
-              keyboardType={'numeric'}
-              style={styles.contentInput}
-              placeholder={strings.NO_OF_SESSIONS}
-              placeholderTextColor={appTheme.grey}
-              onChangeText={this.sessionCountChange}
-              value={this.state.noOfSessions.toString()}
-            />
+
+          <View style={styles.row}>
+            <View style={[styles.inputRow, {width: '50%', marginRight: 'auto'}]}>
+              <Text style={styles.title}>{strings.SESSIONS}</Text>
+              <TextInput
+                keyboardType={'numeric'}
+                style={styles.contentInput}
+                placeholder={strings.SESSION_COUNT}
+                placeholderTextColor={appTheme.grey}
+                onChangeText={this.sessionCountChange}
+                value={this.state.noOfSessions.toString()}
+              />
+            </View>
+            <View style={styles.inputRow}>
+              <Text style={styles.title}>{strings.GROUP_SESSIONS}</Text>
+              <TouchableOpacity activeOpacity={0.6} onPress={this.toggleGroup} style={styles.iconButton}>
+                <FontAwesome5Icon name={'check'} color={this.state.group ? bmiColors.blue : appTheme.grey}
+                                  size={20}/>
+              </TouchableOpacity>
+            </View>
           </View>
+          {
+            this.state.group && (
+              <View>
+                <View style={styles.inputRow}>
+                  <Text style={styles.title}>{strings.MAX_PARTICIPANTS}</Text>
+                  <TextInput
+                    keyboardType={'numeric'}
+                    style={styles.contentInput}
+                    placeholder={strings.MAX_ALLOWED_PARTICIPANTS}
+                    placeholderTextColor={appTheme.grey}
+                    onChangeText={this.maxParticipantsChange}
+                    value={this.state.maxParticipants.toString()}
+                  />
+                </View>
+                <View style={styles.inputRow}>
+                  <Text style={styles.title}>{strings.SET_TIMING}</Text>
+                  <Slot
+                    containerStyle={styles.slotContainer}
+                    days={slot.days}
+                    duration={slot.duration}
+                    index={''}
+                    time={slot.time}
+                    onTimeChange={this.handleTimeChange}
+                    onDurationChange={this.handleDurationChange}
+                    onDaysChange={this.handleDaysChange}
+                  />
+                </View>
+                <View style={styles.inputRow}>
+                  <Text style={styles.title}>{strings.START_DATE}</Text>
+                  <TouchableOpacity activeOpacity={0.8} onPress={this.showDatePicker}>
+                    <Text style={styles.contentInput}>{date}</Text>
+                  </TouchableOpacity>
+                </View>
+                {this.state.pickerVisible && this.state.group && (
+                  <DateTimePicker
+                    value={this.state.startDate}
+                    mode={'date'}
+                    is24Hour={false}
+                    display="default"
+                    onChange={this.onDateChange}
+                    minimumDate={this.state.today}
+                    maximumDate={this.state.futureDate}
+                  />
+                )}
+              </View>
+            )
+          }
           <View style={styles.inputRow}>
             <Text style={styles.title}>{strings.DESCRIPTION}</Text>
             <TextInput
@@ -197,7 +343,7 @@ class Packages extends PureComponent {
             />
           </View>
           <View style={styles.inputRow}>
-            <Text style={styles.title}>{strings.PRICE}</Text>
+            <Text style={styles.title}>{strings.PRICE_TITLE}</Text>
             <TextInput
               keyboardType={'numeric'}
               style={styles.contentInput}
@@ -249,6 +395,7 @@ class Packages extends PureComponent {
           </TouchableOpacity>
         </View>
         {this.rbSheet()}
+
       </KeyboardAwareScrollView>
     );
   }
@@ -304,7 +451,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: fontSizes.h2,
     fontFamily: fonts.PoppinsRegular,
-    textAlignVertical: "top"
+    textAlignVertical: "top",
+    elevation: 6
+  },
+  center: {
+    alignItems: 'center'
   },
   inputRow: {
     marginTop: spacing.medium_lg,
@@ -343,6 +494,27 @@ const styles = StyleSheet.create({
     width: cardSize - spacing.medium,
     borderRadius: 10
   },
+  row: {
+    flexDirection: 'row',
+  },
+  iconButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: appTheme.darkBackground,
+    height: 38,
+    flexDirection: 'row',
+    elevation: 6,
+    borderRadius: 10,
+    marginRight: spacing.large,
+  },
+  slotContainer: {
+    elevation: 6,
+    width: '100%',
+    padding: spacing.medium,
+    borderRadius: 10,
+    margin: 2,
+    backgroundColor: appTheme.darkBackground
+  }
 });
 
 const mapStateToProps = (state) => ({
@@ -351,7 +523,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   createPackage: (packageData) => dispatch(actionCreators.createPackage(packageData)),
-  deletePackage: packageId => dispatch(actionCreators.deletePackage(packageId))
+  deletePackage: packageId => dispatch(actionCreators.deletePackage(packageId)),
+  updateUserData: () => dispatch(actionCreators.updateUserData()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Packages);

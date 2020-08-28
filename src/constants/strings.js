@@ -240,7 +240,17 @@ const strings = {
   ADD_ITEM:'Add Item',
   CALS:'cal',
   ACHIEVED:'Achieved',
-  QUANTITY:"Quantity"
+  QUANTITY:"Quantity",
+  GROUP_SESSIONS: 'Group Sessions',
+  MAX_PARTICIPANTS: 'Max Participants',
+  SESSION_COUNT: 'Session Count',
+  MAX_ALLOWED_PARTICIPANTS: 'Max Allowed Participants',
+  SET_TIMING: 'Set Timing',
+  START_DATE: 'Start Date',
+  CLIENTS: 'Clients',
+  HIDE: 'Hide',
+  ACTIVE:'Active',
+  DISABLED:'Disabled'
 };
 
 export const bmiVerdicts = {

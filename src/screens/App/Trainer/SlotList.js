@@ -31,10 +31,11 @@ class SlotList extends PureComponent {
   }
 
   componentDidMount() {
-    const {navigation} = this.props;
+    const {navigation,updateUserData} = this.props;
+    updateUserData();
     this.refreshSlots();
     this.unsubscribeFocus = navigation.addListener('focus', e => {
-      if (this.state.slots.length === 0)
+      // if (this.state.slots.length === 0)
         this.refreshSlots();
     });
   }
@@ -160,7 +161,7 @@ class SlotList extends PureComponent {
     let slotsAtTime = slots.filter(slot => slot.time === time);
     const occupiedDays = [];
     slotsAtTime.map(slot => {
-      if (slot.subscriptionId && slot.subscriptionId.subscribedBy)
+      if (slot.isSubscribed || slot.group)
         occupiedDays.push(slot.dayOfWeek)
     })
     return occupiedDays;
@@ -168,7 +169,7 @@ class SlotList extends PureComponent {
   renderSlots = () => {
     return this.state.slots.map((slot, index) => {
       const disabledDays = this.findBookedDays(slot.time);
-      const disabled = disabledDays.length > 0;
+      const disabled = disabledDays.length > 0 || slot.group;
       return <View key={slot._id} style={styles.slotContainer}>
         <Slot
           days={slot.days}

@@ -223,16 +223,17 @@ class Packages extends PureComponent {
   onConfirmPress = async () => {
     const {couponCode} = this.state;
     this.setState({subscribeLoading: true});
-    const {route, userData, navigation, syncSubscriptions} = this.props;
+    const {route, userData, navigation, syncSubscriptions, subscribePackage} = this.props;
     const {metadata, userId, packageId} = route.params;
-    const {time, days} = metadata;
+    const {time, days, duration} = metadata;
     const {packageName, price} = metadata;
 
-    let result = await this.props.subscribePackage(
+    let result = await subscribePackage(
       userId,
       packageId,
       time,
       days,
+      duration,
       couponCode
     );
     if (result && result.payment === false) {
@@ -258,9 +259,9 @@ class Packages extends PureComponent {
           contact: "",
           name: userData.name || "",
         },
-        theme: {color: appTheme.background, backgroundColor: "red"},
+        theme: {color: appTheme.background, backgroundColor: appTheme.brightContent},
       };
-      console.log(options);
+      // console.log(options);
 
       RazorpayCheckout.open(options)
         .then((data) => {
@@ -331,7 +332,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: spacing.medium_sm,
     paddingVertical: 0,
-    backgroundColor:appTheme.background
+    backgroundColor: appTheme.background
   },
   subtitle: {
     backgroundColor: appTheme.darkBackground,
@@ -493,13 +494,14 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions()),
-  subscribePackage: (trainerId, packageId, time, days, couponCode) =>
+  subscribePackage: (trainerId, packageId, time, days, duration, couponCode) =>
     dispatch(
       actionCreators.subscribePackage(
         trainerId,
         packageId,
         time,
         days,
+        duration,
         couponCode
       )
     ),

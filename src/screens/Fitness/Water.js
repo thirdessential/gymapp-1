@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, {PureComponent} from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -6,22 +6,15 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { connect } from "react-redux";
-import { spacing } from "../../constants/dimension";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
-import * as API from "../../API";
-TimeAgo.addLocale(en);
-const timeAgo = new TimeAgo("en-US");
 
-import colors, { appTheme } from "../../constants/colors";
-import fontSizes from "../../constants/fontSizes";
-import fonts from "../../constants/fonts";
-import strings from "../../constants/strings";
-import { getTodayFormattedDate } from "../../utils/utils";
-import * as actionCreators from "../../store/actions";
-import HcdWaveView from "../../components/HcdWaveView";
-const date = getTodayFormattedDate();
+import {connect} from "react-redux";
+import {spacing} from "../../constants/dimension";
+import {
+  appTheme,
+} from "../../constants/colors";
+
+import HcdWaveView from "./HcdWaveView";
+
 class Water extends PureComponent {
   state = {
     waterIntake: 0,
@@ -57,10 +50,7 @@ class Water extends PureComponent {
       <>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+          contentContainerStyle={styles.center}
           style={styles.container}
         >
           <HcdWaveView
@@ -123,7 +113,6 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingLeft: spacing.medium_lg,
     paddingRight: spacing.medium_lg,
-
     backgroundColor: appTheme.background,
   },
   increaseText: { color: appTheme.textPrimary, fontSize: fontSizes.h1 },

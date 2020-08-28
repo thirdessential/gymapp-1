@@ -4,8 +4,6 @@ import {zoomConfig} from "../constants/appConstants";
 
 const zoomUserType = 2; // 2 - pro user
 
-const a = ()=>    console.warn('MEETING ENDED');
-
 export const hostMeeting = async (meetingNumber, zakTokenRaw, displayName = 'Trainer') => {
   await ZoomUs.initialize(
     zoomConfig.key,

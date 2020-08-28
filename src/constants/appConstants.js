@@ -20,6 +20,7 @@ export const userTypes = {
 }
 
 export const INITIAL_USER_TYPE = userTypes.TRAINER;
+
 export const videoFeedConfig = {
   width: 360,
   height: 640,
@@ -196,4 +197,8 @@ export const notificationActionTypes = {
   STREAM:'STREAM',
   CALL_REQUEST:'CALL_REQUEST',
   CALL_ACCEPT:'CALL_ACCEPT'
+}
+export const subscriptionType = {
+  SINGLE:'SINGLE',
+  BATCH:'BATCH'
 }
