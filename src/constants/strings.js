@@ -250,7 +250,8 @@ const strings = {
   CLIENTS: 'Clients',
   HIDE: 'Hide',
   ACTIVE:'Active',
-  DISABLED:'Disabled'
+  DISABLED:'Disabled',
+  CERTIFICATIONS: 'Certifications'
 };
 
 export const bmiVerdicts = {

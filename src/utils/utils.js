@@ -270,8 +270,20 @@ export const getCompressedLink = (url, height = 400, width = 400) => {
   return split[0] + `upload/w_${width},h_${height}` + split[1];
 }
 
-export const getTodayFormattedDate=() => {
+export const getTodayFormattedDate = () => {
   let today = new Date();
-let date=today.getDate() + "/"+ parseInt(today.getMonth()+1) +"/"+today.getFullYear();
-return date;
+  let date = today.getDate() + "/" + parseInt(today.getMonth() + 1) + "/" + today.getFullYear();
+  return date;
+}
+
+export const getImageFromCloudinaryPdf = (url) => {
+  return url.split('pdf')[0] + 'jpg';
+}
+
+export const fillArray = (value, len = 10) => {
+  let arr = [];
+  for (let i = 0; i < len; i++) {
+    arr.push(value);
+  }
+  return arr;
 }
