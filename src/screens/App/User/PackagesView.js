@@ -31,13 +31,14 @@ class PackagesView extends PureComponent {
 
       if (targetPackage.group) {
         const {slot} = targetPackage;
-        const {time, days} = slot;
+        const {time, days,duration} = slot;
         const metadata = {
           packageName: targetPackage.title,
           sessionCount: targetPackage.noOfSessions,
           price: targetPackage.price,
           time,
           days,
+          duration,
           trainerName: user.name,
         }
         navigation.navigate(RouteNames.Payment, {

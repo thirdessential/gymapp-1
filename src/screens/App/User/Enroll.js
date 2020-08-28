@@ -31,6 +31,7 @@ class Enroll extends PureComponent {
     selectedDays: {},
     selectedTime: '',
     selectedSlotId: '',
+    selectedDuration:60,
     subscribeLoading: false
   }
 
@@ -74,7 +75,8 @@ class Enroll extends PureComponent {
     this.setState({subscribeLoading: true});
     const {route, navigation} = this.props;
     const {userId, packageId, trainerData, packageData} = route.params;
-    const {selectedDays, selectedTime, selectedSlotId} = this.state;
+    const {selectedDays, selectedTime, selectedSlotId, slots} = this.state;
+    const selectedSlot = slots.filter(slot=>slot._id===selectedSlotId)[0];
     const days = selectedDays[selectedSlotId];
     const metadata = {
       packageName: packageData.title,
@@ -82,6 +84,7 @@ class Enroll extends PureComponent {
       price: packageData.price,
       time: selectedTime,
       days,
+      duration:selectedSlot.duration,
       trainerName: trainerData.name,
     }
     this.setState({subscribeLoading: false});
