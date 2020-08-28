@@ -67,13 +67,14 @@ const RouteNames = {
 
   RootTab: 'RootTab',
   LiveScheduler: 'LiveScheduler',
-  MyStreams:'MyStreams',
+  MyStreams: 'MyStreams',
 
 
-CalorieCounter:'CalorieCounter',
-RecipeRecommend:'RecipeRecommend',
-  Water:'Water',
+  CalorieCounter: 'CalorieCounter',
+  RecipeRecommend: 'RecipeRecommend',
+  Water: 'Water',
   Calorie1: 'Calorie1',
+  PdfViewer: 'PdfViewer'
 };
 
 export const TabRoutes = {
@@ -86,7 +87,7 @@ export const TabRoutes = {
   Tomorrow: 'Tomorrow',
 
   Questions: 'Questions',
-  LiveStreams:'LiveStreams',
+  LiveStreams: 'LiveStreams',
 
 }
 

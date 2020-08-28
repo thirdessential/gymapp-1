@@ -1,36 +1,34 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
   Text,
   View,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
-  ActivityIndicator,
   ToastAndroid,
   Keyboard,
   Image,
   ScrollView,
 } from "react-native";
-import { CheckBox } from "react-native-elements";
-import { Item, Input } from "native-base";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { attemptGoogleAuth, registerWithEmail } from "../../API";
+import {CheckBox} from "react-native-elements";
+import {Item, Input} from "native-base";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {attemptGoogleAuth, registerWithEmail} from "../../API";
 import Loader from "../../components/Loader";
-import { showMessage } from "react-native-flash-message";
 import strings from "../../constants/strings";
 import fonts from "../../constants/fonts";
-import { appTheme } from "../../constants/colors";
-import { screenHeight, screenWidth } from "../../utils/screenDimensions";
+import {appTheme} from "../../constants/colors";
+import {screenHeight, screenWidth} from "../../utils/screenDimensions";
 import EmailValidation from "../../utils/validation/Email";
 import PasswordValidation from "../../utils/validation/Password";
-import { spacing } from "../../constants/dimension";
 import Logo from "../../../assets/images/logo.png";
 import Icon from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather";
 import TripleLine from "../../../assets/images/tripleLine.png";
 import Dash from "react-native-dash";
 import {showError} from "../../utils/notification";
-import {forgotPassword} from "../../API/firebaseMethods";
+import {INITIAL_USER_TYPE, userTypes} from "../../constants/appConstants";
+import RouteNames from "../../navigation/RouteNames";
 
 export default class SignUp extends Component {
   constructor(props) {
@@ -49,12 +47,24 @@ export default class SignUp extends Component {
     if (Platform.OS === "android") {
       ToastAndroid.show(msg, ToastAndroid.SHORT);
     } else {
-      AlertIOS.alert(msg);
+      // AlertIOS.alert(msg);
     }
   }
+
+  openPolicy = () => {
+    const {navigation} = this.props;
+    const pdfSource = INITIAL_USER_TYPE === userTypes.TRAINER ?
+      require('../../../assets/trainerPolicy.pdf') :
+      require('../../../assets/trainerPolicy.pdf') // TODO: User policy
+    navigation.navigate(RouteNames.PdfViewer, {
+      source: pdfSource
+    })
+
+  }
+
   validateInputs() {
-    this.setState({ emailError: EmailValidation(this.state.email) });
-    this.setState({ passwordError: PasswordValidation(this.state.password) });
+    this.setState({emailError: EmailValidation(this.state.email)});
+    this.setState({passwordError: PasswordValidation(this.state.password)});
 
     if (!this.state.checked)
       this.showMessage("kindly accept the terms and conditions");
@@ -64,39 +74,40 @@ export default class SignUp extends Component {
       this.state.checked
     );
   }
+
   async signUp() {
     Keyboard.dismiss();
     if (this.validateInputs()) {
-      this.setState({ loading: true });
+      this.setState({loading: true});
       var result = await registerWithEmail(
         this.state.email,
         this.state.password
       );
-      this.setState({ loading: false });
+      this.setState({loading: false});
       if (result) {
       } else
         showError(strings.SIGNUP_FAILED)
 
-      this.setState({ loading: false });
+      this.setState({loading: false});
     } else
       showError(strings.SIGNUP_FAILED)
-      this.setState({ loading: false });
+    this.setState({loading: false});
 
   }
 
   googleSignup = async () => {
-    this.setState({ loading: true });
+    this.setState({loading: true});
     let res = await attemptGoogleAuth();
-    this.setState({ loading: false });
+    this.setState({loading: false});
     if (res) {
     } else
       showError(strings.SIGNUP_FAILED)
   };
   setEmail = (text) => {
-    this.setState({ email: text });
+    this.setState({email: text});
   };
   setPassword = (text) => {
-    this.setState({ password: text });
+    this.setState({password: text});
   };
   renderBars = () => (
     <View
@@ -108,7 +119,7 @@ export default class SignUp extends Component {
       }}
     >
       <Image
-        style={{ height: screenWidth / 2.5, width: screenWidth / 2.5 }}
+        style={{height: screenWidth / 2.5, width: screenWidth / 2.5}}
         resizeMode={"contain"}
         source={TripleLine}
       />
@@ -122,17 +133,17 @@ export default class SignUp extends Component {
         keyboardShouldPersistTaps={"handled"}
         style={styles.container}
       >
-        <StatusBar backgroundColor="black" />
+        <StatusBar backgroundColor="black"/>
         {this.renderBars()}
-        <Loader loading={this.state.loading} />
-        <Image resizeMode={"contain"} source={Logo} style={styles.image} />
+        <Loader loading={this.state.loading}/>
+        <Image resizeMode={"contain"} source={Logo} style={styles.image}/>
 
         <View style={styles.detailsView}>
-          <View style={{ flexDirection: "row", justifyContent: "center" }}>
+          <View style={{flexDirection: "row", justifyContent: "center"}}>
             <Text style={styles.signUp}>{strings.SIGN_UP}</Text>
             <View style={styles.Dash}>
               <Dash
-                style={{ width: 1, flexDirection: "column", height: 40 }}
+                style={{width: 1, flexDirection: "column", height: 40}}
                 dashGap={0}
                 dashColor={appTheme.brightContent}
                 dashThickness={0.8}
@@ -149,11 +160,11 @@ export default class SignUp extends Component {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ marginTop: "8%" }}>
-            <View style={{ paddingBottom: "5%" }}>
+          <View style={{marginTop: "8%"}}>
+            <View style={{paddingBottom: "5%"}}>
               <Text style={styles.label}>{strings.EMAIL}</Text>
               <Item rounded style={styles.item}>
-                <Icon name="mail" color={appTheme.brightContent} size={25} />
+                <Icon name="mail" color={appTheme.brightContent} size={25}/>
                 <Input
                   onChangeText={(text) => {
                     this.setEmail(text);
@@ -169,7 +180,7 @@ export default class SignUp extends Component {
 
             <Text style={styles.label}>{strings.PASSWORD}</Text>
             <Item rounded style={styles.item}>
-              <Icon name="key" color={appTheme.brightContent} size={25} />
+              <Icon name="key" color={appTheme.brightContent} size={25}/>
               <Input
                 secureTextEntry={true}
                 style={styles.input}
@@ -187,18 +198,20 @@ export default class SignUp extends Component {
               title={
                 <TouchableOpacity
                   onPress={() => {
-                    this.setState({ checked: !this.state.checked });
+                    this.setState({checked: !this.state.checked});
                   }}
                   style={styles.terms}
                 >
                   <Text style={styles.termsOne}>{strings.I_ACCEPT}</Text>
-                  <Text style={styles.termTwo}>{strings.TNC}</Text>
+                  <TouchableOpacity onPress={this.openPolicy}>
+                    <Text style={styles.termTwo}>{strings.TERMS_AND_CONDITIONS}</Text>
+                  </TouchableOpacity>
                 </TouchableOpacity>
               }
               containerStyle={styles.checkBoxContainerStyle}
               checked={this.state.checked}
               checkedColor="white"
-              onPress={() => this.setState({ checked: !this.state.checked })}
+              onPress={() => this.setState({checked: !this.state.checked})}
             />
           </View>
           <View
@@ -210,20 +223,20 @@ export default class SignUp extends Component {
           >
             <TouchableOpacity onPress={() => this.signUp()}>
               <View style={styles.signUpButton}>
-                <Feather name="arrow-right" color="white" size={30} />
+                <Feather name="arrow-right" color="white" size={30}/>
               </View>
             </TouchableOpacity>
             <View style={styles.AlreadySigned}>
               <TouchableOpacity
-                style={{ justifyContent: "center", marginTop: -20 }}
+                style={{justifyContent: "center", marginTop: -20}}
                 onPress={() => {
                   this.props.navigation.pop();
                 }}
               >
-                <Text style={{ color: appTheme.greyC }}>
+                <Text style={{color: appTheme.greyC}}>
                   {strings.ALREADY_ACCOUNT}
                 </Text>
-                <Text style={{ color: appTheme.greyC }}>{strings.SIGN_IN}</Text>
+                <Text style={{color: appTheme.greyC}}>{strings.SIGN_IN}</Text>
               </TouchableOpacity>
             </View>
           </View>

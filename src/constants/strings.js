@@ -178,7 +178,7 @@ const strings = {
   COUPON_EXHAUSTED: 'Coupon redeemed',
   CATEGORY: 'Category',
   SELECT_CATEGORY: 'Select Category',
-  TNC:'terms and conditions',
+  TERMS_AND_CONDITIONS:'terms and conditions',
   I_ACCEPT:'I accept ',
   MY_ACCOUNTS: 'My Accounts',
   ADD_ACCOUNT: 'Add Account',
