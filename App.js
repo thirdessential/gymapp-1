@@ -16,6 +16,7 @@ if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+
 export default function App() {
   return (
     <Provider store={store}>

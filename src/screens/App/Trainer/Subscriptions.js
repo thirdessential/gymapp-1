@@ -23,6 +23,7 @@ import fontSizes from "../../../constants/fontSizes";
 import MultiSelectButtons from "../../../components/MultiSelectButtons";
 import PillButton from "../../../components/PillButton";
 import {hitSlop20} from "../../../constants/styles";
+import RouteNames from "../../../navigation/RouteNames";
 
 class Subscriptions extends PureComponent {
   state = {
@@ -67,6 +68,12 @@ class Subscriptions extends PureComponent {
       await initialiseVideoCall(userId);
     } else console.log("Cant initiate video call without permission");
   }
+  openProfile = (userId) => {
+    const {navigation} = this.props;
+    navigation.navigate(RouteNames.Profile, {
+      userId: userId,
+    });
+  }
   renderSubscriptionCard = (subscription) => {
     const {heldSessions, totalSessions, startDate, endDate, package: packageData, slot, type, users,subscribedCount,maxParticipants} = subscription;
     const {time, daysOfWeek} = slot;
@@ -84,6 +91,7 @@ class Subscriptions extends PureComponent {
           participants={`(${subscribedCount}/${maxParticipants})`}
           price={price}
           days={daysOfWeek}
+          openProfile={this.openProfile}
         />
       </View>
 
@@ -104,7 +112,9 @@ class Subscriptions extends PureComponent {
         endDate={(new Date(endDate)).toLocaleDateString()}
         sessions={`(${heldSessions}/${totalSessions})`}
         price={price}
-        days={daysOfWeek}/>
+        days={daysOfWeek}
+        openProfile={()=>this.openProfile(userId)}
+      />
     </View>
   }
   renderSubscriptionList = () => {

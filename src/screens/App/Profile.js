@@ -9,6 +9,7 @@ import FastImage from 'react-native-fast-image';
 const Image = createImageProgress(FastImage);
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
+import PreventScreenshotAndroid from 'react-native-prevent-screenshot-android';
 
 import ProfileOverview from '../../components/Profile/ProfileOverview';
 import RouteNames from "../../navigation/RouteNames";
@@ -49,6 +50,11 @@ class Profile extends Component {
         this.setState({bgImage: {uri: wallImageUrl}});
       }
     }
+    PreventScreenshotAndroid.forbidScreenshot();
+  }
+
+  componentWillUnmount() {
+    PreventScreenshotAndroid.allowScreenshot();
   }
 
   callClicked = async () => {

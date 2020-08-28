@@ -15,13 +15,16 @@ import DaysRow from "../DaysRow";
 const subscriptionCard = (props) => {
   return (
     <View style={styles.container}>
-      <View style={styles.sectionContainer}>
+      <TouchableOpacity
+        onPress={props.openProfile}
+        activeOpacity={0.8}
+        style={styles.sectionContainer}>
         <Avatar url={props.imageUrl} size={spacing.thumbnailMini} roundedMultiplier={1}/>
         <View style={{alignItems: 'flex-end'}}>
           <Text style={styles.sectionTitle}>{props.displayName}</Text>
           <Text style={styles.detail}>{props.title}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
       <View style={styles.separator}/>
 
       <View style={styles.sectionContainer}>
@@ -108,9 +111,9 @@ const styles = StyleSheet.create({
   endAlign: {
     alignItems: 'flex-end'
   },
-  daysContainer:{
+  daysContainer: {
     marginTop: spacing.medium_sm,
-    marginBottom:spacing.small_sm
+    marginBottom: spacing.small_sm
   }
 
 });
