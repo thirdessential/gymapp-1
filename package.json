@@ -54,6 +54,7 @@
     "react-native-elements": "^2.2.1",
     "react-native-exit-app": "^1.1.0",
     "react-native-fast-image": "^8.3.2",
+    "react-native-fbsdk": "^2.0.0",
     "react-native-flash-message": "^0.1.16",
     "react-native-full-screen": "git+https://github.com/Yatanvesh/react-native-full-screen.git",
     "react-native-gesture-handler": "^1.7.0",

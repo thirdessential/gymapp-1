@@ -29,6 +29,7 @@ import Dash from "react-native-dash";
 import {showError} from "../../utils/notification";
 import {INITIAL_USER_TYPE, userTypes} from "../../constants/appConstants";
 import RouteNames from "../../navigation/RouteNames";
+import {onFacebookButtonPress} from "../../API/firebaseMethods";
 
 export default class SignUp extends Component {
   constructor(props) {
@@ -40,6 +41,7 @@ export default class SignUp extends Component {
       passwordError: null,
       checked: false,
       loading: false,
+      authLoading:false
     };
   }
 
@@ -102,6 +104,13 @@ export default class SignUp extends Component {
     if (res) {
     } else
       showError(strings.SIGNUP_FAILED)
+  };
+  facebookLogin = async () => {
+    this.setState({loading: true});
+    let res = await onFacebookButtonPress();
+    this.setState({loading: false});
+    if (res) this.setState({authLoading: true});
+    else showError(strings.LOGIN_FAILED);
   };
   setEmail = (text) => {
     this.setState({email: text});

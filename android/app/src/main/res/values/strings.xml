@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GymAdda</string>
+    <string name="facebook_app_id">303511697419842</string>
+    <string name="fb_login_protocol_scheme">fb303511697419842</string>
 </resources>
