@@ -8,7 +8,7 @@ import {
   ToastAndroid,
   Keyboard,
   Image,
-  ScrollView,
+  ScrollView, ActivityIndicator,
 } from "react-native";
 import {CheckBox} from "react-native-elements";
 import {Item, Input} from "native-base";
@@ -25,11 +25,11 @@ import Logo from "../../../assets/images/logo.png";
 import Icon from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather";
 import TripleLine from "../../../assets/images/tripleLine.png";
-import Dash from "react-native-dash";
 import {showError} from "../../utils/notification";
 import {INITIAL_USER_TYPE, userTypes} from "../../constants/appConstants";
 import RouteNames from "../../navigation/RouteNames";
 import {onFacebookButtonPress} from "../../API/firebaseMethods";
+import {spacing} from "../../constants/dimension";
 
 export default class SignUp extends Component {
   constructor(props) {
@@ -41,7 +41,7 @@ export default class SignUp extends Component {
       passwordError: null,
       checked: false,
       loading: false,
-      authLoading:false
+      authLoading: false
     };
   }
 
@@ -100,17 +100,22 @@ export default class SignUp extends Component {
   googleSignup = async () => {
     this.setState({loading: true});
     let res = await attemptGoogleAuth();
-    this.setState({loading: false});
     if (res) {
-    } else
+
+    } else {
       showError(strings.SIGNUP_FAILED)
+      this.setState({loading: false});
+    }
   };
   facebookLogin = async () => {
     this.setState({loading: true});
     let res = await onFacebookButtonPress();
-    this.setState({loading: false});
-    if (res) this.setState({authLoading: true});
-    else showError(strings.LOGIN_FAILED);
+    if (res) {
+
+    } else {
+      this.setState({loading: false});
+      showError(strings.SIGNUP_FAILED);
+    }
   };
   setEmail = (text) => {
     this.setState({email: text});
@@ -148,26 +153,30 @@ export default class SignUp extends Component {
         <Image resizeMode={"contain"} source={Logo} style={styles.image}/>
 
         <View style={styles.detailsView}>
-          <View style={{flexDirection: "row", justifyContent: "center"}}>
+          <View style={{flexDirection: "row"}}>
             <Text style={styles.signUp}>{strings.SIGN_UP}</Text>
-            <View style={styles.Dash}>
-              <Dash
-                style={{width: 1, flexDirection: "column", height: 40}}
-                dashGap={0}
-                dashColor={appTheme.brightContent}
-                dashThickness={0.8}
-              />
-            </View>
-            <TouchableOpacity style={styles.googleLogo}>
-              <View>
+            <View style={{flexDirection: 'row', marginTop: spacing.small, marginLeft: 'auto'}}>
+              <TouchableOpacity
+                onPress={this.googleSignup}
+                style={styles.authLogin}
+              >
                 <Icon
-                  onPress={() => this.googleSignup()}
                   name="google-"
                   color="#c33a09"
-                  size={30}
+                  size={40}
                 />
-              </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.facebookLogin}
+                style={styles.authLogin}
+              >
+                <Icon
+                  name="facebook"
+                  color="#3b5998"
+                  size={40}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
           <View style={{marginTop: "8%"}}>
             <View style={{paddingBottom: "5%"}}>
@@ -280,12 +289,10 @@ const styles = StyleSheet.create({
     marginLeft: "3%",
     color: "white",
   },
-
   signUp: {
     fontSize: 45,
     fontWeight: "bold",
-    color: "white",
-
+    color: appTheme.textPrimary,
     fontFamily: fonts.CenturyGothicBold,
   },
   googleLogo: {
@@ -298,17 +305,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginTop: "4%",
   },
-  Dash: {
-    marginTop: 10,
-    paddingTop: 10,
-    marginLeft: 20,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  circlebutton: {},
-
-  line: {},
-
   label: {
     fontSize: 14,
     color: appTheme.greyC,
@@ -356,7 +352,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#BCBCBF",
   },
-
+  authLogin: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: spacing.medium_sm
+  },
   checkBoxWrapperStyle: {
     marginBottom: 20,
   },
@@ -365,4 +365,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
   },
+  separator: {
+    height: 1,
+    backgroundColor: appTheme.brightContent,
+    marginVertical: spacing.large_lg
+  }
 });

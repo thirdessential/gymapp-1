@@ -156,9 +156,7 @@ export default class SignIn extends Component {
               </TouchableOpacity>
             </View>
           </View>
-          <View
-            style={styles.separator}
-          />
+          <View style={styles.separator}/>
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             {this.state.authLoading && (
               <ActivityIndicator size="large" color="white"/>
