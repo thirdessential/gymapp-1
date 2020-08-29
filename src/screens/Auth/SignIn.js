@@ -25,7 +25,6 @@ import Logo from "../../../assets/images/logo.png";
 import Icon from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather";
 import {showError} from "../../utils/notification";
-import Dash from "react-native-dash";
 import {onFacebookButtonPress} from "../../API/firebaseMethods";
 import {spacing} from "../../constants/dimension";
 
