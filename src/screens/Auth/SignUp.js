@@ -56,8 +56,8 @@ export default class SignUp extends Component {
   openPolicy = () => {
     const {navigation} = this.props;
     const pdfSource = INITIAL_USER_TYPE === userTypes.TRAINER ?
-      require('../../../assets/trainerPolicy.pdf') :
-      require('../../../assets/trainerPolicy.pdf') // TODO: User policy
+      {uri: 'bundle-assets://pdf/trainerPolicy.pdf'} :
+      {uri: 'bundle-assets://pdf/trainerPolicy.pdf'} // TODO: User policy
     navigation.navigate(RouteNames.PdfViewer, {
       source: pdfSource
     })
