@@ -39,7 +39,7 @@ const certificateList = (props) => {
         ItemSeparatorComponent={separator}
       />
       <ImageViewer
-        ref={ref => setImageViewer(ref)}/>
+        onRef={ref => setImageViewer(ref)}/>
     </View>
   )
 }

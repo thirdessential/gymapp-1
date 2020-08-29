@@ -27,6 +27,7 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import PostList from "../../components/Social/PostList";
 import {showError, showSuccess} from "../../utils/notification";
+import CertificateList from "../../components/Trainer/CertificateList";
 
 class Profile extends Component {
 
@@ -137,7 +138,7 @@ class Profile extends Component {
     if (!user)
       return this.loader();
 
-    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots, activeSubscriptions} = user;
+    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots, activeSubscriptions,certificates} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const hits = userType === userTypes.TRAINER ?
       generateTrainerHits({
@@ -161,6 +162,7 @@ class Profile extends Component {
           location={city}
           onHitsPress={this.openPackage}
         />
+
         {
           userType === userTypes.TRAINER && (
             <View style={styles.callbackContainer}>
@@ -169,6 +171,14 @@ class Profile extends Component {
                 {this.state.requestingCallback && <ActivityIndicator color={appTheme.brightContent} size={20}/>}
                 {!this.state.requestingCallback && <Text style={styles.subtitle}>{strings.REQUEST_CALLBACK}</Text>}
               </TouchableOpacity>
+            </View>
+          )
+        }
+        {
+          userType === userTypes.TRAINER && certificates.length > 0 && (
+            <View style={styles.postListContainer}>
+              <Text style={styles.sectionTitle}>{strings.CERTIFICATIONS}</Text>
+              <CertificateList data={certificates}/>
             </View>
           )
         }

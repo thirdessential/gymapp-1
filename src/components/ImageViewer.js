@@ -8,8 +8,8 @@ class ImageViewer extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.ref != null) {
-      this.props.ref(this)
+    if (this.props.onRef != null) {
+      this.props.onRef(this)
     }
   }
 
