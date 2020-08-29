@@ -251,7 +251,8 @@ const strings = {
   HIDE: 'Hide',
   ACTIVE:'Active',
   DISABLED:'Disabled',
-  CERTIFICATIONS: 'Certifications'
+  CERTIFICATIONS: 'Certifications',
+  PRIVACY_POLICY: 'Privacy Policy'
 };
 
 export const bmiVerdicts = {

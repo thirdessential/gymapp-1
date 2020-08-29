@@ -53,15 +53,21 @@ export default class SignUp extends Component {
     }
   }
 
-  openPolicy = () => {
+  openTerms = () => {
     const {navigation} = this.props;
     const pdfSource = INITIAL_USER_TYPE === userTypes.TRAINER ?
       {uri: 'bundle-assets://pdf/trainerPolicy.pdf'} :
-      {uri: 'bundle-assets://pdf/trainerPolicy.pdf'} // TODO: User policy
+      {uri: 'bundle-assets://pdf/terms.pdf'}
     navigation.navigate(RouteNames.PdfViewer, {
       source: pdfSource
     })
 
+  }
+  openPolicy = () => {
+    const {navigation} = this.props;
+    navigation.navigate(RouteNames.PdfViewer, {
+      source: {uri: 'bundle-assets://pdf/privacyPolicy.pdf'}
+    })
   }
 
   validateInputs() {
@@ -211,7 +217,6 @@ export default class SignUp extends Component {
           </View>
           <View style={styles.formElementsFooter}>
             <CheckBox
-              wrapperStyle={styles.checkBoxWrapperStyle}
               center
               title={
                 <TouchableOpacity
@@ -221,7 +226,7 @@ export default class SignUp extends Component {
                   style={styles.terms}
                 >
                   <Text style={styles.termsOne}>{strings.I_ACCEPT}</Text>
-                  <TouchableOpacity onPress={this.openPolicy}>
+                  <TouchableOpacity onPress={this.openTerms}>
                     <Text style={styles.termTwo}>{strings.TERMS_AND_CONDITIONS}</Text>
                   </TouchableOpacity>
                 </TouchableOpacity>
@@ -231,6 +236,12 @@ export default class SignUp extends Component {
               checkedColor="white"
               onPress={() => this.setState({checked: !this.state.checked})}
             />
+            <TouchableOpacity
+              onPress={this.openPolicy}
+              style={[styles.terms, {marginBottom: spacing.large}]}
+            >
+              <Text style={styles.termTwo}>{strings.PRIVACY_POLICY}</Text>
+            </TouchableOpacity>
           </View>
           <View
             style={{
@@ -341,6 +352,7 @@ const styles = StyleSheet.create({
   },
   terms: {
     flexDirection: "row",
+    justifyContent: 'center'
   },
   AlreadySigned: {
     marginTop: 20,
@@ -356,9 +368,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginRight: spacing.medium_sm
-  },
-  checkBoxWrapperStyle: {
-    marginBottom: 20,
   },
   termTwo: {
     color: "white",
