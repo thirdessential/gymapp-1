@@ -224,10 +224,10 @@ const strings = {
   RECIPE:"Recipe",
   WATER:'Water',
   CALORIECOUNTER:'Calorie Counter',
-  BREAKFAST: 'Breakfast',
-  LUNCH: 'Lunch',
-  SNACKS:'Snacks',
-  DINNER:'Dinner',
+  BREAKFAST: 'BREAKFAST',
+  LUNCH: 'LUNCH',
+  SNACKS:'SNACKS',
+  DINNER:'DINNER',
   CALORIE_INTAKE_TEXT:'Calorie Intake',
   TARGET_TEXT:'Target',
   PROTEIN:'Protein',
@@ -250,7 +250,9 @@ const strings = {
   CLIENTS: 'Clients',
   HIDE: 'Hide',
   ACTIVE:'Active',
-  DISABLED:'Disabled'
+  DISABLED:'Disabled',
+ADDBMI:'Hi! Add your BMI to continue.',
+ADD_BMI:'Add BMI'
 };
 
 export const bmiVerdicts = {
