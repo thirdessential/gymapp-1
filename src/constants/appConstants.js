@@ -5,8 +5,8 @@ import {appTheme, bmiColors} from "./colors";
 let apiUrl = '';
 if (__DEV__) {
   console.log('Development Server');
-   // apiUrl = 'https://fitness-first-services.herokuapp.com';
- apiUrl = 'http://192.168.31.125:3001';
+   apiUrl = 'https://fitness-first-services.herokuapp.com';
+   // apiUrl = 'http://192.168.31.125:3001'; 
 } else {
   console.log('Production Server');
   apiUrl = 'https://fitness-first-services.herokuapp.com';
@@ -19,8 +19,7 @@ export const userTypes = {
   TRAINER: 'TRAINER'
 }
 
-export const INITIAL_USER_TYPE = userTypes.USER;
-
+export const INITIAL_USER_TYPE = userTypes.TRAINER;
 export const videoFeedConfig = {
   width: 360,
   height: 640,
@@ -197,8 +196,11 @@ export const notificationActionTypes = {
   STREAM:'STREAM',
   CALL_REQUEST:'CALL_REQUEST',
   CALL_ACCEPT:'CALL_ACCEPT'
-}
-export const subscriptionType = {
-  SINGLE:'SINGLE',
-  BATCH:'BATCH'
+};
+
+export const foodTypes={
+  BREAKFAST:'BREAKFAST',
+  LUNCH:'LUNCH',
+  DINNER:'DINNER',
+  SNACKS: 'SNACKS'
 }

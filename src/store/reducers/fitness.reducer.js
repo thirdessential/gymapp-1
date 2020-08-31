@@ -34,15 +34,8 @@ const reducer = (state = initialState, action) => {
       const { waterIntake } = action.payload;
 
       const oldWaterIntake = { ...state.waterIntake };
-      if (oldWaterIntake) {
-        if (oldWaterIntake[todaysDate]) {
-          oldWaterIntake[todaysDate] = waterIntake;
-        } else {
-          oldWaterIntake[todaysDate] = waterIntake;
-        }
-      } else {
-        oldWaterIntake[todaysDate] = waterIntake;
-      }
+
+      oldWaterIntake[todaysDate] = waterIntake;
 
       return updateObject(state, { waterIntake: oldWaterIntake });
     default:

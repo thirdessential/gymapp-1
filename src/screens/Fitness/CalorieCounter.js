@@ -1,42 +1,21 @@
 import React, { PureComponent } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  LayoutAnimation,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  Keyboard,
-  Button,
-  Alert,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+var _ = require("lodash");
 import { connect } from "react-redux";
-import { Bar } from "react-native-progress";
-import { spacing } from "../../constants/dimension";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
-import ActivityRings from "react-native-activity-rings";
+import cuid from "cuid";
 import * as Progress from "react-native-progress";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-TimeAgo.addLocale(en);
-const timeAgo = new TimeAgo("en-US");
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-
-import colors, { appTheme } from "../../constants/colors";
+import { spacing } from "../../constants/dimension";
+import { appTheme, darkPallet } from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import { screenWidth, screenHeight } from "../../utils/screenDimensions";
 import strings from "../../constants/strings";
 import RouteNames from "../../navigation/RouteNames";
-import * as actionCreators from "../../store/actions";
-import { hitSlop20 } from "../../constants/styles";
-import { WEEK_DAYS } from "../../constants/appConstants";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import { getTodayFormattedDate } from "../../utils/utils";
-const todaysDate=getTodayFormattedDate();
+import { foodTypes } from "../../constants/appConstants";
+import * as API from "../../API";
+const todaysDate = getTodayFormattedDate();
 
 class CalorieCounter extends PureComponent {
   constructor(props) {
@@ -55,6 +34,11 @@ class CalorieCounter extends PureComponent {
       snacks: [],
       lunch: [],
 
+      breakfastRecommend: [],
+      snacksRecommend: [],
+      lunchRecommend: [],
+      dinnerRecommend: [],
+
       breakFastTotal: 0,
       lunchTotal: 0,
       dinnerTotal: 0,
@@ -63,108 +47,235 @@ class CalorieCounter extends PureComponent {
   }
 
   async componentDidMount() {
-    // console.log(this.props.calorieData);
-
     this.willFocusSubscription = this.props.navigation.addListener(
       "focus",
       async () => {
-        this.functionCalls();
+        console.log("focus");
+        this.totalCalculations();
+        this.recommend();
       }
     );
-    this.functionCalls();
+    this.totalCalculations();
   }
 
+  recommendHelper = (foodsArray, foodType) => {
+    return foodsArray.map((food) => ({
+      id: food._id,
+      item: food.name,
+      quantity: food.quantity,
+      total: food.totalEnergy,
+      pretotal: food.totalEnergy,
+      prefats: food.fats,
+      fats: food.fats,
+      precarbs: food.carbs,
+      carbs: food.carbs,
+      preproteins: food.proteins,
+      proteins: food.proteins,
+      type: foodType,
+    }));
+  };
+
+  recommend = async () => {
+    let result = await API.getRecommendation();
+    console.log("compo call him");
+    if (result) {
+      if (result[foodTypes.BREAKFAST].length > 0) {
+        breakfastRecommend = this.recommendHelper(
+          result[foodTypes.BREAKFAST],
+          foodTypes.BREAKFAST
+        );
+        console.log(breakfastRecommend);
+        this.setState({ breakfastRecommend });
+      }
+      if (result[foodTypes.LUNCH].length > 0) {
+        lunchRecommend = this.recommendHelper(
+          result[foodTypes.LUNCH],
+          foodTypes.LUNCH
+        );
+        console.log(lunchRecommend);
+        this.setState({ lunchRecommend });
+      }
+      if (result[foodTypes.SNACKS].length > 0) {
+        snacksRecommend = this.recommendHelper(
+          result[foodTypes.SNACKS],
+          foodTypes.SNACKS
+        );
+        console.log(snacksRecommend);
+        this.setState({ snacksRecommend });
+      }
+      if (result[foodTypes.DINNER].length > 0) {
+        dinnerRecommend = this.recommendHelper(
+          result[foodTypes.DINNER],
+          foodTypes.DINNER
+        );
+        console.log(dinnerRecommend);
+        this.setState({ dinnerRecommend });
+      }
+    }
+  };
   componentWillUnmount() {
     this.willFocusSubscription();
   }
 
-  functionCalls = async () => {
+  totalCalculations = async () => {
     const { calorieData } = this.props;
-if(calorieData){
-  await this.setState({ foodItems: calorieData });
-  this.calcTotal();
-  this.calcProtein();
-  this.calcFats();
-  this.calcCarbs();
-  this.calcBreakfast();
-  this.calcDinner();
-  this.calcLunch();
-  this.calcSnacks();
-}
-   else{
-     return null;
-   }
+    if (calorieData) {
+      await this.setState({ foodItems: calorieData });
+      this.calcTotal();
+      this.calculateFoodList();
+      this.calculateCalories();
+    } else {
+      return null;
+    }
   };
 
-  calcBreakfast = () => {
-    const filteredList = this.state.foodItems.filter(
-      (food) => food.type === "BREAKFAST"
+  calculateFoodList = async () => {
+    //breakfast
+    const breakFastList = await this.state.foodItems.filter(
+      (food) => food.type === foodTypes.BREAKFAST
     );
-
     let breakFastTotal = 0;
-    filteredList.map((item, index) => (breakFastTotal += item.total));
+    breakFastList.map((item, index) => (breakFastTotal += item.total));
 
-    this.setState({ breakFastTotal });
-    this.setState({ breakFast: filteredList });
-  };
-  calcDinner = () => {
-    const filteredList = this.state.foodItems.filter(
-      (food) => food.type === "DINNER"
+    //lunch
+    const lunchList = await this.state.foodItems.filter(
+      (food) => food.type === foodTypes.LUNCH
     );
-
-    let dinnerTotal = 0;
-    filteredList.map((item, index) => (dinnerTotal += item.total));
-
-    this.setState({ dinnerTotal });
-    this.setState({ dinner: filteredList });
-  };
-  calcLunch = () => {
-    const filteredList = this.state.foodItems.filter(
-      (food) => food.type === "LUNCH"
-    );
-
     let lunchTotal = 0;
-    filteredList.map((item, index) => (lunchTotal += item.total));
+    lunchList.map((item, index) => (lunchTotal += item.total));
 
-    this.setState({ lunchTotal });
-    this.setState({ lunch: filteredList });
-  };
-  calcSnacks = () => {
-    const filteredList = this.state.foodItems.filter(
-      (food) => food.type === "SNACKS"
+    //snacks
+    const snacksList = await this.state.foodItems.filter(
+      (food) => food.type === foodTypes.SNACKS
     );
-
     let snacksTotal = 0;
-    filteredList.map((item, index) => (snacksTotal += item.total));
+    snacksList.map((item, index) => (snacksTotal += item.total));
 
-    this.setState({ snacksTotal });
-    this.setState({ snacks: filteredList });
+    //dinner
+    const dinnerList = await this.state.foodItems.filter(
+      (food) => food.type === foodTypes.DINNER
+    );
+    let dinnerTotal = 0;
+    dinnerList.map((item, index) => (dinnerTotal += item.total));
+
+    this.setState({
+      breakFastTotal,
+      breakFast: breakFastList,
+      lunchTotal,
+      lunch: lunchList,
+      snacksTotal,
+      snacks: snacksList,
+      dinnerTotal,
+      dinner: dinnerList,
+    });
   };
+
   calcTotal = async () => {
     let initial = 0;
     await this.state.foodItems.map((item, index) => (initial += item.total));
-
     this.setState({ intakeCal: initial });
   };
-  calcProtein = async () => {
-    let initial = 0;
-    await this.state.foodItems.map((item, index) => (initial += item.proteins));
 
-    this.setState({ proteinIntake: initial });
+  calculateCalories = async () => {
+    //protein
+    let proteinInitial = 0;
+    await this.state.foodItems.map(
+      (item, index) => (proteinInitial += item.proteins)
+    );
+
+    //fats
+    let fatsInitial = 0;
+    await this.state.foodItems.map((item, index) => (fatsInitial += item.fats));
+
+    //carbs
+    let carbsInitial = 0;
+    await this.state.foodItems.map(
+      (item, index) => (carbsInitial += item.carbs)
+    );
+
+    this.setState({
+      proteinIntake: proteinInitial,
+      fatsIntake: fatsInitial,
+      carbsIntake: carbsInitial,
+    });
   };
-  calcFats = async () => {
-    let initial = 0;
-    await this.state.foodItems.map((item, index) => (initial += item.fats));
 
-    this.setState({ fatsIntake: initial });
-  };
-  calcCarbs = async () => {
-    let initial = 0;
-    await this.state.foodItems.map((item, index) => (initial += item.carbs));
-
-    this.setState({ carbsIntake: initial });
+  capitalize = (str) => {
+    return str
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.substring(1))
+      .join(" ");
+    //
   };
 
+  infoCards = (type, typeIntake, color) => (
+    <View style={styles.cardView}>
+      <Text style={styles.category}>{type}</Text>
+      <Text style={styles.calsIntake}>
+        {typeIntake} {strings.CALS}
+      </Text>
+      <Progress.Circle
+        style={{ marginVertical: spacing.small }}
+        showsText={true}
+        size={70}
+        textStyle={{ fontSize: fontSizes.h1 }}
+        progress={typeIntake / (this.state.intakeCal || 1)}
+        animated={false}
+        color={color}
+      />
+    </View>
+  );
+
+  optionList = (
+    foodType,
+    typeTotal,
+    listType,
+    onPressType,
+    recommendedFoods
+  ) => (
+    <View style={styles.listView}>
+      <View style={styles.eachCard}>
+        <View style={styles.typeView}>
+          <Text style={styles.typeText}>{foodType}</Text>
+
+          <Text style={styles.quantityInteger}>
+            {typeTotal} {strings.CALS}
+          </Text>
+        </View>
+
+        {this.renderSeparator()}
+        {listType.map((item, index) => (
+          <View key={cuid().toString()} style={styles.foodView}>
+            <View style={styles.foodnameFlex}>
+              <Text style={styles.foodText}>{this.capitalize(item.item)}</Text>
+            </View>
+            <View style={styles.foodQuantityFlex}>
+              <Text style={styles.foodQuantity}>{item.quantity} g</Text>
+            </View>
+            <View style={styles.foodQuantityFlex}>
+              <Text style={styles.foodCal}>
+                {item.total} {strings.CALS}
+              </Text>
+            </View>
+          </View>
+        ))}
+        <TouchableOpacity
+          style={{ marginTop: spacing.small_lg }}
+          onPress={() => {
+            this.props.navigation.navigate(RouteNames.Calorie1, {
+              type: onPressType,
+              recommendedFoods,
+            });
+          }}
+        >
+          <Text style={styles.addFood}>{strings.ADD_ITEM}</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
+  renderSeparator = () => <View style={styles.separator} />;
   render() {
     return (
       <View
@@ -207,178 +318,43 @@ if(calorieData){
             </Text>
           </View>
           <View style={styles.mainCardsView}>
-            <View style={styles.cardView}>
-              <Text style={styles.category}>{strings.PROTEIN}</Text>
-              <Text style={styles.calsIntake}>
-                {this.state.proteinIntake} {strings.CALS}
-              </Text>
-              <Progress.Circle
-                style={{ marginVertical: spacing.small }}
-                showsText={true}
-                size={70}
-                textStyle={{ fontSize: fontSizes.h1 }}
-                progress={
-                  this.state.proteinIntake / (this.state.intakeCal || 1)
-                }
-                animated={false}
-                color="#c1ff00"
-              />
-            </View>
-
-            <View style={styles.cardView}>
-              <Text style={styles.category}>{strings.CARBS}</Text>
-              <Text style={styles.calsIntake}>
-                {" "}
-                {this.state.carbsIntake} {strings.CALS}
-              </Text>
-              <Progress.Circle
-                style={{ marginVertical: spacing.small }}
-                showsText={true}
-                size={70}
-                textStyle={{ fontSize: fontSizes.h1 }}
-                progress={this.state.carbsIntake / (this.state.intakeCal || 1)}
-                animated={false}
-                color="#ef135f"
-              />
-            </View>
-
-            <View style={styles.cardView}>
-              <Text style={styles.category}>{strings.FATS}</Text>
-              <Text style={styles.calsIntake}>
-                {" "}
-                {this.state.fatsIntake} {strings.CALS}
-              </Text>
-              <Progress.Circle
-                style={{ marginVertical: spacing.small }}
-                showsText={true}
-                size={70}
-                textStyle={{ fontSize: fontSizes.h1 }}
-                progress={this.state.fatsIntake / (this.state.intakeCal || 1)}
-                animated={false}
-                color="#54f0f7"
-              />
-            </View>
+            {this.infoCards(
+              strings.PROTEIN,
+              this.state.proteinIntake,
+              "#c1ff00"
+            )}
+            {this.infoCards(strings.CARBS, this.state.carbsIntake, "#ef135f")}
+            {this.infoCards(strings.FATS, this.state.fatsIntake, "#54f0f7")}
           </View>
-          <View style={styles.listView}>
-            <View style={styles.eachContainer}>
-              <View style={styles.eachCard}>
-                <View style={styles.typeView}>
-                  <Text style={styles.typeText}>{strings.BREAKFAST}</Text>
 
-                  <Text style={styles.quantityInteger}>
-                    {this.state.breakFastTotal} {strings.CALS}
-                  </Text>
-                </View>
-                {this.state.breakFast.map((item, index) => (
-                  <View key={item.id} style={styles.foodView}>
-                    <Text style={styles.foodText}>{item.item}</Text>
-                    <Text style={styles.foodQuantity}>{item.quantity} g</Text>
-                    <Text style={styles.foodCal}>{item.total}</Text>
-                  </View>
-                ))}
-                <TouchableOpacity
-                  style={{ marginTop: spacing.small_lg }}
-                  onPress={() => {
-                    this.props.navigation.navigate(RouteNames.Calorie1, {
-                      type: "BREAKFAST",
-                    });
-                  }}
-                >
-                  <Text style={styles.addFood}>{strings.ADD_ITEM}</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-          <View style={styles.listView}>
-            <View style={styles.eachContainer}>
-              <View style={styles.eachCard}>
-                <View style={styles.typeView}>
-                  <Text style={styles.typeText}>{strings.LUNCH}</Text>
-
-                  <Text style={styles.quantityInteger}>
-                    {this.state.lunchTotal} {strings.CALS}
-                  </Text>
-                </View>
-                {this.state.lunch.map((item, index) => (
-                  <View key={item.id} style={styles.foodView}>
-                    <Text style={styles.foodText}>{item.item}</Text>
-                    <Text style={styles.foodQuantity}>{item.quantity} g</Text>
-                    <Text style={styles.foodCal}>{item.total}</Text>
-                  </View>
-                ))}
-                <TouchableOpacity
-                  style={{ marginTop: spacing.small_lg }}
-                  onPress={() => {
-                    this.props.navigation.navigate(RouteNames.Calorie1, {
-                      type: "LUNCH",
-                    });
-                  }}
-                >
-                  <Text style={styles.addFood}>{strings.ADD_ITEM}</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-          <View style={styles.listView}>
-            <View style={styles.eachContainer}>
-              <View style={styles.eachCard}>
-                <View style={styles.typeView}>
-                  <Text style={styles.typeText}>{strings.SNACKS}</Text>
-
-                  <Text style={styles.quantityInteger}>
-                    {this.state.snacksTotal} {strings.CALS}
-                  </Text>
-                </View>
-                {this.state.snacks.map((item, index) => (
-                  <View key={item.id} style={styles.foodView}>
-                    <Text style={styles.foodText}>{item.item}</Text>
-                    <Text style={styles.foodQuantity}>{item.quantity} g</Text>
-                    <Text style={styles.foodCal}>{item.total}</Text>
-                  </View>
-                ))}
-                <TouchableOpacity
-                  style={{ marginTop: spacing.small_lg }}
-                  onPress={() => {
-                    this.props.navigation.navigate(RouteNames.Calorie1, {
-                      type: "SNACKS",
-                    });
-                  }}
-                >
-                  <Text style={styles.addFood}>{strings.ADD_ITEM}</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-          <View style={styles.listView}>
-            <View style={styles.eachContainer}>
-              <View style={styles.eachCard}>
-                <View style={styles.typeView}>
-                  <Text style={styles.typeText}>{strings.DINNER}</Text>
-
-                  <Text style={styles.quantityInteger}>
-                    {this.state.dinnerTotal} {strings.CALS}
-                  </Text>
-                </View>
-                {this.state.dinner.map((item, index) => (
-                  <View key={item.id} style={styles.foodView}>
-                    <Text style={styles.foodText}>{item.item}</Text>
-                    <Text style={styles.foodQuantity}>{item.quantity} g</Text>
-                    <Text style={styles.foodCal}>{item.total}</Text>
-                  </View>
-                ))}
-                <TouchableOpacity
-                  style={{ marginTop: spacing.small_lg }}
-                  onPress={() => {
-                    this.props.navigation.navigate(RouteNames.Calorie1, {
-                      type: "DINNER",
-                    });
-                  }}
-                >
-                  <Text style={styles.addFood}>{strings.ADD_ITEM}</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
+          {this.optionList(
+            strings.BREAKFAST,
+            this.state.breakFastTotal,
+            this.state.breakFast,
+            foodTypes.BREAKFAST,
+            this.state.breakfastRecommend
+          )}
+          {this.optionList(
+            strings.LUNCH,
+            this.state.lunchTotal,
+            this.state.lunch,
+            foodTypes.LUNCH,
+            this.state.lunchRecommend
+          )}
+          {this.optionList(
+            strings.SNACKS,
+            this.state.snacksTotal,
+            this.state.snacks,
+            foodTypes.SNACKS,
+            this.state.snacksRecommend
+          )}
+          {this.optionList(
+            strings.DINNER,
+            this.state.dinnerTotal,
+            this.state.dinner,
+            foodTypes.DINNER,
+            this.state.dinnerRecommend
+          )}
         </KeyboardAwareScrollView>
       </View>
     );
@@ -413,7 +389,7 @@ const styles = StyleSheet.create({
     padding: 12,
     flex: 1,
     marginHorizontal: 5,
-    elevation:4
+    elevation: 4,
   },
   category: {
     textAlign: "center",
@@ -429,7 +405,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     marginTop: 20,
-    marginBottom:spacing.small_lg
+    marginBottom: spacing.small_lg,
+  },
+  separator: {
+    height: 2,
+    width: "100%",
+    backgroundColor: "#829da8",
+    //marginHorizontal: spacing.medium_sm
   },
   calsIntake: {
     textAlign: "center",
@@ -441,13 +423,10 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginLeft: spacing.medium,
     marginRight: spacing.medium,
-    marginBottom:spacing.medium_sm
-  },
-  eachContainer: {
-    // backgroundColor: appTheme.darkBackground,
-    marginBottom: 3,
+    marginBottom: spacing.medium_sm,
   },
   eachCard: {
+    marginBottom: 3,
     elevation: 4,
     width: "99%",
     padding: spacing.medium,
@@ -467,31 +446,32 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothic,
   },
   quantityInteger: {
-    color: appTheme.textPrimary,
+    color: "#00a1ab",
     fontSize: fontSizes.h1,
-    fontFamily: fonts.MontserratMedium,
+    fontFamily: fonts.CenturyGothic,
   },
   foodView: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 15,
+    marginTop: 12,
   },
+  foodnameFlex: { flex: 1.6 },
+  foodQuantityFlex: { flex: 1 },
   foodText: {
-    color: appTheme.greyC,
-    fontSize: fontSizes.h2,
+    color: darkPallet.skyBlue,
+    fontSize: 13,
     fontFamily: fonts.MontserratMedium,
-    marginRight: 20,
   },
   foodQuantity: {
-    color: appTheme.greyC,
-    fontSize: fontSizes.h2,
+    color: darkPallet.skyBlue,
+    fontSize: 13,
     fontFamily: fonts.MontserratMedium,
-    marginRight: 20,
   },
   foodCal: {
-    color: appTheme.greyC,
-    fontSize: fontSizes.h2,
+    color: darkPallet.skyBlue,
+    fontSize: 13,
     fontFamily: fonts.MontserratMedium,
+    textAlign: "right",
   },
   addFood: {
     alignSelf: "flex-end",
