@@ -11,14 +11,15 @@ import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
 import CallButton from "../CallButton";
 import DaysRow from "../DaysRow";
-import CallRequests from "../../screens/App/Trainer/CallRequests";
 import Entypo from "react-native-vector-icons/Entypo";
-import {exp} from "react-native-reanimated";
 
 const batchSubscriptionCard = (props) => {
   const [expanded, setExpanded] = useState(false);
   const renderUser = ({item: user}) => (
-    <View style={[styles.sectionContainer, styles.card]}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={()=>props.openProfile(user._id)}
+      style={[styles.sectionContainer, styles.card]}>
       <Avatar url={user.displayPictureUrl} size={spacing.space_50} roundedMultiplier={1}/>
       <View style={styles.row}>
         <View style={styles.endMargin}>
@@ -27,7 +28,7 @@ const batchSubscriptionCard = (props) => {
         </View>
         <CallButton onPress={() => props.onPressCall(user._id)}/>
       </View>
-    </View>
+    </TouchableOpacity>
   )
   const toggleExpanded = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);

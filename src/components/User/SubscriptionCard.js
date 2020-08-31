@@ -15,9 +15,12 @@ import DaysRow from "../DaysRow";
 const subscriptionCard = (props) => {
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
+      <TouchableOpacity
+        onPress={props.openProfile}
+        activeOpacity={0.8}
+        style={styles.imageContainer}>
         <Avatar url={props.imageUrl} size={spacing.thumbnail} roundedMultiplier={1}/>
-      </View>
+      </TouchableOpacity>
       <View style={styles.sectionContainer}>
         <View>
           <Text style={styles.sectionTitle}>{props.displayName}</Text>
@@ -59,7 +62,7 @@ const subscriptionCard = (props) => {
 
       <Text style={styles.sectionTitle}>{strings.SUBSCRIPTION_DETAILS}</Text>
 
-      <View style={[styles.sectionContainer, {marginTop: spacing.small, marginBottom:spacing.small}]}>
+      <View style={[styles.sectionContainer, {marginTop: spacing.small, marginBottom: spacing.small}]}>
         <View>
           <Text style={styles.subtitle}>{strings.PACKAGE_NAME}</Text>
           <Text style={styles.contentText}>{props.title}</Text>
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
     padding: spacing.medium,
     paddingTop: 0,
     marginTop: spacing.thumbnail / 2,
-    paddingBottom:spacing.small,
+    paddingBottom: spacing.small,
     borderRadius: 10,
     backgroundColor: appTheme.darkBackground
   },

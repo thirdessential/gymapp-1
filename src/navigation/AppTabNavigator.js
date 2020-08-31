@@ -26,8 +26,8 @@ const Tab = createMaterialTopTabNavigator();
 const bgView = () => (
   <View style={{backgroundColor: appTheme.darkBackground, flex: 1, justifyContent: 'center', alignItems: 'center'}}>
     <ActivityIndicator size={40} color={appTheme.lightContent}/>
-  </View>)
-;
+  </View>
+  );
 const lazyConfig = __DEV__?{lazy:true,lazyPreloadDistance: 0,lazyPlaceholder:bgView}:{}
 
 const appTabNavigator = (props) => {
@@ -35,7 +35,7 @@ const appTabNavigator = (props) => {
   const listingTitle = userType === userTypes.USER ? 'Trainers' : 'Users';
   return (
     <Tab.Navigator
-      // swipeEnabled={false}
+      swipeEnabled={false}
       {...lazyConfig}
       // lazy={true}
       // lazyPreloadDistance={0}

@@ -5,6 +5,7 @@ import {
   Modal,
   ActivityIndicator
 } from 'react-native';
+import {appTheme} from "../constants/colors";
 
 const Loader = props => {
   const {
@@ -17,15 +18,12 @@ const Loader = props => {
       transparent={true}
       animationType={'none'}
       visible={loading}
-      onRequestClose={() => {
-        console.log('close modal')
-      }}>
+    >
       <View style={styles.modalBackground}>
-        <View style={styles.activityIndicatorWrapper}>
-          <ActivityIndicator
-            size="large"
-            animating={loading}/>
-        </View>
+        <ActivityIndicator
+          size="large"
+          color={appTheme.greyC}
+          animating={loading}/>
       </View>
     </Modal>
   )
@@ -37,17 +35,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    backgroundColor: '#00000040'
-  },
-  activityIndicatorWrapper: {
     backgroundColor: 'rgba(0,0,0,0.5)',
-    height: "100%",
-    width: "100%",
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-
-  }
+  },
 });
 
 export default Loader;

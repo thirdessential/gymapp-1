@@ -15,6 +15,7 @@ import {spacing} from "../../constants/dimension";
 import {defaultHeaderStyle} from "../../constants/styles";
 import {defaultDP} from "../../constants/appConstants";
 import NotificationList from "../../components/NotificationList";
+import PdfViewer from "../../screens/App/PdfViewer";
 
 
 class activity extends Component {
