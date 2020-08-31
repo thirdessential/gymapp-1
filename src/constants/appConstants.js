@@ -6,7 +6,7 @@ let apiUrl = '';
 if (__DEV__) {
   console.log('Development Server');
    apiUrl = 'https://fitness-first-services.herokuapp.com';
-  
+   // apiUrl = 'http://192.168.31.125:3001'; 
 } else {
   console.log('Production Server');
   apiUrl = 'https://fitness-first-services.herokuapp.com';
