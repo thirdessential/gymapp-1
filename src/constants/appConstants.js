@@ -204,3 +204,5 @@ export const foodTypes={
   DINNER:'DINNER',
   SNACKS: 'SNACKS'
 }
+
+export const MAX_VIDEO_LENGTH = 120; // 2 minutes

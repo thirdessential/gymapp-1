@@ -1,3 +1,5 @@
+import {MAX_VIDEO_LENGTH} from "./appConstants";
+
 export const coachedPeople = (amount) => `Coached ${amount} people`;
 export const durationBuilder = (duration) => `DURATION: ${duration} Weeks`;
 export const priceBuilder = (price) => `PRICE: ${price} INR`;
@@ -257,8 +259,8 @@ const strings = {
   PRIVACY_POLICY: 'Privacy Policy',
   GROUP_PACKAGE: 'Group Package',
   SINGLE_PACKAGE: 'Single Package',
-  SUBSCRIPTION: 'Subscription'
-
+  SUBSCRIPTION: 'Subscription',
+  VIDEO_LENGTH_EXCEEDED: `Video length cannot be more than ${MAX_VIDEO_LENGTH} seconds`
 };
 
 export const bmiVerdicts = {
