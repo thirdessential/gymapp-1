@@ -65,11 +65,11 @@ const ProfileOverview = (props) => {
           <Avatar url={props.dpUrl} size={spacing.thumbnailMed}/>
         </View>
       </View>
-      <View style={styles.descriptionContainer}>
-        <ExpandingText
-          style={{color: 'white'}}>
-          {props.description}</ExpandingText>
-      </View>
+      {/*<View style={styles.descriptionContainer}>*/}
+      {/*  <ExpandingText*/}
+      {/*    style={{color: 'white'}}>*/}
+      {/*    {props.description}</ExpandingText>*/}
+      {/*</View>*/}
       <TouchableOpacity onPress={props.onHitsPress} activeOpacity={0.7} style={styles.profileHitsContainer}>
         <HitsList hits={props.hits}/>
         {

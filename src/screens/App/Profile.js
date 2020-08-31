@@ -15,7 +15,7 @@ import ProfileOverview from '../../components/Profile/ProfileOverview';
 import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
 import {requestCameraAndAudioPermission} from "../../utils/permission";
-import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
+import {fillArray, generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
@@ -28,6 +28,7 @@ import fonts from "../../constants/fonts";
 import PostList from "../../components/Social/PostList";
 import {showError, showSuccess} from "../../utils/notification";
 import CertificateList from "../../components/Trainer/CertificateList";
+import PackagePreviewList from "../../components/Trainer/PackagePreviewList";
 
 class Profile extends Component {
 
@@ -132,6 +133,13 @@ class Profile extends Component {
     this.setState({requestingCallback: false});
 
   }
+  onPackagePress = (userId, packageId) => {
+    const {navigation} = this.props;
+    navigation.navigate(RouteNames.PackagesView, {
+      userId,
+      packageId
+    });
+  }
   renderContent = () => {
     const user = this.getUser();
     const posts = this.getPosts();
@@ -171,6 +179,15 @@ class Profile extends Component {
                 {this.state.requestingCallback && <ActivityIndicator color={appTheme.brightContent} size={20}/>}
                 {!this.state.requestingCallback && <Text style={styles.subtitle}>{strings.REQUEST_CALLBACK}</Text>}
               </TouchableOpacity>
+            </View>
+          )
+        }
+        {
+          userType === userTypes.TRAINER && packages.length > 0 && (
+            <View style={styles.postListContainer}>
+              <Text style={[styles.sectionTitle, {marginBottom: spacing.medium_sm}]}>{strings.PACKAGES}</Text>
+              <PackagePreviewList onPackagePress={packageId => this.openPackage(user._id, packageId)}
+                                  packages={packages}/>
             </View>
           )
         }
