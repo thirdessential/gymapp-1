@@ -97,7 +97,7 @@ class Packages extends PureComponent {
     this.props.navigation.goBack()
   }
   setCategory = (category) => {
-    const title = !!this.state.title ? this.state.title : packageTypes[category];
+    const title = !!this.state.title && this.state.title!=='Sample Title' ? this.state.title : packageTypes[category];
     this.setState({category, title});
     this.closeRbSheet();
   }

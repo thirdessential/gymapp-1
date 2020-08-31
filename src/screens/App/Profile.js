@@ -138,7 +138,7 @@ class Profile extends Component {
     if (!user)
       return this.loader();
 
-    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots, activeSubscriptions,certificates} = user;
+    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots, activeSubscriptions, certificates} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const hits = userType === userTypes.TRAINER ?
       generateTrainerHits({
@@ -175,7 +175,7 @@ class Profile extends Component {
           )
         }
         {
-          userType === userTypes.TRAINER && certificates.length > 0 && (
+          userType === userTypes.TRAINER && certificates && certificates.length > 0 && (
             <View style={styles.postListContainer}>
               <Text style={styles.sectionTitle}>{strings.CERTIFICATIONS}</Text>
               <CertificateList data={certificates}/>
