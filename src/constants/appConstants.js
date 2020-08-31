@@ -19,7 +19,7 @@ export const userTypes = {
   TRAINER: 'TRAINER'
 }
 
-export const INITIAL_USER_TYPE = userTypes.TRAINER;
+export const INITIAL_USER_TYPE = userTypes.USER;
 
 export const videoFeedConfig = {
   width: 360,
