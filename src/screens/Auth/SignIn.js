@@ -27,6 +27,7 @@ import Feather from "react-native-vector-icons/Feather";
 import {showError} from "../../utils/notification";
 import {onFacebookButtonPress} from "../../API/firebaseMethods";
 import {spacing} from "../../constants/dimension";
+import AuthBar from "../../components/Login/AuthBar";
 
 export default class SignIn extends Component {
   constructor(props) {
@@ -155,34 +156,21 @@ export default class SignIn extends Component {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.separator}/>
+          <View style={{flexDirection:'row', alignItems:'center'}}>
+            <View style={styles.separator}/>
+            <Text style={styles.separatorText}>{strings.CONNECT_WITH}</Text>
+            <View style={styles.separator}/>
+
+          </View>
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             {this.state.authLoading && (
               <ActivityIndicator size="large" color="white"/>
             )}
             {!this.state.authLoading && (
-              <>
-                <TouchableOpacity
-                  onPress={this.googleLogin}
-                  style={styles.authLogin}
-                >
-                  <Icon
-                    name="google-"
-                    color="#c33a09"
-                    size={40}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={this.facebookLogin}
-                  style={styles.authLogin}
-                >
-                  <Icon
-                    name="facebook"
-                    color="#3b5998"
-                    size={40}
-                  />
-                </TouchableOpacity>
-              </>
+              <AuthBar
+              googleLogin={this.googleLogin}
+              facebookLogin={this.facebookLogin}
+              />
             )}
           </View>
           <View style={styles.signup}>
@@ -215,7 +203,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 50,
     paddingTop: "5%",
     paddingHorizontal: "8%",
-
   },
   input: {
     marginLeft: "3%",
@@ -244,15 +231,6 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothicBold,
     marginLeft: "4%",
   },
-  authLogin: {
-    backgroundColor: appTheme.darkBackground,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 50,
-    padding: spacing.small,
-    paddingHorizontal: spacing.medium_lg,
-    marginLeft: spacing.medium_sm
-  },
   label: {
     fontSize: fontSizes.h3,
     color: appTheme.greyC,
@@ -273,6 +251,13 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: appTheme.brightContent,
-    marginVertical: spacing.large_lg
+    marginVertical: spacing.large_lg,
+    flex:1
+  },
+  separatorText: {
+    color:appTheme.brightContent,
+    fontSize: fontSizes.h3,
+    fontFamily: fonts.MontserratMedium,
+    marginHorizontal:spacing.small_lg
   }
 });
