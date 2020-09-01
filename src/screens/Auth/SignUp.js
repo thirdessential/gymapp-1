@@ -57,7 +57,7 @@ export default class SignUp extends Component {
     const {navigation} = this.props;
     const pdfSource = INITIAL_USER_TYPE === userTypes.TRAINER ?
       {uri: 'bundle-assets://pdf/trainerPolicy.pdf'} :
-      {uri: 'bundle-assets://pdf/terms.pdf'}
+      {uri: 'bundle-assets://pdf/terms.pdf'};
     navigation.navigate(RouteNames.PdfViewer, {
       source: pdfSource
     })

@@ -260,7 +260,8 @@ const strings = {
   GROUP_PACKAGE: 'Group Package',
   SINGLE_PACKAGE: 'Single Package',
   SUBSCRIPTION: 'Subscription',
-  VIDEO_LENGTH_EXCEEDED: `Video length cannot be more than ${MAX_VIDEO_LENGTH} seconds`
+  VIDEO_LENGTH_EXCEEDED: `Video length cannot be more than ${MAX_VIDEO_LENGTH} seconds`,
+  READ_TERMS:'I have read and agree to Terms & Conditions and ',
 };
 
 export const bmiVerdicts = {

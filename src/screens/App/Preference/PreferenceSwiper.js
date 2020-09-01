@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
   button: {
     color: "#fff",
     fontSize: 20,
-
     fontFamily: fonts.CenturyGothic,
   },
 });
