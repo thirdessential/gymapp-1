@@ -59,12 +59,6 @@ export default class SignUp extends Component {
     })
 
   }
-  openPolicy = () => {
-    const {navigation} = this.props;
-    navigation.navigate(RouteNames.PdfViewer, {
-      source: {uri: 'bundle-assets://pdf/privacyPolicy.pdf'}
-    })
-  }
 
   validateInputs() {
     this.setState({emailError: EmailValidation(this.state.email)});
@@ -218,9 +212,8 @@ export default class SignUp extends Component {
             <View style={styles.separator}/>
             <Text style={styles.separatorText}>{strings.SIGN_UP_WITH}</Text>
             <View style={styles.separator}/>
-
           </View>
-          <View style={{flexDirection: 'row', justifyContent: 'center', marginTop:spacing.medium_sm}}>
+          <View style={{flexDirection: 'row', justifyContent: 'center', marginTop:spacing.medium}}>
             {this.state.authLoading && (
               <ActivityIndicator size="large" color="white"/>
             )}
@@ -231,14 +224,7 @@ export default class SignUp extends Component {
               />
             )}
           </View>
-          <TouchableOpacity
-            onPress={this.openPolicy}
-            style={styles.terms}
-          >
-            <Text style={styles.termTwo}>{strings.PRIVACY_POLICY}</Text>
-          </TouchableOpacity>
         </View>
-
       </KeyboardAwareScrollView>
     );
   }
@@ -262,7 +248,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 50,
     paddingTop: "5%",
     paddingHorizontal: 30,
-    paddingBottom: spacing.medium_sm
+    paddingBottom: spacing.thumbnailMini
   },
   input: {
     marginLeft: "3%",

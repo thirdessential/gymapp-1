@@ -27,7 +27,7 @@ import fontSizes from "../../constants/fontSizes";
 import Avatar from "../Avatar";
 import FastImage from "react-native-fast-image";
 import {screenWidth} from "../../utils/screenDimensions";
-import {CONTENT_TYPE, defaultDP} from "../../constants/appConstants";
+import {badgeTypes, CONTENT_TYPE, defaultDP, userTypes} from "../../constants/appConstants";
 import strings from "../../constants/strings";
 import Entypo from "react-native-vector-icons/Entypo";
 import VideoPlayer from "../VideoPlayer";
@@ -39,7 +39,7 @@ const post = (props) => {
     unlikeCallback, onProfilePress, hideOptions = false,
     flagCallback, shareCallback, showComment = true, isLiked,
     renderFooter, imagePressCallback, deleteCallback,
-    contentType
+    contentType, userType
   } = props;
   // const [liked, setLiked] = useState(isLiked);
   // const [localLikeCount, setLocalLikeCount] = useState(likeCount);
@@ -58,6 +58,7 @@ const post = (props) => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+  const badge = userType === userTypes.TRAINER ? badgeTypes.trainer : false;
 
   const ConfirmModal = () => {
     return (
@@ -116,8 +117,11 @@ const post = (props) => {
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <TouchableOpacity activeOpacity={0.8} onPress={onProfilePress} style={styles.titleContainer}>
-          <Avatar size={spacing.postAvatar} url={!!displayImageUrl ? displayImageUrl : defaultDP}
-                  roundedMultiplier={1}/>
+          <Avatar
+            badge={badge}
+            size={spacing.postAvatar}
+            url={!!displayImageUrl ? displayImageUrl : defaultDP}
+            roundedMultiplier={1}/>
           <Text style={styles.displayName}>{createdBy}</Text>
         </TouchableOpacity>
         <Text style={[styles.displayName, styles.postTime]}>{timeAgo.format(new Date(createdOn))}</Text>
@@ -136,7 +140,7 @@ const post = (props) => {
       }
       {
         !!contentUrl && contentType === CONTENT_TYPE.VIDEO && (
-          <View style={{marginTop:spacing.medium_sm}}>
+          <View style={{marginTop: spacing.medium_sm}}>
             <VideoPlayer uri={contentUrl}/>
           </View>
         )

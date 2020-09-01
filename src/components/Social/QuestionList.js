@@ -38,6 +38,7 @@ const questionList = (props) => {
         createdOn={question.createdOn}
         text={question.questionText}
         createdBy={question.postedBy.name}
+        userType={question.postedBy.userType}
         displayImageUrl={question.postedBy.displayPictureUrl}
         hideOptions
         onProfilePress={() => disableSelfProfileClick(question.postedBy.userId)}

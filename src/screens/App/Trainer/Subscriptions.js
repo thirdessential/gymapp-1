@@ -75,10 +75,10 @@ class Subscriptions extends PureComponent {
     });
   }
   renderSubscriptionCard = (subscription) => {
-    const {heldSessions, totalSessions, startDate, endDate, package: packageData, slot, type, users,subscribedCount,maxParticipants} = subscription;
+    const {heldSessions, totalSessions, startDate, endDate, package: packageData, slot, type, users, subscribedCount, maxParticipants} = subscription;
     const {time, daysOfWeek} = slot;
     const {title: packageTitle, price} = packageData;
-    if (type === subscriptionType.BATCH)
+    if (type && type === subscriptionType.BATCH)
       return <View style={styles.cardContainer}>
         <BatchSubscriptionCard
           users={users}
@@ -113,7 +113,7 @@ class Subscriptions extends PureComponent {
         sessions={`(${heldSessions}/${totalSessions})`}
         price={price}
         days={daysOfWeek}
-        openProfile={()=>this.openProfile(userId)}
+        openProfile={() => this.openProfile(userId)}
       />
     </View>
   }

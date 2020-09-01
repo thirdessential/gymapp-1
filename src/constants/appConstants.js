@@ -5,8 +5,8 @@ import {appTheme, bmiColors} from "./colors";
 let apiUrl = '';
 if (__DEV__) {
   console.log('Development Server');
-   // apiUrl = 'https://fitness-first-services.herokuapp.com';
-   apiUrl = 'http://192.168.31.125:3001';
+  // apiUrl = 'https://fitness-first-services.herokuapp.com';
+  apiUrl = 'http://192.168.31.125:3001';
 } else {
   console.log('Production Server');
   apiUrl = 'https://fitness-first-services.herokuapp.com';
@@ -35,7 +35,7 @@ export const notificationActions = {
 
 export const storageKeys = {
   PENDING_CALL: 'PENDING_CALL',
-  PENDING_NOTIFICATIONS:'PENDING_NOTIFICATIONS'
+  PENDING_NOTIFICATIONS: 'PENDING_NOTIFICATIONS'
 }
 export const webClientId = '284208119571-nt9fitb9l2o4qulefvju8gqeo7aaug01.apps.googleusercontent.com';
 
@@ -193,16 +193,28 @@ export const streamStatusColor = {
   FINISHED: appTheme.darkGrey
 }
 export const notificationActionTypes = {
-  STREAM:'STREAM',
-  CALL_REQUEST:'CALL_REQUEST',
-  CALL_ACCEPT:'CALL_ACCEPT'
+  STREAM: 'STREAM',
+  CALL_REQUEST: 'CALL_REQUEST',
+  CALL_ACCEPT: 'CALL_ACCEPT'
 };
 
-export const foodTypes={
-  BREAKFAST:'BREAKFAST',
-  LUNCH:'LUNCH',
-  DINNER:'DINNER',
+export const foodTypes = {
+  BREAKFAST: 'BREAKFAST',
+  LUNCH: 'LUNCH',
+  DINNER: 'DINNER',
   SNACKS: 'SNACKS'
+}
+
+export const badgeTypes = {
+  trainer: {
+    display: 'Trainer',
+    textColor: 'white',
+    backgroundColor: appTheme.brightContent
+  }
+}
+export const subscriptionType = {
+  SINGLE: 'SINGLE',
+  BATCH: 'BATCH'
 }
 
 export const MAX_VIDEO_LENGTH = 120; // 2 minutes
