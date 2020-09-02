@@ -6,6 +6,7 @@ let apiUrl = '';
 if (__DEV__) {
   console.log('Development Server');
    apiUrl = 'https://fitness-first-services.herokuapp.com';
+  // apiUrl = 'https://057ececfe85f.ngrok.io';
   
 } else {
   console.log('Production Server');

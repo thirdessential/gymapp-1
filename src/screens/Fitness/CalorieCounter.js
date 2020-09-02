@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 var _ = require("lodash");
 import { connect } from "react-redux";
 import cuid from "cuid";
+import PropTypes from "prop-types";
 import * as Progress from "react-native-progress";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { spacing } from "../../constants/dimension";
@@ -14,10 +15,21 @@ import strings from "../../constants/strings";
 import RouteNames from "../../navigation/RouteNames";
 import { getTodayFormattedDate } from "../../utils/utils";
 import { foodTypes } from "../../constants/appConstants";
+import * as actionCreators from "../../store/actions";
 import * as API from "../../API";
+import { copilot, walkthroughable, CopilotStep } from "react-native-copilot";
 const todaysDate = getTodayFormattedDate();
+const WalkthroughableText = walkthroughable(Text);
 
+const WalkthroughableView = walkthroughable(View);
 class CalorieCounter extends PureComponent {
+  static propTypes = {
+    start: PropTypes.func.isRequired,
+    copilotEvents: PropTypes.shape({
+      on: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -47,16 +59,32 @@ class CalorieCounter extends PureComponent {
   }
 
   async componentDidMount() {
+    const {copilotScreens,updateScreenCopilots}=this.props;
+    
+    
+    if(!!!copilotScreens[RouteNames.CalorieCounter]){
+      this.props.start();
+    }
+    
+    this.props.copilotEvents.on("stepChange", this.handleStepChange);
+    this.props.copilotEvents.on("stop", () => {
+      console.log("stopped")
+      updateScreenCopilots(RouteNames.CalorieCounter);
+    });
+  
     this.willFocusSubscription = this.props.navigation.addListener(
       "focus",
       async () => {
-        console.log("focus");
+        
         this.totalCalculations();
         this.recommend();
       }
     );
     this.totalCalculations();
   }
+  handleStepChange = (step) => {
+    console.log(`Current step is: ${step.name}`);
+  };
 
   recommendHelper = (foodsArray, foodType) => {
     return foodsArray.map((food) => ({
@@ -77,43 +105,44 @@ class CalorieCounter extends PureComponent {
 
   recommend = async () => {
     let result = await API.getRecommendation();
-    console.log("compo call him");
+   
     if (result) {
-      if (result[foodTypes.BREAKFAST].length > 0) {
+      if (result[foodTypes.BREAKFAST] && result[foodTypes.BREAKFAST].length > 0) {
         breakfastRecommend = this.recommendHelper(
           result[foodTypes.BREAKFAST],
           foodTypes.BREAKFAST
         );
-        console.log(breakfastRecommend);
+        
         this.setState({ breakfastRecommend });
       }
-      if (result[foodTypes.LUNCH].length > 0) {
+      if (result[foodTypes.LUNCH] && result[foodTypes.LUNCH].length > 0) {
         lunchRecommend = this.recommendHelper(
           result[foodTypes.LUNCH],
           foodTypes.LUNCH
         );
-        console.log(lunchRecommend);
+        
         this.setState({ lunchRecommend });
       }
-      if (result[foodTypes.SNACKS].length > 0) {
+      if (result[foodTypes.SNACKS] && result[foodTypes.SNACKS].length > 0) {
         snacksRecommend = this.recommendHelper(
           result[foodTypes.SNACKS],
           foodTypes.SNACKS
         );
-        console.log(snacksRecommend);
+        
         this.setState({ snacksRecommend });
       }
-      if (result[foodTypes.DINNER].length > 0) {
+      if (result[foodTypes.DINNER] && result[foodTypes.DINNER].length > 0) {
         dinnerRecommend = this.recommendHelper(
           result[foodTypes.DINNER],
           foodTypes.DINNER
         );
-        console.log(dinnerRecommend);
+        
         this.setState({ dinnerRecommend });
       }
     }
   };
   componentWillUnmount() {
+    
     this.willFocusSubscription();
   }
 
@@ -291,40 +320,104 @@ class CalorieCounter extends PureComponent {
           style={{ flex: 1 }}
         >
           <View style={styles.totalCircle}>
-            <Progress.Circle
-              style={{ marginVertical: spacing.small }}
-              showsText={true}
-              thickness={7}
-              size={170}
-              borderWidth={4}
-              textStyle={{ fontSize: fontSizes.midTitle }}
-              progress={
-                this.state.intakeCal / (this.state.targetCal || 1) > 1
-                  ? 1
-                  : this.state.intakeCal / (this.state.targetCal || 1)
-              }
-              animated={false}
-              color="#1177f3"
-            />
+            <CopilotStep
+              text="This shows percentage of intake calories"
+              order={3}
+              name="hello3"
+            >
+              <WalkthroughableView>
+                <Progress.Circle
+                  style={{ marginVertical: spacing.small }}
+                  showsText={true}
+                  thickness={7}
+                  size={170}
+                  borderWidth={4}
+                  textStyle={{ fontSize: fontSizes.midTitle }}
+                  progress={
+                    this.state.intakeCal / (this.state.targetCal || 1) > 1
+                      ? 1
+                      : this.state.intakeCal / (this.state.targetCal || 1)
+                  }
+                  animated={false}
+                  color="#1177f3"
+                />
+              </WalkthroughableView>
+            </CopilotStep>
+          </View>
+          <View>
+            <CopilotStep
+              text="This shows your total calorie intake."
+              order={1}
+              name="hello"
+            >
+              <WalkthroughableText
+                style={[styles.calorieText, { marginHorizontal: 20 }]}
+              >
+                {strings.CALORIE_INTAKE_TEXT} : {this.state.intakeCal}{" "}
+                {strings.CALS}
+              </WalkthroughableText>
+            </CopilotStep>
           </View>
 
-          <Text style={styles.calorieText}>
-            {strings.CALORIE_INTAKE_TEXT} : {this.state.intakeCal}{" "}
-            {strings.CALS}
-          </Text>
           <View style={{ marginTop: spacing.medium_sm }}>
-            <Text style={styles.calorieText}>
-              {strings.TARGET_TEXT} : {this.state.targetCal} {strings.CALS}
-            </Text>
+            <CopilotStep
+              text="This shows your target calorie intake."
+              order={2}
+              name="hello2"
+            >
+              <WalkthroughableText
+                style={[styles.calorieText, { marginHorizontal: 20 }]}
+              >
+                {strings.TARGET_TEXT} : {this.state.targetCal} {strings.CALS}
+              </WalkthroughableText>
+            </CopilotStep>
           </View>
           <View style={styles.mainCardsView}>
-            {this.infoCards(
-              strings.PROTEIN,
-              this.state.proteinIntake,
-              "#c1ff00"
-            )}
-            {this.infoCards(strings.CARBS, this.state.carbsIntake, "#ef135f")}
-            {this.infoCards(strings.FATS, this.state.fatsIntake, "#54f0f7")}
+            <View>
+              <CopilotStep
+                text="This shows percentage of proteins in your diet"
+                order={4}
+                name="hello4"
+              >
+                <WalkthroughableView>
+                  {this.infoCards(
+                    strings.PROTEIN,
+                    this.state.proteinIntake,
+                    "#c1ff00"
+                  )}
+                </WalkthroughableView>
+              </CopilotStep>
+            </View>
+            <View>
+              <CopilotStep
+                text="This shows percentage of carbohydrates in your diet"
+                order={5}
+                name="hello5"
+              >
+                <WalkthroughableView>
+                  {this.infoCards(
+                    strings.CARBS,
+                    this.state.carbsIntake,
+                    "#ef135f"
+                  )}
+                </WalkthroughableView>
+              </CopilotStep>
+            </View>
+            <View>
+              <CopilotStep
+                text="This shows percentage of fats in your diet"
+                order={6}
+                name="hello6"
+              >
+                <WalkthroughableView>
+                  {this.infoCards(
+                    strings.FATS,
+                    this.state.fatsIntake,
+                    "#54f0f7"
+                  )}
+                </WalkthroughableView>
+              </CopilotStep>
+            </View>
           </View>
 
           {this.optionList(
@@ -363,18 +456,35 @@ class CalorieCounter extends PureComponent {
 
 const mapStateToProps = (state) => ({
   calorieData: state.fitness.calorieData[todaysDate],
+  copilotScreens: state.app.copilotScreen
 });
 
-const mapDispatchToProps = (dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CalorieCounter);
+const mapDispatchToProps = (dispatch) => ({
+  updateScreenCopilots:(screenName) => dispatch(actionCreators.updateScreenCopilots(screenName)),
+});
+const style = {
+  backgroundColor: "#9FA8DA",
+  borderRadius: 10,
+  paddingTop: 5,
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  copilot({
+    //tooltipStyle: style,
+    verticalOffset: 27,
+    overlay: "svg", // or 'view'
+    animated: true, // or false
+  })(CalorieCounter)
+);
 const styles = StyleSheet.create({
   container: {
     width: "100%",
     backgroundColor: appTheme.background,
     flex: 1,
   },
-  totalCircle: { margin: 10, flex: 1, alignItems: "center" },
+  totalCircle: { marginTop: 10, flex: 1, alignItems: "center" },
   calorieText: {
     color: appTheme.textPrimary,
     fontSize: fontSizes.h1,
