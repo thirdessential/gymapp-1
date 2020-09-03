@@ -22,29 +22,41 @@ import * as actionCreators from "../../store/actions";
 import HcdWaveView from "../../components/HcdWaveView";
 import { waterIntake } from "../../API";
 import { screenWidth, screenHeight } from "../../utils/screenDimensions";
+import PureChart from 'react-native-pure-chart';
 import RouteNames from "../../navigation/RouteNames";
+import {
+  BarChart,
+} from "react-native-chart-kit";
 const date = getTodayFormattedDate();
 
 class Water extends PureComponent {
-  state = {
+  constructor(props) {
+    super(props);
+    this.state =  {
     final:0,
     waterIntake: 0,
     target: 5000,
     show: true,
-  };
+    labels:[],
+    data:[],
+    send:[]
+  }};
   async componentDidMount() {
-     this.willFocusSubscription = this.props.navigation.addListener(
-      "focus",
-      async () => {
+    let result=await this.props.getWaterIntake();
+    console.log(result);
+   await  this.setState({send:result});
+
         const { bmiRecords,waterIntake } = this.props;
+        //  console(bmiRecords[0]["weight"] );
+        console.log(bmiRecords);
+        console.log(waterIntake);
         bmiRecords.length > 0
           ? this.setState({ show: true })
           : this.setState({ show: false });
         if (waterIntake) {
-          this.setState({ waterIntake,final:waterIntake });
+          this.setState({ waterIntake,final:waterIntake});
         }
-      }
-    );
+    
 
     this.unsubscribe = this.props.navigation.addListener("blur", (e) => {
       if((this.state.waterIntake-this.state.final)>0){
@@ -55,7 +67,7 @@ class Water extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.willFocusSubscription();
+    
     this.unsubscribe();
   }
 
@@ -72,8 +84,59 @@ class Water extends PureComponent {
     let result = await this.props.addWaterIntake(this.state.waterIntake);
     // console.log(result);
   };
+  renderChart=()=>{
+    const data = {
+      labels: this.state.labels,
+      datasets: [
+        {
+          data: this.state.data
+        }
+      ]
+    };
+
+  
+
+ 
+    return (
+      <View style={{marginLeft:15,marginRight:-5}}>
+      <Text style={{fontSize:20,fontFamily:fonts.CenturyGothicBold,color:appTheme.textPrimary,textAlign:'center'}}>Weekly water intake</Text>
+  <BarChart
+    //style={graphStyle}
+    data={data}
+    width={screenWidth }
+    height={220}
+    yAxisSuffix="mL"
+    chartConfig={{
+    backgroundGradientFrom: appTheme.background,
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: appTheme.background,
+    
+    decimalPlaces: 0,
+    backgroundGradientToOpacity: 1,
+    color: (opacity = 1) => `rgba(255,127,80, 0.4)`,
+    fillShadowGradientOpacity:1,
+    labelColor: (opacity = 1) => appTheme.greyC,
+    propsForBackgroundLines: {
+       //strokeDasharray: "" // solid background lines with no dashes
+       strokeWidth: 0
+  },
+    fillShadowGradient:appTheme.brightContent,
+    strokeWidth: 2, // optional, default 3
+    barPercentage: 0.5,
+    useShadowColorFromDataset: false // optional
+  }}
+    verticalLabelRotation={0}
+  />
+  
+  </View>
+    )
+  }
 
   render() {
+    let sampleData = [
+      {data:this.state.send,
+      color: '#297AB1'
+      }] 
     return this.state.show ? (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -83,15 +146,20 @@ class Water extends PureComponent {
         }}
         style={styles.container}
       >
+      <View style={{flex:1,flexDirection:'row'}}>
+     
+      
         <HcdWaveView
-          surfaceWidth={230}
-          surfaceHeigth={230}
+          surfaceWidth={200}
+          surfaceHeigth={200}
           powerPercent={parseInt(
             (this.state.waterIntake / this.state.target) * 100
           )}
           type="dc"
           style={{ backgroundColor: "#FF7800" }}
         />
+       
+        </View>
         <View style={styles.mainView}>
           <TouchableOpacity
             style={styles.increaseMargin}
@@ -121,6 +189,20 @@ class Water extends PureComponent {
           <Text style={styles.increaseText}>
             {strings.ACHIEVED} : {this.state.waterIntake} ml's
           </Text>
+        </View>
+        {/* {this.renderChart()} */}
+        <View >
+        <PureChart data={sampleData} height={250} type='bar' width={'100%'} 
+backgroundColor="rgba(0,0,0,0)"
+            highlightColor={appTheme.brightContent}
+             primaryColor="blue"
+             labelColor={appTheme.brightContent}
+             numberOfYAxisGuideLine={this.state.send.length} 
+             showEvenNumberXaxisLabel={false}
+             yAxisGridLineColor={appTheme.greyC}
+            
+
+        />
         </View>
       </ScrollView>
     ) : (
@@ -159,6 +241,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addWaterIntake: (water) => dispatch(actionCreators.addWaterIntake(water)),
+  getWaterIntake:()=>dispatch(actionCreators.getWaterIntake())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Water);
@@ -166,8 +249,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    paddingLeft: spacing.medium_lg,
-    paddingRight: spacing.medium_lg,
+    // paddingLeft: spacing.medium_lg,
+    // paddingRight: spacing.medium_lg,
 
     backgroundColor: appTheme.background,
   },
