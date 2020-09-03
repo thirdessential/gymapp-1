@@ -31,6 +31,7 @@ export {
   deletePackage,
   syncSlots,
   getMySubscriptions,
+  getMySessions,
   generateCoupons,
   getMyCoupons,
   getAccountSummary,

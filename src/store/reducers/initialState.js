@@ -9,7 +9,7 @@ export const userState = {
   userType: INITIAL_USER_TYPE,
   userId: '',
   initialLogin: true,
-  termsAccepted:false,
+  termsAccepted: false,
   userName: '',
   userData: {},
   activities: {},
@@ -34,9 +34,10 @@ export const trainerState = {
   coupons: [],
   earnings: {totalEarnings: 0, claimableAmount: 0, claimedAmount: 0},
   statements: [],
-  accountData:[],
-  accounts:[],
-  callbacks:[]
+  accountData: [],
+  accounts: [],
+  callbacks: [],
+  sessions: []// also applies to users
 }
 
 export const socialState = {
@@ -45,9 +46,9 @@ export const socialState = {
   myPosts: null,
   postsForUser: {},
   questions: [],
-  commentsForPost:{},
-  liveStreams:[],
-  myLiveStreams:[],
+  commentsForPost: {},
+  liveStreams: [],
+  myLiveStreams: [],
 }
 
 export const fitnessState = {
@@ -56,10 +57,10 @@ export const fitnessState = {
   exerciseIndex: 3,
   targetWeight: null,
   targetDate: null,
-  calorieData:{},
-  waterIntake:{},
+  calorieData: {},
+  waterIntake: {},
 }
 
 export const notificationState = {
-  notifications:[]
+  notifications: []
 }

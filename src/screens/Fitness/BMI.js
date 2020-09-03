@@ -16,15 +16,18 @@ import {Bar} from 'react-native-progress';
 import {spacing} from "../../constants/dimension";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
-
-TimeAgo.addLocale(en)
-const timeAgo = new TimeAgo('en-US');
 import {
   Menu,
   MenuOptions,
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import RBSheet from "react-native-raw-bottom-sheet";
+import Entypo from "react-native-vector-icons/Entypo";
+
+TimeAgo.addLocale(en)
+const timeAgo = new TimeAgo('en-US');
+
 
 import colors, {appTheme, bmiColors, darkPallet} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
@@ -38,12 +41,7 @@ import CustomLineChart from "../../components/CustomLineChart";
 import Avatar from "../../components/Avatar";
 import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from "../../store/actions";
-import {hitSlop20} from "../../constants/styles";
 import {WEEK_DAYS} from "../../constants/appConstants";
-import RBSheet from "react-native-raw-bottom-sheet";
-import DatePicker from "react-native-datepicker";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import Entypo from "react-native-vector-icons/Entypo";
 
 const rbContentType = {
   WEIGHT: 'WEIGHT',
@@ -324,7 +322,7 @@ class BMI extends PureComponent {
     const targetDateObj = new Date();
     const daysToAchieve = parseInt(targetDate) * 7;
     targetDateObj.setDate(targetDateObj.getDate() + daysToAchieve);
-    await this.props.updateTarget(targetWeight, targetDateObj);
+    this.props.updateTarget(targetWeight, targetDateObj);
     this.closeRbSheet();
     this.setState({submitting: false});
   }

@@ -87,22 +87,22 @@ export const syncSlots = async (slotArray) => {
   }
 }
 
-// export const getGroupedSlots = async () => {
-//   try {
-//     let response = await axios.get(`/trainer/mySlots`);
-//     if (validateResponseCode(response.status)) {
-//       return response.data;
-//     } else
-//       return false;
-//   } catch (error) {
-//     console.log(error);
-//     return false;
-//   }
-// }
-
 export const getMySubscriptions = async () => {
   try {
     let response = await axios.get(`/user/mySubscriptions`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export const getMySessions = async () => {
+  try {
+    let response = await axios.get(`/user/mySessions`);
     if (validateResponseCode(response.status)) {
       return response.data;
     } else

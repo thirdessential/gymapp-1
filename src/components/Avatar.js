@@ -10,8 +10,6 @@ import {spacing} from "../constants/dimension";
 import {defaultDP} from "../constants/appConstants";
 import {appTheme} from "../constants/colors";
 import fontSizes from "../constants/fontSizes";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import fonts from "../constants/fonts";
 
 const Avatar = (props) => {
   const {url, size = spacing.thumbnail, roundedMultiplier = 8, badge = false} = props;

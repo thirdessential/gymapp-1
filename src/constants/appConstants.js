@@ -182,6 +182,11 @@ export const streamStatus = {
   LIVE: 'LIVE',
   FINISHED: 'FINISHED'
 }
+export const sessionStatus = {
+  SCHEDULED: 'SCHEDULED',
+  LIVE: 'LIVE',
+  FINISHED: 'FINISHED'
+}
 export const streamText = {
   SCHEDULED: 'UPCOMING',
   LIVE: 'LIVE',
@@ -216,5 +221,9 @@ export const subscriptionType = {
   SINGLE: 'SINGLE',
   BATCH: 'BATCH'
 }
-
+export const subscriptionTypeNames = {
+  SINGLE: 'Workout',
+  BATCH: 'Group Workout'
+}
+export const MS_IN_DAY = (1000 * 60 * 60 * 24);
 export const MAX_VIDEO_LENGTH = 120; // 2 minutes

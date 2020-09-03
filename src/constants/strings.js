@@ -45,6 +45,7 @@ const strings = {
   MY_CLIENTS: 'My Clients',
   PACKAGES: 'Packages',
   SESSIONS: 'Sessions',
+  SESSION: 'Session',
   FOLLOWERS: 'Followers',
   PLAN_DESCRIPTION: 'Plan description',
   FOLLOWING: 'Following',

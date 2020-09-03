@@ -20,14 +20,35 @@ export const updatePackage = (packageData) => ({
 export const createPackage = (packageData) => {
   return async (dispatch, getState) => {
     try {
-      const {title, noOfSessions, price, description, _id, category, group,maxParticipants,slot,startDate, active} = packageData;
+      const {title, noOfSessions, price, description, _id, category, group, maxParticipants, slot, startDate, active} = packageData;
       let result = null;
       if (_id) {
         dispatch(updatePackage(packageData)); //optimistic TODO:rollback
-        result = await API.updatePackage(_id, {title, noOfSessions, description, price, category,group,maxParticipants,slot,startDate,active});
+        result = await API.updatePackage(_id, {
+          title,
+          noOfSessions,
+          description,
+          price,
+          category,
+          group,
+          maxParticipants,
+          slot,
+          startDate,
+          active
+        });
         console.log("package updated", result);
       } else {
-        result = await API.createPackage({title, noOfSessions, description, price, category,group,maxParticipants,slot,startDate});
+        result = await API.createPackage({
+          title,
+          noOfSessions,
+          description,
+          price,
+          category,
+          group,
+          maxParticipants,
+          slot,
+          startDate
+        });
         console.log("package created", result);
         const packageData = result.package;
         dispatch(updatePackage(packageData));
@@ -112,7 +133,26 @@ export const syncSubscriptions = () => {
       let {subscriptions} = await API.getMySubscriptions();
       dispatch(setSubscriptions(subscriptions));
     } catch (error) {
-      console.log("Trainer subs update failed", error);
+      console.log("Trainer subscription update failed", error);
+      return false;
+    }
+  };
+};
+
+const setSessions = (sessions) => ({
+  type: actionTypes.SET_MY_SESSIONS,
+  payload: {
+    sessions
+  },
+});
+
+export const syncSessions = () => {
+  return async (dispatch) => {
+    try {
+      let {sessions} = await API.getMySessions();
+      dispatch(setSessions(sessions));
+    } catch (error) {
+      console.log("session update failed", error);
       return false;
     }
   };
@@ -201,7 +241,7 @@ export const addAccount = (accountDetails) => {
       // console.log(accountData);
       // console.log("123");
       dispatch(createAccount(accountData));
-      
+
     } catch (error) {
       console.log("aacount creation failed in trainer.actions.js", error);
       return false;
@@ -220,8 +260,8 @@ export const getMyAccounts = () => {
       result = await API.getMyAccounts();
       const accounts = result.accounts;
       console.log("123");
-console.log(accounts);
-console.log("123");
+      console.log(accounts);
+      console.log("123");
       dispatch(getAccounts(accounts));
       console.log(result);
     } catch (error) {

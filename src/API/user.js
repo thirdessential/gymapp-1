@@ -115,7 +115,6 @@ export const sendPaymentData = async ({razorpay_order_id, razorpay_payment_id, r
   }
 }
 
-
 export const bookAppointment = async (trainerId, day, time, appointmentDate) => {
   try {
     let response = await axios.post(`/appointment/${trainerId}/book`, {
@@ -132,19 +131,6 @@ export const bookAppointment = async (trainerId, day, time, appointmentDate) => 
     return false;
   }
 }
-
-// export const myAppointments = async () => {
-//   try {
-//     let response = await axios.get(`/appointment/myAppointments`);
-//     if (validateResponseCode(response.status)) {
-//       return response.data;
-//     } else
-//       return false;
-//   } catch (error) {
-//     console.log(error);
-//     return false;
-//   }
-// }
 
 export const recentActivity = async () => {
   try {
