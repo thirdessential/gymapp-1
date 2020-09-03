@@ -21,12 +21,12 @@ import fonts from "../../constants/fonts";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import strings from "../../constants/strings";
 import * as actionCreators from "../../store/actions";
-import { hitSlop20 } from "../../constants/styles";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { showError, showSuccess } from "../../utils/notification";
 import { getTodayFormattedDate } from "../../utils/utils";
 import * as API from "../../API";
+import cuid from "cuid";
 const todaysDate = getTodayFormattedDate();
 
 class Calorie1 extends PureComponent {
@@ -35,21 +35,23 @@ class Calorie1 extends PureComponent {
     type: "",
     load: false,
     foods: [],
+    fabLoading:false
   };
  async componentDidMount() {
     const type = this.props.route.params.type;
-   await this.setState({ type });
-   // let result = await API.getRecommendation();
-    //console.log("compo call him");
-    //console.log(result);
+    const recommendedFoods=this.props.route.params.recommendedFoods;
+    if(recommendedFoods){
+      this.setState({foods: recommendedFoods});
+    }
+    await this.setState({ type });
+   
   }
 
-
-  
 
   addFoodData = async () => {
     //to send to database
    // console.log("Addfooddate");
+   this.setState({fabLoading:true});
     let result = await API.updateMealIntake(todaysDate, this.state.foods);
 
     console.log(result);
@@ -59,9 +61,10 @@ class Calorie1 extends PureComponent {
     console.log(response);
     showSuccess("Items added successfully");
 
-    this.setState({ foods: [] });
-
+   this.setState({fabLoading: false});
+    
     this.props.navigation.goBack();
+    this.setState({ foods: [] });
   };
   getCalories = async () => {
     if (this.state.food === "") {
@@ -92,11 +95,11 @@ class Calorie1 extends PureComponent {
         foods.push(newFoodItem);
         await this.setState({ foods, food: "" });
       } else {
-        showError("Unable to find food.");
+        showError("Food with this name does not exist.");
         await this.setState({ food: "", load: false });
       }
     else {
-      showError("Unable to find food.");
+      showError("Food with this name does not exist.");
       await this.setState({ food: "", load: false });
     }
 
@@ -105,13 +108,20 @@ class Calorie1 extends PureComponent {
   fab = () => {
     if (this.state.foods.length === 0) return null;
     return (
+     
       <TouchableOpacity
         style={[styles.fab, styles.fabPosition]}
         onPress={() => {
           this.addFoodData();
         }}
-      >
-        <FontAwesome name={"check"} color={"white"} size={22} />
+      > 
+          {this.state.fabLoading ? (
+            <ActivityIndicator size={28} color={'white'}/>
+          ):(
+        
+        <FontAwesome name={"check"} color={"white"} size={28} />
+        )
+          }
       </TouchableOpacity>
     );
   };
@@ -166,8 +176,15 @@ class Calorie1 extends PureComponent {
               style={styles.input}
               placeholder="Enter food name"
               autoCapitalize="words"
-              onChangeText={(food) => {
-                this.setState({ food });
+
+              
+   onSubmitEditing={() => {
+                  this.getCalories();
+                }}
+
+
+              onChangeText={(foodname) => {
+                this.setState({ food:foodname.replace(/\s+/g, ' ').trimStart() });
               }}
               placeholderTextColor={appTheme.darkBackground}
               value={this.state.food}
@@ -196,7 +213,7 @@ class Calorie1 extends PureComponent {
 
           <View style={styles.listView}>
             {this.state.foods.map((food, index) => (
-              <View key={food.id} style={styles.eachCardOuter}>
+              <View key={cuid().toString()} style={styles.eachCardOuter}>
                 <View style={styles.eachCard}>
                   <View style={styles.nameView}>
                     <Text style={styles.nameText}>{food.item}</Text>

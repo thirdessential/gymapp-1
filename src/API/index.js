@@ -1,6 +1,7 @@
 export {
   updateAxiosToken,
   firebaseGoogleAuth,
+  acceptTerms
 } from './auth';
 
 export {

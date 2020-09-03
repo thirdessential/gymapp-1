@@ -26,12 +26,13 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import PostList from "../../components/Social/PostList";
 import HalfRoundedButton from "../../components/HalfRoundedButton";
+import CertificateList from "../../components/Trainer/CertificateList";
 
 class MyProfile extends PureComponent {
 
   state = {
     bgImage: getRandomImage(),
-    nextPage: INITIAL_PAGE
+    nextPage: INITIAL_PAGE,
   }
 
   updatePosts = async () => {
@@ -97,14 +98,20 @@ class MyProfile extends PureComponent {
   createPost = () => {
     this.props.navigation.navigate(RouteNames.CreatePost);
   }
+
   renderContent = () => {
-    const {posts,postDetails, likePost, unlikePost, deletePost} = this.props;
+    const {posts, postDetails, likePost, unlikePost, deletePost} = this.props;
     const user = this.props.userData;
 
-    let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots, activeSubscriptions} = user;
+    let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots, activeSubscriptions, certificates} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     const hits = userType === userTypes.TRAINER ?
-      generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length, post:posts&&posts.length}) :
+      generateTrainerHits({
+        transformation: experience,
+        slot: slots.length,
+        program: packages.length,
+        post: posts && posts.length
+      }) :
       generateUserHits({subscription: activeSubscriptions, post: posts && posts.length});
     return (
       <>
@@ -120,6 +127,14 @@ class MyProfile extends PureComponent {
           location={city}
         />
         {
+          userType === userTypes.TRAINER && certificates.length > 0 && (
+            <View style={styles.postListContainer}>
+              <Text style={styles.sectionTitle}>{strings.CERTIFICATIONS}</Text>
+              <CertificateList data={certificates}/>
+            </View>
+          )
+        }
+        {
           posts &&
           <View style={styles.postListContainer}>
             <View style={styles.sectionTitleContainer}>
@@ -128,7 +143,7 @@ class MyProfile extends PureComponent {
                 <HalfRoundedButton onPress={this.createPost} title={strings.ADD_POST}/>
               </View>
               <PostList
-                posts={posts.map(postId=>postDetails[postId])}
+                posts={posts.map(postId => postDetails[postId])}
                 open={this.openPost}
                 update={this.updatePosts}
                 like={likePost}
@@ -214,7 +229,7 @@ const mapStateToProps = (state) => ({
   subscriptions: state.trainer.subscriptions,
   authToken: state.user.authToken,
   posts: state.social.myPosts,
-  postDetails:state.social.postDetails
+  postDetails: state.social.postDetails
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -21,7 +21,8 @@ export const syncFirebaseAuth = (idToken, fcmToken) => {
         await dispatch(genericUserFieldSetter({
           userId,
           userType,
-          initialLogin: isNewUser // go to initialLogin only if newUser
+          initialLogin: isNewUser, // go to initialLogin only if newUser,
+          termsAccepted: !isNewUser // Old users have already accepted terms
         }));
         await dispatch(setUserData(userData));
         return true;

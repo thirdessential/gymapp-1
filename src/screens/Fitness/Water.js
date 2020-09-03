@@ -1,4 +1,4 @@
-import React, {PureComponent} from "react";
+import React, { PureComponent } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -6,43 +6,66 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import {connect} from "react-redux";
-import {spacing} from "../../constants/dimension";
+import { connect } from "react-redux";
+import { spacing } from "../../constants/dimension";
 
-import {appTheme} from "../../constants/colors";
+import colors, {
+  appTheme,
+  bmiColors,
+  darkPallet,
+} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
-import {getTodayFormattedDate} from "../../utils/utils";
+import { getTodayFormattedDate } from "../../utils/utils";
 import * as actionCreators from "../../store/actions";
 import HcdWaveView from "../../components/HcdWaveView";
-import {waterIntake} from "../../API";
-
+import { waterIntake } from "../../API";
+import { screenWidth, screenHeight } from "../../utils/screenDimensions";
+import RouteNames from "../../navigation/RouteNames";
 const date = getTodayFormattedDate();
 
 class Water extends PureComponent {
   state = {
+    final:0,
     waterIntake: 0,
     target: 5000,
+    show: true,
   };
-
   async componentDidMount() {
-    // console.log(this.props.waterIntake);
-    const {waterIntake} = this.props;
-    if (waterIntake) {
-      this.setState({waterIntake});
-    }
+     this.willFocusSubscription = this.props.navigation.addListener(
+      "focus",
+      async () => {
+        const { bmiRecords,waterIntake } = this.props;
+        bmiRecords.length > 0
+          ? this.setState({ show: true })
+          : this.setState({ show: false });
+        if (waterIntake) {
+          this.setState({ waterIntake,final:waterIntake });
+        }
+      }
+    );
+
     this.unsubscribe = this.props.navigation.addListener("blur", (e) => {
-      this.submit();
+      if((this.state.waterIntake-this.state.final)>0){
+        this.submit();
+      }
+      
     });
+  }
+
+  componentWillUnmount() {
+    this.willFocusSubscription();
+    this.unsubscribe();
   }
 
   submit = async () => {
     let record = await waterIntake(date, this.state.waterIntake);
 
-    // console.log(record);
+    console.log(record);
   };
   updateWaterState = async (count) => {
-    await this.setState({waterIntake: this.state.waterIntake + count});
+    await this.setState({ waterIntake: this.state.waterIntake + count });
     this.updateWaterIntake();
   };
   updateWaterIntake = async () => {
@@ -51,7 +74,7 @@ class Water extends PureComponent {
   };
 
   render() {
-    return (
+    return this.state.show ? (
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -67,7 +90,7 @@ class Water extends PureComponent {
             (this.state.waterIntake / this.state.target) * 100
           )}
           type="dc"
-          style={{backgroundColor: "#FF7800"}}
+          style={{ backgroundColor: "#FF7800" }}
         />
         <View style={styles.mainView}>
           <TouchableOpacity
@@ -90,7 +113,7 @@ class Water extends PureComponent {
           </TouchableOpacity>
         </View>
         <View style={styles.counterView}>
-          <Text style={{color: "white", fontSize: 20}}>
+          <Text style={{ color: appTheme.textPrimary, fontSize: fontSizes.h0 }}>
             {strings.TARGET_TEXT} : {this.state.target / 1000} Litres
           </Text>
         </View>
@@ -100,12 +123,38 @@ class Water extends PureComponent {
           </Text>
         </View>
       </ScrollView>
+    ) : (
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        style={styles.container}
+      >
+        <View style={styles.updateView}>
+          <Text style={styles.textView}>{strings.ADDBMI}</Text>
+          <View style={styles.addbuttonView}>
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.navigate(RouteNames.BMI);
+              }}
+              activeOpacity={0.7}
+              style={styles.blueButton}
+            >
+              <Text style={styles.buttonText}>{strings.ADD_BMI}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
   waterIntake: state.fitness.waterIntake[date],
+  userData: state.user.userData,
+  bmiRecords: state.fitness.bmiRecords,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -122,12 +171,27 @@ const styles = StyleSheet.create({
 
     backgroundColor: appTheme.background,
   },
-  increaseText: {color: appTheme.textPrimary, fontSize: fontSizes.h1},
+  buttonText: {
+    fontFamily: fonts.CenturyGothicBold,
+    fontSize: fontSizes.h3,
+  },
+  blueButton: {
+    padding: spacing.medium_sm,
+    backgroundColor: bmiColors.lightBlue,
+    borderRadius: 100,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  increaseText: { color: appTheme.textPrimary, fontSize: fontSizes.h0 },
   counterView: {
     flexDirection: "row",
     justifyContent: "space-between",
     margin: spacing.medium_sm,
     flex: 1,
+  },
+  updateView: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   mainView: {
     flexDirection: "row",
@@ -135,5 +199,13 @@ const styles = StyleSheet.create({
     margin: spacing.medium_sm,
     flex: 1,
   },
-  increaseMargin: {marginHorizontal: spacing.medium},
+  addbuttonView: { marginTop: spacing.medium_lg },
+  textView: {
+    fontFamily: fonts.CenturyGothicBold,
+    fontSize: fontSizes.bigTitle,
+    textAlign: "center",
+    marginTop: screenHeight / 3,
+    color: appTheme.greyC,
+  },
+  increaseMargin: { marginHorizontal: spacing.medium },
 });

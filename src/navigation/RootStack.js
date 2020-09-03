@@ -39,6 +39,7 @@ import Water from "../screens/Fitness/Water";
 import RecipeRecommend from "../screens/Fitness/RecipeRecommend";
 import CalorieCounter from "../screens/Fitness/CalorieCounter";
 import Calorie1 from "../screens/Fitness/Calorie1";
+import PdfViewer from "../screens/App/PdfViewer";
 
 const rootStack = () => {
   let {userType} = store.getState().user;
@@ -280,6 +281,14 @@ const rootStack = () => {
       <Stack.Screen
         name={RouteNames.PerformStretch}
         component={PerformStretch}
+        options={{
+          title: "",
+          headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.PdfViewer}
+        component={PdfViewer}
         options={{
           title: "",
           headerTransparent: true,
