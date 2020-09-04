@@ -15,8 +15,7 @@ import {spacing} from "../../constants/dimension";
 import {defaultHeaderStyle} from "../../constants/styles";
 import {defaultDP} from "../../constants/appConstants";
 import NotificationList from "../../components/NotificationList";
-import PdfViewer from "../../screens/App/PdfViewer";
-
+import Sessions from "../../screens/App/Sessions";
 
 class activity extends Component {
 
@@ -45,7 +44,7 @@ class activity extends Component {
       <Stack.Navigator screenOptions={defaultHeaderStyle}>
         <Stack.Screen
           name={RouteNames.Activity}
-          component={Activity}
+          component={Sessions}
           options={{
             title: "Activity",
             headerLeft: openDrawerButton,

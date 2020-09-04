@@ -4,14 +4,11 @@
 import {navigate} from '../navigation/RootNavigation';
 import RouteNames from "../navigation/RouteNames";
 import AsyncStorage from '@react-native-community/async-storage';
-
-import store from '../store/configureStore';
 import {makeCall} from "../API";
 import strings, {bmiVerdicts} from "../constants/strings";
 import {defaultDP, MONTH_NAMES, userTypes, WEEK_DAY_NAMES, WEEK_DAYS} from "../constants/appConstants";
 import ImagePicker from "react-native-image-picker";
 import {showError} from "./notification";
-import {useCode} from "react-native-reanimated";
 import {bmiColors} from "../constants/colors";
 
 export const validateResponseCode = (code) => {
@@ -287,3 +284,26 @@ export const fillArray = (value, len = 10) => {
   }
   return arr;
 }
+
+export function hashCode(s) {
+  for (var i = 0, h = 0; i < s.length; i++)
+    h = Math.imul(31, h) + s.charCodeAt(i) | 0;
+  return h;
+}
+
+export const formatSeconds = remainingSeconds => {
+  const hours = Math.floor(remainingSeconds / 3600);
+  remainingSeconds %= 3600;
+  const minutes = Math.floor(remainingSeconds / 60);
+  remainingSeconds %= 60;
+  const seconds = Math.floor(remainingSeconds);
+
+  return hours.toString().padStart(2, '0') + ':' +
+    minutes.toString().padStart(2, '0') + ':' +
+    seconds.toString().padStart(2, '0');
+}
+
+export const datesAreOnSameDay = (first, second) =>
+  first.getFullYear() === second.getFullYear() &&
+  first.getMonth() === second.getMonth() &&
+  first.getDate() === second.getDate();

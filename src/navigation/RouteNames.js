@@ -2,7 +2,7 @@ const RouteNames = {
   //Stack Names
   AppStack: 'AppStack',
   Splash: 'Splash',
-  Terms:'Terms',
+  Terms: 'Terms',
 
   SignIn: 'SignIn',
   SignUp: 'SignUp',
@@ -70,12 +70,12 @@ const RouteNames = {
   LiveScheduler: 'LiveScheduler',
   MyStreams: 'MyStreams',
 
-
   CalorieCounter: 'CalorieCounter',
   RecipeRecommend: 'RecipeRecommend',
   Water: 'Water',
   Calorie1: 'Calorie1',
-  PdfViewer: 'PdfViewer'
+  PdfViewer: 'PdfViewer',
+  Sessions: 'Session',
 };
 
 export const TabRoutes = {
@@ -90,6 +90,8 @@ export const TabRoutes = {
   Questions: 'Questions',
   LiveStreams: 'LiveStreams',
 
+  FutureSessions:'FutureSessions',
+  PastSessions:'PastSessions',
 }
 
 export default RouteNames;
