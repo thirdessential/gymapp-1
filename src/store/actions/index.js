@@ -1,8 +1,6 @@
 export {
   setAuthenticated,
-  resetAuth,
   syncFirebaseAuth,
-  setNewUser
 } from "./auth.actions";
 
 export {
@@ -11,7 +9,8 @@ export {
   setInitialLoginOff,
   updateUserData,
   subscribePackage,
-  getActivities
+  getActivities,
+  acceptTerms
 } from "./user.actions";
 
 export {

@@ -9,20 +9,40 @@ import {setPackages, setSlots} from "./trainer.actions";
 export const genericUserFieldSetter = (payload) => ({ // TODO: refactor this function into multiple specific setters
   type: actionTypes.GENERIC_USER_FIELD_SET,
   payload
-})
+});
 
 export const setUserType = (userType = userTypes.USER) => ({
   type: actionTypes.SET_USER_TYPE,
   payload: {
     userType
   }
-})
+});
+
 export const setInitialLoginOff = () => ({
   type: actionTypes.SET_INITIAL_LOGIN_OFF,
   payload: {
     initialLogin: false
   }
-})
+});
+
+const acceptTermsAction = () => ({
+  type: actionTypes.ACCEPT_TERMS,
+  payload: {
+    termsAccepted: true
+  }
+});
+
+export const acceptTerms = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(acceptTermsAction());
+      await API.acceptTerms();
+      console.log("Accepted terms");
+    } catch (e) {
+      console.log("Could not accept terms");
+    }
+  };
+};
 
 export const setAuthTokenAction = (authToken) => ({
   type: actionTypes.SET_AUTH_TOKEN,

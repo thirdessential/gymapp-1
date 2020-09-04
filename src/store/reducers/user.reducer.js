@@ -18,6 +18,8 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, action.payload);
     case actionTypes.SET_ACTIVITIES:
       return updateObject(state, action.payload);
+    case actionTypes.ACCEPT_TERMS:
+      return updateObject(state, action.payload);
     default:
       return state;
   }

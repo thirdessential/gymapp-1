@@ -18,7 +18,7 @@ import {
 import {connect} from "react-redux";
 import Video from 'react-native-video';
 import ImagePicker from "react-native-image-picker";
-
+import MediaMeta from 'react-native-media-meta';
 
 import {appTheme} from "../../constants/colors";
 import * as actionCreators from "../../store/actions";
@@ -28,7 +28,7 @@ import HalfRoundedButton from "../../components/HalfRoundedButton";
 import strings from "../../constants/strings";
 import {
   INITIAL_PAGE,
-  MAX_POST_LENGTH,
+  MAX_POST_LENGTH, MAX_VIDEO_LENGTH,
   POST_TYPE,
 } from "../../constants/appConstants";
 import {pickImage} from "../../utils/utils";
@@ -91,10 +91,16 @@ class CreatePost extends PureComponent {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        await this.setState({
-          videoSrc: {uri: response.uri},
-          videoPath: response.path
-        })
+        // Finding duration differs on ios, related article:
+        // https://dev.to/saadbashar/finding-video-duration-react-native-456f
+        const metaData = await MediaMeta.get(response.path);
+        if (metaData.duration > MAX_VIDEO_LENGTH) {
+          showError(strings.VIDEO_LENGTH_EXCEEDED); // TODO: derive video length in this string constant
+        } else await
+          this.setState({
+            videoSrc: {uri: response.uri},
+            videoPath: response.path
+          })
       }
     });
   }

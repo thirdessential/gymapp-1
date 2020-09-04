@@ -42,7 +42,6 @@ const postList = (props) => {
     if (!post) return null;
     const isOwnPost = post.createdBy.userId === store.getState().user.userId; // TODO: can we improve this comparison?
     const isLiked = checkLiked(post.likes);
-
     return <TouchableOpacity
       onPress={() => open(post._id)}
       activeOpacity={0.7}
@@ -55,6 +54,7 @@ const postList = (props) => {
         createdOn={post.createdOn}
         text={post.textContent}
         createdBy={post.createdBy.name}
+        userType={post.createdBy.userType}
         displayImageUrl={post.createdBy.displayPictureUrl}
         isLiked={isLiked}
         likeCallback={() => like(post._id)}

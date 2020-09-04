@@ -27,3 +27,17 @@ export const firebaseGoogleAuth = async (idToken, fcmToken, userType) => {
     return false;
   }
 }
+
+export const acceptTerms = async () => {
+  try {
+    let response = await axios.post('/user/acceptTerms'
+    );
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

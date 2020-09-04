@@ -2,6 +2,7 @@ const RouteNames = {
   //Stack Names
   AppStack: 'AppStack',
   Splash: 'Splash',
+  Terms:'Terms',
 
   SignIn: 'SignIn',
   SignUp: 'SignUp',

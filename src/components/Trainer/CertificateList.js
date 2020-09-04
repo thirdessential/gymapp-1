@@ -33,7 +33,7 @@ const certificateList = (props) => {
         horizontal
         showsHorizontalScrollIndicator={false}
         style={styles.container}
-        data={fillArray(props.data[0])}
+        data={props.data}
         renderItem={({item}) => card(item)}
         keyExtractor={(item, index) => index.toString()}
         ItemSeparatorComponent={separator}

@@ -9,10 +9,10 @@ export const userState = {
   userType: INITIAL_USER_TYPE,
   userId: '',
   initialLogin: true,
+  termsAccepted:false,
   userName: '',
   userData: {},
   activities: {},
-
 };
 
 export const callState = {

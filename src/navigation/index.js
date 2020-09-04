@@ -10,7 +10,6 @@ import * as actionCreators from '../store/actions';
 import {updateAxiosToken} from "../API";
 import {
   callbackStatus,
-  firebaseTopics,
   INITIAL_PAGE, notificationActionTypes,
   remoteMessageTypes,
   storageKeys,
@@ -34,7 +33,7 @@ import {drawerLabelStyle} from "../constants/styles";
 import strings from "../constants/strings";
 import {setWhatsappInstalled} from "../utils/share";
 import RootStack from "./RootStack";
-import {not} from "react-native-reanimated";
+import TermsStack from "./stacks/TermsStack";
 
 messaging().setBackgroundMessageHandler(callHandler);
 configureFCMNotification();
@@ -243,7 +242,7 @@ class App extends React.Component {
 
   render() {
     const {loading, videoTestMode} = this.state;
-    const {authenticated, initialLogin, callData, callActive, userType, userData} = this.props;
+    const {authenticated, initialLogin, callData, callActive, termsAccepted,userType, userData} = this.props;
 
     if (loading)
       return <Splash/>
@@ -253,7 +252,9 @@ class App extends React.Component {
       return <Calling navigationRef={navigationRef}/>
     }
     if (authenticated) {
-      if (initialLogin)
+      if(!termsAccepted)
+        return <TermsStack/>
+      else if (initialLogin)
         return <InitialLogin navigationRef={navigationRef}/>
       else
         return this.coreApplication();
@@ -264,6 +265,7 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => ({
   authToken: state.user.authToken,
+  termsAccepted:state.user.termsAccepted,
   authenticated: state.auth.authenticated,
   initialLogin: state.user.initialLogin,
   callActive: state.call.callActive,
