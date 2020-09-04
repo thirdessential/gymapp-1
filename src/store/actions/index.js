@@ -74,6 +74,7 @@ export {
   addCalorieData,
   addFoods,
   addWaterIntake,
+  getWaterIntake
 } from './fitness.actions';
 
 export {

@@ -33,25 +33,25 @@ class CalorieCounter extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      foodItems: [],
+      foodItems: [],//to store all the food items which are filtered down 
 
-      targetCal: 2000,
-      intakeCal: 0,
+      targetCal: 2000,//this is target 
+      intakeCal: 0,//todays intake 
       proteinIntake: 0,
       fatsIntake: 0,
       carbsIntake: 0,
 
-      breakFast: [],
+      breakFast: [],//to keep all items which are eaten in breakfast
       dinner: [],
       snacks: [],
       lunch: [],
 
-      breakfastRecommend: [],
+      breakfastRecommend: [],//this recommendation is set after filtering foodItems 
       snacksRecommend: [],
       lunchRecommend: [],
       dinnerRecommend: [],
 
-      breakFastTotal: 0,
+      breakFastTotal: 0,//total calories in breakfast
       lunchTotal: 0,
       dinnerTotal: 0,
       snacksTotal: 0,
@@ -59,34 +59,35 @@ class CalorieCounter extends PureComponent {
   }
 
   async componentDidMount() {
-    const {copilotScreens,updateScreenCopilots}=this.props;
-    
-    
-    if(!!!copilotScreens[RouteNames.CalorieCounter]){
+    //to show copilot walkthrough
+    const { copilotScreens, updateScreenCopilots } = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
+    if (!!!copilotScreens[RouteNames.CalorieCounter]) {
       this.props.start();
     }
-    
-    this.props.copilotEvents.on("stepChange", this.handleStepChange);
+    //copilot functions to track them
+    //this.props.copilotEvents.on("stepChange", this.handleStepChange);
     this.props.copilotEvents.on("stop", () => {
-      console.log("stopped")
+      //after finished set copilot as done in redux
       updateScreenCopilots(RouteNames.CalorieCounter);
     });
-  
+    //to update food
     this.willFocusSubscription = this.props.navigation.addListener(
       "focus",
       async () => {
-        
+        //to calculate graphs and total calorie values
         this.totalCalculations();
-        this.recommend();
       }
     );
-    this.totalCalculations();
+    //to get recommendations
+    this.recommend();//to genrate recommendatipns from database
+    this.totalCalculations();//for calculating total of graphs and calories
   }
-  handleStepChange = (step) => {
-    console.log(`Current step is: ${step.name}`);
-  };
 
-  recommendHelper = (foodsArray, foodType) => {
+  // handleStepChange = (step) => {
+  //   console.log(`Current step is: ${step.name}`);
+  // };
+
+  recommendHelper = (foodsArray, foodType) => {//to make each fooItem an object
     return foodsArray.map((food) => ({
       id: food._id,
       item: food.name,
@@ -105,50 +106,54 @@ class CalorieCounter extends PureComponent {
 
   recommend = async () => {
     let result = await API.getRecommendation();
-   
-    if (result) {
-      if (result[foodTypes.BREAKFAST] && result[foodTypes.BREAKFAST].length > 0) {
+//result is list of all food Items
+    if (result) {//if result is there or not it can be empty array also
+      //if that particular type has length greater than 0
+      if (
+        result[foodTypes.BREAKFAST] &&
+        result[foodTypes.BREAKFAST].length > 0 
+      ) {
         breakfastRecommend = this.recommendHelper(
           result[foodTypes.BREAKFAST],
           foodTypes.BREAKFAST
         );
-        
-        this.setState({ breakfastRecommend });
+
+        this.setState({ breakfastRecommend: breakfastRecommend.slice(0, 3) });
       }
       if (result[foodTypes.LUNCH] && result[foodTypes.LUNCH].length > 0) {
         lunchRecommend = this.recommendHelper(
           result[foodTypes.LUNCH],
           foodTypes.LUNCH
         );
-        
-        this.setState({ lunchRecommend });
+
+        this.setState({ lunchRecommend: lunchRecommend.slice(0, 3) });
       }
       if (result[foodTypes.SNACKS] && result[foodTypes.SNACKS].length > 0) {
         snacksRecommend = this.recommendHelper(
           result[foodTypes.SNACKS],
           foodTypes.SNACKS
         );
-        
-        this.setState({ snacksRecommend });
+
+        this.setState({ snacksRecommend: snacksRecommend.slice(0, 3) });
       }
       if (result[foodTypes.DINNER] && result[foodTypes.DINNER].length > 0) {
         dinnerRecommend = this.recommendHelper(
           result[foodTypes.DINNER],
           foodTypes.DINNER
         );
-        
-        this.setState({ dinnerRecommend });
+
+        this.setState({ dinnerRecommend: dinnerRecommend.slice(0, 3) });
       }
     }
   };
   componentWillUnmount() {
-    
     this.willFocusSubscription();
   }
 
   totalCalculations = async () => {
     const { calorieData } = this.props;
-    if (calorieData) {
+    //get calorie data from redux which is list of all foodItems in redux
+    if (calorieData) {//if that exists then calculate everythong from them
       await this.setState({ foodItems: calorieData });
       this.calcTotal();
       this.calculateFoodList();
@@ -372,52 +377,17 @@ class CalorieCounter extends PureComponent {
               </WalkthroughableText>
             </CopilotStep>
           </View>
+
           <View style={styles.mainCardsView}>
-            <View>
-              <CopilotStep
-                text="This shows percentage of proteins in your diet"
-                order={4}
-                name="hello4"
-              >
-                <WalkthroughableView>
-                  {this.infoCards(
-                    strings.PROTEIN,
-                    this.state.proteinIntake,
-                    "#c1ff00"
-                  )}
-                </WalkthroughableView>
-              </CopilotStep>
-            </View>
-            <View>
-              <CopilotStep
-                text="This shows percentage of carbohydrates in your diet"
-                order={5}
-                name="hello5"
-              >
-                <WalkthroughableView>
-                  {this.infoCards(
-                    strings.CARBS,
-                    this.state.carbsIntake,
-                    "#ef135f"
-                  )}
-                </WalkthroughableView>
-              </CopilotStep>
-            </View>
-            <View>
-              <CopilotStep
-                text="This shows percentage of fats in your diet"
-                order={6}
-                name="hello6"
-              >
-                <WalkthroughableView>
-                  {this.infoCards(
-                    strings.FATS,
-                    this.state.fatsIntake,
-                    "#54f0f7"
-                  )}
-                </WalkthroughableView>
-              </CopilotStep>
-            </View>
+            {this.infoCards(
+              strings.PROTEIN,
+              this.state.proteinIntake,
+              "#c1ff00"
+            )}
+
+            {this.infoCards(strings.CARBS, this.state.carbsIntake, "#ef135f")}
+
+            {this.infoCards(strings.FATS, this.state.fatsIntake, "#54f0f7")}
           </View>
 
           {this.optionList(
@@ -456,11 +426,12 @@ class CalorieCounter extends PureComponent {
 
 const mapStateToProps = (state) => ({
   calorieData: state.fitness.calorieData[todaysDate],
-  copilotScreens: state.app.copilotScreen
+  copilotScreens: state.app.copilotScreen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateScreenCopilots:(screenName) => dispatch(actionCreators.updateScreenCopilots(screenName)),
+  updateScreenCopilots: (screenName) =>
+    dispatch(actionCreators.updateScreenCopilots(screenName)),
 });
 const style = {
   backgroundColor: "#9FA8DA",

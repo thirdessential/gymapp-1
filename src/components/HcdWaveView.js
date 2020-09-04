@@ -128,13 +128,13 @@ class HcdWaveView extends Component {
           {this.artDrawBg()}
           <Shape
             d={leftLinePath}
-            stroke="#FCEE5D"
+            stroke="#185cc9"
             strokeWidth={2}
             fill={"red"}
           />
           <Shape
             d={rightLinePath}
-            stroke="#FCEE5D"
+            stroke="#185cc9"
             strokeWidth={2}
             fill={"red"}
           />
@@ -151,6 +151,7 @@ class HcdWaveView extends Component {
           >
             {this.props.powerPercent + "%"}
           </Text>
+         
          
         </Surface>
       </View>

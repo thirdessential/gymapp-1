@@ -5,8 +5,8 @@ import {appTheme, bmiColors} from "./colors";
 let apiUrl = '';
 if (__DEV__) {
   console.log('Development Server');
-   apiUrl = 'https://fitness-first-services.herokuapp.com';
-  // apiUrl = 'https://057ececfe85f.ngrok.io';
+  // apiUrl = 'https://fitness-first-services.herokuapp.com';
+   apiUrl = 'https://dbaf31e7c7fa.ngrok.io';
   
 } else {
   console.log('Production Server');

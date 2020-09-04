@@ -30,7 +30,10 @@ export const darkPallet = {
     grey: ['#696969', '#9E9E9E']
   }
 }
-
+export const waterBars={
+  shineRed:'#a61107',
+  darkRed:'#c4443b'
+}
 export const bluePallet = {
   background: '#2e244c',
   darkBackground: '#292145',
