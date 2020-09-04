@@ -302,3 +302,8 @@ export const formatSeconds = remainingSeconds => {
     minutes.toString().padStart(2, '0') + ':' +
     seconds.toString().padStart(2, '0');
 }
+
+export const datesAreOnSameDay = (first, second) =>
+  first.getFullYear() === second.getFullYear() &&
+  first.getMonth() === second.getMonth() &&
+  first.getDate() === second.getDate();
