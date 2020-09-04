@@ -265,8 +265,9 @@ const strings = {
   READ_TERMS: 'I have read and agree to Terms & Conditions and ',
   CONNECT_WITH: 'or connect with',
   SIGN_UP_WITH: 'or sign up with',
-  TODAY_WORKOUT: 'Today\nWorkout'
-
+  TODAY_WORKOUT: `Today's\nWorkout`,
+  UPCOMING: 'Upcoming',
+  JOIN: 'JOIN',
 };
 
 export const bmiVerdicts = {

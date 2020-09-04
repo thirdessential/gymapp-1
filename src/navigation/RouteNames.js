@@ -90,6 +90,8 @@ export const TabRoutes = {
   Questions: 'Questions',
   LiveStreams: 'LiveStreams',
 
+  FutureSessions:'FutureSessions',
+  PastSessions:'PastSessions',
 }
 
 export default RouteNames;
