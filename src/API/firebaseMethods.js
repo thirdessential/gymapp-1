@@ -6,12 +6,10 @@ import {webClientId} from "../constants/appConstants";
 import {showError, showInfo} from "../utils/notification";
 import strings from "../constants/strings";
 
-GoogleSignin.configure({webClientId});
-
 export const attemptGoogleAuth = async () => {
   try {
+    await GoogleSignin.configure({webClientId});
     const {idToken} = await GoogleSignin.signIn();
-
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
