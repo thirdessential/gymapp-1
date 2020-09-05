@@ -31,7 +31,6 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import { screenWidth } from "../../utils/screenDimensions";
 import strings from "../../constants/strings";
-import BmiBar from "../../components/BmiBar";
 import { calculateBmi, getBmiVerdict, toTitleCase } from "../../utils/utils";
 import Feather from "react-native-vector-icons/Feather";
 import CustomLineChart from "../../components/CustomLineChart";

@@ -25,6 +25,7 @@ export const appState = {
   userList: [], // user listing TODO:Rename this
   users: {},// detailed user info for each user
   globalSlots: null, // globally available slots, and its metadata
+  copilotScreen:{}
 }
 
 export const trainerState = {

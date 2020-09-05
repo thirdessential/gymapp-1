@@ -85,3 +85,10 @@ export const updateGlobalSlots = () => {
     }
   };
 };
+
+export const updateScreenCopilots=(copilotScreen)=>({
+  type:actionTypes.COPILOT_SCREEN_DONE,
+  payload:{
+    copilotScreen
+  }
+})
