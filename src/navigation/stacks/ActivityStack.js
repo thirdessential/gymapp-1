@@ -44,7 +44,7 @@ class activity extends Component {
       <Stack.Navigator screenOptions={defaultHeaderStyle}>
         <Stack.Screen
           name={RouteNames.Activity}
-          component={Activity}
+          component={Sessions}
           options={{
             title: "Activity",
             headerLeft: openDrawerButton,
