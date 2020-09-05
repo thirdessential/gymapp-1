@@ -78,6 +78,12 @@ target 'FitnessFirst' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
 
+  pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
+
+  pod 'react-native-nodemediaclient', :path => '../node_modules/react-native-nodemediaclient'
+
+  pod 'react-native-razorpay', :path => '../node_modules/react-native-razorpay'
+
   target 'FitnessFirstTests' do
     inherit! :complete
     # Pods for testing

@@ -4,6 +4,12 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.rn.full.screen.FullScreenModule;
+import com.razorpay.rn.RazorpayPackage;
+import com.react.videocompressor.VideoComPressorPackage;
+import com.razorpay.rn.RazorpayPackage;
+import cn.nodemedia.react_native_nodemediaclient.NodeMediaReactPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 
 import net.no_mad.tts.TextToSpeechPackage;
 import com.facebook.react.ReactInstanceManager;
