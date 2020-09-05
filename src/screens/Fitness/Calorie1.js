@@ -31,24 +31,27 @@ const todaysDate = getTodayFormattedDate();
 
 class Calorie1 extends PureComponent {
   state = {
-    food: "",
-    type: "",
-    load: false,
-    foods: [],
-    fabLoading:false
+    food: "",//to get name of food
+    type: "",//type tp hold breakfast ;unch or dinner
+    load: false,//loading indicator
+    foods: [],//to hold object of food with fats proteins tec
+    fabLoading:false,//loading icon
+    recommendationText:false,//if we get recoomendation from backend then show this text
   };
  async componentDidMount() {
-    const type = this.props.route.params.type;
-    const recommendedFoods=this.props.route.params.recommendedFoods;
-    if(recommendedFoods){
-      this.setState({foods: recommendedFoods});
+    const type = this.props.route.params.type;//type i.e Breakfast lunh dinner snacks
+    const recommendedFoods=this.props.route.params.recommendedFoods;//we get this from parent as navigation props
+    console.log(recommendedFoods);
+    if(recommendedFoods.length>0){
+      this.setState({foods: recommendedFoods,recommendationText:true});
+      
     }
-    await this.setState({ type });
+    await this.setState({ type });//type   i.e Breakfast lunh dinner snacks for current food ITems
    
   }
 
 
-  addFoodData = async () => {
+  addFoodData = async () => {//send to redux and databse
     //to send to database
    // console.log("Addfooddate");
    this.setState({fabLoading:true});
@@ -64,7 +67,7 @@ class Calorie1 extends PureComponent {
    this.setState({fabLoading: false});
     
     this.props.navigation.goBack();
-    this.setState({ foods: [] });
+    this.setState({ foods: [] ,recommendationText:false});
   };
   getCalories = async () => {
     if (this.state.food === "") {
@@ -77,11 +80,13 @@ class Calorie1 extends PureComponent {
 
     if (result)
       if (result.foodItem) {
+        //we get this data from API edaMam
+        //orefats precarbs varible are to get initial values so that we can increase pr decrease by that quantity 
         const newFoodItem = {
           id: result.foodItem._id,
           type: this.state.type,
           item: this.state.food,
-          quantity: 100,
+          quantity: 100,//user can increase quantity
           total: result.foodItem.totalEnergy,
           pretotal: result.foodItem.totalEnergy,
           prefats: result.foodItem.fats,
@@ -212,6 +217,7 @@ class Calorie1 extends PureComponent {
           </View>
 
           <View style={styles.listView}>
+          {this.state.recommendationText && <Text style={styles.recommendationText}>Recommended on your diet routine.</Text>}
             {this.state.foods.map((food, index) => (
               <View key={cuid().toString()} style={styles.eachCardOuter}>
                 <View style={styles.eachCard}>
@@ -346,6 +352,7 @@ const styles = StyleSheet.create({
     marginLeft: spacing.medium,
     marginRight: spacing.medium,
   },
+  recommendationText:{color:appTheme.greyC,fontFamily:fonts.CenturyGothic,fontSize:fontSizes.h2,marginBottom:spacing.medium_sm,marginLeft:spacing.small},
   eachCardOuter: {
     backgroundColor: appTheme.darkBackground,
     marginBottom: spacing.medium_lg,

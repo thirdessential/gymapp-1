@@ -24,7 +24,8 @@ export {
   setUserList,
   updateUsersList,
   setUser,
-  updateGlobalSlots
+  updateGlobalSlots,
+  updateScreenCopilots
 } from "./app.actions";
 
 export {
@@ -73,6 +74,7 @@ export {
   addCalorieData,
   addFoods,
   addWaterIntake,
+  getWaterIntake
 } from './fitness.actions';
 
 export {

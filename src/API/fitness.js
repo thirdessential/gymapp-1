@@ -18,8 +18,10 @@ export const getRecommendation=async()=>{
   try{
 
 let response=await axios.get('/recommend');
-if (validateResponseCode(response.status))
+if (validateResponseCode(response.status)){
   return response.data; 
+}
+  
 else return false;
 } catch (error) {
 console.log(error);

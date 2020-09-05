@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 var _ = require("lodash");
 import { connect } from "react-redux";
 import cuid from "cuid";
+import PropTypes from "prop-types";
 import * as Progress from "react-native-progress";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { spacing } from "../../constants/dimension";
@@ -14,32 +15,43 @@ import strings from "../../constants/strings";
 import RouteNames from "../../navigation/RouteNames";
 import { getTodayFormattedDate } from "../../utils/utils";
 import { foodTypes } from "../../constants/appConstants";
+import * as actionCreators from "../../store/actions";
 import * as API from "../../API";
+import { copilot, walkthroughable, CopilotStep } from "react-native-copilot";
 const todaysDate = getTodayFormattedDate();
+const WalkthroughableText = walkthroughable(Text);
 
+const WalkthroughableView = walkthroughable(View);
 class CalorieCounter extends PureComponent {
+  static propTypes = {
+    start: PropTypes.func.isRequired,
+    copilotEvents: PropTypes.shape({
+      on: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      foodItems: [],
+      foodItems: [],//to store all the food items which are filtered down 
 
-      targetCal: 2000,
-      intakeCal: 0,
+      targetCal: 2000,//this is target 
+      intakeCal: 0,//todays intake 
       proteinIntake: 0,
       fatsIntake: 0,
       carbsIntake: 0,
 
-      breakFast: [],
+      breakFast: [],//to keep all items which are eaten in breakfast
       dinner: [],
       snacks: [],
       lunch: [],
 
-      breakfastRecommend: [],
+      breakfastRecommend: [],//this recommendation is set after filtering foodItems 
       snacksRecommend: [],
       lunchRecommend: [],
       dinnerRecommend: [],
 
-      breakFastTotal: 0,
+      breakFastTotal: 0,//total calories in breakfast
       lunchTotal: 0,
       dinnerTotal: 0,
       snacksTotal: 0,
@@ -47,18 +59,35 @@ class CalorieCounter extends PureComponent {
   }
 
   async componentDidMount() {
+    //to show copilot walkthrough
+    const { copilotScreens, updateScreenCopilots } = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
+    if (!!!copilotScreens[RouteNames.CalorieCounter]) {
+      this.props.start();
+    }
+    //copilot functions to track them
+    //this.props.copilotEvents.on("stepChange", this.handleStepChange);
+    this.props.copilotEvents.on("stop", () => {
+      //after finished set copilot as done in redux
+      updateScreenCopilots(RouteNames.CalorieCounter);
+    });
+    //to update food
     this.willFocusSubscription = this.props.navigation.addListener(
       "focus",
       async () => {
-        console.log("focus");
+        //to calculate graphs and total calorie values
         this.totalCalculations();
-        this.recommend();
       }
     );
-    this.totalCalculations();
+    //to get recommendations
+    this.recommend();//to genrate recommendatipns from database
+    this.totalCalculations();//for calculating total of graphs and calories
   }
 
-  recommendHelper = (foodsArray, foodType) => {
+  // handleStepChange = (step) => {
+  //   console.log(`Current step is: ${step.name}`);
+  // };
+
+  recommendHelper = (foodsArray, foodType) => {//to make each fooItem an object
     return foodsArray.map((food) => ({
       id: food._id,
       item: food.name,
@@ -77,39 +106,43 @@ class CalorieCounter extends PureComponent {
 
   recommend = async () => {
     let result = await API.getRecommendation();
-    console.log("compo call him");
-    if (result) {
-      if (result[foodTypes.BREAKFAST].length > 0) {
+//result is list of all food Items
+    if (result) {//if result is there or not it can be empty array also
+      //if that particular type has length greater than 0
+      if (
+        result[foodTypes.BREAKFAST] &&
+        result[foodTypes.BREAKFAST].length > 0 
+      ) {
         breakfastRecommend = this.recommendHelper(
           result[foodTypes.BREAKFAST],
           foodTypes.BREAKFAST
         );
-        console.log(breakfastRecommend);
-        this.setState({ breakfastRecommend });
+
+        this.setState({ breakfastRecommend: breakfastRecommend.slice(0, 3) });
       }
-      if (result[foodTypes.LUNCH].length > 0) {
+      if (result[foodTypes.LUNCH] && result[foodTypes.LUNCH].length > 0) {
         lunchRecommend = this.recommendHelper(
           result[foodTypes.LUNCH],
           foodTypes.LUNCH
         );
-        console.log(lunchRecommend);
-        this.setState({ lunchRecommend });
+
+        this.setState({ lunchRecommend: lunchRecommend.slice(0, 3) });
       }
-      if (result[foodTypes.SNACKS].length > 0) {
+      if (result[foodTypes.SNACKS] && result[foodTypes.SNACKS].length > 0) {
         snacksRecommend = this.recommendHelper(
           result[foodTypes.SNACKS],
           foodTypes.SNACKS
         );
-        console.log(snacksRecommend);
-        this.setState({ snacksRecommend });
+
+        this.setState({ snacksRecommend: snacksRecommend.slice(0, 3) });
       }
-      if (result[foodTypes.DINNER].length > 0) {
+      if (result[foodTypes.DINNER] && result[foodTypes.DINNER].length > 0) {
         dinnerRecommend = this.recommendHelper(
           result[foodTypes.DINNER],
           foodTypes.DINNER
         );
-        console.log(dinnerRecommend);
-        this.setState({ dinnerRecommend });
+
+        this.setState({ dinnerRecommend: dinnerRecommend.slice(0, 3) });
       }
     }
   };
@@ -119,7 +152,8 @@ class CalorieCounter extends PureComponent {
 
   totalCalculations = async () => {
     const { calorieData } = this.props;
-    if (calorieData) {
+    //get calorie data from redux which is list of all foodItems in redux
+    if (calorieData) {//if that exists then calculate everythong from them
       await this.setState({ foodItems: calorieData });
       this.calcTotal();
       this.calculateFoodList();
@@ -291,39 +325,68 @@ class CalorieCounter extends PureComponent {
           style={{ flex: 1 }}
         >
           <View style={styles.totalCircle}>
-            <Progress.Circle
-              style={{ marginVertical: spacing.small }}
-              showsText={true}
-              thickness={7}
-              size={170}
-              borderWidth={4}
-              textStyle={{ fontSize: fontSizes.midTitle }}
-              progress={
-                this.state.intakeCal / (this.state.targetCal || 1) > 1
-                  ? 1
-                  : this.state.intakeCal / (this.state.targetCal || 1)
-              }
-              animated={false}
-              color="#1177f3"
-            />
+            <CopilotStep
+              text="This shows percentage of intake calories"
+              order={3}
+              name="hello3"
+            >
+              <WalkthroughableView>
+                <Progress.Circle
+                  style={{ marginVertical: spacing.small }}
+                  showsText={true}
+                  thickness={7}
+                  size={170}
+                  borderWidth={4}
+                  textStyle={{ fontSize: fontSizes.midTitle }}
+                  progress={
+                    this.state.intakeCal / (this.state.targetCal || 1) > 1
+                      ? 1
+                      : this.state.intakeCal / (this.state.targetCal || 1)
+                  }
+                  animated={false}
+                  color="#1177f3"
+                />
+              </WalkthroughableView>
+            </CopilotStep>
+          </View>
+          <View>
+            <CopilotStep
+              text="This shows your total calorie intake."
+              order={1}
+              name="hello"
+            >
+              <WalkthroughableText
+                style={[styles.calorieText, { marginHorizontal: 20 }]}
+              >
+                {strings.CALORIE_INTAKE_TEXT} : {this.state.intakeCal}{" "}
+                {strings.CALS}
+              </WalkthroughableText>
+            </CopilotStep>
           </View>
 
-          <Text style={styles.calorieText}>
-            {strings.CALORIE_INTAKE_TEXT} : {this.state.intakeCal}{" "}
-            {strings.CALS}
-          </Text>
           <View style={{ marginTop: spacing.medium_sm }}>
-            <Text style={styles.calorieText}>
-              {strings.TARGET_TEXT} : {this.state.targetCal} {strings.CALS}
-            </Text>
+            <CopilotStep
+              text="This shows your target calorie intake."
+              order={2}
+              name="hello2"
+            >
+              <WalkthroughableText
+                style={[styles.calorieText, { marginHorizontal: 20 }]}
+              >
+                {strings.TARGET_TEXT} : {this.state.targetCal} {strings.CALS}
+              </WalkthroughableText>
+            </CopilotStep>
           </View>
+
           <View style={styles.mainCardsView}>
             {this.infoCards(
               strings.PROTEIN,
               this.state.proteinIntake,
               "#c1ff00"
             )}
+
             {this.infoCards(strings.CARBS, this.state.carbsIntake, "#ef135f")}
+
             {this.infoCards(strings.FATS, this.state.fatsIntake, "#54f0f7")}
           </View>
 
@@ -363,18 +426,36 @@ class CalorieCounter extends PureComponent {
 
 const mapStateToProps = (state) => ({
   calorieData: state.fitness.calorieData[todaysDate],
+  copilotScreens: state.app.copilotScreen,
 });
 
-const mapDispatchToProps = (dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CalorieCounter);
+const mapDispatchToProps = (dispatch) => ({
+  updateScreenCopilots: (screenName) =>
+    dispatch(actionCreators.updateScreenCopilots(screenName)),
+});
+const style = {
+  backgroundColor: "#9FA8DA",
+  borderRadius: 10,
+  paddingTop: 5,
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  copilot({
+    //tooltipStyle: style,
+    verticalOffset: 27,
+    overlay: "svg", // or 'view'
+    animated: true, // or false
+  })(CalorieCounter)
+);
 const styles = StyleSheet.create({
   container: {
     width: "100%",
     backgroundColor: appTheme.background,
     flex: 1,
   },
-  totalCircle: { margin: 10, flex: 1, alignItems: "center" },
+  totalCircle: { marginTop: 10, flex: 1, alignItems: "center" },
   calorieText: {
     color: appTheme.textPrimary,
     fontSize: fontSizes.h1,

@@ -17,12 +17,7 @@ import {setAvailable} from "../../API";
 import LiveCardList from '../../components/LiveCardList';
 import {screenWidth} from "../../utils/screenDimensions";
 import {
-  LineChart,
   BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
 } from "react-native-chart-kit";
 
 const data = [
