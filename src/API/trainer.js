@@ -1,5 +1,4 @@
-import axios from "./config";
-import {validateResponseCode} from "../utils/utils";
+import axios, {validateResponseCode} from "./config";
 
 export const createPackage = async ({title, noOfSessions, price, description, category, group, maxParticipants, slot, startDate}) => {
   try {

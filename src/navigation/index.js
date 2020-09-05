@@ -16,7 +16,7 @@ import {
   videoTestMode
 } from "../constants/appConstants";
 import {callHandler, configureFCMNotification, showInfo} from "../utils/notification";
-import {deleteFromStorage, readFromStorage} from "../utils/utils";
+import {deleteFromStorage, readFromStorage} from "../utils/storage";
 import {appTheme} from "../constants/colors";
 import {navigationRef} from './RootNavigation';
 
@@ -242,7 +242,7 @@ class App extends React.Component {
 
   render() {
     const {loading, videoTestMode} = this.state;
-    const {authenticated, initialLogin, callData, callActive, termsAccepted,userType, userData} = this.props;
+    const {authenticated, initialLogin, callData, callActive, termsAccepted, userType, userData} = this.props;
 
     if (loading)
       return <Splash/>
@@ -252,7 +252,7 @@ class App extends React.Component {
       return <Calling navigationRef={navigationRef}/>
     }
     if (authenticated) {
-      if(!termsAccepted)
+      if (!termsAccepted)
         return <TermsStack/>
       else if (initialLogin)
         return <InitialLogin navigationRef={navigationRef}/>
@@ -265,7 +265,7 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => ({
   authToken: state.user.authToken,
-  termsAccepted:state.user.termsAccepted,
+  termsAccepted: state.user.termsAccepted,
   authenticated: state.auth.authenticated,
   initialLogin: state.user.initialLogin,
   callActive: state.call.callActive,

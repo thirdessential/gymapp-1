@@ -3,7 +3,6 @@
 // import {CHANNELS, rootURL} from "../constants/appConstants";
 import {navigate} from "../navigation/RootNavigation";
 import RouteNames from "../navigation/RouteNames";
-import AsyncStorage from '@react-native-community/async-storage';
 import {makeCall} from "../API";
 import strings, {bmiVerdicts} from "../constants/strings";
 import {defaultDP, MONTH_NAMES, userTypes, WEEK_DAY_NAMES, WEEK_DAYS} from "../constants/appConstants";
@@ -11,9 +10,6 @@ import ImagePicker from "react-native-image-picker";
 import {showError} from "./notification";
 import {bmiColors} from "../constants/colors";
 
-export const validateResponseCode = (code) => {
-  return Math.floor(code / 100) === 2;
-};
 
 export const formattedTime = (date) => {
   let dateObj = new Date(date);
@@ -82,35 +78,6 @@ export const stringToDate = (time) => {
   dateObj.setHours(hours);
   dateObj.setMinutes(minutes);
   return dateObj;
-};
-
-export const saveToStorage = async (key, value) => {
-  try {
-    const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem(key, jsonValue);
-    return true;
-  } catch (e) {
-    console.log("Storing data to storage failed", e);
-    return false;
-  }
-};
-
-export const readFromStorage = async (key) => {
-  try {
-    const jsonValue = await AsyncStorage.getItem(key);
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
-  } catch (e) {
-    console.log("Reading data from storage failed", e);
-    return false;
-  }
-};
-export const deleteFromStorage = async (key) => {
-  try {
-    await AsyncStorage.removeItem(key);
-    return true;
-  } catch (exception) {
-    return false;
-  }
 };
 
 export const textSlicer = (text, length) => {
@@ -300,12 +267,6 @@ export const fillArray = (value, len = 10) => {
     arr.push(value);
   }
   return arr;
-}
-
-export function hashCode(s) {
-  for (var i = 0, h = 0; i < s.length; i++)
-    h = Math.imul(31, h) + s.charCodeAt(i) | 0;
-  return h;
 }
 
 export const formatSeconds = remainingSeconds => {

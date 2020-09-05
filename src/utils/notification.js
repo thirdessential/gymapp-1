@@ -1,4 +1,4 @@
-import {readFromStorage, saveToStorage} from "./utils";
+import {readFromStorage, saveToStorage} from "./storage";
 
 const PushNotification = require("react-native-push-notification");
 import messaging from '@react-native-firebase/messaging';

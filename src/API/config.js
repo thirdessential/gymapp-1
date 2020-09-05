@@ -27,4 +27,8 @@ instance.interceptors.response.use(function (response) {
   return Promise.reject(error);
 });
 
+export const validateResponseCode = (code) => {
+  return Math.floor(code / 100) === 2;
+};
+
 export default instance;

@@ -225,5 +225,5 @@ export const subscriptionTypeNames = {
   SINGLE: 'Workout',
   BATCH: 'Group Workout'
 }
-// export const MS_IN_DAY = (1000 * 60 * 60 * 24);
+export const MS_IN_DAY = 86400000;// (1000 * 60 * 60 * 24)
 export const MAX_VIDEO_LENGTH = 120; // 2 minutes
