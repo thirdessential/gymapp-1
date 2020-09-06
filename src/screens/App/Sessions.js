@@ -19,6 +19,7 @@ import {TabRoutes} from "../../navigation/RouteNames";
 import strings from "../../constants/strings";
 import {screenWidth} from "../../utils/screenDimensions";
 import {hostMeeting, joinMeeting} from "../../utils/zoomMeeting";
+import TodaySessionSwiper from "../../components/TodaySessionSwiper";
 
 const initialLayout = {width: screenWidth};
 
@@ -28,7 +29,7 @@ class Sessions extends Component {
     pageIndex: 0,
     futureSessions: [],
     pastSessions: [],
-    joinLoading:false
+    joinLoading: false
   }
   setPage = (pageIndex) => this.setState({pageIndex});
 
@@ -53,59 +54,52 @@ class Sessions extends Component {
   getItemLayout = (data, index) => (
     {length: 110, offset: (110 + 10) * index - 5, index}
   )
-  onJoin =async (sessionId, type) => {
-    this.setState({joinLoading:true});
+  onJoin = async (sessionId, type) => {
+    this.setState({joinLoading: true});
     const {data} = await this.props.joinSession(sessionId);
-    switch(type){
-      case subscriptionType.BATCH:{
+    switch (type) {
+      case subscriptionType.BATCH: {
         await joinMeeting(data.id, data.password, this.props.userName);
       }
         break;
-      case subscriptionType.SINGLE:{
+      case subscriptionType.SINGLE: {
 
       }
         break;
       default:
         break;
     }
-    this.setState({joinLoading:false});
+    this.setState({joinLoading: false});
   }
-  onStart = async(sessionId, type)=>{
-    this.setState({joinLoading:true});
-    const {data,token} = await this.props.startSession(sessionId);
-    switch(type){
-      case subscriptionType.BATCH:{
+  onStart = async (sessionId, type) => {
+    this.setState({joinLoading: true});
+    const {data, token} = await this.props.startSession(sessionId);
+    switch (type) {
+      case subscriptionType.BATCH: {
         await hostMeeting(data.id, token, this.props.userName);
       }
         break;
-      case subscriptionType.SINGLE:{
+      case subscriptionType.SINGLE: {
 
       }
         break;
       default:
         break;
     }
-    this.setState({joinLoading:false});
+    this.setState({joinLoading: false});
   }
   renderTodaySessions = () => {
-    const {todaySession} = this.state;
-    if (!todaySession) return null;  //TODO: should we return some sort of no sessions message?
-    const date = new Date(todaySession.date);
-    const {users} = todaySession;
-    const onJoin = this.props.userType===userTypes.TRAINER? this.onStart:this.onJoin;
-    return <TodaySession
-      title={todaySession.packageId.title}
-      thumbnail={packageImages[todaySession.packageId.category]}
-      duration={todaySession.duration}
-      date={date}
-      time={moment(date).format('LT')}
-      status={todaySession.status}
-      trainer={this.props.userType === userTypes.TRAINER}
-      subscribers={users && users.length}
-      type={todaySession.type}
-      onJoin={() => onJoin(todaySession._id, todaySession.type)}
-      loading={this.state.joinLoading}
-    />
+    const {todaySessions} = this.state;
+    if (!todaySessions) return null;  //TODO: should we return some sort of no sessions message?
+
+    const onJoin = this.props.userType === userTypes.TRAINER ? this.onStart : this.onJoin;
+    return (
+      <TodaySessionSwiper
+        sessions={todaySessions}
+        onJoin={onJoin}
+        trainer={this.props.userType === userTypes.TRAINER}
+      />
+    )
   }
 
   renderSession = ({item}) => {
