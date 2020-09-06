@@ -15,11 +15,12 @@ import moment from "moment";
 import TodaySession from "../../components/TodaySession";
 import {datesAreOnSameDay} from "../../utils/utils";
 import {packageImages, subscriptionType, userTypes} from "../../constants/appConstants";
-import {TabRoutes} from "../../navigation/RouteNames";
+import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import strings from "../../constants/strings";
 import {screenWidth} from "../../utils/screenDimensions";
 import {hostMeeting, joinMeeting} from "../../utils/zoomMeeting";
 import TodaySessionSwiper from "../../components/TodaySessionSwiper";
+import {navigate} from "../../navigation/RootNavigation";
 
 const initialLayout = {width: screenWidth};
 
@@ -29,7 +30,7 @@ class Sessions extends Component {
     pageIndex: 0,
     futureSessions: [],
     pastSessions: [],
-    joinLoading: false
+    joinLoading: null
   }
   setPage = (pageIndex) => this.setState({pageIndex});
 
@@ -55,7 +56,7 @@ class Sessions extends Component {
     {length: 110, offset: (110 + 10) * index - 5, index}
   )
   onJoin = async (sessionId, type) => {
-    this.setState({joinLoading: true});
+    this.setState({joinLoading: sessionId});
     const {data} = await this.props.joinSession(sessionId);
     switch (type) {
       case subscriptionType.BATCH: {
@@ -63,16 +64,27 @@ class Sessions extends Component {
       }
         break;
       case subscriptionType.SINGLE: {
-
+        const {
+          agoraAppId,
+          sessionId,
+          displayName,
+          displayImage
+        } = data;
+        this.props.navigation.navigate(RouteNames.VideoCall, {
+          AppID: agoraAppId,
+          ChannelName: sessionId,
+          displayPictureUrl: displayImage,
+          displayName: displayName,
+        });
       }
         break;
       default:
         break;
     }
-    this.setState({joinLoading: false});
+    this.setState({joinLoading: null});
   }
   onStart = async (sessionId, type) => {
-    this.setState({joinLoading: true});
+    this.setState({joinLoading: sessionId});
     const {data, token} = await this.props.startSession(sessionId);
     switch (type) {
       case subscriptionType.BATCH: {
@@ -80,13 +92,25 @@ class Sessions extends Component {
       }
         break;
       case subscriptionType.SINGLE: {
-
+        const {
+          agoraAppId,
+          sessionId,
+          displayPictureUrl,
+          displayName
+        } = data;
+        this.props.navigation.navigate(RouteNames.VideoCall, {
+          AppID: agoraAppId,
+          ChannelName: sessionId,
+          initiating: true,
+          displayPictureUrl,
+          displayName,
+        });
       }
         break;
       default:
         break;
     }
-    this.setState({joinLoading: false});
+    this.setState({joinLoading: null});
   }
   renderTodaySessions = () => {
     const {todaySessions} = this.state;
@@ -98,6 +122,7 @@ class Sessions extends Component {
         sessions={todaySessions}
         onJoin={onJoin}
         trainer={this.props.userType === userTypes.TRAINER}
+        loadingId={this.state.joinLoading}
       />
     )
   }
@@ -157,6 +182,7 @@ class Sessions extends Component {
   renderTabView = () => {
     return (
       <TabView
+        style={styles.tabView}
         navigationState={{index: this.state.pageIndex, routes: this.routes}}
         renderScene={this.renderScene}
         onIndexChange={this.setPage}
@@ -205,7 +231,9 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 10,
   },
-
+  tabView: {
+    marginTop: -spacing.medium
+  }
 });
 
 const mapStateToProps = (state) => ({

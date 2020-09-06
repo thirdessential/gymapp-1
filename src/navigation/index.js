@@ -34,6 +34,7 @@ import strings from "../constants/strings";
 import {setWhatsappInstalled} from "../utils/share";
 import RootStack from "./RootStack";
 import TermsStack from "./stacks/TermsStack";
+import {not} from "react-native-reanimated";
 
 messaging().setBackgroundMessageHandler(callHandler);
 configureFCMNotification();
@@ -122,7 +123,7 @@ class App extends React.Component {
       }
         break;
       case remoteMessageTypes.SESSION_STARTED: {
-        const {message, displayImage, meetingId, meetingPassword, sentDate, sessionType} = data;
+        const {message, displayImage, meetingId, meetingPassword, sentDate, sessionType, agoraAppId, sessionId, hostName} = data;
         showInfo(message);
         this.props.syncSessions();
         if (sessionType === subscriptionType.BATCH) {
@@ -138,6 +139,18 @@ class App extends React.Component {
           );
         } else {
           //agora handling
+          addNotification(
+            message,
+            displayImage||defaultDP,
+            notificationActionTypes.AGORA_SESSION,
+            sentDate,
+            {
+              agoraAppId,
+              sessionId,
+              displayImage,
+              displayName:hostName
+            }
+          )
         }
       }
         break;

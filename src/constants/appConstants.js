@@ -200,7 +200,8 @@ export const streamStatusColor = {
 export const notificationActionTypes = {
   STREAM: 'STREAM',
   CALL_REQUEST: 'CALL_REQUEST',
-  CALL_ACCEPT: 'CALL_ACCEPT'
+  CALL_ACCEPT: 'CALL_ACCEPT',
+  AGORA_SESSION:'AGORA_SESSION'
 };
 
 export const foodTypes = {

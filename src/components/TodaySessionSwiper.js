@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react";
-import {StyleSheet} from "react-native";
-import AppIntroSlider from "react-native-app-intro-slider";
+import {StyleSheet, View} from "react-native";
+import Swiper from 'react-native-swiper';
 import moment from "moment";
 
 import {appTheme} from "../constants/colors";
@@ -9,62 +9,46 @@ import TodaySession from "./TodaySession";
 import {packageImages} from "../constants/appConstants";
 
 class TodaySessionSwiper extends PureComponent {
-  state = {
-    currentSlide: 0,
-  }
-  setCurrentSlide = (index) => {
-    if (this.state.currentSlide !== index)
-      this.setState({currentSlide: index})
-  }
-  _renderItem = ({item: session}) => {
+
+  renderSession = (session) => {
     const date = new Date(session.date);
     const {users} = session;
-    return <TodaySession
-      title={session.packageId.title}
-      thumbnail={packageImages[session.packageId.category]}
-      duration={session.duration}
-      date={date}
-      time={moment(date).format('LT')}
-      status={session.status}
-      trainer={this.props.trainer}
-      subscribers={users && users.length}
-      type={session.type}
-      onJoin={() => this.props.onJoin(session._id, session.type)}
-      loading={this.state.joinLoading}
-    />
-  };
-  renderNull = () => {
-    return null;
+    return <View key={session._id}>
+      <TodaySession
+        title={session.packageId.title}
+        thumbnail={packageImages[session.packageId.category]}
+        duration={session.duration}
+        date={date}
+        time={moment(date).format('LT')}
+        status={session.status}
+        trainer={this.props.trainer}
+        subscribers={users && users.length}
+        type={session.type}
+        onJoin={() => this.props.onJoin(session._id, session.type)}
+        loading={this.props.loadingId===session._id}
+      />
+    </View>
   };
 
   render() {
     return (
-      <AppIntroSlider
-        // style={styles.container}
-        renderItem={this._renderItem}
-        data={this.props.sessions}
-        onSlideChange={(index) => this.setCurrentSlide(index)}
-        renderDoneButton={this.renderNull}
-        renderNextButton={this.renderNull}
-        keyExtractor={item=>item._id}
-        // dotStyle={{marginTop:-50, backgroundColor: "rgba(0, 0, 0, .2)"}}
-        // activeDotStyle={{marginTop: 30, backgroundColor: "#fff"}}
-      />
+      // height of the card
+      <View style={styles.card}>
+        <Swiper
+          loop={false}
+          loadMinimal={true}
+        >
+          {this.props.sessions.map(session => this.renderSession(session))}
+        </Swiper>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: appTheme.brightContent,
-    height:100
-    // flex: 1,
-  },
-  button: {
-    color: "#fff",
-    fontSize: 20,
-    fontFamily: fonts.CenturyGothic,
-  },
+  card: {
+    height: 233
+  }
 });
 
 

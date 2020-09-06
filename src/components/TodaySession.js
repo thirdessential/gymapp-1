@@ -31,7 +31,13 @@ class TodaySession extends React.Component {
   }
 
   componentDidMount() {
-    const date = new Date(this.props.date);
+    this.initialise();
+  }
+
+  initialise = ()=>{
+    // const date = new Date(this.props.date);
+    const date = new Date();
+    date.setMinutes(date.getMinutes()+7);
     const now = new Date();
     if (!this.props.trainer && this.props.status === sessionStatus.LIVE) {
       this.setState({startEnabled: true});
@@ -50,7 +56,18 @@ class TodaySession extends React.Component {
           this.setState({startEnabled: true});
         }
       }, 1000);
+    } else if ((now - date)/1000 < 3600) {
+      if (this.props.trainer)
+        this.setState({startEnabled: true});
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if(nextProps.status!==this.props.status){
+      clearInterval(this.timer);
+      this.initialise(); // init again when status changes
+    }
+    return true;
   }
 
   componentWillUnmount() {
