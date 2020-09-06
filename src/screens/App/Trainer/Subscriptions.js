@@ -46,7 +46,13 @@ class Subscriptions extends PureComponent {
   }
 
   updateView = () => {
-    const {subscriptions} = this.props;
+    let {subscriptions} = this.props;
+
+    // Remove duplicate batch subscriptions
+    let jsonObject = subscriptions.map(JSON.stringify);
+    const uniqueSet = new Set(jsonObject);
+    subscriptions = Array.from(uniqueSet).map(JSON.parse);
+
     const days = {}, timings = {};
     subscriptions.map(subscription => {
       const {slot} = subscription;
@@ -78,6 +84,7 @@ class Subscriptions extends PureComponent {
     const {heldSessions, totalSessions, startDate, endDate, package: packageData, slot, type, users, subscribedCount, maxParticipants} = subscription;
     const {time, daysOfWeek} = slot;
     const {title: packageTitle, price} = packageData;
+    console.log(users);
     if (type && type === subscriptionType.BATCH)
       return <View style={styles.cardContainer}>
         <BatchSubscriptionCard

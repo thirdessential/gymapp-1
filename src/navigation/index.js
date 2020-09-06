@@ -9,10 +9,10 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import * as actionCreators from '../store/actions';
 import {updateAxiosToken} from "../API";
 import {
-  callbackStatus,
+  callbackStatus, defaultDP,
   INITIAL_PAGE, notificationActionTypes,
   remoteMessageTypes,
-  storageKeys,
+  storageKeys, subscriptionType,
   videoTestMode
 } from "../constants/appConstants";
 import {callHandler, configureFCMNotification, showInfo} from "../utils/notification";
@@ -53,7 +53,6 @@ class App extends React.Component {
 
   async componentDidMount() {
     const {setAuthenticated} = this.props;
-    // addNotification('Hola amigo a notification arrived')
     setAuthenticated(false); // TODO: Remove this line and fix auth blacklisting
     changeNavigationBarColor(appTheme.darkBackground);
     this.authSubscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
@@ -111,7 +110,7 @@ class App extends React.Component {
           showInfo(message);
           addNotification(
             message,
-            displayImage,
+            displayImage || defaultDP,
             notificationActionTypes.STREAM,
             sentDate,
             {
@@ -119,6 +118,26 @@ class App extends React.Component {
               meetingPassword
             }
           );
+        }
+      }
+        break;
+      case remoteMessageTypes.SESSION_STARTED: {
+        const {message, displayImage, meetingId, meetingPassword, sentDate, sessionType} = data;
+        showInfo(message);
+        this.props.syncSessions();
+        if (sessionType === subscriptionType.BATCH) {
+          addNotification(
+            message,
+            displayImage || defaultDP,
+            notificationActionTypes.STREAM, // Applicable here as joining a meeting has same flow
+            sentDate,
+            {
+              meetingId,
+              meetingPassword
+            }
+          );
+        } else {
+          //agora handling
         }
       }
         break;
@@ -284,7 +303,8 @@ const mapDispatchToProps = (dispatch) => ({
   updatePosts: (page) => dispatch(actionCreators.updatePosts(page)),
   updateLiveStreams: (page) => dispatch(actionCreators.updateLiveStreams(page)),
   addNotification: (text, displayImage, type, sentDate, extraData) =>
-    dispatch(actionCreators.addNotification(text, displayImage, type, sentDate, extraData))
+    dispatch(actionCreators.addNotification(text, displayImage, type, sentDate, extraData)),
+  syncSessions: () => dispatch(actionCreators.syncSessions()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

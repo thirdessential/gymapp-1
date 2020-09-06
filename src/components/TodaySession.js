@@ -4,7 +4,7 @@
 import React, {useEffect, useState} from 'react';
 import FastImage from 'react-native-fast-image'
 import PropTypes from 'prop-types';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
 import {spacing} from "../constants/dimension";
 import {
@@ -22,25 +22,32 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import {formatSeconds} from "../utils/utils";
 import Ion from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import strings from "../constants/strings";
+import strings, {subscribersBuilder} from "../constants/strings";
 
 class TodaySession extends React.Component {
   state = {
     countDown: '        ', //  8 spaces for initial layout,
+    startEnabled: false
   }
 
   componentDidMount() {
     const date = new Date(this.props.date);
     const now = new Date();
+    if (!this.props.trainer && this.props.status === sessionStatus.LIVE) {
+      this.setState({startEnabled: true});
+    }
     if ((date - now > 0)) {
       this.setState({countDown: formatSeconds((date - now) / 1000)});
       this.timer = setInterval(() => {
         const now = new Date();
         this.setState({countDown: formatSeconds((date - now) / 1000)});
-        if ((date - now) / 1000 < 5) {
+        const remainingSeconds = (date - now) / 1000;
+        if (remainingSeconds < 5) {
           clearInterval(this.timer);
           this.timer = null;
-          this.setState({countDown:'        '})
+          this.setState({countDown: '        '});
+        } else if (remainingSeconds < 600 && this.props.trainer) {
+          this.setState({startEnabled: true});
         }
       }, 1000);
     }
@@ -51,7 +58,7 @@ class TodaySession extends React.Component {
   }
 
   render() {
-    const joinEnabled = this.props.status === sessionStatus.LIVE;
+    const {startEnabled} = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.content}>
@@ -62,24 +69,37 @@ class TodaySession extends React.Component {
             name={'timer-outline'}
             size={14}/> {this.props.duration}
           </Text></Text>
+          {this.props.subscribers && this.props.type === subscriptionType.BATCH &&
+          <Text style={[styles.subtitle, {
+            color: bmiColors.red,
+            fontSize: fontSizes.h2
+          }]}>{subscribersBuilder(this.props.subscribers)}</Text>
+          }
           <View style={[styles.row, {marginTop: spacing.small}]}>
+
             {
-              this.timer && (
-                <>
-                  <Ion style={{marginRight: spacing.small_sm}} name={'timer-outline'} size={14}
+              this.props.loading && <ActivityIndicator size={24} color={appTheme.brightContent}/>
+            }
+            {
+              !this.props.loading &&
+              <TouchableOpacity
+                disabled={!startEnabled}
+                onPress={this.props.onJoin}
+                style={[styles.startButton, !startEnabled && {
+                  backgroundColor: appTheme.grey
+                }]}>
+                <Text style={styles.subHeading}>{this.props.trainer ? strings.START : strings.JOIN}</Text>
+              </TouchableOpacity>
+            }
+            {
+              this.timer && this.props.status === sessionStatus.LIVE && !this.props.loading && (
+                <View style={[styles.row, {marginLeft: spacing.medium_sm}]}>
+                  <Ion style={{marginRight: spacing.small_sm}} name={'timer-outline'} size={16}
                        color={bmiColors.blue}/>
                   <Text style={[styles.subtitle, {color: bmiColors.blue}]}>{this.state.countDown}</Text>
-                </>
+                </View>
               )
             }
-            <TouchableOpacity
-              disabled={!joinEnabled}
-              onPress={this.props.onJoin}
-              style={[styles.startButton, !joinEnabled && {
-                backgroundColor: appTheme.grey, marginLeft: 0
-              }]}>
-              <Text style={styles.subHeading}>{this.props.trainer ? strings.START : strings.JOIN}</Text>
-            </TouchableOpacity>
           </View>
         </View>
         <FastImage
@@ -130,7 +150,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: spacing.small_sm,
     paddingHorizontal: spacing.medium_sm,
-    marginLeft:'auto'
   },
   subHeading: {
     color: appTheme.greyC,
@@ -138,7 +157,6 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothicBold,
     textAlign: 'center'
   },
-
 });
 
 export default React.memo(TodaySession);

@@ -24,13 +24,14 @@ import {screenHeight, screenWidth} from "../utils/screenDimensions";
 import RouteNames from "../navigation/RouteNames";
 import {navigate} from "../navigation/RootNavigation";
 import {joinMeeting} from "../utils/zoomMeeting";
+import {showInfo} from "../utils/notification";
 
 class NotificationList extends PureComponent {
   renderNotification = ({item, index}) => {
 
     const {sentDate} = item;
     const date = new Date(sentDate);
-    console.log(date), sentDate;
+    // console.log(date), sentDate;
     const bgStyle = {backgroundColor: index % 2 ? appTheme.background : appTheme.darkGrey};
     return (
       <MenuOption
@@ -64,7 +65,8 @@ class NotificationList extends PureComponent {
         break;
       case notificationActionTypes.STREAM:
         if (data && !read) {
-          joinMeeting(data.meetingId, data.meetingPassword, this.props.userName)
+          showInfo(strings.JOINING)
+          joinMeeting(data.meetingId, data.meetingPassword, this.props.userName);
         }
         break;
       default:

@@ -5,8 +5,7 @@ let apiUrl = '';
 if (__DEV__) {
   console.log('Development Server');
   // apiUrl = 'https://fitness-first-services.herokuapp.com';
-   apiUrl = 'https://dbaf31e7c7fa.ngrok.io';
-//  apiUrl = 'http://192.168.31.125:3001';
+ apiUrl = 'http://192.168.31.125:3001';
 } else {
   console.log('Production Server');
   apiUrl = 'https://fitness-first-services.herokuapp.com';
@@ -84,6 +83,7 @@ export const remoteMessageTypes = {
   GENERIC_NOTIFICATION: 'GENERIC_NOTIFICATION',
   CALLBACK_REQ: 'CALLBACK_REQ',
   CALLBACK_ACCEPT: 'CALLBACK_ACCEPT',
+  SESSION_STARTED:'SESSION_STARTED',
 }
 
 export const INITIAL_PAGE = 'INITIAL_PAGE';
@@ -223,7 +223,7 @@ export const subscriptionType = {
 }
 export const subscriptionTypeNames = {
   SINGLE: 'Workout',
-  BATCH: 'Group Workout'
+  BATCH: 'Group Workout',
 }
 export const MS_IN_DAY = 86400000;// (1000 * 60 * 60 * 24)
 export const MAX_VIDEO_LENGTH = 120; // 2 minutes

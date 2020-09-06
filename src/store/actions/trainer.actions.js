@@ -368,3 +368,33 @@ export const scheduleStream = (streamData, instantLive = false) => {
     }
   };
 };
+
+export const startSession = (sessionId) => {
+  return async (dispatch) => {
+    try {
+      const {success, data, token} = await API.startSession(sessionId);
+      if (!success) {
+        throw new Error("session start failed");
+      }
+      return {data, token};
+    } catch (error) {
+      console.log("session start failed", error);
+      return false;
+    }
+  };
+};
+
+export const joinSession = (sessionId) => {
+  return async (dispatch) => {
+    try {
+      const {success, data} = await API.joinSession(sessionId);
+      if (!success) {
+        throw new Error("session join failed");
+      }
+      return {data};
+    } catch (error) {
+      console.log("session join failed", error);
+      return false;
+    }
+  };
+};

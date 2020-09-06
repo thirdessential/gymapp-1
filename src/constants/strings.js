@@ -7,6 +7,12 @@ export const subscribedSuccessBuilder = (trainerName, sessionCount) => `Successf
 export const appointmentSuccessBuilder = () => `Appointment Booked`;
 export const appointmentErrorBuilder = () => `Booking error, try again`;
 export const couponShareBuilder = (couponCode, discount, validTill) => `Hello, use my coupon ${couponCode} to avail ${discount}% on all my packages! Valid till ${validTill}`;
+export const subscribersBuilder = (count) => {
+  if (!count) return '';
+  else if (count === 1)
+    return `${count} Subscriber`;
+  else return `${count} Subscribers`;
+}
 const strings = {
   SLOTS: 'Slots',
   AVAILABLE_SLOTS: 'Available Slots',
@@ -268,6 +274,7 @@ const strings = {
   TODAY_WORKOUT: `Today's\nWorkout`,
   UPCOMING: 'Upcoming',
   JOIN: 'JOIN',
+  JOINING: 'Joining'
 };
 
 export const bmiVerdicts = {

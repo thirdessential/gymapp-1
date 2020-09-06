@@ -1,5 +1,5 @@
 import React from "react";
-import {StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {connect} from "react-redux";
 import Pdf from "react-native-pdf";
 
@@ -55,6 +55,7 @@ class Terms extends React.Component {
     )
   }
 
+
   render() {
     return (
       <View
@@ -67,6 +68,7 @@ class Terms extends React.Component {
             //   console.log(`Link pressed: ${uri}`)
             // }}
             fitPolicy={0}
+            activityIndicator={<ActivityIndicator size={30} color={appTheme.grey}/>}
             style={styles.pdf}/>
         )}
         {this.renderAccept()}

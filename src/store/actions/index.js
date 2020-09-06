@@ -43,7 +43,9 @@ export {
   callbackDone,
   rejectCallback,
   scheduleStream,
-  syncSessions
+  syncSessions,
+  startSession,
+  joinSession,
 } from './trainer.actions';
 
 export {

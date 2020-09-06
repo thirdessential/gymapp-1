@@ -410,11 +410,11 @@ const styles = StyleSheet.create({
   daysContainer: {
     flexDirection: "row",
     width: "100%",
-    margin: spacing.small,
+    marginTop: spacing.small,
     marginBottom: spacing.medium,
   },
   dayBox: {
-    padding: spacing.medium_sm - 2,
+    padding: spacing.small,
     backgroundColor: "white",
     borderWidth: 1,
     borderRadius: 6,

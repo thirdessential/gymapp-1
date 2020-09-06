@@ -42,7 +42,9 @@ export {
   callbackDone,
   getCallbacks,
   scheduleStream,
-  startStream
+  startStream,
+  startSession,
+  joinSession
 } from './trainer';
 
 export {
