@@ -104,7 +104,7 @@ class App extends React.Component {
         }
         break;
       case remoteMessageTypes.GENERIC_NOTIFICATION: {
-        const {hostId, message, displayImage, meetingId, meetingPassword, sentDate} = data;
+        const {hostId, message, displayImage, meetingNumber, meetingPassword, clientKey, clientSecret, sentDate} = data;
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         await updateLiveStreams(INITIAL_PAGE);
         if (hostId != userId) {
@@ -115,15 +115,18 @@ class App extends React.Component {
             notificationActionTypes.STREAM,
             sentDate,
             {
-              meetingId,
-              meetingPassword
+              meetingNumber,
+              meetingPassword,
+              clientKey,
+              clientSecret
             }
           );
         }
       }
         break;
       case remoteMessageTypes.SESSION_STARTED: {
-        const {message, displayImage, meetingId, meetingPassword, sentDate, sessionType, agoraAppId, sessionId, hostName} = data;
+        const {message, displayImage, clientKey, clientSecret, meetingNumber, meetingPassword, sentDate, sessionType, agoraAppId, sessionId, hostName} = data;
+
         showInfo(message);
         this.props.syncSessions();
         if (sessionType === subscriptionType.BATCH) {
@@ -133,22 +136,24 @@ class App extends React.Component {
             notificationActionTypes.STREAM, // Applicable here as joining a meeting has same flow
             sentDate,
             {
-              meetingId,
-              meetingPassword
+              meetingNumber,
+              meetingPassword,
+              clientKey,
+              clientSecret
             }
           );
         } else {
           //agora handling
           addNotification(
             message,
-            displayImage||defaultDP,
+            displayImage || defaultDP,
             notificationActionTypes.AGORA_SESSION,
             sentDate,
             {
               agoraAppId,
               sessionId,
               displayImage,
-              displayName:hostName
+              displayName: hostName
             }
           )
         }

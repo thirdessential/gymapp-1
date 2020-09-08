@@ -5,7 +5,7 @@ let apiUrl = '';
 if (__DEV__) {
   console.log('Development Server');
   // apiUrl = 'https://fitness-first-services.herokuapp.com';
- apiUrl = 'http://192.168.31.125:3001';
+  apiUrl = 'http://192.168.31.125:3001';
 } else {
   console.log('Production Server');
   apiUrl = 'https://fitness-first-services.herokuapp.com';
@@ -83,7 +83,7 @@ export const remoteMessageTypes = {
   GENERIC_NOTIFICATION: 'GENERIC_NOTIFICATION',
   CALLBACK_REQ: 'CALLBACK_REQ',
   CALLBACK_ACCEPT: 'CALLBACK_ACCEPT',
-  SESSION_STARTED:'SESSION_STARTED',
+  SESSION_STARTED: 'SESSION_STARTED',
 }
 
 export const INITIAL_PAGE = 'INITIAL_PAGE';
@@ -171,9 +171,10 @@ export const equipmentTypes = {
 }
 
 export const zoomConfig = {
-  key: 'hKodHeKdo7c0g7Qh4Dx5MnQMp6j19tc1WGbs',
-  secret: 'Pxu4Jq7BjGG50kXxoDizV1FkAcLxdwTmDtPq',
-  userId: 'oggybuddy10@gmail.com',
+  // config stored in backend
+  // key: 'hKodHeKdo7c0g7Qh4Dx5MnQMp6j19tc1WGbs',
+  // secret: 'Pxu4Jq7BjGG50kXxoDizV1FkAcLxdwTmDtPq',
+  // userId: 'oggybuddy10@gmail.com',
   domain: 'zoom.us'
 }
 
@@ -201,7 +202,7 @@ export const notificationActionTypes = {
   STREAM: 'STREAM',
   CALL_REQUEST: 'CALL_REQUEST',
   CALL_ACCEPT: 'CALL_ACCEPT',
-  AGORA_SESSION:'AGORA_SESSION'
+  AGORA_SESSION: 'AGORA_SESSION'
 };
 
 export const foodTypes = {

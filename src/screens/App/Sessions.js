@@ -58,9 +58,10 @@ class Sessions extends Component {
   onJoin = async (sessionId, type) => {
     this.setState({joinLoading: sessionId});
     const {data} = await this.props.joinSession(sessionId);
+    const {clientKey, clientSecret, meetingNumber, meetingPassword} = data;
     switch (type) {
       case subscriptionType.BATCH: {
-        await joinMeeting(data.id, data.password, this.props.userName);
+        await joinMeeting(meetingNumber, meetingPassword, this.props.userName, clientKey, clientSecret);
       }
         break;
       case subscriptionType.SINGLE: {
@@ -88,7 +89,8 @@ class Sessions extends Component {
     const {data, token} = await this.props.startSession(sessionId);
     switch (type) {
       case subscriptionType.BATCH: {
-        await hostMeeting(data.id, token, this.props.userName);
+        const {clientKey, clientSecret, meetingNumber} = data;
+        await hostMeeting(meetingNumber, token, this.props.userName, clientKey, clientSecret);
       }
         break;
       case subscriptionType.SINGLE: {

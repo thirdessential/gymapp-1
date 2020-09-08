@@ -106,7 +106,7 @@ class LiveScheduler extends PureComponent {
         const res = await startStream(stream._id);
         if (res.success) {
           this.setState({streamStarted: true});
-          await hostMeeting(stream.meetingId, res.token, this.props.userName);
+          await hostMeeting(stream.meetingNumber, res.token, this.props.userName, stream.clientKey, stream.clientSecret);
           this.props.navigation.goBack();
           await this.props.updateLiveStreams();
           await this.props.updateMyLiveStreams();

@@ -58,15 +58,15 @@ class NotificationList extends PureComponent {
 
   handleAction = (item) => {
     const {id, read, data, type} = item;
-    console.log(item);
+    // console.log(item);
     switch (type) {
       case notificationActionTypes.CALL_REQUEST:
         navigate(RouteNames.CallRequests);
         break;
       case notificationActionTypes.STREAM:
         if (data && !read) {
-          showInfo(strings.JOINING)
-          joinMeeting(data.meetingId, data.meetingPassword, this.props.userName);
+          showInfo(strings.JOINING);
+          joinMeeting(data.meetingNumber, data.meetingPassword, this.props.userName, data.clientKey, data.clientSecret);
         }
         break;
       default:
@@ -86,7 +86,7 @@ class NotificationList extends PureComponent {
   renderMarkRead = () => {
     const {notifications} = this.props;
     const unreadCount = this.getUnreadCount();
-    if (notifications.length ===0) return null;
+    if (notifications.length === 0) return null;
     return (
       <View>
         {this.separator()}
@@ -141,11 +141,13 @@ class NotificationList extends PureComponent {
     return (
       <Menu
         style={styles.rightMargin}
-        rendererProps={{ placement: 'bottom', anchorStyle:{
-          backgroundColor:appTheme.darkGrey
-          } }}
+        rendererProps={{
+          placement: 'bottom', anchorStyle: {
+            backgroundColor: appTheme.darkGrey
+          }
+        }}
         renderer={renderers.Popover}
-        anchorStyle={{height:100}}
+        anchorStyle={{height: 100}}
         ref={ref_ => this.menu = ref_}>
         <MenuTrigger>
           <Feather
@@ -188,7 +190,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: spacing.medium_sm,
   },
-  rightMargin:{
+  rightMargin: {
     marginRight: spacing.medium_sm
   },
   darkBackground: {
@@ -215,7 +217,7 @@ const styles = StyleSheet.create({
     color: appTheme.brightContent,
     fontFamily: fonts.CenturyGothic,
     fontSize: fontSizes.h4,
-    alignSelf:'center'
+    alignSelf: 'center'
   },
   bellIcon: {
     justifyContent: "center",
