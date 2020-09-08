@@ -281,3 +281,16 @@ export const joinSession = async (sessionId) => {
     return false;
   }
 }
+
+export const endAgoraSession = async (sessionId) => {
+  try {
+    let response = await axios.post(`/session/${sessionId}/endAgora`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

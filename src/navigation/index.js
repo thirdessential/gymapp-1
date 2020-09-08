@@ -124,6 +124,12 @@ class App extends React.Component {
         }
       }
         break;
+
+      case remoteMessageTypes.SYNC_SESSIONS:{
+        console.log("Silently updating session data");
+        this.props.syncSessions();
+      }
+      break;
       case remoteMessageTypes.SESSION_STARTED: {
         const {message, displayImage, clientKey, clientSecret, meetingNumber, meetingPassword, sentDate, sessionType, agoraAppId, sessionId, hostName} = data;
 

@@ -44,7 +44,8 @@ export {
   scheduleStream,
   startStream,
   startSession,
-  joinSession
+  joinSession,
+  endAgoraSession,
 } from './trainer';
 
 export {
