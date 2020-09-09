@@ -355,7 +355,7 @@ class BMI extends PureComponent {
                  placeholderTextColor={appTheme.brightContent}
                  value={this.state.newWeight.toString()} onChangeText={this.setWeight}
       />
-      <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: spacing.medium_sm}}>
+      <View style={styles.inputContainer}>
         {!this.state.submitting &&
         <TouchableOpacity onPress={this.closeRbSheet} activeOpacity={0.7}
                           style={[styles.blueButton, {backgroundColor: bmiColors.red, marginRight: spacing.large}]}>
@@ -380,7 +380,7 @@ class BMI extends PureComponent {
                  value={this.state.targetDate} onChangeText={this.setTargetDate}
       />
 
-      <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: spacing.medium_sm}}>
+      <View style={styles.inputContainer}>
         {!this.state.submitting &&
         <TouchableOpacity onPress={this.closeRbSheet} activeOpacity={0.7}
                           style={[styles.blueButton, {backgroundColor: bmiColors.red, marginRight: spacing.large}]}>
@@ -486,6 +486,11 @@ const styles = StyleSheet.create({
     color: appTheme.brightContent,
     fontFamily: fonts.CenturyGothicBold,
     fontSize: fontSizes.h3
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: spacing.medium_sm
   },
   menu: {
     backgroundColor: appTheme.darkBackground,

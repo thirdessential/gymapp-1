@@ -1,8 +1,8 @@
 import { fitnessState as initialState } from "./initialState";
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../utils/utils";
-import { getTodayFormattedDate } from "../../utils/utils";
-const todaysDate = getTodayFormattedDate();
+import { getFormattedDate } from "../../utils/utils";
+const today = getFormattedDate();
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SET_BMI_RECORDS:
@@ -17,15 +17,15 @@ const reducer = (state = initialState, action) => {
       const oldCalorieData = { ...state.calorieData };
       const { calorieData } = action.payload;
       if (oldCalorieData) {
-        if (oldCalorieData[todaysDate]) {
-          oldCalorieData[todaysDate] = oldCalorieData[todaysDate].concat(
+        if (oldCalorieData[today]) {
+          oldCalorieData[today] = oldCalorieData[today].concat(
             calorieData
           );
         } else {
-          oldCalorieData[todaysDate] = calorieData;
+          oldCalorieData[today] = calorieData;
         }
       } else {
-        oldCalorieData[todaysDate] = calorieData;
+        oldCalorieData[today] = calorieData;
       }
 
       return updateObject(state, { calorieData: oldCalorieData });
@@ -35,7 +35,7 @@ const reducer = (state = initialState, action) => {
 
       const oldWaterIntake = { ...state.waterIntake };
 
-      oldWaterIntake[todaysDate] = waterIntake;
+      oldWaterIntake[today] = waterIntake;
 
       return updateObject(state, { waterIntake: oldWaterIntake });
     default:

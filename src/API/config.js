@@ -5,7 +5,7 @@ import {rootURL} from '../constants/appConstants';
 const instance = axios.create({
   baseURL: rootURL
 });
-const isDebuggingEnabled = (typeof atob !== 'undefined');
+const isDebuggingEnabled =false// (typeof atob !== 'undefined');
 
 instance.interceptors.request.use(function (config) {
 

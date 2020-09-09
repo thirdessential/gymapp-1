@@ -1,25 +1,40 @@
 import React, {PureComponent} from "react";
-import {StyleSheet, Text, View, FlatList, ScrollView, TouchableOpacity} from "react-native";
+import {StyleSheet, Text, View, FlatList, ScrollView, TouchableOpacity, LayoutAnimation} from "react-native";
 import {connect} from "react-redux";
 
 import {spacing} from "../../constants/dimension";
-import {appTheme, darkPallet} from "../../constants/colors";
+import {appTheme} from "../../constants/colors";
 import {streamStatus, userTypes} from "../../constants/appConstants";
 import * as actionCreators from "../../store/actions";
 import TodaySessionSwiper from "../../components/TodaySessionSwiper";
-import {datesAreOnSameDay} from "../../utils/utils";
+import {datesAreOnSameDay, getFormattedDate, getPastWeekDates} from "../../utils/utils";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
 import RouteNames from "../../navigation/RouteNames";
 import StreamSwiper from "../../components/Social/StreamSwiper";
 import {joinMeeting} from "../../utils/zoomMeeting";
-import StreamList from "../../components/Social/StreamList";
+import FitnessSummary from "../../components/fitness/FitnessSummary";
+import {Menu, MenuOption, MenuOptions, MenuTrigger, renderers} from "react-native-popup-menu";
+import {string} from "prop-types";
+
 
 class Activity extends PureComponent {
   state = {
     todaySessions: null,
-    upcomingStreams: null
+    upcomingStreams: null,
+    currentStats: null,
+    weeklyStats: null,
+    currentSwitch: true
+  }
+
+  setToday = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    this.setState({currentSwitch: true})
+  }
+  setWeekly = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    this.setState({currentSwitch: false})
   }
 
   componentDidMount() {
@@ -29,15 +44,24 @@ class Activity extends PureComponent {
       getCallbacks,
       userType,
       syncSubscriptions,
-      syncSessions
+      syncSessions,
+      navigation
     } = this.props;
     updateUserData();
     syncCoupons();
     syncSubscriptions();
     syncSessions();
+    userType === userTypes.TRAINER && getCallbacks();
     this.updateLocalSessionData();
     this.updateLocalStreamData()
-    userType === userTypes.TRAINER && getCallbacks();
+    this.updateLocalStatsData();
+    this.unsubscribeFocus = navigation.addListener('focus', e => {
+      this.updateLocalStatsData();
+    })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeFocus();
   }
 
   updateLocalSessionData = () => {
@@ -51,6 +75,64 @@ class Activity extends PureComponent {
     const {liveStreams} = this.props;
     const upcomingStreams = liveStreams.filter(stream => stream.status === streamStatus.SCHEDULED);
     this.setState({upcomingStreams});
+  }
+  reduceDayCalories = data => {
+    let proteins = 0, carbs = 0, fats = 0;
+    if (data)
+      data.map(
+        item => {
+          proteins += item.proteins;
+          carbs += item.carbs;
+          fats += item.fats;
+        }
+      );
+    return {proteins, carbs, fats};
+  }
+  updateLocalStatsData = () => {
+    const today = getFormattedDate();
+    const {calorieData, waterIntake} = this.props;
+    if (!calorieData) return;
+    const currentCalorie = calorieData[today];
+    const currentWater = waterIntake[today] || 0;
+
+    const currentStats = {
+      ...this.reduceDayCalories(currentCalorie),
+      water: currentWater
+    }
+    const pastWeek = getPastWeekDates();
+    let weeklyStats = {
+      proteins: 0,
+      fats: 0,
+      carbs: 0,
+      water: 0
+    };
+    let calorieDivider = 0, waterDivider = 0;
+    pastWeek.map(date => {
+      const formattedDate = getFormattedDate(date);
+      const datedCalorieData = calorieData[formattedDate];
+      if (datedCalorieData) {
+        calorieDivider++;
+        console.log(datedCalorieData, '1')
+        const {proteins, carbs, fats} = this.reduceDayCalories(datedCalorieData);
+        weeklyStats.proteins += proteins;
+        weeklyStats.carbs += carbs;
+        weeklyStats.fats += fats;
+      }
+      const waterData = waterIntake[formattedDate];
+      if (waterData) {
+        waterDivider++;
+        weeklyStats.water += waterData;
+      }
+    });
+    if (calorieDivider) {
+      weeklyStats.proteins /= calorieDivider;
+      weeklyStats.carbs /= calorieDivider;
+      weeklyStats.fats /= calorieDivider;
+    }
+    if (waterDivider)
+      weeklyStats.water /= waterDivider;
+
+    this.setState({weeklyStats, currentStats});
   }
   openSessions = () => {
     this.props.navigation.navigate(RouteNames.Sessions);
@@ -84,6 +166,42 @@ class Activity extends PureComponent {
     )
   }
 
+  renderHealthStats = () => {
+    const {currentStats, currentSwitch, weeklyStats} = this.state;
+    return (
+      <View style={[styles.sessionContainer, styles.card]}>
+        <View style={styles.row}>
+          <Text style={styles.subtitle}>{strings.HEALTH_SUMMARY}</Text>
+          <Menu
+            style={styles.menuContainer}
+            rendererProps={{
+              placement: 'bottom', anchorStyle: {
+                backgroundColor: appTheme.darkGrey,
+                marginTop: spacing.medium_sm
+              }
+            }}
+            renderer={renderers.Popover}
+          >
+            <MenuTrigger customStyles={{padding: spacing.small_lg}}>
+              <Text style={styles.menuTitle}>{currentSwitch ? strings.TODAY : strings.LAST_WEEK}</Text>
+            </MenuTrigger>
+            <MenuOptions customStyles={styles.menu}>
+              <MenuOption style={styles.menuButton} onSelect={this.setToday}>
+                <Text style={styles.menuText}>{strings.TODAY}</Text>
+              </MenuOption>
+              <MenuOption style={styles.menuButton} onSelect={this.setWeekly}>
+                <Text style={styles.menuText}>{strings.LAST_WEEK}</Text>
+              </MenuOption>
+            </MenuOptions>
+          </Menu>
+        </View>
+        <FitnessSummary
+          stats={currentSwitch ? currentStats : weeklyStats}
+        />
+      </View>
+    )
+  }
+
   render() {
     return (
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
@@ -95,6 +213,7 @@ class Activity extends PureComponent {
           <Text style={styles.subtitle}>{strings.SESSIONS}</Text>
           {this.renderTodaySessions()}
         </View>
+        {this.renderHealthStats()}
       </ScrollView>
     );
   }
@@ -107,7 +226,11 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.background,
   },
   sessionContainer: {
-    paddingHorizontal: spacing.medium
+    marginHorizontal: spacing.medium
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   subtitle: {
     color: appTheme.greyC,
@@ -115,6 +238,40 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothicBold,
     marginBottom: spacing.small_lg,
     marginLeft: 2
+  },
+  menuContainer: {
+    borderColor: appTheme.grey,
+    borderWidth: 1,
+    borderRadius: 8,
+    justifyContent: 'center',
+    padding: spacing.medium_sm
+  },
+  menuTitle: {
+    color: appTheme.brightContent,
+    fontFamily: fonts.CenturyGothicBold,
+    fontSize: fontSizes.h3
+  },
+  menu: {
+    backgroundColor: appTheme.background,
+  },
+  menuButton: {
+    flexDirection: 'row',
+    backgroundColor: appTheme.background,
+    alignItems: 'center',
+    padding: spacing.small_lg,
+    paddingHorizontal: spacing.medium_sm
+  },
+  menuText: {
+    color: appTheme.brightContent,
+    fontFamily: fonts.CenturyGothic,
+    fontSize: fontSizes.h3,
+    textAlign: 'center'
+  },
+  card: {
+    backgroundColor: appTheme.darkBackground,
+    borderRadius: 12,
+    padding: spacing.medium_sm,
+    marginBottom: spacing.large_lg
   }
 });
 
@@ -124,7 +281,9 @@ const mapStateToProps = (state) => ({
   userType: state.user.userType,
   sessions: state.trainer.sessions,
   liveStreams: state.social.liveStreams,
-  userName: state.user.userData.name
+  userName: state.user.userData.name,
+  calorieData: state.fitness.calorieData,
+  waterIntake: state.fitness.waterIntake,
 });
 
 const mapDispatchToProps = (dispatch) => ({

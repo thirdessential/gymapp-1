@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, {PureComponent} from "react";
 import {
   ActivityIndicator,
   LayoutAnimation,
@@ -9,25 +9,23 @@ import {
   View,
   Keyboard,
 } from "react-native";
-import { connect } from "react-redux";
-import { spacing } from "../../constants/dimension";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
-TimeAgo.addLocale(en);
-const timeAgo = new TimeAgo("en-US");
-import colors, { appTheme } from "../../constants/colors";
+import {connect} from "react-redux";
+import {spacing} from "../../constants/dimension";
+
+import colors, {appTheme} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import strings from "../../constants/strings";
 import * as actionCreators from "../../store/actions";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { showError, showSuccess } from "../../utils/notification";
-import { getTodayFormattedDate } from "../../utils/utils";
+import {showError, showSuccess} from "../../utils/notification";
+import {getFormattedDate} from "../../utils/utils";
 import * as API from "../../API";
 import cuid from "cuid";
-const todaysDate = getTodayFormattedDate();
+
+const currentDate = getFormattedDate();
 
 class Calorie1 extends PureComponent {
   state = {
@@ -35,39 +33,40 @@ class Calorie1 extends PureComponent {
     type: "",//type tp hold breakfast ;unch or dinner
     load: false,//loading indicator
     foods: [],//to hold object of food with fats proteins tec
-    fabLoading:false,//loading icon
-    recommendationText:false,//if we get recoomendation from backend then show this text
+    fabLoading: false,//loading icon
+    recommendationText: false,//if we get recoomendation from backend then show this text
   };
- async componentDidMount() {
+
+  async componentDidMount() {
     const type = this.props.route.params.type;//type i.e Breakfast lunh dinner snacks
-    const recommendedFoods=this.props.route.params.recommendedFoods;//we get this from parent as navigation props
-    console.log(recommendedFoods);
-    if(recommendedFoods.length>0){
-      this.setState({foods: recommendedFoods,recommendationText:true});
-      
+    const recommendedFoods = this.props.route.params.recommendedFoods;//we get this from parent as navigation props
+    // console.log(recommendedFoods);
+    if (recommendedFoods.length > 0) {
+      this.setState({foods: recommendedFoods, recommendationText: true});
+
     }
-    await this.setState({ type });//type   i.e Breakfast lunh dinner snacks for current food ITems
-   
+    await this.setState({type});//type   i.e Breakfast lunh dinner snacks for current food ITems
+
   }
 
 
   addFoodData = async () => {//send to redux and databse
     //to send to database
-   // console.log("Addfooddate");
-   this.setState({fabLoading:true});
-    let result = await API.updateMealIntake(todaysDate, this.state.foods);
+    // console.log("Addfooddate");
+    this.setState({fabLoading: true});
+    let result = await API.updateMealIntake(currentDate, this.state.foods);
 
-    console.log(result);
+    // console.log(result);
 
     //to save in redux
     let response = await this.props.addCalorieData(this.state.foods);
-    console.log(response);
+    // console.log(response);
     showSuccess("Items added successfully");
 
-   this.setState({fabLoading: false});
-    
+    this.setState({fabLoading: false});
+
     this.props.navigation.goBack();
-    this.setState({ foods: [] ,recommendationText:false});
+    this.setState({foods: [], recommendationText: false});
   };
   getCalories = async () => {
     if (this.state.food === "") {
@@ -75,7 +74,7 @@ class Calorie1 extends PureComponent {
       return null;
     }
     Keyboard.dismiss();
-    this.setState({ load: !this.state.load });
+    this.setState({load: !this.state.load});
     let result = await API.searchFood(this.state.food);
 
     if (result)
@@ -98,35 +97,35 @@ class Calorie1 extends PureComponent {
         };
         const foods = [...this.state.foods];
         foods.push(newFoodItem);
-        await this.setState({ foods, food: "" });
+        await this.setState({foods, food: ""});
       } else {
         showError("Food with this name does not exist.");
-        await this.setState({ food: "", load: false });
+        await this.setState({food: "", load: false});
       }
     else {
       showError("Food with this name does not exist.");
-      await this.setState({ food: "", load: false });
+      await this.setState({food: "", load: false});
     }
 
-    this.setState({ load: false });
+    this.setState({load: false});
   };
   fab = () => {
     if (this.state.foods.length === 0) return null;
     return (
-     
+
       <TouchableOpacity
         style={[styles.fab, styles.fabPosition]}
         onPress={() => {
           this.addFoodData();
         }}
-      > 
-          {this.state.fabLoading ? (
-            <ActivityIndicator size={28} color={'white'}/>
-          ):(
-        
-        <FontAwesome name={"check"} color={"white"} size={28} />
+      >
+        {this.state.fabLoading ? (
+          <ActivityIndicator size={28} color={'white'}/>
+        ) : (
+
+          <FontAwesome name={"check"} color={"white"} size={28}/>
         )
-          }
+        }
       </TouchableOpacity>
     );
   };
@@ -134,19 +133,19 @@ class Calorie1 extends PureComponent {
   deleteItem = (foodId) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const filteredFoods = this.state.foods.filter((food) => food.id !== foodId);
-    this.setState({ foods: filteredFoods });
+    this.setState({foods: filteredFoods});
   };
 
   getFood = (foodId) => {
     const filteredFoods = this.state.foods.filter((food) => food.id == foodId);
     if (filteredFoods.length == 0) return null;
-    return { ...filteredFoods[0] };
+    return {...filteredFoods[0]};
   };
   updateFood = (foodId, updatedFood) => {
     let foods = this.state.foods.map((food) =>
       food.id === foodId ? updatedFood : food
     );
-    this.setState({ foods });
+    this.setState({foods});
   };
   decreaseQuantity = (foodId) => {
     const food = this.getFood(foodId);
@@ -174,22 +173,17 @@ class Calorie1 extends PureComponent {
       <View style={styles.container}>
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
-          style={{ flex: 1 }}
+          style={{flex: 1}}
         >
           <View style={styles.searchSection}>
             <TextInput
               style={styles.input}
               placeholder="Enter food name"
               autoCapitalize="words"
-
-              
-   onSubmitEditing={() => {
-                  this.getCalories();
-                }}
-
+              onSubmitEditing={this.getCalories}
 
               onChangeText={(foodname) => {
-                this.setState({ food:foodname.replace(/\s+/g, ' ').trimStart() });
+                this.setState({food: foodname.replace(/\s+/g, ' ').trimStart()});
               }}
               placeholderTextColor={appTheme.darkBackground}
               value={this.state.food}
@@ -198,7 +192,7 @@ class Calorie1 extends PureComponent {
               <ActivityIndicator
                 size="small"
                 color="#0000ff"
-                style={{ marginRight: spacing.small }}
+                style={{marginRight: spacing.small}}
               />
             ) : (
               <TouchableOpacity
@@ -217,7 +211,8 @@ class Calorie1 extends PureComponent {
           </View>
 
           <View style={styles.listView}>
-          {this.state.recommendationText && <Text style={styles.recommendationText}>Recommended on your diet routine.</Text>}
+            {this.state.recommendationText &&
+            <Text style={styles.recommendationText}>Recommended on your diet routine.</Text>}
             {this.state.foods.map((food, index) => (
               <View key={cuid().toString()} style={styles.eachCardOuter}>
                 <View style={styles.eachCard}>
@@ -227,7 +222,7 @@ class Calorie1 extends PureComponent {
                       onPress={() => {
                         this.deleteItem(food.id);
                       }}
-                      hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+                      hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
                     >
                       <FontAwesome
                         name={"trash"}
@@ -245,7 +240,7 @@ class Calorie1 extends PureComponent {
                         this.decreaseQuantity(food.id);
                       }}
                     >
-                      <FontAwesome5Icon name="minus" size={20} color="white" />
+                      <FontAwesome5Icon name="minus" size={20} color="white"/>
                     </TouchableOpacity>
                     <Text style={styles.quantityAndTotal}>
                       {food.quantity} grams
@@ -256,7 +251,7 @@ class Calorie1 extends PureComponent {
                         this.increaseQuantity(food.id);
                       }}
                     >
-                      <FontAwesome5Icon name="plus" size={20} color="white" />
+                      <FontAwesome5Icon name="plus" size={20} color="white"/>
                     </TouchableOpacity>
                   </View>
                   <View style={styles.categoryView}>
@@ -268,7 +263,7 @@ class Calorie1 extends PureComponent {
                   </View>
                   <View style={styles.categoryView}>
                     <View>
-                      <Text style={[styles.categoryText, { color: "#c1ff00" }]}>
+                      <Text style={[styles.categoryText, {color: "#c1ff00"}]}>
                         {strings.PROTEIN}
                       </Text>
 
@@ -277,7 +272,7 @@ class Calorie1 extends PureComponent {
                       </Text>
                     </View>
                     <View>
-                      <Text style={[styles.categoryText, { color: "#ef135f" }]}>
+                      <Text style={[styles.categoryText, {color: "#ef135f"}]}>
                         {strings.CARBS}
                       </Text>
 
@@ -286,7 +281,7 @@ class Calorie1 extends PureComponent {
                       </Text>
                     </View>
                     <View>
-                      <Text style={[styles.categoryText, { color: "#54f0f7" }]}>
+                      <Text style={[styles.categoryText, {color: "#54f0f7"}]}>
                         {strings.FATS}
                       </Text>
 
@@ -300,9 +295,10 @@ class Calorie1 extends PureComponent {
             ))}
           </View>
         </KeyboardAwareScrollView>
-        <this.fab />
+        <this.fab/>
       </View>
-    );
+    )
+      ;
   }
 }
 
@@ -352,7 +348,13 @@ const styles = StyleSheet.create({
     marginLeft: spacing.medium,
     marginRight: spacing.medium,
   },
-  recommendationText:{color:appTheme.greyC,fontFamily:fonts.CenturyGothic,fontSize:fontSizes.h2,marginBottom:spacing.medium_sm,marginLeft:spacing.small},
+  recommendationText: {
+    color: appTheme.greyC,
+    fontFamily: fonts.CenturyGothic,
+    fontSize: fontSizes.h2,
+    marginBottom: spacing.medium_sm,
+    marginLeft: spacing.small
+  },
   eachCardOuter: {
     backgroundColor: appTheme.darkBackground,
     marginBottom: spacing.medium_lg,
@@ -387,8 +389,8 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MontserratMedium,
     marginRight: spacing.medium_lg,
   },
-  minus: { marginLeft: spacing.medium_lg, justifyContent: "center" },
-  plus: { justifyContent: "center" },
+  minus: {marginLeft: spacing.medium_lg, justifyContent: "center"},
+  plus: {justifyContent: "center"},
   quantityAndTotal: {
     fontSize: 16,
     fontFamily: fonts.CenturyGothic,

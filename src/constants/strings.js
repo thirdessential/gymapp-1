@@ -232,7 +232,7 @@ const strings = {
   MY_LIVE_STREAMS: 'My Live Streams',
   RECIPE: "Recipe",
   WATER: 'Water',
-  CALORIECOUNTER: 'Calorie Counter',
+  CALORIE_COUNTER: 'Calorie Counter',
   BREAKFAST: 'BREAKFAST',
   LUNCH: 'LUNCH',
   SNACKS: 'SNACKS',
@@ -240,6 +240,7 @@ const strings = {
   CALORIE_INTAKE_TEXT: 'Calorie Intake',
   TARGET_TEXT: 'Target',
   PROTEIN: 'Protein',
+  PROTEINS: 'Proteins',
   CARBS: 'Carbs',
   FATS: 'Fats',
   NO_NOTIFICATIONS: 'No notifications',
@@ -260,7 +261,7 @@ const strings = {
   HIDE: 'Hide',
   ACTIVE: 'Active',
   DISABLED: 'Disabled',
-  ADDBMI: 'Hi! Add your BMI to continue.',
+  ADD_BMI_CONTINUE: 'Hi! Add your BMI to continue.',
   ADD_BMI: 'Add BMI',
   CERTIFICATIONS: 'Certifications',
   PRIVACY_POLICY: 'Privacy Policy',
@@ -276,7 +277,10 @@ const strings = {
   JOIN: 'JOIN',
   JOINING: 'Joining',
   OPEN:'OPEN',
-  UPCOMING_STREAMS: 'Upcoming Live Streams'
+  UPCOMING_STREAMS: 'Upcoming Live Streams',
+  HEALTH_SUMMARY: 'Health Summary',
+  TODAY: 'Today',
+  LAST_WEEK:'Last Week'
 };
 
 export const bmiVerdicts = {

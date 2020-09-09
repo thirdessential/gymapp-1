@@ -239,23 +239,34 @@ export const getCompressedLink = (url, height = 400, width = 400) => {
   return split[0] + `upload/w_${width},h_${height}` + split[1];
 };
 
-export const getTodayFormattedDate = () => {
-  var today = new Date();
-  var dd = today.getDate();
-
-  var mm = today.getMonth() + 1;
-  var yyyy = today.getFullYear();
+export const getFormattedDate = (date = new Date()) => {
+  date = new Date(date);
+  var dd = date.getDate();
+  var mm = date.getMonth() + 1;
+  var yyyy = date.getFullYear();
   if (dd < 10) {
     dd = "0" + dd;
   }
-
   if (mm < 10) {
     mm = "0" + mm;
   }
-  today = dd + "-" + mm + "-" + yyyy;
-
-  return today;
+  date = dd + "-" + mm + "-" + yyyy;
+  return date;
 };
+
+const getDaysArray = function (s, e) {
+  for (var a = [], d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
+    a.push(new Date(d));
+  }
+  return a;
+};
+
+export const getPastWeekDates = () => {
+  const now = new Date();
+  const weekAgo = new Date();
+  weekAgo.setDate(weekAgo.getDate() - 7);
+  return getDaysArray(weekAgo, now);
+}
 
 export const getImageFromCloudinaryPdf = (url) => {
   return url.split("pdf")[0] + "jpg";

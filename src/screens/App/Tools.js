@@ -104,7 +104,7 @@ class Tools extends PureComponent {
         enabled: true
       },
       {
-        title: strings.CALORIECOUNTER,
+        title: strings.CALORIE_COUNTER,
         image: iconBackgrounds.subscriptions,
         callback: this.openCalorie,
         enabled: true

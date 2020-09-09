@@ -1,27 +1,30 @@
-import React, { PureComponent } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, {PureComponent} from "react";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+
 var _ = require("lodash");
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import cuid from "cuid";
 import PropTypes from "prop-types";
 import * as Progress from "react-native-progress";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { spacing } from "../../constants/dimension";
-import { appTheme, darkPallet } from "../../constants/colors";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {spacing} from "../../constants/dimension";
+import {appTheme, darkPallet} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import { screenWidth, screenHeight } from "../../utils/screenDimensions";
+import {screenWidth} from "../../utils/screenDimensions";
 import strings from "../../constants/strings";
 import RouteNames from "../../navigation/RouteNames";
-import { getTodayFormattedDate } from "../../utils/utils";
-import { foodTypes } from "../../constants/appConstants";
+import {getFormattedDate} from "../../utils/utils";
+import {foodTypes} from "../../constants/appConstants";
 import * as actionCreators from "../../store/actions";
 import * as API from "../../API";
-import { copilot, walkthroughable, CopilotStep } from "react-native-copilot";
-const todaysDate = getTodayFormattedDate();
+import {copilot, walkthroughable, CopilotStep} from "react-native-copilot";
+
+const currentDate = getFormattedDate();
 const WalkthroughableText = walkthroughable(Text);
 
 const WalkthroughableView = walkthroughable(View);
+
 class CalorieCounter extends PureComponent {
   static propTypes = {
     start: PropTypes.func.isRequired,
@@ -60,7 +63,7 @@ class CalorieCounter extends PureComponent {
 
   async componentDidMount() {
     //to show copilot walkthrough
-    const { copilotScreens, updateScreenCopilots } = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
+    const {copilotScreens, updateScreenCopilots} = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
     if (!!!copilotScreens[RouteNames.CalorieCounter]) {
       this.props.start();
     }
@@ -111,14 +114,14 @@ class CalorieCounter extends PureComponent {
       //if that particular type has length greater than 0
       if (
         result[foodTypes.BREAKFAST] &&
-        result[foodTypes.BREAKFAST].length > 0 
+        result[foodTypes.BREAKFAST].length > 0
       ) {
         const breakfastRecommend = this.recommendHelper(
           result[foodTypes.BREAKFAST],
           foodTypes.BREAKFAST
         );
 
-        this.setState({ breakfastRecommend: breakfastRecommend.slice(0, 3) });
+        this.setState({breakfastRecommend: breakfastRecommend.slice(0, 3)});
       }
       if (result[foodTypes.LUNCH] && result[foodTypes.LUNCH].length > 0) {
         const lunchRecommend = this.recommendHelper(
@@ -126,7 +129,7 @@ class CalorieCounter extends PureComponent {
           foodTypes.LUNCH
         );
 
-        this.setState({ lunchRecommend: lunchRecommend.slice(0, 3) });
+        this.setState({lunchRecommend: lunchRecommend.slice(0, 3)});
       }
       if (result[foodTypes.SNACKS] && result[foodTypes.SNACKS].length > 0) {
         const snacksRecommend = this.recommendHelper(
@@ -134,7 +137,7 @@ class CalorieCounter extends PureComponent {
           foodTypes.SNACKS
         );
 
-        this.setState({ snacksRecommend: snacksRecommend.slice(0, 3) });
+        this.setState({snacksRecommend: snacksRecommend.slice(0, 3)});
       }
       if (result[foodTypes.DINNER] && result[foodTypes.DINNER].length > 0) {
         const dinnerRecommend = this.recommendHelper(
@@ -142,19 +145,20 @@ class CalorieCounter extends PureComponent {
           foodTypes.DINNER
         );
 
-        this.setState({ dinnerRecommend: dinnerRecommend.slice(0, 3) });
+        this.setState({dinnerRecommend: dinnerRecommend.slice(0, 3)});
       }
     }
   };
+
   componentWillUnmount() {
     this.willFocusSubscription();
   }
 
   totalCalculations = async () => {
-    const { calorieData } = this.props;
+    const {calorieData} = this.props;
     //get calorie data from redux which is list of all foodItems in redux
     if (calorieData) {//if that exists then calculate everythong from them
-      await this.setState({ foodItems: calorieData });
+      await this.setState({foodItems: calorieData});
       this.calcTotal();
       this.calculateFoodList();
       this.calculateCalories();
@@ -207,7 +211,7 @@ class CalorieCounter extends PureComponent {
   calcTotal = async () => {
     let initial = 0;
     await this.state.foodItems.map((item, index) => (initial += item.total));
-    this.setState({ intakeCal: initial });
+    this.setState({intakeCal: initial});
   };
 
   calculateCalories = async () => {
@@ -250,10 +254,10 @@ class CalorieCounter extends PureComponent {
         {typeIntake} {strings.CALS}
       </Text>
       <Progress.Circle
-        style={{ marginVertical: spacing.small }}
+        style={{marginVertical: spacing.small}}
         showsText={true}
         size={70}
-        textStyle={{ fontSize: fontSizes.h1 }}
+        textStyle={{fontSize: fontSizes.h1}}
         progress={typeIntake / (this.state.intakeCal || 1)}
         animated={false}
         color={color}
@@ -295,7 +299,7 @@ class CalorieCounter extends PureComponent {
           </View>
         ))}
         <TouchableOpacity
-          style={{ marginTop: spacing.small_lg }}
+          style={{marginTop: spacing.small_lg}}
           onPress={() => {
             this.props.navigation.navigate(RouteNames.Calorie1, {
               type: onPressType,
@@ -309,7 +313,8 @@ class CalorieCounter extends PureComponent {
     </View>
   );
 
-  renderSeparator = () => <View style={styles.separator} />;
+  renderSeparator = () => <View style={styles.separator}/>;
+
   render() {
     return (
       <View
@@ -322,7 +327,7 @@ class CalorieCounter extends PureComponent {
       >
         <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
-          style={{ flex: 1 }}
+          style={{flex: 1}}
         >
           <View style={styles.totalCircle}>
             <CopilotStep
@@ -332,12 +337,12 @@ class CalorieCounter extends PureComponent {
             >
               <WalkthroughableView>
                 <Progress.Circle
-                  style={{ marginVertical: spacing.small }}
+                  style={{marginVertical: spacing.small}}
                   showsText={true}
                   thickness={7}
                   size={170}
                   borderWidth={4}
-                  textStyle={{ fontSize: fontSizes.midTitle }}
+                  textStyle={{fontSize: fontSizes.midTitle}}
                   progress={
                     this.state.intakeCal / (this.state.targetCal || 1) > 1
                       ? 1
@@ -356,7 +361,7 @@ class CalorieCounter extends PureComponent {
               name="hello"
             >
               <WalkthroughableText
-                style={[styles.calorieText, { marginHorizontal: 20 }]}
+                style={[styles.calorieText, {marginHorizontal: 20}]}
               >
                 {strings.CALORIE_INTAKE_TEXT} : {this.state.intakeCal}{" "}
                 {strings.CALS}
@@ -364,14 +369,14 @@ class CalorieCounter extends PureComponent {
             </CopilotStep>
           </View>
 
-          <View style={{ marginTop: spacing.medium_sm }}>
+          <View style={{marginTop: spacing.medium_sm}}>
             <CopilotStep
               text="This shows your target calorie intake."
               order={2}
               name="hello2"
             >
               <WalkthroughableText
-                style={[styles.calorieText, { marginHorizontal: 20 }]}
+                style={[styles.calorieText, {marginHorizontal: 20}]}
               >
                 {strings.TARGET_TEXT} : {this.state.targetCal} {strings.CALS}
               </WalkthroughableText>
@@ -425,7 +430,7 @@ class CalorieCounter extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  calorieData: state.fitness.calorieData[todaysDate],
+  calorieData: state.fitness.calorieData[currentDate],
   copilotScreens: state.app.copilotScreen,
 });
 
@@ -455,7 +460,7 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.background,
     flex: 1,
   },
-  totalCircle: { marginTop: 10, flex: 1, alignItems: "center" },
+  totalCircle: {marginTop: 10, flex: 1, alignItems: "center"},
   calorieText: {
     color: appTheme.textPrimary,
     fontSize: fontSizes.h1,
@@ -536,8 +541,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 12,
   },
-  foodnameFlex: { flex: 1.6 },
-  foodQuantityFlex: { flex: 1 },
+  foodnameFlex: {flex: 1.6},
+  foodQuantityFlex: {flex: 1},
   foodText: {
     color: darkPallet.skyBlue,
     fontSize: 13,
