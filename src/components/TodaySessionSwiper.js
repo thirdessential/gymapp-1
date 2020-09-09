@@ -25,14 +25,14 @@ class TodaySessionSwiper extends PureComponent {
         subscribers={users && users.length}
         type={session.type}
         onJoin={() => this.props.onJoin(session._id, session.type)}
-        loading={this.props.loadingId===session._id}
+        loading={this.props.loadingId === session._id}
+        referenceMode={this.props.referenceMode}
       />
     </View>
   };
 
   render() {
     return (
-      // height of the card
       <View style={styles.card}>
         <Swiper
           loop={false}

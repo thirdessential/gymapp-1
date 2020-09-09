@@ -7,7 +7,7 @@ import {createDrawerNavigator} from "@react-navigation/drawer";
 import {NavigationContainer} from "@react-navigation/native";
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import * as actionCreators from '../store/actions';
-import {updateAxiosToken} from "../API";
+import {setAvailable, updateAxiosToken} from "../API";
 import {
   callbackStatus, defaultDP,
   INITIAL_PAGE, notificationActionTypes,
@@ -54,6 +54,7 @@ class App extends React.Component {
 
   async componentDidMount() {
     const {setAuthenticated} = this.props;
+
     setAuthenticated(false); // TODO: Remove this line and fix auth blacklisting
     changeNavigationBarColor(appTheme.darkBackground);
     this.authSubscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
@@ -205,6 +206,7 @@ class App extends React.Component {
         console.log('authToken present, going home');
         updateAxiosToken(authToken);
         setAuthenticated(true);
+        setAvailable();
       } else {
         if (!user.emailVerified) {
           user.sendEmailVerification();

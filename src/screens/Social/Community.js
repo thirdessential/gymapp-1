@@ -150,7 +150,6 @@ class Community extends Component {
       <StreamList
         streams={this.props.liveStreams}
         onJoin={this.onJoinStream}
-
       />
     )
   }

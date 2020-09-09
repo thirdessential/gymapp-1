@@ -67,14 +67,14 @@ export const setUser = (userId) => {
     }
   };
 };
-
+//deprecated
 export const setGlobalSlots = (globalSlots) => ({
   type: actionTypes.SET_GLOBAL_SLOTS,
   payload: {
     globalSlots
   }
 });
-
+//deprecated
 export const updateGlobalSlots = () => {
   return async (dispatch) => {
     try {

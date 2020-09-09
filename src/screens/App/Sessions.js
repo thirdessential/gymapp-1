@@ -14,13 +14,12 @@ import {getHashedImage} from "../../constants/images";
 import moment from "moment";
 import TodaySession from "../../components/TodaySession";
 import {datesAreOnSameDay} from "../../utils/utils";
-import {packageImages, subscriptionType, userTypes} from "../../constants/appConstants";
+import { subscriptionType, userTypes} from "../../constants/appConstants";
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import strings from "../../constants/strings";
 import {screenWidth} from "../../utils/screenDimensions";
 import {hostMeeting, joinMeeting} from "../../utils/zoomMeeting";
 import TodaySessionSwiper from "../../components/TodaySessionSwiper";
-import {navigate} from "../../navigation/RootNavigation";
 
 const initialLayout = {width: screenWidth};
 

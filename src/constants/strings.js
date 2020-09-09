@@ -274,7 +274,9 @@ const strings = {
   TODAY_WORKOUT: `Today's\nWorkout`,
   UPCOMING: 'Upcoming',
   JOIN: 'JOIN',
-  JOINING: 'Joining'
+  JOINING: 'Joining',
+  OPEN:'OPEN',
+  UPCOMING_STREAMS: 'Upcoming Live Streams'
 };
 
 export const bmiVerdicts = {

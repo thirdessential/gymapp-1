@@ -35,9 +35,9 @@ class TodaySession extends React.Component {
   }
 
   initialise = () => {
-    // const date = new Date(this.props.date);
-    const date = new Date();
-    date.setMinutes(date.getMinutes() + 7);
+    const date = new Date(this.props.date);
+    // const date = new Date();
+    // date.setMinutes(date.getMinutes() + 7);
     const now = new Date();
     if (!this.props.trainer && this.props.status === sessionStatus.LIVE) {
       this.setState({startEnabled: true});
@@ -78,7 +78,10 @@ class TodaySession extends React.Component {
     const {startEnabled} = this.state;
     const color = this.props.status === sessionStatus.SCHEDULED ? appTheme.brightContent : bmiColors.lightBlue;
     const statusStyle = {color};
-    const statusContainerStyle = {borderColor: color, marginLeft: this.props.type === subscriptionType.BATCH?spacing.small_lg:0};
+    const statusContainerStyle = {
+      borderColor: color,
+      marginLeft: this.props.type === subscriptionType.BATCH ? spacing.small_lg : 0
+    };
     return (
       <View style={styles.container}>
         <View style={styles.content}>
@@ -106,7 +109,7 @@ class TodaySession extends React.Component {
               this.props.loading && <ActivityIndicator size={24} color={appTheme.brightContent}/>
             }
             {
-              !this.props.loading && this.props.status !== sessionStatus.FINISHED &&
+              !this.props.loading && this.props.status !== sessionStatus.FINISHED && !this.props.referenceMode &&
               <TouchableOpacity
                 disabled={!startEnabled}
                 onPress={this.props.onJoin}
@@ -117,7 +120,16 @@ class TodaySession extends React.Component {
               </TouchableOpacity>
             }
             {
-              this.timer && this.props.status === sessionStatus.LIVE && !this.props.loading && (
+              this.props.referenceMode && (
+                <TouchableOpacity
+                  onPress={this.props.onJoin}
+                  style={styles.startButton}>
+                  <Text style={styles.subHeading}>{strings.OPEN}</Text>
+                </TouchableOpacity>
+              )
+            }
+            {
+              this.timer && this.props.status === sessionStatus.SCHEDULED && !this.props.loading && (
                 <View style={[styles.row, {marginLeft: spacing.medium_sm}]}>
                   <Ion style={{marginRight: spacing.small_sm}} name={'timer-outline'} size={16}
                        color={bmiColors.blue}/>
@@ -185,8 +197,8 @@ const styles = StyleSheet.create({
   statusContainer: {
     borderRadius: 5,
     borderWidth: 0.6,
-    marginTop:spacing.small,
-    marginLeft:spacing.small,
+    marginTop: spacing.small,
+    marginLeft: spacing.small,
     padding: spacing.small,
     paddingVertical: 1,
     justifyContent: 'center',
