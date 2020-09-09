@@ -113,7 +113,7 @@ class CalorieCounter extends PureComponent {
         result[foodTypes.BREAKFAST] &&
         result[foodTypes.BREAKFAST].length > 0 
       ) {
-        breakfastRecommend = this.recommendHelper(
+        const breakfastRecommend = this.recommendHelper(
           result[foodTypes.BREAKFAST],
           foodTypes.BREAKFAST
         );
@@ -121,7 +121,7 @@ class CalorieCounter extends PureComponent {
         this.setState({ breakfastRecommend: breakfastRecommend.slice(0, 3) });
       }
       if (result[foodTypes.LUNCH] && result[foodTypes.LUNCH].length > 0) {
-        lunchRecommend = this.recommendHelper(
+        const lunchRecommend = this.recommendHelper(
           result[foodTypes.LUNCH],
           foodTypes.LUNCH
         );
@@ -129,7 +129,7 @@ class CalorieCounter extends PureComponent {
         this.setState({ lunchRecommend: lunchRecommend.slice(0, 3) });
       }
       if (result[foodTypes.SNACKS] && result[foodTypes.SNACKS].length > 0) {
-        snacksRecommend = this.recommendHelper(
+        const snacksRecommend = this.recommendHelper(
           result[foodTypes.SNACKS],
           foodTypes.SNACKS
         );
@@ -137,7 +137,7 @@ class CalorieCounter extends PureComponent {
         this.setState({ snacksRecommend: snacksRecommend.slice(0, 3) });
       }
       if (result[foodTypes.DINNER] && result[foodTypes.DINNER].length > 0) {
-        dinnerRecommend = this.recommendHelper(
+        const dinnerRecommend = this.recommendHelper(
           result[foodTypes.DINNER],
           foodTypes.DINNER
         );

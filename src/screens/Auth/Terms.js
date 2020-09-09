@@ -5,8 +5,8 @@ import Pdf from "react-native-pdf";
 
 import * as actionCreators from "../../store/actions";
 import {appTheme, bmiColors} from "../../constants/colors";
-import {INITIAL_USER_TYPE, userTypes} from "../../constants/appConstants";
-import {screenHeight, screenWidth} from "../../utils/screenDimensions";
+import {userTypes} from "../../constants/appConstants";
+import {screenWidth} from "../../utils/screenDimensions";
 import strings from "../../constants/strings";
 import {spacing} from "../../constants/dimension";
 import fonts from "../../constants/fonts";

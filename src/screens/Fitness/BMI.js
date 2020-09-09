@@ -68,6 +68,7 @@ class BMI extends PureComponent {
       updateBmiRecords();
     })
   }
+
   componentWillUnmount() {
     this.unsubscribeFocus();
   }

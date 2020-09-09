@@ -85,12 +85,15 @@ class Sessions extends Component {
     this.setState({joinLoading: null});
   }
   onStart = async (sessionId, type) => {
+    const {navigation} = this.props;
     this.setState({joinLoading: sessionId});
     const {data, token} = await this.props.startSession(sessionId);
     switch (type) {
       case subscriptionType.BATCH: {
         const {clientKey, clientSecret, meetingNumber} = data;
         await hostMeeting(meetingNumber, token, this.props.userName, clientKey, clientSecret);
+        if (navigation.canGoBack())
+          navigation.goBack();
       }
         break;
       case subscriptionType.SINGLE: {
@@ -100,7 +103,8 @@ class Sessions extends Component {
           displayPictureUrl,
           displayName
         } = data;
-        this.props.navigation.navigate(RouteNames.VideoCall, {
+        navigation.pop();
+        navigation.navigate(RouteNames.VideoCall, {
           AppID: agoraAppId,
           ChannelName: sessionId,
           initiating: true,
@@ -117,7 +121,7 @@ class Sessions extends Component {
   renderTodaySessions = () => {
     const {todaySessions} = this.state;
     if (!todaySessions) return null;  //TODO: should we return some sort of no sessions message?
-
+    console.log(todaySessions)
     const onJoin = this.props.userType === userTypes.TRAINER ? this.onStart : this.onJoin;
     return (
       <TodaySessionSwiper

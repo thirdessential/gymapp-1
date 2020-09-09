@@ -66,7 +66,6 @@ class CallScreen extends Component {
 
     return (
       <ImageBackground source={CallBackground} style={styles.container}>
-
         <View style={styles.imageContainer}>
           <Image style={[styles.image]} source={imgSource}/>
         </View>

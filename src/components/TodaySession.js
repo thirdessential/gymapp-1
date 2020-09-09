@@ -34,10 +34,10 @@ class TodaySession extends React.Component {
     this.initialise();
   }
 
-  initialise = ()=>{
+  initialise = () => {
     // const date = new Date(this.props.date);
     const date = new Date();
-    date.setMinutes(date.getMinutes()+7);
+    date.setMinutes(date.getMinutes() + 7);
     const now = new Date();
     if (!this.props.trainer && this.props.status === sessionStatus.LIVE) {
       this.setState({startEnabled: true});
@@ -56,14 +56,14 @@ class TodaySession extends React.Component {
           this.setState({startEnabled: true});
         }
       }, 1000);
-    } else if ((now - date)/1000 < 3600) {
+    } else if ((now - date) / 1000 < 3600) {
       if (this.props.trainer)
         this.setState({startEnabled: true});
     }
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if(nextProps.status!==this.props.status){
+    if (nextProps.status !== this.props.status) {
       clearInterval(this.timer);
       this.initialise(); // init again when status changes
     }
@@ -76,6 +76,9 @@ class TodaySession extends React.Component {
 
   render() {
     const {startEnabled} = this.state;
+    const color = this.props.status === sessionStatus.SCHEDULED ? appTheme.brightContent : bmiColors.lightBlue;
+    const statusStyle = {color};
+    const statusContainerStyle = {borderColor: color, marginLeft: this.props.type === subscriptionType.BATCH?spacing.small_lg:0};
     return (
       <View style={styles.container}>
         <View style={styles.content}>
@@ -86,19 +89,24 @@ class TodaySession extends React.Component {
             name={'timer-outline'}
             size={14}/> {this.props.duration}
           </Text></Text>
-          {this.props.subscribers && this.props.type === subscriptionType.BATCH &&
-          <Text style={[styles.subtitle, {
-            color: bmiColors.red,
-            fontSize: fontSizes.h2
-          }]}>{subscribersBuilder(this.props.subscribers)}</Text>
-          }
+          <View style={styles.row}>
+            {this.props.subscribers && this.props.type === subscriptionType.BATCH &&
+            <Text style={[styles.subtitle, {
+              color: bmiColors.red,
+              fontSize: fontSizes.h2
+            }]}>{subscribersBuilder(this.props.subscribers)}</Text>
+            }
+            <View style={[styles.statusContainer, statusContainerStyle]}>
+              <Text style={[styles.status, statusStyle]}>{streamText[this.props.status]}</Text>
+            </View>
+          </View>
           <View style={[styles.row, {marginTop: spacing.small}]}>
 
             {
               this.props.loading && <ActivityIndicator size={24} color={appTheme.brightContent}/>
             }
             {
-              !this.props.loading &&
+              !this.props.loading && this.props.status !== sessionStatus.FINISHED &&
               <TouchableOpacity
                 disabled={!startEnabled}
                 onPress={this.props.onJoin}
@@ -133,7 +141,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     elevation: 4,
     backgroundColor: appTheme.darkBackground,
-    padding: spacing.large,
+    padding: spacing.medium,
     paddingVertical: spacing.medium,
     borderRadius: 10
   },
@@ -174,6 +182,21 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothicBold,
     textAlign: 'center'
   },
+  statusContainer: {
+    borderRadius: 5,
+    borderWidth: 0.6,
+    marginTop:spacing.small,
+    marginLeft:spacing.small,
+    padding: spacing.small,
+    paddingVertical: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 0
+  },
+  status: {
+    fontSize: fontSizes.h5,
+    fontFamily: fonts.PoppinsRegular,
+  }
 });
 
 export default React.memo(TodaySession);

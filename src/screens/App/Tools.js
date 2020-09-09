@@ -21,6 +21,7 @@ class Tools extends PureComponent {
   openPackages = () => this.props.navigation.navigate(RouteNames.Packages)
   openCallRequests = () => this.props.navigation.navigate(RouteNames.CallRequests)
   openClients = () => this.props.navigation.navigate(RouteNames.SubscriptionsView)
+  openSessions = () => this.props.navigation.navigate(RouteNames.Sessions);
   // openBrowseSlots = () => this.props.navigation.navigate(RouteNames.BrowseSlots)
   openQuestion = () => this.props.navigation.navigate(RouteNames.CreatePost, {type: POST_TYPE.TYPE_QUESTION})
   openBMI = () => this.props.navigation.navigate(RouteNames.BMI);
@@ -31,9 +32,9 @@ class Tools extends PureComponent {
   openSelectExercise = () => this.props.navigation.navigate(RouteNames.SelectExercise);
   openExercisesScreen = () => this.props.navigation.navigate(RouteNames.Exercises);
   openMyStreams = () => this.props.navigation.navigate(RouteNames.MyStreams);
-openWater= () => this.props.navigation.navigate(RouteNames.Water)
-openCalorie= () => this.props.navigation.navigate(RouteNames.CalorieCounter)
-openRecipe= () => this.props.navigation.navigate(RouteNames.RecipeRecommend)
+  openWater = () => this.props.navigation.navigate(RouteNames.Water)
+  openCalorie = () => this.props.navigation.navigate(RouteNames.CalorieCounter)
+  openRecipe = () => this.props.navigation.navigate(RouteNames.RecipeRecommend)
   state = {
     toolsData: []
   }
@@ -47,7 +48,14 @@ openRecipe= () => this.props.navigation.navigate(RouteNames.RecipeRecommend)
         image: iconBackgrounds.packages,
         callback: this.openPackages,
         enabled: userType === userTypes.TRAINER
-      }, {
+      },
+      {
+        title: strings.SESSIONS,
+        image: iconBackgrounds.days,
+        callback: this.openSessions,
+        enabled:true
+      },
+      {
         title: strings.CALL_REQUESTS,
         image: iconBackgrounds.appointments,
         callback: this.openCallRequests,
@@ -95,7 +103,7 @@ openRecipe= () => this.props.navigation.navigate(RouteNames.RecipeRecommend)
         callback: this.openWater,
         enabled: true
       },
-       {
+      {
         title: strings.CALORIECOUNTER,
         image: iconBackgrounds.subscriptions,
         callback: this.openCalorie,
@@ -155,8 +163,6 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     fontSize: fontSizes.h1
   }
-
-
 });
 
 const mapStateToProps = (state) => ({

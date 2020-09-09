@@ -124,7 +124,6 @@ class App extends React.Component {
         }
       }
         break;
-
       case remoteMessageTypes.SYNC_SESSIONS:{
         console.log("Silently updating session data");
         this.props.syncSessions();
@@ -291,10 +290,10 @@ class App extends React.Component {
       return <Splash/>
     if (videoTestMode)
       return <VideoTest navigationRef={navigationRef}/>
-    if (callData && Object.keys(callData).length !== 0 || callActive) {
-      return <Calling navigationRef={navigationRef}/>
-    }
     if (authenticated) {
+      if (callData && Object.keys(callData).length !== 0 || callActive) {
+        return <Calling navigationRef={navigationRef}/>
+      }
       if (!termsAccepted)
         return <TermsStack/>
       else if (initialLogin)

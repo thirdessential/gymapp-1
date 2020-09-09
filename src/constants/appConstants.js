@@ -1,11 +1,11 @@
 import {cardBackgrounds} from "./images";
 import {appTheme, bmiColors} from "./colors";
 
-let apiUrl = '';
+let apiUrl = 'https://fitness-first-services.herokuapp.com';
 if (__DEV__) {
   console.log('Development Server');
-  // apiUrl = 'https://fitness-first-services.herokuapp.com';
-  apiUrl = 'http://192.168.31.125:3001';
+  apiUrl = 'https://fitness-first-services.herokuapp.com';
+  // apiUrl = 'http://192.168.31.125:3001';
 } else {
   console.log('Production Server');
   apiUrl = 'https://fitness-first-services.herokuapp.com';
@@ -39,7 +39,7 @@ export const storageKeys = {
 export const webClientId = '284208119571-nt9fitb9l2o4qulefvju8gqeo7aaug01.apps.googleusercontent.com';
 
 export const videoTestMode = false;
-export const callTimeout = 30000; //30 secs
+export const callTimeout = 40000; //40 secs
 
 export const WEEK_DAYS = {
   SUN: 'SUN',
