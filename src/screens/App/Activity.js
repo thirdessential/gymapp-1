@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, FlatList, ScrollView, TouchableOpacity, LayoutAn
 import {connect} from "react-redux";
 
 import {spacing} from "../../constants/dimension";
-import {appTheme} from "../../constants/colors";
+import {appTheme, bmiColors} from "../../constants/colors";
 import {streamStatus, userTypes} from "../../constants/appConstants";
 import * as actionCreators from "../../store/actions";
 import TodaySessionSwiper from "../../components/TodaySessionSwiper";
@@ -77,16 +77,17 @@ class Activity extends PureComponent {
     this.setState({upcomingStreams});
   }
   reduceDayCalories = data => {
-    let proteins = 0, carbs = 0, fats = 0;
+    let proteins = 0, carbs = 0, fats = 0, calories = 0;
     if (data)
       data.map(
         item => {
           proteins += item.proteins;
           carbs += item.carbs;
           fats += item.fats;
+          calories += item.total;
         }
       );
-    return {proteins, carbs, fats};
+    return {proteins, carbs, fats, calories};
   }
   updateLocalStatsData = () => {
     const today = getFormattedDate();
@@ -104,7 +105,8 @@ class Activity extends PureComponent {
       proteins: 0,
       fats: 0,
       carbs: 0,
-      water: 0
+      water: 0,
+      calories: 0
     };
     let calorieDivider = 0, waterDivider = 0;
     pastWeek.map(date => {
@@ -112,11 +114,11 @@ class Activity extends PureComponent {
       const datedCalorieData = calorieData[formattedDate];
       if (datedCalorieData) {
         calorieDivider++;
-        console.log(datedCalorieData, '1')
-        const {proteins, carbs, fats} = this.reduceDayCalories(datedCalorieData);
+        const {proteins, carbs, fats, calories} = this.reduceDayCalories(datedCalorieData);
         weeklyStats.proteins += proteins;
         weeklyStats.carbs += carbs;
         weeklyStats.fats += fats;
+        weeklyStats.calories += calories;
       }
       const waterData = waterIntake[formattedDate];
       if (waterData) {
@@ -128,6 +130,7 @@ class Activity extends PureComponent {
       weeklyStats.proteins /= calorieDivider;
       weeklyStats.carbs /= calorieDivider;
       weeklyStats.fats /= calorieDivider;
+      weeklyStats.calories /= calorieDivider;
     }
     if (waterDivider)
       weeklyStats.water /= waterDivider;
@@ -139,7 +142,11 @@ class Activity extends PureComponent {
   }
   renderTodaySessions = () => {
     const {todaySessions} = this.state;
-    if (!todaySessions) return null;  //TODO: should we return some sort of no sessions message?
+    if (!todaySessions) return (
+      <View style={[styles.card, styles.noContentContainer]}>
+        <Text style={styles.noContent}>{strings.NO_UPCOMING_SESSIONS}</Text>
+      </View>
+    );
     return (
       <TodaySessionSwiper
         sessions={todaySessions}
@@ -157,7 +164,11 @@ class Activity extends PureComponent {
   }
   renderUpcomingStreams = () => {
     const {upcomingStreams} = this.state;
-    if (!upcomingStreams) return null;
+    if (!upcomingStreams || upcomingStreams.length === 0) return (
+      <View style={[styles.card, styles.noContentContainer]}>
+        <Text style={styles.noContent}>{strings.NO_UPCOMING_STREAMS}</Text>
+      </View>
+    );
     return (
       <StreamSwiper
         streams={upcomingStreams}
@@ -183,7 +194,7 @@ class Activity extends PureComponent {
             renderer={renderers.Popover}
           >
             <MenuTrigger customStyles={{padding: spacing.small_lg}}>
-              <Text style={styles.menuTitle}>{currentSwitch ? strings.TODAY : strings.LAST_WEEK}</Text>
+              <Text style={styles.menuTitle}>{currentSwitch ? strings.TODAY : strings.SEVEN_DAYS}</Text>
             </MenuTrigger>
             <MenuOptions customStyles={styles.menu}>
               <MenuOption style={styles.menuButton} onSelect={this.setToday}>
@@ -197,6 +208,7 @@ class Activity extends PureComponent {
         </View>
         <FitnessSummary
           stats={currentSwitch ? currentStats : weeklyStats}
+          renderPerDay={!currentSwitch}
         />
       </View>
     )
@@ -244,7 +256,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     justifyContent: 'center',
-    padding: spacing.medium_sm
+    padding: spacing.small,
+    paddingHorizontal: spacing.small_lg
   },
   menuTitle: {
     color: appTheme.brightContent,
@@ -272,6 +285,16 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: spacing.medium_sm,
     marginBottom: spacing.large_lg
+  },
+  noContentContainer: {
+    minHeight: 100,
+    justifyContent: 'center',
+  },
+  noContent: {
+    color: bmiColors.lightBlue,
+    fontFamily: fonts.CenturyGothicBold,
+    fontSize: fontSizes.h2,
+    textAlign: 'center'
   }
 });
 

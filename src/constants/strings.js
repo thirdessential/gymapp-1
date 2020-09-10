@@ -280,7 +280,12 @@ const strings = {
   UPCOMING_STREAMS: 'Upcoming Live Streams',
   HEALTH_SUMMARY: 'Health Summary',
   TODAY: 'Today',
-  LAST_WEEK:'Last Week'
+  LAST_WEEK:'Last Week',
+  HYDRATION: 'Hydration',
+  SEVEN_DAYS: '7 days',
+  CALORIES: 'Calories',
+  NO_UPCOMING_STREAMS: 'No upcoming streams',
+  NO_UPCOMING_SESSIONS: 'No upcoming sessions',
 };
 
 export const bmiVerdicts = {

@@ -15,7 +15,7 @@ import {screenWidth} from "../../utils/screenDimensions";
 import strings from "../../constants/strings";
 import RouteNames from "../../navigation/RouteNames";
 import {getFormattedDate} from "../../utils/utils";
-import {foodTypes} from "../../constants/appConstants";
+import {DEFAULT_CALORIE_INTAKE_QUOTA, foodTypes} from "../../constants/appConstants";
 import * as actionCreators from "../../store/actions";
 import * as API from "../../API";
 import {copilot, walkthroughable, CopilotStep} from "react-native-copilot";
@@ -38,7 +38,7 @@ class CalorieCounter extends PureComponent {
     this.state = {
       foodItems: [],//to store all the food items which are filtered down 
 
-      targetCal: 2000,//this is target 
+      targetCal: DEFAULT_CALORIE_INTAKE_QUOTA,//this is target
       intakeCal: 0,//todays intake 
       proteinIntake: 0,
       fatsIntake: 0,

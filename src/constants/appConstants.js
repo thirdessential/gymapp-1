@@ -231,3 +231,4 @@ export const subscriptionTypeNames = {
 export const MS_IN_DAY = 86400000;// (1000 * 60 * 60 * 24)
 export const MAX_VIDEO_LENGTH = 120; // 2 minutes
 export const DEFAULT_WATER_INTAKE_QUOTA = 4000;
+export const DEFAULT_CALORIE_INTAKE_QUOTA = 2000;
