@@ -5,7 +5,7 @@ import RouteNames from "../RouteNames";
 import {defaultHeaderStyle} from "../../constants/styles";
 import Exercises from "../../screens/Fitness/Exercises";
 import openDrawerButton from "../openDrawerButton";
-import NotificationList from "../../components/NotificationList";
+import RightHeader from "../RightHeader";
 
 const workoutStack = () => {
   return (
@@ -16,7 +16,7 @@ const workoutStack = () => {
         options={{
           title: "Workout",
           headerLeft: openDrawerButton,
-          headerRight: ()=><NotificationList/>
+          headerRight: () => <RightHeader userData={this.props.userData}/>
         }}
       />
     </Stack.Navigator>

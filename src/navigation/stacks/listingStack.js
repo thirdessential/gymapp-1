@@ -7,6 +7,7 @@ import openDrawerButton from "../openDrawerButton";
 import store from "../../store/configureStore";
 import {userTypes} from "../../constants/appConstants";
 import {defaultHeaderStyle} from "../../constants/styles";
+import RightHeader from "../RightHeader";
 
 const listing = (props) => {
   const userData = store.getState().user.userData;
@@ -20,7 +21,8 @@ const listing = (props) => {
         component={UserListing}
         options={{
           title: listingTitle,
-          headerLeft: openDrawerButton
+          headerLeft: openDrawerButton,
+          headerRight: () => <RightHeader userData={this.props.userData}/>
         }}/>
     </Stack.Navigator>
   );

@@ -45,6 +45,8 @@ export const getRandomImage = () => {
   return cardBackgrounds[images[index]];
 }
 
+// For a string, which can be an item id, return an image. This is better than getting a random image, as the image will
+// not change between re renders
 export const getHashedImage = (toHash) => {
   const images = Object.keys(cardBackgrounds);
   const count = images.length;

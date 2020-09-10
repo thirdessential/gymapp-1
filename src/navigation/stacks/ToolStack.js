@@ -6,8 +6,7 @@ import openDrawerButton from "../openDrawerButton";
 
 import Tools from "../../screens/App/Tools";
 import {defaultHeaderStyle} from "../../constants/styles";
-import NotificationList from "../../components/NotificationList";
-
+import RightHeader from "../RightHeader";
 
 const toolStack = () => {
   return (
@@ -18,7 +17,7 @@ const toolStack = () => {
         options={{
           title: "Tools",
           headerLeft: openDrawerButton,
-          headerRight: ()=><NotificationList/>
+          headerRight: () => <RightHeader userData={this.props.userData}/>
         }}
       />
     </Stack.Navigator>

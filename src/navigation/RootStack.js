@@ -4,7 +4,6 @@ import RouteNames from "./RouteNames";
 import Stack from './stacks/stack';
 import AppTabNavigator from "./AppTabNavigator";
 import MyProfile from "../screens/App/MyProfile";
-import openDrawerButton from "./openDrawerButton";
 import {defaultHeaderStyle} from "../constants/styles";
 import PreferenceSwiper from "../screens/App/Preference/PreferenceSwiper";
 import PostViewer from "../screens/Social/PostViewer";
@@ -42,11 +41,14 @@ import Calorie1 from "../screens/Fitness/Calorie1";
 import PdfViewer from "../screens/App/PdfViewer";
 import Sessions from "../screens/App/Sessions";
 
+// All the application screens outside tab navigator are defined here
+// There are some user and some trainer specific screens defined
 const rootStack = () => {
   let {userType} = store.getState().user;
   const isTrainer = userType === userTypes.TRAINER;
   return (
     <Stack.Navigator screenOptions={defaultHeaderStyle}>
+      {/*Root tab navigator*/}
       <Stack.Screen name={RouteNames.RootTab} component={AppTabNavigator} options={{title: '', headerShown: false,}}/>
       <Stack.Screen
         name={RouteNames.MyProfile}

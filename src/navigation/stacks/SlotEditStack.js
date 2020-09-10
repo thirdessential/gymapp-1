@@ -5,7 +5,7 @@ import RouteNames from "../RouteNames";
 import openDrawerButton from "../openDrawerButton";
 import SlotList from "../../screens/App/Trainer/SlotList";
 import {defaultHeaderStyle} from "../../constants/styles";
-import NotificationList from "../../components/NotificationList";
+import RightHeader from "../RightHeader";
 
 const slotEdit = () => {
   return (
@@ -16,7 +16,7 @@ const slotEdit = () => {
         options={{
           title: 'My Slots',
           headerLeft: openDrawerButton,
-          headerRight: ()=><NotificationList/>
+          headerRight: () => <RightHeader userData={this.props.userData}/>
         }}/>
     </Stack.Navigator>
   );

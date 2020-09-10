@@ -14,7 +14,6 @@ import RouteNames from "./RouteNames";
 import LinearGradient from "react-native-linear-gradient";
 import {drawerLabelStyle} from "../constants/styles";
 import Entypo from "react-native-vector-icons/Entypo";
-import Ionicons from "react-native-vector-icons/Ionicons";
 
 function CustomDrawerContent(props) {
   const {userData, userType, newCallbacks} = props;
@@ -26,9 +25,9 @@ function CustomDrawerContent(props) {
     name = userData.name;
     displayPictureUrl = userData.displayPictureUrl;
   }
-  if (!displayPictureUrl) displayPictureUrl = defaultDP
+  if (!displayPictureUrl) displayPictureUrl = defaultDP;
   return (
-    <DrawerContentScrollView {...props} style={{backgroundColor: appTheme.darkBackground, marginTop: -spacing.small}}>
+    <DrawerContentScrollView {...props} style={styles.drawerContainer}>
       <LinearGradient
         colors={[darkPallet.lightBlue, darkPallet.extraDarkBlue]}>
         <TouchableOpacity onPress={() => props.navigation.navigate(RouteNames.MyProfile)} style={styles.container}>
@@ -46,7 +45,7 @@ function CustomDrawerContent(props) {
           />
           {
             userType === userTypes.TRAINER && (
-              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
+              <View style={styles.requestContainer}>
                 <DrawerItem
                   label="Call Requests"
                   labelStyle={drawerLabelStyle}
@@ -75,6 +74,7 @@ function CustomDrawerContent(props) {
             labelStyle={drawerLabelStyle}
             onPress={() => props.navigation.navigate(RouteNames.SubscriptionsView)}
           />
+          {/*Experimental signout functionality. Never use in production. Firebase has some bugs */}
           {
             __DEV__ ?
               <DrawerItem
@@ -106,6 +106,15 @@ const styles = StyleSheet.create({
   },
   list: {
     marginLeft: spacing.small
+  },
+  requestContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
+  drawerContainer: {
+    backgroundColor: appTheme.darkBackground,
+    marginTop: -spacing.small
   }
 });
 

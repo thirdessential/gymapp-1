@@ -9,6 +9,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import {callbackStatus} from "../constants/appConstants";
 import configureStore from "../store/configureStore";
 
+// Hamburger button on top left, shows new requested call backs
 const openDrawerButton = () => {
   const  newCallbacks=  configureStore.getState().trainer.callbacks.filter(callback => callback.status === callbackStatus.REQUESTED).length > 0;//hack
   return(

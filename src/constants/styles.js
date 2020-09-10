@@ -3,6 +3,7 @@ import fontSizes from "./fontSizes";
 import fonts from "./fonts";
 import React from "react";
 
+// Used in navigation
 export const drawerLabelStyle = {
   color: appTheme.textPrimary,
   fontSize: fontSizes.h3,

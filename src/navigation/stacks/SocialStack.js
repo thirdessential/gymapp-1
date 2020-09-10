@@ -5,7 +5,7 @@ import RouteNames from "../RouteNames";
 import openDrawerButton from "../openDrawerButton";
 import Community from "../../screens/Social/Community";
 import {defaultHeaderStyle} from "../../constants/styles";
-import NotificationList from "../../components/NotificationList";
+import RightHeader from "../RightHeader";
 
 const listing = (props) => {
   return (
@@ -16,7 +16,7 @@ const listing = (props) => {
         options={{
           title: 'Community',
           headerLeft: openDrawerButton,
-          headerRight: ()=><NotificationList/>
+          headerRight: () => <RightHeader userData={this.props.userData}/>
         }}/>
     </Stack.Navigator>
   );
