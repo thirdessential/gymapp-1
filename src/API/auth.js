@@ -1,5 +1,6 @@
 import axios, {validateResponseCode} from './config';
 
+// Sets global axios token
 export const updateAxiosToken = (token) => {
   if (!token) {
     console.log("Clearing axios token", token);
@@ -10,6 +11,7 @@ export const updateAxiosToken = (token) => {
   }
 };
 
+// Uses idToken and fcmToken obtained after using any of the methods for firebase auth
 export const firebaseGoogleAuth = async (idToken, fcmToken, userType) => {
   try {
     let response = await axios.post('/register/googleAuth', {
@@ -27,6 +29,7 @@ export const firebaseGoogleAuth = async (idToken, fcmToken, userType) => {
   }
 }
 
+// Called when user clicks on accept terms button, stores the time and userId in backend
 export const acceptTerms = async () => {
   try {
     let response = await axios.post('/user/acceptTerms'

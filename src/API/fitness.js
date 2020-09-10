@@ -27,8 +27,6 @@ export const getRecommendation = async () => {
 
 export const updateMealIntake = async (date, foodItems) => {
   try {
-
-    console.log(date, foodItems);
     let response = await axios.post('/caloriesIntake/save', {date, foodItems});
     if (validateResponseCode(response.status))
       return response.data;

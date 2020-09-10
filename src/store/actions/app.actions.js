@@ -67,24 +67,6 @@ export const setUser = (userId) => {
     }
   };
 };
-//deprecated
-export const setGlobalSlots = (globalSlots) => ({
-  type: actionTypes.SET_GLOBAL_SLOTS,
-  payload: {
-    globalSlots
-  }
-});
-//deprecated
-export const updateGlobalSlots = () => {
-  return async (dispatch) => {
-    try {
-      let {availableSlots} = await API.getGlobalSlots();
-      dispatch(setGlobalSlots(availableSlots));
-    } catch (error) {
-      console.log("Global slot update failed", error);
-    }
-  };
-};
 
 export const updateScreenCopilots=(copilotScreen)=>({
   type:actionTypes.COPILOT_SCREEN_DONE,

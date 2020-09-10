@@ -18,27 +18,33 @@ export const userTypes = {
   TRAINER: 'TRAINER'
 }
 
-export const INITIAL_USER_TYPE = userTypes.USER;
+// Change this constant to change the apk type, will not affect flow when logging in with existing account
+// This constant will only affect new registrations
+export const INITIAL_USER_TYPE = userTypes.TRAINER;
+// Default Agora video config
 export const videoFeedConfig = {
   width: 360,
   height: 640,
   bitrate: 600,
   FPS: 30
 }
+// Change this android package id if it changes in android directory, this constant is required to launch app in agora calls
 export const appPackageId = 'com.thirdessential.fitnessfirst';
-
+// Agora ringing notification actions
 export const notificationActions = {
   Accept: 'Accept',
   Reject: 'Reject'
 }
-
+// Async storage keys
 export const storageKeys = {
   PENDING_CALL: 'PENDING_CALL',
   PENDING_NOTIFICATIONS: 'PENDING_NOTIFICATIONS'
 }
+// WebClientId required for GoogleSignin. Derived from android/app/google-services.json
 export const webClientId = '284208119571-nt9fitb9l2o4qulefvju8gqeo7aaug01.apps.googleusercontent.com';
-
+// To enable agora call quality tester mode
 export const videoTestMode = false;
+// After callTimeout ms, agora call will disconnect if no user joins
 export const callTimeout = 40000; //40 secs
 
 export const WEEK_DAYS = {
@@ -54,8 +60,11 @@ export const WEEK_DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thur
 export const MONTH_NAMES = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
+
+// Allowed session durations in minutes
 export const allowedDurations = [30, 45, 60];
 
+// Dimensions of user DP(Avatar) and user Wall image(cover)
 export const imageTypes = {
   AVATAR: {
     type: 'AVATAR',
@@ -73,8 +82,10 @@ export const imageTypes = {
   }
 }
 export const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
+// Razorpay paymentKey
 export const paymentKey = 'rzp_test_BuIiL164HHvbBm';
 
+// Remote FCM notifications
 export const remoteMessageTypes = {
   CALL: 'call',
   APPOINTMENT: "appointmentNotification",
@@ -86,9 +97,9 @@ export const remoteMessageTypes = {
   SYNC_SESSIONS:'SYNC_SESSIONS',
   SESSION_STARTED: 'SESSION_STARTED',
 }
-
+// Default pagination value
 export const INITIAL_PAGE = 'INITIAL_PAGE';
-
+// Max number of chars in a text post
 export const MAX_POST_LENGTH = 300;
 export const firebaseTopics = {
   SILENT_NOTIFICATION: 'SILENT_NOTIFICATION',
@@ -105,6 +116,7 @@ export const CONTENT_TYPE = {
   IMAGE: 'IMAGE',
   VIDEO: 'VIDEO'
 }
+// Coupon generator config
 export const COUPON_GEN = {
   minGen: 1,
   maxGen: 10,
@@ -113,6 +125,7 @@ export const COUPON_GEN = {
   minValidity: 1,
   maxValidity: 6
 }
+// Types of packages and their associated images
 export const packageTypes = {
   FAT_LOSS: 'Fat Loss',
   WEIGHT_LOSS: 'Weight Loss',
@@ -133,13 +146,14 @@ export const packageImages = {
   POWER_LIFTING: cardBackgrounds.bg7,
   STRENGTH_GAIN: cardBackgrounds.bg8
 }
+// Used in request call back feature
 export const callbackStatus = {
   REQUESTED: 'REQUESTED',
   ACCEPTED: 'ACCEPTED',
   REJECTED: 'REJECTED',
   COMPLETED: 'COMPLETED'
 }
-
+ // Exercise module categories
 export const fitnessCategories = {
   YOGA: 'YOGA',
   STRETCH: 'STRETCH',
@@ -172,13 +186,10 @@ export const equipmentTypes = {
 }
 
 export const zoomConfig = {
-  // config stored in backend
-  // key: 'hKodHeKdo7c0g7Qh4Dx5MnQMp6j19tc1WGbs',
-  // secret: 'Pxu4Jq7BjGG50kXxoDizV1FkAcLxdwTmDtPq',
-  // userId: 'oggybuddy10@gmail.com',
+  // most config stored in backend
   domain: 'zoom.us'
 }
-
+// Status of stream or live sessions
 export const streamStatus = {
   SCHEDULED: 'SCHEDULED',
   LIVE: 'LIVE',
@@ -189,6 +200,7 @@ export const sessionStatus = {
   LIVE: 'LIVE',
   FINISHED: 'FINISHED'
 }
+// Frontend facing Text of stream/live sessions
 export const streamText = {
   SCHEDULED: 'UPCOMING',
   LIVE: 'LIVE',
@@ -199,6 +211,7 @@ export const streamStatusColor = {
   LIVE: appTheme.live,
   FINISHED: appTheme.darkGrey
 }
+// Actions pertaining to what happens when user clicks on a notification
 export const notificationActionTypes = {
   STREAM: 'STREAM',
   CALL_REQUEST: 'CALL_REQUEST',
@@ -212,7 +225,8 @@ export const foodTypes = {
   DINNER: 'DINNER',
   SNACKS: 'SNACKS'
 }
-
+// Shows a badge under user's DP in community tab
+// Configured for trainer, more options(like admin) can be added
 export const badgeTypes = {
   trainer: {
     display: 'Trainer',
@@ -221,14 +235,14 @@ export const badgeTypes = {
   }
 }
 export const subscriptionType = {
-  SINGLE: 'SINGLE',
-  BATCH: 'BATCH'
+  SINGLE: 'SINGLE',// one to one session
+  BATCH: 'BATCH', // Group session
 }
 export const subscriptionTypeNames = {
   SINGLE: 'Workout',
   BATCH: 'Group Workout',
 }
 export const MS_IN_DAY = 86400000;// (1000 * 60 * 60 * 24)
-export const MAX_VIDEO_LENGTH = 120; // 2 minutes
-export const DEFAULT_WATER_INTAKE_QUOTA = 4000;
-export const DEFAULT_CALORIE_INTAKE_QUOTA = 2000;
+export const MAX_VIDEO_LENGTH = 120; // 120 seconds, videos bigger than this are not allowed to be uploaded
+export const DEFAULT_WATER_INTAKE_QUOTA = 4000; // in ml
+export const DEFAULT_CALORIE_INTAKE_QUOTA = 2000; // in cal

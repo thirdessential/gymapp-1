@@ -16,7 +16,6 @@ export const listUsers = async (url) => {
 }
 
 export const updateUserInfo = async (data) => {
-
   try {
     let response = await axios.put('/user', data);
     if (validateResponseCode(response.status)) {
@@ -45,19 +44,6 @@ export const getMyInfo = async () => {
 export const getUserInfo = async (userId) => {
   try {
     let response = await axios.get(`/user/info/${userId}`);
-    if (validateResponseCode(response.status)) {
-      return response.data;
-    } else
-      return false;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
-
-export const getGlobalSlots = async () => {
-  try {
-    let response = await axios.get(`/slot/getAllAvailable`);
     if (validateResponseCode(response.status)) {
       return response.data;
     } else

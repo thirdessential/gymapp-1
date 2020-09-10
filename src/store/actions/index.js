@@ -24,7 +24,6 @@ export {
   setUserList,
   updateUsersList,
   setUser,
-  updateGlobalSlots,
   updateScreenCopilots
 } from "./app.actions";
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform, SafeAreaView, UIManager} from "react-native";
+import {Platform, SafeAreaView, StyleSheet, UIManager} from "react-native";
 import {Provider} from "react-redux";
 import {PersistGate} from 'redux-persist/lib/integration/react';
 import FlashMessage from "react-native-flash-message";
@@ -22,10 +22,13 @@ export default function App() {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <MenuProvider>
-          <SafeAreaView style={{flex: 1}}>
+          <SafeAreaView style={styles.container}>
             <AppStack/>
-            <FlashMessage position="top" floating={true}
-                          titleStyle={{fontSize: fontSizes.h2, fontFamily: fonts.MontserratMedium}}/>
+            {/*Library used for in app notification and success/error messages */}
+            <FlashMessage
+              position="top"
+              floating={true}
+              titleStyle={styles.flashTitle}/>
           </SafeAreaView>
         </MenuProvider>
       </PersistGate>
@@ -34,3 +37,12 @@ export default function App() {
 }
 
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  flashTitle: {
+    fontSize: fontSizes.h2,
+    fontFamily: fonts.MontserratMedium
+  }
+});

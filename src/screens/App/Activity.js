@@ -201,7 +201,7 @@ class Activity extends PureComponent {
                 <Text style={styles.menuText}>{strings.TODAY}</Text>
               </MenuOption>
               <MenuOption style={styles.menuButton} onSelect={this.setWeekly}>
-                <Text style={styles.menuText}>{strings.LAST_WEEK}</Text>
+                <Text style={styles.menuText}>{strings.SEVEN_DAYS}</Text>
               </MenuOption>
             </MenuOptions>
           </Menu>

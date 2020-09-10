@@ -23,8 +23,6 @@ const reducer = (state = initialState, action) => {
       const users = {...state.users};
       users[user._id] = user;
       return updateObject(state, {users});
-    case actionTypes.SET_GLOBAL_SLOTS:
-      return updateObject(state, action.payload);
     case actionTypes.COPILOT_SCREEN_DONE:
       const {copilotScreen}=action.payload
       const oldCopilotScreens={...state.copilotScreen}
