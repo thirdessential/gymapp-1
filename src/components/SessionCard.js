@@ -22,6 +22,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import {formatSeconds} from "../utils/utils";
 import Ion from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import strings, {subscribersBuilder} from "../constants/strings";
 
 class SessionCard extends React.Component {
 
@@ -67,6 +68,9 @@ class SessionCard extends React.Component {
             color: bmiColors.lightBlue,
             fontSize: fontSizes.h3
           }]}>{subscriptionTypeNames[this.props.type]}</Text>
+          {this.props.subscribers && this.props.type === subscriptionType.BATCH &&
+          <Text style={[styles.subtitle, {color: bmiColors.red}]}>{subscribersBuilder(this.props.subscribers)}</Text>
+          }
           <Text
             style={[styles.subtitle, {color: appTheme.brightContent}]}>{this.props.time}, <Text><MaterialCommunityIcons
             name={'timer-outline'}
@@ -80,7 +84,7 @@ class SessionCard extends React.Component {
           </View>
           <View style={styles.row}>
             {
-              this.timer && (
+              this.timer && this.props.status === sessionStatus.SCHEDULED && (
                 <>
                   <Ion style={{marginRight: spacing.small_sm}} name={'timer-outline'} size={14}
                        color={bmiColors.blue}/>

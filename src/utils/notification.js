@@ -1,4 +1,4 @@
-import {readFromStorage, saveToStorage} from "./utils";
+import {readFromStorage, saveToStorage} from "./storage";
 
 const PushNotification = require("react-native-push-notification");
 import messaging from '@react-native-firebase/messaging';
@@ -53,6 +53,12 @@ export const callHandler = async (remoteMessage) => {
       LocalMessageNotification(strings.LIVE, message);
       await appendOfflineNotification(data);
       break;
+    case remoteMessageTypes.SESSION_STARTED: {
+      const {message} = data;
+      LocalMessageNotification(strings.SESSION, message);
+      await appendOfflineNotification(data);
+    }
+      break;
     default:
       break;
   }
@@ -60,7 +66,7 @@ export const callHandler = async (remoteMessage) => {
 
 const appendOfflineNotification = async (data) => {
   let notifications = await readFromStorage(storageKeys.PENDING_NOTIFICATIONS);
-  if(!notifications)notifications = [];
+  if (!notifications) notifications = [];
   notifications.push(data);
   await saveToStorage(storageKeys.PENDING_NOTIFICATIONS, notifications);
 }

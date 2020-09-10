@@ -42,7 +42,10 @@ export {
   callbackDone,
   getCallbacks,
   scheduleStream,
-  startStream
+  startStream,
+  startSession,
+  joinSession,
+  endAgoraSession,
 } from './trainer';
 
 export {

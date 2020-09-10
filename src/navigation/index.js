@@ -7,16 +7,16 @@ import {createDrawerNavigator} from "@react-navigation/drawer";
 import {NavigationContainer} from "@react-navigation/native";
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import * as actionCreators from '../store/actions';
-import {updateAxiosToken} from "../API";
+import {setAvailable, updateAxiosToken} from "../API";
 import {
-  callbackStatus,
+  callbackStatus, defaultDP,
   INITIAL_PAGE, notificationActionTypes,
   remoteMessageTypes,
-  storageKeys,
+  storageKeys, subscriptionType,
   videoTestMode
 } from "../constants/appConstants";
 import {callHandler, configureFCMNotification, showInfo} from "../utils/notification";
-import {deleteFromStorage, readFromStorage} from "../utils/utils";
+import {deleteFromStorage, readFromStorage} from "../utils/storage";
 import {appTheme} from "../constants/colors";
 import {navigationRef} from './RootNavigation';
 
@@ -34,6 +34,7 @@ import strings from "../constants/strings";
 import {setWhatsappInstalled} from "../utils/share";
 import RootStack from "./RootStack";
 import TermsStack from "./stacks/TermsStack";
+import {not} from "react-native-reanimated";
 
 messaging().setBackgroundMessageHandler(callHandler);
 configureFCMNotification();
@@ -53,7 +54,7 @@ class App extends React.Component {
 
   async componentDidMount() {
     const {setAuthenticated} = this.props;
-    // addNotification('Hola amigo a notification arrived')
+
     setAuthenticated(false); // TODO: Remove this line and fix auth blacklisting
     changeNavigationBarColor(appTheme.darkBackground);
     this.authSubscriber = auth().onAuthStateChanged(this.onAuthStateChanged);
@@ -104,21 +105,63 @@ class App extends React.Component {
         }
         break;
       case remoteMessageTypes.GENERIC_NOTIFICATION: {
-        const {hostId, message, displayImage, meetingId, meetingPassword, sentDate} = data;
+        const {hostId, message, displayImage, meetingNumber, meetingPassword, clientKey, clientSecret, sentDate} = data;
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         await updateLiveStreams(INITIAL_PAGE);
         if (hostId != userId) {
           showInfo(message);
           addNotification(
             message,
-            displayImage,
+            displayImage || defaultDP,
             notificationActionTypes.STREAM,
             sentDate,
             {
-              meetingId,
-              meetingPassword
+              meetingNumber,
+              meetingPassword,
+              clientKey,
+              clientSecret
             }
           );
+        }
+      }
+        break;
+      case remoteMessageTypes.SYNC_SESSIONS:{
+        console.log("Silently updating session data");
+        this.props.syncSessions();
+      }
+      break;
+      case remoteMessageTypes.SESSION_STARTED: {
+        const {message, displayImage, clientKey, clientSecret, meetingNumber, meetingPassword, sentDate, sessionType, agoraAppId, sessionId, hostName} = data;
+
+        showInfo(message);
+        this.props.syncSessions();
+        if (sessionType === subscriptionType.BATCH) {
+          addNotification(
+            message,
+            displayImage || defaultDP,
+            notificationActionTypes.STREAM, // Applicable here as joining a meeting has same flow
+            sentDate,
+            {
+              meetingNumber,
+              meetingPassword,
+              clientKey,
+              clientSecret
+            }
+          );
+        } else {
+          //agora handling
+          addNotification(
+            message,
+            displayImage || defaultDP,
+            notificationActionTypes.AGORA_SESSION,
+            sentDate,
+            {
+              agoraAppId,
+              sessionId,
+              displayImage,
+              displayName: hostName
+            }
+          )
         }
       }
         break;
@@ -163,6 +206,7 @@ class App extends React.Component {
         console.log('authToken present, going home');
         updateAxiosToken(authToken);
         setAuthenticated(true);
+        setAvailable();
       } else {
         if (!user.emailVerified) {
           user.sendEmailVerification();
@@ -242,17 +286,17 @@ class App extends React.Component {
 
   render() {
     const {loading, videoTestMode} = this.state;
-    const {authenticated, initialLogin, callData, callActive, termsAccepted,userType, userData} = this.props;
+    const {authenticated, initialLogin, callData, callActive, termsAccepted, userType, userData} = this.props;
 
     if (loading)
       return <Splash/>
     if (videoTestMode)
       return <VideoTest navigationRef={navigationRef}/>
-    if (callData && Object.keys(callData).length !== 0 || callActive) {
-      return <Calling navigationRef={navigationRef}/>
-    }
     if (authenticated) {
-      if(!termsAccepted)
+      if (callData && Object.keys(callData).length !== 0 || callActive) {
+        return <Calling navigationRef={navigationRef}/>
+      }
+      if (!termsAccepted)
         return <TermsStack/>
       else if (initialLogin)
         return <InitialLogin navigationRef={navigationRef}/>
@@ -265,7 +309,7 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => ({
   authToken: state.user.authToken,
-  termsAccepted:state.user.termsAccepted,
+  termsAccepted: state.user.termsAccepted,
   authenticated: state.auth.authenticated,
   initialLogin: state.user.initialLogin,
   callActive: state.call.callActive,
@@ -284,7 +328,8 @@ const mapDispatchToProps = (dispatch) => ({
   updatePosts: (page) => dispatch(actionCreators.updatePosts(page)),
   updateLiveStreams: (page) => dispatch(actionCreators.updateLiveStreams(page)),
   addNotification: (text, displayImage, type, sentDate, extraData) =>
-    dispatch(actionCreators.addNotification(text, displayImage, type, sentDate, extraData))
+    dispatch(actionCreators.addNotification(text, displayImage, type, sentDate, extraData)),
+  syncSessions: () => dispatch(actionCreators.syncSessions()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

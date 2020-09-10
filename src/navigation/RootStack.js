@@ -15,7 +15,7 @@ import CreatePost from "../screens/Social/CreatePost";
 import CallRequests from "../screens/App/Trainer/CallRequests";
 import PackageList from "../screens/App/Trainer/PackageList";
 import PackageEdit from "../screens/App/Trainer/PackageEdit";
-import SlotsView from "../screens/App/Trainer/Subscriptions";
+import SlotsView from "../screens/App/Subscriptions";
 import Profile from "../screens/App/Profile";
 import BMI from "../screens/Fitness/BMI";
 import Speech from "../screens/App/Speech";
@@ -40,6 +40,7 @@ import RecipeRecommend from "../screens/Fitness/RecipeRecommend";
 import CalorieCounter from "../screens/Fitness/CalorieCounter";
 import Calorie1 from "../screens/Fitness/Calorie1";
 import PdfViewer from "../screens/App/PdfViewer";
+import Sessions from "../screens/App/Sessions";
 
 const rootStack = () => {
   let {userType} = store.getState().user;
@@ -292,6 +293,13 @@ const rootStack = () => {
         options={{
           title: "",
           headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.Sessions}
+        component={Sessions}
+        options={{
+          title: strings.SESSIONS,
         }}
       />
     </Stack.Navigator>

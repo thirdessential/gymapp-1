@@ -1,6 +1,4 @@
-import axios from "./config";
-
-import {validateResponseCode} from "../utils/utils";
+import axios, {validateResponseCode} from "./config";
 
 export const recordBmi = async (bmi, weight) => {
   try {
@@ -14,26 +12,24 @@ export const recordBmi = async (bmi, weight) => {
   }
 };
 
-export const getRecommendation=async()=>{
-  try{
-
-let response=await axios.get('/recommend');
-if (validateResponseCode(response.status)){
-  return response.data; 
-}
-  
-else return false;
-} catch (error) {
-console.log(error);
-return false;
-}
-}
-
-export const updateMealIntake= async (date,foodItems)=>{
+export const getRecommendation = async () => {
   try {
-   
-    console.log(date,foodItems);
-    let response=await axios.post('/caloriesIntake/save',{date,foodItems});
+
+    let response = await axios.get('/recommend');
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export const updateMealIntake = async (date, foodItems) => {
+  try {
+
+    console.log(date, foodItems);
+    let response = await axios.post('/caloriesIntake/save', {date, foodItems});
     if (validateResponseCode(response.status))
       return response.data;
     else return false;
@@ -43,10 +39,10 @@ export const updateMealIntake= async (date,foodItems)=>{
     return false
   }
 }
-export const searchFood=async(name)=>{
+export const searchFood = async (name) => {
   try {
-    let response=await axios.post('/foodItems/getByName',{name});
-    if(validateResponseCode(response.status))
+    let response = await axios.post('/foodItems/getByName', {name});
+    if (validateResponseCode(response.status))
       return response.data;
     else return false;
   } catch (error) {
@@ -55,19 +51,17 @@ export const searchFood=async(name)=>{
   }
 }
 
-export const waterIntake = async (date,quantity) => {
+export const waterIntake = async (date, quantity) => {
   try {
-    let response = await axios.post('/waterIntake', {date,quantity});
-    console.log("gaya");
-    if (validateResponseCode(response.status))
- {    
+    let response = await axios.post('/waterIntake', {date, quantity});
+    if (validateResponseCode(response.status)) {
       return response.data;
-    }  else {
+    } else {
       console.log("else mei atka");
       return false;
     }
   } catch (error) {
-   
+
     console.log(error);
     return false;
   }
@@ -122,9 +116,9 @@ export const updateExerciseIndex = async (index) => {
 }
 
 
-export const updateTarget = async (weight,date) => {
+export const updateTarget = async (weight, date) => {
   try {
-    let response = await axios.post(`/fitness/target`, {weight,date});
+    let response = await axios.post(`/fitness/target`, {weight, date});
     if (validateResponseCode(response.status))
       return response.data;
     else return false;

@@ -5,25 +5,25 @@ import React, {PureComponent} from 'react';
 import {FlatList, LayoutAnimation, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import {connect} from "react-redux";
 
-import {appTheme} from "../../../constants/colors";
-import {spacing} from "../../../constants/dimension";
-import * as actionCreators from "../../../store/actions";
-import TrainerSubscriptionCard from "../../../components/Trainer/SubscriptionCard";
-import BatchSubscriptionCard from "../../../components/Trainer/BatchSubscriptionCard";
-import UserSubscriptionCard from "../../../components/User/SubscriptionCard";
-import {initialiseVideoCall, militaryTimeToString, sortDays, toTitleCase} from "../../../utils/utils";
-import {requestCameraAndAudioPermission} from "../../../utils/permission";
-import {subscriptionType, userTypes} from "../../../constants/appConstants";
-import strings from "../../../constants/strings";
+import {appTheme} from "../../constants/colors";
+import {spacing} from "../../constants/dimension";
+import * as actionCreators from "../../store/actions";
+import TrainerSubscriptionCard from "../../components/Trainer/SubscriptionCard";
+import BatchSubscriptionCard from "../../components/Trainer/BatchSubscriptionCard";
+import UserSubscriptionCard from "../../components/User/SubscriptionCard";
+import {initialiseVideoCall, militaryTimeToString, sortDays, toTitleCase} from "../../utils/utils";
+import {requestCameraAndAudioPermission} from "../../utils/permission";
+import {subscriptionType, userTypes} from "../../constants/appConstants";
+import strings from "../../constants/strings";
 import RBSheet from "react-native-raw-bottom-sheet";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Fontisto from "react-native-vector-icons/Fontisto";
-import fonts from "../../../constants/fonts";
-import fontSizes from "../../../constants/fontSizes";
-import MultiSelectButtons from "../../../components/MultiSelectButtons";
-import PillButton from "../../../components/PillButton";
-import {hitSlop20} from "../../../constants/styles";
-import RouteNames from "../../../navigation/RouteNames";
+import fonts from "../../constants/fonts";
+import fontSizes from "../../constants/fontSizes";
+import MultiSelectButtons from "../../components/MultiSelectButtons";
+import PillButton from "../../components/PillButton";
+import {hitSlop20} from "../../constants/styles";
+import RouteNames from "../../navigation/RouteNames";
 
 class Subscriptions extends PureComponent {
   state = {
@@ -46,7 +46,13 @@ class Subscriptions extends PureComponent {
   }
 
   updateView = () => {
-    const {subscriptions} = this.props;
+    let {subscriptions} = this.props;
+
+    // Remove duplicate batch subscriptions
+    let jsonObject = subscriptions.map(JSON.stringify);
+    const uniqueSet = new Set(jsonObject);
+    subscriptions = Array.from(uniqueSet).map(JSON.parse);
+
     const days = {}, timings = {};
     subscriptions.map(subscription => {
       const {slot} = subscription;
@@ -78,6 +84,7 @@ class Subscriptions extends PureComponent {
     const {heldSessions, totalSessions, startDate, endDate, package: packageData, slot, type, users, subscribedCount, maxParticipants} = subscription;
     const {time, daysOfWeek} = slot;
     const {title: packageTitle, price} = packageData;
+    console.log(users);
     if (type && type === subscriptionType.BATCH)
       return <View style={styles.cardContainer}>
         <BatchSubscriptionCard

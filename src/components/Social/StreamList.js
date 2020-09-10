@@ -39,7 +39,7 @@ const streamList = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center'
+    // alignItems: 'center'
   },
   separator: {
     marginTop: spacing.medium

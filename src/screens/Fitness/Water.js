@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, {PureComponent} from "react";
 import {
   FlatList,
   ScrollView,
@@ -9,19 +9,21 @@ import {
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import { connect } from "react-redux";
-import { waterIntake } from "../../API";
+import {connect} from "react-redux";
+import {waterIntake} from "../../API";
 import HcdWaveView from "../../components/HcdWaveView";
-import { appTheme, bmiColors } from "../../constants/colors";
-import { spacing } from "../../constants/dimension";
+import {appTheme, bmiColors} from "../../constants/colors";
+import {spacing} from "../../constants/dimension";
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
 import strings from "../../constants/strings";
 import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from "../../store/actions";
-import { screenHeight } from "../../utils/screenDimensions";
-import { getTodayFormattedDate } from "../../utils/utils";
-const date = getTodayFormattedDate();
+import {screenHeight} from "../../utils/screenDimensions";
+import {getFormattedDate} from "../../utils/utils";
+import {DEFAULT_WATER_INTAKE_QUOTA} from "../../constants/appConstants";
+
+const date = getFormattedDate();
 
 class Water extends PureComponent {
   constructor(props) {
@@ -29,27 +31,28 @@ class Water extends PureComponent {
     this.state = {
       final: 0, //final water intake for today
       waterIntake: 0, //todays water intake
-      target: 4000, //target water intake
+      target: DEFAULT_WATER_INTAKE_QUOTA, //target water intake
       show: true, //if user has updated bmi then only show this screen therefore boolean to mane screen
       data: [], //data which will be sent by redux in array consisting of date and amount of water intake
       lengthOfData: 0, //length of data to calculate average intake
       totalIntakeAverage: 0, //to hold average intake of water
     };
   }
+
   async componentDidMount() {
     let result = await this.props.getWaterIntake(); //get result i.e. array from redux
     //console.log(result);
-    await this.setState({ data: result }); //set it to data
+    await this.setState({data: result}); //set it to data
 
-    const { bmiRecords, waterIntake } = this.props; //get bmi  and todays water intake from redux
+    const {bmiRecords, waterIntake} = this.props; //get bmi  and todays water intake from redux
 
     // console.log(waterIntake);
     //if not bmi show text otherwise screen
     bmiRecords.length > 0
-      ? this.setState({ show: true })
-      : this.setState({ show: false });
+      ? this.setState({show: true})
+      : this.setState({show: false});
     if (waterIntake) {
-      this.setState({ waterIntake, final: waterIntake }); //if we have water consumption of today then set it otherwise 0
+      this.setState({waterIntake, final: waterIntake}); //if we have water consumption of today then set it otherwise 0
     }
 
     this.unsubscribe = this.props.navigation.addListener("blur", (e) => {
@@ -86,7 +89,7 @@ class Water extends PureComponent {
   };
   updateWaterState = async (count) => {
     //function to change waterintake in state
-    await this.setState({ waterIntake: this.state.waterIntake + count });
+    await this.setState({waterIntake: this.state.waterIntake + count});
     this.updateWaterIntake();
   };
   updateWaterIntake = async () => {
@@ -102,12 +105,12 @@ class Water extends PureComponent {
         <Text style={styles.intakeText}>{item.intake}</Text>
 
         <LinearGradient
-          colors={["#185cc9", "#58D3F7"]}
+          colors={[bmiColors.blue, bmiColors.lightBlue]}
           style={{
             height: `${heightPercent}%`,
             width: 15,
             borderRadius: 10,
-            marginLeft: 15,
+            // marginLeft: 15,
             elevation: 4,
           }}
         />
@@ -116,6 +119,7 @@ class Water extends PureComponent {
       </View>
     );
   };
+
   render() {
     return this.state.show ? ( //check if bmi is there or not
       <ScrollView
@@ -133,7 +137,7 @@ class Water extends PureComponent {
               disabled={this.state.waterIntake > 250 ? false : true}
               onPress={() => this.updateWaterState(-250)}
             >
-              <FontAwesome5Icon name="minus" size={30} color={appTheme.greyC} />
+              <FontAwesome5Icon name="minus" size={30} color={appTheme.greyC}/>
             </TouchableOpacity>
           </View>
           <HcdWaveView
@@ -144,7 +148,7 @@ class Water extends PureComponent {
               (this.state.waterIntake / this.state.target) * 100
             )}
             type="dc"
-            style={{ backgroundColor: "#FF7800" }}
+            style={{backgroundColor: "#FF7800"}}
           />
           <View style={styles.iconView}>
             <TouchableOpacity
@@ -152,19 +156,19 @@ class Water extends PureComponent {
               //increase by 250 ml
               onPress={() => this.updateWaterState(250)}
             >
-              <FontAwesome5Icon name="plus" size={30} color={appTheme.greyC} />
+              <FontAwesome5Icon name="plus" size={30} color={appTheme.greyC}/>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{ flexDirection: "row", flex: 1 }}>
+        <View style={{flexDirection: "row", flex: 1}}>
           <Text
             //target text
             style={styles.targetText}
           >
-            {this.state.target} ml
+            {this.state.waterIntake}/{this.state.target} ml
           </Text>
         </View>
-        <View style={{ flex: 1, marginTop: 10 }}>
+        <View style={{flex: 1, marginTop: 10}}>
           <Text style={styles.quickAdd}>Quick add</Text>
         </View>
         <View style={styles.mainView}>
@@ -194,7 +198,7 @@ class Water extends PureComponent {
           </View>
         </View>
 
-        <View style={{ flex: 1, width: "100%", paddingHorizontal: 10 }}>
+        <View style={{flex: 1, width: "100%", paddingHorizontal: 10}}>
           {this.state.data.length > 0 ? ( //show ony if we have data to show othewsie show text which is down
             <View style={styles.displayView}>
               <Text style={styles.hydrateText}>HYDRATION (ml)</Text>
@@ -208,11 +212,11 @@ class Water extends PureComponent {
             <View style={styles.flatlistView}>
               <FlatList
                 showsHorizontalScrollIndicator={false}
-                style={{ marginVertical: 15 }}
+                style={{marginVertical: 15}}
                 data={this.state.data}
                 keyExtractor={(item, index) => index.toString()}
                 horizontal={true}
-                renderItem={({ item }) =>
+                renderItem={({item}) =>
                   //send item and percent of height to of each liine maximum is 90% of container and min can be 0 therfore math.min perecent is (intake/target)*90
                   this.renderItem(
                     item,
@@ -238,7 +242,7 @@ class Water extends PureComponent {
         style={styles.container}
       >
         <View style={styles.updateView}>
-          <Text style={styles.textView}>{strings.ADDBMI}</Text>
+          <Text style={styles.textView}>{strings.ADD_BMI_CONTINUE}</Text>
           <View style={styles.addbuttonView}>
             <TouchableOpacity
               onPress={() => {
@@ -330,7 +334,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
     borderRadius: 5,
   },
-  waterView: { flex: 1, flexDirection: "row", marginTop: 20 },
+  waterView: {flex: 1, flexDirection: "row", marginTop: 20},
   dateText: {
     color: appTheme.greyC,
     textAlign: "center",
@@ -374,7 +378,7 @@ const styles = StyleSheet.create({
     margin: spacing.medium_sm,
     flex: 1,
   },
-  addbuttonView: { marginTop: spacing.medium_lg },
+  addbuttonView: {marginTop: spacing.medium_lg},
   textView: {
     fontFamily: fonts.CenturyGothicBold,
     fontSize: fontSizes.bigTitle,
@@ -382,6 +386,6 @@ const styles = StyleSheet.create({
     marginTop: screenHeight / 3,
     color: appTheme.greyC,
   },
-  lineView: { margin: 7, height: 200, justifyContent: "flex-end" },
-  increaseMargin: { marginHorizontal: spacing.small_lg },
+  lineView: {margin: 7, height: 200, justifyContent: "flex-end", alignItems: 'center'},
+  increaseMargin: {marginHorizontal: spacing.small_lg},
 });

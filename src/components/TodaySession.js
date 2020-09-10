@@ -4,7 +4,7 @@
 import React, {useEffect, useState} from 'react';
 import FastImage from 'react-native-fast-image'
 import PropTypes from 'prop-types';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
 import {spacing} from "../constants/dimension";
 import {
@@ -22,28 +22,52 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import {formatSeconds} from "../utils/utils";
 import Ion from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import strings from "../constants/strings";
+import strings, {subscribersBuilder} from "../constants/strings";
 
 class TodaySession extends React.Component {
   state = {
     countDown: '        ', //  8 spaces for initial layout,
+    startEnabled: false
   }
 
   componentDidMount() {
+    this.initialise();
+  }
+
+  initialise = () => {
     const date = new Date(this.props.date);
+    // const date = new Date();
+    // date.setMinutes(date.getMinutes() + 7);
     const now = new Date();
+    if (!this.props.trainer && this.props.status === sessionStatus.LIVE) {
+      this.setState({startEnabled: true});
+    }
     if ((date - now > 0)) {
       this.setState({countDown: formatSeconds((date - now) / 1000)});
       this.timer = setInterval(() => {
         const now = new Date();
         this.setState({countDown: formatSeconds((date - now) / 1000)});
-        if ((date - now) / 1000 < 5) {
+        const remainingSeconds = (date - now) / 1000;
+        if (remainingSeconds < 5) {
           clearInterval(this.timer);
           this.timer = null;
-          this.setState({countDown:'        '})
+          this.setState({countDown: '        '});
+        } else if (remainingSeconds < 600 && this.props.trainer) {
+          this.setState({startEnabled: true});
         }
       }, 1000);
+    } else if ((now - date) / 1000 < 3600) {
+      if (this.props.trainer)
+        this.setState({startEnabled: true});
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if (nextProps.status !== this.props.status) {
+      clearInterval(this.timer);
+      this.initialise(); // init again when status changes
+    }
+    return true;
   }
 
   componentWillUnmount() {
@@ -51,7 +75,13 @@ class TodaySession extends React.Component {
   }
 
   render() {
-    const joinEnabled = this.props.status === sessionStatus.LIVE;
+    const {startEnabled} = this.state;
+    const color = this.props.status === sessionStatus.SCHEDULED ? appTheme.brightContent : bmiColors.lightBlue;
+    const statusStyle = {color};
+    const statusContainerStyle = {
+      borderColor: color,
+      marginLeft: this.props.type === subscriptionType.BATCH ? spacing.small_lg : 0
+    };
     return (
       <View style={styles.container}>
         <View style={styles.content}>
@@ -62,24 +92,51 @@ class TodaySession extends React.Component {
             name={'timer-outline'}
             size={14}/> {this.props.duration}
           </Text></Text>
+          <View style={styles.row}>
+            {this.props.subscribers && this.props.type === subscriptionType.BATCH &&
+            <Text style={[styles.subtitle, {
+              color: bmiColors.red,
+              fontSize: fontSizes.h2
+            }]}>{subscribersBuilder(this.props.subscribers)}</Text>
+            }
+            <View style={[styles.statusContainer, statusContainerStyle]}>
+              <Text style={[styles.status, statusStyle]}>{streamText[this.props.status]}</Text>
+            </View>
+          </View>
           <View style={[styles.row, {marginTop: spacing.small}]}>
+
             {
-              this.timer && (
-                <>
-                  <Ion style={{marginRight: spacing.small_sm}} name={'timer-outline'} size={14}
-                       color={bmiColors.blue}/>
-                  <Text style={[styles.subtitle, {color: bmiColors.blue}]}>{this.state.countDown}</Text>
-                </>
+              this.props.loading && <ActivityIndicator size={24} color={appTheme.brightContent}/>
+            }
+            {
+              !this.props.loading && this.props.status !== sessionStatus.FINISHED && !this.props.referenceMode &&
+              <TouchableOpacity
+                disabled={!startEnabled}
+                onPress={this.props.onJoin}
+                style={[styles.startButton, !startEnabled && {
+                  backgroundColor: appTheme.grey
+                }]}>
+                <Text style={styles.subHeading}>{this.props.trainer ? strings.START : strings.JOIN}</Text>
+              </TouchableOpacity>
+            }
+            {
+              this.props.referenceMode && (
+                <TouchableOpacity
+                  onPress={this.props.onJoin}
+                  style={styles.startButton}>
+                  <Text style={styles.subHeading}>{strings.OPEN}</Text>
+                </TouchableOpacity>
               )
             }
-            <TouchableOpacity
-              disabled={!joinEnabled}
-              onPress={this.props.onJoin}
-              style={[styles.startButton, !joinEnabled && {
-                backgroundColor: appTheme.grey, marginLeft: 0
-              }]}>
-              <Text style={styles.subHeading}>{this.props.trainer ? strings.START : strings.JOIN}</Text>
-            </TouchableOpacity>
+            {
+              this.timer && this.props.status === sessionStatus.SCHEDULED && !this.props.loading && (
+                <View style={[styles.row, {marginLeft: spacing.medium_sm}]}>
+                  <Ion style={{marginRight: spacing.small_sm}} name={'timer-outline'} size={16}
+                       color={bmiColors.blue}/>
+                  <Text style={[styles.subtitle, {color: bmiColors.blue}]}>{this.state.countDown}</Text>
+                </View>
+              )
+            }
           </View>
         </View>
         <FastImage
@@ -96,7 +153,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     elevation: 4,
     backgroundColor: appTheme.darkBackground,
-    padding: spacing.large,
+    padding: spacing.medium,
     paddingVertical: spacing.medium,
     borderRadius: 10
   },
@@ -130,7 +187,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: spacing.small_sm,
     paddingHorizontal: spacing.medium_sm,
-    marginLeft:'auto'
   },
   subHeading: {
     color: appTheme.greyC,
@@ -138,7 +194,21 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothicBold,
     textAlign: 'center'
   },
-
+  statusContainer: {
+    borderRadius: 5,
+    borderWidth: 0.6,
+    marginTop: spacing.small,
+    marginLeft: spacing.small,
+    padding: spacing.small,
+    paddingVertical: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 0
+  },
+  status: {
+    fontSize: fontSizes.h5,
+    fontFamily: fonts.PoppinsRegular,
+  }
 });
 
 export default React.memo(TodaySession);

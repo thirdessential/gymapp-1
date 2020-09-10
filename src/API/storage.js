@@ -1,8 +1,7 @@
 import RNFetchBlob from "rn-fetch-blob";
 import ImageResizer from "react-native-image-resizer";
 
-import {dpDimension, imageTypes, rootURL} from "../constants/appConstants";
-import {getOSPath} from "../utils/utils";
+import {imageTypes, rootURL} from "../constants/appConstants";
 
 export const getFileExtension = (path) => path.slice(((path.lastIndexOf(".") - 1) >>> 0) + 2);
 

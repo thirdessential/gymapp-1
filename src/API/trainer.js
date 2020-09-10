@@ -1,5 +1,4 @@
-import axios from "./config";
-import {validateResponseCode} from "../utils/utils";
+import axios, {validateResponseCode} from "./config";
 
 export const createPackage = async ({title, noOfSessions, price, description, category, group, maxParticipants, slot, startDate}) => {
   try {
@@ -37,7 +36,7 @@ export const getPackage = async (packageId) => {
   }
 }
 
-export const updatePackage = async (packageId, {title, noOfSessions, price, description, category, group, maxParticipants, slot, startDate,active}) => {
+export const updatePackage = async (packageId, {title, noOfSessions, price, description, category, group, maxParticipants, slot, startDate, active}) => {
   try {
     let response = await axios.put(`/package/${packageId}`, {
       title,
@@ -249,6 +248,43 @@ export const scheduleStream = async (streamdata) => {
 export const startStream = async (streamId) => {
   try {
     let response = await axios.put(`/live/start`, {streamId});
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const startSession = async (sessionId) => {
+  try {
+    let response = await axios.post(`/session/${sessionId}/start`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const joinSession = async (sessionId) => {
+  try {
+    let response = await axios.post(`/session/${sessionId}/join`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export const endAgoraSession = async (sessionId) => {
+  try {
+    let response = await axios.post(`/session/${sessionId}/endAgora`);
     if (validateResponseCode(response.status)) {
       return response.data;
     } else

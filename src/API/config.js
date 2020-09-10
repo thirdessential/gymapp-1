@@ -5,7 +5,7 @@ import {rootURL} from '../constants/appConstants';
 const instance = axios.create({
   baseURL: rootURL
 });
-const isDebuggingEnabled = (typeof atob !== 'undefined');
+const isDebuggingEnabled =false// (typeof atob !== 'undefined');
 
 instance.interceptors.request.use(function (config) {
 
@@ -26,5 +26,9 @@ instance.interceptors.response.use(function (response) {
   console.log("API Response error", error);
   return Promise.reject(error);
 });
+
+export const validateResponseCode = (code) => {
+  return Math.floor(code / 100) === 2;
+};
 
 export default instance;

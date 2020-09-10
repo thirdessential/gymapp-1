@@ -1,188 +1,219 @@
 import React, {PureComponent} from "react";
-import {StyleSheet, Text, View, FlatList, ScrollView, TouchableOpacity} from "react-native";
-
+import {StyleSheet, Text, View, FlatList, ScrollView, TouchableOpacity, LayoutAnimation} from "react-native";
 import {connect} from "react-redux";
 
 import {spacing} from "../../constants/dimension";
+import {appTheme} from "../../constants/colors";
+import {streamStatus, userTypes} from "../../constants/appConstants";
+import * as actionCreators from "../../store/actions";
+import TodaySessionSwiper from "../../components/TodaySessionSwiper";
+import {datesAreOnSameDay, getFormattedDate, getPastWeekDates} from "../../utils/utils";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import {appTheme, darkPallet} from "../../constants/colors";
-import Avatar from "../../components/Avatar";
-import {getJoinDurationString, toTitleCase} from "../../utils/utils";
+import strings from "../../constants/strings";
 import RouteNames from "../../navigation/RouteNames";
-import {defaultDP, userTypes} from "../../constants/appConstants";
-import TimelineTabview from "../../components/TimelineTabview";
-import * as actionCreators from "../../store/actions";
-import {setAvailable} from "../../API";
-import LiveCardList from '../../components/LiveCardList';
-import {screenWidth} from "../../utils/screenDimensions";
-import {
-  BarChart,
-} from "react-native-chart-kit";
+import StreamSwiper from "../../components/Social/StreamSwiper";
+import {joinMeeting} from "../../utils/zoomMeeting";
+import FitnessSummary from "../../components/fitness/FitnessSummary";
+import {Menu, MenuOption, MenuOptions, MenuTrigger, renderers} from "react-native-popup-menu";
+import {string} from "prop-types";
 
-const data = [
-  {
-    day: "Monday",
-    duration: "1 hr",
-    time: "12:30 PM",
-    bodyPart: "Biceps",
-  },
-  {
-    day: "Tuesday",
-    duration: "2 hrs",
-    time: "4:30 PM",
-    bodyPart: "Chest",
-  },
-  {
-    day: "Wednesday",
-    duration: "2 hrs",
-    time: "1:30 PM",
-    bodyPart: "Full",
-  },
-  {
-    day: "Thursday",
-    duration: "1 hr",
-    time: "12:30 PM",
-    bodyPart: "Thighs",
-  },
-  {
-    day: "Friday",
-    duration: "1 hr",
-    time: "12 PM",
-    bodyPart: "Shoulder",
-  },
-  {
-    day: "Saturday",
-    duration: "1 hr",
-    time: "1:30 PM",
-    bodyPart: "Legs",
-  },
-];
 
 class Activity extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: data,
-    };
+  state = {
+    todaySessions: null,
+    upcomingStreams: null,
+    currentStats: null,
+    weeklyStats: null,
+    currentSwitch: true
+  }
+
+  setToday = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    this.setState({currentSwitch: true})
+  }
+  setWeekly = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    this.setState({currentSwitch: false})
   }
 
   componentDidMount() {
-    setAvailable();
-
     const {
-      navigation,
-      getActivities,
       updateUserData,
       syncCoupons,
       getCallbacks,
       userType,
       syncSubscriptions,
-      syncSessions
+      syncSessions,
+      navigation
     } = this.props;
     updateUserData();
     syncCoupons();
     syncSubscriptions();
     syncSessions();
     userType === userTypes.TRAINER && getCallbacks();
-    this.unsubscribeFocus = navigation.addListener("focus", (e) => {
-      getActivities();
-    });
+    this.updateLocalSessionData();
+    this.updateLocalStreamData()
+    this.updateLocalStatsData();
+    this.unsubscribeFocus = navigation.addListener('focus', e => {
+      this.updateLocalStatsData();
+    })
   }
 
   componentWillUnmount() {
     this.unsubscribeFocus();
   }
 
-  renderChart = () => {
-    const data = {
-      labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-      datasets: [
-        {
-          data: [60, 75, 80, 80, 99, 100]
+  updateLocalSessionData = () => {
+    const {sessions} = this.props;
+    const today = new Date();
+    if (!sessions || sessions.length === 0) return;
+    const todaySessions = sessions.filter(session => datesAreOnSameDay(new Date(session.date), today));
+    this.setState({todaySessions});
+  }
+  updateLocalStreamData = () => {
+    const {liveStreams} = this.props;
+    const upcomingStreams = liveStreams.filter(stream => stream.status === streamStatus.SCHEDULED);
+    this.setState({upcomingStreams});
+  }
+  reduceDayCalories = data => {
+    let proteins = 0, carbs = 0, fats = 0;
+    if (data)
+      data.map(
+        item => {
+          proteins += item.proteins;
+          carbs += item.carbs;
+          fats += item.fats;
         }
-      ]
-    };
-    return (
-      <View style={{marginLeft: -20}}>
-        <Text style={{fontSize: 20, fontFamily: fonts.CenturyGothic, color: appTheme.textPrimary, textAlign: 'center'}}>Weekly
-          exercise</Text>
-        <BarChart
-          //style={graphStyle}
-          data={data}
-          width={screenWidth}
-          height={220}
-          yAxisLabel=""
-          chartConfig={{
-            backgroundGradientFrom: appTheme.background,
-            backgroundGradientFromOpacity: 0,
-            backgroundGradientTo: appTheme.background,
+      );
+    return {proteins, carbs, fats};
+  }
+  updateLocalStatsData = () => {
+    const today = getFormattedDate();
+    const {calorieData, waterIntake} = this.props;
+    if (!calorieData) return;
+    const currentCalorie = calorieData[today];
+    const currentWater = waterIntake[today] || 0;
 
-            decimalPlaces: 0,
-            backgroundGradientToOpacity: 1,
-            color: (opacity = 1) => `rgba(255, 127, 80, 0.4)`,
-            fillShadowGradientOpacity: 1,
-            labelColor: (opacity = 1) => appTheme.greyC,
-            propsForBackgroundLines: {
-              //strokeDasharray: "" // solid background lines with no dashes
-              strokeWidth: 0
-            },
-            fillShadowGradient: appTheme.brightContent,
-            strokeWidth: 2, // optional, default 3
-            barPercentage: 0.5,
-            useShadowColorFromDataset: false // optional
-          }}
-          verticalLabelRotation={0}
+    const currentStats = {
+      ...this.reduceDayCalories(currentCalorie),
+      water: currentWater
+    }
+    const pastWeek = getPastWeekDates();
+    let weeklyStats = {
+      proteins: 0,
+      fats: 0,
+      carbs: 0,
+      water: 0
+    };
+    let calorieDivider = 0, waterDivider = 0;
+    pastWeek.map(date => {
+      const formattedDate = getFormattedDate(date);
+      const datedCalorieData = calorieData[formattedDate];
+      if (datedCalorieData) {
+        calorieDivider++;
+        console.log(datedCalorieData, '1')
+        const {proteins, carbs, fats} = this.reduceDayCalories(datedCalorieData);
+        weeklyStats.proteins += proteins;
+        weeklyStats.carbs += carbs;
+        weeklyStats.fats += fats;
+      }
+      const waterData = waterIntake[formattedDate];
+      if (waterData) {
+        waterDivider++;
+        weeklyStats.water += waterData;
+      }
+    });
+    if (calorieDivider) {
+      weeklyStats.proteins /= calorieDivider;
+      weeklyStats.carbs /= calorieDivider;
+      weeklyStats.fats /= calorieDivider;
+    }
+    if (waterDivider)
+      weeklyStats.water /= waterDivider;
+
+    this.setState({weeklyStats, currentStats});
+  }
+  openSessions = () => {
+    this.props.navigation.navigate(RouteNames.Sessions);
+  }
+  renderTodaySessions = () => {
+    const {todaySessions} = this.state;
+    if (!todaySessions) return null;  //TODO: should we return some sort of no sessions message?
+    return (
+      <TodaySessionSwiper
+        sessions={todaySessions}
+        onJoin={this.openSessions}
+        trainer={this.props.userType === userTypes.TRAINER}
+        referenceMode={true} // modifies start button
+      />
+    )
+  }
+  onJoinStream = (streamId) => {
+    const {liveStreams, userName} = this.props;
+    const targetStream = liveStreams.filter(liveStream => liveStream._id === streamId)[0];
+    const {meetingNumber, meetingPassword, clientKey, clientSecret} = targetStream;
+    joinMeeting(meetingNumber, meetingPassword, userName, clientKey, clientSecret);
+  }
+  renderUpcomingStreams = () => {
+    const {upcomingStreams} = this.state;
+    if (!upcomingStreams) return null;
+    return (
+      <StreamSwiper
+        streams={upcomingStreams}
+        onJoin={this.onJoinStream}
+      />
+    )
+  }
+
+  renderHealthStats = () => {
+    const {currentStats, currentSwitch, weeklyStats} = this.state;
+    return (
+      <View style={[styles.sessionContainer, styles.card]}>
+        <View style={styles.row}>
+          <Text style={styles.subtitle}>{strings.HEALTH_SUMMARY}</Text>
+          <Menu
+            style={styles.menuContainer}
+            rendererProps={{
+              placement: 'bottom', anchorStyle: {
+                backgroundColor: appTheme.darkGrey,
+                marginTop: spacing.medium_sm
+              }
+            }}
+            renderer={renderers.Popover}
+          >
+            <MenuTrigger customStyles={{padding: spacing.small_lg}}>
+              <Text style={styles.menuTitle}>{currentSwitch ? strings.TODAY : strings.LAST_WEEK}</Text>
+            </MenuTrigger>
+            <MenuOptions customStyles={styles.menu}>
+              <MenuOption style={styles.menuButton} onSelect={this.setToday}>
+                <Text style={styles.menuText}>{strings.TODAY}</Text>
+              </MenuOption>
+              <MenuOption style={styles.menuButton} onSelect={this.setWeekly}>
+                <Text style={styles.menuText}>{strings.LAST_WEEK}</Text>
+              </MenuOption>
+            </MenuOptions>
+          </Menu>
+        </View>
+        <FitnessSummary
+          stats={currentSwitch ? currentStats : weeklyStats}
         />
       </View>
     )
   }
-  renderUser = () => {
-    const {userData} = this.props;
-    if (!userData) return null;
-    return (
-      <TouchableOpacity onPress={this.openMyProfile} style={styles.userContainer}>
-        <Avatar
-          url={userData.displayPictureUrl || defaultDP}
-          size={spacing.thumbnailSmall}
-        />
-        <View style={styles.titleContainer}>
-          <Text style={styles.displayName}>{toTitleCase(userData.name)}</Text>
-          <Text style={styles.infoText}>
-            {getJoinDurationString(userData.dateJoined, userData.userType)}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-  openMyProfile = () => {
-    const {navigation} = this.props;
-    navigation.navigate(RouteNames.MyProfile);
-  };
-  openProfile = (userId) => {
-    const {navigation} = this.props;
-    if (!userId)
-      navigation.navigate(RouteNames.MyProfile);
-    else navigation.navigate(RouteNames.Profile, {
-      userId: userId,
-    });
-  };
 
   render() {
-    const {activities} = this.props;
-    const {todaysEvents, tomorrowsEvents} = activities;
-
     return (
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-        {this.renderChart()}
-        <View style={{marginHorizontal: spacing.medium_lg}}><LiveCardList data={this.state.data}/></View>
-        {/*<View style={{flex: 1, width: "100%", marginVertical: spacing.medium_lg}}>*/}
-        <TimelineTabview
-          today={todaysEvents}
-          tomorrow={tomorrowsEvents}
-          onProfilePress={this.openProfile}
-        />
-        {/*</View>*/}
+        <View style={styles.sessionContainer}>
+          <Text style={styles.subtitle}>{strings.UPCOMING_STREAMS}</Text>
+          {this.renderUpcomingStreams()}
+        </View>
+        <View style={styles.sessionContainer}>
+          <Text style={styles.subtitle}>{strings.SESSIONS}</Text>
+          {this.renderTodaySessions()}
+        </View>
+        {this.renderHealthStats()}
       </ScrollView>
     );
   }
@@ -191,51 +222,68 @@ class Activity extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "100%",
-
     paddingTop: spacing.medium_lg,
-    // paddingBottom: spacing.medium,
-    // alignItems: "center",
     backgroundColor: appTheme.background,
   },
-  titleContainer: {
-    marginTop: spacing.medium_sm,
-    alignItems: "center",
+  sessionContainer: {
+    marginHorizontal: spacing.medium
   },
-  title: {
-    color: "white",
-    fontSize: fontSizes.h0,
-    fontFamily: fonts.PoppinsRegular,
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
-  displayName: {
-    color: "white",
+  subtitle: {
+    color: appTheme.greyC,
     fontSize: fontSizes.h1,
-    fontFamily: fonts.MontserratMedium,
+    fontFamily: fonts.CenturyGothicBold,
+    marginBottom: spacing.small_lg,
+    marginLeft: 2
   },
-  infoText: {
-    color: appTheme.lightContent,
-    fontSize: fontSizes.h2,
-    fontFamily: fonts.MontserratMedium,
+  menuContainer: {
+    borderColor: appTheme.grey,
+    borderWidth: 1,
+    borderRadius: 8,
+    justifyContent: 'center',
+    padding: spacing.medium_sm
   },
-  listContainer: {
-    width: "100%",
+  menuTitle: {
+    color: appTheme.brightContent,
+    fontFamily: fonts.CenturyGothicBold,
+    fontSize: fontSizes.h3
   },
-
-  userContainer: {
-    width: "100%",
-    alignItems: "center",
+  menu: {
+    backgroundColor: appTheme.background,
   },
-  editButton: {
-    marginLeft: spacing.medium_sm,
-    padding: spacing.small,
-    justifyContent: "center",
+  menuButton: {
+    flexDirection: 'row',
+    backgroundColor: appTheme.background,
+    alignItems: 'center',
+    padding: spacing.small_lg,
+    paddingHorizontal: spacing.medium_sm
   },
+  menuText: {
+    color: appTheme.brightContent,
+    fontFamily: fonts.CenturyGothic,
+    fontSize: fontSizes.h3,
+    textAlign: 'center'
+  },
+  card: {
+    backgroundColor: appTheme.darkBackground,
+    borderRadius: 12,
+    padding: spacing.medium_sm,
+    marginBottom: spacing.large_lg
+  }
 });
 
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
   activities: state.user.activities,
   userType: state.user.userType,
+  sessions: state.trainer.sessions,
+  liveStreams: state.social.liveStreams,
+  userName: state.user.userData.name,
+  calorieData: state.fitness.calorieData,
+  waterIntake: state.fitness.waterIntake,
 });
 
 const mapDispatchToProps = (dispatch) => ({

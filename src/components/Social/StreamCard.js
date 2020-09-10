@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   container: {
     height: 210,
     elevation: 5,
-    width: screenWidth,
+    // width: '100%',
     borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   },
   leftContent: {
     position: 'absolute',
-    left: 15 + spacing.medium_sm,
+    left: spacing.medium_sm,
     bottom: spacing.medium_sm,
     flexDirection: 'row',
     alignItems: 'center'
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   },
   rightContent: {
     position: 'absolute',
-    right: 15 + spacing.medium_sm,
+    right: spacing.medium_sm,
     bottom: spacing.medium_sm,
     flexDirection: 'row',
     alignItems: 'center'

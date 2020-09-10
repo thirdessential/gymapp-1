@@ -1,7 +1,8 @@
 import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
 import moment from 'moment';
-import { day } from "javascript-time-ago/gradation";
+import {day} from "javascript-time-ago/gradation";
+
 export const setBmiRecords = (bmiRecords) => ({
   type: actionTypes.SET_BMI_RECORDS,
   payload: {
@@ -12,7 +13,7 @@ export const setBmiRecords = (bmiRecords) => ({
 export const updateBmiRecords = () => {
   return async (dispatch) => {
     try {
-      let { success, records } = await API.getBmiHistory();
+      let {success, records} = await API.getBmiHistory();
       if (success) dispatch(setBmiRecords(records));
       return success;
     } catch (error) {
@@ -59,7 +60,7 @@ const setTarget = (targetWeight, targetDate) => ({
 export const getPreferences = () => {
   return async (dispatch) => {
     try {
-      let { preferences, exerciseIndex } = await API.getPreferences();
+      let {preferences, exerciseIndex} = await API.getPreferences();
       dispatch(setPreferences(preferences));
       dispatch(setExerciseIndex(exerciseIndex));
     } catch (error) {
@@ -143,46 +144,46 @@ export const addWaterIntake = (waterIntake) => {
   };
 };
 
-export const getWaterIntake=()=>{
+export const getWaterIntake = () => {
   return async (dispatch, getState) => {
-  try {
-    let waterIntake={...getState().fitness.waterIntake};//get waterIntake objects
-   //to sort dates 
-let datesArray=Object.keys(waterIntake).sort(function(a, b){//sort according to dates
-  var aa = a.split('-').reverse().join(),
-      bb = b.split('-').reverse().join();
-  return aa < bb ? -1 : (aa > bb ? 1 : 0);
-});
+    try {
+      let waterIntake = {...getState().fitness.waterIntake};//get waterIntake objects
+      //to sort dates
+      let datesArray = Object.keys(waterIntake).sort(function (a, b) {//sort according to dates
+        var aa = a.split('-').reverse().join(),
+          bb = b.split('-').reverse().join();
+        return aa < bb ? -1 : (aa > bb ? 1 : 0);
+      });
 
-let intakeArray=[];
+      let intakeArray = [];
 //make array with corresponding values 
-await datesArray.forEach(date=>{
-  intakeArray.push(waterIntake[date]);
-});
+      await datesArray.forEach(date => {
+        intakeArray.push(waterIntake[date]);
+      });
 //splitdate to send to frontend
-let splitDates=await datesArray.map(date=>{
-  let splitted=date.split('-');
-  let result=splitted[0]+"/"+splitted[1];
-  return result
-});
+      let splitDates = await datesArray.map(date => {
+        let splitted = date.split('-');
+        let result = splitted[0] + "/" + splitted[1];
+        return result
+      });
 
 //we need to send array of objects to frontend
-let dateAndIntake=[];
-for(i=0;i<splitDates.length;i++){
-  let obj={
-    date:splitDates[i],
-    intake:intakeArray[i]
-  };
- dateAndIntake.push(obj);
-};
+      let dateAndIntake = [];
+      for (i = 0; i < splitDates.length; i++) {
+        let obj = {
+          date: splitDates[i],
+          intake: intakeArray[i]
+        };
+        dateAndIntake.push(obj);
+      }
 
 
-    return dateAndIntake;
+      return dateAndIntake;
 
-  } catch (error) {
-    console.log("error in get water");
-    console.log(error);
-    return false;
+    } catch (error) {
+      console.log("error in get water");
+      console.log(error);
+      return false;
+    }
   }
-}
 }

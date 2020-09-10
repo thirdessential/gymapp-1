@@ -1,12 +1,12 @@
 import React from "react";
-import {StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {connect} from "react-redux";
 import Pdf from "react-native-pdf";
 
 import * as actionCreators from "../../store/actions";
 import {appTheme, bmiColors} from "../../constants/colors";
-import {INITIAL_USER_TYPE, userTypes} from "../../constants/appConstants";
-import {screenHeight, screenWidth} from "../../utils/screenDimensions";
+import {userTypes} from "../../constants/appConstants";
+import {screenWidth} from "../../utils/screenDimensions";
 import strings from "../../constants/strings";
 import {spacing} from "../../constants/dimension";
 import fonts from "../../constants/fonts";
@@ -55,6 +55,7 @@ class Terms extends React.Component {
     )
   }
 
+
   render() {
     return (
       <View
@@ -67,6 +68,7 @@ class Terms extends React.Component {
             //   console.log(`Link pressed: ${uri}`)
             // }}
             fitPolicy={0}
+            activityIndicator={<ActivityIndicator size={30} color={appTheme.grey}/>}
             style={styles.pdf}/>
         )}
         {this.renderAccept()}

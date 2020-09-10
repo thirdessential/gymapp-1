@@ -1,12 +1,11 @@
 import {cardBackgrounds} from "./images";
 import {appTheme, bmiColors} from "./colors";
 
-let apiUrl = '';
+let apiUrl = 'https://fitness-first-services.herokuapp.com';
 if (__DEV__) {
   console.log('Development Server');
   // apiUrl = 'https://fitness-first-services.herokuapp.com';
-   apiUrl = 'https://dbaf31e7c7fa.ngrok.io';
-//  apiUrl = 'http://192.168.31.125:3001';
+  apiUrl = 'http://192.168.31.125:3001';
 } else {
   console.log('Production Server');
   apiUrl = 'https://fitness-first-services.herokuapp.com';
@@ -40,7 +39,7 @@ export const storageKeys = {
 export const webClientId = '284208119571-nt9fitb9l2o4qulefvju8gqeo7aaug01.apps.googleusercontent.com';
 
 export const videoTestMode = false;
-export const callTimeout = 30000; //30 secs
+export const callTimeout = 40000; //40 secs
 
 export const WEEK_DAYS = {
   SUN: 'SUN',
@@ -84,6 +83,8 @@ export const remoteMessageTypes = {
   GENERIC_NOTIFICATION: 'GENERIC_NOTIFICATION',
   CALLBACK_REQ: 'CALLBACK_REQ',
   CALLBACK_ACCEPT: 'CALLBACK_ACCEPT',
+  SYNC_SESSIONS:'SYNC_SESSIONS',
+  SESSION_STARTED: 'SESSION_STARTED',
 }
 
 export const INITIAL_PAGE = 'INITIAL_PAGE';
@@ -171,9 +172,10 @@ export const equipmentTypes = {
 }
 
 export const zoomConfig = {
-  key: 'hKodHeKdo7c0g7Qh4Dx5MnQMp6j19tc1WGbs',
-  secret: 'Pxu4Jq7BjGG50kXxoDizV1FkAcLxdwTmDtPq',
-  userId: 'oggybuddy10@gmail.com',
+  // config stored in backend
+  // key: 'hKodHeKdo7c0g7Qh4Dx5MnQMp6j19tc1WGbs',
+  // secret: 'Pxu4Jq7BjGG50kXxoDizV1FkAcLxdwTmDtPq',
+  // userId: 'oggybuddy10@gmail.com',
   domain: 'zoom.us'
 }
 
@@ -200,7 +202,8 @@ export const streamStatusColor = {
 export const notificationActionTypes = {
   STREAM: 'STREAM',
   CALL_REQUEST: 'CALL_REQUEST',
-  CALL_ACCEPT: 'CALL_ACCEPT'
+  CALL_ACCEPT: 'CALL_ACCEPT',
+  AGORA_SESSION: 'AGORA_SESSION'
 };
 
 export const foodTypes = {
@@ -223,7 +226,8 @@ export const subscriptionType = {
 }
 export const subscriptionTypeNames = {
   SINGLE: 'Workout',
-  BATCH: 'Group Workout'
+  BATCH: 'Group Workout',
 }
-// export const MS_IN_DAY = (1000 * 60 * 60 * 24);
+export const MS_IN_DAY = 86400000;// (1000 * 60 * 60 * 24)
 export const MAX_VIDEO_LENGTH = 120; // 2 minutes
+export const DEFAULT_WATER_INTAKE_QUOTA = 4000;

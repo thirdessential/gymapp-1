@@ -1,5 +1,4 @@
-import axios from './config';
-import {validateResponseCode} from "../utils/utils";
+import axios, {validateResponseCode} from './config';
 
 export const makeCall = async (userId) => {
   try {

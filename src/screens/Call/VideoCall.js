@@ -27,7 +27,7 @@ import Avatar from "../../components/Avatar";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import CallBackground from "../../../assets/images/callBackground.png";
-import {setAvailable, setBusy} from "../../API"; //Set defaults for Stream
+import {endAgoraSession, setAvailable, setBusy} from "../../API"; //Set defaults for Stream
 
 let LocalView = RtcLocalView.SurfaceView;
 let RemoteView = RtcRemoteView.SurfaceView;
@@ -70,7 +70,7 @@ class VideoCall extends Component {
 
   componentDidMount() {
     AndroidPip.enableAutoPipSwitch();
-    this.callTimeouter = setTimeout(()=>this.handleCallTimeout(), callTimeout);
+    this.callTimeouter = setTimeout(() => this.handleCallTimeout(), callTimeout);
 
     AppState.addEventListener("change", this._handleAppStateChange);
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', function () {
@@ -110,10 +110,16 @@ class VideoCall extends Component {
 
   componentWillUnmount() {
     setAvailable();
+    this.endAgoraSession();
     this.backHandler.remove();
     clearTimeout(this.callTimeouter);
     AndroidPip.disableAutoPipSwitch();
     AppState.removeEventListener("change", this._handleAppStateChange);
+  }
+
+  endAgoraSession = async()=>{
+    await endAgoraSession(this.state.channelName);
+    this.props.syncSessions();
   }
 
   _handleAppStateChange = nextAppState => {
@@ -132,7 +138,7 @@ class VideoCall extends Component {
    * @name toggleAudio
    * @description Function to toggle local user's audio
    */
-  toggleAudio() {
+  toggleAudio=() =>{
     let mute = this.state.audMute;
     console.log('Audio toggle', mute);
     engine.muteLocalAudioStream(!mute);
@@ -237,7 +243,7 @@ class VideoCall extends Component {
         <TouchableOpacity
           style={[styles.utilityButton, styles.shadow]}
           activeOpacity={0.7}
-          onPress={() => this.toggleAudio()}>
+          onPress={this.toggleAudio}>
           <Icon
             name={this.state.audMute ? 'mic-off' : 'mic'}
             color="white"
@@ -403,6 +409,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   endCall: () => dispatch(actionCreators.endCall()),
+  syncSessions: () => dispatch(actionCreators.syncSessions()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VideoCall);

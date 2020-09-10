@@ -3,7 +3,6 @@
 // import {CHANNELS, rootURL} from "../constants/appConstants";
 import {navigate} from "../navigation/RootNavigation";
 import RouteNames from "../navigation/RouteNames";
-import AsyncStorage from '@react-native-community/async-storage';
 import {makeCall} from "../API";
 import strings, {bmiVerdicts} from "../constants/strings";
 import {defaultDP, MONTH_NAMES, userTypes, WEEK_DAY_NAMES, WEEK_DAYS} from "../constants/appConstants";
@@ -11,9 +10,6 @@ import ImagePicker from "react-native-image-picker";
 import {showError} from "./notification";
 import {bmiColors} from "../constants/colors";
 
-export const validateResponseCode = (code) => {
-  return Math.floor(code / 100) === 2;
-};
 
 export const formattedTime = (date) => {
   let dateObj = new Date(date);
@@ -82,35 +78,6 @@ export const stringToDate = (time) => {
   dateObj.setHours(hours);
   dateObj.setMinutes(minutes);
   return dateObj;
-};
-
-export const saveToStorage = async (key, value) => {
-  try {
-    const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem(key, jsonValue);
-    return true;
-  } catch (e) {
-    console.log("Storing data to storage failed", e);
-    return false;
-  }
-};
-
-export const readFromStorage = async (key) => {
-  try {
-    const jsonValue = await AsyncStorage.getItem(key);
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
-  } catch (e) {
-    console.log("Reading data from storage failed", e);
-    return false;
-  }
-};
-export const deleteFromStorage = async (key) => {
-  try {
-    await AsyncStorage.removeItem(key);
-    return true;
-  } catch (exception) {
-    return false;
-  }
 };
 
 export const textSlicer = (text, length) => {
@@ -272,23 +239,34 @@ export const getCompressedLink = (url, height = 400, width = 400) => {
   return split[0] + `upload/w_${width},h_${height}` + split[1];
 };
 
-export const getTodayFormattedDate = () => {
-  var today = new Date();
-  var dd = today.getDate();
-
-  var mm = today.getMonth() + 1;
-  var yyyy = today.getFullYear();
+export const getFormattedDate = (date = new Date()) => {
+  date = new Date(date);
+  var dd = date.getDate();
+  var mm = date.getMonth() + 1;
+  var yyyy = date.getFullYear();
   if (dd < 10) {
     dd = "0" + dd;
   }
-
   if (mm < 10) {
     mm = "0" + mm;
   }
-  today = dd + "-" + mm + "-" + yyyy;
-
-  return today;
+  date = dd + "-" + mm + "-" + yyyy;
+  return date;
 };
+
+const getDaysArray = function (s, e) {
+  for (var a = [], d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
+    a.push(new Date(d));
+  }
+  return a;
+};
+
+export const getPastWeekDates = () => {
+  const now = new Date();
+  const weekAgo = new Date();
+  weekAgo.setDate(weekAgo.getDate() - 7);
+  return getDaysArray(weekAgo, now);
+}
 
 export const getImageFromCloudinaryPdf = (url) => {
   return url.split("pdf")[0] + "jpg";
@@ -300,12 +278,6 @@ export const fillArray = (value, len = 10) => {
     arr.push(value);
   }
   return arr;
-}
-
-export function hashCode(s) {
-  for (var i = 0, h = 0; i < s.length; i++)
-    h = Math.imul(31, h) + s.charCodeAt(i) | 0;
-  return h;
 }
 
 export const formatSeconds = remainingSeconds => {
