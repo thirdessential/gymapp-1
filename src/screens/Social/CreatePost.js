@@ -197,7 +197,7 @@ class CreatePost extends PureComponent {
             },
           ]}
         >
-          <Text style={{color: "white", fontFamily: fonts.CenturyGothic}}>
+          <Text style={{color: appTheme.textPrimary, fontFamily: fonts.CenturyGothic}}>
             {strings.POST}
           </Text>
         </TouchableOpacity>
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   title: {
-    color: "white",
+    color: appTheme.textPrimary,
     fontFamily: fonts.CenturyGothic,
     fontWeight: "700",
   },

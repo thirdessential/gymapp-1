@@ -3,7 +3,7 @@ import {FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View} fro
 import {appTheme, bmiColors} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import {fillArray, getImageFromCloudinaryPdf} from "../../utils/utils";
+import {getImageFromCloudinaryPdf} from "../../utils/utils";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {spacing} from "../../constants/dimension";
 import ImageViewer from "../ImageViewer";

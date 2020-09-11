@@ -3,17 +3,19 @@
  */
 import React, {useState} from "react";
 import PropTypes from "prop-types";
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import WeekdayPicker from "react-native-weekday-picker";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
 import {spacing} from "../constants/dimension";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import colors, {appTheme} from "../constants/colors";
-import WeekdayPicker from "react-native-weekday-picker";
 import fontSizes from "../constants/fontSizes";
 import fonts from "../constants/fonts";
-import { formattedTime, stringToDate} from "../utils/utils";
+import {formattedTime, stringToDate} from "../utils/utils";
 import SelectableButtonGroup from "./selectableButtonGroup";
 import {allowedDurations, WEEK_DAYS} from "../constants/appConstants";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import {hitSlop20} from "../constants/styles";
 
 const slot = (props) => {
   const [show, setShow] = useState(false);
@@ -52,7 +54,7 @@ const slot = (props) => {
   const MultiButton = () => {
     if (props.onDelete)
       return (
-        <TouchableOpacity onPress={props.onDelete} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+        <TouchableOpacity onPress={props.onDelete} hitSlop={hitSlop20}>
           <FontAwesome
             name={'trash'}
             color={colors.rejectRed}
@@ -162,12 +164,12 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MontserratMedium
   },
   time: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h1,
     fontFamily: fonts.MontserratMedium
   },
   duration: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h1,
     fontFamily: fonts.MontserratMedium
   },

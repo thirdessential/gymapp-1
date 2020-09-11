@@ -1,13 +1,8 @@
 import React from "react";
-
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
-import {appTheme} from "../../constants/colors";
-import {screenHeight, screenWidth} from "../../utils/screenDimensions";
-import fonts from "../../constants/fonts";
-import {spacing} from "../../constants/dimension";
-import fontSizes from "../../constants/fontSizes";
 
+import {spacing} from "../../constants/dimension";
 
 const authBar = (props) => {
   return (
@@ -21,7 +16,6 @@ const authBar = (props) => {
           color="white"
           size={35}
         />
-        {/*<Text style={} >Google</Text>*/}
       </TouchableOpacity>
       <TouchableOpacity
         onPress={props.facebookLogin}

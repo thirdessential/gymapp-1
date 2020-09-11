@@ -2,16 +2,14 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, ImageBackground, TouchableNativeFeedback} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, ImageBackground} from "react-native";
 
-import {appTheme, bmiColors} from "../../constants/colors";
+import {appTheme} from "../../constants/colors";
 import {spacing} from "../../constants/dimension";
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
 import strings from "../../constants/strings";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import {getRandomImage} from "../../constants/images";
-import {screenWidth} from "../../utils/screenDimensions";
 import {streamStatus, streamStatusColor, streamText} from "../../constants/appConstants";
 import {formattedDayDate, formattedTime, toTitleCase} from "../../utils/utils";
 import Avatar from "../Avatar";
@@ -88,7 +86,6 @@ const styles = StyleSheet.create({
   container: {
     height: 210,
     elevation: 5,
-    // width: '100%',
     borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
@@ -119,9 +116,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: spacing.medium
   },
-  mainContent: {
-    // position:'absolute'
-  },
+  mainContent: {},
   leftContent: {
     position: 'absolute',
     left: spacing.medium_sm,
@@ -145,7 +140,6 @@ const styles = StyleSheet.create({
     padding: spacing.small,
     paddingHorizontal: spacing.medium_sm
   }
-
 });
 
 export default React.memo(streamCard);

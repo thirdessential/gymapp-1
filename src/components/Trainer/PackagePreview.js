@@ -2,7 +2,8 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native'
+import {StyleSheet, Text, View} from 'react-native';
+
 import strings from "../../constants/strings";
 import {spacing} from "../../constants/dimension";
 import {appTheme} from "../../constants/colors";
@@ -10,7 +11,6 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 
 const packagePreview = (props) => {
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{props.title}</Text>
@@ -21,8 +21,6 @@ const packagePreview = (props) => {
     </View>
   );
 }
-
-packagePreview.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
@@ -36,7 +34,7 @@ const styles = StyleSheet.create({
     elevation: 9,
   },
   title: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h2,
     textAlign: 'center',
     marginBottom: spacing.medium_sm,

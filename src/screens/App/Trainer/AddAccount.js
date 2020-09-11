@@ -13,6 +13,7 @@ import {
   Keyboard,
 } from "react-native";
 import {connect} from "react-redux";
+import Entypo from "react-native-vector-icons/Entypo";
 
 import {appTheme} from "../../../constants/colors";
 import fontSizes from "../../../constants/fontSizes";
@@ -21,7 +22,6 @@ import strings from "../../../constants/strings";
 import {spacing} from "../../../constants/dimension";
 import {iconBackgrounds} from "../../../constants/images";
 import * as actionCreators from "../../../store/actions";
-import Entypo from "react-native-vector-icons/Entypo";
 import {showError, showSuccess} from "../../../utils/notification";
 
 const initialState = {
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.background,
   },
   bankAccountDetailsText: {
-    color: "white",
+    color: appTheme.textPrimary,
     fontSize: fontSizes.bigTitle,
     fontWeight: "bold",
     fontFamily: fonts.CenturyGothic,
@@ -337,7 +337,11 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothic,
 
   },
-  read: {color: "white", fontSize: fontSizes.h4, fontFamily: fonts.CenturyGothic},
+  read: {
+    color: appTheme.textPrimary,
+    fontSize: fontSizes.h4,
+    fontFamily: fonts.CenturyGothic
+  },
   listContainer: {
     marginTop: spacing.medium,
     borderRadius: 10,
@@ -345,4 +349,5 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.medium,
   }
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(AddAccount);

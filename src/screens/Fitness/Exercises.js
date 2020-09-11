@@ -1,8 +1,6 @@
 import React, {PureComponent, Component} from "react";
 import {
-  ActivityIndicator,
   FlatList,
-  LayoutAnimation,
   ScrollView,
   StyleSheet,
   Image,
@@ -10,9 +8,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Keyboard,
-  Button,
-  Alert,
 } from "react-native";
 import {connect} from "react-redux";
 
@@ -21,8 +16,6 @@ import {spacing} from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
-import {screenHeight, screenWidth} from "../../utils/screenDimensions";
-import * as actionCreators from "../../store/actions";
 import RouteNames from "../../navigation/RouteNames";
 
 const categories = [
@@ -118,7 +111,7 @@ class Exercises extends PureComponent {
       </View>
     </TouchableOpacity>
   );
-  feautred = (uri, type, desc) => (
+  featured = (uri, type, desc) => (
     <TouchableOpacity onPress={() => this.openSelectExercise(type)} style={{}}>
       <View style={styles.imageContainer}>
         <Image
@@ -142,37 +135,36 @@ class Exercises extends PureComponent {
         showsVerticalScrollIndicator={false}
       >
         <View
-          style={styles.headingContainer}
-        >
+          style={styles.headingContainer}>
           <Text style={styles.featuredText}>{strings.FEATURED_WORKOUT}</Text>
         </View>
         {Math.floor(Math.random() * 10) % 2 === 0
-          ? this.feautred(bodyParts[0].url, bodyParts[0].type, 'Abdominal exercises affect the abdominal muscles ')
-          : this.feautred(bodyParts[5].url, bodyParts[5].type, 'Workout that aims to hit all the major muscle groups')}
+          ? this.featured(bodyParts[0].url, bodyParts[0].type, 'Abdominal exercises affect the abdominal muscles ')
+          : this.featured(bodyParts[5].url, bodyParts[5].type, 'Workout that aims to hit all the major muscle groups')}
         <View style={styles.itemContainer}>
-            <View style={{marginLeft: spacing.large_lg}}>
-              <Text style={styles.discover}>{strings.DISCOVER}</Text>
-            </View>
-            <View style={styles.horizontalList}>
-              <FlatList
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                style={styles.flatList}
-                keyExtractor={(item) => item.type}
-                data={bodyParts}
-                renderItem={this.renderItem}
-              />
-            </View>
-            <View style={styles.horizontalList}>
-              <FlatList
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                style={styles.flatList}
-                keyExtractor={(item) => item.type}
-                data={categories}
-                renderItem={this.renderItem}
-              />
-            </View>
+          <View style={{marginLeft: spacing.large_lg}}>
+            <Text style={styles.discover}>{strings.DISCOVER}</Text>
+          </View>
+          <View style={styles.horizontalList}>
+            <FlatList
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              style={styles.flatList}
+              keyExtractor={(item) => item.type}
+              data={bodyParts}
+              renderItem={this.renderItem}
+            />
+          </View>
+          <View style={styles.horizontalList}>
+            <FlatList
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              style={styles.flatList}
+              keyExtractor={(item) => item.type}
+              data={categories}
+              renderItem={this.renderItem}
+            />
+          </View>
         </View>
       </ScrollView>
     );
@@ -187,7 +179,7 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.background,
     flex: 1,
   },
-  headingContainer:{
+  headingContainer: {
     marginTop: spacing.medium_sm,
     marginLeft: spacing.space_40,
   },
@@ -229,7 +221,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     paddingVertical: spacing.medium_lg,
-    // height: screenHeight / 2,
   },
   discover: {
     color: appTheme.textPrimary,

@@ -2,12 +2,12 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {PureComponent} from 'react';
-import {View, StyleSheet,  LayoutAnimation} from 'react-native';
+import {View, StyleSheet, LayoutAnimation} from 'react-native';
 import {connect} from "react-redux";
 
 import {spacing} from "../../../constants/dimension";
 import * as actionCreators from "../../../store/actions";
-import  {appTheme, darkPallet} from "../../../constants/colors";
+import {appTheme} from "../../../constants/colors";
 import RouteNames from "../../../navigation/RouteNames";
 import PackageFlatList from "../../../components/Trainer/PackageFlatList";
 import fontSizes from "../../../constants/fontSizes";
@@ -67,14 +67,14 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.darkBackground,
     alignItems: 'center'
   },
-  listContainer:{
-    marginTop:spacing.medium_lg,
-    marginLeft:spacing.medium_lg,
-    marginRight:spacing.medium_lg,
-    flex:1
+  listContainer: {
+    marginTop: spacing.medium_lg,
+    marginLeft: spacing.medium_lg,
+    marginRight: spacing.medium_lg,
+    flex: 1
   },
   title: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h0,
     fontFamily: fonts.PoppinsRegular
   },

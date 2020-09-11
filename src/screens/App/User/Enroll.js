@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     alignContent: "center",
     textAlign: "center",
-    color: "white",
+    color: appTheme.textPrimary,
     lineHeight: 50,
   },
   warningText: {

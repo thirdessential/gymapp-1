@@ -5,7 +5,6 @@ import React from 'react';
 import {StyleSheet, View, ScrollView} from 'react-native'
 import PropTypes from 'prop-types';
 
-import strings from "../constants/strings";
 import {spacing} from "../constants/dimension";
 import Hits from './Hits';
 import colors from "../constants/colors";

@@ -7,34 +7,34 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Keyboard,
+  Keyboard
 } from "react-native";
 import {connect} from "react-redux";
-import {spacing} from "../../constants/dimension";
+import cuid from "cuid";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
+import {spacing} from "../../constants/dimension";
 import colors, {appTheme} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import strings from "../../constants/strings";
 import * as actionCreators from "../../store/actions";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {showError, showSuccess} from "../../utils/notification";
 import {getFormattedDate} from "../../utils/utils";
 import * as API from "../../API";
-import cuid from "cuid";
 
 const currentDate = getFormattedDate();
 
 class Calorie1 extends PureComponent {
   state = {
     food: "",//to get name of food
-    type: "",//type tp hold breakfast ;unch or dinner
+    type: "",//type tp hold breakfast lunch or dinner
     load: false,//loading indicator
     foods: [],//to hold object of food with fats proteins tec
     fabLoading: false,//loading icon
-    recommendationText: false,//if we get recoomendation from backend then show this text
+    recommendationText: false,//if we get recommendation from backend then show this text
   };
 
   async componentDidMount() {
@@ -46,25 +46,15 @@ class Calorie1 extends PureComponent {
 
     }
     await this.setState({type});//type   i.e Breakfast lunh dinner snacks for current food ITems
-
   }
 
 
-  addFoodData = async () => {//send to redux and databse
-    //to send to database
-    // console.log("Addfooddate");
+  addFoodData = async () => {//send to redux and database
     this.setState({fabLoading: true});
     let result = await API.updateMealIntake(currentDate, this.state.foods);
-
-    // console.log(result);
-
-    //to save in redux
     let response = await this.props.addCalorieData(this.state.foods);
-    // console.log(response);
     showSuccess("Items added successfully");
-
     this.setState({fabLoading: false});
-
     this.props.navigation.goBack();
     this.setState({foods: [], recommendationText: false});
   };
@@ -314,9 +304,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    // paddingLeft: spacing.medium_lg,
-    // paddingRight: spacing.medium_lg,
-
     backgroundColor: appTheme.background,
   },
   searchSection: {
@@ -432,17 +419,3 @@ const styles = StyleSheet.create({
     right: spacing.medium_lg,
   },
 });
-// {
-//   item: "egg",
-//   quantity: 100,
-//   carbs: 3,
-//   precarbs: 3,
-//   fats: 88,
-//   prefats: 88,
-//   proteins: 52,
-//   preproteins: 52,
-//   id: cuid(),
-//   total: 143,
-//   pretotal: 143,
-//   type: "BREAKFAST",
-// },

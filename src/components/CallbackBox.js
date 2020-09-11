@@ -2,20 +2,17 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, ActivityIndicator} from 'react-native'
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native'
 
 import colors, {appTheme} from "../constants/colors";
 import {spacing} from "../constants/dimension";
 import Avatar from "./Avatar";
-import {militaryTimeToString} from "../utils/utils";
 import fonts from "../constants/fonts";
 import fontSizes from "../constants/fontSizes";
 import strings from "../constants/strings";
 import {callbackStatus} from "../constants/appConstants";
 import CallButton from "./CallButton";
-import Ion from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Entypo from "react-native-vector-icons/Entypo";
 
 const callbackBox = (props) => {
   const {date, city, displayName, displayPictureUrl, status} = props;
@@ -37,7 +34,7 @@ const callbackBox = (props) => {
             {status === callbackStatus.REQUESTED && (
               <>
                 <TouchableOpacity
-                  style={[styles.buttonContainer,{marginLeft:'auto'}]}
+                  style={[styles.buttonContainer, {marginLeft: 'auto'}]}
                   onPress={props.acceptRequest}
                 >
                   <FontAwesome
@@ -52,7 +49,10 @@ const callbackBox = (props) => {
               status === callbackStatus.ACCEPTED && (
                 <>
                   <TouchableOpacity onPress={props.done}
-                                    style={[styles.button, {backgroundColor: appTheme.brightContent, marginRight:spacing.medium}]}>
+                                    style={[styles.button, {
+                                      backgroundColor: appTheme.brightContent,
+                                      marginRight: spacing.medium
+                                    }]}>
                     <Text style={styles.buttonText}>{strings.DONE}</Text>
                   </TouchableOpacity>
                   <CallButton height={30} onPress={props.call} size={20}/>
@@ -85,16 +85,11 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 10,
     padding: spacing.medium,
-    // paddingTop: spacing.medium,
-    // paddingBottom:spacing.medium
   },
   row: {
     flexDirection: 'row',
-    // justifyContent:'space-between'
   },
-  pictureContainer: {
-    // marginRight: 'auto'
-  },
+  pictureContainer: {},
   displayName: {
     color: appTheme.brightContent,
     fontFamily: fonts.CenturyGothicBold,

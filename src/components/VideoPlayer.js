@@ -1,5 +1,5 @@
 import {spacing} from "../constants/dimension";
-import {View, StyleSheet, ImageBackground, TouchableOpacity} from "react-native";
+import {StyleSheet, ImageBackground, TouchableOpacity} from "react-native";
 import React, {useState} from "react";
 import {screenWidth} from "../utils/screenDimensions";
 import VideoPlayer from 'react-native-video-controls';
@@ -11,7 +11,7 @@ const videoPlayer = (props) => {
   const [init, setInit] = useState(false);
   const uri = getCompressedLink(props.uri, styles.content.height, styles.content.width);
   const poster = getThumbnail(props.uri, styles.content.height, styles.content.width);
-  const toggleVideo =()=> setInit(!init);
+  const toggleVideo = () => setInit(!init);
   if (init)
     return (
       <VideoPlayer
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     height: 250,
     width: screenWidth - spacing.medium * 4,
   },
-  center:{
+  center: {
     justifyContent: 'center',
     alignItems: 'center'
   }

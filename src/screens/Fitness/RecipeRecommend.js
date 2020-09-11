@@ -1,8 +1,7 @@
-import React, { PureComponent } from "react";
+import React, {PureComponent} from "react";
 import {
   ActivityIndicator,
   FlatList,
-  LayoutAnimation,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,74 +9,39 @@ import {
   TouchableOpacity,
   View,
   Keyboard,
-  Button,
-  Alert,
 } from "react-native";
-import { connect } from "react-redux";
-import { Bar } from "react-native-progress";
-import { spacing } from "../../constants/dimension";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
-
-TimeAgo.addLocale(en);
-const timeAgo = new TimeAgo("en-US");
-
-import colors, {
-  appTheme,
-  bmiColors,
-  darkPallet,
-} from "../../constants/colors";
-import fontSizes from "../../constants/fontSizes";
-import fonts from "../../constants/fonts";
-import { screenWidth } from "../../utils/screenDimensions";
-import strings from "../../constants/strings";
-import { calculateBmi, getBmiVerdict, toTitleCase } from "../../utils/utils";
-import Feather from "react-native-vector-icons/Feather";
-import CustomLineChart from "../../components/CustomLineChart";
-import Avatar from "../../components/Avatar";
-import RouteNames from "../../navigation/RouteNames";
-import * as actionCreators from "../../store/actions";
-import { hitSlop20 } from "../../constants/styles";
-import { WEEK_DAYS } from "../../constants/appConstants";
-import RBSheet from "react-native-raw-bottom-sheet";
-import DatePicker from "react-native-datepicker";
+import {connect} from "react-redux";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import Entypo from "react-native-vector-icons/Entypo";
+
 import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from "react-native-chart-kit";
+  appTheme,
+} from "../../constants/colors";
+import fonts from "../../constants/fonts";
+import {screenWidth} from "../../utils/screenDimensions";
 
 class RecipeRecommend extends PureComponent {
+  // Experimental WIP screen for recipe recommendations
   state = {
     food: "",
     recipes: [],
     load: false,
   };
 
-  componentDidMount() {}
-  componentWillUnmount() {}
   getRecipes = async () => {
-      Keyboard.dismiss();
-    this.setState({ load: !this.state.load });
+    Keyboard.dismiss();
+    this.setState({load: !this.state.load});
 
     const url = `https://api.edamam.com/search?q=${this.state.food}&app_id=e4e8e5c6&app_key=2c3a4d45fb3da291e09c727acdfe22d9`;
     const response = await fetch(url, {
       method: "GET",
     });
     const resData = await response.json();
-    //  console.log(resData.hits[0].recipe.label);
-
-    //  console.log(resData.hits[1].recipe.label);
-    await this.setState({ recipes: resData.hits });
+    await this.setState({recipes: resData.hits});
     await console.log(this.state);
-    this.setState({ load: !this.state.load });
+    this.setState({load: !this.state.load});
   };
-  itemSeparator = () => <View style={styles.itemSeparator} />;
+  itemSeparator = () => <View style={styles.itemSeparator}/>;
+
   render() {
     return (
       <>
@@ -94,7 +58,7 @@ class RecipeRecommend extends PureComponent {
               style={styles.input}
               placeholder="Enter food name"
               onChangeText={(food) => {
-                this.setState({ food });
+                this.setState({food});
               }}
               placeholderTextColor={appTheme.darkBackground}
               value={this.state.food}
@@ -104,7 +68,7 @@ class RecipeRecommend extends PureComponent {
               <ActivityIndicator
                 size="small"
                 color="#0000ff"
-                style={{ marginRight: 5 }}
+                style={{marginRight: 5}}
               />
             ) : (
               <TouchableOpacity
@@ -122,40 +86,40 @@ class RecipeRecommend extends PureComponent {
             )}
           </View>
           {this.state.recipes.length > 0 ? (
-            
-              <FlatList
-              styles={{marginTop:10,marginHorizontal: 10,paddingHorizontal:5}}
-                data={this.state.recipes}
-                ItemSeparatorComponent={this.itemSeparator}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                  <View style={{ margin: 5,marginHorizontal:5,paddingHorizontal:5 }}>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        alignItems: "flex-start",
-                        color: appTheme.greyC,
-                        fontFamily:fonts.CenturyGothic,
-                        flex: 1, flexWrap: 'wrap'
-                      }}
-                    >
-                      {item.recipe.label}
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        alignItems: "flex-end",
-                        color: appTheme.greyC,
-                        flex: 1, flexWrap: 'wrap'
-                      }}
-                    >
+
+            <FlatList
+              styles={{marginTop: 10, marginHorizontal: 10, paddingHorizontal: 5}}
+              data={this.state.recipes}
+              ItemSeparatorComponent={this.itemSeparator}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({item}) => (
+                <View style={{margin: 5, marginHorizontal: 5, paddingHorizontal: 5}}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      alignItems: "flex-start",
+                      color: appTheme.greyC,
+                      fontFamily: fonts.CenturyGothic,
+                      flex: 1, flexWrap: 'wrap'
+                    }}
+                  >
+                    {item.recipe.label}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      alignItems: "flex-end",
+                      color: appTheme.greyC,
+                      flex: 1, flexWrap: 'wrap'
+                    }}
+                  >
                     Total calories:
-                      {Math.round(item.recipe.calories, 0)} 
-                    </Text>
-                  </View>
-                )}
-              />
-          
+                    {Math.round(item.recipe.calories, 0)}
+                  </Text>
+                </View>
+              )}
+            />
+
           ) : null}
         </ScrollView>
       </>
@@ -167,9 +131,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    // paddingLeft: spacing.medium_lg,
-    // paddingRight: spacing.medium_lg,
-
     backgroundColor: appTheme.background,
   },
   searchSection: {
@@ -199,11 +160,10 @@ const styles = StyleSheet.create({
   itemSeparator: {
     height: 0.5,
     backgroundColor: appTheme.brightContent,
-    width:screenWidth*0.95,
+    width: screenWidth * 0.95,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center"
-    
   },
 });
 

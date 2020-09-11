@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native'
-import PropTypes from 'prop-types';
 
 import PackagePreview from './PackagePreview';
 

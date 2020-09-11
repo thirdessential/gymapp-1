@@ -7,10 +7,10 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
 import {createImageProgress} from 'react-native-image-progress';
 import FastImage from 'react-native-fast-image';
-
 const Image = createImageProgress(FastImage);
-import ProfileOverview from '../../components/Profile/ProfileOverview';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
+import ProfileOverview from '../../components/Profile/ProfileOverview';
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
@@ -20,7 +20,6 @@ import RouteNames from "../../navigation/RouteNames";
 import {generateTrainerHits, generateUserHits, pickImage} from "../../utils/utils";
 import {spacing} from "../../constants/dimension";
 import * as actionCreators from "../../store/actions";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {uploadImage} from "../../API";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
@@ -188,7 +187,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {},
   titleStyle: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontWeight: 'bold',
     fontSize: 18,
   },
@@ -203,15 +202,13 @@ const styles = StyleSheet.create({
     borderRadius: 3
   },
   coverText: {
-    color: 'white',
+    color: appTheme.textPrimary,
     marginLeft: spacing.medium_sm
   },
   sectionTitleContainer: {
-    // marginTop: spacing.medium_lg,
-    // marginBottom: spacing.medium
   },
   sectionTitle: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h1,
     fontFamily: fonts.CenturyGothic
   },

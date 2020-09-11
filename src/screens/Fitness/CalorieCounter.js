@@ -1,12 +1,12 @@
 import React, {PureComponent} from "react";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
-
-var _ = require("lodash");
+import {copilot, walkthroughable, CopilotStep} from "react-native-copilot";
 import {connect} from "react-redux";
 import cuid from "cuid";
 import PropTypes from "prop-types";
 import * as Progress from "react-native-progress";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+
 import {spacing} from "../../constants/dimension";
 import {appTheme, darkPallet} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
@@ -18,7 +18,6 @@ import {getFormattedDate} from "../../utils/utils";
 import {DEFAULT_CALORIE_INTAKE_QUOTA, foodTypes} from "../../constants/appConstants";
 import * as actionCreators from "../../store/actions";
 import * as API from "../../API";
-import {copilot, walkthroughable, CopilotStep} from "react-native-copilot";
 
 const currentDate = getFormattedDate();
 const WalkthroughableText = walkthroughable(Text);
@@ -448,7 +447,6 @@ export default connect(
   mapDispatchToProps
 )(
   copilot({
-    //tooltipStyle: style,
     verticalOffset: 27,
     overlay: "svg", // or 'view'
     animated: true, // or false
@@ -566,14 +564,3 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
 });
-// White = "#ffffff",
-// LightGray = "#cccccc",
-// Gray = "#323232",
-// // Light Theme
-// Green = "#50eba9",
-// Red = "#E02020",
-// Canary = "#FAEB3F",
-// // Dark Theme
-// Move = "#54f0f7",
-// Exercise = "#c1ff00",
-// Stand = "#ef135f"

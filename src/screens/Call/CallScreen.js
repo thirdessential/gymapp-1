@@ -10,15 +10,14 @@ import {
 } from 'react-native';
 import RNExitApp from "react-native-exit-app";
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {connect} from "react-redux";
 
 const PushNotification = require("react-native-push-notification");
+
 import {requestCameraAndAudioPermission} from "../../utils/permission";
 import RouteNames from "../../navigation/RouteNames";
-
 import CallBackground from '../../../assets/images/callBackground.png';
 import DefaultUser from '../../../assets/images/defaultUser.png';
-
-import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";
 import {screenWidth} from "../../utils/screenDimensions";
 import colors from "../../constants/colors";

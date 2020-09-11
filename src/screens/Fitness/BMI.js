@@ -11,9 +11,6 @@ import {
   View,
   Keyboard
 } from "react-native";
-import {connect} from "react-redux";
-import {Bar} from 'react-native-progress';
-import {spacing} from "../../constants/dimension";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import {
@@ -24,12 +21,13 @@ import {
 } from 'react-native-popup-menu';
 import RBSheet from "react-native-raw-bottom-sheet";
 import Entypo from "react-native-vector-icons/Entypo";
+import {connect} from "react-redux";
+import {Bar} from 'react-native-progress';
 
+import {spacing} from "../../constants/dimension";
 TimeAgo.addLocale(en)
 const timeAgo = new TimeAgo('en-US');
-
-
-import colors, {appTheme, bmiColors, darkPallet} from "../../constants/colors";
+import {appTheme, bmiColors} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import {screenWidth} from "../../utils/screenDimensions";
@@ -106,7 +104,6 @@ class BMI extends PureComponent {
                 <Text style={styles.menuText}>{strings.SET_HEIGHT}</Text>
               </TouchableOpacity>
             )}
-
           </View>
         </View>
         <Menu style={styles.menuContainer}>
@@ -420,7 +417,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingLeft: spacing.medium_lg,
     paddingRight: spacing.medium_lg,
-    // paddingTop: spacing.medium_lg,
     backgroundColor: appTheme.background,
   },
   weightRow: {
@@ -518,7 +514,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: spacing.medium_lg
   },
-
 });
 
 const mapStateToProps = (state) => ({

@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity, ScrollView,
 } from "react-native";
+import {connect} from "react-redux";
 
 import {appTheme} from "../../../constants/colors";
 import {spacing} from "../../../constants/dimension";
@@ -15,7 +16,6 @@ import fontSizes from "../../../constants/fontSizes";
 import {iconBackgrounds} from "../../../constants/images";
 import {screenHeight, screenWidth} from "../../../utils/screenDimensions";
 import * as actionCreators from "../../../store/actions";
-import {connect} from "react-redux";
 
 class WorkoutDays extends Component {
   state = {

@@ -5,11 +5,10 @@ import React, {Component} from 'react';
 import {View, StyleSheet, ActivityIndicator, LayoutAnimation, Text, TouchableOpacity} from 'react-native'
 import {createImageProgress} from 'react-native-image-progress';
 import FastImage from 'react-native-fast-image';
-
+import PreventScreenshotAndroid from 'react-native-prevent-screenshot-android';
 const Image = createImageProgress(FastImage);
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
-import PreventScreenshotAndroid from 'react-native-prevent-screenshot-android';
 
 import ProfileOverview from '../../components/Profile/ProfileOverview';
 import RouteNames from "../../navigation/RouteNames";

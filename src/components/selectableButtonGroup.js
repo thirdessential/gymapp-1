@@ -2,14 +2,11 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {Text, StyleSheet, TouchableOpacity, View, FlatList} from 'react-native'
-import PropTypes from 'prop-types';
-import colors, {appTheme} from "../constants/colors";
-import {spacing} from "../constants/dimension";
+import {StyleSheet, View, FlatList} from 'react-native'
 
+import {appTheme} from "../constants/colors";
+import {spacing} from "../constants/dimension";
 import SelectableButton from "./selectableButton";
-import Appointment from "./GlobalSlot";
-import {Card} from "native-base";
 
 const selectableButtonGroup = (props) => {
 
@@ -26,23 +23,15 @@ const selectableButtonGroup = (props) => {
   return (
     <View style={[styles.default, containerStyle]}>
       <FlatList
-        // style={styles.container}
         data={props.data}
         horizontal={true}
-        // contentContainerStyle={styles.appointmentList}
         renderItem={({item}) => renderButton(item)}
         keyExtractor={(item, index) => index.toString()}
         showsHorizontalScrollIndicator={false}
       />
     </View>
   )
-
 }
-
-selectableButtonGroup.propTypes = {
-  // textContent: PropTypes.string.isRequired,
-  // callback: PropTypes.func
-};
 
 const styles = StyleSheet.create({
   default: {
@@ -52,7 +41,6 @@ const styles = StyleSheet.create({
     paddingLeft: spacing.medium_sm,
     paddingRight: spacing.medium_sm
   },
-
 });
 
 export default React.memo(selectableButtonGroup);

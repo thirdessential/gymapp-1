@@ -3,13 +3,10 @@ import {StyleSheet, View} from "react-native";
 import Swiper from 'react-native-swiper';
 import moment from "moment";
 
-import {appTheme} from "../constants/colors";
-import fonts from "../constants/fonts";
 import TodaySession from "./TodaySession";
 import {packageImages} from "../constants/appConstants";
 
 class TodaySessionSwiper extends PureComponent {
-
   renderSession = (session) => {
     const date = new Date(session.date);
     const {users} = session;

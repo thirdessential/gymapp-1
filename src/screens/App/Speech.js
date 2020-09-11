@@ -57,8 +57,8 @@ class Speech extends Component {
             placeholder="Enter text here"
             value={this.state.text}
             onChangeText={(text) => this.onChangeText(text)}
-            placeholderTextColor="white"
-            style={{color: "white"}}
+            placeholderTextColor={appTheme.textPrimary}
+            style={{color: appTheme.textPrimary}}
           />
           <Button title="Press to speak" onPress={this.speak}/>
           <Text style={{color: "white", fontSize: 16}}>
@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingLeft: spacing.medium_lg,
     paddingRight: spacing.medium_lg,
-    // paddingTop: spacing.medium_lg,
     backgroundColor: appTheme.background,
   },
 });

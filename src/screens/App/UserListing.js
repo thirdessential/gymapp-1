@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h0,
     fontFamily: fonts.PoppinsRegular
   },

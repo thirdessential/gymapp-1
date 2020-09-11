@@ -3,13 +3,9 @@
  */
 import React from 'react';
 import {Text, StyleSheet, TouchableOpacity, View, FlatList} from 'react-native'
-import PropTypes from 'prop-types';
-import colors, {appTheme} from "../constants/colors";
+import  {appTheme} from "../constants/colors";
 import {spacing} from "../constants/dimension";
 
-import SelectableButton from "./selectableButton";
-import Appointment from "./GlobalSlot";
-import {Card} from "native-base";
 import fonts from "../constants/fonts";
 import fontSizes from "../constants/fontSizes";
 
@@ -54,9 +50,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     paddingTop: spacing.small,
     paddingBottom: spacing.small,
-
-    // paddingLeft: spacing.medium_sm,
-    // paddingRight: spacing.medium_sm
   },
   textContent: {
     fontFamily: fonts.Monospace,

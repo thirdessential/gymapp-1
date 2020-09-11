@@ -4,7 +4,6 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  ActivityIndicator,
   Keyboard,
   Image,
   StatusBar,
@@ -147,7 +146,7 @@ const styles = StyleSheet.create({
   signin: {
     fontSize: 30,
     fontWeight: "bold",
-    color: "white",
+    color: appTheme.textPrimary,
     fontFamily: fonts.CenturyGothicBold,
     marginLeft: "4%",
   },
@@ -165,7 +164,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginLeft: "3%",
-    color: "white",
+    color: appTheme.textPrimary
   },
   loginAndForgot: {
     alignItems: "flex-end",

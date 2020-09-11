@@ -4,9 +4,10 @@
 import React from 'react';
 import {Text, StyleSheet, TouchableOpacity, View} from 'react-native'
 import PropTypes from 'prop-types';
-import colors, {appTheme} from "../constants/colors";
+import {appTheme} from "../constants/colors";
 import {spacing} from "../constants/dimension";
 import fontSizes from "../constants/fontSizes";
+import fonts from "../constants/fonts";
 
 const selectableButton = (props) => {
   const {textContent, selected, activeStyle, textStyle, disabled} = props;
@@ -16,7 +17,7 @@ const selectableButton = (props) => {
       {
         selected && (
           <View
-            style={[styles.container,{backgroundColor:appTheme.brightContent}, activeStyle ]}>
+            style={[styles.container, {backgroundColor: appTheme.brightContent}, activeStyle]}>
             <Text style={[styles.textContentStyle, textStyle]}>{textContent}</Text>
           </View>
         )
@@ -33,7 +34,6 @@ const selectableButton = (props) => {
 }
 
 selectableButton.propTypes = {
-  // textContent: PropTypes.string.isRequired,
   onPress: PropTypes.func
 };
 
@@ -43,14 +43,14 @@ const styles = StyleSheet.create({
     paddingRight: spacing.medium_sm,
     paddingTop: spacing.small,
     paddingBottom: spacing.small_sm,
-    justifyContent:'center',
-    alignItems:'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 6,
   },
   textContentStyle: {
-    color: 'white',
-    fontFamily:'Poppins-SemiBold',
-    fontSize:fontSizes.h2
+    color: appTheme.textPrimary,
+    fontFamily: fonts.PoppinsSemiBold,
+    fontSize: fontSizes.h2
   }
 });
 

@@ -12,7 +12,6 @@ import SessionCard from "../../components/SessionCard";
 import {spacing} from "../../constants/dimension";
 import {getHashedImage} from "../../constants/images";
 import moment from "moment";
-import TodaySession from "../../components/TodaySession";
 import {datesAreOnSameDay} from "../../utils/utils";
 import {subscriptionType, userTypes} from "../../constants/appConstants";
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";

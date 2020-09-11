@@ -20,7 +20,6 @@ import Entypo from "react-native-vector-icons/Entypo";
 import {appTheme} from "../../constants/colors";
 import * as actionCreators from "../../store/actions";
 import {INITIAL_PAGE, POST_TYPE, userTypes} from "../../constants/appConstants";
-
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import PostList from "../../components/Social/PostList";
 import {spacing} from "../../constants/dimension";
@@ -32,10 +31,8 @@ import {iconBackgrounds} from "../../constants/images";
 import {screenWidth} from "../../utils/screenDimensions";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import LiveCardList from "../../components/LiveCardList";
 import StreamList from "../../components/Social/StreamList";
 import {joinMeeting} from "../../utils/zoomMeeting";
-import {parseComponentStack} from "react-native/Libraries/LogBox/Data/parseLogBoxLog";
 
 const initialLayout = {width: screenWidth};
 

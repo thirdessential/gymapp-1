@@ -1,27 +1,22 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import FastImage from 'react-native-fast-image'
-import PropTypes from 'prop-types';
 import {ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Ion from "react-native-vector-icons/Ionicons";
 
 import {spacing} from "../constants/dimension";
 import {
-  defaultDP,
-  MS_IN_DAY,
   sessionStatus,
   streamText,
   subscriptionType,
-  subscriptionTypeNames
 } from "../constants/appConstants";
 import {appTheme, bmiColors} from "../constants/colors";
 import fontSizes from "../constants/fontSizes";
 import fonts from "../constants/fonts";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {formatSeconds} from "../utils/utils";
-import Ion from "react-native-vector-icons/Ionicons";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import strings, {subscribersBuilder} from "../constants/strings";
 
 class TodaySession extends React.Component {
@@ -37,7 +32,7 @@ class TodaySession extends React.Component {
   initialise = () => {
     const date = new Date(this.props.date);
     // const date = new Date();
-    // date.setMinutes(date.getMinutes() + 7);
+    // date.setMinutes(date.getMinutes() + 7); // use this commented code for testing, this'll enable start session button
     const now = new Date();
     if (!this.props.trainer && this.props.status === sessionStatus.LIVE) {
       this.setState({startEnabled: true});

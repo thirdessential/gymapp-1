@@ -10,6 +10,7 @@ import {
 import LinearGradient from "react-native-linear-gradient";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import {connect} from "react-redux";
+
 import {waterIntake} from "../../API";
 import HcdWaveView from "../../components/HcdWaveView";
 import {appTheme, bmiColors} from "../../constants/colors";
@@ -243,7 +244,7 @@ class Water extends PureComponent {
       >
         <View style={styles.updateView}>
           <Text style={styles.textView}>{strings.ADD_BMI_CONTINUE}</Text>
-          <View style={styles.addbuttonView}>
+          <View style={styles.addButtonView}>
             <TouchableOpacity
               onPress={() => {
                 this.props.navigation.navigate(RouteNames.BMI);
@@ -378,7 +379,7 @@ const styles = StyleSheet.create({
     margin: spacing.medium_sm,
     flex: 1,
   },
-  addbuttonView: {marginTop: spacing.medium_lg},
+  addButtonView: {marginTop: spacing.medium_lg},
   textView: {
     fontFamily: fonts.CenturyGothicBold,
     fontSize: fontSizes.bigTitle,

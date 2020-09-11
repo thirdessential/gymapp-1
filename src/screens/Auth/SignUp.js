@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginLeft: "3%",
-    color: "white",
+    color: appTheme.textPrimary,
   },
   signUp: {
     fontSize: 45,
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   formError: {
-    color: "white",
+    color: appTheme.textPrimary,
     marginLeft: 15,
   },
   checkBoxContainerStyle: {
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     marginRight: spacing.medium_sm
   },
   termTwo: {
-    color: "white",
+    color: appTheme.textPrimary,
     fontSize: 14,
     fontWeight: "bold",
   },

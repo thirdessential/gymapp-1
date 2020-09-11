@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginLeft: "3%",
-    color: "white",
+    color: appTheme.textPrimary,
   },
   loginandforgot: {
     flexDirection: "row",

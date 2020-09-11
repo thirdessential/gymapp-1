@@ -1,6 +1,7 @@
 import React, {PureComponent} from "react";
-import {StyleSheet, Text, View, FlatList, ScrollView, TouchableOpacity, LayoutAnimation} from "react-native";
+import {StyleSheet, Text, View, ScrollView, LayoutAnimation} from "react-native";
 import {connect} from "react-redux";
+import {Menu, MenuOption, MenuOptions, MenuTrigger, renderers} from "react-native-popup-menu";
 
 import {spacing} from "../../constants/dimension";
 import {appTheme, bmiColors} from "../../constants/colors";
@@ -15,9 +16,6 @@ import RouteNames from "../../navigation/RouteNames";
 import StreamSwiper from "../../components/Social/StreamSwiper";
 import {joinMeeting} from "../../utils/zoomMeeting";
 import FitnessSummary from "../../components/fitness/FitnessSummary";
-import {Menu, MenuOption, MenuOptions, MenuTrigger, renderers} from "react-native-popup-menu";
-import {string} from "prop-types";
-
 
 class Activity extends PureComponent {
   state = {

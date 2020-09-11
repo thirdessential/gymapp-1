@@ -31,12 +31,11 @@ class SlotList extends PureComponent {
   }
 
   componentDidMount() {
-    const {navigation,updateUserData} = this.props;
+    const {navigation, updateUserData} = this.props;
     updateUserData();
     this.refreshSlots();
     this.unsubscribeFocus = navigation.addListener('focus', e => {
-      // if (this.state.slots.length === 0)
-        this.refreshSlots();
+      this.refreshSlots();
     });
   }
 
@@ -44,8 +43,8 @@ class SlotList extends PureComponent {
     const {createSlots, updateUserData} = this.props;
     this.setState({submitPending: true});
     let slots = this.state.slots;
-    slots = slots.map(slot=> {
-      slot.days =[...new Set(slot.days)];
+    slots = slots.map(slot => {
+      slot.days = [...new Set(slot.days)];
       return slot;
     });
     let result = await createSlots(slots);
@@ -58,19 +57,18 @@ class SlotList extends PureComponent {
     //TODO: Error handling
   }
 
-  refreshSlots =async () => {
+  refreshSlots = async () => {
     const {slots} = this.props;
     if (slots && slots.length > 0) {
-      // const filteredSlots = slots.filter(slot=>slot.subscriptionId===null);
       const localSlots = this.mapSlotsToLocal(slots);
       this.setState({slots: localSlots, settingInitialSlots: false});
     } else this.setState({settingInitialSlots: false})
   }
-  sortSlots = ( a, b ) =>{
-    if ( a.time < b.time ){
+  sortSlots = (a, b) => {
+    if (a.time < b.time) {
       return -1;
     }
-    if ( a.time > b.time ){
+    if (a.time > b.time) {
       return 1;
     }
     return 0;
@@ -141,7 +139,7 @@ class SlotList extends PureComponent {
   createSlot = () => {
     let slotTime = '1000';
     if (this.state.slots.length > 0) {
-      slotTime =  parseInt( this.state.slots[this.state.slots.length - 1].time) + 100;
+      slotTime = parseInt(this.state.slots[this.state.slots.length - 1].time) + 100;
     }
     const slot = {
       _id: cuid(),
@@ -241,7 +239,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:appTheme.background
+    backgroundColor: appTheme.background
   },
   listContainer: {
     justifyContent: 'center',

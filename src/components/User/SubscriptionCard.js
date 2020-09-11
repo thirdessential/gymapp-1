@@ -2,7 +2,8 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from "react";
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
 import {spacing} from "../../constants/dimension";
 import {appTheme} from "../../constants/colors";
 import Avatar from "../Avatar";
@@ -29,9 +30,7 @@ const subscriptionCard = (props) => {
         <CallButton onPress={props.onPressCall}/>
       </View>
       <View style={styles.separator}/>
-
       <Text style={styles.sectionTitle}>{strings.SESSION_DETAILS}</Text>
-
       <View style={styles.sectionContainer}>
         <View>
           <Text style={styles.subtitle}>{strings.START_FROM}</Text>
@@ -73,12 +72,9 @@ const subscriptionCard = (props) => {
         </View>
       </View>
       <View style={styles.separator}/>
-
     </View>
   )
 }
-
-subscriptionCard.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
@@ -107,7 +103,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.small
   },
   detail: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h2,
     fontFamily: fonts.CenturyGothic,
   },
@@ -124,7 +120,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.small_sm
   },
   contentText: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h2,
     fontFamily: fonts.CenturyGothicBold,
   },

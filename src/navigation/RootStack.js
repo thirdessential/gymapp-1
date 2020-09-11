@@ -23,8 +23,6 @@ import AccountDash from "../screens/App/Trainer/AccountDash";
 import {appTheme} from "../constants/colors";
 import AccountStatement from "../screens/App/Trainer/AccountStatement";
 import AddAccount from "../screens/App/Trainer/AddAccount";
-import StreamScreen from "../screens/Social/StreamScreen";
-import ShowStreamVideo from "../screens/Social/ShowStreamVideo";
 import SelectExercise from "../screens/Fitness/SelectExercise";
 import Exercises from "../screens/Fitness/Exercises";
 import PerformExercise from "../screens/Fitness/PerformExercise";
@@ -231,24 +229,6 @@ const rootStack = () => {
         component={Speech}
         options={{
           title: "Speech",
-        }}
-      />
-      <Stack.Screen
-        name={RouteNames.StreamScreen}
-        component={StreamScreen}
-        options={{
-          title: "Stream",
-        }}
-      />
-      <Stack.Screen
-        name={RouteNames.ShowStreamVideo}
-        component={ShowStreamVideo}
-        options={{
-          title: "See videos",
-          headerTintColor: appTheme.darkBackground,
-          headerStyle: {
-            backgroundColor: appTheme.brightContent,
-          },
         }}
       />
       <Stack.Screen
