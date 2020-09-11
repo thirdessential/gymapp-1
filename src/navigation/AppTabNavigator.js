@@ -97,7 +97,7 @@ const appTabNavigator = (props) => {
       {
         userType === userTypes.TRAINER && (
           <Tab.Screen
-            name={RouteNames.SlotEdit}
+            name={RouteNames.SlotEditTab}
             component={SlotEditStack}
             options={{
               title: 'Slots',

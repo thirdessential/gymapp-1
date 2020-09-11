@@ -78,6 +78,7 @@ const RouteNames = {
   Calorie1: 'Calorie1',
   PdfViewer: 'PdfViewer',
   Sessions: 'Session',
+  SlotEditTab: 'SlotEditTab'
 };
 
 //Routes used in local tab navigators

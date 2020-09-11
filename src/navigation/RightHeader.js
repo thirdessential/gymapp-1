@@ -16,6 +16,7 @@ const RightHeader = (props) => {
           navigate(RouteNames.MyProfile);
         }}
       >
+
         <View style={styles.rightMargin}>
           <Image
             source={{
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    alignItems:'center'
+    alignItems: 'center'
   }
 });
 export default RightHeader;
