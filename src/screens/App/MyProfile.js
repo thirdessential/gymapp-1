@@ -31,14 +31,14 @@ import CertificateList from "../../components/Trainer/CertificateList";
 class MyProfile extends PureComponent {
 
   state = {
-    bgImage: getRandomImage(),
-    nextPage: INITIAL_PAGE,
+    bgImage: getRandomImage(), // cover image source
+    nextPage: INITIAL_PAGE, // pagination state for my posts
   }
 
   updatePosts = async () => {
     const {updatePosts} = this.props;
     const {nextPage} = this.state;
-    if (!!nextPage)
+    if (!!nextPage) // supply local pagination to updatePosts, this function will execute until pages run out
       this.setState({nextPage: await updatePosts(nextPage)});
   }
 
@@ -47,21 +47,14 @@ class MyProfile extends PureComponent {
   }
 
   componentDidMount() {
-    const {syncSubscriptions, updateUserData, userData, navigation} = this.props;
+    const {syncSubscriptions, updateUserData, userData} = this.props;
     this.updatePosts();
-    this.unsubscribeFocus = navigation.addListener('focus', e => {
-      updateUserData();
-    })
     let {wallImageUrl} = userData;
     if (!!wallImageUrl) {
       this.setState({bgImage: {uri: wallImageUrl}});
     }
     syncSubscriptions();
     updateUserData();
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeFocus();
   }
 
   editProfile = () => {
@@ -105,6 +98,7 @@ class MyProfile extends PureComponent {
 
     let {name, userType, experience, rating, displayPictureUrl, city, bio, packages, slots, activeSubscriptions, certificates} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
+    // Hits are the user's post count, slots count etc
     const hits = userType === userTypes.TRAINER ?
       generateTrainerHits({
         transformation: experience,
@@ -127,6 +121,7 @@ class MyProfile extends PureComponent {
           location={city}
         />
         {
+          // Render trainer certificates if found any
           userType === userTypes.TRAINER && certificates.length > 0 && (
             <View style={styles.postListContainer}>
               <Text style={styles.sectionTitle}>{strings.CERTIFICATIONS}</Text>
@@ -135,6 +130,7 @@ class MyProfile extends PureComponent {
           )
         }
         {
+          // Render my posts
           posts &&
           <View style={styles.postListContainer}>
             <View style={styles.sectionTitleContainer}>
@@ -152,6 +148,13 @@ class MyProfile extends PureComponent {
               />
             </View>
           </View>
+        }
+        {
+          (!posts || posts.length===0) && (
+            <View style={styles.noPostsContainer}>
+              <Text numberOfLines={2} style={styles.sectionTitle}>{strings.NO_POSTS_BY_USER}</Text>
+            </View>
+          )
         }
       </>
     )
@@ -174,13 +177,8 @@ class MyProfile extends PureComponent {
           </>
         )}>
         <this.renderContent/>
-
       </ParallaxScrollView>
-
     )
-    return (
-      <this.renderContent/>
-    );
   }
 }
 
@@ -221,7 +219,12 @@ const styles = StyleSheet.create({
     marginLeft: spacing.medium,
     marginRight: spacing.medium,
     marginTop: spacing.medium
-  }
+  },
+  noPostsContainer: {
+    height: screenHeight / 2,
+    alignItems: 'center',
+    justifyContent:'center'
+  },
 });
 
 const mapStateToProps = (state) => ({

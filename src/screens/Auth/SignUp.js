@@ -11,6 +11,9 @@ import {
 } from "react-native";
 import {Item, Input} from "native-base";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import Icon from "react-native-vector-icons/Entypo";
+import Feather from "react-native-vector-icons/Feather";
+
 import {attemptGoogleAuth, registerWithEmail} from "../../API";
 import Loader from "../../components/Loader";
 import strings from "../../constants/strings";
@@ -20,8 +23,6 @@ import {screenHeight, screenWidth} from "../../utils/screenDimensions";
 import EmailValidation from "../../utils/validation/Email";
 import PasswordValidation from "../../utils/validation/Password";
 import Logo from "../../../assets/images/logo.png";
-import Icon from "react-native-vector-icons/Entypo";
-import Feather from "react-native-vector-icons/Feather";
 import TripleLine from "../../../assets/images/tripleLine.png";
 import {showError} from "../../utils/notification";
 import {INITIAL_USER_TYPE, userTypes} from "../../constants/appConstants";
@@ -45,7 +46,6 @@ export default class SignUp extends Component {
     if (Platform.OS === "android") {
       ToastAndroid.show(msg, ToastAndroid.SHORT);
     } else {
-      // AlertIOS.alert(msg);
     }
   }
 
@@ -57,7 +57,6 @@ export default class SignUp extends Component {
     navigation.navigate(RouteNames.PdfViewer, {
       source: pdfSource
     })
-
   }
 
   validateInputs() {
@@ -73,7 +72,7 @@ export default class SignUp extends Component {
     Keyboard.dismiss();
     if (this.validateInputs()) {
       this.setState({loading: true});
-      var result = await registerWithEmail(
+      let result = await registerWithEmail(
         this.state.email,
         this.state.password
       );
@@ -103,13 +102,11 @@ export default class SignUp extends Component {
   facebookLogin = async () => {
     this.setState({loading: true});
     let res = await onFacebookButtonPress();
-    if (res) {
+    if (res)
       this.setState({authLoading: true})
-    } else {
+    else
       showError(strings.SIGNUP_FAILED);
-    }
     this.setState({loading: false});
-
   };
   setEmail = (text) => {
     this.setState({email: text});
@@ -213,7 +210,7 @@ export default class SignUp extends Component {
             <Text style={styles.separatorText}>{strings.SIGN_UP_WITH}</Text>
             <View style={styles.separator}/>
           </View>
-          <View style={{flexDirection: 'row', justifyContent: 'center', marginTop:spacing.medium}}>
+          <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: spacing.medium}}>
             {this.state.authLoading && (
               <ActivityIndicator size="large" color="white"/>
             )}
@@ -307,7 +304,7 @@ const styles = StyleSheet.create({
   terms: {
     alignItems: 'center',
     marginVertical: spacing.medium,
-    marginTop:spacing.large
+    marginTop: spacing.large
   },
   AlreadySigned: {
     marginTop: 20,

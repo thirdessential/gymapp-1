@@ -34,15 +34,15 @@ class Subscriptions extends PureComponent {
 
   async componentDidMount() {
     const {userData, syncSubscriptions} = this.props;
-    this.updateView();
+    this.updateView(); // update local state from redux
     const {userType} = userData;
     if (userType === userTypes.USER)
-      this.props.navigation.setOptions({title: strings.SUBSCRIPTIONS});
+      this.props.navigation.setOptions({title: strings.SUBSCRIPTIONS}); // If user, change title of screen to subscriptions
     else {
-      this.props.navigation.setOptions({headerRight: this.renderOptions});
+      this.props.navigation.setOptions({headerRight: this.renderOptions}); // If trainer, give him filter functionality
     }
     await syncSubscriptions();
-    this.updateView();
+    this.updateView(); // update local view again after making the api call
   }
 
   updateView = () => {
@@ -63,7 +63,7 @@ class Subscriptions extends PureComponent {
     this.setState({days, timings, subscriptions});
   }
 
-  renderOptions = () => (
+  renderOptions = () => ( // filter options
     <TouchableOpacity hitSlop={hitSlop20} style={{marginRight: spacing.medium_lg}} onPress={this.openRbSheet}>
       <Ionicons color={appTheme.brightContent} size={24} name={'ios-options'}/>
     </TouchableOpacity>
@@ -84,7 +84,6 @@ class Subscriptions extends PureComponent {
     const {heldSessions, totalSessions, startDate, endDate, package: packageData, slot, type, users, subscribedCount, maxParticipants} = subscription;
     const {time, daysOfWeek} = slot;
     const {title: packageTitle, price} = packageData;
-    console.log(users);
     if (type && type === subscriptionType.BATCH)
       return <View style={styles.cardContainer}>
         <BatchSubscriptionCard
@@ -106,7 +105,7 @@ class Subscriptions extends PureComponent {
     if (!userData.name) userData = subscription.trainer;
     const {name: userName, displayPictureUrl: dpUrl, _id: userId} = userData;
     const {userType} = this.props.userData;
-    const SubscriptionCard = userType === userTypes.TRAINER ? TrainerSubscriptionCard : UserSubscriptionCard;
+    const SubscriptionCard = userType === userTypes.TRAINER ? TrainerSubscriptionCard : UserSubscriptionCard; // slightly different UI for trainer and user
 
     return <View style={styles.cardContainer}>
       <SubscriptionCard
@@ -133,6 +132,7 @@ class Subscriptions extends PureComponent {
         <Text style={styles.sectionTitle}>{strings.NO_DATA}</Text>
       </View>
     )
+    // if length is 1, render a single card and center it
     if (subscriptions.length === 1 && userType === userTypes.USER) return (
       <View style={{flex: 1, marginTop: spacing.medium, justifyContent: 'center'}}>
         {this.renderSubscriptionCard(subscriptions[0])}
@@ -146,7 +146,7 @@ class Subscriptions extends PureComponent {
       ListHeaderComponent={() => <View style={styles.cardContainer}/>}
     />
   }
-
+  // a Raw Bottom sheet for rendering filter options
   openRbSheet = () => this.RBSheet.open()
   closeRbSheet = () => {
     // this.refreshList();
@@ -160,15 +160,7 @@ class Subscriptions extends PureComponent {
       animationType={'slide'}
       closeOnDragDown={true}
       customStyles={{
-        container: {
-          padding: spacing.medium,
-          backgroundColor: appTheme.darkBackground,
-          borderRadius: 10,
-          borderWidth: 1,
-          borderTopColor: appTheme.content,
-          borderRightColor: appTheme.content,
-          borderLeftColor: appTheme.content,
-        },
+        container: styles.rbContainer,
         wrapper: {
           backgroundColor: 'transparent'
         }
@@ -189,14 +181,17 @@ class Subscriptions extends PureComponent {
   }
   refreshList = () => {
     let {subscriptions} = this.props;
+    // First get list of enabled timings and days
     let timings = Object.keys(this.state.timings);
     let days = Object.keys(this.state.days);
     let filteredTimings = timings.filter(time => this.state.timings[time]);
     let filteredDays = days.filter(day => this.state.days[day]);
+    // Then proceed to filter out subscriptions based on enabled days and timings
     const newSubs = subscriptions.filter(subscription => {
       const {time, daysOfWeek} = subscription.slot;
       if (!filteredTimings.includes(time)) return false;
       let dayMissingFlag = false;
+      // If subscription has any day that is present in filteredDays, we include it in the newSubs list
       daysOfWeek.map(day => {
         if (filteredDays.includes(day)) dayMissingFlag = true;
       });
@@ -268,6 +263,15 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     marginTop: spacing.medium
+  },
+  rbContainer: {
+    padding: spacing.medium,
+    backgroundColor: appTheme.darkBackground,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderTopColor: appTheme.content,
+    borderRightColor: appTheme.content,
+    borderLeftColor: appTheme.content,
   }
 });
 

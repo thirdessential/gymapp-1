@@ -14,7 +14,7 @@ import {getHashedImage} from "../../constants/images";
 import moment from "moment";
 import TodaySession from "../../components/TodaySession";
 import {datesAreOnSameDay} from "../../utils/utils";
-import { subscriptionType, userTypes} from "../../constants/appConstants";
+import {subscriptionType, userTypes} from "../../constants/appConstants";
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import strings from "../../constants/strings";
 import {screenWidth} from "../../utils/screenDimensions";
@@ -41,29 +41,28 @@ class Sessions extends Component {
   }
 
   updateLocalSessionData = async () => {
+    // Local update is a common pattern in which we take data from redux store, transform it for our component
     const {sessions} = this.props;
     const today = new Date();
     if (!sessions || sessions.length === 0) return;
     const todaySessions = sessions.filter(session => datesAreOnSameDay(new Date(session.date), today));
     const pastSessions = sessions.filter(session => new Date(session.date) < today);
     const futureSessions = sessions.filter(session => new Date(session.date) >= today);
-    // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({todaySessions, pastSessions, futureSessions});
   }
 
-  getItemLayout = (data, index) => (
-    {length: 110, offset: (110 + 10) * index - 5, index}
-  )
   onJoin = async (sessionId, type) => {
     this.setState({joinLoading: sessionId});
     const {data} = await this.props.joinSession(sessionId);
     const {clientKey, clientSecret, meetingNumber, meetingPassword} = data;
     switch (type) {
       case subscriptionType.BATCH: {
+        // join zoom session
         await joinMeeting(meetingNumber, meetingPassword, this.props.userName, clientKey, clientSecret);
       }
         break;
       case subscriptionType.SINGLE: {
+        // Join agora call
         const {
           agoraAppId,
           sessionId,
@@ -90,8 +89,9 @@ class Sessions extends Component {
     switch (type) {
       case subscriptionType.BATCH: {
         const {clientKey, clientSecret, meetingNumber} = data;
+        // Host zoom meeting
         await hostMeeting(meetingNumber, token, this.props.userName, clientKey, clientSecret);
-        if (navigation.canGoBack())
+        if (navigation.canGoBack()) // go to previous screen so that session data is properly updated when it is reopened, just an insurance, optional
           navigation.goBack();
       }
         break;
@@ -103,6 +103,7 @@ class Sessions extends Component {
           displayName
         } = data;
         navigation.pop();
+        // Start agora call
         navigation.navigate(RouteNames.VideoCall, {
           AppID: agoraAppId,
           ChannelName: sessionId,
@@ -119,26 +120,24 @@ class Sessions extends Component {
   }
   renderTodaySessions = () => {
     const {todaySessions} = this.state;
-    if (!todaySessions) return null;  //TODO: should we return some sort of no sessions message?
-    console.log(todaySessions)
+    if (!todaySessions) return null;
     const onJoin = this.props.userType === userTypes.TRAINER ? this.onStart : this.onJoin;
     return (
       <TodaySessionSwiper
         sessions={todaySessions}
         onJoin={onJoin}
-        trainer={this.props.userType === userTypes.TRAINER}
-        loadingId={this.state.joinLoading}
+        trainer={this.props.userType === userTypes.TRAINER} // different actions based on userType
+        loadingId={this.state.joinLoading} // signify which session's api call is in loading state
       />
     )
   }
 
   renderSession = ({item}) => {
     const date = new Date(item.date);
-    const thumbnail = getHashedImage(item._id);
+    const thumbnail = getHashedImage(item._id); // Return same image for item id, image is same between re render cycles
     const {users} = item;
     return (
       <SessionCard
-        // thumbnail={packageImages[item.packageId.category]}
         status={item.status}
         thumbnail={thumbnail}
         title={item.packageId.title}
@@ -164,16 +163,15 @@ class Sessions extends Component {
       ItemSeparatorComponent={this.separator}
       keyExtractor={this.keyExtractor}
       ListFooterComponent={this.separator}
-      // getItemLayout={this.getItemLayout}
     />
   }
-
 
   routes = [
     {key: TabRoutes.FutureSessions, title: strings.UPCOMING},
     {key: TabRoutes.PastSessions, title: strings.DONE},
   ];
   renderScene = ({route}) => {
+    // Render future and done sessions in a tab view
     switch (route.key) {
       case TabRoutes.FutureSessions:
         return this.renderSessionList(this.state.futureSessions);
@@ -210,7 +208,6 @@ class Sessions extends Component {
     return (
       <View style={styles.container}>
         {this.renderTodaySessions()}
-        {/*{this.renderSessionList()}*/}
         {this.renderTabView()}
       </View>
     )

@@ -23,9 +23,9 @@ class Activity extends PureComponent {
   state = {
     todaySessions: null,
     upcomingStreams: null,
-    currentStats: null,
+    currentStats: null, // current and weekly calorie, water intake
     weeklyStats: null,
-    currentSwitch: true
+    currentSwitch: true // when true, show current calorie stats, weekly otherwise
   }
 
   setToday = () => {
@@ -47,11 +47,11 @@ class Activity extends PureComponent {
       syncSessions,
       navigation
     } = this.props;
-    updateUserData();
-    syncCoupons();
-    syncSubscriptions();
-    syncSessions();
-    userType === userTypes.TRAINER && getCallbacks();
+    updateUserData(); // update my userData
+    userType === userTypes.TRAINER && syncCoupons(); // Update my coupons
+    syncSubscriptions(); // update my subscriptions
+    syncSessions(); // Update my session data
+    userType === userTypes.TRAINER && getCallbacks(); // get my call requests
     this.updateLocalSessionData();
     this.updateLocalStreamData()
     this.updateLocalStatsData();
@@ -73,11 +73,13 @@ class Activity extends PureComponent {
   }
   updateLocalStreamData = () => {
     const {liveStreams} = this.props;
+    // Check which streams are scheduled and show them
     const upcomingStreams = liveStreams.filter(stream => stream.status === streamStatus.SCHEDULED);
     this.setState({upcomingStreams});
   }
   reduceDayCalories = data => {
     let proteins = 0, carbs = 0, fats = 0, calories = 0;
+    // Loop through the data array and tally results
     if (data)
       data.map(
         item => {
@@ -93,6 +95,7 @@ class Activity extends PureComponent {
     const today = getFormattedDate();
     const {calorieData, waterIntake} = this.props;
     if (!calorieData) return;
+    // Get today's stats
     const currentCalorie = calorieData[today];
     const currentWater = waterIntake[today] || 0;
 
@@ -100,6 +103,7 @@ class Activity extends PureComponent {
       ...this.reduceDayCalories(currentCalorie),
       water: currentWater
     }
+    // Get last 7 days stats
     const pastWeek = getPastWeekDates();
     let weeklyStats = {
       proteins: 0,
@@ -108,6 +112,7 @@ class Activity extends PureComponent {
       water: 0,
       calories: 0
     };
+    // Integers to divide calorie and water for taking average
     let calorieDivider = 0, waterDivider = 0;
     pastWeek.map(date => {
       const formattedDate = getFormattedDate(date);
@@ -127,6 +132,7 @@ class Activity extends PureComponent {
       }
     });
     if (calorieDivider) {
+      // Taking average
       weeklyStats.proteins /= calorieDivider;
       weeklyStats.carbs /= calorieDivider;
       weeklyStats.fats /= calorieDivider;

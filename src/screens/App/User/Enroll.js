@@ -27,19 +27,18 @@ import RouteNames from "../../../navigation/RouteNames";
 class Enroll extends PureComponent {
 
   state = {
-    slots: [],
-    selectedDays: {},
-    selectedTime: '',
-    selectedSlotId: '',
-    selectedDuration:60,
-    subscribeLoading: false
+    slots: [], // available slots of target trainer
+    selectedDays: {}, // The days that user has picked
+    selectedTime: '', // The time related to the days
+    selectedSlotId: '', // Id of the selected parent slot
+    selectedDuration: 60,
+    subscribeLoading: false // api call loading variable
   }
 
   componentDidMount() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
     const {slots} = this.getUser();
-
     if (slots && slots.length > 0) {
       const filteredSlots = slots.filter(slot => slot.subscriptionId === null);
       const localSlots = this.mapSlotsToLocal(filteredSlots);
@@ -58,6 +57,7 @@ class Enroll extends PureComponent {
   }
 
   mapSlotsToLocal = (slots) => {
+    // convert plain array to grouped array based on time
     const localSlots = [];
     const slotsByTime = groupBy(slots, 'time');
     Object.keys(slotsByTime).map(time => {
@@ -73,10 +73,11 @@ class Enroll extends PureComponent {
 
   enroll = async () => {
     this.setState({subscribeLoading: true});
+    // Prepare data for payment screen
     const {route, navigation} = this.props;
     const {userId, packageId, trainerData, packageData} = route.params;
     const {selectedDays, selectedTime, selectedSlotId, slots} = this.state;
-    const selectedSlot = slots.filter(slot=>slot._id===selectedSlotId)[0];
+    const selectedSlot = slots.filter(slot => slot._id === selectedSlotId)[0];
     const days = selectedDays[selectedSlotId];
     const metadata = {
       packageName: packageData.title,
@@ -84,7 +85,7 @@ class Enroll extends PureComponent {
       price: packageData.price,
       time: selectedTime,
       days,
-      duration:selectedSlot.duration,
+      duration: selectedSlot.duration,
       trainerName: trainerData.name,
     }
     this.setState({subscribeLoading: false});
@@ -111,8 +112,6 @@ class Enroll extends PureComponent {
         duration={slot.duration}
         index={index + 1}
         time={slot.time}
-        // onEnroll={() => this.enroll(slot.time, this.state.selectedDays[slot._id])}
-        // enrollDisabled={this.state.selectedDays[slot._id].length === 0}
         onDaysChange={(days) => this.changeActiveDays(slot._id, days, slot.time)}
       />
     </View>
@@ -132,9 +131,7 @@ class Enroll extends PureComponent {
         keyExtractor={item => item.time}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => <View style={{margin: spacing.medium_sm}}/>}
-
       />);
-
   }
 
   fab = () => {
@@ -181,8 +178,6 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.background,
   },
   listContainer: {
-    // justifyContent: 'center',
-    // marginTop:spacing.medium_lg,
     marginLeft: spacing.medium_lg,
     marginRight: spacing.medium_lg,
     flex: 1,
@@ -241,7 +236,6 @@ const mapStateToProps = (state) => ({
   users: state.app.users
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Enroll);

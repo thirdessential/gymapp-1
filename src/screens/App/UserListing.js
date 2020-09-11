@@ -13,20 +13,19 @@ import {
 import {connect} from "react-redux";
 
 import TrainerThumb from '../../components/Trainer/TrainerThumb';
-import {appTheme, darkPallet} from "../../constants/colors";
+import {appTheme} from "../../constants/colors";
 import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
-import {defaultDP, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
-import UserThumb from "../../components/Trainer/UserThumb";
+import {defaultDP, INITIAL_PAGE} from "../../constants/appConstants";
 import {spacing} from "../../constants/dimension";
-import {generateTrainerHits, generateUserHits} from "../../utils/utils";
+import {generateTrainerHits} from "../../utils/utils";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 
 class UserListing extends Component {
 
   state = {
-    nextPage: INITIAL_PAGE
+    nextPage: INITIAL_PAGE // pagination state for user list
   }
 
   componentDidMount() {
@@ -36,7 +35,7 @@ class UserListing extends Component {
   updateUsers = async () => {
     const {updateUsersList} = this.props;
     const {nextPage} = this.state;
-    if (!!nextPage)
+    if (!!nextPage) // fire this method again and again until list is exhausted
       this.setState({nextPage: await updateUsersList(nextPage)});
   }
   openProfile = (userId) => {
@@ -53,7 +52,7 @@ class UserListing extends Component {
     });
   }
   getPostCount = userId => {
-    const { postsForUser} = this.props;
+    const {postsForUser} = this.props;
     if (postsForUser[userId])
       return postsForUser[userId].length;
     return 0;
@@ -68,7 +67,12 @@ class UserListing extends Component {
         <TrainerThumb
           name={name || 'Trainer'}
           location={city}
-          hits={generateTrainerHits({transformation: experience, slot: slots.length, program: packages.length, post:postCount})}
+          hits={generateTrainerHits({
+            transformation: experience,
+            slot: slots.length,
+            program: packages.length,
+            post: postCount
+          })}
           dpUrl={displayPictureUrl}
           rating={rating}
           packages={packages}
@@ -80,7 +84,7 @@ class UserListing extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if (nextProps.userList.length !== this.props.userList.length)
+    if (nextProps.userList.length !== this.props.userList.length) // fancy way to check if we have to animate new users
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     return true;
   }
@@ -122,7 +126,6 @@ const styles = StyleSheet.create({
     paddingLeft: spacing.medium,
     paddingRight: spacing.medium,
     paddingBottom: spacing.medium,
-    // backgroundColor: appTheme.background,
   },
   titleContainer: {
     paddingTop: spacing.medium_sm,
@@ -143,7 +146,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: appTheme.background,
     width: '100%',
-    // paddingTop: spacing.large,
   },
   itemSeparatorHorizontal: {
     height: 1,

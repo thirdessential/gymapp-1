@@ -77,6 +77,7 @@ class SlotList extends PureComponent {
   }
 
   mapSlotsToLocal = (slots) => {
+    // convert plain array to grouped array based on time
     const localSlots = [];
     const slotsByTime = groupBy(slots, 'time');
     Object.keys(slotsByTime).map(time => {

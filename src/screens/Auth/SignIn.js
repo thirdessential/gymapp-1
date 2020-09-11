@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import {Item, Input} from "native-base";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import Icon from "react-native-vector-icons/Entypo";
+import Feather from "react-native-vector-icons/Feather";
 
 import TripleLine from "../../../assets/images/tripleLine.png";
 import RouteNames from "../../navigation/RouteNames";
@@ -22,23 +24,19 @@ import fontSizes from '../../constants/fontSizes'
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from "../../utils/screenDimensions";
 import Logo from "../../../assets/images/logo.png";
-import Icon from "react-native-vector-icons/Entypo";
-import Feather from "react-native-vector-icons/Feather";
 import {showError} from "../../utils/notification";
 import {onFacebookButtonPress} from "../../API/firebaseMethods";
 import {spacing} from "../../constants/dimension";
 import AuthBar from "../../components/Login/AuthBar";
 
 export default class SignIn extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      authLoading: false,
-      loading: false,
-    };
-  }
+
+  state = {
+    email: "",
+    password: "",
+    authLoading: false,
+    loading: false,
+  };
 
   googleLogin = async () => {
     this.setState({loading: true});
@@ -61,7 +59,7 @@ export default class SignIn extends Component {
     }
     Keyboard.dismiss();
     this.setState({loading: true});
-    var result = await signInWithEmail(this.state.email, this.state.password);
+    let result = await signInWithEmail(this.state.email, this.state.password);
     this.setState({loading: false});
     if (result) {
     } else showError(strings.LOGIN_FAILED);
@@ -156,7 +154,7 @@ export default class SignIn extends Component {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{flexDirection:'row', alignItems:'center'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <View style={styles.separator}/>
             <Text style={styles.separatorText}>{strings.CONNECT_WITH}</Text>
             <View style={styles.separator}/>
@@ -168,8 +166,8 @@ export default class SignIn extends Component {
             )}
             {!this.state.authLoading && (
               <AuthBar
-              googleLogin={this.googleLogin}
-              facebookLogin={this.facebookLogin}
+                googleLogin={this.googleLogin}
+                facebookLogin={this.facebookLogin}
               />
             )}
           </View>
@@ -252,12 +250,12 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: appTheme.brightContent,
     marginVertical: spacing.large_lg,
-    flex:1
+    flex: 1
   },
   separatorText: {
-    color:appTheme.brightContent,
+    color: appTheme.brightContent,
     fontSize: fontSizes.h3,
     fontFamily: fonts.MontserratMedium,
-    marginHorizontal:spacing.small_lg
+    marginHorizontal: spacing.small_lg
   }
 });

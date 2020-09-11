@@ -22,15 +22,12 @@ class Tools extends PureComponent {
   openCallRequests = () => this.props.navigation.navigate(RouteNames.CallRequests)
   openClients = () => this.props.navigation.navigate(RouteNames.SubscriptionsView)
   openSessions = () => this.props.navigation.navigate(RouteNames.Sessions);
-  // openBrowseSlots = () => this.props.navigation.navigate(RouteNames.BrowseSlots)
   openQuestion = () => this.props.navigation.navigate(RouteNames.CreatePost, {type: POST_TYPE.TYPE_QUESTION})
   openBMI = () => this.props.navigation.navigate(RouteNames.BMI);
   openCouponMachine = () => this.props.navigation.navigate(RouteNames.CouponMachine);
   openAccountDash = () => this.props.navigation.navigate(RouteNames.AccountDash);
   openSpeech = () => this.props.navigation.navigate(RouteNames.Speech);
-  openStreamingScreen = () => this.props.navigation.navigate(RouteNames.StreamScreen);
   openSelectExercise = () => this.props.navigation.navigate(RouteNames.SelectExercise);
-  openExercisesScreen = () => this.props.navigation.navigate(RouteNames.Exercises);
   openMyStreams = () => this.props.navigation.navigate(RouteNames.MyStreams);
   openWater = () => this.props.navigation.navigate(RouteNames.Water)
   openCalorie = () => this.props.navigation.navigate(RouteNames.CalorieCounter)
@@ -41,7 +38,7 @@ class Tools extends PureComponent {
 
   componentDidMount() {
     const {userType} = this.props;
-
+    // Initialise user/trainer specific and common screens
     const toolsData = [
       {
         title: strings.PACKAGES,
@@ -53,7 +50,7 @@ class Tools extends PureComponent {
         title: strings.SESSIONS,
         image: iconBackgrounds.days,
         callback: this.openSessions,
-        enabled:true
+        enabled: true
       },
       {
         title: strings.CALL_REQUESTS,
@@ -109,16 +106,8 @@ class Tools extends PureComponent {
         callback: this.openCalorie,
         enabled: true
       },
-      // {
-      //   title: strings.RECIPE,
-      //   image: iconBackgrounds.subscriptions,
-      //   callback: this.openRecipe,
-      //   enabled: true
-      // },
-
-
     ]
-    this.setState({toolsData: toolsData.filter(toolData => toolData.enabled)});
+    this.setState({toolsData: toolsData.filter(toolData => toolData.enabled)}); // pick out enabled screens
   }
 
   renderCard = (item) => (

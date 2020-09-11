@@ -21,7 +21,7 @@ import DefaultUser from '../../../assets/images/defaultUser.png';
 import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";
 import {screenWidth} from "../../utils/screenDimensions";
-import colors, {appTheme} from "../../constants/colors";
+import colors from "../../constants/colors";
 import {spacing} from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
@@ -89,7 +89,6 @@ class CallScreen extends Component {
       </ImageBackground>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
