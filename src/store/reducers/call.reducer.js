@@ -10,7 +10,6 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, action.payload);
     case actionTypes.SET_CALL_ACTIVE:
       return updateObject(state, action.payload);
-
     default:
       return state;
   }

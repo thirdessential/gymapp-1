@@ -2,6 +2,8 @@ import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
 import {set, sub} from "react-native-reanimated";
 import {callbackStatus} from "../../constants/appConstants";
+import {showError} from "../../utils/notification";
+import strings from "../../constants/strings";
 
 export const setPackages = (packages) => ({
   type: actionTypes.SET_PACKAGES,
@@ -22,8 +24,9 @@ export const createPackage = (packageData) => {
     try {
       const {title, noOfSessions, price, description, _id, category, group, maxParticipants, slot, startDate, active} = packageData;
       let result = null;
+      // If _id exists, the package already exists, call the update method; else call the create method
       if (_id) {
-        dispatch(updatePackage(packageData)); //optimistic TODO:rollback
+        dispatch(updatePackage(packageData));
         result = await API.updatePackage(_id, {
           title,
           noOfSessions,
@@ -94,25 +97,24 @@ export const setSlots = (slots) => ({
   },
 });
 
+// Take the entire state of frontend and pass to backend
+// Backend figures out the slots to keep, delete and create
 export const createSlots = (slotArray) => {
-
   return async (dispatch, getState) => {
     let oldSlots = getState().trainer.slots;
     try {
       // dispatch(setSlots(slotArray));
       let slots = await API.syncSlots(slotArray);
       if (slots) {
-        console.log('slots created', slots.length);
+        console.log(slots.length, ' slots created');
         dispatch(setSlots(slots));
         return true;
       } else {
-        //TODO: finish this rollback by showing error
-        console.log("Trainer slot creation failed", slots);
-        dispatch(setSlots(oldSlots));
-        return false;
+        throw new Error('Slot creation failed')
       }
     } catch (error) {
-      console.log("Trainer slot creation failed", error);
+      showError(strings.SLOT_CREATION_FAILED);
+      console.log("Slot creation failed", error);
       dispatch(setSlots(oldSlots));
       return false;
     }
@@ -178,7 +180,7 @@ export const generateCoupons = (count, percentageOff, validity) => {
       let {success, coupons} = await API.generateCoupons(count, percentageOff, validity);
       if (success)
         dispatch(appendCoupons(coupons));
-      else dispatch(setCoupons(oldCoupons));
+      else dispatch(setCoupons(oldCoupons)); // TODO: Check if this line is really needed
     } catch (error) {
       console.log("Trainer coupon creation failed", error);
       return false;
@@ -235,15 +237,11 @@ export const addAccount = (accountDetails) => {
   return async (dispatch) => {
     try {
       const {ifscCode, accountNumber, holderName, bankName} = accountDetails;
-      result = await API.addAccount({ifscCode, accountNumber, holderName, bankName});
+      const result = await API.addAccount({ifscCode, accountNumber, holderName, bankName});
       const accountData = result.account;
-      // console.log("123");
-      // console.log(accountData);
-      // console.log("123");
       dispatch(createAccount(accountData));
-
     } catch (error) {
-      console.log("aacount creation failed in trainer.actions.js", error);
+      console.log("Account creation failed", error);
       return false;
     }
   }
@@ -257,15 +255,11 @@ export const getAccounts = (accounts) => ({
 export const getMyAccounts = () => {
   return async (dispatch) => {
     try {
-      result = await API.getMyAccounts();
+      const result = await API.getMyAccounts();
       const accounts = result.accounts;
-      console.log("123");
-      console.log(accounts);
-      console.log("123");
       dispatch(getAccounts(accounts));
-      console.log(result);
     } catch (error) {
-      console.log("aacount creation failed in trainer.actions.js", error);
+      console.log("Failed to get accounts", error);
       return false;
     }
   }
@@ -311,7 +305,6 @@ export const acceptCallback = (callbackId) => {
       dispatch(setCallbackStatus(callbackId, callbackStatus.ACCEPTED));
       const {success} = await API.acceptCallBack(callbackId);
       if (!success) {
-        //todo handle it here
         throw new Error("Accept callback failed")
       }
       return true;
@@ -327,7 +320,6 @@ export const rejectCallback = (callbackId) => {
       dispatch(removeCallback(callbackId));
       const {success} = await API.rejectCallBack(callbackId);
       if (!success) {
-        //todo handle it here
         throw new Error("reject callback failed")
       }
       return true;
@@ -343,7 +335,6 @@ export const callbackDone = (callbackId) => {
       dispatch(removeCallback(callbackId));
       const {success} = await API.callbackDone(callbackId);
       if (!success) {
-        //todo handle it here
         throw new Error("done callback failed")
       }
       return true;

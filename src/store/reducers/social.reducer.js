@@ -2,6 +2,8 @@ import {socialState as initialState} from './initialState';
 import * as actionTypes from '../actions/actionTypes';
 import {updateObject} from "../../utils/utils";
 
+// Storing only IDs of posts/questions is beneficial as only once object is a single source of truth
+// Saves memory, and we dont need to update a single object in multiple places
 const idTransformer = objArray => objArray.map(obj => obj._id);
 
 const reducer = (state = initialState, action) => {
@@ -9,7 +11,9 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SET_POSTS: {
       const {my, posts} = action.payload;
       const postDetails = {...state.postDetails};
+      // Store detailed post data object in postDetails object
       posts.map(post => postDetails[post._id] = post);
+      // And store only ids of these posts in myPosts and posts list, avoids duplication
       return my ?
         updateObject(state, {myPosts: idTransformer(posts), postDetails}) :
         updateObject(state, {posts: idTransformer(posts), postDetails});
@@ -58,7 +62,6 @@ const reducer = (state = initialState, action) => {
       const filteredPosts = oldPosts.filter(postId_ => postId_ !== postId);
       const oldMyPosts = [...state.myPosts];
       const filteredMyPosts = oldMyPosts.filter(postId_ => postId_ !== postId);
-
       return updateObject(state, {posts: filteredPosts, myPosts: filteredMyPosts});
     }
     case actionTypes.REMOVE_QUESTION: {

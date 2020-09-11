@@ -2,6 +2,7 @@ import * as actionTypes from "./actionTypes";
 
 import {customDelay} from "../../utils/utils";
 
+// Show incoming call screen
 export const setIncomingCall = (callData, inAppCall=false) => ({
   type: actionTypes.SET_INCOMING_CALL,
   payload: {

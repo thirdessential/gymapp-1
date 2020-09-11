@@ -82,5 +82,4 @@ export {
   addNotification,
   readNotification,
   clearAllNotifications,
-  syncNotifications,
 } from './notification.actions';

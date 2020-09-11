@@ -300,7 +300,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
-  activities: state.user.activities,
   userType: state.user.userType,
   sessions: state.trainer.sessions,
   liveStreams: state.social.liveStreams,

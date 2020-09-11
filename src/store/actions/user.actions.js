@@ -3,10 +3,10 @@ import {updateAxiosToken} from "../../API";
 import {userTypes} from "../../constants/appConstants";
 import {signOutFirebase} from "../../API/firebaseMethods";
 import * as API from "../../API";
-import {setUser, setUserList} from "./app.actions";
+import {setUser} from "./app.actions";
 import {setPackages, setSlots} from "./trainer.actions";
 
-export const genericUserFieldSetter = (payload) => ({ // TODO: refactor this function into multiple specific setters
+export const genericUserFieldSetter = (payload) => ({
   type: actionTypes.GENERIC_USER_FIELD_SET,
   payload
 });

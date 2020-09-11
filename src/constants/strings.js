@@ -289,6 +289,7 @@ const strings = {
   HOME: 'Home',
   TRAINERS: 'Trainers',
   USERS: 'Users',
+  SLOT_CREATION_FAILED: 'Slot creation failed, try again'
 };
 
 export const bmiVerdicts = {
