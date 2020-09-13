@@ -14,8 +14,11 @@ import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
 import RouteNames from "../../navigation/RouteNames";
 import StreamSwiper from "../../components/Social/StreamSwiper";
-import {joinMeeting} from "../../utils/zoomMeeting";
+import {hostMeeting, joinMeeting} from "../../utils/zoomMeeting";
 import FitnessSummary from "../../components/fitness/FitnessSummary";
+import {startStream} from "../../API";
+import Loader from "../../components/Loader";
+import {showError} from "../../utils/notification";
 
 class Activity extends PureComponent {
   state = {
@@ -23,7 +26,8 @@ class Activity extends PureComponent {
     upcomingStreams: null,
     currentStats: null, // current and weekly calorie, water intake
     weeklyStats: null,
-    currentSwitch: true // when true, show current calorie stats, weekly otherwise
+    currentSwitch: true, // when true, show current calorie stats, weekly otherwise,
+    loading: false
   }
 
   setToday = () => {
@@ -70,9 +74,15 @@ class Activity extends PureComponent {
     this.setState({todaySessions});
   }
   updateLocalStreamData = () => {
-    const {liveStreams} = this.props;
+    const {liveStreams, myLiveStreams} = this.props;
+    const myStreamIds = myLiveStreams.map(stream => stream._id);
     // Check which streams are scheduled and show them
-    const upcomingStreams = liveStreams.filter(stream => stream.status === streamStatus.SCHEDULED);
+    let upcomingStreams = liveStreams.filter(stream => stream.status === streamStatus.SCHEDULED);
+    upcomingStreams = upcomingStreams.map(stream => {
+      if (myStreamIds.includes(stream._id))
+        stream.isMyStream = true;
+      return stream
+    });
     this.setState({upcomingStreams});
   }
   reduceDayCalories = data => {
@@ -160,11 +170,24 @@ class Activity extends PureComponent {
       />
     )
   }
-  onJoinStream = (streamId) => {
+  onJoinStream = async (streamId) => {
+    this.setState({loading: true});
     const {liveStreams, userName} = this.props;
     const targetStream = liveStreams.filter(liveStream => liveStream._id === streamId)[0];
     const {meetingNumber, meetingPassword, clientKey, clientSecret} = targetStream;
-    joinMeeting(meetingNumber, meetingPassword, userName, clientKey, clientSecret);
+    await joinMeeting(meetingNumber, meetingPassword, userName, clientKey, clientSecret);
+    this.setState({loading: false});
+  }
+  onStartStream = async (stream) => {
+    this.setState({loading: true});
+    const res = await startStream(stream._id);
+    if (res.success) {
+      await hostMeeting(stream.meetingNumber, res.token, this.props.userName, stream.clientKey, stream.clientSecret);
+      this.props.setStreamFinished(stream._id);
+    }else {
+      showError(strings.FAILED_TO_START_STREAM);
+    }
+    this.setState({loading: false});
   }
   renderUpcomingStreams = () => {
     const {upcomingStreams} = this.state;
@@ -177,6 +200,7 @@ class Activity extends PureComponent {
       <StreamSwiper
         streams={upcomingStreams}
         onJoin={this.onJoinStream}
+        onStart={this.onStartStream}
       />
     )
   }
@@ -230,6 +254,7 @@ class Activity extends PureComponent {
           {this.renderTodaySessions()}
         </View>
         {this.renderHealthStats()}
+        <Loader loading={this.state.loading}/>
       </ScrollView>
     );
   }
@@ -307,6 +332,7 @@ const mapStateToProps = (state) => ({
   userType: state.user.userType,
   sessions: state.trainer.sessions,
   liveStreams: state.social.liveStreams,
+  myLiveStreams: state.social.myLiveStreams,
   userName: state.user.userData.name,
   calorieData: state.fitness.calorieData,
   waterIntake: state.fitness.waterIntake,
@@ -319,6 +345,7 @@ const mapDispatchToProps = (dispatch) => ({
   getCallbacks: () => dispatch(actionCreators.getCallbacks()),
   syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions()),
   syncSessions: () => dispatch(actionCreators.syncSessions()),
+  setStreamFinished: (streamId) => dispatch(actionCreators.setLiveStreamStatus(streamId, streamStatus.FINISHED))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activity);

@@ -9,6 +9,8 @@ import Ion from "react-native-vector-icons/Ionicons";
 
 import {spacing} from "../constants/dimension";
 import {
+  MEETING_POST_START_WINDOW,
+  MEETING_PRE_START_WINDOW,
   sessionStatus,
   streamText,
   subscriptionType,
@@ -47,11 +49,11 @@ class TodaySession extends React.Component {
           clearInterval(this.timer);
           this.timer = null;
           this.setState({countDown: '        '});
-        } else if (remainingSeconds < 600 && this.props.trainer) {
+        } else if (remainingSeconds < MEETING_PRE_START_WINDOW && this.props.trainer) {
           this.setState({startEnabled: true});
         }
       }, 1000);
-    } else if ((now - date) / 1000 < 3600) {
+    } else if ((now - date) / 1000 < MEETING_POST_START_WINDOW) {
       if (this.props.trainer)
         this.setState({startEnabled: true});
     }

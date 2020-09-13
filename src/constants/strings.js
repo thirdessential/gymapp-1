@@ -289,7 +289,8 @@ const strings = {
   HOME: 'Home',
   TRAINERS: 'Trainers',
   USERS: 'Users',
-  SLOT_CREATION_FAILED: 'Slot creation failed, try again'
+  SLOT_CREATION_FAILED: 'Slot creation failed, try again',
+  FAILED_TO_START_STREAM: 'Failed to start live stream'
 };
 
 export const bmiVerdicts = {

@@ -5,7 +5,10 @@ import Swiper from 'react-native-swiper';
 import StreamCard from "./StreamCard";
 
 class StreamSwiper extends PureComponent {
+
   renderStream = (stream) => {
+    const onJoin = stream.isMyStream ? null : () => this.props.onJoin(stream._id);
+    const onStart = stream.isMyStream ? () => this.props.onStart(stream) : null;
     return <View key={stream._id}>
       <StreamCard
         title={stream.title}
@@ -13,8 +16,8 @@ class StreamSwiper extends PureComponent {
         duration={stream.duration}
         date={stream.date}
         host={stream.host}
-        onJoin={this.props.onJoin ? () => this.props.onJoin(stream._id) : null}
-        onStart={this.props.onStart ? () => this.props.onStart(stream) : null}
+        onJoin={onJoin}
+        onStart={onStart}
       />
     </View>
   };

@@ -43,8 +43,9 @@ class MyStreams extends PureComponent {
   onStartStream = async (stream) => {
     this.setState({loading: true});
     const res = await startStream(stream._id);
+
     if (res.success) {
-      await hostMeeting(stream.meetingId, res.token, this.props.userName);
+      await hostMeeting(stream.meetingNumber, res.token, this.props.userName, stream.clientKey, stream.clientSecret);
       this.setState({loading: false});
       this.props.setStreamFinished(stream._id);
     }

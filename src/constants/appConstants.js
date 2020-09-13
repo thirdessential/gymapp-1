@@ -186,7 +186,7 @@ export const equipmentTypes = {
 }
 
 export const zoomConfig = {
-  // most config stored in backend
+  // config stored in backend
   domain: 'zoom.us'
 }
 // Status of stream or live sessions
@@ -247,3 +247,5 @@ export const MAX_VIDEO_LENGTH = 120; // 120 seconds, videos bigger than this are
 export const DEFAULT_WATER_INTAKE_QUOTA = 4000; // in ml
 export const DEFAULT_CALORIE_INTAKE_QUOTA = 2000; // in cal
 export const paymentBackground = "https://about.wodup.com/wp-content/uploads/2018/11/a84f9b3b-a46c-4a3c-9ec9-ba87b216548a-300x300.jpg";
+export const MEETING_PRE_START_WINDOW = 600; //10 Mins before scheduled time trainer can start meeting
+export const MEETING_POST_START_WINDOW = 1800; //30 Mins after scheduled time trainer can start meeting
