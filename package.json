@@ -11,7 +11,8 @@
     "irel": "cd android && ./gradlew installRelease",
     "rel": "cd android && ./gradlew assembleRelease",
     "clean": "cd android && ./gradlew clean",
-    "rebuild": "yarn clean && yarn rel"
+    "rebuild": "yarn clean && yarn rel",
+    "jetify": "npx jetify"
   },
   "dependencies": {
     "@react-native-community/art": "^1.2.0",

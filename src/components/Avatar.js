@@ -36,7 +36,6 @@ const Avatar = (props) => {
           }]}>
             {badge.display}
           </Text>
-
         )
       }
     </View>
@@ -48,7 +47,7 @@ Avatar.propTypes = {
 };
 
 Avatar.defaultProps = {
-  url: 'https://www.pngitem.com/pimgs/m/28-288789_transparent-png-person-standing-standing-png-download.png' // fallback url
+  url: defaultDP // fallback url
 }
 
 const styles = StyleSheet.create({
