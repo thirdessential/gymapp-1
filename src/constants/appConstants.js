@@ -29,7 +29,7 @@ export const videoFeedConfig = {
   FPS: 30
 }
 // Change this android package id if it changes in android directory, this constant is required to launch app in agora calls
-export const appPackageId = 'com.thirdessential.fitnessfirst';
+export const appPackageId = 'com.thirdessential.gymadda';
 // Agora ringing notification actions
 export const notificationActions = {
   Accept: 'Accept',
@@ -42,6 +42,7 @@ export const storageKeys = {
 }
 // WebClientId required for GoogleSignin. Derived from android/app/google-services.json
 export const webClientId = '284208119571-nt9fitb9l2o4qulefvju8gqeo7aaug01.apps.googleusercontent.com';
+
 // To enable agora call quality tester mode
 export const videoTestMode = false;
 // After callTimeout ms, agora call will disconnect if no user joins

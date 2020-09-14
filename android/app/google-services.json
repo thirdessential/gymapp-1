@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:284208119571:android:f08c1c15c8a4fb9375e4e6",
+        "mobilesdk_app_id": "1:284208119571:android:c16d49e25f34f5bb75e4e6",
         "android_client_info": {
-          "package_name": "com.thirdessential.fitnessfirst"
+          "package_name": "com.thirdessential.gymadda"
         }
       },
       "oauth_client": [
         {
-          "client_id": "284208119571-uiec5ilff3dft4bdmlq4astosopfi319.apps.googleusercontent.com",
+          "client_id": "284208119571-55ijf70m426ij6o05725hl764ta4ii8i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.thirdessential.fitnessfirst",
+            "package_name": "com.thirdessential.gymadda",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },

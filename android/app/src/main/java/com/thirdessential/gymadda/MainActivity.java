@@ -1,4 +1,4 @@
-package com.thirdessential.fitnessfirst;
+package com.thirdessential.gymadda;
 
 import com.facebook.react.ReactActivity;
 
