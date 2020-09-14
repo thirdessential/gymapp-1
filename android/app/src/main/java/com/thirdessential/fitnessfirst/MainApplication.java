@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import io.agora.rtc.react.RCTAgoraRtcPackage;
 
 import net.no_mad.tts.TextToSpeechPackage;
 import com.facebook.react.ReactInstanceManager;
