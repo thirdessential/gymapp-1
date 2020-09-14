@@ -1,3 +1,4 @@
+// Default spacing used throughout the application
 export const spacing = {
   small_sm: 3,
   small: 5,

@@ -31,11 +31,11 @@ class SlotList extends PureComponent {
   }
 
   componentDidMount() {
-    const {navigation} = this.props;
+    const {navigation, updateUserData} = this.props;
+    updateUserData();
     this.refreshSlots();
     this.unsubscribeFocus = navigation.addListener('focus', e => {
-      if (this.state.slots.length === 0)
-        this.refreshSlots();
+      this.refreshSlots();
     });
   }
 
@@ -43,8 +43,8 @@ class SlotList extends PureComponent {
     const {createSlots, updateUserData} = this.props;
     this.setState({submitPending: true});
     let slots = this.state.slots;
-    slots = slots.map(slot=> {
-      slot.days =[...new Set(slot.days)];
+    slots = slots.map(slot => {
+      slot.days = [...new Set(slot.days)];
       return slot;
     });
     let result = await createSlots(slots);
@@ -57,25 +57,25 @@ class SlotList extends PureComponent {
     //TODO: Error handling
   }
 
-  refreshSlots =async () => {
+  refreshSlots = async () => {
     const {slots} = this.props;
     if (slots && slots.length > 0) {
-      // const filteredSlots = slots.filter(slot=>slot.subscriptionId===null);
       const localSlots = this.mapSlotsToLocal(slots);
       this.setState({slots: localSlots, settingInitialSlots: false});
     } else this.setState({settingInitialSlots: false})
   }
-  sortSlots = ( a, b ) =>{
-    if ( a.time < b.time ){
+  sortSlots = (a, b) => {
+    if (a.time < b.time) {
       return -1;
     }
-    if ( a.time > b.time ){
+    if (a.time > b.time) {
       return 1;
     }
     return 0;
   }
 
   mapSlotsToLocal = (slots) => {
+    // convert plain array to grouped array based on time
     const localSlots = [];
     const slotsByTime = groupBy(slots, 'time');
     Object.keys(slotsByTime).map(time => {
@@ -139,7 +139,7 @@ class SlotList extends PureComponent {
   createSlot = () => {
     let slotTime = '1000';
     if (this.state.slots.length > 0) {
-      slotTime =  parseInt( this.state.slots[this.state.slots.length - 1].time) + 100;
+      slotTime = parseInt(this.state.slots[this.state.slots.length - 1].time) + 100;
     }
     const slot = {
       _id: cuid(),
@@ -160,7 +160,7 @@ class SlotList extends PureComponent {
     let slotsAtTime = slots.filter(slot => slot.time === time);
     const occupiedDays = [];
     slotsAtTime.map(slot => {
-      if (slot.subscriptionId && slot.subscriptionId.subscribedBy)
+      if (slot.isSubscribed || slot.group)
         occupiedDays.push(slot.dayOfWeek)
     })
     return occupiedDays;
@@ -168,7 +168,7 @@ class SlotList extends PureComponent {
   renderSlots = () => {
     return this.state.slots.map((slot, index) => {
       const disabledDays = this.findBookedDays(slot.time);
-      const disabled = disabledDays.length > 0;
+      const disabled = disabledDays.length > 0 || slot.group;
       return <View key={slot._id} style={styles.slotContainer}>
         <Slot
           days={slot.days}
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:appTheme.background
+    backgroundColor: appTheme.background
   },
   listContainer: {
     justifyContent: 'center',

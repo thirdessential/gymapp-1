@@ -2,7 +2,8 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from "react";
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
 import {spacing} from "../../constants/dimension";
 import {appTheme} from "../../constants/colors";
 import Avatar from "../Avatar";
@@ -15,9 +16,12 @@ import DaysRow from "../DaysRow";
 const subscriptionCard = (props) => {
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
+      <TouchableOpacity
+        onPress={props.openProfile}
+        activeOpacity={0.8}
+        style={styles.imageContainer}>
         <Avatar url={props.imageUrl} size={spacing.thumbnail} roundedMultiplier={1}/>
-      </View>
+      </TouchableOpacity>
       <View style={styles.sectionContainer}>
         <View>
           <Text style={styles.sectionTitle}>{props.displayName}</Text>
@@ -26,9 +30,7 @@ const subscriptionCard = (props) => {
         <CallButton onPress={props.onPressCall}/>
       </View>
       <View style={styles.separator}/>
-
       <Text style={styles.sectionTitle}>{strings.SESSION_DETAILS}</Text>
-
       <View style={styles.sectionContainer}>
         <View>
           <Text style={styles.subtitle}>{strings.START_FROM}</Text>
@@ -59,7 +61,7 @@ const subscriptionCard = (props) => {
 
       <Text style={styles.sectionTitle}>{strings.SUBSCRIPTION_DETAILS}</Text>
 
-      <View style={[styles.sectionContainer, {marginTop: spacing.small, marginBottom:spacing.small}]}>
+      <View style={[styles.sectionContainer, {marginTop: spacing.small, marginBottom: spacing.small}]}>
         <View>
           <Text style={styles.subtitle}>{strings.PACKAGE_NAME}</Text>
           <Text style={styles.contentText}>{props.title}</Text>
@@ -70,12 +72,9 @@ const subscriptionCard = (props) => {
         </View>
       </View>
       <View style={styles.separator}/>
-
     </View>
   )
 }
-
-subscriptionCard.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
@@ -83,7 +82,7 @@ const styles = StyleSheet.create({
     padding: spacing.medium,
     paddingTop: 0,
     marginTop: spacing.thumbnail / 2,
-    paddingBottom:spacing.small,
+    paddingBottom: spacing.small,
     borderRadius: 10,
     backgroundColor: appTheme.darkBackground
   },
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.small
   },
   detail: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h2,
     fontFamily: fonts.CenturyGothic,
   },
@@ -121,7 +120,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.small_sm
   },
   contentText: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h2,
     fontFamily: fonts.CenturyGothicBold,
   },

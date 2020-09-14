@@ -1,7 +1,8 @@
 import React from "react";
+import {FlatList, StyleSheet, Text, View} from "react-native";
+
 import {appTheme, bmiColors} from "../constants/colors";
 import {spacing} from "../constants/dimension";
-import {FlatList, StyleSheet, Text, View} from "react-native";
 
 const data = [];
 for (let i = 0; i < 50; i++) {

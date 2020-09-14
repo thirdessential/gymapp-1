@@ -23,22 +23,24 @@ export const setUserFromUserList = (userList = null) => ({
   },
 })
 
-export const updateUsersList = (page='') => {
+export const updateUsersList = (page = '') => {
   return async (dispatch) => {
     try {
 
-      let {users, nextPage} = await API.listUsers(page===INITIAL_PAGE?null:page);
+      let {users, nextPage} = await API.listUsers(page === INITIAL_PAGE ? null : page);
       if (users) {
-        if(page===INITIAL_PAGE)
+        if (page === INITIAL_PAGE)
           await dispatch(setUserList(users)); // initialise list from scratch
         else dispatch(appendUserList(users)); // else append data to list
+
         dispatch(setUserFromUserList(users));
         const wallPreloadData = [];
+        // Extract cover image urls and preload them
         users.map(user => {
           if (!!user.wallImageUrl)
             wallPreloadData.push({uri: user.wallImageUrl});
         });
-        FastImage.preload(wallPreloadData); //TODO: Check if this actually works?
+        FastImage.preload(wallPreloadData);
         return nextPage;
       }
     } catch (error) {
@@ -55,12 +57,13 @@ export const setUserAction = (user) => ({
   }
 });
 
+// Set user data for a particular user
 export const setUser = (userId) => {
   return async (dispatch) => {
     try {
       let {user} = await API.getUserInfo(userId);
       if (user) {
-        dispatch(setUserAction(user));
+        await dispatch(setUserAction(user));
       }
     } catch (error) {
       console.log("UserData update failed", error);
@@ -68,20 +71,9 @@ export const setUser = (userId) => {
   };
 };
 
-export const setGlobalSlots = (globalSlots) => ({
-  type: actionTypes.SET_GLOBAL_SLOTS,
+export const updateScreenCopilots = (copilotScreen) => ({
+  type: actionTypes.COPILOT_SCREEN_DONE,
   payload: {
-    globalSlots
+    copilotScreen
   }
-});
-
-export const updateGlobalSlots = () => {
-  return async (dispatch) => {
-    try {
-      let {availableSlots} = await API.getGlobalSlots();
-      dispatch(setGlobalSlots(availableSlots));
-    } catch (error) {
-      console.log("Global slot update failed", error);
-    }
-  };
-};
+})

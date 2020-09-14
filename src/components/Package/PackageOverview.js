@@ -4,15 +4,15 @@
 import React, {useState} from 'react';
 import {ImageBackground, LayoutAnimation, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import PropTypes from 'prop-types';
-import strings from "../../constants/strings";
-import {spacing} from "../../constants/dimension";
-
-import fonts from "../../constants/fonts";
-import fontSizes from "../../constants/fontSizes";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Entypo from "react-native-vector-icons/Entypo";
+
+import strings from "../../constants/strings";
+import {spacing} from "../../constants/dimension";
+import fonts from "../../constants/fonts";
+import fontSizes from "../../constants/fontSizes";
 import {getRandomImage} from "../../constants/images";
-import colors, {appTheme, darkPallet} from "../../constants/colors";
+import colors, {appTheme} from "../../constants/colors";
 import {hitSlop20} from "../../constants/styles";
 import {packageImages, packageTypes} from "../../constants/appConstants";
 
@@ -52,6 +52,17 @@ const PackageOverview = (props) => {
     </View>
   )
 
+  const renderContent = () => {
+    if (collapsed)
+      return null;
+    else return (
+      <View style={styles.textContainer}>
+        <Text style={styles.description}>{props.description}</Text>
+        <Text style={styles.description}>{packageTypes[props.category]}</Text>
+      </View>
+    )
+  }
+
   return (
     <TouchableOpacity activeOpacity={0.9} onPress={() => toggleAnimation(setCollapsed, !collapsed)}>
       <ImageBackground
@@ -61,23 +72,24 @@ const PackageOverview = (props) => {
         source={packageImages[props.category] || imageSrc}>
         <View style={[styles.textContainer, {flexDirection: 'row', justifyContent: 'space-between'}]}>
           <Text style={styles.title}>{props.title}</Text>
-          <FontAwesome
-            name={chevron}
-            color={'white'}
-            size={12}
-            style={{marginTop: spacing.small}}
-          />
+          <View style={{flexDirection: 'row', marginTop: spacing.small}}>
+            <FontAwesome
+              name={props.group ? 'group' : 'user'}
+              color={appTheme.textPrimary}
+              size={12}
+              style={{marginRight: spacing.small_lg}}
+            />
+            <FontAwesome
+              name={chevron}
+              color={appTheme.textPrimary}
+              size={12}
+            />
+          </View>
         </View>
-        {
-          !collapsed && (
-            <>
-              <View style={styles.textContainer}>
-                <Text style={styles.description}>{props.description}</Text>
-                <Text style={styles.description}>{packageTypes[props.category]}</Text>
-              </View>
-            </>
-          )
-        }
+        <Text
+          style={styles.description}>{props.totalSubscriptions} {props.totalSubscriptions === 1 ? strings.SUBSCRIPTION : strings.SUBSCRIPTIONS}</Text>
+        {renderContent()}
+        <Text style={styles.description}>{props.group ? strings.GROUP_PACKAGE : strings.SINGLE_PACKAGE}</Text>
         <View style={styles.subtitleContainer}>
           <Text style={styles.subtitle}>{props.sessionCount} {strings.SESSIONS}</Text>
 
@@ -114,13 +126,12 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingLeft: spacing.large,
     paddingRight: spacing.large,
-    // justifyContent:'center'
   },
   textContainer: {
     marginBottom: spacing.medium_sm
   },
   title: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontFamily: fonts.RobotoRegular,
     fontSize: fontSizes.h0
   },
@@ -129,38 +140,32 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   subtitle: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontFamily: fonts.RobotoRegular,
     fontSize: fontSizes.h2
   },
   price: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontFamily: fonts.RobotoBold,
     fontSize: fontSizes.h1
   },
   description: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontFamily: fonts.RobotoRegular,
     fontSize: fontSizes.h2
   },
-  enrollButton: {
-    // backgroundColor:darkPallet.pink,
-
-    // padding:spacing.small,
-    // borderRadius: 10
-  },
   enroll: {
-    color: 'white',
-    // borderRadius: 5,
-    // borderWidth:1,
-    // padding:5,
-    // borderColor:appTheme.brightContent,
+    color: appTheme.textPrimary,
     fontFamily: fonts.RobotoBold,
     fontSize: fontSizes.h1
   },
   editContainer: {
     flexDirection: 'row'
-  }
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
 });
 
 export default React.memo(PackageOverview);

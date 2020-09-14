@@ -4,7 +4,6 @@ import RouteNames from "./RouteNames";
 import Stack from './stacks/stack';
 import AppTabNavigator from "./AppTabNavigator";
 import MyProfile from "../screens/App/MyProfile";
-import openDrawerButton from "./openDrawerButton";
 import {defaultHeaderStyle} from "../constants/styles";
 import PreferenceSwiper from "../screens/App/Preference/PreferenceSwiper";
 import PostViewer from "../screens/Social/PostViewer";
@@ -15,7 +14,7 @@ import CreatePost from "../screens/Social/CreatePost";
 import CallRequests from "../screens/App/Trainer/CallRequests";
 import PackageList from "../screens/App/Trainer/PackageList";
 import PackageEdit from "../screens/App/Trainer/PackageEdit";
-import SlotsView from "../screens/App/Trainer/Subscriptions";
+import SlotsView from "../screens/App/Subscriptions";
 import Profile from "../screens/App/Profile";
 import BMI from "../screens/Fitness/BMI";
 import Speech from "../screens/App/Speech";
@@ -24,8 +23,6 @@ import AccountDash from "../screens/App/Trainer/AccountDash";
 import {appTheme} from "../constants/colors";
 import AccountStatement from "../screens/App/Trainer/AccountStatement";
 import AddAccount from "../screens/App/Trainer/AddAccount";
-import StreamScreen from "../screens/Social/StreamScreen";
-import ShowStreamVideo from "../screens/Social/ShowStreamVideo";
 import SelectExercise from "../screens/Fitness/SelectExercise";
 import Exercises from "../screens/Fitness/Exercises";
 import PerformExercise from "../screens/Fitness/PerformExercise";
@@ -39,12 +36,17 @@ import Water from "../screens/Fitness/Water";
 import RecipeRecommend from "../screens/Fitness/RecipeRecommend";
 import CalorieCounter from "../screens/Fitness/CalorieCounter";
 import Calorie1 from "../screens/Fitness/Calorie1";
+import PdfViewer from "../screens/App/PdfViewer";
+import Sessions from "../screens/App/Sessions";
 
+// All the application screens outside tab navigator are defined here
+// There are some user and some trainer specific screens defined
 const rootStack = () => {
   let {userType} = store.getState().user;
   const isTrainer = userType === userTypes.TRAINER;
   return (
     <Stack.Navigator screenOptions={defaultHeaderStyle}>
+      {/*Root tab navigator*/}
       <Stack.Screen name={RouteNames.RootTab} component={AppTabNavigator} options={{title: '', headerShown: false,}}/>
       <Stack.Screen
         name={RouteNames.MyProfile}
@@ -230,24 +232,6 @@ const rootStack = () => {
         }}
       />
       <Stack.Screen
-        name={RouteNames.StreamScreen}
-        component={StreamScreen}
-        options={{
-          title: "Stream",
-        }}
-      />
-      <Stack.Screen
-        name={RouteNames.ShowStreamVideo}
-        component={ShowStreamVideo}
-        options={{
-          title: "See videos",
-          headerTintColor: appTheme.darkBackground,
-          headerStyle: {
-            backgroundColor: appTheme.brightContent,
-          },
-        }}
-      />
-      <Stack.Screen
         name={RouteNames.SelectExercise}
         component={SelectExercise}
         options={{
@@ -283,6 +267,21 @@ const rootStack = () => {
         options={{
           title: "",
           headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.PdfViewer}
+        component={PdfViewer}
+        options={{
+          title: "",
+          headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name={RouteNames.Sessions}
+        component={Sessions}
+        options={{
+          title: strings.SESSIONS,
         }}
       />
     </Stack.Navigator>

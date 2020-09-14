@@ -10,18 +10,17 @@ import {
 } from 'react-native';
 import RNExitApp from "react-native-exit-app";
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {connect} from "react-redux";
 
 const PushNotification = require("react-native-push-notification");
+
 import {requestCameraAndAudioPermission} from "../../utils/permission";
 import RouteNames from "../../navigation/RouteNames";
-
 import CallBackground from '../../../assets/images/callBackground.png';
 import DefaultUser from '../../../assets/images/defaultUser.png';
-
-import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";
 import {screenWidth} from "../../utils/screenDimensions";
-import colors, {appTheme} from "../../constants/colors";
+import colors from "../../constants/colors";
 import {spacing} from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
@@ -66,7 +65,6 @@ class CallScreen extends Component {
 
     return (
       <ImageBackground source={CallBackground} style={styles.container}>
-
         <View style={styles.imageContainer}>
           <Image style={[styles.image]} source={imgSource}/>
         </View>
@@ -90,7 +88,6 @@ class CallScreen extends Component {
       </ImageBackground>
     );
   }
-
 }
 
 const styles = StyleSheet.create({

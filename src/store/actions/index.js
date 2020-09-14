@@ -1,8 +1,6 @@
 export {
   setAuthenticated,
-  resetAuth,
   syncFirebaseAuth,
-  setNewUser
 } from "./auth.actions";
 
 export {
@@ -11,7 +9,8 @@ export {
   setInitialLoginOff,
   updateUserData,
   subscribePackage,
-  getActivities
+  getActivities,
+  acceptTerms
 } from "./user.actions";
 
 export {
@@ -25,7 +24,7 @@ export {
   setUserList,
   updateUsersList,
   setUser,
-  updateGlobalSlots
+  updateScreenCopilots
 } from "./app.actions";
 
 export {
@@ -42,7 +41,10 @@ export {
   acceptCallback,
   callbackDone,
   rejectCallback,
-  scheduleStream
+  scheduleStream,
+  syncSessions,
+  startSession,
+  joinSession,
 } from './trainer.actions';
 
 export {
@@ -69,12 +71,15 @@ export {
   getPreferences,
   updatePreferences,
   updateExerciseIndex,
-  updateTarget
+  updateTarget,
+  addCalorieData,
+  addFoods,
+  addWaterIntake,
+  getWaterIntake
 } from './fitness.actions';
 
 export {
   addNotification,
   readNotification,
   clearAllNotifications,
-  syncNotifications,
 } from './notification.actions';

@@ -10,10 +10,10 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Text,
-  TextInput, FlatList
+  FlatList
 } from 'react-native'
 import {connect} from "react-redux";
-import Counter from "react-native-counters";
+
 import {spacing} from "../../../constants/dimension";
 import * as actionCreators from "../../../store/actions";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
@@ -21,7 +21,6 @@ import {appTheme} from "../../../constants/colors";
 import strings, {couponShareBuilder} from "../../../constants/strings";
 import fontSizes from "../../../constants/fontSizes";
 import fonts from "../../../constants/fonts";
-
 import {groupBy} from "../../../utils/utils";
 import {showSuccess} from "../../../utils/notification";
 import Coupon from "../../../components/Coupon";
@@ -119,7 +118,7 @@ class CouponMachine extends PureComponent {
         validity={validTillDate}
         redeemed={redeemCount}
         count={total}
-        onShare={shareEnabled? () => this.shareCoupon(coupon.couponCode, coupon.percentageOff, validTill):null}
+        onShare={shareEnabled ? () => this.shareCoupon(coupon.couponCode, coupon.percentageOff, validTill) : null}
       />
     </View>
   }

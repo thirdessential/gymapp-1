@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet, ActivityIndicator, LayoutAnimation, Text, TouchableOpacity} from 'react-native'
 import {createImageProgress} from 'react-native-image-progress';
 import FastImage from 'react-native-fast-image';
-
+import PreventScreenshotAndroid from 'react-native-prevent-screenshot-android';
 const Image = createImageProgress(FastImage);
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 import {connect} from "react-redux";
@@ -26,13 +26,15 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import PostList from "../../components/Social/PostList";
 import {showError, showSuccess} from "../../utils/notification";
+import CertificateList from "../../components/Trainer/CertificateList";
+import PackagePreviewList from "../../components/Trainer/PackagePreviewList";
 
 class Profile extends Component {
 
   state = {
     bgImage: getRandomImage(),
-    nextPage: INITIAL_PAGE,
-    requestingCallback: false
+    nextPage: INITIAL_PAGE, // pagination state for posts
+    requestingCallback: false, // loading indicator for call back request
   }
 
   componentDidMount() {
@@ -49,6 +51,13 @@ class Profile extends Component {
         this.setState({bgImage: {uri: wallImageUrl}});
       }
     }
+    // Restrict screenshots on all profiles
+    PreventScreenshotAndroid.forbidScreenshot();
+  }
+
+  componentWillUnmount() {
+    // Allow screenshot when exiting screen
+    PreventScreenshotAndroid.allowScreenshot();
   }
 
   callClicked = async () => {
@@ -75,7 +84,7 @@ class Profile extends Component {
   getPosts = () => {
     const {route, postsForUser, postDetails} = this.props;
     const {userId} = route.params;
-    if (postsForUser[userId])
+    if (postsForUser[userId]) // since postsForUser only contain id arras, we populate them with postDetails
       return postsForUser[userId].map(postId => postDetails[postId]);
     return [];
   }
@@ -85,7 +94,8 @@ class Profile extends Component {
     const {userId} = route.params;
     const nextUser = users[userId];
     const currentUser = this.getUser();
-
+    // If user is fetched from api, we should update his wall image specifically after api call, all other fields are
+    // automatically updated
     if (nextUser && !currentUser) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); // fancy hack
       let {wallImageUrl} = nextUser;
@@ -125,14 +135,22 @@ class Profile extends Component {
     this.setState({requestingCallback: false});
 
   }
+  onPackagePress = (userId, packageId) => {
+    const {navigation} = this.props;
+    navigation.navigate(RouteNames.PackagesView, {
+      userId,
+      packageId
+    });
+  }
   renderContent = () => {
     const user = this.getUser();
     const posts = this.getPosts();
     if (!user)
       return this.loader();
 
-    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots, activeSubscriptions} = user;
+    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots, activeSubscriptions, certificates} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
+    // Hits are the user's post count, slots count etc
     const hits = userType === userTypes.TRAINER ?
       generateTrainerHits({
         transformation: experience,
@@ -155,7 +173,9 @@ class Profile extends Component {
           location={city}
           onHitsPress={this.openPackage}
         />
+
         {
+          // Request callback button for trainers
           userType === userTypes.TRAINER && (
             <View style={styles.callbackContainer}>
               <TouchableOpacity disabled={this.state.requestingCallback} style={styles.callbackButton}
@@ -167,6 +187,26 @@ class Profile extends Component {
           )
         }
         {
+          // Trainer packages display
+          userType === userTypes.TRAINER && packages.length > 0 && (
+            <View style={styles.postListContainer}>
+              <Text style={[styles.sectionTitle, {marginBottom: spacing.medium_sm}]}>{strings.PACKAGES}</Text>
+              <PackagePreviewList onPackagePress={packageId => this.openPackage(user._id, packageId)}
+                                  packages={packages}/>
+            </View>
+          )
+        }
+        {
+          // Trainer certificates
+          userType === userTypes.TRAINER && certificates && certificates.length > 0 && (
+            <View style={styles.postListContainer}>
+              <Text style={styles.sectionTitle}>{strings.CERTIFICATIONS}</Text>
+              <CertificateList data={certificates}/>
+            </View>
+          )
+        }
+        {
+          // User posts
           posts &&
           <View style={styles.postListContainer}>
             <View style={styles.sectionTitleContainer}>
@@ -185,7 +225,7 @@ class Profile extends Component {
           </View>
         }
         {
-          !posts || posts.length === 0 && (
+          (!posts || posts.length === 0) && (
             <View style={styles.noPostsContainer}>
               <Text numberOfLines={2} style={styles.sectionTitle}>{strings.NO_POSTS_BY_USER}</Text>
             </View>

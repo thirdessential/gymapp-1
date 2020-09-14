@@ -1,15 +1,12 @@
- import ZoomUs from 'react-native-zoom-us';
-//const ZoomUs={}
+import ZoomUs from 'react-native-zoom-us';
 import {zoomConfig} from "../constants/appConstants";
 
 const zoomUserType = 2; // 2 - pro user
 
-const a = ()=>    console.warn('MEETING ENDED');
-
-export const hostMeeting = async (meetingNumber, zakTokenRaw, displayName = 'Trainer') => {
+export const hostMeeting = async (meetingNumber, zakTokenRaw, displayName = 'Trainer', zoomKey, zoomSecret) => {
   await ZoomUs.initialize(
-    zoomConfig.key,
-    zoomConfig.secret,
+    zoomKey,
+    zoomSecret,
     zoomConfig.domain
   );
   const zakToken = decodeURIComponent(zakTokenRaw);
@@ -31,10 +28,10 @@ export const hostMeeting = async (meetingNumber, zakTokenRaw, displayName = 'Tra
   }
 }
 
-export const joinMeeting = async (meetingNumber, password, displayName="User") => {
+export const joinMeeting = async (meetingNumber, password, displayName = "User", zoomKey, zoomSecret) => {
   await ZoomUs.initialize(
-    zoomConfig.key,
-    zoomConfig.secret,
+    zoomKey,
+    zoomSecret,
     zoomConfig.domain
   );
 

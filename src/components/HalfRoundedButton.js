@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     padding: spacing.small
   },
   buttonText: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h4,
     fontFamily: fonts.CenturyGothic,
     marginLeft: spacing.small_sm,

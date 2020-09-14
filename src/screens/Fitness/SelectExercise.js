@@ -8,13 +8,11 @@ import {
 } from "react-native";
 import Carousel from 'react-native-snap-carousel';
 
-
 import {spacing} from "../../constants/dimension";
 import {appTheme} from "../../constants/colors";
-import { screenWidth} from "../../utils/screenDimensions";
+import {screenWidth} from "../../utils/screenDimensions";
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
-
 import exerciseData from '../../../assets/exercises.json';
 import ExerciseCard from "../../components/ExerciseCard";
 import {bodyParts, equipmentTypes, exerciseLevels, fitnessCategories} from "../../constants/appConstants";
@@ -99,7 +97,7 @@ class SelectExercise extends PureComponent {
     const {equipment, selectedEquipment} = this.state;
     if (equipment.length === 1) return null;
     return (
-      <ScrollView style={{width: 100, height: 0, width: cardWidth}} showsHorizontalScrollIndicator={false}
+      <ScrollView style={{height: 0, width: cardWidth}} showsHorizontalScrollIndicator={false}
                   horizontal={true}>
         {equipment.map(equipmentType => this.renderPill(equipmentType, selectedEquipment === equipmentType, () => this.toggleEquipment(equipmentType)))}
       </ScrollView>

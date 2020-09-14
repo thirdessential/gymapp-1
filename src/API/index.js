@@ -1,6 +1,7 @@
 export {
   updateAxiosToken,
   firebaseGoogleAuth,
+  acceptTerms
 } from './auth';
 
 export {
@@ -14,7 +15,6 @@ export {
   updateUserInfo,
   getUserInfo,
   getMyInfo,
-  getGlobalSlots,
   subscribeToPackage,
   bookAppointment,
   sendPaymentData,
@@ -30,6 +30,7 @@ export {
   deletePackage,
   syncSlots,
   getMySubscriptions,
+  getMySessions,
   generateCoupons,
   getMyCoupons,
   getAccountSummary,
@@ -40,7 +41,10 @@ export {
   callbackDone,
   getCallbacks,
   scheduleStream,
-  startStream
+  startStream,
+  startSession,
+  joinSession,
+  endAgoraSession,
 } from './trainer';
 
 export {
@@ -86,5 +90,9 @@ export {
   updatePreferences,
   getPreferences,
   updateExerciseIndex,
-  updateTarget
+  updateTarget,
+  waterIntake,
+  searchFood,
+  updateMealIntake,
+  getRecommendation
 } from './fitness'

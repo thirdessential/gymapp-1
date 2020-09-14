@@ -1,6 +1,4 @@
-import axios from "./config";
-
-import {validateResponseCode} from "../utils/utils";
+import axios, {validateResponseCode} from "./config";
 
 export const recordBmi = async (bmi, weight) => {
   try {
@@ -9,6 +7,58 @@ export const recordBmi = async (bmi, weight) => {
       return response.data;
     else return false;
   } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const getRecommendation = async () => {
+  try {
+    let response = await axios.get('/recommend');
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export const updateMealIntake = async (date, foodItems) => {
+  try {
+    let response = await axios.post('/caloriesIntake/save', {date, foodItems});
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log("error in fitness mealintake");
+    console.log(error);
+    return false
+  }
+}
+export const searchFood = async (name) => {
+  try {
+    let response = await axios.post('/foodItems/getByName', {name});
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log("error in fitness.js app");
+    return false;
+  }
+}
+
+export const waterIntake = async (date, quantity) => {
+  try {
+    let response = await axios.post('/waterIntake', {date, quantity});
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else {
+      console.log("else mei atka");
+      return false;
+    }
+  } catch (error) {
+
     console.log(error);
     return false;
   }
@@ -63,9 +113,9 @@ export const updateExerciseIndex = async (index) => {
 }
 
 
-export const updateTarget = async (weight,date) => {
+export const updateTarget = async (weight, date) => {
   try {
-    let response = await axios.post(`/fitness/target`, {weight,date});
+    let response = await axios.post(`/fitness/target`, {weight, date});
     if (validateResponseCode(response.status))
       return response.data;
     else return false;

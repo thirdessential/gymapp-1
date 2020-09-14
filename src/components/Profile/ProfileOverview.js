@@ -4,29 +4,26 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import PropTypes from 'prop-types';
+import Entypo from "react-native-vector-icons/Entypo";
 import {AirbnbRating} from 'react-native-ratings';
-import {spacing} from "../../constants/dimension";
 
+import {spacing} from "../../constants/dimension";
 import HitsList from '../HitsList';
-import ExpandingText from "../ExpandingText";
 import {userTypes} from "../../constants/appConstants";
-import colors, {appTheme, darkPallet} from "../../constants/colors";
+import {appTheme, darkPallet} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import {toTitleCase} from "../../utils/utils";
 import Avatar from "../Avatar";
 import CallButton from '../CallButton';
-import Entypo from "react-native-vector-icons/Entypo";
-
 import {screenWidth} from "../../utils/screenDimensions";
+import {hitSlop20} from "../../constants/styles";
 
 const ProfileOverview = (props) => {
-  const {hits} = props;
   return (
     <View
       colors={[darkPallet.darkBlue, darkPallet.extraDarkBlue]}
       style={styles.container}>
-
       <View style={styles.profileHeader}>
         <View style={styles.profileTitle}>
           <View style={styles.titleContainer}>
@@ -35,7 +32,7 @@ const ProfileOverview = (props) => {
               <TouchableOpacity
                 style={styles.editButton}
                 onPress={props.editCallback}
-                hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+                hitSlop={hitSlop20}
               >
                 <Entypo
                   name={'edit'}
@@ -65,16 +62,11 @@ const ProfileOverview = (props) => {
           <Avatar url={props.dpUrl} size={spacing.thumbnailMed}/>
         </View>
       </View>
-      <View style={styles.descriptionContainer}>
-        <ExpandingText
-          style={{color: 'white'}}>
-          {props.description}</ExpandingText>
-      </View>
       <TouchableOpacity onPress={props.onHitsPress} activeOpacity={0.7} style={styles.profileHitsContainer}>
         <HitsList hits={props.hits}/>
         {
           props.initiateVideoCallCallback && (
-            <View style={styles.callButtonContainer}>
+            <View>
               <CallButton onPress={props.initiateVideoCallCallback}/>
             </View>
           )
@@ -106,14 +98,14 @@ const styles = StyleSheet.create({
     marginTop: -20,
     paddingLeft: spacing.large,
     paddingRight: spacing.large,
-    paddingBottom:spacing.medium_sm
+    paddingBottom: spacing.medium_sm
   },
   titleContainer: {
     flexDirection: 'row',
     width: screenWidth / 2.5,
   },
   displayName: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h0,
     fontFamily: fonts.MontserratMedium,
   },
@@ -143,13 +135,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  callButtonContainer: {},
   editButton: {
     marginLeft: spacing.small,
     padding: spacing.small,
   },
-  packageListContainer: {},
-
 });
 
 export default React.memo(ProfileOverview);

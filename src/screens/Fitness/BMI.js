@@ -11,22 +11,24 @@ import {
   View,
   Keyboard
 } from "react-native";
-import {connect} from "react-redux";
-import {Bar} from 'react-native-progress';
-import {spacing} from "../../constants/dimension";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
-
-TimeAgo.addLocale(en)
-const timeAgo = new TimeAgo('en-US');
 import {
   Menu,
   MenuOptions,
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import RBSheet from "react-native-raw-bottom-sheet";
+import Entypo from "react-native-vector-icons/Entypo";
+import {connect} from "react-redux";
+import {Bar} from 'react-native-progress';
 
-import colors, {appTheme, bmiColors, darkPallet} from "../../constants/colors";
+import {spacing} from "../../constants/dimension";
+
+TimeAgo.addLocale(en)
+const timeAgo = new TimeAgo('en-US');
+import {appTheme, bmiColors} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import {screenWidth} from "../../utils/screenDimensions";
@@ -38,12 +40,7 @@ import CustomLineChart from "../../components/CustomLineChart";
 import Avatar from "../../components/Avatar";
 import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from "../../store/actions";
-import {hitSlop20} from "../../constants/styles";
 import {WEEK_DAYS} from "../../constants/appConstants";
-import RBSheet from "react-native-raw-bottom-sheet";
-import DatePicker from "react-native-datepicker";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import Entypo from "react-native-vector-icons/Entypo";
 
 const rbContentType = {
   WEIGHT: 'WEIGHT',
@@ -70,15 +67,34 @@ class BMI extends PureComponent {
       updateBmiRecords();
     })
   }
+
   componentWillUnmount() {
     this.unsubscribeFocus();
   }
 
   setDays = () => this.setState({graphType: 'day', graphHeaderText: strings.LAST_DAYS})
   setMonths = () => this.setState({graphType: 'month', graphHeaderText: strings.LAST_MONTHS})
-  setWeight = (newWeight) => this.setState({newWeight})
-  setTargetWeight = (targetWeight) => this.setState({targetWeight})
-  setTargetDate = (targetDate) => this.setState({targetDate})
+  setWeight = (newWeight) => {
+    if (newWeight < 0)
+      newWeight = 30;
+    if (newWeight > 300)
+      newWeight = 300;
+    this.setState({newWeight:newWeight.toString()})
+  }
+  setTargetWeight = (targetWeight) => {
+    if (targetWeight < 0)
+      targetWeight = 30;
+    if (targetWeight > 300)
+      targetWeight = 300;
+    this.setState({targetWeight:targetWeight.toString()})
+  }
+  setTargetDate = (targetDate) => {
+    if (targetDate < 1)
+      targetDate = 1;
+    if (targetDate > 52)
+      targetDate = 52;
+    this.setState({targetDate:targetDate.toString()})
+  }
   openHeightSetter = () => this.props.navigation.navigate(RouteNames.ProfileEdit, {physical: true})
   renderHeader = () => {
     const {displayPictureUrl, height, name} = this.props.userData;
@@ -107,7 +123,6 @@ class BMI extends PureComponent {
                 <Text style={styles.menuText}>{strings.SET_HEIGHT}</Text>
               </TouchableOpacity>
             )}
-
           </View>
         </View>
         <Menu style={styles.menuContainer}>
@@ -324,7 +339,7 @@ class BMI extends PureComponent {
     const targetDateObj = new Date();
     const daysToAchieve = parseInt(targetDate) * 7;
     targetDateObj.setDate(targetDateObj.getDate() + daysToAchieve);
-    await this.props.updateTarget(targetWeight, targetDateObj);
+    this.props.updateTarget(targetWeight, targetDateObj);
     this.closeRbSheet();
     this.setState({submitting: false});
   }
@@ -356,7 +371,7 @@ class BMI extends PureComponent {
                  placeholderTextColor={appTheme.brightContent}
                  value={this.state.newWeight.toString()} onChangeText={this.setWeight}
       />
-      <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: spacing.medium_sm}}>
+      <View style={styles.inputContainer}>
         {!this.state.submitting &&
         <TouchableOpacity onPress={this.closeRbSheet} activeOpacity={0.7}
                           style={[styles.blueButton, {backgroundColor: bmiColors.red, marginRight: spacing.large}]}>
@@ -381,7 +396,7 @@ class BMI extends PureComponent {
                  value={this.state.targetDate} onChangeText={this.setTargetDate}
       />
 
-      <View style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: spacing.medium_sm}}>
+      <View style={styles.inputContainer}>
         {!this.state.submitting &&
         <TouchableOpacity onPress={this.closeRbSheet} activeOpacity={0.7}
                           style={[styles.blueButton, {backgroundColor: bmiColors.red, marginRight: spacing.large}]}>
@@ -421,7 +436,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingLeft: spacing.medium_lg,
     paddingRight: spacing.medium_lg,
-    // paddingTop: spacing.medium_lg,
     backgroundColor: appTheme.background,
   },
   weightRow: {
@@ -488,6 +502,11 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothicBold,
     fontSize: fontSizes.h3
   },
+  inputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: spacing.medium_sm
+  },
   menu: {
     backgroundColor: appTheme.darkBackground,
   },
@@ -514,7 +533,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: spacing.medium_lg
   },
-
 });
 
 const mapStateToProps = (state) => ({

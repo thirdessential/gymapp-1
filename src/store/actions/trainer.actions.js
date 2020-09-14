@@ -2,6 +2,8 @@ import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
 import {set, sub} from "react-native-reanimated";
 import {callbackStatus} from "../../constants/appConstants";
+import {showError} from "../../utils/notification";
+import strings from "../../constants/strings";
 
 export const setPackages = (packages) => ({
   type: actionTypes.SET_PACKAGES,
@@ -20,14 +22,36 @@ export const updatePackage = (packageData) => ({
 export const createPackage = (packageData) => {
   return async (dispatch, getState) => {
     try {
-      const {title, noOfSessions, price, description, _id, category} = packageData;
+      const {title, noOfSessions, price, description, _id, category, group, maxParticipants, slot, startDate, active} = packageData;
       let result = null;
+      // If _id exists, the package already exists, call the update method; else call the create method
       if (_id) {
-        dispatch(updatePackage(packageData)); //optimistic TODO:rollback
-        result = await API.updatePackage(_id, {title, noOfSessions, description, price, category});
+        dispatch(updatePackage(packageData));
+        result = await API.updatePackage(_id, {
+          title,
+          noOfSessions,
+          description,
+          price,
+          category,
+          group,
+          maxParticipants,
+          slot,
+          startDate,
+          active
+        });
         console.log("package updated", result);
       } else {
-        result = await API.createPackage({title, noOfSessions, description, price, category});
+        result = await API.createPackage({
+          title,
+          noOfSessions,
+          description,
+          price,
+          category,
+          group,
+          maxParticipants,
+          slot,
+          startDate
+        });
         console.log("package created", result);
         const packageData = result.package;
         dispatch(updatePackage(packageData));
@@ -73,25 +97,24 @@ export const setSlots = (slots) => ({
   },
 });
 
+// Take the entire state of frontend and pass to backend
+// Backend figures out the slots to keep, delete and create
 export const createSlots = (slotArray) => {
-
   return async (dispatch, getState) => {
     let oldSlots = getState().trainer.slots;
     try {
       // dispatch(setSlots(slotArray));
       let slots = await API.syncSlots(slotArray);
       if (slots) {
-        console.log('slots created', slots.length);
+        console.log(slots.length, ' slots created');
         dispatch(setSlots(slots));
         return true;
       } else {
-        //TODO: finish this rollback by showing error
-        console.log("Trainer slot creation failed", slots);
-        dispatch(setSlots(oldSlots));
-        return false;
+        throw new Error('Slot creation failed')
       }
     } catch (error) {
-      console.log("Trainer slot creation failed", error);
+      showError(strings.SLOT_CREATION_FAILED);
+      console.log("Slot creation failed", error);
       dispatch(setSlots(oldSlots));
       return false;
     }
@@ -109,10 +132,29 @@ export const setSubscriptions = (subscriptions) => ({
 export const syncSubscriptions = () => {
   return async (dispatch) => {
     try {
-      let subscriptions = await API.getMySubscriptions();
+      let {subscriptions} = await API.getMySubscriptions();
       dispatch(setSubscriptions(subscriptions));
     } catch (error) {
-      console.log("Trainer subs update failed", error);
+      console.log("Trainer subscription update failed", error);
+      return false;
+    }
+  };
+};
+
+const setSessions = (sessions) => ({
+  type: actionTypes.SET_MY_SESSIONS,
+  payload: {
+    sessions
+  },
+});
+
+export const syncSessions = () => {
+  return async (dispatch) => {
+    try {
+      let {sessions} = await API.getMySessions();
+      dispatch(setSessions(sessions));
+    } catch (error) {
+      console.log("session update failed", error);
       return false;
     }
   };
@@ -138,7 +180,7 @@ export const generateCoupons = (count, percentageOff, validity) => {
       let {success, coupons} = await API.generateCoupons(count, percentageOff, validity);
       if (success)
         dispatch(appendCoupons(coupons));
-      else dispatch(setCoupons(oldCoupons));
+      else dispatch(setCoupons(oldCoupons)); // TODO: Check if this line is really needed
     } catch (error) {
       console.log("Trainer coupon creation failed", error);
       return false;
@@ -195,12 +237,11 @@ export const addAccount = (accountDetails) => {
   return async (dispatch) => {
     try {
       const {ifscCode, accountNumber, holderName, bankName} = accountDetails;
-      result = await API.addAccount({ifscCode, accountNumber, holderName, bankName});
+      const result = await API.addAccount({ifscCode, accountNumber, holderName, bankName});
       const accountData = result.account;
       dispatch(createAccount(accountData));
-      console.log(result)
     } catch (error) {
-      console.log("aacount creation failed in trainer.actions.js", error);
+      console.log("Account creation failed", error);
       return false;
     }
   }
@@ -214,12 +255,11 @@ export const getAccounts = (accounts) => ({
 export const getMyAccounts = () => {
   return async (dispatch) => {
     try {
-      result = await API.getMyAccounts();
+      const result = await API.getMyAccounts();
       const accounts = result.accounts;
       dispatch(getAccounts(accounts));
-      console.log(result);
     } catch (error) {
-      console.log("aacount creation failed in trainer.actions.js", error);
+      console.log("Failed to get accounts", error);
       return false;
     }
   }
@@ -265,7 +305,6 @@ export const acceptCallback = (callbackId) => {
       dispatch(setCallbackStatus(callbackId, callbackStatus.ACCEPTED));
       const {success} = await API.acceptCallBack(callbackId);
       if (!success) {
-        //todo handle it here
         throw new Error("Accept callback failed")
       }
       return true;
@@ -281,7 +320,6 @@ export const rejectCallback = (callbackId) => {
       dispatch(removeCallback(callbackId));
       const {success} = await API.rejectCallBack(callbackId);
       if (!success) {
-        //todo handle it here
         throw new Error("reject callback failed")
       }
       return true;
@@ -297,7 +335,6 @@ export const callbackDone = (callbackId) => {
       dispatch(removeCallback(callbackId));
       const {success} = await API.callbackDone(callbackId);
       if (!success) {
-        //todo handle it here
         throw new Error("done callback failed")
       }
       return true;
@@ -318,6 +355,36 @@ export const scheduleStream = (streamData, instantLive = false) => {
       return stream;
     } catch (error) {
       console.log("live stream schedule failed", error);
+      return false;
+    }
+  };
+};
+
+export const startSession = (sessionId) => {
+  return async (dispatch) => {
+    try {
+      const {success, data, token} = await API.startSession(sessionId);
+      if (!success) {
+        throw new Error("session start failed");
+      }
+      return {data, token};
+    } catch (error) {
+      console.log("session start failed", error);
+      return false;
+    }
+  };
+};
+
+export const joinSession = (sessionId) => {
+  return async (dispatch) => {
+    try {
+      const {success, data} = await API.joinSession(sessionId);
+      if (!success) {
+        throw new Error("session join failed");
+      }
+      return {data};
+    } catch (error) {
+      console.log("session join failed", error);
       return false;
     }
   };

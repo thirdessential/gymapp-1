@@ -1,7 +1,6 @@
-import axios from "./config";
+import axios, {validateResponseCode} from "./config";
 
 import {imageTypes, rootURL} from '../constants/appConstants';
-import {validateResponseCode} from "../utils/utils";
 import RNFetchBlob from "rn-fetch-blob";
 import {compressImage, getFileExtension} from "./storage";
 

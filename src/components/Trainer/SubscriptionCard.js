@@ -2,7 +2,8 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from "react";
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
 import {spacing} from "../../constants/dimension";
 import {appTheme} from "../../constants/colors";
 import Avatar from "../Avatar";
@@ -15,13 +16,16 @@ import DaysRow from "../DaysRow";
 const subscriptionCard = (props) => {
   return (
     <View style={styles.container}>
-      <View style={styles.sectionContainer}>
+      <TouchableOpacity
+        onPress={props.openProfile}
+        activeOpacity={0.8}
+        style={styles.sectionContainer}>
         <Avatar url={props.imageUrl} size={spacing.thumbnailMini} roundedMultiplier={1}/>
         <View style={{alignItems: 'flex-end'}}>
           <Text style={styles.sectionTitle}>{props.displayName}</Text>
           <Text style={styles.detail}>{props.title}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
       <View style={styles.separator}/>
 
       <View style={styles.sectionContainer}>
@@ -63,8 +67,6 @@ const subscriptionCard = (props) => {
   )
 }
 
-subscriptionCard.propTypes = {};
-
 const styles = StyleSheet.create({
   container: {
     elevation: 8,
@@ -84,7 +86,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.small
   },
   detail: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h2,
     fontFamily: fonts.CenturyGothic,
   },
@@ -101,16 +103,16 @@ const styles = StyleSheet.create({
     marginBottom: spacing.small_sm
   },
   contentText: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h2,
     fontFamily: fonts.CenturyGothicBold,
   },
   endAlign: {
     alignItems: 'flex-end'
   },
-  daysContainer:{
+  daysContainer: {
     marginTop: spacing.medium_sm,
-    marginBottom:spacing.small_sm
+    marginBottom: spacing.small_sm
   }
 
 });

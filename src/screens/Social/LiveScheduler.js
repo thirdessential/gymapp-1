@@ -21,10 +21,9 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {formattedDayDate, formattedMilitaryRange, roundTimeQuarterHour} from "../../utils/utils";
 import {Menu, MenuOption, MenuOptions, MenuTrigger} from "react-native-popup-menu";
 import {showError, showSuccess} from "../../utils/notification";
-import {listLiveStreams, startStream} from "../../API";
+import {startStream} from "../../API";
 import {hostMeeting} from "../../utils/zoomMeeting";
 import {INITIAL_PAGE, streamStatus} from "../../constants/appConstants";
-import RouteNames from "../../navigation/RouteNames";
 
 class LiveScheduler extends PureComponent {
 
@@ -106,7 +105,7 @@ class LiveScheduler extends PureComponent {
         const res = await startStream(stream._id);
         if (res.success) {
           this.setState({streamStarted: true});
-          await hostMeeting(stream.meetingId, res.token, this.props.userName);
+          await hostMeeting(stream.meetingNumber, res.token, this.props.userName, stream.clientKey, stream.clientSecret);
           this.props.navigation.goBack();
           await this.props.updateLiveStreams();
           await this.props.updateMyLiveStreams();
@@ -226,7 +225,6 @@ class LiveScheduler extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    // width: "100%",
     padding: spacing.large_lg,
     paddingTop: spacing.small,
     backgroundColor: appTheme.background,

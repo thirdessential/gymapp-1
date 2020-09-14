@@ -24,16 +24,39 @@ class PackagesView extends PureComponent {
     const {userId} = route.params;
     const user = this.getUser();
 
-    let {name, packages} = user;
+    let { packages} = user;
     const filteredPackages = packages.filter(packageData => packageData._id === packageId);
     if (filteredPackages && filteredPackages.length > 0) {
-      // const sessionCount = filteredPackages[0].noOfSessions;
-      navigation.navigate(RouteNames.Enroll, {
-        userId,
-        packageId,
-        packageData:filteredPackages[0],
-        trainerData:user
-      });
+      const targetPackage = filteredPackages[0];
+
+      if (targetPackage.group) {
+        // if package is of group type, then prepare metadata here and proceed to payment screen, skipping enroll screen
+        // As enroll screen allows us to select slots and timing, but for group package this is fixed
+        const {slot} = targetPackage;
+        const {time, days,duration} = slot;
+        const metadata = {
+          packageName: targetPackage.title,
+          sessionCount: targetPackage.noOfSessions,
+          price: targetPackage.price,
+          time,
+          days,
+          duration,
+          trainerName: user.name,
+        }
+        navigation.navigate(RouteNames.Payment, {
+          metadata,
+          userId,
+          packageId
+        })
+      } else {
+        navigation.navigate(RouteNames.Enroll, {
+          userId,
+          packageId,
+          packageData: targetPackage,
+          trainerData: user
+        });
+      }
+
     }
   }
 

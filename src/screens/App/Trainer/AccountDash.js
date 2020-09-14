@@ -18,7 +18,6 @@ import fontSizes from "../../../constants/fontSizes";
 import fonts from "../../../constants/fonts";
 import strings from "../../../constants/strings";
 import {spacing} from "../../../constants/dimension";
-import {iconBackgrounds} from "../../../constants/images";
 import * as actionCreators from "../../../store/actions";
 import RouteNames from "../../../navigation/RouteNames";
 

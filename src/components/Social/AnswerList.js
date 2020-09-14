@@ -65,13 +65,11 @@ const answerList = (props) => {
       </View>
     </>
   );
-
 }
 
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    // paddingBottom: spacing.medium,
   },
   listContainer: {
     flex: 1,

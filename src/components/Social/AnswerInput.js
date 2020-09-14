@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {LayoutAnimation, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+
 import strings from "../../constants/strings";
 import {MAX_POST_LENGTH} from "../../constants/appConstants";
 import {appTheme} from "../../constants/colors";
@@ -44,13 +45,11 @@ const answerInput = (props) => {
             <Text style={[styles.answerButton, {color: appTheme.grey}]}>{strings.CANCEL}</Text>
           </TouchableOpacity>
         }
-
       </View>
     </View>
   )
 }
 const styles = StyleSheet.create({
-
   answerButton: {
     fontFamily: fonts.CenturyGothicBold,
     color: appTheme.brightContent,
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
     marginRight: spacing.medium
   },
   title: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontFamily: fonts.CenturyGothic,
     fontWeight: '700'
   },

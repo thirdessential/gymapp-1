@@ -4,7 +4,7 @@
 import React, {useState} from 'react';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en'
-
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 TimeAgo.addLocale(en)
 const timeAgo = new TimeAgo('en-US')
 import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
@@ -14,7 +14,6 @@ import {spacing} from "../../constants/dimension";
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
 import strings from "../../constants/strings";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
 const answer = (props) => {
   const {
@@ -70,8 +69,6 @@ const answer = (props) => {
   )
 }
 
-answer.propTypes = {};
-
 const styles = StyleSheet.create({
   container: {
     padding: spacing.medium,
@@ -101,7 +98,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto'
   },
   textContent: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.default,
     width: '100%',
     fontFamily: fonts.CenturyGothicBold,
@@ -116,12 +113,10 @@ const styles = StyleSheet.create({
     marginRight: spacing.medium
   },
   hits: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h2,
     fontFamily: fonts.CenturyGothic
   },
-
-
 });
 
 export default React.memo(answer);

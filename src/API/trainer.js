@@ -1,14 +1,17 @@
-import axios from "./config";
-import {validateResponseCode} from "../utils/utils";
+import axios, {validateResponseCode} from "./config";
 
-export const createPackage = async ({title, noOfSessions, price, description, category}) => {
+export const createPackage = async ({title, noOfSessions, price, description, category, group, maxParticipants, slot, startDate}) => {
   try {
     let response = await axios.post(`/package/create`, {
       title,
       noOfSessions,
       price,
       description,
-      category
+      category,
+      group,
+      maxParticipants,
+      slot,
+      startDate
     });
     if (validateResponseCode(response.status)) {
       return response.data;
@@ -33,14 +36,19 @@ export const getPackage = async (packageId) => {
   }
 }
 
-export const updatePackage = async (packageId, {title, noOfSessions, price, description, category}) => {
+export const updatePackage = async (packageId, {title, noOfSessions, price, description, category, group, maxParticipants, slot, startDate, active}) => {
   try {
     let response = await axios.put(`/package/${packageId}`, {
       title,
       noOfSessions,
       price,
       description,
-      category
+      category,
+      group,
+      maxParticipants,
+      slot,
+      startDate,
+      active
     });
     if (validateResponseCode(response.status)) {
       return response.data;
@@ -78,22 +86,22 @@ export const syncSlots = async (slotArray) => {
   }
 }
 
-// export const getGroupedSlots = async () => {
-//   try {
-//     let response = await axios.get(`/trainer/mySlots`);
-//     if (validateResponseCode(response.status)) {
-//       return response.data;
-//     } else
-//       return false;
-//   } catch (error) {
-//     console.log(error);
-//     return false;
-//   }
-// }
-
 export const getMySubscriptions = async () => {
   try {
     let response = await axios.get(`/user/mySubscriptions`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export const getMySessions = async () => {
+  try {
+    let response = await axios.get(`/user/mySessions`);
     if (validateResponseCode(response.status)) {
       return response.data;
     } else
@@ -240,6 +248,43 @@ export const scheduleStream = async (streamdata) => {
 export const startStream = async (streamId) => {
   try {
     let response = await axios.put(`/live/start`, {streamId});
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const startSession = async (sessionId) => {
+  try {
+    let response = await axios.post(`/session/${sessionId}/start`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const joinSession = async (sessionId) => {
+  try {
+    let response = await axios.post(`/session/${sessionId}/join`);
+    if (validateResponseCode(response.status)) {
+      return response.data;
+    } else
+      return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export const endAgoraSession = async (sessionId) => {
+  try {
+    let response = await axios.post(`/session/${sessionId}/endAgora`);
     if (validateResponseCode(response.status)) {
       return response.data;
     } else

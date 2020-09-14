@@ -2,19 +2,13 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import PropTypes from 'prop-types';
-import colors, {appTheme} from "../constants/colors";
+import {appTheme} from "../constants/colors";
 import {StyleSheet, TouchableOpacity, View} from "react-native";
-import {Card, Text} from 'native-base';
-import Avatar from "./Avatar";
+import {Text} from 'native-base';
 import {spacing} from "../constants/dimension";
-import GenericButton from "./GenericButton";
-import SelectableButton from "./selectableButton";
 import strings from "../constants/strings";
-import CallButton from "./CallButton";
 import fontSizes from "../constants/fontSizes";
 import fonts from "../constants/fonts";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {contentItem, roundEdgeSeparator} from "./Trainer/StatementCard";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
@@ -31,7 +25,7 @@ const coupon = (props) => {
         {contentItem(strings.DISCOUNT, props.discount + ' %')}
         {contentItem(strings.REDEEMED, `(${props.redeemed}/${props.count})`, true)}
       </View>
-      <View style={[styles.row, {marginTop:spacing.medium, marginBottom:spacing.small}]}>
+      <View style={[styles.row, {marginTop: spacing.medium, marginBottom: spacing.small}]}>
         <Text style={styles.brightTitle}>{strings.VALID_UPTO}</Text>
         <Text style={styles.title}>—</Text>
         <Text style={styles.brightTitle}>{props.validity}</Text>
@@ -43,7 +37,7 @@ const coupon = (props) => {
       </View>
       {roundEdgeSeparator()}
       <View style={styles.row}>
-        <Text style={styles.subtitle}>{props.onShare? strings.SHARE_COUPON: strings.COUPON_EXHAUSTED}</Text>
+        <Text style={styles.subtitle}>{props.onShare ? strings.SHARE_COUPON : strings.COUPON_EXHAUSTED}</Text>
         {
           props.onShare && (
             <View style={styles.fabPosition}>
@@ -98,8 +92,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: appTheme.brightContent
   },
-  fabPosition:{
-    marginBottom:-25 - spacing.medium_sm,
+  fabPosition: {
+    marginBottom: -25 - spacing.medium_sm,
   }
 });
 

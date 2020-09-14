@@ -6,6 +6,8 @@ import {
   Image,
   TextInput,
 } from "react-native";
+import {connect} from "react-redux";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 import {appTheme, darkPallet} from "../../../constants/colors";
 import {spacing} from "../../../constants/dimension";
@@ -14,10 +16,8 @@ import strings from "../../../constants/strings";
 import fontSizes from "../../../constants/fontSizes";
 import {iconBackgrounds} from "../../../constants/images";
 import {screenHeight, screenWidth} from "../../../utils/screenDimensions";
-import {updateExerciseIndex, updateUserInfo} from "../../../API";
+import {updateUserInfo} from "../../../API";
 import * as actionCreators from "../../../store/actions";
-import {connect} from "react-redux";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
 class PhysicalData extends Component {
   state = {

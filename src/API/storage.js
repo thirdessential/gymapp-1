@@ -1,8 +1,7 @@
 import RNFetchBlob from "rn-fetch-blob";
 import ImageResizer from "react-native-image-resizer";
 
-import {dpDimension, imageTypes, rootURL} from "../constants/appConstants";
-import {getOSPath} from "../utils/utils";
+import {imageTypes, rootURL} from "../constants/appConstants";
 
 export const getFileExtension = (path) => path.slice(((path.lastIndexOf(".") - 1) >>> 0) + 2);
 
@@ -11,6 +10,7 @@ export const uploadImage = async (path, token, imageType = imageTypes.AVATAR) =>
     let fileExtension = getFileExtension(path);
     console.log("Uploading from ", path);
     let compressedPath = await compressImage(path, imageType.dimension);
+    // We have 2 endpoints, this method can change either Display Image or Cover Image of user
     const url = imageType.type === imageTypes.AVATAR.type ? '/user/displayImage' : '/user/wallImage';
     const uploadData = [
       {
@@ -36,7 +36,6 @@ export const uploadImage = async (path, token, imageType = imageTypes.AVATAR) =>
     return false;
   }
 };
-
 
 export const compressImage = async (uri, dimensions) => {
   try {

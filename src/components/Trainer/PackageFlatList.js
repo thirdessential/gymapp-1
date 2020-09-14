@@ -6,12 +6,11 @@ import {View, StyleSheet, FlatList} from 'react-native'
 
 import PackageOverview from '../../components/Package/PackageOverview';
 import {spacing} from "../../constants/dimension";
-import {appTheme} from "../../constants/colors";
 
 const packageFlatList = (props) => {
 
   const renderPlan = (plan) => {
-    const {title, noOfSessions, sessionsPerWeek, price, description, category, _id} = plan;
+    const {title, noOfSessions, sessionsPerWeek, price, description, category, group,totalSubscriptions, _id} = plan;
     const editCallback = props.editCallback ? () => props.editCallback(_id) : null;
     const deleteCallback = props.deleteCallback ? () => props.deleteCallback(_id) : null;
     const enrollCallback = props.enrollCallback ? () => props.enrollCallback(_id) : null;
@@ -28,6 +27,8 @@ const packageFlatList = (props) => {
           editCallback={editCallback}
           deleteCallback={deleteCallback}
           enrollCallback={enrollCallback}
+          group={group}
+          totalSubscriptions={totalSubscriptions}
         />
       </View>
     )
@@ -40,6 +41,7 @@ const packageFlatList = (props) => {
       data={props.packages}
       renderItem={({item}) => renderPlan(item)}
       keyExtractor={(item, index) => index.toString()}
+      showsVerticalScrollIndicator={false}
     />
   );
 }
@@ -47,7 +49,6 @@ const packageFlatList = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: appTheme.darkBackground,
   },
   listContainer: {
     justifyContent: 'center',

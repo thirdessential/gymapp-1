@@ -52,13 +52,13 @@ const styles = StyleSheet.create({
   },
   headerAndFooter: {
     fontSize: fontSizes.h3,
-    color: "white",
+    color: appTheme.textPrimary,
     marginTop: 5,
     fontFamily: fonts.CenturyGothicBold
   },
   dateTime: {
     fontSize: fontSizes.h4,
-    color: "white",
+    color: appTheme.textPrimary,
     marginTop: 5,
     fontFamily: fonts.CenturyGothic,
   },

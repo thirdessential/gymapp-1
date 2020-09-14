@@ -1,18 +1,16 @@
 import React, {PureComponent} from 'react';
 import {FlatList, LayoutAnimation, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {connect} from "react-redux";
-import {FlatGrid, SectionGrid} from 'react-native-super-grid';
 
 import {spacing} from "../../../constants/dimension";
 import fontSizes from "../../../constants/fontSizes";
 import fonts from "../../../constants/fonts";
 import {appTheme,} from "../../../constants/colors";
-import {initialiseVideoCall, isSameDay} from "../../../utils/utils";
+import {initialiseVideoCall} from "../../../utils/utils";
 import RouteNames from "../../../navigation/RouteNames";
 import * as actionCreators from "../../../store/actions";
 import CallbackBox from "../../../components/CallbackBox";
 import strings from "../../../constants/strings";
-import {call} from "react-native-reanimated";
 import {requestCameraAndAudioPermission} from "../../../utils/permission";
 
 class CallRequests extends PureComponent {
@@ -40,7 +38,7 @@ class CallRequests extends PureComponent {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.props.acceptCallback(requestId);
   }
-  requestFulfilled = (requestId)=>{
+  requestFulfilled = (requestId) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.props.callbackDone(requestId);
   }
@@ -65,7 +63,7 @@ class CallRequests extends PureComponent {
         rejectRequest={() => this.rejectRequest(requestId)}
         acceptRequest={() => this.acceptRequest(requestId)}
         call={() => this.initiateCall(userId)}
-        done={()=>this.requestFulfilled(requestId)}
+        done={() => this.requestFulfilled(requestId)}
       />
     )
   }
@@ -86,7 +84,7 @@ class CallRequests extends PureComponent {
         keyExtractor={(item) => item._id}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => <View style={{marginTop: spacing.medium}}/>}
-        ItemSeparatorComponent={()=> <View style={{marginTop: spacing.medium}}/>}
+        ItemSeparatorComponent={() => <View style={{marginTop: spacing.medium}}/>}
         data={callbacks}
       />
     )
@@ -109,7 +107,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingLeft: spacing.medium_sm,
     paddingRight: spacing.medium_sm,
-    // alignItems: "center",
     backgroundColor: appTheme.background,
   },
   titleContainer: {
@@ -117,13 +114,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h1,
     fontFamily: fonts.CenturyGothic,
     marginLeft: spacing.medium_sm
   },
   displayName: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h1,
     fontFamily: fonts.MontserratMedium,
   },

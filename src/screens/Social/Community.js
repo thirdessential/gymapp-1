@@ -20,7 +20,6 @@ import Entypo from "react-native-vector-icons/Entypo";
 import {appTheme} from "../../constants/colors";
 import * as actionCreators from "../../store/actions";
 import {INITIAL_PAGE, POST_TYPE, userTypes} from "../../constants/appConstants";
-
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import PostList from "../../components/Social/PostList";
 import {spacing} from "../../constants/dimension";
@@ -32,10 +31,8 @@ import {iconBackgrounds} from "../../constants/images";
 import {screenWidth} from "../../utils/screenDimensions";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import LiveCardList from "../../components/LiveCardList";
 import StreamList from "../../components/Social/StreamList";
 import {joinMeeting} from "../../utils/zoomMeeting";
-import {parseComponentStack} from "react-native/Libraries/LogBox/Data/parseLogBoxLog";
 
 const initialLayout = {width: screenWidth};
 
@@ -140,17 +137,16 @@ class Community extends Component {
   };
 
   onJoinStream = (streamId) => {
-    const {liveStreams,userName} = this.props;
-    const targetStream = liveStreams.filter(liveStream=>liveStream._id===streamId)[0];
-    const {meetingId, meetingPassword} = targetStream;
-    joinMeeting(meetingId,meetingPassword,userName);
+    const {liveStreams, userName} = this.props;
+    const targetStream = liveStreams.filter(liveStream => liveStream._id === streamId)[0];
+    const {meetingNumber, meetingPassword, clientKey, clientSecret} = targetStream;
+    joinMeeting(meetingNumber, meetingPassword, userName, clientKey, clientSecret);
   }
   renderLiveStreams = () => {
     return (
       <StreamList
         streams={this.props.liveStreams}
         onJoin={this.onJoinStream}
-
       />
     )
   }
@@ -226,7 +222,7 @@ class Community extends Component {
           image={iconBackgrounds.coinMan}
         />
         {
-          this.props.userType===userTypes.TRAINER && (
+          this.props.userType === userTypes.TRAINER && (
             <ImageCard
               title={strings.GO_LIVE}
               onPress={this.openLiveScheduler}
@@ -331,7 +327,7 @@ const mapStateToProps = (state) => ({
   questions: state.social.questions,
   liveStreams: state.social.liveStreams,
   postDetails: state.social.postDetails,
-  userType:state.user.userType,
+  userType: state.user.userType,
   userName: state.user.userData.name
 });
 

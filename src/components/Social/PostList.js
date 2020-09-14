@@ -1,12 +1,11 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
   FlatList,
-  StatusBar,
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native'
@@ -14,9 +13,7 @@ import {
 import store from '../../store/configureStore';
 import {appTheme} from "../../constants/colors";
 import {spacing} from "../../constants/dimension";
-
 import Post from "../../components/Social/Post";
-import {check} from "react-native-permissions";
 
 const postList = (props) => {
   const {
@@ -42,7 +39,6 @@ const postList = (props) => {
     if (!post) return null;
     const isOwnPost = post.createdBy.userId === store.getState().user.userId; // TODO: can we improve this comparison?
     const isLiked = checkLiked(post.likes);
-
     return <TouchableOpacity
       onPress={() => open(post._id)}
       activeOpacity={0.7}
@@ -55,14 +51,13 @@ const postList = (props) => {
         createdOn={post.createdOn}
         text={post.textContent}
         createdBy={post.createdBy.name}
+        userType={post.createdBy.userType}
         displayImageUrl={post.createdBy.displayPictureUrl}
         isLiked={isLiked}
         likeCallback={() => like(post._id)}
         unlikeCallback={() => unlike(post._id)}
         flagCallback={isOwnPost ? null : () => report(post._id)}
         deleteCallback={isOwnPost ? () => deletePost(post._id) : null}
-        // imagePressCallback={()=>props.viewImage(post.contentURL)}
-        // shareCallback={() => {}}
         onProfilePress={() => disableSelfProfileClick(post.createdBy.userId)}
       />
     </TouchableOpacity>

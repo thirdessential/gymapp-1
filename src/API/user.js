@@ -1,5 +1,4 @@
-import axios from "./config";
-import {validateResponseCode} from "../utils/utils";
+import axios, {validateResponseCode} from "./config";
 
 export const listUsers = async (url) => {
   try {
@@ -17,7 +16,6 @@ export const listUsers = async (url) => {
 }
 
 export const updateUserInfo = async (data) => {
-
   try {
     let response = await axios.put('/user', data);
     if (validateResponseCode(response.status)) {
@@ -56,24 +54,12 @@ export const getUserInfo = async (userId) => {
   }
 }
 
-export const getGlobalSlots = async () => {
-  try {
-    let response = await axios.get(`/slot/getAllAvailable`);
-    if (validateResponseCode(response.status)) {
-      return response.data;
-    } else
-      return false;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
-
-export const subscribeToPackage = async (trainerId, packageId, time, days, couponCode) => {
+export const subscribeToPackage = async (trainerId, packageId, time, days,duration, couponCode) => {
   try {
     let response = await axios.post(`/subscription/${trainerId}/${packageId}`, {
       time,
       days,
+      duration,
       couponCode
     });
     if (validateResponseCode(response.status)) {
@@ -114,7 +100,6 @@ export const sendPaymentData = async ({razorpay_order_id, razorpay_payment_id, r
   }
 }
 
-
 export const bookAppointment = async (trainerId, day, time, appointmentDate) => {
   try {
     let response = await axios.post(`/appointment/${trainerId}/book`, {
@@ -131,19 +116,6 @@ export const bookAppointment = async (trainerId, day, time, appointmentDate) => 
     return false;
   }
 }
-
-// export const myAppointments = async () => {
-//   try {
-//     let response = await axios.get(`/appointment/myAppointments`);
-//     if (validateResponseCode(response.status)) {
-//       return response.data;
-//     } else
-//       return false;
-//   } catch (error) {
-//     console.log(error);
-//     return false;
-//   }
-// }
 
 export const recentActivity = async () => {
   try {

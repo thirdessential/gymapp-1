@@ -28,6 +28,8 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, action.payload);
     case actionTypes.SET_MY_SUBSCRIPTIONS:
       return updateObject(state, action.payload);
+    case actionTypes.SET_MY_SESSIONS:
+      return updateObject(state, action.payload);
     case actionTypes.SET_COUPONS:
       return updateObject(state, action.payload);
     case actionTypes.APPEND_COUPONS:
@@ -46,7 +48,7 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, action.payload);
     case actionTypes.SET_CALLBACKS:
       return updateObject(state, action.payload);
-    case actionTypes.SET_CALLBACK_STATUS:{
+    case actionTypes.SET_CALLBACK_STATUS: {
       const {callbackId, status} = action.payload;
       let callbacks = [...state.callbacks];
       callbacks = callbacks.map(callback => {
@@ -60,7 +62,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.REMOVE_CALLBACK:
       const {callbackId} = action.payload;
       let callbacks = [...state.callbacks];
-      callbacks = callbacks.filter(callback => callback._id!==callbackId);
+      callbacks = callbacks.filter(callback => callback._id !== callbackId);
       return updateObject(state, {callbacks});
     default:
       return state;

@@ -5,6 +5,9 @@ import {rootURL} from '../constants/appConstants';
 const instance = axios.create({
   baseURL: rootURL
 });
+
+// By default, all axios requests are logged only when device is connected to debugger
+// Set this variable to true to log axios requests in terminal
 const isDebuggingEnabled = (typeof atob !== 'undefined');
 
 instance.interceptors.request.use(function (config) {
@@ -26,5 +29,9 @@ instance.interceptors.response.use(function (response) {
   console.log("API Response error", error);
   return Promise.reject(error);
 });
+
+export const validateResponseCode = (code) => {
+  return Math.floor(code / 100) === 2;
+};
 
 export default instance;

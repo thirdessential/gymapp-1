@@ -1,14 +1,16 @@
 import React from "react";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import FastImage from "react-native-fast-image";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import {Menu, MenuOption, MenuOptions, MenuTrigger} from "react-native-popup-menu";
+
 import strings from "../constants/strings";
 import {spacing} from "../constants/dimension";
 import {appTheme} from "../constants/colors";
 import {screenHeight, screenWidth} from "../utils/screenDimensions";
 import fonts from "../constants/fonts";
 import fontSizes from "../constants/fontSizes";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import {Menu, MenuOption, MenuOptions, MenuTrigger} from "react-native-popup-menu";
+
 import {exerciseLevels} from "../constants/appConstants";
 import {toTitleCase} from "../utils/utils";
 
@@ -191,7 +193,6 @@ const styles = StyleSheet.create({
     width: 150,
     marginTop: 10
   }
-
 });
 
 export default React.memo(exerciseCard);

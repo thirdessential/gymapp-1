@@ -199,7 +199,7 @@ class PostViewer extends Component {
           onPress={this.submitComment}
           disabled={disabled}
           style={[styles.submitButton, {backgroundColor: disabled ? appTheme.grey : appTheme.brightContent}]}>
-          <Text style={{color: 'white', fontFamily: fonts.CenturyGothic}}>{strings.COMMENT}</Text>
+          <Text style={{color: appTheme.textPrimary, fontFamily: fonts.CenturyGothic}}>{strings.COMMENT}</Text>
         </TouchableOpacity>
       </View>
     )
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.medium
   },
   sectionTitle: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h1,
     fontFamily: fonts.CenturyGothic,
     marginTop: spacing.medium_sm,
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   title: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontFamily: fonts.CenturyGothic,
     fontWeight: '700'
   },

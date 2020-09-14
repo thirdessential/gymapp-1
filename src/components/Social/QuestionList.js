@@ -16,7 +16,6 @@ import {spacing} from "../../constants/dimension";
 import Post from "../../components/Social/Post";
 import AnswerList from "./AnswerList";
 import AnswerInput from "./AnswerInput";
-import {likeAnswer, unlikeAnswer} from "../../API";
 
 const questionList = (props) => {
   const {
@@ -38,6 +37,7 @@ const questionList = (props) => {
         createdOn={question.createdOn}
         text={question.questionText}
         createdBy={question.postedBy.name}
+        userType={question.postedBy.userType}
         displayImageUrl={question.postedBy.displayPictureUrl}
         hideOptions
         onProfilePress={() => disableSelfProfileClick(question.postedBy.userId)}

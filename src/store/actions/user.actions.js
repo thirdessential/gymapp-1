@@ -3,26 +3,46 @@ import {updateAxiosToken} from "../../API";
 import {userTypes} from "../../constants/appConstants";
 import {signOutFirebase} from "../../API/firebaseMethods";
 import * as API from "../../API";
-import {setUser, setUserList} from "./app.actions";
+import {setUser} from "./app.actions";
 import {setPackages, setSlots} from "./trainer.actions";
 
-export const genericUserFieldSetter = (payload) => ({ // TODO: refactor this function into multiple specific setters
+export const genericUserFieldSetter = (payload) => ({
   type: actionTypes.GENERIC_USER_FIELD_SET,
   payload
-})
+});
 
 export const setUserType = (userType = userTypes.USER) => ({
   type: actionTypes.SET_USER_TYPE,
   payload: {
     userType
   }
-})
+});
+
 export const setInitialLoginOff = () => ({
   type: actionTypes.SET_INITIAL_LOGIN_OFF,
   payload: {
     initialLogin: false
   }
-})
+});
+
+const acceptTermsAction = () => ({
+  type: actionTypes.ACCEPT_TERMS,
+  payload: {
+    termsAccepted: true
+  }
+});
+
+export const acceptTerms = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(acceptTermsAction());
+      await API.acceptTerms();
+      console.log("Accepted terms");
+    } catch (e) {
+      console.log("Could not accept terms");
+    }
+  };
+};
 
 export const setAuthTokenAction = (authToken) => ({
   type: actionTypes.SET_AUTH_TOKEN,
@@ -77,10 +97,10 @@ export const updateUserData = () => {
   };
 };
 
-export const subscribePackage = (trainerId, packageId, time, days,couponCode) => {
+export const subscribePackage = (trainerId, packageId, time, days, duration, couponCode) => {
   return async (dispatch) => {
     try {
-      let result = await API.subscribeToPackage(trainerId, packageId, time, days,couponCode);
+      let result = await API.subscribeToPackage(trainerId, packageId, time, days, duration, couponCode);
       dispatch(setUser(trainerId));
       return result;
     } catch (error) {

@@ -9,8 +9,6 @@ import {
 import {connect} from "react-redux";
 
 import {appTheme} from "../../../constants/colors";
-import {openDrawerButtonDark} from "../../../navigation/openDrawerButton";
-
 import StatementCard from "../../../components/Trainer/StatementCard";
 import {spacing} from "../../../constants/dimension";
 

@@ -12,7 +12,6 @@ import {
   TextInput,
   LayoutAnimation,
   Keyboard,
-  Button,
   Image
 } from "react-native";
 import {connect} from "react-redux";
@@ -29,16 +28,15 @@ import strings from "../../../constants/strings";
 import fonts from "../../../constants/fonts";
 import fontSizes from "../../../constants/fontSizes";
 import {militaryTimeToString, toTitleCase} from "../../../utils/utils";
-import {appName, paymentKey} from "../../../constants/appConstants";
+import {appName, paymentBackground, paymentKey} from "../../../constants/appConstants";
 import {showError, showSuccess} from "../../../utils/notification";
 import {sendPaymentData, subscribeRollback} from "../../../API";
-import PillButton from "../../../components/PillButton";
 import {getCouponDiscount} from "../../../API/user";
 
-class Packages extends PureComponent {
+class Payment extends PureComponent {
   state = {
-    subscribeLoading: false,
-    couponLoading: false,
+    subscribeLoading: false, // loading var for subscription api
+    couponLoading: false, // loading var for coupon api
     couponCode: "",
     discount: null,
     price: "0",
@@ -76,8 +74,6 @@ class Packages extends PureComponent {
     let tableData = [[packageName, sessionCount, price + "/-"]];
     return (
       <View style={styles.card}>
-        {/*<Text style={styles.sectionTitle}>{strings.USER_DETAILS}</Text>*/}
-        {/*<Text style={styles.detail}>{strings.NAME}: {name}</Text>*/}
         <Text
           style={[
             styles.sectionTitle,
@@ -155,7 +151,7 @@ class Packages extends PureComponent {
                   {strings.DISCOUNT}: {this.state.discount}% off
                 </Text>
                 <Text
-                  style={styles.finalamount}
+                  style={styles.finalAmount}
                 >
                   {strings.TOTAl}: {this.state.finalPrice}
                 </Text>
@@ -196,7 +192,7 @@ class Packages extends PureComponent {
         <TextInput
           autoCorrect={false}
           value={this.state.couponCode.toUpperCase()}
-          style={styles.applyCouponinput}
+          style={styles.applyCouponInput}
           placeholder={strings.ENTER_COUPON_CODE}
           placeholderTextColor={appTheme.grey}
           onChangeText={this.onCouponCodeChange}
@@ -205,7 +201,7 @@ class Packages extends PureComponent {
 
         <TouchableOpacity
           onPress={this.applyCoupon}
-          style={[styles.applyCouponbutton, submitDisabled ? styles.disabled : null]}
+          style={[styles.applyCouponButton, submitDisabled ? styles.disabled : null]}
           disabled={submitDisabled}
         >
           {this.state.couponLoading && <ActivityIndicator color={appTheme.textPrimary} size={20}/>}
@@ -223,19 +219,23 @@ class Packages extends PureComponent {
   onConfirmPress = async () => {
     const {couponCode} = this.state;
     this.setState({subscribeLoading: true});
-    const {route, userData, navigation, syncSubscriptions} = this.props;
+    const {route, userData, navigation, syncSubscriptions, subscribePackage} = this.props;
     const {metadata, userId, packageId} = route.params;
-    const {time, days} = metadata;
+    const {time, days, duration} = metadata;
     const {packageName, price} = metadata;
 
-    let result = await this.props.subscribePackage(
+    // Prepare data and call the subscribe api
+    let result = await subscribePackage(
       userId,
       packageId,
       time,
       days,
+      duration,
       couponCode
     );
+
     if (result && result.payment === false) {
+      // result.payment will be false when coupon avails 100% discount, so user does not have to pay
       this.setState({subscribeLoading: false});
       showSuccess(strings.SUBSCRIBE_SUCCESS);
       navigation.popToTop();
@@ -243,11 +243,11 @@ class Packages extends PureComponent {
       return;
     }
     if (result && result.success) {
+      // Prepare razorpay order and initate payment
       const {orderId, subscriptionId} = result;
       const options = {
         description: packageName,
-        image:
-          "https://about.wodup.com/wp-content/uploads/2018/11/a84f9b3b-a46c-4a3c-9ec9-ba87b216548a-300x300.jpg",
+        image: paymentBackground,
         currency: "INR",
         key: paymentKey,
         amount: price,
@@ -258,21 +258,20 @@ class Packages extends PureComponent {
           contact: "",
           name: userData.name || "",
         },
-        theme: {color: appTheme.background, backgroundColor: "red"},
+        theme: {color: appTheme.background, backgroundColor: appTheme.brightContent},
       };
-      console.log(options);
 
       RazorpayCheckout.open(options)
         .then((data) => {
           showSuccess(strings.PAYMENT_SUCCESS);
           navigation.popToTop();
-          sendPaymentData(data);
+          sendPaymentData(data); // send payment data to api
           syncSubscriptions();
           console.log("payment success", data);
         })
         .catch((error) => {
           console.log(subscriptionId, orderId);
-          subscribeRollback(subscriptionId, orderId);
+          subscribeRollback(subscriptionId, orderId); // Call the rollback API
           showError("Payment Failed, try again");
           console.log(error);
         });
@@ -295,19 +294,16 @@ class Packages extends PureComponent {
           keyboardShouldPersistTaps={"handled"}
         >
           <StatusBar backgroundColor={appTheme.background}/>
-
           <this.renderPackageCard/>
           <View style={styles.buttonRow}>
             <TouchableOpacity
               style={styles.buttonContainer}
-              onPress={this.onBackPress}
-            >
+              onPress={this.onBackPress}>
               <Ion name={"ios-arrow-back"} color={colors.appBlue} size={24}/>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonContainer}
-              onPress={this.onConfirmPress}
-            >
+              onPress={this.onConfirmPress}>
               {this.state.subscribeLoading && (
                 <ActivityIndicator size={28} color={appTheme.brightContent}/>
               )}
@@ -331,14 +327,14 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: spacing.medium_sm,
     paddingVertical: 0,
-    backgroundColor:appTheme.background
+    backgroundColor: appTheme.background
   },
   subtitle: {
     backgroundColor: appTheme.darkBackground,
     borderRadius: 10,
     padding: spacing.small,
     paddingLeft: spacing.medium_lg,
-    color: "white",
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h2,
     fontFamily: fonts.PoppinsRegular,
     textAlignVertical: "top",
@@ -362,7 +358,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.small,
   },
   detail: {
-    color: "white",
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h3,
     fontFamily: fonts.CenturyGothic,
     marginBottom: spacing.small_sm,
@@ -374,8 +370,6 @@ const styles = StyleSheet.create({
     padding: spacing.medium,
     paddingTop: spacing.small,
     marginTop: spacing.small_sm,
-    // marginTop: spacing.medium_sm,
-    // marginBottom: spacing.medium_sm
   },
   buttonRow: {
     flex: 1,
@@ -402,19 +396,19 @@ const styles = StyleSheet.create({
     marginBottom: spacing.small,
     padding: spacing.medium_sm,
     borderRadius: 5,
-    color: "white",
+    color: appTheme.textPrimary,
     textAlign: "center",
     fontFamily: fonts.CenturyGothicBold,
   },
   daysContainer: {
     flexDirection: "row",
     width: "100%",
-    margin: spacing.small,
+    marginTop: spacing.small,
     marginBottom: spacing.medium,
   },
   dayBox: {
-    padding: spacing.medium_sm - 2,
-    backgroundColor: "white",
+    padding: spacing.small,
+    backgroundColor: appTheme.textPrimary,
     borderWidth: 1,
     borderRadius: 6,
     borderColor: appTheme.brightContent,
@@ -425,7 +419,7 @@ const styles = StyleSheet.create({
     marginRight: spacing.small,
   },
   packageBox: {
-    backgroundColor: "white",
+    backgroundColor: appTheme.textPrimary,
     borderRadius: 6,
     padding: spacing.small,
   },
@@ -436,7 +430,7 @@ const styles = StyleSheet.create({
     padding: spacing.medium_sm,
   },
   packageTitle: {
-    color: "white",
+    color: appTheme.textPrimary,
     fontFamily: fonts.CenturyGothicBold,
     fontSize: fontSizes.h4,
   },
@@ -444,31 +438,42 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.h4,
     color: "#20222f",
   },
-  mainDiscount: {flexDirection: 'row', flex: 1, marginTop: '10%'},
-  congrats: {color: '#FFF', fontSize: 14, fontWeight: 'bold', fontFamily: fonts.CenturyGothicBold},
-  finalamount: {color: '#ff7f50', fontSize: 14, fontWeight: 'bold', fontFamily: fonts.CenturyGothicBold},
+  mainDiscount: {
+    flexDirection: 'row',
+    flex: 1,
+    marginTop: '10%'
+  },
+  congrats: {
+    color: appTheme.textPrimary,
+    fontSize: 14,
+    fontWeight: 'bold',
+    fontFamily: fonts.CenturyGothicBold
+  },
+  finalAmount: {
+    color: '#ff7f50',
+    fontSize: 14,
+    fontWeight: 'bold',
+    fontFamily: fonts.CenturyGothicBold
+  },
   applyCoupon: {
     flexDirection: "row",
     alignContent: "center",
     marginTop: 20,
     flex: 1,
-
   },
-  applyCouponinput: {
+  applyCouponInput: {
     color: appTheme.textPrimary,
-
     borderWidth: 1,
     borderTopLeftRadius: 30,
     borderBottomLeftRadius: 30,
     height: 40,
     backgroundColor: '#2b2e41',
     borderColor: "#20222f",
-    // padding: spacing.small,
     paddingTop: 7,
     paddingLeft: 27,
     flex: 6
   },
-  applyCouponbutton: {
+  applyCouponButton: {
     borderTopRightRadius: 30,
     borderBottomRightRadius: 30,
     marginLeft: -3,
@@ -493,16 +498,17 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions()),
-  subscribePackage: (trainerId, packageId, time, days, couponCode) =>
+  subscribePackage: (trainerId, packageId, time, days, duration, couponCode) =>
     dispatch(
       actionCreators.subscribePackage(
         trainerId,
         packageId,
         time,
         days,
+        duration,
         couponCode
       )
     ),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Packages);
+export default connect(mapStateToProps, mapDispatchToProps)(Payment);

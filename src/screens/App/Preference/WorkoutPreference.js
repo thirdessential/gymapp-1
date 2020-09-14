@@ -7,17 +7,17 @@ import {
   ScrollView,
   FlatList, TouchableOpacity,
 } from "react-native";
+import {connect} from "react-redux";
+import {CheckBox} from "react-native-elements";
 
 import {appTheme} from "../../../constants/colors";
 import {spacing} from "../../../constants/dimension";
 import fonts from "../../../constants/fonts";
 import strings from "../../../constants/strings";
 import fontSizes from "../../../constants/fontSizes";
-import {CheckBox} from "react-native-elements";
 import {iconBackgrounds} from "../../../constants/images";
 import {screenHeight, screenWidth} from "../../../utils/screenDimensions";
 import * as actionCreators from "../../../store/actions";
-import {connect} from "react-redux";
 import {packageTypes} from "../../../constants/appConstants";
 
 class WorkoutPreference extends Component {

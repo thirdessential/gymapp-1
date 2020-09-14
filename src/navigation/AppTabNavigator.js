@@ -8,8 +8,6 @@ import store from '../store/configureStore';
 
 import RouteNames from "./RouteNames";
 import {appTheme} from "../constants/colors";
-import Profile from "../screens/App/Profile";
-import MyProfileStack from './stacks/myProfileStack';
 import {userTypes} from "../constants/appConstants";
 import {ActivityIndicator, View} from "react-native";
 import fontSizes from "../constants/fontSizes";
@@ -20,26 +18,25 @@ import SocialStack from "./stacks/SocialStack";
 import ToolStack from "./stacks/ToolStack";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import WorkoutStack from "./stacks/WorkoutStack";
+import strings from "../constants/strings";
 
 const Tab = createMaterialTopTabNavigator();
 
+// Loader component for when lazy rendering is enabled, always enabled in dev mode for speed
 const bgView = () => (
   <View style={{backgroundColor: appTheme.darkBackground, flex: 1, justifyContent: 'center', alignItems: 'center'}}>
     <ActivityIndicator size={40} color={appTheme.lightContent}/>
-  </View>)
-;
-const lazyConfig = __DEV__?{lazy:true,lazyPreloadDistance: 0,lazyPlaceholder:bgView}:{}
+  </View>
+);
+const lazyConfig = __DEV__ ? {lazy: true, lazyPreloadDistance: 0, lazyPlaceholder: bgView} : {}
 
 const appTabNavigator = (props) => {
   let {userType} = store.getState().user;
-  const listingTitle = userType === userTypes.USER ? 'Trainers' : 'Users';
+  const listingTitle = userType === userTypes.USER ? strings.TRAINERS : strings.USERS;
   return (
     <Tab.Navigator
-      // swipeEnabled={false}
+      swipeEnabled={false}
       {...lazyConfig}
-      // lazy={true}
-      // lazyPreloadDistance={0}
-      // lazyPlaceholder={bgView}
       backBehavior={'initialRoute'}
       tabBarPosition={'bottom'}
       tabBarOptions={{
@@ -59,9 +56,10 @@ const appTabNavigator = (props) => {
         style: {backgroundColor: appTheme.darkBackground},
       }}
     >
+      {/*User activity*/}
       <Tab.Screen
         name={RouteNames.ActivityTab}
-        component={ActivityStack}
+        component={ActivityStack} // edit this screen and replace with any temporary screen for faster testing
         options={{
           title: 'Activity',
           tabBarIcon: ({focused, color, size}) => {
@@ -69,6 +67,7 @@ const appTabNavigator = (props) => {
             return <View style={{alignItems: 'center'}}><Feather name={iconName} size={20} color={color}/></View>
           },
         }}/>
+      {/*Community Tab*/}
       <Tab.Screen
         name={RouteNames.SocialTab}
         component={SocialStack}
@@ -79,6 +78,7 @@ const appTabNavigator = (props) => {
             return <View style={{alignItems: 'center'}}><FontAwesome name={iconName} size={20} color={color}/></View>
           },
         }}/>
+      {/*Trainer Listing*/}
       {
         userType === userTypes.USER && (
           <Tab.Screen
@@ -93,10 +93,11 @@ const appTabNavigator = (props) => {
             }}/>
         )
       }
+      {/*Slot edit screen for trainer*/}
       {
         userType === userTypes.TRAINER && (
           <Tab.Screen
-            name={RouteNames.SlotEdit}
+            name={RouteNames.SlotEditTab}
             component={SlotEditStack}
             options={{
               title: 'Slots',
@@ -108,6 +109,7 @@ const appTabNavigator = (props) => {
             }}/>
         )
       }
+      {/*Workout module*/}
       <Tab.Screen
         name={RouteNames.WorkoutTab}
         component={WorkoutStack}
@@ -121,6 +123,7 @@ const appTabNavigator = (props) => {
               </View>);
           },
         }}/>
+      {/*Misc Tools*/}
       <Tab.Screen
         name={RouteNames.ToolTab}
         component={ToolStack}

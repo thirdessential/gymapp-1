@@ -1,7 +1,7 @@
 import React, {PureComponent} from "react";
 import {StyleSheet, View, TouchableOpacity, Text} from "react-native";
-
 import AppIntroSlider from "react-native-app-intro-slider";
+import {connect} from "react-redux";
 
 import UserInfo from "./UserInfo";
 import WorkoutDays from "./WorkoutDays";
@@ -9,7 +9,6 @@ import WorkoutPreference from "./WorkoutPreference";
 import RouteNames from "../../../navigation/RouteNames";
 import {appTheme} from "../../../constants/colors";
 import * as actionCreators from "../../../store/actions";
-import {connect} from "react-redux";
 import fonts from "../../../constants/fonts";
 import {userTypes} from "../../../constants/appConstants";
 import PhysicalData from "./PhysicalData";
@@ -127,7 +126,6 @@ const styles = StyleSheet.create({
   button: {
     color: "#fff",
     fontSize: 20,
-
     fontFamily: fonts.CenturyGothic,
   },
 });

@@ -21,33 +21,38 @@ class Tools extends PureComponent {
   openPackages = () => this.props.navigation.navigate(RouteNames.Packages)
   openCallRequests = () => this.props.navigation.navigate(RouteNames.CallRequests)
   openClients = () => this.props.navigation.navigate(RouteNames.SubscriptionsView)
-  // openBrowseSlots = () => this.props.navigation.navigate(RouteNames.BrowseSlots)
+  openSessions = () => this.props.navigation.navigate(RouteNames.Sessions);
   openQuestion = () => this.props.navigation.navigate(RouteNames.CreatePost, {type: POST_TYPE.TYPE_QUESTION})
   openBMI = () => this.props.navigation.navigate(RouteNames.BMI);
   openCouponMachine = () => this.props.navigation.navigate(RouteNames.CouponMachine);
   openAccountDash = () => this.props.navigation.navigate(RouteNames.AccountDash);
   openSpeech = () => this.props.navigation.navigate(RouteNames.Speech);
-  openStreamingScreen = () => this.props.navigation.navigate(RouteNames.StreamScreen);
   openSelectExercise = () => this.props.navigation.navigate(RouteNames.SelectExercise);
-  openExercisesScreen = () => this.props.navigation.navigate(RouteNames.Exercises);
   openMyStreams = () => this.props.navigation.navigate(RouteNames.MyStreams);
-openWater= () => this.props.navigation.navigate(RouteNames.Water)
-openCalorie= () => this.props.navigation.navigate(RouteNames.CalorieCounter)
-openRecipe= () => this.props.navigation.navigate(RouteNames.RecipeRecommend)
+  openWater = () => this.props.navigation.navigate(RouteNames.Water)
+  openCalorie = () => this.props.navigation.navigate(RouteNames.CalorieCounter)
+  openRecipe = () => this.props.navigation.navigate(RouteNames.RecipeRecommend)
   state = {
     toolsData: []
   }
 
   componentDidMount() {
     const {userType} = this.props;
-
+    // Initialise user/trainer specific and common screens
     const toolsData = [
       {
         title: strings.PACKAGES,
         image: iconBackgrounds.packages,
         callback: this.openPackages,
         enabled: userType === userTypes.TRAINER
-      }, {
+      },
+      {
+        title: strings.SESSIONS,
+        image: iconBackgrounds.days,
+        callback: this.openSessions,
+        enabled: true
+      },
+      {
         title: strings.CALL_REQUESTS,
         image: iconBackgrounds.appointments,
         callback: this.openCallRequests,
@@ -95,22 +100,14 @@ openRecipe= () => this.props.navigation.navigate(RouteNames.RecipeRecommend)
         callback: this.openWater,
         enabled: true
       },
-       {
-        title: strings.CALORIECOUNTER,
+      {
+        title: strings.CALORIE_COUNTER,
         image: iconBackgrounds.subscriptions,
         callback: this.openCalorie,
         enabled: true
       },
-      {
-        title: strings.RECIPE,
-        image: iconBackgrounds.subscriptions,
-        callback: this.openRecipe,
-        enabled: true
-      },
-
-
     ]
-    this.setState({toolsData: toolsData.filter(toolData => toolData.enabled)});
+    this.setState({toolsData: toolsData.filter(toolData => toolData.enabled)}); // pick out enabled screens
   }
 
   renderCard = (item) => (
@@ -155,8 +152,6 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     fontSize: fontSizes.h1
   }
-
-
 });
 
 const mapStateToProps = (state) => ({
