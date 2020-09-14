@@ -156,7 +156,7 @@ class Activity extends PureComponent {
   }
   renderTodaySessions = () => {
     const {todaySessions} = this.state;
-    if (!todaySessions) return (
+    if (!todaySessions || todaySessions.length === 0) return (
       <View style={[styles.card, styles.noContentContainer]}>
         <Text style={styles.noContent}>{strings.NO_UPCOMING_SESSIONS}</Text>
       </View>
@@ -184,7 +184,7 @@ class Activity extends PureComponent {
     if (res.success) {
       await hostMeeting(stream.meetingNumber, res.token, this.props.userName, stream.clientKey, stream.clientSecret);
       this.props.setStreamFinished(stream._id);
-    }else {
+    } else {
       showError(strings.FAILED_TO_START_STREAM);
     }
     this.setState({loading: false});

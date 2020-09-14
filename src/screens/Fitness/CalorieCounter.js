@@ -107,8 +107,8 @@ class CalorieCounter extends PureComponent {
   };
 
   recommend = async () => {
-    let result = await API.getRecommendation();
-//result is list of all food Items
+    let {result} = await API.getRecommendation();
+    //result is list of all food Items
     if (result) {//if result is there or not it can be empty array also
       //if that particular type has length greater than 0
       if (
@@ -119,7 +119,6 @@ class CalorieCounter extends PureComponent {
           result[foodTypes.BREAKFAST],
           foodTypes.BREAKFAST
         );
-
         this.setState({breakfastRecommend: breakfastRecommend.slice(0, 3)});
       }
       if (result[foodTypes.LUNCH] && result[foodTypes.LUNCH].length > 0) {
@@ -250,7 +249,7 @@ class CalorieCounter extends PureComponent {
     <View style={styles.cardView}>
       <Text style={styles.category}>{type}</Text>
       <Text style={styles.calsIntake}>
-        {typeIntake} {strings.CALS}
+        {typeIntake} g
       </Text>
       <Progress.Circle
         style={{marginVertical: spacing.small}}

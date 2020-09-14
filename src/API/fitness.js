@@ -14,7 +14,6 @@ export const recordBmi = async (bmi, weight) => {
 
 export const getRecommendation = async () => {
   try {
-
     let response = await axios.get('/recommend');
     if (validateResponseCode(response.status)) {
       return response.data;

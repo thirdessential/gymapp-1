@@ -25,6 +25,7 @@ import {connect} from "react-redux";
 import {Bar} from 'react-native-progress';
 
 import {spacing} from "../../constants/dimension";
+
 TimeAgo.addLocale(en)
 const timeAgo = new TimeAgo('en-US');
 import {appTheme, bmiColors} from "../../constants/colors";
@@ -73,9 +74,27 @@ class BMI extends PureComponent {
 
   setDays = () => this.setState({graphType: 'day', graphHeaderText: strings.LAST_DAYS})
   setMonths = () => this.setState({graphType: 'month', graphHeaderText: strings.LAST_MONTHS})
-  setWeight = (newWeight) => this.setState({newWeight})
-  setTargetWeight = (targetWeight) => this.setState({targetWeight})
-  setTargetDate = (targetDate) => this.setState({targetDate})
+  setWeight = (newWeight) => {
+    if (newWeight < 0)
+      newWeight = 30;
+    if (newWeight > 300)
+      newWeight = 300;
+    this.setState({newWeight:newWeight.toString()})
+  }
+  setTargetWeight = (targetWeight) => {
+    if (targetWeight < 0)
+      targetWeight = 30;
+    if (targetWeight > 300)
+      targetWeight = 300;
+    this.setState({targetWeight:targetWeight.toString()})
+  }
+  setTargetDate = (targetDate) => {
+    if (targetDate < 1)
+      targetDate = 1;
+    if (targetDate > 52)
+      targetDate = 52;
+    this.setState({targetDate:targetDate.toString()})
+  }
   openHeightSetter = () => this.props.navigation.navigate(RouteNames.ProfileEdit, {physical: true})
   renderHeader = () => {
     const {displayPictureUrl, height, name} = this.props.userData;

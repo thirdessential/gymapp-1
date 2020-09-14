@@ -24,6 +24,7 @@ import * as actionCreators from "../../store/actions";
 import {showError, showSuccess} from "../../utils/notification";
 import {getFormattedDate} from "../../utils/utils";
 import * as API from "../../API";
+import {hitSlop20} from "../../constants/styles";
 
 const currentDate = getFormattedDate();
 
@@ -40,12 +41,10 @@ class Calorie1 extends PureComponent {
   async componentDidMount() {
     const type = this.props.route.params.type;//type i.e Breakfast lunh dinner snacks
     const recommendedFoods = this.props.route.params.recommendedFoods;//we get this from parent as navigation props
-    // console.log(recommendedFoods);
     if (recommendedFoods.length > 0) {
       this.setState({foods: recommendedFoods, recommendationText: true});
-
     }
-    await this.setState({type});//type   i.e Breakfast lunh dinner snacks for current food ITems
+    this.setState({type});//type   i.e Breakfast lunh dinner snacks for current food ITems
   }
 
 
@@ -212,7 +211,7 @@ class Calorie1 extends PureComponent {
                       onPress={() => {
                         this.deleteItem(food.id);
                       }}
-                      hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+                      hitSlop={hitSlop20}
                     >
                       <FontAwesome
                         name={"trash"}
@@ -258,7 +257,7 @@ class Calorie1 extends PureComponent {
                       </Text>
 
                       <Text style={styles.valueText}>
-                        {food.proteins} {strings.CALS}
+                        {food.proteins} g
                       </Text>
                     </View>
                     <View>
@@ -267,7 +266,7 @@ class Calorie1 extends PureComponent {
                       </Text>
 
                       <Text style={styles.valueText}>
-                        {food.carbs} {strings.CALS}
+                        {food.carbs} g
                       </Text>
                     </View>
                     <View>
@@ -276,7 +275,7 @@ class Calorie1 extends PureComponent {
                       </Text>
 
                       <Text style={styles.valueText}>
-                        {food.fats} {strings.CALS}
+                        {food.fats} g
                       </Text>
                     </View>
                   </View>

@@ -27,27 +27,20 @@ import {DEFAULT_WATER_INTAKE_QUOTA} from "../../constants/appConstants";
 const date = getFormattedDate();
 
 class Water extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      final: 0, //final water intake for today
-      waterIntake: 0, //todays water intake
-      target: DEFAULT_WATER_INTAKE_QUOTA, //target water intake
-      show: true, //if user has updated bmi then only show this screen therefore boolean to mane screen
-      data: [], //data which will be sent by redux in array consisting of date and amount of water intake
-      lengthOfData: 0, //length of data to calculate average intake
-      totalIntakeAverage: 0, //to hold average intake of water
-    };
+  state = {
+    final: 0, //final water intake for today
+    waterIntake: 5000, //todays water intake
+    target: DEFAULT_WATER_INTAKE_QUOTA, //target water intake
+    show: true, //if user has updated bmi then only show this screen therefore boolean to mane screen
+    data: [], //data which will be sent by redux in array consisting of date and amount of water intake
+    lengthOfData: 0, //length of data to calculate average intake
+    totalIntakeAverage: 0, //to hold average intake of water
   }
 
   async componentDidMount() {
     let result = await this.props.getWaterIntake(); //get result i.e. array from redux
-    //console.log(result);
     await this.setState({data: result}); //set it to data
-
     const {bmiRecords, waterIntake} = this.props; //get bmi  and todays water intake from redux
-
-    // console.log(waterIntake);
     //if not bmi show text otherwise screen
     bmiRecords.length > 0
       ? this.setState({show: true})
@@ -63,19 +56,15 @@ class Water extends PureComponent {
       }
     });
     //get array of last 7 days to calculate average intake
-    var lastSevenDays = this.state.data.slice(
-      Math.abs(this.state.data.length - 7)
-    );
-    //console.log(lastSevenDays);
+    let lastSevenDays = this.state.data.slice(0,7);
     let total = 0; //to calculate total intake of water
     lastSevenDays.forEach((item) => {
       total += item.intake;
     }); //calculate total
-
     this.setState({
       //set length of data it can be 7 or less that seven from upper slice function
       lengthOfData: lastSevenDays.length,
-      totalIntakeAverage: Math.round(total / (lastSevenDays.length || 1), 2), //calculate avrage water intake
+      totalIntakeAverage: total / (lastSevenDays.length || 1) //calculate avrage water intake
     });
   }
 
@@ -101,6 +90,7 @@ class Water extends PureComponent {
   renderItem = (item, heightPercent) => {
     //send height percent from parent to cacluate height of lines
     //{"date":"03/09","intake":1250}//this is how each element of array looks
+    if (heightPercent > 80) heightPercent = 80;
     return (
       <View style={styles.lineView}>
         <Text style={styles.intakeText}>{item.intake}</Text>
@@ -111,7 +101,6 @@ class Water extends PureComponent {
             height: `${heightPercent}%`,
             width: 15,
             borderRadius: 10,
-            // marginLeft: 15,
             elevation: 4,
           }}
         />
@@ -205,7 +194,7 @@ class Water extends PureComponent {
               <Text style={styles.hydrateText}>HYDRATION (ml)</Text>
 
               <Text style={styles.avgText}>
-                Avg :{this.state.totalIntakeAverage} ml
+                Avg: {this.state.totalIntakeAverage} ml
               </Text>
             </View>
           ) : null}
@@ -273,11 +262,11 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Water);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-
     backgroundColor: appTheme.background,
   },
   hydrateText: {
