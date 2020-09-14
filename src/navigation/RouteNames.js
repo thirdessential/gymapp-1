@@ -1,6 +1,8 @@
+// Routes used in navigation
 const RouteNames = {
   //Stack Names
   AppStack: 'AppStack',
+  Home:'Home',
   Splash: 'Splash',
   Terms: 'Terms',
 
@@ -76,8 +78,10 @@ const RouteNames = {
   Calorie1: 'Calorie1',
   PdfViewer: 'PdfViewer',
   Sessions: 'Session',
+  SlotEditTab: 'SlotEditTab'
 };
 
+//Routes used in local tab navigators
 export const TabRoutes = {
   Packages: 'Packages',
   Slots: 'Slots',

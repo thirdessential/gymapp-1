@@ -31,7 +31,7 @@ Hits.propTypes = {
 
 const styles = StyleSheet.create({
   count: {
-    color: 'white',
+    color: appTheme.textPrimary,
     paddingLeft: 0,
     fontFamily: fonts.MontserratSemiBold
   },

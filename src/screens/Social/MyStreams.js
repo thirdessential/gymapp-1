@@ -8,6 +8,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import {connect} from "react-redux";
+import Entypo from "react-native-vector-icons/Entypo";
 
 import {appTheme} from "../../constants/colors";
 import * as actionCreators from "../../store/actions";
@@ -16,7 +17,6 @@ import {INITIAL_PAGE, streamStatus} from "../../constants/appConstants";
 import {hostMeeting, joinMeeting} from "../../utils/zoomMeeting";
 import StreamList from "../../components/Social/StreamList";
 import {startStream} from "../../API";
-import Entypo from "react-native-vector-icons/Entypo";
 import RouteNames from "../../navigation/RouteNames";
 import Loader from "../../components/Loader";
 
@@ -43,8 +43,9 @@ class MyStreams extends PureComponent {
   onStartStream = async (stream) => {
     this.setState({loading: true});
     const res = await startStream(stream._id);
+
     if (res.success) {
-      await hostMeeting(stream.meetingId, res.token, this.props.userName);
+      await hostMeeting(stream.meetingNumber, res.token, this.props.userName, stream.clientKey, stream.clientSecret);
       this.setState({loading: false});
       this.props.setStreamFinished(stream._id);
     }
@@ -82,7 +83,6 @@ class MyStreams extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    // width: "100%",
     paddingHorizontal: spacing.medium_sm,
     backgroundColor: appTheme.background,
     flex: 1,

@@ -1,6 +1,7 @@
+import React from "react";
 import {Modal, TouchableOpacity} from "react-native";
 import ImageViewer from "react-native-image-zoom-viewer";
-import React from "react";
+
 import {appTheme} from "../constants/colors";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {spacing} from "../constants/dimension";

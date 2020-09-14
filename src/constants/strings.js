@@ -132,7 +132,7 @@ const strings = {
   LAST_DAYS: 'Last few days',
   LAST_MONTHS: 'Last few months',
   ENTER_WEIGHT: 'Enter weight',
-  ENTER_TARGET: 'Enter target weight and goal date',
+  ENTER_TARGET: 'Enter target weight and weeks to achieve',
   INVALID_COUPON: 'Invalid coupon code or coupon expired',
   TOTAL_EARNING: 'Total Earning',
   INR: 'INR',
@@ -276,11 +276,21 @@ const strings = {
   UPCOMING: 'Upcoming',
   JOIN: 'JOIN',
   JOINING: 'Joining',
-  OPEN:'OPEN',
+  OPEN: 'OPEN',
   UPCOMING_STREAMS: 'Upcoming Live Streams',
   HEALTH_SUMMARY: 'Health Summary',
   TODAY: 'Today',
-  LAST_WEEK:'Last Week'
+  LAST_WEEK: 'Last Week',
+  HYDRATION: 'Hydration',
+  SEVEN_DAYS: '7 days',
+  CALORIES: 'Calories',
+  NO_UPCOMING_STREAMS: 'No upcoming streams',
+  NO_UPCOMING_SESSIONS: 'No upcoming sessions',
+  HOME: 'Home',
+  TRAINERS: 'Trainers',
+  USERS: 'Users',
+  SLOT_CREATION_FAILED: 'Slot creation failed, try again',
+  FAILED_TO_START_STREAM: 'Failed to start live stream'
 };
 
 export const bmiVerdicts = {

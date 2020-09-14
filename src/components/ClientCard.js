@@ -2,17 +2,16 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import PropTypes from 'prop-types';
-import colors, {appTheme} from "../constants/colors";
+
+import  {appTheme} from "../constants/colors";
 import {StyleSheet, View} from "react-native";
 import {Card, Text} from 'native-base';
 import Avatar from "./Avatar";
 import {spacing} from "../constants/dimension";
-import GenericButton from "./GenericButton";
-import SelectableButton from "./selectableButton";
 import strings from "../constants/strings";
 import CallButton from "./CallButton";
 import fontSizes from "../constants/fontSizes";
+import fonts from "../constants/fonts";
 
 const client = (props) => {
   return (
@@ -37,11 +36,6 @@ const client = (props) => {
   );
 }
 
-
-client.propTypes = {
-
-};
-
 const styles = StyleSheet.create({
   cardStyle: {
     borderRadius: 6,
@@ -61,13 +55,13 @@ const styles = StyleSheet.create({
     paddingLeft: spacing.medium
   },
   displayName: {
-    color: 'white',
-    fontFamily: 'Poppins-SemiBold'
+    color: appTheme.textPrimary,
+    fontFamily: fonts.PoppinsSemiBold
   },
   timeText: {
     color:appTheme.grey,
     fontSize:fontSizes.h3,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: fonts.PoppinsMedium,
   },
   actionButtonContainer:{
     alignSelf:'flex-end',

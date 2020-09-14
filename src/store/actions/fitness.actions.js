@@ -1,7 +1,5 @@
 import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
-import moment from 'moment';
-import {day} from "javascript-time-ago/gradation";
 
 export const setBmiRecords = (bmiRecords) => ({
   type: actionTypes.SET_BMI_RECORDS,
@@ -27,8 +25,7 @@ export const submitBmi = (bmi, weight) => {
   return async (dispatch) => {
     try {
       let record = await API.recordBmi(bmi, weight);
-      dispatch(updateBmiRecords()); //todo:remove this
-      //TODO: add dispatch to store in redux for update
+      dispatch(updateBmiRecords());
       return !!record.success;
     } catch (error) {
       console.log("submit bmi failed", error);
@@ -37,6 +34,7 @@ export const submitBmi = (bmi, weight) => {
   };
 };
 
+// Preferences are packageType values
 export const setPreferences = (preferences) => ({
   type: actionTypes.SET_PREFERENCES,
   payload: {
@@ -44,12 +42,15 @@ export const setPreferences = (preferences) => ({
   },
 });
 
+// How many days per week does the user exerciese
 export const setExerciseIndex = (exerciseIndex) => ({
   type: actionTypes.SET_EXERCISE_INDEX,
   payload: {
     exerciseIndex,
   },
 });
+
+// Weight loss/gain target and date
 const setTarget = (targetWeight, targetDate) => ({
   type: actionTypes.SET_TARGET,
   payload: {
@@ -156,18 +157,17 @@ export const getWaterIntake = () => {
       });
 
       let intakeArray = [];
-//make array with corresponding values 
+      //make array with corresponding values
       await datesArray.forEach(date => {
         intakeArray.push(waterIntake[date]);
       });
-//splitdate to send to frontend
+      //splitdate to send to frontend
       let splitDates = await datesArray.map(date => {
         let splitted = date.split('-');
         let result = splitted[0] + "/" + splitted[1];
         return result
       });
-
-//we need to send array of objects to frontend
+      //we need to send array of objects to frontend
       let dateAndIntake = [];
       for (i = 0; i < splitDates.length; i++) {
         let obj = {

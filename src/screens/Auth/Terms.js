@@ -55,7 +55,6 @@ class Terms extends React.Component {
     )
   }
 
-
   render() {
     return (
       <View
@@ -64,7 +63,7 @@ class Terms extends React.Component {
         {this.state.source && (
           <Pdf
             source={this.state.source}
-            // onPressLink={(uri) => {
+            // onPressLink={(uri) => { // Useful if there are any web links inside the pdf
             //   console.log(`Link pressed: ${uri}`)
             // }}
             fitPolicy={0}
@@ -72,7 +71,6 @@ class Terms extends React.Component {
             style={styles.pdf}/>
         )}
         {this.renderAccept()}
-
       </View>
     );
   }

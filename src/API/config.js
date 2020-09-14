@@ -5,7 +5,10 @@ import {rootURL} from '../constants/appConstants';
 const instance = axios.create({
   baseURL: rootURL
 });
-const isDebuggingEnabled =false// (typeof atob !== 'undefined');
+
+// By default, all axios requests are logged only when device is connected to debugger
+// Set this variable to true to log axios requests in terminal
+const isDebuggingEnabled = (typeof atob !== 'undefined');
 
 instance.interceptors.request.use(function (config) {
 

@@ -4,15 +4,15 @@
 import React, {useState} from 'react';
 import {ImageBackground, LayoutAnimation, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import PropTypes from 'prop-types';
-import strings from "../../constants/strings";
-import {spacing} from "../../constants/dimension";
-
-import fonts from "../../constants/fonts";
-import fontSizes from "../../constants/fontSizes";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Entypo from "react-native-vector-icons/Entypo";
+
+import strings from "../../constants/strings";
+import {spacing} from "../../constants/dimension";
+import fonts from "../../constants/fonts";
+import fontSizes from "../../constants/fontSizes";
 import {getRandomImage} from "../../constants/images";
-import colors, {appTheme, bmiColors, darkPallet} from "../../constants/colors";
+import colors, {appTheme} from "../../constants/colors";
 import {hitSlop20} from "../../constants/styles";
 import {packageImages, packageTypes} from "../../constants/appConstants";
 
@@ -126,7 +126,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingLeft: spacing.large,
     paddingRight: spacing.large,
-    // justifyContent:'center'
   },
   textContainer: {
     marginBottom: spacing.medium_sm
@@ -167,7 +166,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-
 });
 
 export default React.memo(PackageOverview);

@@ -6,6 +6,7 @@ import {webClientId} from "../constants/appConstants";
 import {showError, showInfo} from "../utils/notification";
 import strings from "../constants/strings";
 
+// Handles new and existing users
 export const attemptGoogleAuth = async () => {
   try {
     await GoogleSignin.configure({webClientId});

@@ -206,7 +206,7 @@ class UserInfo extends React.Component {
                             <Text style={{
                               fontSize: fontSizes.h5,
                               fontFamily: fonts.CenturyGothicBold,
-                              color: "white",
+                              color: appTheme.textPrimary,
                               marginVertical: 10
                             }}>{val.gen}</Text>
                             <View style={styles.uncheckedItem}>
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   heading: {
-    color: "white",
+    color: appTheme.textPrimary,
     fontFamily: fonts.CenturyGothicBold,
     fontSize: fontSizes.h1
   },

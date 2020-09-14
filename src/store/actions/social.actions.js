@@ -3,8 +3,9 @@ import * as API from "../../API";
 import {INITIAL_PAGE} from "../../constants/appConstants";
 import {showInfo} from "../../utils/notification";
 import {LayoutAnimation} from "react-native";
-import {get} from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
+// Set posts array, setting my=true sets user's own posts array
+// Only references to notification objects are stored in array
 export const setPosts = (posts, my = false) => ({
   type: actionTypes.SET_POSTS,
   payload: {
@@ -19,6 +20,8 @@ export const appendPosts = (posts, my = false) => ({
     my
   }
 });
+
+// Set live stream array
 const setStreams = (liveStreams, my) => ({
   type: actionTypes.SET_STREAMS,
   payload: {
@@ -33,6 +36,7 @@ const appendStreams = (liveStreams, my) => ({
     my
   }
 });
+
 export const setPost = (post) => ({
   type: actionTypes.SET_POST,
   payload: {
@@ -81,7 +85,6 @@ export const updatePosts = (page = '', my = false) => {
         if (page === INITIAL_PAGE)
           await dispatch(setPosts(posts, my)); // initialise list from scratch
         else dispatch(appendPosts(posts, my)); // else append data to list
-        // posts.map(post => dispatch(setPost(post)))
       }
       return nextPage;
     } catch (error) {
@@ -91,6 +94,7 @@ export const updatePosts = (page = '', my = false) => {
   };
 };
 
+// Update data of a particular post, modifies its reference
 export const updatePost = (postId) => {
   return async (dispatch) => {
     try {
@@ -106,6 +110,7 @@ export const updatePost = (postId) => {
   };
 };
 
+// Optimistic update, change data first, call API later
 export const likePost = (postId) => {
   return async (dispatch, getState) => {
     try {
@@ -181,11 +186,7 @@ export const commentOnPost = (postId, commentText) => {
     try {
       let post = {...getState().social.postDetails[postId]};
       let {comment} = await API.commentOnPost(postId, commentText);
-      await dispatch(updatePost(postId))
-      // let comments = [...post.comments];
-      // comments.push(comment);
-      // post.comments = comments;
-      // dispatch(setPost(post));
+      await dispatch(updatePost(postId));
       return true;
     } catch (error) {
       console.log("post update failed", error);
@@ -248,6 +249,7 @@ export const reportComment = (postId, commentId) => {
   };
 }
 
+// Set posts for a particular user
 export const setPostsForUser = (userId, posts) => ({
   type: actionTypes.SET_POSTS_FOR_USER,
   payload: {
@@ -287,6 +289,7 @@ export const updateQuestions = (page = '') => {
   };
 };
 
+// Optimistic update, create an answer object and append to answers list
 export const answerQuestion = (questionId, answerText) => {
   return async (dispatch, getState) => {
     try {
@@ -331,6 +334,7 @@ export const updateLiveStreams = (page = '', my = false) => {
   };
 };
 
+// Update status of a live stream. SCHEDULED->LIVE->FINISHED
 export const setLiveStreamStatus = (streamId, status) => {
   return async (dispatch, getState) => {
     try {

@@ -4,7 +4,6 @@ import RouteNames from "./RouteNames";
 import Stack from './stacks/stack';
 import AppTabNavigator from "./AppTabNavigator";
 import MyProfile from "../screens/App/MyProfile";
-import openDrawerButton from "./openDrawerButton";
 import {defaultHeaderStyle} from "../constants/styles";
 import PreferenceSwiper from "../screens/App/Preference/PreferenceSwiper";
 import PostViewer from "../screens/Social/PostViewer";
@@ -24,8 +23,6 @@ import AccountDash from "../screens/App/Trainer/AccountDash";
 import {appTheme} from "../constants/colors";
 import AccountStatement from "../screens/App/Trainer/AccountStatement";
 import AddAccount from "../screens/App/Trainer/AddAccount";
-import StreamScreen from "../screens/Social/StreamScreen";
-import ShowStreamVideo from "../screens/Social/ShowStreamVideo";
 import SelectExercise from "../screens/Fitness/SelectExercise";
 import Exercises from "../screens/Fitness/Exercises";
 import PerformExercise from "../screens/Fitness/PerformExercise";
@@ -42,11 +39,14 @@ import Calorie1 from "../screens/Fitness/Calorie1";
 import PdfViewer from "../screens/App/PdfViewer";
 import Sessions from "../screens/App/Sessions";
 
+// All the application screens outside tab navigator are defined here
+// There are some user and some trainer specific screens defined
 const rootStack = () => {
   let {userType} = store.getState().user;
   const isTrainer = userType === userTypes.TRAINER;
   return (
     <Stack.Navigator screenOptions={defaultHeaderStyle}>
+      {/*Root tab navigator*/}
       <Stack.Screen name={RouteNames.RootTab} component={AppTabNavigator} options={{title: '', headerShown: false,}}/>
       <Stack.Screen
         name={RouteNames.MyProfile}
@@ -229,24 +229,6 @@ const rootStack = () => {
         component={Speech}
         options={{
           title: "Speech",
-        }}
-      />
-      <Stack.Screen
-        name={RouteNames.StreamScreen}
-        component={StreamScreen}
-        options={{
-          title: "Stream",
-        }}
-      />
-      <Stack.Screen
-        name={RouteNames.ShowStreamVideo}
-        component={ShowStreamVideo}
-        options={{
-          title: "See videos",
-          headerTintColor: appTheme.darkBackground,
-          headerStyle: {
-            backgroundColor: appTheme.brightContent,
-          },
         }}
       />
       <Stack.Screen

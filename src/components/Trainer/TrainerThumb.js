@@ -4,11 +4,8 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native'
 import PropTypes from 'prop-types';
-import {AirbnbRating} from "react-native-ratings";
 
 import Avatar from '../Avatar';
-import strings from "../../constants/strings";
-
 import {spacing} from "../../constants/dimension";
 import {toTitleCase} from "../../utils/utils";
 import fontSizes from "../../constants/fontSizes";
@@ -18,7 +15,6 @@ import HitsList from "../HitsList";
 import PackagePreviewList from './PackagePreviewList';
 
 const trainerThumb = (props) => {
-
   return (
     <View>
       <TouchableOpacity onPress={props.onPress} activeOpacity={0.7}>
@@ -31,11 +27,9 @@ const trainerThumb = (props) => {
             <Text style={styles.location}>{toTitleCase(props.location)}</Text>
           </View>
         </View>
-
         <View style={styles.extraContent}>
           <HitsList hits={props.hits} size={fontSizes.h3}/>
         </View>
-
       </TouchableOpacity>
       {
         props.packages && props.packages.length > 0 && (
@@ -63,7 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   displayName: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h1,
     fontFamily: fonts.PoppinsSemiBold
   },
@@ -95,7 +89,6 @@ const styles = StyleSheet.create({
   packageListContainer: {
     width: '100%',
     marginTop: spacing.medium_sm,
-    // backgroundColor:appTheme.grey,
     padding: spacing.small,
     zIndex: 100
   },
@@ -121,15 +114,11 @@ const styles = StyleSheet.create({
     marginLeft: spacing.medium_lg,
     width: '60%'
   },
-  rating: {
-    // marginTop: spacing.small,
-  },
+  rating: {},
   experienceContainer: {
     flexDirection: 'row',
     alignItems: 'center'
   }
-
-
 });
 
 export default React.memo(trainerThumb);

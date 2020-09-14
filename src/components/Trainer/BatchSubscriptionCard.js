@@ -3,6 +3,8 @@
  */
 import React, {useState} from "react";
 import {StyleSheet, Text, View, TouchableOpacity, FlatList, LayoutAnimation} from 'react-native'
+import Entypo from "react-native-vector-icons/Entypo";
+
 import {spacing} from "../../constants/dimension";
 import {appTheme} from "../../constants/colors";
 import Avatar from "../Avatar";
@@ -11,7 +13,6 @@ import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
 import CallButton from "../CallButton";
 import DaysRow from "../DaysRow";
-import Entypo from "react-native-vector-icons/Entypo";
 
 const batchSubscriptionCard = (props) => {
   const [expanded, setExpanded] = useState(false);
@@ -65,7 +66,6 @@ const batchSubscriptionCard = (props) => {
           <Text style={styles.subtitle}>{strings.SUBSCRIPTIONS}</Text>
           <Text style={styles.contentText}>{props.participants}</Text>
         </View>
-        {/*<CallButton onPress={props.onPressCall}/>*/}
       </View>
       <View style={styles.separator}/>
 

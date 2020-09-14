@@ -12,12 +12,12 @@ import RtcEngine, {RtcLocalView, RtcRemoteView} from 'react-native-agora';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import KeepAwake from 'react-native-keep-awake';
 import AndroidPip from 'react-native-android-pip';
+import {connect} from "react-redux";
 
 import {callTimeout, videoFeedConfig} from "../../constants/appConstants";
 import strings from "../../constants/strings";
 import {customDelay} from "../../utils/utils";
 import * as actionCreators from "../../store/actions";
-import {connect} from "react-redux";
 import {screenHeight, screenWidth} from "../../utils/screenDimensions";
 import colors, {appTheme} from "../../constants/colors";
 import {showError} from "../../utils/notification";
@@ -27,7 +27,7 @@ import Avatar from "../../components/Avatar";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import CallBackground from "../../../assets/images/callBackground.png";
-import {endAgoraSession, setAvailable, setBusy} from "../../API"; //Set defaults for Stream
+import {endAgoraSession, setAvailable, setBusy} from "../../API";
 
 let LocalView = RtcLocalView.SurfaceView;
 let RemoteView = RtcRemoteView.SurfaceView;
@@ -38,10 +38,10 @@ class VideoCall extends Component {
     super(props);
     const {params} = props.route;
     const {
-      AppID,
-      ChannelName,
-      videoConfig = videoFeedConfig,
-      initiating = false
+      AppID, // Agora app id, derived from account
+      ChannelName, // unique session id, both users should have it for the call
+      videoConfig = videoFeedConfig, // quality, bitrate, dimensions
+      initiating = false, // Is the user initiating or receiving the call?
     } = params;
 
     this.state = {
@@ -57,6 +57,7 @@ class VideoCall extends Component {
   }
 
   handleCallTimeout = async () => {
+    // After timeout, end call and exit screen
     if (this.state.peerIds.length === 0) {
       showError(strings.CALL_TIMEOUT)
       await customDelay(1000);
@@ -65,16 +66,17 @@ class VideoCall extends Component {
   }
 
   switchCamera = () => {
+    // Toggle front/rear camera
     engine.switchCamera();
   }
 
   componentDidMount() {
-    AndroidPip.enableAutoPipSwitch();
+    AndroidPip.enableAutoPipSwitch(); // Pressing home button will enter PIP mode
     this.callTimeouter = setTimeout(() => this.handleCallTimeout(), callTimeout);
 
     AppState.addEventListener("change", this._handleAppStateChange);
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', function () {
-      AndroidPip.enterPictureInPictureMode();
+      AndroidPip.enterPictureInPictureMode(); // Pressing back will enter PIP mode
       return true;
     });
 
@@ -100,7 +102,7 @@ class VideoCall extends Component {
 
       engine.addListener('JoinChannelSuccess', (data) => {          //If Local user joins RTC channel
         self.setState({joinSucceed: true});                       //Set state variable to true
-        setBusy();
+        setBusy(); // Set that user is now busy and cannot take calls
       });
       engine.joinChannel(null, self.state.channelName, null, 0);  //Join Channel using null token and channel name
     }
@@ -109,15 +111,15 @@ class VideoCall extends Component {
   }
 
   componentWillUnmount() {
-    setAvailable();
-    this.endAgoraSession();
+    setAvailable(); // Set that user is available for taking calls
+    this.endAgoraSession(); // API call thats informs that this sessionID has ended
     this.backHandler.remove();
     clearTimeout(this.callTimeouter);
-    AndroidPip.disableAutoPipSwitch();
+    AndroidPip.disableAutoPipSwitch(); // Disable automatic switching to PIP mode
     AppState.removeEventListener("change", this._handleAppStateChange);
   }
 
-  endAgoraSession = async()=>{
+  endAgoraSession = async () => {
     await endAgoraSession(this.state.channelName);
     this.props.syncSessions();
   }
@@ -128,7 +130,7 @@ class VideoCall extends Component {
       nextAppState === "active"
     ) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      this.forceUpdate();
+      this.forceUpdate(); // Force update the layout, necessary as layout often breaks when toggling PIP mode
       console.log("App has come to the foreground!");
     }
     this.setState({appState: nextAppState});
@@ -138,7 +140,7 @@ class VideoCall extends Component {
    * @name toggleAudio
    * @description Function to toggle local user's audio
    */
-  toggleAudio=() =>{
+  toggleAudio = () => {
     let mute = this.state.audMute;
     console.log('Audio toggle', mute);
     engine.muteLocalAudioStream(!mute);
@@ -186,6 +188,7 @@ class VideoCall extends Component {
   }
 
   renderInitiation = () => {
+    // Render initiating call UI
     const {params} = this.props.route;
     const {
       displayPictureUrl,
@@ -214,6 +217,7 @@ class VideoCall extends Component {
   }
 
   renderLocalUser = () => {
+    // Render me
     if (this.state.peerIds.length === 0)
       return this.renderInitiation();
 
@@ -238,6 +242,7 @@ class VideoCall extends Component {
   }
 
   renderButtonBar = () => {
+    // In call options
     return (
       <View style={styles.buttonBar}>
         <TouchableOpacity
@@ -280,7 +285,7 @@ class VideoCall extends Component {
         {
           this.state.peerIds.length > 0
             ? this.renderRemoteUser()
-            : null
+            : null // more than 1 remote users not handled. Add view layer here if more than 1 users are needed in future
         }
         {this.renderLocalUser()}
         {this.renderButtonBar()}
@@ -289,6 +294,7 @@ class VideoCall extends Component {
   }
 
   pipView = () => {
+    // Minimal UI for PIP mode
     const localVideoStyle = {flex: 1};
     if (this.state.peerIds.length > 0)
       return this.renderRemoteUser();
@@ -300,9 +306,6 @@ class VideoCall extends Component {
   }
 
   render() {
-    // return <View/>
-    // return   <LocalView style={styles.localVideoStyle}               //view for local videofeed
-    //                     channelId={this.state.channelName} renderMode={1} zOrderMediaOverlay={true}/>;
     if (this.state.appState === 'active')
       return (
         <ToggleView key={1} delayHide={true} style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>

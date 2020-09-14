@@ -1,5 +1,5 @@
 import React from "react";
-
+// Abstract colors
 const colors = {
   appBlue: '#1177f3',
   bgGrey: '#f1f1f1',
@@ -9,6 +9,7 @@ const colors = {
   acceptGreen: '#4bd35f',
   rejectRed: '#f7392e'
 }
+// Main palette currently being used
 export const darkPallet = {
   extraDarkBlue: '#20222f',
   darkGrey: '#2b2d37',
@@ -48,6 +49,7 @@ export const getRandomGradient = () => {
   return darkPallet.gradients[gradients[index]];
 }
 
+// Experimental palettes
 const purplePalette = {
   light: '#4b5d67',
   dark: '#322f3d',
@@ -74,6 +76,7 @@ const shinyBlue = {
   secondary: '#ffbd69'
 }
 
+// Main Object that app uses, change color references in this object to affect app theme
 export const appTheme = {
   darkBackground: darkPallet.extraDarkBlue,
   background: darkPallet.darkBlue,
@@ -95,6 +98,7 @@ export const appTheme = {
   textPrimary:'white',
 }
 
+// Experimental, newer colors
 export const bmiColors = {
   blue:'#4da9e7',
   lightBlue:'#00e6cf',

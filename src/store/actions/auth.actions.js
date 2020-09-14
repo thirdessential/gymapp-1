@@ -14,10 +14,12 @@ export const syncFirebaseAuth = (idToken, fcmToken) => {
   return async (dispatch, getState) => {
     try {
       const userType = getState().user.userType;
+      // Attempt to login using userType, if the user already exists, the userType property is ignored
+      // In that case, existing userType property will be returned.
       let result = await API.firebaseGoogleAuth(idToken, fcmToken, userType);
       if (result) {
         const {userId, authToken, userType, userData, isNewUser} = result;
-        await dispatch(setAuthToken(authToken));
+        await dispatch(setAuthToken(authToken)); // update axios token and save it
         await dispatch(genericUserFieldSetter({
           userId,
           userType,

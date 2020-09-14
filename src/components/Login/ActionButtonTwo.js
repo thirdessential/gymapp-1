@@ -1,5 +1,6 @@
 import React from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {appTheme} from "../../constants/colors";
 
 const ActionButtonTwo = (props) => {
   return (
@@ -18,7 +19,7 @@ const styles = StyleSheet.create(
       marginTop: 20
     },
     label: {
-      color: 'white',
+      color:appTheme.textPrimary,
       fontSize: 16,
     }
   }

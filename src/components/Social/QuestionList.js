@@ -16,7 +16,6 @@ import {spacing} from "../../constants/dimension";
 import Post from "../../components/Social/Post";
 import AnswerList from "./AnswerList";
 import AnswerInput from "./AnswerInput";
-import {likeAnswer, unlikeAnswer} from "../../API";
 
 const questionList = (props) => {
   const {

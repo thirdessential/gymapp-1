@@ -6,9 +6,8 @@ import {appTheme} from "../../constants/colors";
 
 class PdfViewer extends React.Component {
   render() {
-    // source must be in the format {uri:url}, or must be a direct reference to an asset
+    // source must be in the format {uri:url}, or must be a direct reference to an asset, refer package docs
     const {source} = this.props.route.params;
-
     return (
       <View style={styles.container}>
         <Pdf

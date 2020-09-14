@@ -4,6 +4,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native'
 import PropTypes from 'prop-types';
+
 import fontSizes from "../constants/fontSizes";
 import {textSlicer} from "../utils/utils";
 import strings from "../constants/strings";
@@ -15,7 +16,6 @@ const ExpandingText = (props) => {
 
   const buttonContent = sliced ? strings.SEE_MORE : strings.SEE_LESS;
   let disabled = children.length < contentLength;
-
   return (
     <TouchableOpacity disabled={disabled} onPress={() => setSliced(!sliced)} style={styles.container}>
       <Text style={[styles.textStyle, style]}>
@@ -28,7 +28,6 @@ const ExpandingText = (props) => {
             </Text>
           )
         }
-
       </Text>
     </TouchableOpacity>
   );

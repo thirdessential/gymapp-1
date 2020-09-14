@@ -1,6 +1,3 @@
-/**
- * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
- */
 import React, {Component} from "react";
 import {
   View,
@@ -10,9 +7,13 @@ import {
   ScrollView,
   Image,
   TextInput,
-  FlatList, LayoutAnimation, ActivityIndicator, Keyboard,
+  FlatList,
+  LayoutAnimation,
+  ActivityIndicator,
+  Keyboard,
 } from "react-native";
 import {connect} from "react-redux";
+import Entypo from "react-native-vector-icons/Entypo";
 
 import {appTheme} from "../../../constants/colors";
 import fontSizes from "../../../constants/fontSizes";
@@ -21,9 +22,6 @@ import strings from "../../../constants/strings";
 import {spacing} from "../../../constants/dimension";
 import {iconBackgrounds} from "../../../constants/images";
 import * as actionCreators from "../../../store/actions";
-import RouteNames from "../../../navigation/RouteNames";
-import Entypo from "react-native-vector-icons/Entypo";
-import {showMessage} from "react-native-flash-message";
 import {showError, showSuccess} from "../../../utils/notification";
 
 const initialState = {
@@ -117,26 +115,26 @@ class AddAccount extends Component {
   };
   renderItem = (item) => {
     return (
-      <View style={styles.flatlistcard}>
-        <View style={styles.accandifsc}>
-          <View style={styles.showaccountnumber}>
+      <View style={styles.flatListCard}>
+        <View style={styles.accAndIfsc}>
+          <View style={styles.showAccountNumber}>
             <Text style={{color: "#CCC", paddingLeft: 6}}>
               {item.accountNumber}
             </Text>
           </View>
-          <View style={styles.ifscflatlist}>
+          <View style={styles.ifscFlatList}>
             <Text style={{color: "#CCC", paddingLeft: 6}}>
               {item.ifscCode}
             </Text>
           </View>
         </View>
         <View style={{marginTop: spacing.medium}}>
-          <View style={styles.show_accounts_holdername}>
+          <View style={styles.showAccountsHolderName}>
             <Text style={{color: "#CCC", paddingLeft: 6}}>
               {item.holderName}
             </Text>
           </View>
-          <View style={styles.show_accounts_holdername}>
+          <View style={styles.showAccountsHolderName}>
             <Text style={{color: "#CCC", paddingLeft: 6}}>
               {item.bankName}
             </Text>
@@ -152,17 +150,17 @@ class AddAccount extends Component {
         <ScrollView style={{flex: 1}} keyboardShouldPersistTaps={'always'} showsVerticalScrollIndicator={false}>
           <View style={{flexDirection: "row", marginLeft: spacing.large_lg}}>
             <View style={{flex: 1, alignItems: "flex-start", marginTop: spacing.medium_sm}}>
-              <Text style={styles.bankaccountdetailstext}>{strings.BANK}</Text>
-              <Text style={styles.bankaccountdetailstext}>
+              <Text style={styles.bankAccountDetailsText}>{strings.BANK}</Text>
+              <Text style={styles.bankAccountDetailsText}>
                 {strings.ACCOUNT}
               </Text>
-              <Text style={styles.bankaccountdetailstext}>
+              <Text style={styles.bankAccountDetailsText}>
                 {strings.DETAILS}
               </Text>
             </View>
             <View style={{flex: 1, alignItems: "center", marginLeft: -20}}>
               <Image
-                source={iconBackgrounds.addaccount}
+                source={iconBackgrounds.addAccount}
                 style={{height: 150, width: 160}}
               />
             </View>
@@ -236,7 +234,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     borderRadius: 5,
   },
-  show_accounts_holdername: {
+  showAccountsHolderName: {
     backgroundColor: appTheme.background,
     marginHorizontal: 10,
     marginVertical: 10,
@@ -260,13 +258,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: appTheme.background,
   },
-  bankaccountdetailstext: {
-    color: "white",
+  bankAccountDetailsText: {
+    color: appTheme.textPrimary,
     fontSize: fontSizes.bigTitle,
     fontWeight: "bold",
     fontFamily: fonts.CenturyGothic,
   },
-  showaccountnumber: {
+  showAccountNumber: {
     backgroundColor: appTheme.background,
     alignSelf: "flex-start",
     flex: 4,
@@ -286,12 +284,12 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.h3,
     fontFamily: fonts.CenturyGothic,
   },
-  flatlistcard: {
+  flatListCard: {
     backgroundColor: appTheme.darkBackground,
     marginTop: 10,
     borderRadius: 10,
   },
-  ifscflatlist: {
+  ifscFlatList: {
     backgroundColor: appTheme.background,
     alignSelf: "flex-end",
     flex: 3,
@@ -300,7 +298,7 @@ const styles = StyleSheet.create({
     height: 45,
     justifyContent: "center",
   },
-  accandifsc: {
+  accAndIfsc: {
     flexDirection: "row",
     marginTop: spacing.medium,
     marginHorizontal: spacing.medium_sm,
@@ -339,7 +337,11 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothic,
 
   },
-  read: {color: "white", fontSize: fontSizes.h4, fontFamily: fonts.CenturyGothic},
+  read: {
+    color: appTheme.textPrimary,
+    fontSize: fontSizes.h4,
+    fontFamily: fonts.CenturyGothic
+  },
   listContainer: {
     marginTop: spacing.medium,
     borderRadius: 10,
@@ -347,4 +349,5 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.medium,
   }
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(AddAccount);

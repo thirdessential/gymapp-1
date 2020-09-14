@@ -1,26 +1,21 @@
 import React, {PureComponent} from "react";
 import {
   StyleSheet,
-  Image,
-  ImageBackground,
   Text,
   TouchableOpacity,
   View,
-  Keyboard,
-  Button,
 } from "react-native";
-import {connect} from "react-redux";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import FastImage from "react-native-fast-image";
+import {Bar} from "react-native-progress";
+
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
 import {spacing} from "../../constants/dimension";
 import {appTheme, bmiColors} from "../../constants/colors";
 import {screenWidth} from "../../utils/screenDimensions";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {hitSlop20} from "../../constants/styles";
-import FastImage from "react-native-fast-image";
-import {Bar} from "react-native-progress";
-import RouteNames from "../../navigation/RouteNames";
 import strings from "../../constants/strings";
 
 class PerformExercise extends PureComponent {
@@ -33,18 +28,18 @@ class PerformExercise extends PureComponent {
       stages: [],
       exercise: {},
       pause: true,
-      levelMultiplier:{
-        'BEGINNER':4,
-        'INTERMEDIATE':3,
-        'ADVANCED':2
+      levelMultiplier: {
+        'BEGINNER': 4,
+        'INTERMEDIATE': 3,
+        'ADVANCED': 2
       },
-      level:this.props.route.params.level
+      level: this.props.route.params.level
     };
   }
 
   init = async () => {
     await this.setState({
-      timer: this.state.reps[parseInt(this.state.currentRepIndex) - 1] *this.state.levelMultiplier[this.state.level] ,
+      timer: this.state.reps[parseInt(this.state.currentRepIndex) - 1] * this.state.levelMultiplier[this.state.level],
     });
     this.clockCall = setInterval(() => {
       this.decrementClock(this.state.timer > 1 ? this.state.timer : 1, this.state.pause);
@@ -240,7 +235,7 @@ class PerformExercise extends PureComponent {
                     //make it blue when we reach that exercise
                   }
                 >
-                  x{rep/this.state.levelMultiplier[this.state.level]}
+                  x{rep / this.state.levelMultiplier[this.state.level]}
                 </Text>
               </View>
             ) : null
@@ -268,7 +263,6 @@ class PerformExercise extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingHorizontal: spacing.medium_lg,
     backgroundColor: appTheme.textPrimary,
   },
   gifView: {
@@ -291,8 +285,6 @@ const styles = StyleSheet.create({
   buttonView: {
     flexDirection: "row",
     justifyContent: "space-around",
-    // borderColor: appTheme.greyC,
-    // borderTopWidth: 1,
     width: screenWidth,
     paddingVertical: spacing.medium_sm,
   },
@@ -304,7 +296,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
-
     flex: 1,
   },
   time: {
@@ -321,7 +312,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
   },
-  subtitle:{
+  subtitle: {
     fontSize: 30,
     fontFamily: fonts.CenturyGothic,
   }

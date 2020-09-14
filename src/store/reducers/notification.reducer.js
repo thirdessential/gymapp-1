@@ -7,9 +7,10 @@ const reducer = (state = initialState, action) => {
     case actionTypes.ADD_NOTIFICATION:
       const {notification} = action.payload;
       const notifications = [...state.notifications];
-      notifications.unshift(notification);
-      return updateObject(state, {notifications: notifications.slice(0, 50)});
+      notifications.unshift(notification); // Add notification to front of list
+      return updateObject(state, {notifications: notifications.slice(0, 50)}); // Keep only last 50 notifications
     case actionTypes.READ_NOTIFICATION: {
+      // Mark notification as read
       const {id} = action.payload;
       const notifications = state.notifications.map(notification => {
         if (notification.id === id)
@@ -19,6 +20,7 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, {notifications})
     }
     case actionTypes.CLEAR_ALL_NOTIFICATIONS:
+      // Delete all notifications
       return initialState;
     default:
       return state;

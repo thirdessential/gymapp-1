@@ -1,12 +1,10 @@
-// import {showMessage, hideMessage} from "react-native-flash-message";
-// import SocketIOClient from "socket.io-client";
-// import {CHANNELS, rootURL} from "../constants/appConstants";
+import ImagePicker from "react-native-image-picker";
+
 import {navigate} from "../navigation/RootNavigation";
 import RouteNames from "../navigation/RouteNames";
 import {makeCall} from "../API";
 import strings, {bmiVerdicts} from "../constants/strings";
 import {defaultDP, MONTH_NAMES, userTypes, WEEK_DAY_NAMES, WEEK_DAYS} from "../constants/appConstants";
-import ImagePicker from "react-native-image-picker";
 import {showError} from "./notification";
 import {bmiColors} from "../constants/colors";
 
@@ -26,8 +24,8 @@ export const formattedDayDate = (date) => {
   return `${dayName}, ${monthName} ${dateObj.getDate()}`;
 };
 export const roundTimeQuarterHour = (time) => {
+  // Round time to nearest quarter
   let timeToReturn = new Date(time);
-
   timeToReturn.setMilliseconds(
     Math.round(timeToReturn.getMilliseconds() / 1000) * 1000
   );
@@ -37,6 +35,7 @@ export const roundTimeQuarterHour = (time) => {
 };
 
 export const militaryTimeToString = (time) => {
+  // Militart time expressed in HHMM, (1430, 1200 etc)
   if (!time) return "";
   const suffix = time >= 1200 ? "PM" : "AM";
   return `${time.slice(0, 2)}:${time.slice(2)} ${suffix}`;
@@ -48,11 +47,13 @@ export const formattedMilitaryRange = (time, duration) => {
   return `${formattedTime(time)}  -  ${formattedTime(timeObj)}`;
 };
 export const findMissingDays = (days) => {
+  // Find missing days in days array
   let AllDays = Object.values(WEEK_DAYS);
   return AllDays.filter((x) => !days.includes(x));
 };
 
 export const formatTimeArray = (array) => {
+  // Convert time array to military time
   if (!array) return [];
   return array.map((time) => militaryTimeToString(time));
 };
@@ -81,6 +82,7 @@ export const stringToDate = (time) => {
 };
 
 export const textSlicer = (text, length) => {
+  // Slice input text to desired length, appends ... at end
   if (!text) return "";
   if (length < 0) return text;
   if (text.length > length) {
@@ -90,11 +92,13 @@ export const textSlicer = (text, length) => {
 };
 
 export const getOSPath = (path) => {
+  // Platform dependent file path getter
   if (path.includes("content")) return path;
   return Platform.OS === "android" ? "file:/" + path : path;
 };
 
 export const updateObject = (oldObject, updatedValues) => {
+  // Utility method for merging old and new redux state
   return {
     ...oldObject,
     ...updatedValues,
@@ -102,6 +106,7 @@ export const updateObject = (oldObject, updatedValues) => {
 };
 
 export const initialiseVideoCall = async (userId) => {
+  // Initiate agora calls and navigate to route
   let result = await makeCall(userId);
   if (!result.success) {
     showError(result.message);
@@ -125,6 +130,7 @@ export const initialiseVideoCall = async (userId) => {
   });
 };
 
+// use it like this in any async method: await customDelay(100)
 export const customDelay = (duration) =>
   new Promise((resolve) => setTimeout(resolve, duration));
 
@@ -149,12 +155,7 @@ export const groupBy = (objectArray, property) => {
   }, {});
 };
 
-export const generateTrainerHits = ({
-                                      post,
-                                      transformation,
-                                      program,
-                                      slot,
-                                    }) => [
+export const generateTrainerHits = ({post, transformation, program, slot}) => [
   {
     title: strings.POSTS,
     count: post || 0,
@@ -196,6 +197,7 @@ export const getJoinDuration = (date) => {
 };
 
 export const getJoinDurationString = (date, userType) => {
+  // Shows since how many days has user been part of platform
   const entity = userType === userTypes.USER ? "User" : "Trainer";
   return `${entity} for ${getJoinDuration(date)} days`;
 };
@@ -214,6 +216,7 @@ export const sortDays = (arr) => {
 };
 
 export const getBmiVerdict = (bmi) => {
+  // Takes a bmi value and determines the status of user(healthy, obese etc)
   if (bmi < 18.5) return {text: bmiVerdicts.low, color: bmiColors.blue};
   if (bmi < 25)
     return {text: bmiVerdicts.healthy, color: bmiColors.lightBlue};
@@ -235,15 +238,16 @@ export const getThumbnail = (url, height = 400, width = 400) => {
   return compressedUrl.substr(0, compressedUrl.lastIndexOf(".")) + ".jpg";
 };
 export const getCompressedLink = (url, height = 400, width = 400) => {
+  // works only on cloudinary images, get image with input dimensions
   const split = url.split("upload");
   return split[0] + `upload/w_${width},h_${height}` + split[1];
 };
 
 export const getFormattedDate = (date = new Date()) => {
   date = new Date(date);
-  var dd = date.getDate();
-  var mm = date.getMonth() + 1;
-  var yyyy = date.getFullYear();
+  let dd = date.getDate();
+  let mm = date.getMonth() + 1;
+  let yyyy = date.getFullYear();
   if (dd < 10) {
     dd = "0" + dd;
   }
@@ -254,8 +258,10 @@ export const getFormattedDate = (date = new Date()) => {
   return date;
 };
 
-const getDaysArray = function (s, e) {
-  for (var a = [], d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
+const getDaysArray = function (start, end) {
+  // get array of dates between start and end(both included)
+  let a = [];
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
     a.push(new Date(d));
   }
   return a;
@@ -264,15 +270,18 @@ const getDaysArray = function (s, e) {
 export const getPastWeekDates = () => {
   const now = new Date();
   const weekAgo = new Date();
-  weekAgo.setDate(weekAgo.getDate() - 7);
+  weekAgo.setDate(weekAgo.getDate() - 6);
   return getDaysArray(weekAgo, now);
 }
 
 export const getImageFromCloudinaryPdf = (url) => {
+  // Input-> pdf url hosted on cloudinary
+  // Output->First page of pdf as image
   return url.split("pdf")[0] + "jpg";
 };
 
 export const fillArray = (value, len = 10) => {
+  // Return an array filled with len instances of value
   let arr = [];
   for (let i = 0; i < len; i++) {
     arr.push(value);

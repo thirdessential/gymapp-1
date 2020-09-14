@@ -21,25 +21,23 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ion from "react-native-vector-icons/Ionicons";
 import RBSheet from "react-native-raw-bottom-sheet";
+import {FlatGrid} from "react-native-super-grid";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 import {spacing} from "../../../constants/dimension";
 import * as actionCreators from "../../../store/actions";
-import colors, {appTheme, bmiColors, darkPallet} from "../../../constants/colors";
+import colors, {appTheme, bmiColors} from "../../../constants/colors";
 import strings from "../../../constants/strings";
 import fonts from "../../../constants/fonts";
 import fontSizes from "../../../constants/fontSizes";
 import {validatePackage} from "../../../utils/validators";
 import {showSuccess} from "../../../utils/notification";
-import {FlatGrid} from "react-native-super-grid";
-import ImageCard, {cardSize} from "../../../components/ImageCard";
+import {cardSize} from "../../../components/ImageCard";
 import {packageImages, packageTypes, WEEK_DAYS} from "../../../constants/appConstants";
 import {screenHeight, screenWidth} from "../../../utils/screenDimensions";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import Slot from "../../../components/Slot";
-import cuid from "cuid/index";
 import {dateToString} from "../../../utils/utils";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import NotificationList from "../../../components/NotificationList";
 
 class Packages extends PureComponent {
 
@@ -97,7 +95,7 @@ class Packages extends PureComponent {
     this.props.navigation.goBack()
   }
   setCategory = (category) => {
-    const title = !!this.state.title && this.state.title!=='Sample Title' ? this.state.title : packageTypes[category];
+    const title = !!this.state.title && this.state.title !== 'Sample Title' ? this.state.title : packageTypes[category];
     this.setState({category, title});
     this.closeRbSheet();
   }
@@ -160,16 +158,7 @@ class Packages extends PureComponent {
       animationType={'slide'}
       closeOnDragDown={true}
       customStyles={{
-        container: {
-          padding: spacing.medium,
-          paddingBottom: 0,
-          backgroundColor: appTheme.darkBackground,
-          borderRadius: 10,
-          borderWidth: 1,
-          borderTopColor: appTheme.content,
-          borderRightColor: appTheme.content,
-          borderLeftColor: appTheme.content,
-        },
+        container: styles.rbContainer,
         wrapper: {
           backgroundColor: 'transparent'
         }
@@ -422,7 +411,7 @@ const styles = StyleSheet.create({
     height: 170
   },
   title: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h2,
     fontFamily: fonts.PoppinsRegular
   },
@@ -433,7 +422,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.PoppinsRegular
   },
   titleTextInput: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h0,
     fontFamily: fonts.PoppinsRegular,
     paddingLeft: 0
@@ -448,7 +437,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: spacing.small,
     paddingLeft: spacing.medium_lg,
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h2,
     fontFamily: fonts.PoppinsRegular,
     textAlignVertical: "top",
@@ -479,7 +468,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   categoryTitle: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h2,
     fontFamily: fonts.CenturyGothicBold,
     marginTop: spacing.medium_sm,
@@ -514,6 +503,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 2,
     backgroundColor: appTheme.darkBackground
+  },
+  rbContainer: {
+    padding: spacing.medium,
+    paddingBottom: 0,
+    backgroundColor: appTheme.darkBackground,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderTopColor: appTheme.content,
+    borderRightColor: appTheme.content,
+    borderLeftColor: appTheme.content,
   }
 });
 

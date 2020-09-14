@@ -6,7 +6,6 @@ import {View, StyleSheet, FlatList} from 'react-native'
 
 import PackageOverview from '../../components/Package/PackageOverview';
 import {spacing} from "../../constants/dimension";
-import {appTheme} from "../../constants/colors";
 
 const packageFlatList = (props) => {
 
@@ -50,7 +49,6 @@ const packageFlatList = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: appTheme.darkBackground,
   },
   listContainer: {
     justifyContent: 'center',

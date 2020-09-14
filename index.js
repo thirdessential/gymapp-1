@@ -6,7 +6,7 @@ import 'moment';
 import 'moment/locale/en-in';
 
 import {YellowBox} from 'react-native';
-// Have to do this to suppress a warning from some package
+// Have to do this to suppress a warning from a package
 YellowBox.ignoreWarnings(['Picker']);
 YellowBox.ignoreWarnings(['VirtualizedLists']); // Regretfully this has to be done
 import {AppRegistry} from 'react-native';

@@ -15,7 +15,6 @@ export {
   updateUserInfo,
   getUserInfo,
   getMyInfo,
-  getGlobalSlots,
   subscribeToPackage,
   bookAppointment,
   sendPaymentData,

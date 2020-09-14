@@ -6,11 +6,12 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SET_USER_LIST:
       return updateObject(state, action.payload);
-    case actionTypes.APPEND_USER_LIST:{
+    case actionTypes.APPEND_USER_LIST: {
       const {userList} = action.payload;
       const users = [...state.userList];
       return updateObject(state, {userList: users.concat(userList)});
     }
+    // extract individual user object from userList and store it in users object
     case actionTypes.SET_USER_FROM_USER_LIST: {
       let {userList} = action.payload;
       if (!userList) userList = state.userList;
@@ -23,13 +24,12 @@ const reducer = (state = initialState, action) => {
       const users = {...state.users};
       users[user._id] = user;
       return updateObject(state, {users});
-    case actionTypes.SET_GLOBAL_SLOTS:
-      return updateObject(state, action.payload);
+    // Sets a flag that indicates whether tutorial for a specific screen has been shown once
     case actionTypes.COPILOT_SCREEN_DONE:
-      const {copilotScreen}=action.payload
-      const oldCopilotScreens={...state.copilotScreen}
-      oldCopilotScreens[copilotScreen]=true;
-      return updateObject(state,{copilotScreen:oldCopilotScreens})
+      const {copilotScreen} = action.payload
+      const oldCopilotScreens = {...state.copilotScreen}
+      oldCopilotScreens[copilotScreen] = true;
+      return updateObject(state, {copilotScreen: oldCopilotScreens})
     default:
       return state;
   }

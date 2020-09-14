@@ -31,7 +31,6 @@ class NotificationList extends PureComponent {
 
     const {sentDate} = item;
     const date = new Date(sentDate);
-    // console.log(date), sentDate;
     const bgStyle = {backgroundColor: index % 2 ? appTheme.background : appTheme.darkGrey};
     return (
       <MenuOption
@@ -225,7 +224,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     marginLeft: -5,
     marginTop: -5,
-    backgroundColor: "white",
+    backgroundColor: appTheme.textPrimary,
     borderRadius: 20,
     height: 20,
     width: 20,

@@ -24,7 +24,6 @@ export {
   setUserList,
   updateUsersList,
   setUser,
-  updateGlobalSlots,
   updateScreenCopilots
 } from "./app.actions";
 
@@ -83,5 +82,4 @@ export {
   addNotification,
   readNotification,
   clearAllNotifications,
-  syncNotifications,
 } from './notification.actions';

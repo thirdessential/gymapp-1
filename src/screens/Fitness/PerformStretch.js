@@ -1,25 +1,22 @@
-import React, { PureComponent } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, {PureComponent} from "react";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import FastImage from "react-native-fast-image";
-import { Bar } from "react-native-progress";
+import {Bar} from "react-native-progress";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
-import { spacing } from "../../constants/dimension";
-import { appTheme } from "../../constants/colors";
-import { screenWidth } from "../../utils/screenDimensions";
-import { hitSlop20 } from "../../constants/styles";
+import {spacing} from "../../constants/dimension";
+import {appTheme} from "../../constants/colors";
+import {screenWidth} from "../../utils/screenDimensions";
+import {hitSlop20} from "../../constants/styles";
 
 class PerformStretch extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      exercise: {},
-      timer: 45,
-      pause: true,
-    };
+  state = {
+    exercise: {},
+    timer: 45,
+    pause: true,
   }
 
   init = async () => {
@@ -78,9 +75,9 @@ class PerformStretch extends PureComponent {
   );
 
   setExerciseData = () => {
-    const { exercise } = this.props.route.params;
+    const {exercise} = this.props.route.params;
 
-    this.setState({ exercise });
+    this.setState({exercise});
   };
 
   renderExerciseName = () => (
@@ -100,7 +97,7 @@ class PerformStretch extends PureComponent {
       <TouchableOpacity
         hitSlop={hitSlop20}
         onPress={() => {
-          this.setState({ timer: 45 });
+          this.setState({timer: 45});
         }}
       >
         <MaterialCommunityIcons
@@ -112,7 +109,7 @@ class PerformStretch extends PureComponent {
       <TouchableOpacity
         hitSlop={hitSlop20}
         onPress={() => {
-          this.setState({ pause: !this.state.pause });
+          this.setState({pause: !this.state.pause});
         }}
       >
         <Ionicons
@@ -139,7 +136,7 @@ class PerformStretch extends PureComponent {
   renderProgressBar = () => {
     let progress;
     progress = 1 - this.state.timer / 45;
-    return <Bar progress={progress} width={null} color="green" />;
+    return <Bar progress={progress} width={null} color="green"/>;
   };
 
   render() {
@@ -148,7 +145,7 @@ class PerformStretch extends PureComponent {
         {this.renderExerciseName()}
         {this.renderGif()}
         <View style={styles.timerView}>{this.showTime()}</View>
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           {this.renderProgressBar({
             /* this.state.timer,
             this.state.reps[this.state.currentRepIndex - 1] */
@@ -198,7 +195,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
-
     flex: 1,
   },
   time: {

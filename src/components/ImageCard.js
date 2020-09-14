@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     width: screenWidth / 3.5
   },
   title: {
-    color: 'white',
+    color: appTheme.textPrimary,
     fontSize: fontSizes.h2,
     fontFamily: fonts.CenturyGothicBold,
     marginTop: spacing.medium_sm,
