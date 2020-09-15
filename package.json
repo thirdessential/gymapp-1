@@ -9,7 +9,7 @@
     "test": "jest",
     "lint": "eslint .",
     "irel": "cd android && ./gradlew installRelease",
-    "rel": "cd android && ./gradlew assembleRelease",
+    "rel": "cd android && gradlew assembleRelease",
     "clean": "cd android && ./gradlew clean",
     "rebuild": "yarn clean && yarn rel",
     "jetify": "npx jetify"
