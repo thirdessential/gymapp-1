@@ -98,7 +98,8 @@ export default class ForgotPassword extends Component {
               <Icon name="mail" color={appTheme.brightContent} size={25}/>
               <Input
                 onChangeText={(text) => {
-                  this.setEmail(text);
+                  this.setState({email:text})
+                  // this.setEmail(text);
                 }}
                 style={styles.input}
                 placeholder="Email"
@@ -111,7 +112,7 @@ export default class ForgotPassword extends Component {
             <TouchableOpacity
               disabled={!this.state.email}
               style={{marginTop: 30, marginRight: 10}}
-              onPress={this.resetPassword()}
+              onPress={()=>this.resetPassword()}
             >
               <View style={styles.circleButton}>
                 <Feather name="arrow-right" color="white" size={30}/>

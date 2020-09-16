@@ -28,6 +28,7 @@ export const updateUsersList = (page = '') => {
     try {
 
       let {users, nextPage} = await API.listUsers(page === INITIAL_PAGE ? null : page);
+      console.log(users,'-------------------------------')
       if (users) {
         if (page === INITIAL_PAGE)
           await dispatch(setUserList(users)); // initialise list from scratch

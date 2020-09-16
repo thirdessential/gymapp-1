@@ -9,6 +9,7 @@ import {
   StatusBar,
   ActivityIndicator,
   LayoutAnimation,
+  Text
 } from 'react-native'
 import {connect} from "react-redux";
 
@@ -111,7 +112,8 @@ class UserListing extends Component {
           />
           {
             userList.length === 0 && (
-              <ActivityIndicator style={{position: 'absolute'}} color={appTheme.brightContent} size={50}/>
+              <View style={{position: 'absolute'}}><Text  style={{color:appTheme.brightContent}}>No data Found</Text></View>
+              // <ActivityIndicator style={{position: 'absolute'}} color={appTheme.brightContent} size={50}/>
             )
           }
         </View>

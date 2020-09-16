@@ -1,14 +1,15 @@
 import {cardBackgrounds} from "./images";
 import {appTheme, bmiColors} from "./colors";
 
-let apiUrl = 'https://fitness-first-services.herokuapp.com';
+let apiUrl = 'http://192.168.211.1:3001';
 if (__DEV__) {
   console.log('Development Server');
-  // apiUrl = 'https://fitness-first-services.herokuapp.com';
-  apiUrl = 'http://192.168.31.125:3001';
+  apiUrl = 'https://gymaddaservices.herokuapp.com';
+  // apiUrl = 'http://192.168.211.1:3001';
 } else {
   console.log('Production Server');
-  apiUrl = 'https://fitness-first-services.herokuapp.com';
+  apiUrl = 'https://gymaddaservices.herokuapp.com';
+  // apiUrl = 'https://fitness-first-services.herokuapp.com';
 }
 export const rootURL = apiUrl;
 export const appName = 'GymAdda';
@@ -82,7 +83,7 @@ export const imageTypes = {
     }
   }
 }
-export const defaultDP = 'https://media.istockphoto.com/photos/middle-aged-gym-coach-picture-id475467038';
+export const defaultDP = 'https://i.stack.imgur.com/l60Hf.png';
 // Razorpay paymentKey
 export const paymentKey = 'rzp_test_BuIiL164HHvbBm';
 
