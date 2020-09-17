@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.preventscreenshotandroid.PreventScreenshotAndroidPackage;
+import com.rn.full.screen.FullScreenModule;
+import com.rn.full.screen.FullScreenModule;
 import io.agora.rtc.react.RCTAgoraRtcPackage;
 
 import net.no_mad.tts.TextToSpeechPackage;

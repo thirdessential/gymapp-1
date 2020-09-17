@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   Text,
   ScrollView,
+  Image
 } from "react-native";
 import {connect} from "react-redux";
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -101,7 +102,7 @@ class Community extends Component {
   renderPosts = () => {
     const {posts, postDetails, likePost, unlikePost, reportPost, deletePost} = this.props;
     if (!posts || posts.length === 0)
-      return this.loader();
+      return <Image source = {require('../../../assets/images/404-v.png')}></Image>
     return (
       <PostList
         posts={posts.map(postId => postDetails[postId])}

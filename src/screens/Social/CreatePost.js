@@ -225,7 +225,7 @@ class CreatePost extends PureComponent {
     if (result) {
       updatePosts();
       updateMyPosts();
-      showSuccess("Post shared");
+      showSuccess("Approval awaited");
     } else {
       showError("Video upload failed, try again");
     }
@@ -249,7 +249,7 @@ class CreatePost extends PureComponent {
     if (result) {
       updatePosts();
       updateMyPosts();
-      showSuccess("Post shared");
+      showSuccess("Approval awaited");
       navigation.goBack();
     } else {
       showError("Post creation failed, try again");

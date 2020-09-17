@@ -80,6 +80,8 @@ target 'FitnessFirst' do
 
   pod 'react-native-agora', :path => '../node_modules/react-native-agora'
 
+  pod 'react-native-prevent-screenshot-android', :path => '../node_modules/react-native-prevent-screenshot-android'
+
   target 'FitnessFirstTests' do
     inherit! :complete
     # Pods for testing
