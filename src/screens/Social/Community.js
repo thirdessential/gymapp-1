@@ -123,7 +123,7 @@ class Community extends Component {
   renderQuestions = () => {
     const {questions, reportQuestion, postDetails} = this.props;
     if (!questions || questions.length === 0)
-      return this.loader();
+      return <Image source = {require('../../../assets/images/404-v.png')}></Image>
     return (
       <QuestionList
         questions={questions.map(questionId => postDetails[questionId])}
