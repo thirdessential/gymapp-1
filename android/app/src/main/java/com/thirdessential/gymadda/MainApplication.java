@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import io.xogus.reactnative.versioncheck.RNVersionCheckPackage;
 import com.preventscreenshotandroid.PreventScreenshotAndroidPackage;
 import com.rn.full.screen.FullScreenModule;
 import com.rn.full.screen.FullScreenModule;

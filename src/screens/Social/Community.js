@@ -123,7 +123,7 @@ class Community extends Component {
   renderQuestions = () => {
     const {questions, reportQuestion, postDetails} = this.props;
     if (!questions || questions.length === 0)
-      return <Image source = {require('../../../assets/images/404-v.png')}></Image>
+      return <Image style={styles.nodata} source= {require('../../../assets/images/404-v.png')} />
     return (
       <QuestionList
         questions={questions.map(questionId => postDetails[questionId])}
@@ -321,6 +321,14 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothic,
     marginBottom: spacing.medium_sm,
   },
+  nodata:{
+    height:200,
+    width:200,
+    flexDirection:'column',
+    justifyContent:'center',
+    alignSelf:'center',
+    top:'40%'
+  }
 });
 
 const mapStateToProps = (state) => ({

@@ -8,11 +8,12 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "irel": "cd android && ./gradlew installRelease",
+    "irel": "cd android && gradlew installRelease",
     "rel": "cd android && gradlew assembleRelease",
-    "clean": "cd android && ./gradlew clean",
+    "clean": "cd android && gradlew clean",
     "rebuild": "yarn clean && yarn rel",
-    "jetify": "npx jetify"
+    "jetify": "npx jetify",
+    "reconnect": "adb reverse tcp:8081 tcp:8081"
   },
   "dependencies": {
     "@react-native-community/art": "^1.2.0",
@@ -100,6 +101,7 @@
     "react-native-timeline-flatlist": "^0.7.3",
     "react-native-tts": "^3.2.0",
     "react-native-vector-icons": "^6.6.0",
+    "react-native-version-check": "^3.4.1",
     "react-native-video": "^5.1.0-alpha7",
     "react-native-video-compressor": "0.0.3",
     "react-native-video-controls": "^2.6.0",

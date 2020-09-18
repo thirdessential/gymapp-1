@@ -82,6 +82,8 @@ target 'FitnessFirst' do
 
   pod 'react-native-prevent-screenshot-android', :path => '../node_modules/react-native-prevent-screenshot-android'
 
+  pod 'react-native-version-check', :path => '../node_modules/react-native-version-check'
+
   target 'FitnessFirstTests' do
     inherit! :complete
     # Pods for testing

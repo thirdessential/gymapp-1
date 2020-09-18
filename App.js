@@ -1,10 +1,10 @@
-import React from 'react';
+import React,{ useEffect } from 'react';
 import {Platform, SafeAreaView, StyleSheet, UIManager} from "react-native";
 import {Provider} from "react-redux";
 import {PersistGate} from 'redux-persist/lib/integration/react';
 import FlashMessage from "react-native-flash-message";
 import {MenuProvider} from 'react-native-popup-menu';
-
+import VersionCheck from 'react-native-version-check';
 import store from './src/store/configureStore';
 import {persistor} from './src/store/configureStore';
 import AppStack from './src/navigation';
@@ -18,6 +18,12 @@ if (Platform.OS === 'android') {
 }
 
 export default function App() {
+  useEffect(() => {
+    VersionCheck.getLatestVersion()
+  .then(latestVersion => {
+    console.log(latestVersion,'--------------------------');    // 0.1.2
+  });
+  });
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
