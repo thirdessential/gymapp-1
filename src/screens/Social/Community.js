@@ -44,20 +44,36 @@ class Community extends Component {
     nextLiveStreamPage: INITIAL_PAGE,
     type: POST_TYPE.TYPE_POST,
     pageIndex: 0,
+    refreashing:false
   };
-  updatePosts = async () => {
+  updatePosts = async (refreash) => {
     const {updatePosts} = this.props;
     const {nextPostPage} = this.state;
+    console.log(refreash)
     if (!!nextPostPage)
       this.setState({nextPostPage: await updatePosts(nextPostPage)});
+      if(refreash===true){
+        this.setState({nextPostPage: await updatePosts(INITIAL_PAGE),refreashing:true});
+     setTimeout(()=>{
+this.setState({refreashing:false})
+     },1000)
+      }
+
+     
   };
-  updateQuestions = async () => {
+  updateQuestions = async (refreash) => {
     const {updateQuestions} = this.props;
     const {nextQuestionPage} = this.state;
     if (!!nextQuestionPage)
       this.setState({
         nextQuestionPage: await updateQuestions(nextQuestionPage),
       });
+      if(refreash===true){
+        this.setState({nextPostPage: await updatePosts(INITIAL_PAGE),refreashing:true});
+     setTimeout(()=>{
+this.setState({refreashing:false})
+     },1000)
+      }
   };
   updateLiveStreams = async () => {
     const {updateLiveStreams} = this.props;
@@ -72,10 +88,10 @@ class Community extends Component {
     this.props.navigation.navigate(RouteNames.LiveScheduler)
   }
 
-  componentDidMount() {
-    this.updatePosts();
-    this.updateQuestions();
-    this.updateLiveStreams();
+  componentDidMount(val) {
+    this.updatePosts(!!val);
+    this.updateQuestions(!!val);
+    this.updateLiveStreams(!!val);
   }
 
   openPost = (postId) => {
@@ -109,10 +125,12 @@ class Community extends Component {
         open={this.openPost}
         update={this.updatePosts}
         like={likePost}
+        refreash={(refreash)=>{this.updatePosts(refreash)}}
         unlike={unlikePost}
         report={reportPost}
         onProfilePress={this.openProfile}
         deletePost={deletePost}
+        refreashing={this.state.refreashing}
       />
     );
   };
@@ -133,6 +151,8 @@ class Community extends Component {
         onAnswerLike={likeAnswer}
         onAnswerDislike={unlikeAnswer}
         report={reportQuestion}
+        refreashing={this.state.refreashing}
+        refreash={(refreash)=>{this.updatePosts(refreash)}}
       />
     );
   };

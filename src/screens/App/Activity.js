@@ -1,5 +1,5 @@
 import React, {PureComponent} from "react";
-import {StyleSheet, Text, View, ScrollView, LayoutAnimation} from "react-native";
+import {StyleSheet, Text, View, ScrollView,RefreshControl , LayoutAnimation} from "react-native";
 import {connect} from "react-redux";
 import {Menu, MenuOption, MenuOptions, MenuTrigger, renderers} from "react-native-popup-menu";
 
@@ -40,6 +40,7 @@ class Activity extends PureComponent {
   }
 
   componentDidMount() {
+
     const {
       updateUserData,
       syncCoupons,
@@ -241,10 +242,21 @@ class Activity extends PureComponent {
       </View>
     )
   }
-
+  _onRefresh = () => {
+    this.setState({refreshing: true});
+    this.componentDidMount()
+   
+  }
   render() {
     return (
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+      <ScrollView 
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={this._onRefresh}
+        />
+      }
+      showsVerticalScrollIndicator={false} style={styles.container}>
         <View style={styles.sessionContainer}>
           <Text style={styles.subtitle}>{strings.UPCOMING_STREAMS}</Text>
           {this.renderUpcomingStreams()}

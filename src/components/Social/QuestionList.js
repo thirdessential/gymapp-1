@@ -7,6 +7,7 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
+  RefreshControl
 } from 'react-native'
 
 import store from '../../store/configureStore';
@@ -19,7 +20,7 @@ import AnswerInput from "./AnswerInput";
 
 const questionList = (props) => {
   const {
-    questions, update, onCreateAnswer,onAnswerLike,onAnswerDislike,report, onProfilePress = () => {
+    questions, update, onCreateAnswer,onAnswerLike,onAnswerDislike,report, onProfilePress,refreashing,refreash = () => {
     }
   } = props;
 
@@ -73,6 +74,8 @@ const questionList = (props) => {
           onEndReachedThreshold={0.5}
           ItemSeparatorComponent={itemSeparator}
           keyboardShouldPersistTaps={'always'}
+          refreshControl={<RefreshControl refreshing={refreashing} onRefresh={()=>{refreash(true)}} />}
+
         />
         {
           !questions && (

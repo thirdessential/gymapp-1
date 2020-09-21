@@ -8,6 +8,7 @@ import {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
+  RefreshControl 
 } from 'react-native'
 
 import store from '../../store/configureStore';
@@ -17,7 +18,7 @@ import Post from "../../components/Social/Post";
 
 const postList = (props) => {
   const {
-    posts, open, update, like, unlike, report, deletePost, onProfilePress = () => {
+    posts, open, update, like, unlike, report, deletePost, onProfilePress,refreash,refreashing = () => {
     }
   } = props;
 
@@ -79,6 +80,7 @@ const postList = (props) => {
           onEndReached={update}
           onEndReachedThreshold={0.5}
           ItemSeparatorComponent={itemSeparator}
+          refreshControl={<RefreshControl refreshing={refreashing} onRefresh={()=>{refreash(true)}} />}
         />
         {
           !posts && (
