@@ -1,5 +1,5 @@
 import React, {PureComponent} from "react";
-import {StyleSheet, Text, View, ScrollView,RefreshControl , LayoutAnimation} from "react-native";
+import {StyleSheet, Text, View, ScrollView, LayoutAnimation, TouchableOpacity} from "react-native";
 import {connect} from "react-redux";
 import {Menu, MenuOption, MenuOptions, MenuTrigger, renderers} from "react-native-popup-menu";
 
@@ -40,7 +40,6 @@ class Activity extends PureComponent {
   }
 
   componentDidMount() {
-
     const {
       updateUserData,
       syncCoupons,
@@ -212,6 +211,11 @@ class Activity extends PureComponent {
       <View style={[styles.sessionContainer, styles.card]}>
         <View style={styles.row}>
           <Text style={styles.subtitle}>{strings.HEALTH_SUMMARY}</Text>
+          <TouchableOpacity 
+            style={styles.calorieButton}
+            onPress={() => this.props.navigation.navigate(RouteNames.CalorieCounter)}>
+              <Text style={styles.calorieText}>Calorie</Text>
+          </TouchableOpacity>
           <Menu
             style={styles.menuContainer}
             rendererProps={{
@@ -247,16 +251,17 @@ class Activity extends PureComponent {
     this.componentDidMount()
    
   }
+
   render() {
     return (
-      <ScrollView 
+      <ScrollView
       refreshControl={
         <RefreshControl
           refreshing={false}
           onRefresh={this._onRefresh}
         />
       }
-      showsVerticalScrollIndicator={false} style={styles.container}>
+       showsVerticalScrollIndicator={false} style={styles.container}>
         <View style={styles.sessionContainer}>
           <Text style={styles.subtitle}>{strings.UPCOMING_STREAMS}</Text>
           {this.renderUpcomingStreams()}
@@ -299,6 +304,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: spacing.small,
     paddingHorizontal: spacing.small_lg
+  },
+  calorieButton : {
+    borderColor: appTheme.grey,
+    borderWidth: 1,
+    borderRadius: 8,
+    flexDirection: 'row',
+    backgroundColor: appTheme.darkBackground,
+    alignItems: 'center',
+    padding: spacing.small_lg,
+    paddingHorizontal: spacing.medium_sm
+  },
+  calorieText: {
+    color: appTheme.brightContent,
+    fontFamily: fonts.CenturyGothic,
+    fontSize: fontSizes.h3,
+    fontWeight : "bold",
+    textAlign: 'center'
   },
   menuTitle: {
     color: appTheme.brightContent,

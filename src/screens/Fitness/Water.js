@@ -29,7 +29,7 @@ const date = getFormattedDate();
 class Water extends PureComponent {
   state = {
     final: 0, //final water intake for today
-    waterIntake: 5000, //todays water intake
+    waterIntake: 0, //todays water intake
     target: DEFAULT_WATER_INTAKE_QUOTA, //target water intake
     show: true, //if user has updated bmi then only show this screen therefore boolean to mane screen
     data: [], //data which will be sent by redux in array consisting of date and amount of water intake
