@@ -2,22 +2,22 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import PropTypes from 'prop-types';
 import Entypo from "react-native-vector-icons/Entypo";
-import {AirbnbRating} from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 
-import {spacing} from "../../constants/dimension";
+import { spacing } from "../../constants/dimension";
 import HitsList from '../HitsList';
-import {userTypes} from "../../constants/appConstants";
-import {appTheme, darkPallet} from "../../constants/colors";
+import { userTypes } from "../../constants/appConstants";
+import { appTheme, darkPallet } from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import {toTitleCase} from "../../utils/utils";
+import { toTitleCase } from "../../utils/utils";
 import Avatar from "../Avatar";
 import CallButton from '../CallButton';
-import {screenWidth} from "../../utils/screenDimensions";
-import {hitSlop20} from "../../constants/styles";
+import { screenWidth } from "../../utils/screenDimensions";
+import { hitSlop20 } from "../../constants/styles";
 
 const ProfileOverview = (props) => {
   return (
@@ -45,7 +45,7 @@ const ProfileOverview = (props) => {
           <Text style={styles.location}>{toTitleCase(props.location)}</Text>
           {
             props.userType === userTypes.TRAINER && (
-              <View style={{alignItems: 'flex-start'}}>
+              <View style={{ alignItems: 'flex-start' }}>
                 <AirbnbRating
                   count={5}
                   showRating={false}
@@ -59,19 +59,21 @@ const ProfileOverview = (props) => {
           }
         </View>
         <View style={styles.avatarContainer}>
-          <Avatar url={props.dpUrl} size={spacing.thumbnailMed}/>
+          <Avatar url={props.dpUrl} size={spacing.thumbnailMed} />
         </View>
       </View>
-      <TouchableOpacity onPress={props.onHitsPress} activeOpacity={0.7} style={styles.profileHitsContainer}>
-        <HitsList hits={props.hits}/>
-        {
-          props.initiateVideoCallCallback && (
-            <View>
-              <CallButton onPress={props.initiateVideoCallCallback}/>
-            </View>
-          )
-        }
-      </TouchableOpacity>
+      {
+        props.userType === userTypes.USER && <TouchableOpacity onPress={props.onHitsPress} activeOpacity={0.7} style={styles.profileHitsContainer}>
+          <HitsList hits={props.hits} />
+          {
+            props.initiateVideoCallCallback && (
+              <View>
+                <CallButton onPress={props.initiateVideoCallCallback} />
+              </View>
+            )
+          }
+        </TouchableOpacity>
+      }
     </View>
   );
 }

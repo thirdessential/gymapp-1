@@ -176,7 +176,7 @@ class Profile extends Component {
 
         {
           // Request callback button for trainers
-          userType === userTypes.TRAINER && this.props.myUserType !== userTypes.TRAINER && (
+          userType === userTypes.TRAINER  && (
             <View style={styles.callbackContainer}>
               <TouchableOpacity disabled={this.state.requestingCallback} style={styles.callbackButton}
                                 onPress={this.requestCallback}>

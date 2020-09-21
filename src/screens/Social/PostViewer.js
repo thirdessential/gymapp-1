@@ -87,7 +87,7 @@ class PostViewer extends Component {
           contentType={post.contentType}
           contentUrl={post.contentURL}
           likeCount={post.likes && post.likes.length}
-          commentCount={post.totalComments}
+          commentCount={post.comments && post.comments.length}
           createdOn={post.createdOn}
           text={post.textContent}
           createdBy={post.createdBy.name}
