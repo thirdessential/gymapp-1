@@ -144,6 +144,7 @@ class MyProfile extends PureComponent {
                 like={likePost}
                 unlike={unlikePost}
                 deletePost={deletePost}
+                refreashing={false}
               />
             </View>
           </View>

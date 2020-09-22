@@ -50,6 +50,7 @@ class PostViewer extends Component {
     else return null;
   }
   checkLiked = (likes) => {
+    console.log(likes,'---likes')
     if (!likes) return false;
     const {userId} = store.getState().user;
     let liked = false;
