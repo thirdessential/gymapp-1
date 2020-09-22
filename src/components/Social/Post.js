@@ -41,8 +41,11 @@ const post = (props) => {
     contentType, userType
   } = props;
   const [isModalVisible, setModalVisible] = useState(false);
+  const [liked, setLiked] = useState(isLiked);
+
   const toggleLike = () => {
-    if (isLiked) {
+    setLiked(!liked)
+    if (liked) {
       unlikeCallback();
     } else {
       likeCallback();
@@ -142,7 +145,7 @@ const post = (props) => {
         !hideOptions && (
           <View style={styles.buttonGroup}>
             <TouchableOpacity onPress={toggleLike} activeOpacity={0.6} style={styles.hitButton}>
-              <AntDesign name={'like1'} size={28} color={isLiked ? appTheme.brightContent : appTheme.grey}/>
+              <AntDesign name={'like1'} size={28} color={liked ? appTheme.brightContent : appTheme.grey}/>
               <Text style={styles.hits}>{likeCount}</Text>
               {/*<Text style={styles.hits}>{localLikeCount}</Text>*/}
             </TouchableOpacity>
