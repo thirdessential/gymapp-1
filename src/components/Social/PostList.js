@@ -79,7 +79,7 @@ const postList = (props) => {
           onEndReached={update}
           onEndReachedThreshold={0.5}
           ItemSeparatorComponent={itemSeparator}
-          refreshControl={<RefreshControl refreshing={refreashing !== null ? refreashing : false} onRefresh={()=>{refreash(true)}} />}
+          refreshControl={<RefreshControl refreshing={refreashing} onRefresh={()=>{refreash(true)}} />}
         />
         {
           !posts && (

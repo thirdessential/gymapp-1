@@ -150,7 +150,7 @@ class MyProfile extends PureComponent {
                 unlike={unlikePost}
                 deletePost={deletePost}
                 refreashing={this.state.refreashing}
-                refreash={(data)=>{setrefreash(data)}}
+                refreash={(data)=>{this.setrefreash(data)}}
               />
             </View>
           </View>
