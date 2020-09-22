@@ -146,7 +146,7 @@ class Profile extends Component {
     const user = this.getUser();
     const posts = this.getPosts();
     if (!user)
-      return this.loader();
+      return <Image style={styles.nodata} source= {require('../../../assets/images/404-v.png')} />;
 
     let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots, activeSubscriptions, certificates} = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
@@ -298,6 +298,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: appTheme.brightContent,
     paddingHorizontal: spacing.small_lg
+  },
+  nodata:{
+    height:200,
+    width:200,
+    flexDirection:'column',
+    justifyContent:'center',
+    alignSelf:'center',
+    top:'40%'
   }
 });
 
