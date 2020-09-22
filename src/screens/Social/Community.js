@@ -117,7 +117,7 @@ this.setState({refreashing:false})
   renderPosts = () => {
     const {posts, postDetails, likePost, unlikePost, reportPost, deletePost} = this.props;
     if (!posts || posts.length === 0)
-      return <Image source = {require('../../../assets/images/404-v.png')}></Image>
+      return <Image style={styles.nodata} source = {require('../../../assets/images/404-v.png')}></Image>
     return (
       <PostList
         posts={posts.map(postId => postDetails[postId])}
