@@ -21,7 +21,7 @@ const postList = (props) => {
     posts, open, update, like, unlike, report, deletePost, onProfilePress,refreash,refreashing = () => {
     }
   } = props;
-
+//todo change the refreash to refresh from everywhere And also refreashing 
   const checkLiked = (likes) => {
     if (!likes) return false;
     const {userId} = store.getState().user;

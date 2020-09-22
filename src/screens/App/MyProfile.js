@@ -32,6 +32,7 @@ class MyProfile extends PureComponent {
   state = {
     bgImage: getRandomImage(), // cover image source
     nextPage: INITIAL_PAGE, // pagination state for my posts
+    setrefreash:false
   }
 
   updatePosts = async () => {
@@ -90,7 +91,11 @@ class MyProfile extends PureComponent {
   createPost = () => {
     this.props.navigation.navigate(RouteNames.CreatePost);
   }
-
+  setrefreash =() =>{
+  this.setState({
+    refreashing:false
+  })
+  }
   renderContent = () => {
     const {posts, postDetails, likePost, unlikePost, deletePost} = this.props;
     const user = this.props.userData;
@@ -144,7 +149,8 @@ class MyProfile extends PureComponent {
                 like={likePost}
                 unlike={unlikePost}
                 deletePost={deletePost}
-                refreashing={false}
+                refreashing={this.state.refreashing}
+                refreash={(data)=>{setrefreash(data)}}
               />
             </View>
           </View>
