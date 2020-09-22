@@ -11,8 +11,15 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SET_POSTS: {
       const {my, posts} = action.payload;
       const postDetails = {...state.postDetails};
-      // Store detailed post data object in postDetails object
-      posts.map(post => postDetails[post._id] = post);
+      // Store detailed post data object in postDetails object\
+      // console.log(posts,'-----------------------')
+      // posts.foreach(post => {this.postDetails[post._id] = post });
+      // posts.map(post=> postDetails[post._id] = post )
+      // posts.map(post=> console.log(post) )
+      for (var i =0; i < posts.length ; i++){
+        postDetails[posts[i]["_id"]] = posts[i]
+        // console.log(posts[i])
+      }
       // And store only ids of these posts in myPosts and posts list, avoids duplication
       return my ?
         updateObject(state, {myPosts: idTransformer(posts), postDetails}) :

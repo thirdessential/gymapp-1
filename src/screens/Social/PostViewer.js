@@ -42,8 +42,9 @@ class PostViewer extends Component {
   openViewer = (imageUrl) => this.setState({viewerImageUrl: imageUrl, viewerOpen: true})
   getPost = () => {
     const {route, postDetails} = this.props;
-    if (!postDetails) return null;
     const {postId} = route.params;
+    // console.log(postDetails,'qqqqqqqqqqqqqqqqqqqqqq')
+    if (!postDetails) return null;
     if (postDetails[postId])
       return postDetails[postId];
     else return null;
@@ -81,6 +82,7 @@ class PostViewer extends Component {
   renderPost = (post) => {
     const isOwnPost = post.createdBy.userId === store.getState().user.userId; // TODO: can we improve this comparison?
     const {likePost, unlikePost} = this.props;
+    // console.log(post)
     return (
       <View style={{marginTop: spacing.medium}}>
         <Post

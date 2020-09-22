@@ -49,7 +49,6 @@ class Community extends Component {
   updatePosts = async (refreash) => {
     const {updatePosts} = this.props;
     const {nextPostPage} = this.state;
-    console.log(refreash)
     if (!!nextPostPage)
       this.setState({nextPostPage: await updatePosts(nextPostPage)});
       if(refreash===true){
