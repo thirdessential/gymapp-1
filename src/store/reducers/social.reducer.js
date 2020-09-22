@@ -14,12 +14,12 @@ const reducer = (state = initialState, action) => {
       // Store detailed post data object in postDetails object\
       // console.log(posts,'-----------------------')
       // posts.foreach(post => {this.postDetails[post._id] = post });
-      // posts.map(post=> postDetails[post._id] = post )
+      posts.map(post=> postDetails[post._id] = post )
       // posts.map(post=> console.log(post) )
-      for (var i =0; i < posts.length ; i++){
-        postDetails[posts[i]["_id"]] = posts[i]
-        // console.log(posts[i])
-      }
+      // for (var i =0; i < posts.length ; i++){
+      //   postDetails[posts[i]["_id"]] = posts[i]
+      //   // console.log(posts[i])
+      // }
       // And store only ids of these posts in myPosts and posts list, avoids duplication
       return my ?
         updateObject(state, {myPosts: idTransformer(posts), postDetails}) :

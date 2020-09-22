@@ -98,7 +98,8 @@ export const updatePosts = (page = '', my = false) => {
 export const updatePost = (postId) => {
   return async (dispatch) => {
     try {
-      let {comments, post} = await API.getPost(postId);
+      let {comments, post,likes} = await API.getPost(postId);
+      post.likes=likes
       dispatch(setPost(post));
       if (comments)
         dispatch(setComments(postId, comments));

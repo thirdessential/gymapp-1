@@ -123,8 +123,9 @@ export const listMyPosts = async (url = '') => {
 export const getPost = async postId => {
   try {
     let response = await axios.get(`/post/${postId}`);
+    console.log(response.data,'resss')
     if (validateResponseCode(response.status))
-      return response.data;
+    return response.data;
     else return false;
   } catch (error) {
     console.log(error);
