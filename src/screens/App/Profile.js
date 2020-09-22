@@ -168,6 +168,7 @@ class Profile extends Component {
           rating={rating}
           description={!!bio ? bio : strings.NO_DESC}
           profileType={userType}
+          myUserType={this.props.myUserType}
           initiateVideoCallCallback={this.callClicked}
           userType={userType}
           location={city}
