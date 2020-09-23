@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.h1,
     fontFamily: fonts.CenturyGothicBold,
     marginBottom: spacing.small_lg,
-    marginLeft: 2
+    marginLeft: 2,
   },
   menuContainer: {
     borderColor: appTheme.grey,
@@ -313,7 +313,8 @@ const styles = StyleSheet.create({
     backgroundColor: appTheme.darkBackground,
     alignItems: 'center',
     padding: spacing.small_lg,
-    paddingHorizontal: spacing.medium_sm
+    paddingHorizontal: spacing.medium_sm,
+    marginLeft : '10%'
   },
   calorieText: {
     color: appTheme.brightContent,
