@@ -193,7 +193,7 @@ class Profile extends Component {
           userType === userTypes.TRAINER && this.props.myUserType === userTypes.USER &&packages.length > 0 && (
             <View style={styles.postListContainer}>
               <Text style={[styles.sectionTitle, { marginBottom: spacing.medium_sm }]}>{strings.PACKAGES}</Text>
-              <PackagePreviewList onPackagePress={packageId => this.openPackage(user._id, packageId)}
+              <PackagePreviewList onPackagePress={packageId => this.onPackagePress(user._id, packageId)}
                 packages={packages} />
             </View>
           )
@@ -224,6 +224,7 @@ class Profile extends Component {
                 report={this.props.reportPost}
                 refreashing={this.state.refreashing}
                 refreash={() => { this.setState({ refreshing: false }) }}
+                onProfilePress={()=>{console.log('call')}}
               />
             </View>
           </View>
