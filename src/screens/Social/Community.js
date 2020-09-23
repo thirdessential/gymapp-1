@@ -117,7 +117,10 @@ class Community extends Component {
   renderPosts = () => {
     const { posts, postDetails, likePost, unlikePost, reportPost, deletePost } = this.props;
     if (!posts || posts.length === 0)
-      return <Image style={styles.nodata} source={require('../../../assets/images/404-v.png')}></Image>
+      return <View style={styles.nodata}>
+          <Image source={require('../../../assets/images/EmptyScreenIcons/icon-1x.png')}></Image>
+          <Image source={require('../../../assets/images/EmptyScreenIcons/text-1x.png')}></Image>
+      </View>
     return (
       <PostList
         posts={posts.map(postId => postDetails[postId])}
@@ -140,7 +143,10 @@ class Community extends Component {
   renderQuestions = () => {
     const { questions, reportQuestion, postDetails } = this.props;
     if (!questions || questions.length === 0)
-      return <Image style={styles.nodata} source={require('../../../assets/images/404-v.png')} />
+      return <View style={styles.nodata}>
+          <Image source={require('../../../assets/images/EmptyScreenIcons/icon-1x.png')}></Image>
+          <Image style={styles.nodataText} source={require('../../../assets/images/EmptyScreenIcons/text-1x.png')}></Image>
+        </View>
     return (
       <QuestionList
         questions={questions.map(questionId => postDetails[questionId])}
@@ -346,7 +352,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignSelf: 'center',
-    top: '40%'
+    top: '27%',
+    left : '7%'
+  },
+  nodataText : {
+    marginTop : '10%',
+    marginLeft : "5%"
   }
 });
 
