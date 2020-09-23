@@ -7,19 +7,19 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Keyboard
+  Keyboard,
+  Switch
 } from "react-native";
 import {connect} from "react-redux";
 import cuid from "cuid";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-
+import strings from "../../constants/strings";
 import {spacing} from "../../constants/dimension";
-import colors, {appTheme} from "../../constants/colors";
+import colors, {appTheme, bmiColors} from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import strings from "../../constants/strings";
 import * as actionCreators from "../../store/actions";
 import {showError, showSuccess} from "../../utils/notification";
 import {getFormattedDate} from "../../utils/utils";
@@ -36,6 +36,7 @@ class Calorie1 extends PureComponent {
     foods: [],//to hold object of food with fats proteins tec
     fabLoading: false,//loading icon
     recommendationText: false,//if we get recommendation from backend then show this text
+    active : false //for qty or gram control of the food item
   };
 
   async componentDidMount() {
@@ -58,32 +59,51 @@ class Calorie1 extends PureComponent {
     this.setState({foods: [], recommendationText: false});
   };
   getCalories = async () => {
+    const { active } = this.state
     if (this.state.food === "") {
       showError("Please enter food to be searched.");
       return null;
     }
     Keyboard.dismiss();
     this.setState({load: !this.state.load});
-    let result = await API.searchFood(this.state.food);
+    let result = await API.searchFood(this.state.food, active);
 
     if (result)
       if (result.foodItem) {
         //we get this data from API edaMam
         //orefats precarbs varible are to get initial values so that we can increase pr decrease by that quantity 
-        const newFoodItem = {
-          id: result.foodItem._id,
-          type: this.state.type,
-          item: this.state.food,
-          quantity: 100,//user can increase quantity
-          total: result.foodItem.totalEnergy,
-          pretotal: result.foodItem.totalEnergy,
-          prefats: result.foodItem.fats,
-          fats: result.foodItem.fats,
-          precarbs: result.foodItem.carbs,
-          carbs: result.foodItem.carbs,
-          preproteins: result.foodItem.proteins,
-          proteins: result.foodItem.proteins,
-        };
+        let newFoodItem = {}
+        if(active){
+          newFoodItem = {
+            id: result.foodItem._id,
+            type: this.state.type,
+            item: this.state.food,
+            quantity: 1,//user can increase quantity
+            total: result.foodItem.totalEnergy,
+            pretotal: result.foodItem.totalEnergy,
+            prefats: result.foodItem.fats,
+            fats: result.foodItem.fats,
+            precarbs: result.foodItem.carbs,
+            carbs: result.foodItem.carbs,
+            preproteins: result.foodItem.proteins,
+            proteins: result.foodItem.proteins,
+          };
+        }else{
+          newFoodItem = {
+            id: result.foodItem._id,
+            type: this.state.type,
+            item: this.state.food,
+            quantity: 100,//user can increase quantity
+            total: result.foodItem.totalEnergy,
+            pretotal: result.foodItem.totalEnergy,
+            prefats: result.foodItem.fats,
+            fats: result.foodItem.fats,
+            precarbs: result.foodItem.carbs,
+            carbs: result.foodItem.carbs,
+            preproteins: result.foodItem.proteins,
+            proteins: result.foodItem.proteins,
+          };
+        }
         const foods = [...this.state.foods];
         foods.push(newFoodItem);
         await this.setState({foods, food: ""});
@@ -138,8 +158,8 @@ class Calorie1 extends PureComponent {
   };
   decreaseQuantity = (foodId) => {
     const food = this.getFood(foodId);
-
-    food.quantity = food.quantity - 100;
+    const { active } = this.state
+    food.quantity = active ? food.quantity - 1  : food.quantity - 100;
     food.total -= food.pretotal;
     food.carbs -= food.precarbs;
     food.fats -= food.prefats;
@@ -148,15 +168,87 @@ class Calorie1 extends PureComponent {
   };
   increaseQuantity = (foodId) => {
     const food = this.getFood(foodId);
-
-    food.quantity = food.quantity + 100;
+    const { active } = this.state
+    food.quantity = active ? food.quantity + 1  : food.quantity + 100;
     food.total += food.pretotal;
     food.carbs += food.precarbs;
     food.fats += food.prefats;
     food.proteins += food.preproteins;
     this.updateFood(foodId, food);
   };
-
+  toggleActive = (value) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({active: value})
+  }
+  renderSwitch = () => {
+    const {active} = this.state;
+    return (
+      <View style={[styles.row, styles.center]}>
+        <Text style={styles.title}>{active ? "Qty" : "Grams"}</Text>
+        <Switch
+          trackColor={{false: appTheme.grey, true: bmiColors.blue}}
+          thumbColor={this.state.active ? bmiColors.yellow : "#f4f3f4"}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={this.toggleActive}
+          value={this.state.active}
+        />
+      </View>
+    )
+  }
+  
+  renderQty = (food) => {
+    const {active} = this.state;
+  //  console.log(food)
+    if(active){
+      return(
+        <View style={styles.quantityView}>
+          <Text style={styles.quanityText1}>{strings.QUANTITY}</Text>
+            <TouchableOpacity
+              style={styles.minus}
+              disabled={food.quantity > 1 ? false : true}
+              onPress={() => {this.decreaseQuantity(food.id);}}
+            >
+              <FontAwesome5Icon name="minus" size={20} color="white"/>
+            </TouchableOpacity>
+            <Text style={styles.quantityAndTotal}>
+              {food.quantity} Qty
+            </Text>
+            <TouchableOpacity
+              style={styles.plus}
+              onPress={() => {this.increaseQuantity(food.id) }}
+             >
+              <FontAwesome5Icon name="plus" size={20} color="white"/>
+            </TouchableOpacity>
+        </View>
+      )
+    }else{
+      return(
+        <View style={styles.quantityView}>
+          <Text style={styles.quanityText1}>{strings.QUANTITY}</Text>
+          <TouchableOpacity
+            style={styles.minus}
+            disabled={food.quantity > 100 ? false : true}
+            onPress={() => {
+              this.decreaseQuantity(food.id);
+            }}
+          >
+            <FontAwesome5Icon name="minus" size={20} color="white"/>
+          </TouchableOpacity>
+          <Text style={styles.quantityAndTotal}>
+            {food.quantity} grams
+          </Text>
+          <TouchableOpacity
+            style={styles.plus}
+            onPress={() => {
+              this.increaseQuantity(food.id);
+            }}
+          >
+            <FontAwesome5Icon name="plus" size={20} color="white"/>
+          </TouchableOpacity>
+        </View>                 
+      )
+    }
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -177,6 +269,7 @@ class Calorie1 extends PureComponent {
               placeholderTextColor={appTheme.darkBackground}
               value={this.state.food}
             />
+             {this.renderSwitch()}
             {this.state.load ? (
               <ActivityIndicator
                 size="small"
@@ -220,29 +313,7 @@ class Calorie1 extends PureComponent {
                       />
                     </TouchableOpacity>
                   </View>
-                  <View style={styles.quantityView}>
-                    <Text style={styles.quanityText1}>{strings.QUANTITY}</Text>
-                    <TouchableOpacity
-                      style={styles.minus}
-                      disabled={food.quantity > 100 ? false : true}
-                      onPress={() => {
-                        this.decreaseQuantity(food.id);
-                      }}
-                    >
-                      <FontAwesome5Icon name="minus" size={20} color="white"/>
-                    </TouchableOpacity>
-                    <Text style={styles.quantityAndTotal}>
-                      {food.quantity} grams
-                    </Text>
-                    <TouchableOpacity
-                      style={styles.plus}
-                      onPress={() => {
-                        this.increaseQuantity(food.id);
-                      }}
-                    >
-                      <FontAwesome5Icon name="plus" size={20} color="white"/>
-                    </TouchableOpacity>
-                  </View>
+                  {this.renderQty(food)}
                   <View style={styles.categoryView}>
                     <Text style={styles.totalText}>{strings.TOTAL}</Text>
 
@@ -304,6 +375,17 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: appTheme.background,
+  },
+  title: {
+    color: appTheme.lightBackground,
+    fontSize: fontSizes.h2,
+    fontFamily: fonts.PoppinsRegular
+  },
+  row: {
+    flexDirection: 'row',
+  },
+  center: {
+    alignItems: 'center'
   },
   searchSection: {
     flexDirection: "row",

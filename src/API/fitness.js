@@ -36,9 +36,9 @@ export const updateMealIntake = async (date, foodItems) => {
     return false
   }
 }
-export const searchFood = async (name) => {
+export const searchFood = async (name, qty) => {
   try {
-    let response = await axios.post('/foodItems/getByName', {name});
+    let response = await axios.post('/foodItems/getByName', {name , qty});
     if (validateResponseCode(response.status))
       return response.data;
     else return false;
