@@ -1,6 +1,7 @@
 import {cardBackgrounds} from "./images";
 import {appTheme, bmiColors} from "./colors";
 
+export const TermsURL = "https://gymadda-web.herokuapp.com/terms"
 let apiUrl = 'http://192.168.211.1:3001';
 if (__DEV__) {
   console.log('Development Server');
