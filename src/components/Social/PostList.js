@@ -53,7 +53,7 @@ const postList = (props) => {
         createdBy={post.createdBy.name}
         userType={post.createdBy.userType}
         displayImageUrl={post.createdBy.displayPictureUrl}
-        isLiked={() => this.checkLiked(post.likes)}
+        isLiked={() => checkLiked(post.likes)}
         likeCallback={() => like(post._id)}
         unlikeCallback={() => unlike(post._id)}
         flagCallback={isOwnPost ? null : () => report(post._id)}

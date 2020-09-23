@@ -1,12 +1,12 @@
-import axios, {validateResponseCode} from "./config";
+import axios, { validateResponseCode } from "./config";
 
-import {imageTypes, rootURL} from '../constants/appConstants';
+import { imageTypes, rootURL } from '../constants/appConstants';
 import RNFetchBlob from "rn-fetch-blob";
-import {compressImage, getFileExtension} from "./storage";
+import { compressImage, getFileExtension } from "./storage";
 
 export const createTextPost = async (textContent) => {
   try {
-    let response = await axios.post('/post', {textContent});
+    let response = await axios.post('/post', { textContent });
     if (validateResponseCode(response.status))
       return response;
     else return false;
@@ -52,7 +52,7 @@ export const createImagePost = async (path, textContent, token) => {
   }
 };
 import VideoCompress from 'react-native-video-compressor'
-import {showInfo} from "../utils/notification";
+import { showInfo } from "../utils/notification";
 import strings from "../constants/strings";
 
 
@@ -60,7 +60,7 @@ export const createVideoPost = async (path, textContent, token, videoSrc) => {
   try {
     let fileExtension = getFileExtension(path);
     showInfo(strings.COMPRESSING_VIDEO);
-    const compressedPath = (await VideoCompress.compress(path, {compressQuality: 2})).path;
+    const compressedPath = (await VideoCompress.compress(path, { compressQuality: 2 })).path;
     showInfo(strings.UPLOADING);
     const uploadData = [
       {
@@ -123,9 +123,8 @@ export const listMyPosts = async (url = '') => {
 export const getPost = async postId => {
   try {
     let response = await axios.get(`/post/${postId}`);
-    console.log(response.data,'resss')
     if (validateResponseCode(response.status))
-    return response.data;
+      return response.data;
     else return false;
   } catch (error) {
     console.log(error);
@@ -157,7 +156,7 @@ export const unlikePost = async postId => {
 }
 export const commentOnPost = async (postId, commentText) => {
   try {
-    let response = await axios.post(`/comment/${postId}`, {commentText});
+    let response = await axios.post(`/comment/${postId}`, { commentText });
     if (validateResponseCode(response.status))
       return response.data;
     else return false;
@@ -245,7 +244,7 @@ export const getPostsForUser = async (userId) => {
 }
 export const postQuestion = async (questionText) => {
   try {
-    let response = await axios.post(`/question`, {questionText});
+    let response = await axios.post(`/question`, { questionText });
     if (validateResponseCode(response.status))
       return response.data;
     else return false;
@@ -279,7 +278,7 @@ export const likeQuestion = async (questionId) => {
 
 export const answerQuestion = async (questionId, answerText) => {
   try {
-    let response = await axios.post(`/answer/${questionId}`, {answerText});
+    let response = await axios.post(`/answer/${questionId}`, { answerText });
     if (validateResponseCode(response.status))
       return response.data;
     else return false;

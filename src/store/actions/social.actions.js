@@ -1,8 +1,8 @@
 import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
-import {INITIAL_PAGE} from "../../constants/appConstants";
-import {showInfo} from "../../utils/notification";
-import {LayoutAnimation} from "react-native";
+import { INITIAL_PAGE } from "../../constants/appConstants";
+import { showInfo } from "../../utils/notification";
+import { LayoutAnimation } from "react-native";
 
 // Set posts array, setting my=true sets user's own posts array
 // Only references to notification objects are stored in array
@@ -78,7 +78,7 @@ export const appendQuestions = (questions) => ({
 export const updatePosts = (page = '', my = false) => {
   return async (dispatch) => {
     try {
-      let {posts, nextPage} = my ?
+      let { posts, nextPage } = my ?
         await API.listMyPosts(page === INITIAL_PAGE ? null : page) :
         await API.listPosts(page === INITIAL_PAGE ? null : page);
       if (posts) {
@@ -98,8 +98,8 @@ export const updatePosts = (page = '', my = false) => {
 export const updatePost = (postId) => {
   return async (dispatch) => {
     try {
-      let {comments, post,likes} = await API.getPost(postId);
-      post.likes=likes
+      let { comments, post, likes } = await API.getPost(postId);
+      post.likes = likes;
       dispatch(setPost(post));
       if (comments)
         dispatch(setComments(postId, comments));
@@ -116,7 +116,7 @@ export const likePost = (postId) => {
   return async (dispatch, getState) => {
     try {
       let post = getState().social.postDetails[postId];
-      post.likes.push({likedBy: getState().user.userId});
+      post.likes.push({ likedBy: getState().user.userId });
       dispatch(setPost(post));
       await API.likePost(postId);
       return true;
@@ -130,7 +130,7 @@ export const likePost = (postId) => {
 export const unlikePost = (postId) => {
   return async (dispatch, getState) => {
     try {
-      let post = {...getState().social.postDetails[postId]};
+      let post = { ...getState().social.postDetails[postId] };
       post.likes = post.likes.filter(like => like.likedBy !== getState().user.userId);
       dispatch(setPost(post));
       await API.unlikePost(postId);
@@ -148,7 +148,7 @@ export const likeComment = (postId, commentId) => {
       let comments = [...getState().social.commentsForPost[postId]];
       comments = comments.map(comment => {
         if (comment._id === commentId)
-          comment.likes.push({likedBy: getState().user.userId});
+          comment.likes.push({ likedBy: getState().user.userId });
         return comment;
       });
       dispatch(setComments(postId, comments));
@@ -166,16 +166,16 @@ export const unlikeComment = (postId, commentId) => {
     try {
       let comments = [...getState().social.commentsForPost[postId]];
       comments = comments.map(comment => {
-          if (comment._id === commentId)
-            comment.likes = comment.likes.filter(like => like.likedBy !== getState().user.userId);
-          return comment;
-        }
+        if (comment._id === commentId)
+          comment.likes = comment.likes.filter(like => like.likedBy !== getState().user.userId);
+        return comment;
+      }
       );
       dispatch(setComments(postId, comments));
       await API.unlikeComment(commentId);
       return true;
     } catch
-      (error) {
+    (error) {
       console.log("unlike comment failed", error);
       return null;
     }
@@ -185,8 +185,8 @@ export const unlikeComment = (postId, commentId) => {
 export const commentOnPost = (postId, commentText) => {
   return async (dispatch, getState) => {
     try {
-      let post = {...getState().social.postDetails[postId]};
-      let {comment} = await API.commentOnPost(postId, commentText);
+      let post = { ...getState().social.postDetails[postId] };
+      let { comment } = await API.commentOnPost(postId, commentText);
       await dispatch(updatePost(postId));
       return true;
     } catch (error) {
@@ -262,7 +262,7 @@ export const setPostsForUser = (userId, posts) => ({
 export const getPostsForUser = (userId, page = '') => {
   return async (dispatch) => {
     try {
-      let {nextPage, posts} = await API.getPostsForUser(userId);
+      let { nextPage, posts } = await API.getPostsForUser(userId);
       dispatch(setPostsForUser(userId, posts));
       return nextPage;
     } catch (error) {
@@ -275,7 +275,7 @@ export const getPostsForUser = (userId, page = '') => {
 export const updateQuestions = (page = '') => {
   return async (dispatch) => {
     try {
-      let {questions, nextPage} = await API.listQuestions(page === INITIAL_PAGE ? null : page);
+      let { questions, nextPage } = await API.listQuestions(page === INITIAL_PAGE ? null : page);
       if (questions) {
         if (page === INITIAL_PAGE)
           await dispatch(setQuestions(questions)); // initialise list from scratch
@@ -321,7 +321,7 @@ export const updateLiveStreams = (page = '', my = false) => {
   return async (dispatch) => {
     try {
       const listStreams = my ? API.listMyLiveStreams : API.listLiveStreams;
-      let {streams, nextPage} = await listStreams(page === INITIAL_PAGE ? null : page);
+      let { streams, nextPage } = await listStreams(page === INITIAL_PAGE ? null : page);
       if (streams) {
         if (page === INITIAL_PAGE)
           await dispatch(setStreams(streams, my)); // initialise list from scratch
@@ -341,15 +341,15 @@ export const setLiveStreamStatus = (streamId, status) => {
     try {
       let myLiveStreams = [...getState().social.myLiveStreams];
       let liveStreams = [...getState().social.liveStreams];
-      myLiveStreams = myLiveStreams.map(stream=>{
-        if(stream._id===streamId)
-          stream.status=status;
+      myLiveStreams = myLiveStreams.map(stream => {
+        if (stream._id === streamId)
+          stream.status = status;
         return stream;
       });
-      dispatch(setStreams(myLiveStreams,true));
-      liveStreams = liveStreams.map(stream=>{
-        if(stream._id===streamId)
-          stream.status=status;
+      dispatch(setStreams(myLiveStreams, true));
+      liveStreams = liveStreams.map(stream => {
+        if (stream._id === streamId)
+          stream.status = status;
         return stream;
       });
       dispatch(setStreams(liveStreams));

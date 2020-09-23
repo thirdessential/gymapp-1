@@ -32,7 +32,7 @@ class MyProfile extends PureComponent {
   state = {
     bgImage: getRandomImage(), // cover image source
     nextPage: INITIAL_PAGE, // pagination state for my posts
-    setrefreash:false
+    refreashing:false
   }
 
   updatePosts = async () => {

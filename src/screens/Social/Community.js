@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from "react";
+import React, { Component } from "react";
 import {
   View,
   StyleSheet,
@@ -13,29 +13,29 @@ import {
   ScrollView,
   Image
 } from "react-native";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import RBSheet from "react-native-raw-bottom-sheet";
-import {TabView, TabBar} from "react-native-tab-view";
+import { TabView, TabBar } from "react-native-tab-view";
 import Entypo from "react-native-vector-icons/Entypo";
 
-import {appTheme} from "../../constants/colors";
+import { appTheme } from "../../constants/colors";
 import * as actionCreators from "../../store/actions";
-import {INITIAL_PAGE, POST_TYPE, userTypes} from "../../constants/appConstants";
-import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
+import { INITIAL_PAGE, POST_TYPE, userTypes } from "../../constants/appConstants";
+import RouteNames, { TabRoutes } from "../../navigation/RouteNames";
 import PostList from "../../components/Social/PostList";
-import {spacing} from "../../constants/dimension";
+import { spacing } from "../../constants/dimension";
 import strings from "../../constants/strings";
 import QuestionList from "../../components/Social/QuestionList";
-import {likeAnswer, unlikeAnswer} from "../../API";
+import { likeAnswer, unlikeAnswer } from "../../API";
 import ImageCard from "../../components/ImageCard";
-import {iconBackgrounds} from "../../constants/images";
-import {screenWidth} from "../../utils/screenDimensions";
+import { iconBackgrounds } from "../../constants/images";
+import { screenWidth } from "../../utils/screenDimensions";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import StreamList from "../../components/Social/StreamList";
-import {joinMeeting} from "../../utils/zoomMeeting";
+import { joinMeeting } from "../../utils/zoomMeeting";
 
-const initialLayout = {width: screenWidth};
+const initialLayout = { width: screenWidth };
 
 class Community extends Component {
   state = {
@@ -44,39 +44,39 @@ class Community extends Component {
     nextLiveStreamPage: INITIAL_PAGE,
     type: POST_TYPE.TYPE_POST,
     pageIndex: 0,
-    refreashing:false
+    refreashing: false
   };
   updatePosts = async (refreash) => {
-    const {updatePosts} = this.props;
-    const {nextPostPage} = this.state;
+    const { updatePosts } = this.props;
+    const { nextPostPage } = this.state;
     if (!!nextPostPage)
-      this.setState({nextPostPage: await updatePosts(nextPostPage)});
-      if(refreash===true){
-        this.setState({nextPostPage: await updatePosts(INITIAL_PAGE),refreashing:true});
-     setTimeout(()=>{
-this.setState({refreashing:false})
-     },1000)
-      }
+      this.setState({ nextPostPage: await updatePosts(nextPostPage) });
+    if (refreash === true) {
+      this.setState({ nextPostPage: await updatePosts(INITIAL_PAGE), refreashing: true });
+      setTimeout(() => {
+        this.setState({ refreashing: false })
+      }, 1000)
+    }
 
-     
+
   };
   updateQuestions = async (refreash) => {
-    const {updateQuestions} = this.props;
-    const {nextQuestionPage} = this.state;
+    const { updateQuestions } = this.props;
+    const { nextQuestionPage } = this.state;
     if (!!nextQuestionPage)
       this.setState({
         nextQuestionPage: await updateQuestions(nextQuestionPage),
       });
-      if(refreash===true){
-        this.setState({nextPostPage: await updatePosts(INITIAL_PAGE),refreashing:true});
-     setTimeout(()=>{
-this.setState({refreashing:false})
-     },1000)
-      }
+    if (refreash === true) {
+      this.setState({ nextPostPage: await updatePosts(INITIAL_PAGE), refreashing: true });
+      setTimeout(() => {
+        this.setState({ refreashing: false })
+      }, 1000)
+    }
   };
   updateLiveStreams = async () => {
-    const {updateLiveStreams} = this.props;
-    const {nextLiveStreamPage} = this.state;
+    const { updateLiveStreams } = this.props;
+    const { nextLiveStreamPage } = this.state;
     if (!!nextLiveStreamPage)
       this.setState({
         nextLiveStreamPage: await updateLiveStreams(nextLiveStreamPage)
@@ -94,7 +94,7 @@ this.setState({refreashing:false})
   }
 
   openPost = (postId) => {
-    this.props.navigation.navigate(RouteNames.PostViewer, {postId});
+    this.props.navigation.navigate(RouteNames.PostViewer, { postId });
   };
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -104,27 +104,27 @@ this.setState({refreashing:false})
   }
 
   openProfile = (userId) => {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     navigation.navigate(RouteNames.Profile, {
       userId: userId,
     });
   };
   loader = () => (
-    <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-      <ActivityIndicator color={appTheme.brightContent} size={50}/>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ActivityIndicator color={appTheme.brightContent} size={50} />
     </View>
   );
   renderPosts = () => {
-    const {posts, postDetails, likePost, unlikePost, reportPost, deletePost} = this.props;
+    const { posts, postDetails, likePost, unlikePost, reportPost, deletePost } = this.props;
     if (!posts || posts.length === 0)
-      return <Image style={styles.nodata} source = {require('../../../assets/images/404-v.png')}></Image>
+      return <Image style={styles.nodata} source={require('../../../assets/images/404-v.png')}></Image>
     return (
       <PostList
         posts={posts.map(postId => postDetails[postId])}
         open={this.openPost}
         update={this.updatePosts}
         like={likePost}
-        refreash={(refreash)=>{this.updatePosts(refreash)}}
+        refreash={(refreash) => { this.updatePosts(refreash) }}
         unlike={unlikePost}
         report={reportPost}
         onProfilePress={this.openProfile}
@@ -134,13 +134,13 @@ this.setState({refreashing:false})
     );
   };
   createAnswer = (questionId, answerText) => {
-    const {answerQuestion} = this.props;
+    const { answerQuestion } = this.props;
     answerQuestion(questionId, answerText);
   };
   renderQuestions = () => {
-    const {questions, reportQuestion, postDetails} = this.props;
+    const { questions, reportQuestion, postDetails } = this.props;
     if (!questions || questions.length === 0)
-      return <Image style={styles.nodata} source= {require('../../../assets/images/404-v.png')} />
+      return <Image style={styles.nodata} source={require('../../../assets/images/404-v.png')} />
     return (
       <QuestionList
         questions={questions.map(questionId => postDetails[questionId])}
@@ -151,15 +151,15 @@ this.setState({refreashing:false})
         onAnswerDislike={unlikeAnswer}
         report={reportQuestion}
         refreashing={this.state.refreashing}
-        refreash={(refreash)=>{this.updatePosts(refreash)}}
+        refreash={(refreash) => { this.updateQuestions(refreash) }}
       />
     );
   };
 
   onJoinStream = (streamId) => {
-    const {liveStreams, userName} = this.props;
+    const { liveStreams, userName } = this.props;
     const targetStream = liveStreams.filter(liveStream => liveStream._id === streamId)[0];
-    const {meetingNumber, meetingPassword, clientKey, clientSecret} = targetStream;
+    const { meetingNumber, meetingPassword, clientKey, clientSecret } = targetStream;
     joinMeeting(meetingNumber, meetingPassword, userName, clientKey, clientSecret);
   }
   renderLiveStreams = () => {
@@ -176,13 +176,13 @@ this.setState({refreashing:false})
         style={[styles.fab, styles.fabPosition]}
         onPress={this.openRbSheet}
       >
-        <Entypo name={"plus"} color={"white"} size={32}/>
+        <Entypo name={"plus"} color={"white"} size={32} />
       </TouchableOpacity>
     );
   };
   createPost = () => {
     this.closeRbSheet();
-    this.props.navigation.navigate(RouteNames.CreatePost, {type: POST_TYPE.TYPE_POST});
+    this.props.navigation.navigate(RouteNames.CreatePost, { type: POST_TYPE.TYPE_POST });
   };
   createQuestion = () => {
     this.closeRbSheet();
@@ -254,11 +254,11 @@ this.setState({refreashing:false})
     </RBSheet>
   );
   routes = [
-    {key: TabRoutes.Posts, title: strings.POSTS},
-    {key: TabRoutes.Questions, title: strings.QUESTIONS},
-    {key: TabRoutes.LiveStreams, title: strings.LIVE}
+    { key: TabRoutes.Posts, title: strings.POSTS },
+    { key: TabRoutes.Questions, title: strings.QUESTIONS },
+    { key: TabRoutes.LiveStreams, title: strings.LIVE }
   ];
-  renderScene = ({route}) => {
+  renderScene = ({ route }) => {
     switch (route.key) {
       case TabRoutes.Posts:
         return this.renderPosts();
@@ -270,15 +270,15 @@ this.setState({refreashing:false})
         return null;
     }
   };
-  setPage = (pageIndex) => this.setState({pageIndex});
+  setPage = (pageIndex) => this.setState({ pageIndex });
 
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar backgroundColor={appTheme.lightBackground}/>
+        <StatusBar backgroundColor={appTheme.lightBackground} />
 
         <TabView
-          navigationState={{index: this.state.pageIndex, routes: this.routes}}
+          navigationState={{ index: this.state.pageIndex, routes: this.routes }}
           renderScene={this.renderScene}
           onIndexChange={this.setPage}
           initialLayout={initialLayout}
@@ -286,8 +286,8 @@ this.setState({refreashing:false})
           renderTabBar={(props) => (
             <TabBar
               {...props}
-              style={{backgroundColor: "transparent"}}
-              indicatorStyle={{backgroundColor: appTheme.lightContent}}
+              style={{ backgroundColor: "transparent" }}
+              indicatorStyle={{ backgroundColor: appTheme.lightContent }}
               tabStyle={styles.bubble}
               labelStyle={styles.noLabel}
             />
@@ -340,13 +340,13 @@ const styles = StyleSheet.create({
     fontFamily: fonts.CenturyGothic,
     marginBottom: spacing.medium_sm,
   },
-  nodata:{
-    height:200,
-    width:200,
-    flexDirection:'column',
-    justifyContent:'center',
-    alignSelf:'center',
-    top:'40%'
+  nodata: {
+    height: 200,
+    width: 200,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    top: '40%'
   }
 });
 

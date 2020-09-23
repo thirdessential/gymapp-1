@@ -1,31 +1,31 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
-import {View, StyleSheet, ActivityIndicator, LayoutAnimation, Text, TouchableOpacity} from 'react-native'
-import {createImageProgress} from 'react-native-image-progress';
+import React, { Component } from 'react';
+import { View, StyleSheet, ActivityIndicator, LayoutAnimation, Text, TouchableOpacity } from 'react-native'
+import { createImageProgress } from 'react-native-image-progress';
 import FastImage from 'react-native-fast-image';
 import PreventScreenshotAndroid from 'react-native-prevent-screenshot-android';
 const Image = createImageProgress(FastImage);
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 import ProfileOverview from '../../components/Profile/ProfileOverview';
 import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from '../../store/actions';
-import {requestCameraAndAudioPermission} from "../../utils/permission";
-import {generateTrainerHits, generateUserHits, initialiseVideoCall} from "../../utils/utils";
-import {appTheme} from "../../constants/colors";
-import {screenHeight, screenWidth} from '../../utils/screenDimensions';
+import { requestCameraAndAudioPermission } from "../../utils/permission";
+import { generateTrainerHits, generateUserHits, initialiseVideoCall } from "../../utils/utils";
+import { appTheme } from "../../constants/colors";
+import { screenHeight, screenWidth } from '../../utils/screenDimensions';
 import strings from "../../constants/strings";
-import {defaultDP, INITIAL_PAGE, userTypes} from "../../constants/appConstants";
-import {getRandomImage} from "../../constants/images";
-import {spacing} from "../../constants/dimension";
-import {requestCallback} from "../../API";
+import { defaultDP, INITIAL_PAGE, userTypes } from "../../constants/appConstants";
+import { getRandomImage } from "../../constants/images";
+import { spacing } from "../../constants/dimension";
+import { requestCallback } from "../../API";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import PostList from "../../components/Social/PostList";
-import {showError, showSuccess} from "../../utils/notification";
+import { showError, showSuccess } from "../../utils/notification";
 import CertificateList from "../../components/Trainer/CertificateList";
 import PackagePreviewList from "../../components/Trainer/PackagePreviewList";
 
@@ -35,20 +35,21 @@ class Profile extends Component {
     bgImage: getRandomImage(),
     nextPage: INITIAL_PAGE, // pagination state for posts
     requestingCallback: false, // loading indicator for call back request
+    refreashing:false
   }
 
   componentDidMount() {
-    const {route, setUser, getPostsForUser} = this.props;
-    const {userId} = route.params;
+    const { route, setUser, getPostsForUser } = this.props;
+    const { userId } = route.params;
 
     setUser(userId);
     getPostsForUser(userId);
 
     const userData = this.getUser();
     if (userData) {
-      let {wallImageUrl} = userData;
+      let { wallImageUrl } = userData;
       if (!!wallImageUrl) {
-        this.setState({bgImage: {uri: wallImageUrl}});
+        this.setState({ bgImage: { uri: wallImageUrl } });
       }
     }
     // Restrict screenshots on all profiles
@@ -61,8 +62,8 @@ class Profile extends Component {
   }
 
   callClicked = async () => {
-    const {route} = this.props;
-    const {userId} = route.params;
+    const { route } = this.props;
+    const { userId } = route.params;
     const permissionGranted = await requestCameraAndAudioPermission();
 
     if (permissionGranted) {
@@ -72,52 +73,52 @@ class Profile extends Component {
 
   loader = () => (
     <View style={styles.contentContainer}>
-      <ActivityIndicator color={appTheme.lightContent} size={50}/>
+      <ActivityIndicator color={appTheme.lightContent} size={50} />
     </View>
   )
 
   getUser = () => {
-    const {route, users} = this.props;
-    const {userId} = route.params;
+    const { route, users } = this.props;
+    const { userId } = route.params;
     return users[userId];
   }
   getPosts = () => {
-    const {route, postsForUser, postDetails} = this.props;
-    const {userId} = route.params;
+    const { route, postsForUser, postDetails } = this.props;
+    const { userId } = route.params;
     if (postsForUser[userId]) // since postsForUser only contain id arras, we populate them with postDetails
       return postsForUser[userId].map(postId => postDetails[postId]);
     return [];
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    const {route, users} = nextProps;
-    const {userId} = route.params;
+    const { route, users } = nextProps;
+    const { userId } = route.params;
     const nextUser = users[userId];
     const currentUser = this.getUser();
     // If user is fetched from api, we should update his wall image specifically after api call, all other fields are
     // automatically updated
     if (nextUser && !currentUser) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); // fancy hack
-      let {wallImageUrl} = nextUser;
+      let { wallImageUrl } = nextUser;
       if (!!wallImageUrl) {
-        this.setState({bgImage: {uri: wallImageUrl}});
+        this.setState({ bgImage: { uri: wallImageUrl } });
       }
     }
     return true;
   }
 
   openPost = (postId) => {
-    this.props.navigation.navigate(RouteNames.PostViewer, {postId});
+    this.props.navigation.navigate(RouteNames.PostViewer, { postId });
   }
   updatePosts = async () => {
-    const {getPostsForUser} = this.props;
-    const {nextPage} = this.state;
+    const { getPostsForUser } = this.props;
+    const { nextPage } = this.state;
     if (!!nextPage)
-      this.setState({nextPage: await getPostsForUser(nextPage)});
+      this.setState({ nextPage: await getPostsForUser(nextPage) });
   }
   openPackage = () => {
-    const {navigation} = this.props;
-    const {userType, _id} = this.getUser();
+    const { navigation } = this.props;
+    const { userType, _id } = this.getUser();
     if (userType === userTypes.TRAINER)
       navigation.navigate(RouteNames.PackagesView, {
         userId: _id
@@ -125,18 +126,18 @@ class Profile extends Component {
   }
   requestCallback = async () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({requestingCallback: true});
-    const {_id: userId} = this.getUser();
-    const {success, message} = await requestCallback(userId);
+    this.setState({ requestingCallback: true });
+    const { _id: userId } = this.getUser();
+    const { success, message } = await requestCallback(userId);
     if (success)
       showSuccess(message);
     else showError(message);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({requestingCallback: false});
+    this.setState({ requestingCallback: false });
 
   }
   onPackagePress = (userId, packageId) => {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     navigation.navigate(RouteNames.PackagesView, {
       userId,
       packageId
@@ -146,9 +147,9 @@ class Profile extends Component {
     const user = this.getUser();
     const posts = this.getPosts();
     if (!user)
-      return <Image style={styles.nodata} source= {require('../../../assets/images/404-v.png')} />;
+      return <Image style={styles.nodata} source={require('../../../assets/images/404-v.png')} />;
 
-    let {name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots, activeSubscriptions, certificates} = user;
+    let { name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots, activeSubscriptions, certificates } = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
     // Hits are the user's post count, slots count etc
     const hits = userType === userTypes.TRAINER ?
@@ -158,7 +159,7 @@ class Profile extends Component {
         program: packages.length,
         post: posts.length || 0
       }) :
-      generateUserHits({subscription: activeSubscriptions, post: posts.length || 0});
+      generateUserHits({ subscription: activeSubscriptions, post: posts.length || 0 });
     return (
       <View style={styles.container}>
         <ProfileOverview
@@ -177,11 +178,11 @@ class Profile extends Component {
 
         {
           // Request callback button for trainers
-          userType === userTypes.TRAINER  && (
+          userType === userTypes.TRAINER && (
             <View style={styles.callbackContainer}>
               <TouchableOpacity disabled={this.state.requestingCallback} style={styles.callbackButton}
-                                onPress={this.requestCallback}>
-                {this.state.requestingCallback && <ActivityIndicator color={appTheme.brightContent} size={20}/>}
+                onPress={this.requestCallback}>
+                {this.state.requestingCallback && <ActivityIndicator color={appTheme.brightContent} size={20} />}
                 {!this.state.requestingCallback && <Text style={styles.subtitle}>{strings.REQUEST_CALLBACK}</Text>}
               </TouchableOpacity>
             </View>
@@ -191,9 +192,9 @@ class Profile extends Component {
           // Trainer packages display
           userType === userTypes.TRAINER && packages.length > 0 && (
             <View style={styles.postListContainer}>
-              <Text style={[styles.sectionTitle, {marginBottom: spacing.medium_sm}]}>{strings.PACKAGES}</Text>
+              <Text style={[styles.sectionTitle, { marginBottom: spacing.medium_sm }]}>{strings.PACKAGES}</Text>
               <PackagePreviewList onPackagePress={packageId => this.openPackage(user._id, packageId)}
-                                  packages={packages}/>
+                packages={packages} />
             </View>
           )
         }
@@ -202,7 +203,7 @@ class Profile extends Component {
           userType === userTypes.TRAINER && certificates && certificates.length > 0 && (
             <View style={styles.postListContainer}>
               <Text style={styles.sectionTitle}>{strings.CERTIFICATIONS}</Text>
-              <CertificateList data={certificates}/>
+              <CertificateList data={certificates} />
             </View>
           )
         }
@@ -211,7 +212,7 @@ class Profile extends Component {
           posts &&
           <View style={styles.postListContainer}>
             <View style={styles.sectionTitleContainer}>
-              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.sectionTitle}>{strings.POSTS}</Text>
               </View>
               <PostList
@@ -221,6 +222,8 @@ class Profile extends Component {
                 like={this.props.likePost}
                 unlike={this.props.unlikePost}
                 report={this.props.reportPost}
+                refreashing={this.state.refreashing}
+                refreash={() => { this.setState({ refreshing: false }) }}
               />
             </View>
           </View>
@@ -244,12 +247,12 @@ class Profile extends Component {
         parallaxHeaderHeight={screenHeight * 2 / 3}
         renderForeground={() => (
           <Image
-            style={{width: screenWidth, height: screenHeight}}
+            style={{ width: screenWidth, height: screenHeight }}
             source={this.state.bgImage}
             resizeMode={FastImage.resizeMode.cover}
           />
         )}>
-        <this.renderContent/>
+        <this.renderContent />
       </ParallaxScrollView>
     )
   }
@@ -300,13 +303,13 @@ const styles = StyleSheet.create({
     borderColor: appTheme.brightContent,
     paddingHorizontal: spacing.small_lg
   },
-  nodata:{
-    height:200,
-    width:200,
-    flexDirection:'column',
-    justifyContent:'center',
-    alignSelf:'center',
-    top:'40%'
+  nodata: {
+    height: 200,
+    width: 200,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    top: '40%'
   }
 });
 
