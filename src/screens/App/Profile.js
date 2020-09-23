@@ -178,7 +178,7 @@ class Profile extends Component {
 
         {
           // Request callback button for trainers
-          userType === userTypes.TRAINER && (
+          userType === userTypes.USER && (
             <View style={styles.callbackContainer}>
               <TouchableOpacity disabled={this.state.requestingCallback} style={styles.callbackButton}
                 onPress={this.requestCallback}>
@@ -193,7 +193,7 @@ class Profile extends Component {
           userType === userTypes.TRAINER && packages.length > 0 && (
             <View style={styles.postListContainer}>
               <Text style={[styles.sectionTitle, { marginBottom: spacing.medium_sm }]}>{strings.PACKAGES}</Text>
-              <PackagePreviewList onPackagePress={packageId => this.openPackage(user._id, packageId)}
+              <PackagePreviewList onPackagePress={packageId => this.onPackagePress(user._id, packageId)}
                 packages={packages} />
             </View>
           )
@@ -224,6 +224,7 @@ class Profile extends Component {
                 report={this.props.reportPost}
                 refreashing={this.state.refreashing}
                 refreash={() => { this.setState({ refreshing: false }) }}
+                onProfilePress={()=>{console.log('call')}}
               />
             </View>
           </View>
