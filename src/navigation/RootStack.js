@@ -38,7 +38,7 @@ import CalorieCounter from "../screens/Fitness/CalorieCounter";
 import Calorie1 from "../screens/Fitness/Calorie1";
 import PdfViewer from "../screens/App/PdfViewer";
 import Sessions from "../screens/App/Sessions";
-
+import WebView from '../screens/webview'
 // All the application screens outside tab navigator are defined here
 // There are some user and some trainer specific screens defined
 const rootStack = () => {
@@ -132,6 +132,17 @@ const rootStack = () => {
               component={AccountStatement}
               options={{
                 title: "Account Statement",
+                headerTintColor: appTheme.darkBackground,
+                headerStyle: {
+                  backgroundColor: appTheme.brightContent,
+                },
+              }}
+            />
+            <Stack.Screen
+              name={RouteNames.WebView}
+              component={WebView}
+              options={{
+                title: "Terms and conditions",
                 headerTintColor: appTheme.darkBackground,
                 headerStyle: {
                   backgroundColor: appTheme.brightContent,

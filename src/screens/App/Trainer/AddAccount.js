@@ -11,10 +11,11 @@ import {
   LayoutAnimation,
   ActivityIndicator,
   Keyboard,
+  CheckBox
 } from "react-native";
 import {connect} from "react-redux";
 import Entypo from "react-native-vector-icons/Entypo";
-
+import RouteNames from "../../../navigation/RouteNames";
 import {appTheme} from "../../../constants/colors";
 import fontSizes from "../../../constants/fontSizes";
 import fonts from "../../../constants/fonts";
@@ -29,7 +30,8 @@ const initialState = {
   accountNumber: "",
   holderName: "",
   bankName: "",
-  submitting: false
+  submitting: false,
+  checked : false
 };
 
 class AddAccount extends Component {
@@ -40,14 +42,16 @@ class AddAccount extends Component {
   }
 
   saveAccount = async () => {
+
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     Keyboard.dismiss();
-    const {accountNumber, ifscCode, bankName, holderName} = this.state;
+    const {accountNumber, ifscCode, bankName, holderName , checked} = this.state;
     if (
       accountNumber === "" ||
       ifscCode === "" ||
       bankName === "" ||
-      holderName === ""
+      holderName === "" || 
+      !checked
     )
       showError(strings.PLEASE_ENTER_DETAILS);
     else {
@@ -143,7 +147,9 @@ class AddAccount extends Component {
       </View>
     );
   };
-
+  handleCheckBox = () => {
+    this.setState({checked : !this.state.checked})
+  }
   render() {
     return (
       <View showsVerticalScrollIndicator={false} style={styles.container}>
@@ -194,9 +200,13 @@ class AddAccount extends Component {
             </>
           )}
           <View style={styles.tncView}>
+            <CheckBox
+              value={this.state.checked}
+              onValueChange={this.handleCheckBox}
+              style={styles.checkbox}
+            />
             <Text style={styles.agree}>{strings.AGREE} </Text>
-            <TouchableOpacity onPress={() => {
-            }}>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate(RouteNames.WebView)}>
               <Text style={styles.read}>{strings.CLICK_READ}</Text>
             </TouchableOpacity>
           </View>
@@ -220,6 +230,13 @@ const mapDispatchToProps = (dispatch) => ({
 
 
 const styles = StyleSheet.create({
+  checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+  },
+  checkbox: {
+    alignSelf: "center",
+  },
   accountNumber: {
     backgroundColor: appTheme.background,
     alignSelf: "flex-start",

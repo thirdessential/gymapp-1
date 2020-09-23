@@ -63,6 +63,7 @@ const RouteNames = {
   AccountDash: 'AccountDash',
   AccountStatement: 'AccountStatement',
   AddAccount: 'AddAccount',
+  WebView : 'WebView',
 
   SelectExercise: 'SelectExercise',
   PerformExercise: 'PerformExercise',

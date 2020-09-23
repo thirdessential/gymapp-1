@@ -63,7 +63,7 @@ const ProfileOverview = (props) => {
         </View>
       </View>
       {
-        props.userType === userTypes.USER && props.userType !== props.myUserType  &&<TouchableOpacity onPress={props.onHitsPress} activeOpacity={0.7} style={styles.profileHitsContainer}>
+        props.userType === userTypes.USER && props.myUserType === userTypes.TRAINER  &&<TouchableOpacity onPress={props.onHitsPress} activeOpacity={0.7} style={styles.profileHitsContainer}>
           <HitsList hits={props.hits} />
           {
             props.initiateVideoCallCallback && (

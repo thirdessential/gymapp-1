@@ -105,6 +105,7 @@
     "react-native-video": "^5.1.0-alpha7",
     "react-native-video-compressor": "0.0.3",
     "react-native-video-controls": "^2.6.0",
+    "react-native-webview": "^10.9.0",
     "react-native-weekday-picker": "git+https://github.com/Yatanvesh/react-native-weekday-picker.git",
     "react-native-zoom-us": "git+https://github.com/Yatanvesh/react-native-zoom-us.git",
     "react-redux": "^7.2.1",

@@ -84,6 +84,8 @@ target 'FitnessFirst' do
 
   pod 'react-native-version-check', :path => '../node_modules/react-native-version-check'
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
   target 'FitnessFirstTests' do
     inherit! :complete
     # Pods for testing

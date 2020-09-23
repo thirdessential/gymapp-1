@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {PureComponent} from "react";
+import React, { PureComponent } from "react";
 import {
   View,
   StyleSheet,
@@ -15,14 +15,14 @@ import {
   LayoutAnimation,
   ActivityIndicator,
 } from "react-native";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import Video from 'react-native-video';
 import ImagePicker from "react-native-image-picker";
 import MediaMeta from 'react-native-media-meta';
 
-import {appTheme} from "../../constants/colors";
+import { appTheme } from "../../constants/colors";
 import * as actionCreators from "../../store/actions";
-import {spacing} from "../../constants/dimension";
+import { spacing } from "../../constants/dimension";
 import fonts from "../../constants/fonts";
 import HalfRoundedButton from "../../components/HalfRoundedButton";
 import strings from "../../constants/strings";
@@ -31,10 +31,10 @@ import {
   MAX_POST_LENGTH, MAX_VIDEO_LENGTH,
   POST_TYPE,
 } from "../../constants/appConstants";
-import {pickImage} from "../../utils/utils";
-import {createImagePost, createTextPost, postQuestion, createVideoPost} from "../../API";
-import {screenWidth} from "../../utils/screenDimensions";
-import {showError, showSuccess} from "../../utils/notification";
+import { pickImage } from "../../utils/utils";
+import { createImagePost, createTextPost, postQuestion, createVideoPost } from "../../API";
+import { screenWidth } from "../../utils/screenDimensions";
+import { showError, showSuccess } from "../../utils/notification";
 
 class CreatePost extends PureComponent {
 
@@ -46,20 +46,21 @@ class CreatePost extends PureComponent {
     type: POST_TYPE.TYPE_POST,
     videoSrc: null,
     videoPath: "",
+    error: ""
   };
 
   componentDidMount() {
-    const {route} = this.props;
+    const { route } = this.props;
     if (route.params && route.params.type) {
-      const {type} = route.params;
-      this.setState({type});
+      const { type } = route.params;
+      this.setState({ type });
       this.props.navigation.setOptions({
         title:
           type === POST_TYPE.TYPE_VIDEO
             ? "Upload video"
             : type === POST_TYPE.TYPE_POST
-            ? "Create post"
-            : "Ask an expert",
+              ? "Create post"
+              : "Ask an expert",
       });
 
     }
@@ -70,7 +71,7 @@ class CreatePost extends PureComponent {
       if (!response.uri) return;
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       this.setState({
-        imageSrc: {uri: response.uri},
+        imageSrc: { uri: response.uri },
         imagePath: response.path,
       });
     });
@@ -98,7 +99,7 @@ class CreatePost extends PureComponent {
           showError(strings.VIDEO_LENGTH_EXCEEDED); // TODO: derive video length in this string constant
         } else await
           this.setState({
-            videoSrc: {uri: response.uri},
+            videoSrc: { uri: response.uri },
             videoPath: response.path
           })
       }
@@ -112,10 +113,10 @@ class CreatePost extends PureComponent {
     return (
       <View style={styles.imageContainer}>
         {this.state.imageSrc && (
-          <Image source={this.state.imageSrc} style={styles.imageStyle}/>
+          <Image source={this.state.imageSrc} style={styles.imageStyle} />
         )}
-        <View style={{marginRight: "auto", padding: spacing.medium_sm}}>
-          <HalfRoundedButton onPress={this.setImage} title={titleText}/>
+        <View style={{ marginRight: "auto", padding: spacing.medium_sm }}>
+          <HalfRoundedButton onPress={this.setImage} title={titleText} />
         </View>
       </View>
     );
@@ -129,17 +130,17 @@ class CreatePost extends PureComponent {
       <View style={styles.videoContainer}>
         {this.state.videoSrc && (
           <Video source={this.state.videoSrc}
-                 repeat={true}
-                 resizeMode="stretch"
-                 ref={(ref) => {
-                   this.player = ref
-                 }}                                      // Store reference
-                 onBuffer={this.onBuffer}                // Callback when remote video is buffering
-                 onError={this.videoError}
-                 style={{position: 'relative', height: 250, width: '100%'}}/>
+            repeat={true}
+            resizeMode="stretch"
+            ref={(ref) => {
+              this.player = ref
+            }}                                      // Store reference
+            onBuffer={this.onBuffer}                // Callback when remote video is buffering
+            onError={this.videoError}
+            style={{ position: 'relative', height: 250, width: '100%' }} />
         )}
-        <View style={{marginRight: "auto", padding: spacing.medium_sm}}>
-          <HalfRoundedButton onPress={this.setVideo} title={titleText}/>
+        <View style={{ marginRight: "auto", padding: spacing.medium_sm }}>
+          <HalfRoundedButton onPress={this.setVideo} title={titleText} />
         </View>
       </View>
     );
@@ -149,13 +150,13 @@ class CreatePost extends PureComponent {
       this.state.type === POST_TYPE.TYPE_POST
         ? strings.POST
         : this.state.type === POST_TYPE.TYPE_VIDEO
-        ? strings.DESCRIPTION
-        : strings.DESCRIPTION;
+          ? strings.DESCRIPTION
+          : strings.DESCRIPTION;
     return (
       <View style={styles.contentContainer}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={[styles.title, {color: appTheme.brightContent}]}>
+          <Text style={[styles.title, { color: appTheme.brightContent }]}>
             {this.state.description.length}/{MAX_POST_LENGTH}
           </Text>
         </View>
@@ -168,24 +169,30 @@ class CreatePost extends PureComponent {
           underlineColorAndroid={"transparent"}
           maxLength={MAX_POST_LENGTH}
         />
+        <Text style={styles.error}>{this.state.error}</Text>
       </View>
     );
   };
   onDescriptionChange = (description) => {
-    this.setState({description});
+    this.setState({ description });
+    this.state.description.length < 4
+    ?
+    this.setState({ error: "Length of description should be greater than 5!" })
+    :
+    this.setState({ error: "" })
   };
 
   renderSubmit = () => {
     const disabled = this.state.description.length < 5;
     if (this.state.submitting)
-      return <ActivityIndicator color={appTheme.brightContent} size={40}/>;
+      return <ActivityIndicator color={appTheme.brightContent} size={40} />;
     return (
-      <View style={{flexDirection: "row", marginTop: spacing.medium_sm}}>
+      <View style={{ flexDirection: "row", marginTop: spacing.medium_sm }}>
         <TouchableOpacity
           onPress={
             this.state.type === POST_TYPE.TYPE_POST
               ? this.createPost : this.state.type === POST_TYPE.TYPE_QUESTION ?
-              this.createQuestion : this.createVideo
+                this.createQuestion : this.createVideo
           }
           disabled={disabled}
           style={[
@@ -197,7 +204,7 @@ class CreatePost extends PureComponent {
             },
           ]}
         >
-          <Text style={{color: appTheme.textPrimary, fontFamily: fonts.CenturyGothic}}>
+          <Text style={{ color: appTheme.textPrimary, fontFamily: fonts.CenturyGothic }}>
             {strings.POST}
           </Text>
         </TouchableOpacity>
@@ -206,11 +213,11 @@ class CreatePost extends PureComponent {
   };
 
   createVideo = async () => {
-    const {videoPath, description, videoSrc} = this.state;
-    const {navigation, updatePosts, updateMyPosts} = this.props;
+    const { videoPath, description, videoSrc } = this.state;
+    const { navigation, updatePosts, updateMyPosts } = this.props;
     Keyboard.dismiss();
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({submitting: true});
+    this.setState({ submitting: true });
     let result;
     if (videoPath) {
       navigation.goBack();
@@ -232,11 +239,11 @@ class CreatePost extends PureComponent {
 
   }
   createPost = async () => {
-    const {imagePath, description} = this.state;
-    const {navigation, updatePosts, updateMyPosts} = this.props;
+    const { imagePath, description } = this.state;
+    const { navigation, updatePosts, updateMyPosts } = this.props;
     Keyboard.dismiss();
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({submitting: true});
+    this.setState({ submitting: true });
     let result;
     if (imagePath) {
       result = await createImagePost(
@@ -245,7 +252,7 @@ class CreatePost extends PureComponent {
         this.props.authToken
       );
     } else result = await createTextPost(description);
-    this.setState({submitting: false});
+    this.setState({ submitting: false });
     if (result) {
       updatePosts();
       updateMyPosts();
@@ -256,13 +263,13 @@ class CreatePost extends PureComponent {
     }
   };
   createQuestion = async () => {
-    const {description} = this.state;
-    const {navigation, updateQuestions} = this.props;
+    const { description } = this.state;
+    const { navigation, updateQuestions } = this.props;
     Keyboard.dismiss();
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({submitting: true});
+    this.setState({ submitting: true });
     let result = await postQuestion(description);
-    this.setState({submitting: false});
+    this.setState({ submitting: false });
     if (result) {
       showSuccess("Question posted");
       updateQuestions();
@@ -273,15 +280,15 @@ class CreatePost extends PureComponent {
   };
 
   render() {
-    const {type} = this.state;
+    const { type } = this.state;
 
     return (
       <>
-        <StatusBar backgroundColor={appTheme.lightBackground}/>
+        <StatusBar backgroundColor={appTheme.lightBackground} />
         <View style={styles.container}>
           <ScrollView
             keyboardShouldPersistTaps={"always"}
-            style={{flex: 1}}
+            style={{ flex: 1 }}
             showsVerticalScrollIndicator={false}
           >
             {/*{this.props.userType === userTypes.USER || true && this.renderSelector()}*/}
@@ -328,6 +335,14 @@ const styles = StyleSheet.create({
     color: appTheme.textPrimary,
     fontFamily: fonts.CenturyGothic,
     fontWeight: "700",
+  },
+  error: {
+    color: appTheme.textPrimary,
+   // fontFamily: fonts.CenturyGothic,
+    fontWeight: "600",
+    width : "60%",
+    marginTop : "5%"
+  
   },
   imageStyle: {
     width: screenWidth - spacing.medium * 2,
