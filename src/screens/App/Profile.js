@@ -147,7 +147,7 @@ class Profile extends Component {
     const user = this.getUser();
     const posts = this.getPosts();
     if (!user)
-      return <Image style={styles.nodata} source={require('../../../assets/images/404-v.png')} />;
+      return this.loader();
 
     let { name, userType, experience, rating, displayPictureUrl, packages, city, bio, slots, activeSubscriptions, certificates } = user;
     if (!displayPictureUrl) displayPictureUrl = defaultDP;
