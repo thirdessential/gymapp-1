@@ -78,6 +78,9 @@ class Activity extends PureComponent {
     const myStreamIds = myLiveStreams.map(stream => stream._id);
     // Check which streams are scheduled and show them
     let upcomingStreams = liveStreams.filter(stream => stream.status === streamStatus.SCHEDULED);
+    console.log(upcomingStreams)
+   // upcomingStreams = upcomingStreams.sort((a, b) => b.date - a.date)
+   // console.log(upcomingStreams)
     upcomingStreams = upcomingStreams.map(stream => {
       if (myStreamIds.includes(stream._id))
         stream.isMyStream = true;
