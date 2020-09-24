@@ -100,6 +100,7 @@ export const updatePost = (postId) => {
     try {
       let { comments, post, likes } = await API.getPost(postId);
       post.likes = likes;
+      // console.log(post,'postsss')
       dispatch(setPost(post));
       if (comments)
         dispatch(setComments(postId, comments));
