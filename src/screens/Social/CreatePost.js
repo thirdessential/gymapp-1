@@ -46,7 +46,6 @@ class CreatePost extends PureComponent {
     type: POST_TYPE.TYPE_POST,
     videoSrc: null,
     videoPath: "",
-    error: ""
   };
 
   componentDidMount() {
@@ -169,17 +168,11 @@ class CreatePost extends PureComponent {
           underlineColorAndroid={"transparent"}
           maxLength={MAX_POST_LENGTH}
         />
-        <Text style={styles.error}>{this.state.error}</Text>
       </View>
     );
   };
   onDescriptionChange = (description) => {
     this.setState({ description });
-    this.state.description.length < 4
-    ?
-    this.setState({ error: "Length of description should be greater than 5!" })
-    :
-    this.setState({ error: "" })
   };
 
   renderSubmit = () => {
@@ -335,14 +328,6 @@ const styles = StyleSheet.create({
     color: appTheme.textPrimary,
     fontFamily: fonts.CenturyGothic,
     fontWeight: "700",
-  },
-  error: {
-    color: appTheme.textPrimary,
-   // fontFamily: fonts.CenturyGothic,
-    fontWeight: "600",
-    width : "60%",
-    marginTop : "5%"
-  
   },
   imageStyle: {
     width: screenWidth - spacing.medium * 2,

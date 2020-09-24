@@ -214,7 +214,7 @@ class Activity extends PureComponent {
           <TouchableOpacity 
             style={styles.calorieButton}
             onPress={() => this.props.navigation.navigate(RouteNames.CalorieCounter)}>
-              <Text style={styles.calorieText}>Calorie</Text>
+              <Text style={styles.calorieText}>Add</Text>
           </TouchableOpacity>
           <Menu
             style={styles.menuContainer}
