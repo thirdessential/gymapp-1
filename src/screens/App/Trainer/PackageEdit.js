@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   StyleSheet,
@@ -16,28 +16,27 @@ import {
   ImageBackground,
   Switch
 } from 'react-native'
-import {connect} from "react-redux";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import { connect } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ion from "react-native-vector-icons/Ionicons";
 import RBSheet from "react-native-raw-bottom-sheet";
-import {FlatGrid} from "react-native-super-grid";
+import { FlatGrid } from "react-native-super-grid";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import DateTimePicker from "@react-native-community/datetimepicker";
-
-import {spacing} from "../../../constants/dimension";
+import { spacing } from "../../../constants/dimension";
 import * as actionCreators from "../../../store/actions";
-import colors, {appTheme, bmiColors} from "../../../constants/colors";
+import colors, { appTheme, bmiColors } from "../../../constants/colors";
 import strings from "../../../constants/strings";
 import fonts from "../../../constants/fonts";
 import fontSizes from "../../../constants/fontSizes";
-import {validatePackage} from "../../../utils/validators";
-import {showSuccess} from "../../../utils/notification";
-import {cardSize} from "../../../components/ImageCard";
-import {packageImages, packageTypes, WEEK_DAYS} from "../../../constants/appConstants";
-import {screenHeight, screenWidth} from "../../../utils/screenDimensions";
+import { validatePackage } from "../../../utils/validators";
+import { dateToString, groupBy } from "../../../utils/utils";
+import { showError, showSuccess } from "../../../utils/notification";
+import { cardSize } from "../../../components/ImageCard";
+import { packageImages, packageTypes, WEEK_DAYS } from "../../../constants/appConstants";
+import { screenHeight, screenWidth } from "../../../utils/screenDimensions";
 import Slot from "../../../components/Slot";
-import {dateToString} from "../../../utils/utils";
 
 class Packages extends PureComponent {
 
@@ -64,31 +63,31 @@ class Packages extends PureComponent {
   }
 
   componentDidMount() {
-    const {route, navigation} = this.props;
+    const { route, navigation } = this.props;
     if (route.params) {
-      const {packageId} = route.params;
+      const { packageId } = route.params;
       if (packageId) {
         const filteredPackages = this.props.packages.filter(packageData => packageData._id === packageId);
         if (filteredPackages.length !== 0)
-          this.setState({...filteredPackages[0]});
+          this.setState({ ...filteredPackages[0] });
       }
     }
     let categories = Object.keys(packageTypes).map((packageName) => {
-      return {title: packageName, image: packageImages[packageName]};
+      return { title: packageName, image: packageImages[packageName] };
     });
-    this.setState({categories});
+    this.setState({ categories });
   }
 
-  onTitleChange = (title) => this.setState({title});
+  onTitleChange = (title) => this.setState({ title });
 
   sessionCountChange = (noOfSessions) => {
-    this.setState({noOfSessions});
+    this.setState({ noOfSessions });
   }
 
   priceChange = (price) => {
-    this.setState({price: price.replace(/\D+/g, '')});
+    this.setState({ price: price.replace(/\D+/g, '') });
   }
-  descriptionChange = (description) => this.setState({description});
+  descriptionChange = (description) => this.setState({ description });
 
   deletePackage = async () => {
     this.props.deletePackage(this.state._id);
@@ -96,36 +95,92 @@ class Packages extends PureComponent {
   }
   setCategory = (category) => {
     const title = !!this.state.title && this.state.title !== 'Sample Title' ? this.state.title : packageTypes[category];
-    this.setState({category, title});
+    this.setState({ category, title });
     this.closeRbSheet();
+  }
+  findBookedDays = (time) => {
+    const { slots } = this.props;
+    let slotsAtTime = slots.filter(slot => slot.time === time);
+    const occupiedDays = [];
+    slotsAtTime.map(slot => {
+      if (slot.isSubscribed || slot.group)
+        occupiedDays.push(slot.dayOfWeek)
+    })
+    return occupiedDays;
   }
   savePackage = async () => {
     Keyboard.dismiss();
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({submitPending: true});
-    await this.props.createPackage(this.state);
-    this.setState({submitPending: false});
-    const {route} = this.props;
-    if (route.params && route.params.packageId)
-      showSuccess(strings.CHANGES_SAVED);
-    else showSuccess(strings.PACKAGE_CREATED);
-    if (this.state.group)
-      this.props.updateUserData()
-    this.props.navigation.goBack();
+    this.setState({ submitPending: true });
+    if (!this.state.group) {
+      await this.props.createPackage(this.state);
+      this.setState({ submitPending: false });
+      const { route } = this.props;
+      if (route.params && route.params.packageId)
+        showSuccess(strings.CHANGES_SAVED);
+      else showSuccess(strings.PACKAGE_CREATED);
+      this.props.navigation.goBack();
+
+    } else {
+      let bookedday = this.findBookedDays(this.state.slot.time)
+      if (bookedday.length !== 0) {
+        let day = bookedday.filter((word) => !this.state.slot.days.includes(word));
+        if (day.length !== 0) {
+          await this.props.createPackage(this.state);
+          this.setState({ submitPending: false });
+          const { route } = this.props;
+          if (route.params && route.params.packageId)
+            showSuccess(strings.CHANGES_SAVED);
+          else showSuccess(strings.PACKAGE_CREATED);
+          if (this.state.group)
+            this.props.updateUserData()
+          this.props.navigation.goBack();
+        } else {
+          showError(bookedday.toString() + ' ' + strings.SLOT_ALREADY_BOOKED)
+          this.setState({ submitPending: false });
+        }
+
+      } else {
+        await this.props.createPackage(this.state);
+        this.setState({ submitPending: false });
+        const { route } = this.props;
+        if (route.params && route.params.packageId)
+          showSuccess(strings.CHANGES_SAVED);
+        else showSuccess(strings.PACKAGE_CREATED);
+        if (this.state.group)
+          this.props.updateUserData()
+        this.props.navigation.goBack();
+      }
+    }
+  }
+
+  mapSlotsToLocal = (slots) => {
+    // convert plain array to grouped array based on time
+    const localSlots = [];
+    const slotsByTime = groupBy(slots, 'time');
+    Object.keys(slotsByTime).map(time => {
+      let slotsAtT = slotsByTime[time];
+      const slotObj = slotsAtT[0];
+      let days = [];
+      slotsAtT.map(slotAtT => days.push(slotAtT.dayOfWeek));
+      slotObj.days = days;
+      localSlots.push(slotObj);
+    })
+    return localSlots.sort(this.sortSlots);
   }
   toggleGroup = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({group: !this.state.group})
+    this.setState({ group: !this.state.group })
   }
 
   renderSwitch = () => {
-    const {active, _id} = this.state;
+    const { active, _id } = this.state;
     if (!_id) return null;
     return (
       <View style={[styles.row, styles.center]}>
         <Text style={styles.title}>{active ? strings.ACTIVE : strings.DISABLED}</Text>
         <Switch
-          trackColor={{false: appTheme.grey, true: bmiColors.blue}}
+          trackColor={{ false: appTheme.grey, true: bmiColors.blue }}
           thumbColor={this.state.active ? bmiColors.yellow : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={this.toggleActive}
@@ -136,14 +191,14 @@ class Packages extends PureComponent {
   }
   toggleActive = (value) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({active: value})
+    this.setState({ active: value })
   }
   maxParticipantsChange = (maxParticipants) => {
     if (Number.isNaN(parseInt(maxParticipants)))
       maxParticipants = '';
     else if (maxParticipants < 2) maxParticipants = 2;
     if (maxParticipants > 50) maxParticipants = 50;
-    this.setState({maxParticipants});
+    this.setState({ maxParticipants });
   }
   cancelEdit = () => {
     this.props.navigation.goBack()
@@ -151,28 +206,28 @@ class Packages extends PureComponent {
   openRbSheet = () => this.RBSheet.open()
   closeRbSheet = () => this.RBSheet.close()
   rbSheet = () => (<RBSheet
-      ref={ref => {
-        this.RBSheet = ref;
-      }}
-      height={screenHeight / 1.5}
-      animationType={'slide'}
-      closeOnDragDown={true}
-      customStyles={{
-        container: styles.rbContainer,
-        wrapper: {
-          backgroundColor: 'transparent'
-        }
-      }}>
-      {this.renderCategories()}
-    </RBSheet>
+    ref={ref => {
+      this.RBSheet = ref;
+    }}
+    height={screenHeight / 1.5}
+    animationType={'slide'}
+    closeOnDragDown={true}
+    customStyles={{
+      container: styles.rbContainer,
+      wrapper: {
+        backgroundColor: 'transparent'
+      }
+    }}>
+    {this.renderCategories()}
+  </RBSheet>
   )
 
   showDatePicker = () => {
-    this.setState({pickerVisible: true});
+    this.setState({ pickerVisible: true });
   }
   renderCategory = (item) => (
-    <TouchableOpacity onPress={() => this.setCategory(item.title)} style={{alignItems: 'center'}}>
-      <Image style={styles.imageCard} source={item.image}/>
+    <TouchableOpacity onPress={() => this.setCategory(item.title)} style={{ alignItems: 'center' }}>
+      <Image style={styles.imageCard} source={item.image} />
       <Text numberOfLines={2} style={styles.categoryTitle}>{packageTypes[item.title]}</Text>
     </TouchableOpacity>
   )
@@ -181,44 +236,44 @@ class Packages extends PureComponent {
       itemDimension={cardSize - spacing.medium}
       showsVerticalScrollIndicator={false}
       data={this.state.categories}
-      renderItem={({item}) => this.renderCategory(item)}
+      renderItem={({ item }) => this.renderCategory(item)}
     />
   }
 
   validateGroup = () => {
-    const {group, maxParticipants} = this.state;
+    const { group, maxParticipants } = this.state;
     if (!group) return true;
     else return maxParticipants >= 2 && maxParticipants <= 50;
   }
   handleTimeChange = (time) => {
-    const slot = {...this.state.slot};
+    const slot = { ...this.state.slot };
     slot.time = dateToString(time);
-    this.setState({slot});
+    this.setState({ slot });
   }
   handleDurationChange = (duration) => {
-    const slot = {...this.state.slot};
+    const slot = { ...this.state.slot };
     slot.duration = duration;
-    this.setState({slot});
+    this.setState({ slot });
   }
   handleDaysChange = (days) => {
-    const slot = {...this.state.slot};
+    const slot = { ...this.state.slot };
     slot.days = days;
-    this.setState({slot});
+    this.setState({ slot });
   }
   onDateChange = (result) => {
-    const {timestamp} = result.nativeEvent;
+    const { timestamp } = result.nativeEvent;
     if (!timestamp) return;
-    this.setState({startDate: timestamp, pickerVisible: false})
+    this.setState({ startDate: timestamp, pickerVisible: false })
   }
 
   render() {
     const inputsValid = validatePackage(this.state) && this.validateGroup();
-    const {category, slot, startDate} = this.state;
+    const { category, slot, startDate } = this.state;
     const date = new Date(startDate).toLocaleDateString();
     return (
       <KeyboardAwareScrollView style={styles.container} showsVerticalScrollIndicator={false} enableOnAndroid={true}
-                               keyboardShouldPersistTaps={'handled'}>
-        <StatusBar backgroundColor={appTheme.darkBackground}/>
+        keyboardShouldPersistTaps={'handled'}>
+        <StatusBar backgroundColor={appTheme.darkBackground} />
         {!!this.state.category && (
           <ImageBackground source={packageImages[this.state.category]} style={styles.titleContainer}>
             <Text style={styles.title}>Title</Text>
@@ -253,7 +308,7 @@ class Packages extends PureComponent {
           </View>
 
           <View style={styles.row}>
-            <View style={[styles.inputRow, {width: '50%', marginRight: 'auto'}]}>
+            <View style={[styles.inputRow, { width: '50%', marginRight: 'auto' }]}>
               <Text style={styles.title}>{strings.SESSIONS}</Text>
               <TextInput
                 keyboardType={'numeric'}
@@ -268,7 +323,7 @@ class Packages extends PureComponent {
               <Text style={styles.title}>{strings.GROUP_SESSIONS}</Text>
               <TouchableOpacity activeOpacity={0.6} onPress={this.toggleGroup} style={styles.iconButton}>
                 <FontAwesome5Icon name={'check'} color={this.state.group ? bmiColors.blue : appTheme.grey}
-                                  size={20}/>
+                  size={20} />
               </TouchableOpacity>
             </View>
           </View>
@@ -368,7 +423,7 @@ class Packages extends PureComponent {
           <TouchableOpacity style={styles.buttonContainer} disabled={!inputsValid} onPress={this.savePackage}>
             {
               this.state.submitPending && (
-                <ActivityIndicator size={28} color={appTheme.brightContent}/>
+                <ActivityIndicator size={28} color={appTheme.brightContent} />
               )
             }
             {
@@ -517,7 +572,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  packages: state.trainer.packages
+  packages: state.trainer.packages,
+  slots: state.trainer.slots
 });
 
 const mapDispatchToProps = (dispatch) => ({
