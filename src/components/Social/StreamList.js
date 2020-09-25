@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React from 'react';
-import {StyleSheet, View, FlatList} from "react-native";
+import {StyleSheet, View, FlatList,RefreshControl} from "react-native";
 
 import {spacing} from "../../constants/dimension";
 
@@ -32,6 +32,7 @@ const streamList = (props) => {
       ListFooterComponent={renderSeparator}
       renderItem={renderCard}
       showsVerticalScrollIndicator={false}
+      refreshControl={<RefreshControl refreshing={false} onRefresh={()=>{props.refresh(true)}} />}
     />
   )
 }

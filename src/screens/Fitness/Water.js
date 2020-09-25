@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  RefreshControl
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
@@ -84,7 +85,9 @@ class Water extends PureComponent {
   };
   updateWaterIntake = async () => {
     //redux  function which sends this data to database for update
-    let result = await this.props.addWaterIntake(this.state.waterIntake);
+   await this.props.addWaterIntake(this.state.waterIntake);
+   let result = await this.props.getWaterIntake(); //get result i.e. array from redux
+   await this.setState({data: result}); //set it to data
     // console.log(result);
   };
   renderItem = (item, heightPercent) => {
@@ -230,6 +233,7 @@ class Water extends PureComponent {
           alignItems: "center",
         }}
         style={styles.container}
+       
       >
         <View style={styles.updateView}>
           <Text style={styles.textView}>{strings.ADD_BMI_CONTINUE}</Text>

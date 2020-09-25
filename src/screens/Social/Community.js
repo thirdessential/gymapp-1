@@ -46,12 +46,12 @@ class Community extends Component {
     pageIndex: 0,
     refreashing: false
   };
-  updatePosts = async (refreash) => {
+  updatePosts = async (refresh) => {
     const { updatePosts } = this.props;
     const { nextPostPage } = this.state;
     if (!!nextPostPage)
       this.setState({ nextPostPage: await updatePosts(nextPostPage) });
-    if (refreash === true) {
+    if (refresh === true) {
       this.setState({ nextPostPage: await updatePosts(INITIAL_PAGE), refreashing: true });
       setTimeout(() => {
         this.setState({ refreashing: false })
@@ -68,19 +68,22 @@ class Community extends Component {
         nextQuestionPage: await updateQuestions(nextQuestionPage),
       });
     if (refreash === true) {
-      this.setState({ nextPostPage: await updatePosts(INITIAL_PAGE), refreashing: true });
+      this.setState({ nextQuestionPage: await updateQuestions(INITIAL_PAGE), refreashing: true });
       setTimeout(() => {
         this.setState({ refreashing: false })
       }, 1000)
     }
   };
-  updateLiveStreams = async () => {
+  updateLiveStreams = async (refresh) => {
     const { updateLiveStreams } = this.props;
     const { nextLiveStreamPage } = this.state;
     if (!!nextLiveStreamPage)
       this.setState({
         nextLiveStreamPage: await updateLiveStreams(nextLiveStreamPage)
       });
+      if (refresh === true) {
+        this.setState({ nextLiveStreamPage: await updateLiveStreams(INITIAL_PAGE)});
+      }
   }
   openLiveScheduler = () => {
     this.closeRbSheet();
@@ -92,7 +95,7 @@ class Community extends Component {
     this.updateQuestions(!!val);
     this.updateLiveStreams(!!val);
   }
-
+ 
   openPost = (postId) => {
     this.props.navigation.navigate(RouteNames.PostViewer, { postId });
   };
@@ -168,11 +171,13 @@ class Community extends Component {
     const { meetingNumber, meetingPassword, clientKey, clientSecret } = targetStream;
     joinMeeting(meetingNumber, meetingPassword, userName, clientKey, clientSecret);
   }
+  
   renderLiveStreams = () => {
     return (
       <StreamList
         streams={this.props.liveStreams}
         onJoin={this.onJoinStream}
+        refresh={(data)=>{this.updateLiveStreams(data)}}
       />
     )
   }

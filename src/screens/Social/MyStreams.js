@@ -39,7 +39,13 @@ class MyStreams extends PureComponent {
         nextLiveStreamPage: await updateLiveStreams(nextLiveStreamPage)
       });
   }
-
+async refreshlist(data) {
+  const {updateLiveStreams} = this.props;
+ 
+    this.setState({
+      nextLiveStreamPage: await updateLiveStreams(INITIAL_PAGE)
+    });
+}
   onStartStream = async (stream) => {
     this.setState({loading: true});
     const res = await startStream(stream._id);
@@ -55,6 +61,7 @@ class MyStreams extends PureComponent {
       <StreamList
         streams={this.props.liveStreams}
         onStart={this.onStartStream}
+        refresh={(data)=>{this.refreshlist(data)}}
       />
     )
   }

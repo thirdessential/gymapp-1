@@ -283,6 +283,7 @@ export const joinSession = async (sessionId) => {
 }
 
 export const endAgoraSession = async (sessionId) => {
+  console.log(sessionId,'session')
   try {
     let response = await axios.post(`/session/${sessionId}/endAgora`);
     if (validateResponseCode(response.status)) {
