@@ -78,7 +78,9 @@ class Activity extends PureComponent {
     const myStreamIds = myLiveStreams.map(stream => stream._id);
     // Check which streams are scheduled and show them
     let upcomingStreams = liveStreams.filter(stream => stream.status === streamStatus.SCHEDULED);
-    upcomingStreams = upcomingStreams.map(stream => {
+    upcomingStreams = upcomingStreams.sort(function(a,b){
+      return new Date(a.date) - new Date(b.date);
+     }).map(stream => {
       if (myStreamIds.includes(stream._id))
         stream.isMyStream = true;
       return stream
@@ -214,7 +216,7 @@ class Activity extends PureComponent {
           <TouchableOpacity 
             style={styles.calorieButton}
             onPress={() => this.props.navigation.navigate(RouteNames.CalorieCounter)}>
-              <Text style={styles.calorieText}>Calorie</Text>
+              <Text style={styles.calorieText}>Add</Text>
           </TouchableOpacity>
           <Menu
             style={styles.menuContainer}

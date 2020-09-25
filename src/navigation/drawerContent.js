@@ -14,6 +14,7 @@ import RouteNames from "./RouteNames";
 import LinearGradient from "react-native-linear-gradient";
 import {drawerLabelStyle} from "../constants/styles";
 import Entypo from "react-native-vector-icons/Entypo";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 function CustomDrawerContent(props) {
   const {userData, userType, newCallbacks} = props;
@@ -37,15 +38,24 @@ function CustomDrawerContent(props) {
           </View>
         </TouchableOpacity>
         <View style={styles.list}>
-          <DrawerItemList {...props} labelStyle={{color: 'white'}}/>
-          <DrawerItem
+          <View  style={styles.requestContainer}>
+            <Icon name="home" color="white" size={22}/>
+            <DrawerItemList {...props} labelStyle={{color: 'white'}}/>
+          </View>
+          <View  style={styles.requestContainer}>
+            <Icon name="face" color="white" size={22}/>
+            <DrawerItem
             label="Profile"
             labelStyle={drawerLabelStyle}
             onPress={() => props.navigation.navigate(RouteNames.MyProfile)}
           />
+          </View>
+      
+         
           {
             userType === userTypes.TRAINER && (
               <View style={styles.requestContainer}>
+                <Icon name="call" color="white" size={22}/>
                 <DrawerItem
                   label="Call Requests"
                   labelStyle={drawerLabelStyle}
@@ -62,26 +72,37 @@ function CustomDrawerContent(props) {
           }
           {
             userType === userTypes.TRAINER && (
-              <DrawerItem
-                label="My Packages"
-                labelStyle={drawerLabelStyle}
-                onPress={() => props.navigation.navigate(RouteNames.Packages)}
-              />
+              <View  style={styles.requestContainer}>
+                <Icon name="dashboard" color="white" size={22}/>
+                <DrawerItem
+                  label="My Packages"
+                  labelStyle={drawerLabelStyle}
+                  onPress={() => props.navigation.navigate(RouteNames.Packages)}
+                />
+              </View>
             )
           }
-          <DrawerItem
-            label={userType === userTypes.TRAINER ? "My Clients" : "Subscriptions "}
-            labelStyle={drawerLabelStyle}
-            onPress={() => props.navigation.navigate(RouteNames.SubscriptionsView)}
-          />
+             <View  style={styles.requestContainer}>
+                <Icon name="person" color="white" size={22}/>
+                <DrawerItem
+                  label={userType === userTypes.TRAINER ? "My Clients" : "Subscriptions "}
+                  labelStyle={drawerLabelStyle}
+                  onPress={() => props.navigation.navigate(RouteNames.SubscriptionsView)}
+                />
+              </View>
+          
           {/*Experimental signout functionality. Never use in production. Firebase has some bugs */}
           {
             __DEV__ ?
-              <DrawerItem
+            <View  style={styles.requestContainer}>
+            <Icon name="input" color="white" size={22}/>
+            <DrawerItem
                 label="Sign Out"
                 labelStyle={drawerLabelStyle}
                 onPress={() => store.dispatch(signOutUser())}
-              /> : null
+              />
+          </View>
+               : null
           }
         </View>
       </LinearGradient>
