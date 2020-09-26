@@ -67,7 +67,7 @@ class Tools extends PureComponent {
 
       {
         title: strings.ASK_EXPERT,
-        image: iconBackgrounds.waterIntake,
+        image: iconBackgrounds.graphMan,
         callback: this.openQuestion,
         enabled: userType === userTypes.USER
       }, {
@@ -96,13 +96,13 @@ class Tools extends PureComponent {
       },
       {
         title: strings.WATER,
-        image: iconBackgrounds.subscriptions,
+        image: iconBackgrounds.waterIntake,
         callback: this.openWater,
         enabled: true
       },
       {
         title: strings.CALORIE_COUNTER,
-        image: iconBackgrounds.subscriptions,
+        image: iconBackgrounds.calorie,
         callback: this.openCalorie,
         enabled: true
       },
