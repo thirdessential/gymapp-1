@@ -33,12 +33,13 @@ export const roundTimeQuarterHour = (time) => {
   timeToReturn.setMinutes(Math.round(timeToReturn.getMinutes() / 15) * 15);
   return timeToReturn;
 };
-
+//hours fomate changed to 12 hours clock
 export const militaryTimeToString = (time) => {
   // Militart time expressed in HHMM, (1430, 1200 etc)
   if (!time) return "";
   const suffix = time >= 1200 ? "PM" : "AM";
-  return `${time.slice(0, 2)}:${time.slice(2)} ${suffix}`;
+  const hours = parseInt(time.slice(0, 2)) ; 
+  return `${ hours > 12 ? hours - 12 : hours  }:${ time.slice(2) } ${suffix}`;
 };
 export const formattedMilitaryRange = (time, duration) => {
   const timeObj = new Date(time);

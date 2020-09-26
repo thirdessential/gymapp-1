@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet, FlatList, LayoutAnimation} from 'react-native'
 import {connect} from "react-redux";
 import {TabView, TabBar} from "react-native-tab-view";
-
+import { militaryTimeToString } from "../../utils/utils";
 import * as actionCreators from '../../store/actions';
 import {appTheme} from "../../constants/colors";
 import SessionCard from "../../components/SessionCard";
@@ -133,6 +133,10 @@ class Sessions extends Component {
 
   renderSession = ({item}) => {
     const date = new Date(item.date);
+    const hours = item.date.substr(11,2);
+    const mins = item.date.substr(14,2);
+    const time = hours + mins;
+    console.log(time)
     const thumbnail = getHashedImage(item._id); // Return same image for item id, image is same between re render cycles
     const {users} = item;
     return (
@@ -141,7 +145,7 @@ class Sessions extends Component {
         thumbnail={thumbnail}
         title={item.packageId.title}
         duration={item.duration}
-        time={moment(date).format('LT')}
+        time={militaryTimeToString(time)}
         date={date}
         type={item.type}
         subscribers={users && users.length}
