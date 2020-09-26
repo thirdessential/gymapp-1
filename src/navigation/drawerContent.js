@@ -73,7 +73,7 @@ function CustomDrawerContent(props) {
           {
             userType === userTypes.TRAINER && (
               <View  style={styles.requestContainer}>
-                <Icon name="dashboard" color="white" size={22}/>
+                <Icon name="work" color="white" size={22}/>
                 <DrawerItem
                   label="My Packages"
                   labelStyle={drawerLabelStyle}
@@ -83,7 +83,7 @@ function CustomDrawerContent(props) {
             )
           }
              <View  style={styles.requestContainer}>
-                <Icon name="person" color="white" size={22}/>
+                <Icon name={userType === userTypes.TRAINER ? "person" : "work"} color="white" size={22}/>
                 <DrawerItem
                   label={userType === userTypes.TRAINER ? "My Clients" : "Subscriptions "}
                   labelStyle={drawerLabelStyle}
