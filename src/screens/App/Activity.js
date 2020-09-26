@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: spacing.small_lg,
     paddingHorizontal: spacing.medium_sm,
-    marginLeft : '10%'
+    marginLeft : '20%'
   },
   calorieText: {
     color: appTheme.brightContent,
