@@ -173,9 +173,16 @@ class Community extends Component {
   }
   
   renderLiveStreams = () => {
+    const { liveStreams } = this.props
+    const liveStream = liveStreams.filter( stream => {
+      const endDate = new Date(stream.date).setMinutes(new Date(stream.date).getMinutes() + stream.duration)
+      const now = new Date()
+      if( !(now > endDate && stream.status === "SCHEDULED") )
+        return stream
+    })
     return (
       <StreamList
-        streams={this.props.liveStreams}
+        streams={liveStream}
         onJoin={this.onJoinStream}
         refresh={(data)=>{this.updateLiveStreams(data)}}
       />
