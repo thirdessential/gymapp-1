@@ -20,6 +20,7 @@ export const iconBackgrounds = {
   appointments: require('../../assets/Icons/Appointments.png'),
   bmr: require('../../assets/Icons/BMR.png'),
   calorie: require('../../assets/Icons/CalorieIntake.png'),
+  LiveStream: require('../../assets/Icons/Calorie.png'),
   dietPlan: require('../../assets/Icons/dietPlan.png'),
   sleepMonitor: require('../../assets/Icons/sleepMonitor.png'),
   slots: require('../../assets/Icons/slots.png'),
