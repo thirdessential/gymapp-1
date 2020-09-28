@@ -90,7 +90,7 @@ class Tools extends PureComponent {
       },
       {
         title: strings.MY_LIVE_STREAMS,
-        image: iconBackgrounds.calorie,
+        image: iconBackgrounds.LiveStream,
         callback: this.openMyStreams,
         enabled: userType === userTypes.TRAINER
       },
