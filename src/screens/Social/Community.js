@@ -121,8 +121,8 @@ class Community extends Component {
     const { posts, postDetails, likePost, unlikePost, reportPost, deletePost } = this.props;
     if (!posts || posts.length === 0)
       return <View style={styles.nodata}>
-        <Image source={require('../../../assets/images/EmptyScreenIcons/icon-1x.png')}></Image>
-        <Image style={styles.nodataText} source={require('../../../assets/images/EmptyScreenIcons/text-1x.png')}></Image>
+          <Image source={require('../../../assets/Icons/no_data/no-post1x.png')}></Image>
+          <Image style={styles.nodataText} source={require('../../../assets/Icons/no_data/no-post-text1x.png')}></Image>
       </View>
     return (
       <PostList
@@ -147,8 +147,8 @@ class Community extends Component {
     const { questions, reportQuestion, postDetails } = this.props;
     if (!questions || questions.length === 0)
       return <View style={styles.nodata}>
-          <Image source={require('../../../assets/images/EmptyScreenIcons/icon-1x.png')}></Image>
-          <Image style={styles.nodataText} source={require('../../../assets/images/EmptyScreenIcons/text-1x.png')}></Image>
+          <Image source={require('../../../assets/Icons/no_data/no-que-1x.png')}></Image>
+          <Image style={styles.nodataText} source={require('../../../assets/Icons/no_data/no-que-text1x.png')}></Image>
         </View>
     return (
       <QuestionList
@@ -174,6 +174,12 @@ class Community extends Component {
   
   renderLiveStreams = () => {
     const { liveStreams } = this.props
+    if (!liveStreams || liveStreams.length === 0)
+      return <View style={styles.nodata}>
+          <Image source={require('../../../assets/Icons/no_data/no-stream1x.png')}></Image>
+          <Image style={styles.nodataText} source={require('../../../assets/Icons/no_data/no-stream-text1x.png')}></Image>
+        </View>
+
     const liveStream = liveStreams.filter( stream => {
       const endDate = new Date(stream.date).setMinutes(new Date(stream.date).getMinutes() + stream.duration)
       const now = new Date()
@@ -365,11 +371,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     top: '27%',
-    left : '7%'
   },
   nodataText : {
     marginTop : '10%',
-    marginLeft : "5%"
   }
 });
 
