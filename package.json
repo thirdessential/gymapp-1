@@ -42,7 +42,6 @@
     "react-native": "0.62.2",
     "react-native-24h-timepicker": "^1.1.0",
     "react-native-activity-rings": "^1.1.2",
-    "react-native-agora": "^3.0.1-rc.5",
     "react-native-android-pip": "git+https://github.com/Yatanvesh/rn-android-pip.git",
     "react-native-app-intro-slider": "^4.0.4",
     "react-native-art-hcdwave": "0.0.5",
@@ -124,7 +123,8 @@
     "eslint": "^7.7.0",
     "jest": "^26.4.0",
     "metro-react-native-babel-preset": "^0.59.0",
-    "react-test-renderer": "16.11.0"
+    "react-test-renderer": "16.11.0",
+    "react-native-agora": "^3.0.1-rc.5"
   },
   "jest": {
     "preset": "react-native"
