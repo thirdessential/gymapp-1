@@ -213,6 +213,7 @@ class Activity extends PureComponent {
       <View style={[styles.sessionContainer, styles.card]}>
         <View style={styles.row}>
           <Text style={styles.subtitle}>{strings.HEALTH_SUMMARY}</Text>
+          <View style={{flexDirection : 'row'}}>
           <TouchableOpacity 
             style={styles.calorieButton}
             onPress={() => this.props.navigation.navigate(RouteNames.CalorieCounter)}>
@@ -240,6 +241,7 @@ class Activity extends PureComponent {
               </MenuOption>
             </MenuOptions>
           </Menu>
+          </View>
         </View>
         <FitnessSummary
           stats={currentSwitch ? currentStats : weeklyStats}
@@ -305,7 +307,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     padding: spacing.small,
-    paddingHorizontal: spacing.small_lg
+    paddingHorizontal: spacing.small_lg,
+    marginLeft : 10
   },
   calorieButton : {
     borderColor: appTheme.grey,
@@ -316,7 +319,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: spacing.small_lg,
     paddingHorizontal: spacing.medium_sm,
-    marginLeft : '20%'
   },
   calorieText: {
     color: appTheme.brightContent,
