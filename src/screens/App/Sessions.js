@@ -2,7 +2,7 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, FlatList, LayoutAnimation} from 'react-native'
+import {View, StyleSheet, FlatList, LayoutAnimation , ScrollView , RefreshControl} from 'react-native'
 import {connect} from "react-redux";
 import {TabView, TabBar} from "react-native-tab-view";
 import { militaryTimeToString } from "../../utils/utils";
@@ -37,6 +37,8 @@ class Sessions extends Component {
     this.updateLocalSessionData();
     await this.props.syncSessions();
     this.updateLocalSessionData();
+    this.setState({refreshing: false})
+
   }
 
   updateLocalSessionData = async () => {
@@ -206,13 +208,27 @@ class Sessions extends Component {
       />
     )
   }
-
+  _onRefresh = () => {
+    this.setState({refreshing: true});
+    this.componentDidMount()
+   
+  }
   render() {
     return (
-      <View style={styles.container}>
-        {this.renderTodaySessions()}
-        {this.renderTabView()}
-      </View>
+      <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={false}
+          onRefresh={this._onRefresh}
+        />
+      }
+      >
+        <View style={styles.container}>
+          {this.renderTodaySessions()}
+          {this.renderTabView()}
+        </View>
+      </ScrollView>
+      
     )
   }
 }
