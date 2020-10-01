@@ -7,10 +7,10 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Button,
   KeyboardAvoidingView, ActivityIndicator
 } from 'react-native'
 import Modal from 'react-native-modal'
+import { Button, Overlay } from 'react-native-elements';
 import CropImagePicker from 'react-native-image-crop-picker';
 import {spacing} from "../../../constants/dimension";
 import fontSizes from "../../../constants/fontSizes";
@@ -88,92 +88,33 @@ class UserInfo extends React.Component {
     updateUserInfo(this.state);
     updateUserData();
   }
-  handleUpload = () => {
-    
+  handleUpload = () => {  
     CropImagePicker.openPicker({
       width: 300,
       height: 400,
       cropping: true
     }).then(response => {
-      console.log(response);
-  //    const uri = new URL(`file:///${response.path}`).href;
- //     console.log(uri)
+       this.toggleModal()
       this.setState({
-  //      imageUri: uri,
+       imageUri: response.path,
       });
-  //    this.submitPhoto(response.path, this.props.authToken)
+      this.submitPhoto(response.path, this.props.authToken)
     });
-    /*
-    ImagePicker.showImagePicker(options, (response) => {
+  }
 
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        console.log(response)
-       
-        CropImagePicker.openCropper({
-          path: response.path,
-          width: 300,
-          height: 400
-        }).then(image => {
-          console.log(image);
-        }).catch(err => {
-          console.log(err);
-        });
-      
-      //  console.log('image url', response.uri);
-        this.setState({
-          imageUri: response.uri,
-        });
-        this.submitPhoto(response.path, this.props.authToken);
-      }
-    });
-    */
-  };
   handleCapture = () => {
-    
     CropImagePicker.openCamera({
       width: 300,
       height: 400,
       cropping: true,
-    }).then(image => {
-      console.log(image);
+    }).then(response => {
+      this.setState({
+        imageUri: response.path,
+       });
+       this.toggleModal()
+       this.submitPhoto(response.path, this.props.authToken)
     });
-    /*
-    ImagePicker.showImagePicker(options, (response) => {
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        console.log(response)
-       
-        CropImagePicker.openCropper({
-          path: response.path,
-          width: 300,
-          height: 400
-        }).then(image => {
-          console.log(image);
-        }).catch(err => {
-          console.log(err);
-        });
-      
-      //  console.log('image url', response.uri);
-        this.setState({
-          imageUri: response.uri,
-        });
-        this.submitPhoto(response.path, this.props.authToken);
-      }
-    });
-    */
-  };
+  }
 
   submitPhoto = async (path, token) => {
     this.setState({imageUploading: true});
@@ -299,13 +240,27 @@ class UserInfo extends React.Component {
           </KeyboardAvoidingView>
         </ScrollView>
         <View style={{paddingTop: spacing.medium_sm, marginBottom: spacing.space_50}}/>
-        <Modal isVisible={this.state.isModalVisible}>
-          <View style={{flex: 1}}>
-            <Text onPress={this.handleCapture} style = {{color : "white"}}>Capture a image</Text>
-            <Text onPress={this.handleUpload} style = {{color : "white"}}>Upload Image</Text>
-            <Button title="Hide modal" onPress={this.toggleModal} />
+        <Overlay  isVisible={this.state.isModalVisible} onBackdropPress={this.toggleModal}>
+          
+          <View style= {{padding : 5, width : 250}}>
+            <View style = {{borderBottomWidth : 1}}>
+              <Text  style = {{ fontSize : 20}}>Choose a option</Text>
+            </View>
+            <View style = {{marginTop : 10, marginBottom : 10}}>
+              <TouchableOpacity onPress={this.handleCapture}>
+                <Text  style = {{ fontSize : 20}}>Capture a image..</Text>
+              </TouchableOpacity>
+              <View style = {{marginTop : 7}}></View>
+              <TouchableOpacity onPress={this.handleUpload} >
+                <Text  style = {{fontSize : 20}}>Upload Image..</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{width: "50%", margin: 5}}>
+              <Button title="Cancel" onPress={this.toggleModal} />
+            </View>
           </View>
-        </Modal>
+
+        </Overlay>
       </>
     )
   }
@@ -322,6 +277,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flex: 1
+  },
+  modal : {
+    width : 220,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    top: '27%',
+    padding: 20
+  },
+  modaltitle : {
+    fontSize : 20,
+    fontWeight : 'bold',
+    borderBottomWidth : 1,
   },
   heading: {
     color: appTheme.textPrimary,
