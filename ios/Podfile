@@ -86,6 +86,8 @@ target 'FitnessFirst' do
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
+  pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
+
   target 'FitnessFirstTests' do
     inherit! :complete
     # Pods for testing

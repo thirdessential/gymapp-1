@@ -7,8 +7,11 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Button,
   KeyboardAvoidingView, ActivityIndicator
 } from 'react-native'
+import Modal from 'react-native-modal'
+import CropImagePicker from 'react-native-image-crop-picker';
 import {spacing} from "../../../constants/dimension";
 import fontSizes from "../../../constants/fontSizes";
 import fonts from "../../../constants/fonts";
@@ -50,7 +53,8 @@ class UserInfo extends React.Component {
     dateOfBirth: '',
     imageUri: null,
     imageUploading: false,
-    gender: ''
+    gender: '',
+    isModalVisible : false
   }
 
   radioClick = (gender) => this.setState({gender})
@@ -84,8 +88,22 @@ class UserInfo extends React.Component {
     updateUserInfo(this.state);
     updateUserData();
   }
-  pickImage = () => {
-    const options = {};
+  handleUpload = () => {
+    
+    CropImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true
+    }).then(response => {
+      console.log(response);
+  //    const uri = new URL(`file:///${response.path}`).href;
+ //     console.log(uri)
+      this.setState({
+  //      imageUri: uri,
+      });
+  //    this.submitPhoto(response.path, this.props.authToken)
+    });
+    /*
     ImagePicker.showImagePicker(options, (response) => {
 
       if (response.didCancel) {
@@ -95,13 +113,66 @@ class UserInfo extends React.Component {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        console.log('image url', response.uri);
+        console.log(response)
+       
+        CropImagePicker.openCropper({
+          path: response.path,
+          width: 300,
+          height: 400
+        }).then(image => {
+          console.log(image);
+        }).catch(err => {
+          console.log(err);
+        });
+      
+      //  console.log('image url', response.uri);
         this.setState({
           imageUri: response.uri,
         });
         this.submitPhoto(response.path, this.props.authToken);
       }
     });
+    */
+  };
+  handleCapture = () => {
+    
+    CropImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+    });
+    /*
+    ImagePicker.showImagePicker(options, (response) => {
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        console.log(response)
+       
+        CropImagePicker.openCropper({
+          path: response.path,
+          width: 300,
+          height: 400
+        }).then(image => {
+          console.log(image);
+        }).catch(err => {
+          console.log(err);
+        });
+      
+      //  console.log('image url', response.uri);
+        this.setState({
+          imageUri: response.uri,
+        });
+        this.submitPhoto(response.path, this.props.authToken);
+      }
+    });
+    */
   };
 
   submitPhoto = async (path, token) => {
@@ -114,7 +185,9 @@ class UserInfo extends React.Component {
     }
     // this.props.updateUserData();
   }
-
+  toggleModal = () => {
+    this.setState({isModalVisible: !this.state.isModalVisible});
+  };
   render() {
     return (
       <>
@@ -154,7 +227,7 @@ class UserInfo extends React.Component {
                     }
                   </View>
                   <View style={{alignItems: 'center', width: "35%", opacity: this.state.imageUploading ? 0 : 1}}>
-                    <ActionButtonTwo onPress={this.pickImage} label={<AntDesign size={15} name='plus'/>}
+                    <ActionButtonTwo onPress={this.toggleModal} label={<AntDesign size={15} name='plus'/>}
                                      color={appTheme.brightContent}/>
                   </View>
 
@@ -226,6 +299,13 @@ class UserInfo extends React.Component {
           </KeyboardAvoidingView>
         </ScrollView>
         <View style={{paddingTop: spacing.medium_sm, marginBottom: spacing.space_50}}/>
+        <Modal isVisible={this.state.isModalVisible}>
+          <View style={{flex: 1}}>
+            <Text onPress={this.handleCapture} style = {{color : "white"}}>Capture a image</Text>
+            <Text onPress={this.handleUpload} style = {{color : "white"}}>Upload Image</Text>
+            <Button title="Hide modal" onPress={this.toggleModal} />
+          </View>
+        </Modal>
       </>
     )
   }

@@ -42,6 +42,7 @@
     "react-native": "0.62.2",
     "react-native-24h-timepicker": "^1.1.0",
     "react-native-activity-rings": "^1.1.2",
+    "react-native-agora": "^3.0.1-rc.5",
     "react-native-android-pip": "git+https://github.com/Yatanvesh/rn-android-pip.git",
     "react-native-app-intro-slider": "^4.0.4",
     "react-native-art-hcdwave": "0.0.5",
@@ -60,6 +61,7 @@
     "react-native-flash-message": "^0.1.16",
     "react-native-full-screen": "git+https://github.com/Yatanvesh/react-native-full-screen.git",
     "react-native-gesture-handler": "^1.7.0",
+    "react-native-image-crop-picker": "^0.33.2",
     "react-native-image-picker": "^2.3.3",
     "react-native-image-progress": "^1.1.1",
     "react-native-image-resizer": "^1.2.6",
@@ -104,7 +106,7 @@
     "react-native-video": "^5.1.0-alpha7",
     "react-native-video-compressor": "0.0.3",
     "react-native-video-controls": "^2.6.0",
-    "react-native-webview": "^10.9.0",
+    "react-native-webview": "^10.9.1",
     "react-native-weekday-picker": "git+https://github.com/Yatanvesh/react-native-weekday-picker.git",
     "react-native-zoom-us": "git+https://github.com/Yatanvesh/react-native-zoom-us.git",
     "react-redux": "^7.2.1",
@@ -113,8 +115,7 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "rn-fetch-blob": "^0.12.0",
-    "socket.io-client": "^2.3.0",
-    "react-native-agora": "^3.0.1-rc.5"
+    "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.1",
