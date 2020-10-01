@@ -82,7 +82,7 @@ class VideoTester extends Component {
     if (!permissionGranted) return;
 
     this.props.navigation.navigate(RouteNames.VideoCall, {
-      AppID: 'de359ae21a884e08a18e38476b54ccea',
+      AppID: 'beee8aebe49042f298b6d5e92ae3ed82',
       ChannelName: 'commonTestChannel',
       videoConfig: config
     })

@@ -84,7 +84,7 @@ class VideoCall extends Component {
 
     async function init() {
       engine = await RtcEngine.create(self.state.appid);
-      engine.enableVideo();
+      const camera =await engine.enableVideo();
 
       engine.addListener('UserJoined', (data) => {          //If user joins the channel
         const {peerIds} = self.state;                     //Get currrent peer IDs
