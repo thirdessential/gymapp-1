@@ -9,7 +9,8 @@ import {createImageProgress} from 'react-native-image-progress';
 import FastImage from 'react-native-fast-image';
 const Image = createImageProgress(FastImage);
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-
+import { Button, Overlay } from 'react-native-elements';
+import CropImagePicker from 'react-native-image-crop-picker';
 import ProfileOverview from '../../components/Profile/ProfileOverview';
 import {appTheme} from "../../constants/colors";
 import {screenHeight, screenWidth} from '../../utils/screenDimensions';
@@ -32,7 +33,8 @@ class MyProfile extends PureComponent {
   state = {
     bgImage: getRandomImage(), // cover image source
     nextPage: INITIAL_PAGE, // pagination state for my posts
-    refreashing:false
+    refreashing:false,
+    isModalVisible : false
   }
 
   updatePosts = async () => {
@@ -60,6 +62,35 @@ class MyProfile extends PureComponent {
   editProfile = () => {
     this.props.navigation.navigate(RouteNames.ProfileEdit);
   }
+   handleUpload = () => {  
+    CropImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true
+    }).then(async (response) => {
+      this.toggleModal()
+      this.setState({
+        bgImage: {uri: response.path},
+      });
+      await uploadImage(response.path, this.props.authToken, imageTypes.COVER);
+      this.props.updateUserData();
+    });
+    
+  };
+  handleCapture = () => {
+    CropImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(async (response) => {
+      this.toggleModal()
+      this.setState({
+        bgImage: {uri: response.path},
+      });
+      await uploadImage(response.path, this.props.authToken, imageTypes.COVER);
+      this.props.updateUserData();
+    });
+  };
 
   editCover = () => {
     pickImage(async response => {
@@ -77,7 +108,7 @@ class MyProfile extends PureComponent {
   renderCoverEdit = () => (
     <TouchableOpacity
       hitSlop={{top: 40, bottom: 40, left: 40, right: 40}}
-      onPress={this.editCover} style={styles.coverEditButton}>
+      onPress={this.toggleModal} style={styles.coverEditButton}>
       <FontAwesome
         name={'camera'}
         color={'white'}
@@ -165,9 +196,13 @@ class MyProfile extends PureComponent {
       </>
     )
   }
+  toggleModal = () => {
+    this.setState({isModalVisible: !this.state.isModalVisible});
+  };
 
   render() {
     return (
+      <>
       <ParallaxScrollView
         backgroundColor={appTheme.lightBackground}
         contentBackgroundColor={appTheme.background}
@@ -184,6 +219,28 @@ class MyProfile extends PureComponent {
         )}>
         <this.renderContent/>
       </ParallaxScrollView>
+      <Overlay  isVisible={this.state.isModalVisible} onBackdropPress={this.toggleModal}>
+          
+        <View style= {{padding : 5, width : 250}}>
+          <View style = {{borderBottomWidth : 1}}>
+            <Text  style = {{ fontSize : 20}}>Choose a option</Text>
+          </View>
+          <View style = {{marginTop : 10, marginBottom : 10}}>
+            <TouchableOpacity onPress={this.handleCapture}>
+              <Text  style = {{ fontSize : 20}}>Capture a image..</Text>
+            </TouchableOpacity>
+            <View style = {{marginTop : 7}}></View>
+            <TouchableOpacity onPress={this.handleUpload} >
+              <Text  style = {{fontSize : 20}}>Upload Image..</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{width: "50%", margin: 5}}>
+            <Button title="Cancel" onPress={this.toggleModal} />
+          </View>
+        </View>
+
+      </Overlay>
+      </>
     )
   }
 }

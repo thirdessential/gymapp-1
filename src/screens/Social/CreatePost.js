@@ -17,7 +17,9 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import Video from 'react-native-video';
-import ImagePicker from "react-native-image-picker";
+import { Button, Overlay } from 'react-native-elements';
+import CropImagePicker from 'react-native-image-crop-picker';
+import ImagePicker from "react-native-image-crop-picker";
 import MediaMeta from 'react-native-media-meta';
 
 import { appTheme } from "../../constants/colors";
@@ -46,6 +48,7 @@ class CreatePost extends PureComponent {
     type: POST_TYPE.TYPE_POST,
     videoSrc: null,
     videoPath: "",
+    isModalVisible : false
   };
 
   componentDidMount() {
@@ -61,7 +64,6 @@ class CreatePost extends PureComponent {
               ? "Create post"
               : "Ask an expert",
       });
-
     }
   }
 
@@ -85,7 +87,7 @@ class CreatePost extends PureComponent {
       videoQuality: 'high',
     }, async (response) => {
 
-      if (response.didCancel) {
+      if (response.didCancel) { 
         console.log('User cancelled image picker');
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
@@ -105,7 +107,36 @@ class CreatePost extends PureComponent {
       }
     });
   }
-
+  handleUpload = () => {  
+    CropImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true
+    }).then(response => {
+      this.toggleModal()
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      this.setState({
+        imageSrc: { uri: response.path },
+        imagePath: response.path,
+      });
+    });
+    
+  };
+  handleCapture = () => {
+    CropImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(response => {
+      this.toggleModal()
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      this.setState({
+        imageSrc: { uri: response.path },
+        imagePath: response.path,
+      });
+    });
+ 
+  };
   renderImage = () => {
     const titleText = this.state.imageSrc
       ? strings.CHANGE_IMAGE
@@ -116,7 +147,7 @@ class CreatePost extends PureComponent {
           <Image source={this.state.imageSrc} style={styles.imageStyle} />
         )}
         <View style={{ marginRight: "auto", padding: spacing.medium_sm }}>
-          <HalfRoundedButton onPress={this.setImage} title={titleText} />
+          <HalfRoundedButton onPress={this.toggleModal} title={titleText} />
         </View>
       </View>
     );
@@ -272,7 +303,9 @@ class CreatePost extends PureComponent {
       showError("Error, try again");
     }
   };
-
+  toggleModal = () => {
+    this.setState({isModalVisible: !this.state.isModalVisible});
+  };
   render() {
     const { type } = this.state;
 
@@ -292,6 +325,27 @@ class CreatePost extends PureComponent {
             {this.renderSubmit()}
           </ScrollView>
         </View>
+        <Overlay  isVisible={this.state.isModalVisible} onBackdropPress={this.toggleModal}>
+          
+          <View style= {{padding : 5, width : 250}}>
+            <View style = {{borderBottomWidth : 1}}>
+              <Text  style = {{ fontSize : 20}}>Choose a option</Text>
+            </View>
+            <View style = {{marginTop : 10, marginBottom : 10}}>
+              <TouchableOpacity onPress={this.handleCapture}>
+                <Text  style = {{ fontSize : 20}}>Capture a image..</Text>
+              </TouchableOpacity>
+              <View style = {{marginTop : 7}}></View>
+              <TouchableOpacity onPress={this.handleUpload} >
+                <Text  style = {{fontSize : 20}}>Upload Image..</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{width: "50%", margin: 5}}>
+              <Button title="Cancel" onPress={this.toggleModal} />
+            </View>
+          </View>
+          
+        </Overlay>
       </>
     );
   }
