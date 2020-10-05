@@ -216,6 +216,7 @@ class Sessions extends Component {
   render() {
     return (
       <ScrollView
+      style={styles.container}
       refreshControl={
         <RefreshControl
           refreshing={false}

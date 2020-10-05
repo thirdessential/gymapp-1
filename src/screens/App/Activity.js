@@ -40,7 +40,6 @@ class Activity extends PureComponent {
   }
 
   componentDidMount() {
-    console.log('calll')
     const {
       updateUserData,
       syncCoupons,
@@ -51,16 +50,16 @@ class Activity extends PureComponent {
       navigation
     } = this.props;
     updateUserData(); // update my userData
-    userType === userTypes.TRAINER && syncCoupons(); // Update my coupons
-    syncSubscriptions(); // update my subscriptions
-    syncSessions(); // Update my session data
-    userType === userTypes.TRAINER && getCallbacks(); // get my call requests
-    this.updateLocalSessionData();
-    this.updateLocalStreamData()
-    this.updateLocalStatsData();
-    this.unsubscribeFocus = navigation.addListener('focus', e => {
+      userType === userTypes.TRAINER && syncCoupons(); // Update my coupons
+      syncSubscriptions(); // update my subscriptions
+      syncSessions(); // Update my session data
+      userType === userTypes.TRAINER && getCallbacks(); // get my call requests
+      this.updateLocalSessionData();
+      this.updateLocalStreamData()
       this.updateLocalStatsData();
-    })
+      this.unsubscribeFocus = navigation.addListener('focus', e => {
+        this.updateLocalStatsData();
+      })
   }
 
   componentWillUnmount() {
