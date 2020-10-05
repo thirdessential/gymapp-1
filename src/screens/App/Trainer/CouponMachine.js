@@ -63,8 +63,13 @@ class CouponMachine extends PureComponent {
     this.setState({submitPending: true});
     const {genValidity, genPercentage, genCount} = this.state;
     await this.props.createCoupons(genCount, genPercentage, genValidity);
-    this.refreshCoupons();
-    showSuccess(strings.COUPONS_CREATED);
+    if(this.state.settingInitial){
+      this.refreshCoupons()
+    } else {
+      this.setState({settingInitial: false, submitPending: false})
+    }
+     
+    showSuccess("Approval awaited");
   }
 
   refreshCoupons = async () => {
