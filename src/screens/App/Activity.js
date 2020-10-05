@@ -40,6 +40,7 @@ class Activity extends PureComponent {
   }
 
   componentDidMount() {
+    console.log('calll')
     const {
       updateUserData,
       syncCoupons,

@@ -81,6 +81,7 @@ class CreatePost extends PureComponent {
   setVideo = async () => {
     ImagePicker.showImagePicker({
       title: 'Select video',
+      takePhotoButtonTitle:'Take Video',
       mediaType: 'video',
       path: 'video',
       videoQuality: 'high',

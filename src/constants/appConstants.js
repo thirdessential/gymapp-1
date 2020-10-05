@@ -246,7 +246,7 @@ export const subscriptionTypeNames = {
   BATCH: 'Group Workout',
 }
 export const MS_IN_DAY = 86400000;// (1000 * 60 * 60 * 24)
-export const MAX_VIDEO_LENGTH = 120; // 120 seconds, videos bigger than this are not allowed to be uploaded
+export const MAX_VIDEO_LENGTH = 120000; // 120 seconds, videos bigger than this are not allowed to be uploaded
 export const DEFAULT_WATER_INTAKE_QUOTA = 4000; // in ml
 export const DEFAULT_CALORIE_INTAKE_QUOTA = 2000; // in cal
 export const paymentBackground = "https://about.wodup.com/wp-content/uploads/2018/11/a84f9b3b-a46c-4a3c-9ec9-ba87b216548a-300x300.jpg";
