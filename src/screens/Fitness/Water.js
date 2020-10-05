@@ -10,8 +10,9 @@ import {
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import {copilot, walkthroughable, CopilotStep} from "react-native-copilot";
 import {connect} from "react-redux";
-
+import * as Progress from "react-native-progress";
 import {waterIntake} from "../../API";
 import HcdWaveView from "../../components/HcdWaveView";
 import {appTheme, bmiColors} from "../../constants/colors";
@@ -26,7 +27,8 @@ import {getFormattedDate} from "../../utils/utils";
 import {DEFAULT_WATER_INTAKE_QUOTA} from "../../constants/appConstants";
 
 const date = getFormattedDate();
-
+const WalkthroughableText = walkthroughable(Text);
+const WalkthroughableView = walkthroughable(View);
 class Water extends PureComponent {
   state = {
     final: 0, //final water intake for today
@@ -39,6 +41,19 @@ class Water extends PureComponent {
   }
 
   async componentDidMount() {
+    //to show copilot walkthrough
+    const {copilotScreens, updateScreenCopilots} = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
+    this.props.start();
+    if (!!!copilotScreens[RouteNames.Water]) {
+      this.props.start();
+    }
+    //copilot functions to track them
+    //this.props.copilotEvents.on("stepChange", this.handleStepChange);
+    this.props.copilotEvents.on("stop", () => {
+      //after finished set copilot as done in redux
+      updateScreenCopilots(RouteNames.Water);
+    });
+
     let result = await this.props.getWaterIntake(); //get result i.e. array from redux
     await this.setState({data: result}); //set it to data
     const {bmiRecords, waterIntake} = this.props; //get bmi  and todays water intake from redux
@@ -123,6 +138,8 @@ class Water extends PureComponent {
         }}
         style={styles.container}
       >
+        
+
         <View style={styles.waterView}>
           <View style={styles.iconView}>
             <TouchableOpacity //decrease count of water intake
@@ -133,16 +150,27 @@ class Water extends PureComponent {
               <FontAwesome5Icon name="minus" size={30} color={appTheme.greyC}/>
             </TouchableOpacity>
           </View>
-          <HcdWaveView
-            surfaceWidth={200}
-            surfaceHeigth={200}
-            //send percentage from here
-            powerPercent={parseInt(
-              (this.state.waterIntake / this.state.target) * 100
-            )}
-            type="dc"
-            style={{backgroundColor: "#FF7800"}}
-          />
+          <View style={styles.totalCircle}>
+            <CopilotStep
+              text="This shows percentage of your water intake"
+              order={1}
+              name="hello1"
+            >
+              <WalkthroughableView>
+                <HcdWaveView
+                  surfaceWidth={200}
+                  surfaceHeigth={200}
+                  //send percentage from here
+                  powerPercent={parseInt(
+                    (this.state.waterIntake / this.state.target) * 100
+                  )}
+                  type="dc"
+                  style={{backgroundColor: "#FF7800"}}
+                />
+              </WalkthroughableView>
+            </CopilotStep>
+          </View>
+          
           <View style={styles.iconView}>
             <TouchableOpacity
               style={styles.minus}
@@ -162,7 +190,19 @@ class Water extends PureComponent {
           </Text>
         </View>
         <View style={{flex: 1, marginTop: 10}}>
-          <Text style={styles.quickAdd}>Quick add</Text>
+        <View>
+            <CopilotStep
+              text="You can add your water consumption from here"
+              order={2}
+              name="hello2"
+            >
+              <WalkthroughableText
+                style={[styles.calorieText, {marginHorizontal: 20}]}
+              >
+                <Text style={styles.quickAdd}>Quick add</Text>
+              </WalkthroughableText>
+            </CopilotStep>
+          </View>
         </View>
         <View style={styles.mainView}>
           <View style={styles.increaseTextView}>
@@ -258,15 +298,26 @@ const mapStateToProps = (state) => ({
   waterIntake: state.fitness.waterIntake[date], //we are getting this date from imports above which sends waterIntake of that particular date
   userData: state.user.userData,
   bmiRecords: state.fitness.bmiRecords,
+  copilotScreens: state.app.copilotScreen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  updateScreenCopilots: (screenName) =>
+  dispatch(actionCreators.updateScreenCopilots(screenName)),
   addWaterIntake: (water) => dispatch(actionCreators.addWaterIntake(water)), //to add waterIntake
   getWaterIntake: () => dispatch(actionCreators.getWaterIntake()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Water);
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  copilot({
+    verticalOffset: 27,
+    overlay: "svg", // or 'view'
+    animated: true, // or false
+  })(Water)
+);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
