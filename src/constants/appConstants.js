@@ -22,7 +22,7 @@ export const userTypes = {
 
 // Change this constant to change the apk type, will not affect flow when logging in with existing account
 // This constant will only affect new registrations
-export const INITIAL_USER_TYPE = userTypes.TRAINER;
+export const INITIAL_USER_TYPE = userTypes.USER;
 // Default Agora video config
 export const videoFeedConfig = {
   width: 360,
