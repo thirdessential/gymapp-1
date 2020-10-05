@@ -43,7 +43,6 @@ class Water extends PureComponent {
   async componentDidMount() {
     //to show copilot walkthrough
     const {copilotScreens, updateScreenCopilots} = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
-    this.props.start();
     if (!!!copilotScreens[RouteNames.Water]) {
       this.props.start();
     }
