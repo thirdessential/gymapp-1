@@ -25,9 +25,11 @@ import {showError, showSuccess} from "../../utils/notification";
 import {getFormattedDate} from "../../utils/utils";
 import * as API from "../../API";
 import {hitSlop20} from "../../constants/styles";
+import RouteNames from "../../navigation/RouteNames";
+import { copilot, walkthroughable, CopilotStep } from "react-native-copilot";
 
 const currentDate = getFormattedDate();
-
+const WalkthroughableView = walkthroughable(View);
 class Calorie1 extends PureComponent {
   state = {
     food: "",//to get name of food
@@ -41,6 +43,18 @@ class Calorie1 extends PureComponent {
 
   async componentDidMount() {
     const type = this.props.route.params.type;//type i.e Breakfast lunh dinner snacks
+        //to show copilot walkthrough
+        this.props.start();
+        const { copilotScreens, updateScreenCopilots } = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
+        if (!!!copilotScreens[RouteNames.Calorie1]) {
+          this.props.start();
+        }
+        //copilot functions to track them
+        //this.props.copilotEvents.on("stepChange", this.handleStepChange);
+        this.props.copilotEvents.on("stop", () => {
+          //after finished set copilot as done in redux
+          updateScreenCopilots(RouteNames.Calorie1);
+        });
     const recommendedFoods = this.props.route.params.recommendedFoods;//we get this from parent as navigation props
     if (recommendedFoods.length > 0) {
       this.setState({foods: recommendedFoods, recommendationText: true});
@@ -183,16 +197,28 @@ class Calorie1 extends PureComponent {
   renderSwitch = () => {
     const {active} = this.state;
     return (
-      <View style={[styles.row, styles.center]}>
-        <Text style={styles.title}>{active ? "Qty" : "Grams"}</Text>
-        <Switch
-          trackColor={{false: appTheme.grey, true: bmiColors.blue}}
-          thumbColor={this.state.active ? bmiColors.yellow : "#f4f3f4"}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={this.toggleActive}
-          value={this.state.active}
-        />
-      </View>
+      
+      <View>
+      <CopilotStep
+        text="You can search nutritions values of a food item with measures in either grams or
+        by specifing quantity. You can change options for measuring by clicking on this switch."
+        order={2}
+        name="hello2"
+      >
+        <WalkthroughableView>
+          <View style={[styles.row, styles.center]}>
+                    <Text style={styles.title}>{active ? "Qty" : "Grams"}</Text>
+          <Switch
+            trackColor={{false: appTheme.grey, true: bmiColors.blue}}
+            thumbColor={this.state.active ? bmiColors.yellow : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={this.toggleActive}
+            value={this.state.active}
+          />
+        </View>
+        </WalkthroughableView>
+      </CopilotStep>
+    </View>
     )
   }
   
@@ -362,14 +388,25 @@ class Calorie1 extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  copilotScreens: state.app.copilotScreen,
+});
 
 const mapDispatchToProps = (dispatch) => ({
+  updateScreenCopilots: (screenName) => dispatch(actionCreators.updateScreenCopilots(screenName)),
   addCalorieData: (foods) => dispatch(actionCreators.addCalorieData(foods)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Calorie1);
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  copilot({
+    verticalOffset: 27,
+    overlay: "svg", // or 'view'
+    animated: true, // or false
+  })(Calorie1)
+);
 const styles = StyleSheet.create({
   container: {
     flex: 1,

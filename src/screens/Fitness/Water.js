@@ -191,7 +191,7 @@ class Water extends PureComponent {
         <View style={{flex: 1, marginTop: 10}}>
         <View>
             <CopilotStep
-              text="You can add your water consumption from here"
+              text="You can add your water consumption from the options below"
               order={2}
               name="hello2"
             >

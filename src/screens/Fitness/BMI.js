@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -21,32 +21,34 @@ import {
 } from 'react-native-popup-menu';
 import RBSheet from "react-native-raw-bottom-sheet";
 import Entypo from "react-native-vector-icons/Entypo";
-import {connect} from "react-redux";
-import {Bar} from 'react-native-progress';
-
-import {spacing} from "../../constants/dimension";
+import { connect } from "react-redux";
+import { Bar } from 'react-native-progress';
+import { copilot, walkthroughable, CopilotStep } from "react-native-copilot";
+import { spacing } from "../../constants/dimension";
 
 TimeAgo.addLocale(en)
 const timeAgo = new TimeAgo('en-US');
-import {appTheme, bmiColors} from "../../constants/colors";
+import { appTheme, bmiColors } from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
-import {screenWidth} from "../../utils/screenDimensions";
+import { screenWidth } from "../../utils/screenDimensions";
 import strings from "../../constants/strings";
 import BmiBar from "../../components/BmiBar";
-import {calculateBmi, getBmiVerdict, toTitleCase} from "../../utils/utils";
+import { calculateBmi, getBmiVerdict, toTitleCase } from "../../utils/utils";
 import Feather from "react-native-vector-icons/Feather";
 import CustomLineChart from "../../components/CustomLineChart";
 import Avatar from "../../components/Avatar";
 import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from "../../store/actions";
-import {WEEK_DAYS} from "../../constants/appConstants";
+import { WEEK_DAYS } from "../../constants/appConstants";
 
 const rbContentType = {
   WEIGHT: 'WEIGHT',
   TARGET: 'TARGET'
 }
 
+const WalkthroughableText = walkthroughable(Text);
+const WalkthroughableView = walkthroughable(View);
 class BMI extends PureComponent {
 
   state = {
@@ -62,7 +64,19 @@ class BMI extends PureComponent {
   }
 
   componentDidMount() {
-    const {navigation, updateBmiRecords} = this.props;
+    const { navigation, updateBmiRecords } = this.props;
+    //to show copilot walkthrough
+    const { copilotScreens, updateScreenCopilots } = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
+    if (!!!copilotScreens[RouteNames.BMI]) {
+      this.props.start();
+    }
+    //copilot functions to track them
+    //this.props.copilotEvents.on("stepChange", this.handleStepChange);
+    this.props.copilotEvents.on("stop", () => {
+      //after finished set copilot as done in redux
+      updateScreenCopilots(RouteNames.BMI);
+    });
+
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       updateBmiRecords();
     })
@@ -72,32 +86,32 @@ class BMI extends PureComponent {
     this.unsubscribeFocus();
   }
 
-  setDays = () => this.setState({graphType: 'day', graphHeaderText: strings.LAST_DAYS})
-  setMonths = () => this.setState({graphType: 'month', graphHeaderText: strings.LAST_MONTHS})
+  setDays = () => this.setState({ graphType: 'day', graphHeaderText: strings.LAST_DAYS })
+  setMonths = () => this.setState({ graphType: 'month', graphHeaderText: strings.LAST_MONTHS })
   setWeight = (newWeight) => {
     if (newWeight < 0)
       newWeight = 30;
     if (newWeight > 300)
       newWeight = 300;
-    this.setState({newWeight:newWeight.toString()})
+    this.setState({ newWeight: newWeight.toString() })
   }
   setTargetWeight = (targetWeight) => {
     if (targetWeight < 0)
       targetWeight = 30;
     if (targetWeight > 300)
       targetWeight = 300;
-    this.setState({targetWeight:targetWeight.toString()})
+    this.setState({ targetWeight: targetWeight.toString() })
   }
   setTargetDate = (targetDate) => {
     if (targetDate < 1)
       targetDate = 1;
     if (targetDate > 52)
       targetDate = 52;
-    this.setState({targetDate:targetDate.toString()})
+    this.setState({ targetDate: targetDate.toString() })
   }
-  openHeightSetter = () => this.props.navigation.navigate(RouteNames.ProfileEdit, {physical: true})
+  openHeightSetter = () => this.props.navigation.navigate(RouteNames.ProfileEdit, { physical: true })
   renderHeader = () => {
-    const {displayPictureUrl, height, name} = this.props.userData;
+    const { displayPictureUrl, height, name } = this.props.userData;
     return (
       <View style={{
         flexDirection: 'row',
@@ -106,16 +120,16 @@ class BMI extends PureComponent {
         justifyContent: 'space-between',
         alignItems: 'center'
       }}>
-        <View style={{marginRight: 'auto', flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-          <Avatar roundedMultiplier={1} size={spacing.thumbnailMini} url={displayPictureUrl}/>
+        <View style={{ marginRight: 'auto', flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+          <Avatar roundedMultiplier={1} size={spacing.thumbnailMini} url={displayPictureUrl} />
           <View>
-            <Text style={[styles.menuText, {fontSize: fontSizes.h1}]}>{name}</Text>
+            <Text style={[styles.menuText, { fontSize: fontSizes.h1 }]}>{name}</Text>
             {!!height && (
               <TouchableOpacity
                 onPress={this.openHeightSetter}
-                style={{flexDirection: 'row', alignItems: 'center'}}>
+                style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={styles.menuText}>{height} cms</Text>
-                <Entypo name={'edit'} size={14} style={{marginLeft: spacing.small_sm}} color={appTheme.brightContent}/>
+                <Entypo name={'edit'} size={14} style={{ marginLeft: spacing.small_sm }} color={appTheme.brightContent} />
               </TouchableOpacity>
             )}
             {!height && (
@@ -126,7 +140,7 @@ class BMI extends PureComponent {
           </View>
         </View>
         <Menu style={styles.menuContainer}>
-          <MenuTrigger customStyles={{padding: spacing.small_lg}}>
+          <MenuTrigger customStyles={{ padding: spacing.small_lg }}>
             <Text style={styles.menuTitle}>{this.state.graphHeaderText}</Text>
           </MenuTrigger>
           <MenuOptions customStyles={styles.menu}>
@@ -142,7 +156,7 @@ class BMI extends PureComponent {
     )
   }
   renderProgressChart = () => {
-    const {bmiRecords} = this.props;
+    const { bmiRecords } = this.props;
     if (!bmiRecords || bmiRecords.length < 2)
       return null;
     const weights = [];
@@ -153,7 +167,7 @@ class BMI extends PureComponent {
       labels.unshift(Object.keys(WEEK_DAYS)[dayIndex])
     });
     return (
-      <CustomLineChart data={weights} labels={labels}/>
+      <CustomLineChart data={weights} labels={labels} />
     )
   }
 
@@ -170,28 +184,28 @@ class BMI extends PureComponent {
         borderWidth={0}
         color={bmiColors.lightBlue}
         unfilledColor={appTheme.grey}
-        width={screenWidth - 2 * spacing.medium_lg}/>
+        width={screenWidth - 2 * spacing.medium_lg} />
     )
   }
   renderWeightProgress = () => {
-    const {bmiRecords, targetWeight, targetDate} = this.props;
+    const { bmiRecords, targetWeight, targetDate } = this.props;
     if (!bmiRecords || bmiRecords.length === 0)
       return null;
     const latestRecord = bmiRecords[0];
-    const {bmi, weight: currentWeight, date} = latestRecord;
-    let initialRecord = {weight: currentWeight, date, bmi};
+    const { bmi, weight: currentWeight, date } = latestRecord;
+    let initialRecord = { weight: currentWeight, date, bmi };
     if (bmiRecords.length > 1) initialRecord = bmiRecords[bmiRecords.length - 1];
 
     const initialDate = new Date(initialRecord.date);
     const targetDateObj = new Date(targetDate);
 
     return (
-      <View style={{marginTop: spacing.medium}}>
+      <View style={{ marginTop: spacing.medium }}>
         <View style={styles.weightRow}>
           <View style={styles.subtitleContainer}>
-            <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
               <Text style={styles.subtitle}>{initialRecord.weight}</Text>
-              <Text style={[styles.subtitle_sm, {marginBottom: spacing.small, marginLeft: spacing.small_sm}]}>kg</Text>
+              <Text style={[styles.subtitle_sm, { marginBottom: spacing.small, marginLeft: spacing.small_sm }]}>kg</Text>
             </View>
             <Text style={styles.subtitle_sm}>{initialDate.toLocaleDateString()}</Text>
           </View>
@@ -199,11 +213,11 @@ class BMI extends PureComponent {
           <Text style={styles.title}>{currentWeight}</Text>
           {
             targetWeight && (
-              <View style={[styles.subtitleContainer, {alignItems: 'flex-end'}]}>
-                <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+              <View style={[styles.subtitleContainer, { alignItems: 'flex-end' }]}>
+                <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                   <Text style={styles.subtitle}>{targetWeight}</Text>
                   <Text
-                    style={[styles.subtitle_sm, {marginBottom: spacing.small, marginLeft: spacing.small_sm}]}>kg</Text>
+                    style={[styles.subtitle_sm, { marginBottom: spacing.small, marginLeft: spacing.small_sm }]}>kg</Text>
                 </View>
                 <Text style={styles.subtitle_sm}>{targetDateObj.toLocaleDateString()}</Text>
               </View>
@@ -211,9 +225,21 @@ class BMI extends PureComponent {
           }
           {
             !targetWeight && (
-              <TouchableOpacity onPress={this.openTargetInput} style={{padding: spacing.small}}>
-                <Text style={styles.menuText}>{strings.SET_TARGET}</Text>
-              </TouchableOpacity>
+              <View>
+                <CopilotStep
+                  text="You can set a target weight from here. All your nutrition values i.e your target water intake
+                      and also your target calories will be based on your target weight"
+                  order={2}
+                  name="hello2"
+                >
+                  <WalkthroughableView>
+                    <TouchableOpacity onPress={this.openTargetInput} style={{ padding: spacing.small }}>
+                      <Text style={styles.menuText}>{strings.SET_TARGET}</Text>
+                    </TouchableOpacity>
+                  </WalkthroughableView>
+                </CopilotStep>
+              </View>
+
             )
           }
         </View>
@@ -221,7 +247,7 @@ class BMI extends PureComponent {
         {
           targetWeight && (
             <TouchableOpacity onPress={this.openTargetInput}
-                              style={{padding: spacing.small, marginTop: spacing.small, alignSelf: 'flex-end'}}>
+              style={{ padding: spacing.small, marginTop: spacing.small, alignSelf: 'flex-end' }}>
               <Text style={styles.menuText}>{strings.SET_TARGET}</Text>
             </TouchableOpacity>
           )
@@ -230,7 +256,7 @@ class BMI extends PureComponent {
     )
   }
   renderVerdict = (bmi) => {
-    const {text, color} = getBmiVerdict(bmi);
+    const { text, color } = getBmiVerdict(bmi);
     return <Text style={{
       color: color,
       fontWeight: 'bold',
@@ -239,53 +265,53 @@ class BMI extends PureComponent {
     }}>{text}</Text>
   }
   renderBMI = () => {
-    const {bmiRecords, userData} = this.props;
+    const { bmiRecords, userData } = this.props;
 
     if (!bmiRecords || bmiRecords.length === 0 || !userData.height)
       return null;
-    const {bmi} = bmiRecords[0];
+    const { bmi } = bmiRecords[0];
     return (
       <View style={styles.sectionContainer}>
         <Text style={styles.subtitle}>{strings.BMI_CALCULATOR}</Text>
-        <View style={[styles.lightCard, {marginTop: spacing.medium_sm}]}>
-          <View style={{flexDirection: 'row', alignItems: 'flex-end', marginBottom: spacing.medium}}>
-            <Text style={[styles.subtitle, {color: appTheme.textPrimary}]}>{bmi.toPrecision(3)}</Text>
+        <View style={[styles.lightCard, { marginTop: spacing.medium_sm }]}>
+          <View style={{ flexDirection: 'row', alignItems: 'flex-end', marginBottom: spacing.medium }}>
+            <Text style={[styles.subtitle, { color: appTheme.textPrimary }]}>{bmi.toPrecision(3)}</Text>
             {this.renderVerdict(bmi)}
           </View>
-          <View style={{alignItems: 'center'}}>
-            <BmiBar value={bmi}/>
+          <View style={{ alignItems: 'center' }}>
+            <BmiBar value={bmi} />
           </View>
         </View>
       </View>
     )
   }
   historyCard = data => {
-    const {difference = 0, weight, date} = data;
-    const differenceStyle = {color: difference > 0 ? bmiColors.red : bmiColors.lightBlue};
+    const { difference = 0, weight, date } = data;
+    const differenceStyle = { color: difference > 0 ? bmiColors.red : bmiColors.lightBlue };
     return (
-      <View style={[styles.lightCard, {flexDirection: 'row', justifyContent: 'space-between'}]}>
+      <View style={[styles.lightCard, { flexDirection: 'row', justifyContent: 'space-between' }]}>
         <View>
           <Text
-            style={[styles.subtitle_sm, {fontSize: fontSizes.h3}]}>{toTitleCase(timeAgo.format(new Date(date)))}</Text>
+            style={[styles.subtitle_sm, { fontSize: fontSizes.h3 }]}>{toTitleCase(timeAgo.format(new Date(date)))}</Text>
           {
             difference !== 0 &&
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Feather size={18} color={differenceStyle.color} name={difference > 0 ? 'arrow-up' : 'arrow-down'}/>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Feather size={18} color={differenceStyle.color} name={difference > 0 ? 'arrow-up' : 'arrow-down'} />
               <Text style={[styles.difference, differenceStyle]}>{Math.abs(difference)} kg</Text>
             </View>
           }
         </View>
-        <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
           <Text style={styles.subtitle}>{weight}</Text>
-          <Text style={[styles.subtitle_sm, {marginBottom: spacing.small, marginLeft: spacing.small_sm}]}>kg</Text>
+          <Text style={[styles.subtitle_sm, { marginBottom: spacing.small, marginLeft: spacing.small_sm }]}>kg</Text>
         </View>
       </View>
     )
   }
   renderHistory = () => {
-    const {bmiRecords} = this.props;
+    const { bmiRecords } = this.props;
     if (!bmiRecords || bmiRecords.length === 0)
-      return <View style={{marginTop: spacing.large_lg}}>
+      return <View style={{ marginTop: spacing.large_lg }}>
         <Text style={styles.subtitle}>Hi! Add new weight to continue</Text>
       </View>;
     return (
@@ -293,28 +319,28 @@ class BMI extends PureComponent {
         <Text style={styles.subtitle}>{strings.HISTORY}</Text>
         <FlatList
           data={bmiRecords}
-          renderItem={({item}) => this.historyCard(item)}
+          renderItem={({ item }) => this.historyCard(item)}
           keyExtractor={(item) => item._id}
-          ListHeaderComponent={() => <View style={{height: spacing.small_lg}}/>}
-          ListFooterComponent={() => <View style={{height: spacing.medium}}/>}
-          ItemSeparatorComponent={() => <View style={{height: spacing.small_lg}}/>}
+          ListHeaderComponent={() => <View style={{ height: spacing.small_lg }} />}
+          ListFooterComponent={() => <View style={{ height: spacing.medium }} />}
+          ItemSeparatorComponent={() => <View style={{ height: spacing.small_lg }} />}
         />
       </View>
     )
   }
   renderAddWeight = () => (
     <TouchableOpacity onPress={this.openWeightInput} activeOpacity={0.7}
-                      style={[styles.blueButton, styles.attachBottom]}>
+      style={[styles.blueButton, styles.attachBottom]}>
       <Text style={styles.buttonText}>{strings.NEW_WEIGHT}</Text>
     </TouchableOpacity>
   )
   openRbSheet = () => this.RBSheet.open()
   openWeightInput = () => {
-    this.setState({rbType: rbContentType.WEIGHT});
+    this.setState({ rbType: rbContentType.WEIGHT });
     this.openRbSheet();
   }
   openTargetInput = () => {
-    this.setState({rbType: rbContentType.TARGET});
+    this.setState({ rbType: rbContentType.TARGET });
     this.openRbSheet();
   }
   closeRbSheet = () => {
@@ -322,63 +348,63 @@ class BMI extends PureComponent {
   }
   submitBmi = async () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({submitting: true});
+    this.setState({ submitting: true });
     Keyboard.dismiss();
-    const {newWeight} = this.state;
-    const {height} = this.props.userData;
+    const { newWeight } = this.state;
+    const { height } = this.props.userData;
     const bmi = calculateBmi(newWeight, height);
     await this.props.submitBmi(bmi, newWeight);
     this.closeRbSheet();
-    this.setState({newWeight: '', submitting: false});
+    this.setState({ newWeight: '', submitting: false });
   }
   submitTarget = async () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({submitting: true});
+    this.setState({ submitting: true });
     Keyboard.dismiss();
-    const {targetDate, targetWeight} = this.state;
+    const { targetDate, targetWeight } = this.state;
     const targetDateObj = new Date();
     const daysToAchieve = parseInt(targetDate) * 7;
     targetDateObj.setDate(targetDateObj.getDate() + daysToAchieve);
     this.props.updateTarget(targetWeight, targetDateObj);
     this.closeRbSheet();
-    this.setState({submitting: false});
+    this.setState({ submitting: false });
   }
   rbSheet = () => (<RBSheet
-      ref={ref => {
-        this.RBSheet = ref;
-      }}
-      animationType={'slide'}
-      closeOnDragDown={true}
-      customStyles={{
-        container: {
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: appTheme.lightBackground,
-        },
-        wrapper: {
-          backgroundColor: 'transparent'
-        }
-      }}
-    >
-      {this.state.rbType === rbContentType.WEIGHT && this.renderWeightInput()}
-      {this.state.rbType === rbContentType.TARGET && this.renderTargetInput()}
-    </RBSheet>
+    ref={ref => {
+      this.RBSheet = ref;
+    }}
+    animationType={'slide'}
+    closeOnDragDown={true}
+    customStyles={{
+      container: {
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: appTheme.lightBackground,
+      },
+      wrapper: {
+        backgroundColor: 'transparent'
+      }
+    }}
+  >
+    {this.state.rbType === rbContentType.WEIGHT && this.renderWeightInput()}
+    {this.state.rbType === rbContentType.TARGET && this.renderTargetInput()}
+  </RBSheet>
   )
   renderWeightInput = () => (
     <>
       <Text style={styles.subtitle}>{strings.ENTER_WEIGHT} </Text>
       <TextInput keyboardType={'numeric'} style={styles.textInput} placeholder='Weight (kg)'
-                 placeholderTextColor={appTheme.brightContent}
-                 value={this.state.newWeight.toString()} onChangeText={this.setWeight}
+        placeholderTextColor={appTheme.brightContent}
+        value={this.state.newWeight.toString()} onChangeText={this.setWeight}
       />
       <View style={styles.inputContainer}>
         {!this.state.submitting &&
-        <TouchableOpacity onPress={this.closeRbSheet} activeOpacity={0.7}
-                          style={[styles.blueButton, {backgroundColor: bmiColors.red, marginRight: spacing.large}]}>
-          <Text style={styles.buttonText}>{strings.CANCEL}</Text>
-        </TouchableOpacity>}
+          <TouchableOpacity onPress={this.closeRbSheet} activeOpacity={0.7}
+            style={[styles.blueButton, { backgroundColor: bmiColors.red, marginRight: spacing.large }]}>
+            <Text style={styles.buttonText}>{strings.CANCEL}</Text>
+          </TouchableOpacity>}
         <TouchableOpacity onPress={this.submitBmi} activeOpacity={0.7} style={[styles.blueButton]}>
-          {this.state.submitting && <ActivityIndicator color={styles.buttonText.color} size={20}/>}
+          {this.state.submitting && <ActivityIndicator color={styles.buttonText.color} size={20} />}
           {!this.state.submitting && <Text style={styles.buttonText}>{strings.DONE}</Text>}
         </TouchableOpacity>
       </View>
@@ -388,22 +414,22 @@ class BMI extends PureComponent {
     <>
       <Text style={styles.menuText}>{strings.ENTER_TARGET} </Text>
       <TextInput keyboardType={'numeric'} style={styles.textInput} placeholder='Target Weight (kg)'
-                 placeholderTextColor={appTheme.brightContent}
-                 value={this.state.targetWeight} onChangeText={this.setTargetWeight}
+        placeholderTextColor={appTheme.brightContent}
+        value={this.state.targetWeight} onChangeText={this.setTargetWeight}
       />
       <TextInput keyboardType={'numeric'} style={styles.textInput} placeholder='Weeks to achieve'
-                 placeholderTextColor={appTheme.brightContent}
-                 value={this.state.targetDate} onChangeText={this.setTargetDate}
+        placeholderTextColor={appTheme.brightContent}
+        value={this.state.targetDate} onChangeText={this.setTargetDate}
       />
 
       <View style={styles.inputContainer}>
         {!this.state.submitting &&
-        <TouchableOpacity onPress={this.closeRbSheet} activeOpacity={0.7}
-                          style={[styles.blueButton, {backgroundColor: bmiColors.red, marginRight: spacing.large}]}>
-          <Text style={styles.buttonText}>{strings.CANCEL}</Text>
-        </TouchableOpacity>}
+          <TouchableOpacity onPress={this.closeRbSheet} activeOpacity={0.7}
+            style={[styles.blueButton, { backgroundColor: bmiColors.red, marginRight: spacing.large }]}>
+            <Text style={styles.buttonText}>{strings.CANCEL}</Text>
+          </TouchableOpacity>}
         <TouchableOpacity onPress={this.submitTarget} activeOpacity={0.7} style={[styles.blueButton]}>
-          {this.state.submitting && <ActivityIndicator color={styles.buttonText.color} size={20}/>}
+          {this.state.submitting && <ActivityIndicator color={styles.buttonText.color} size={20} />}
           {!this.state.submitting && <Text style={styles.buttonText}>{strings.DONE}</Text>}
         </TouchableOpacity>
       </View>
@@ -414,8 +440,8 @@ class BMI extends PureComponent {
   render() {
     return (
       <>
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{justifyContent: 'center'}}
-                    style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ justifyContent: 'center' }}
+          style={styles.container}>
           {this.renderHeader()}
           {this.renderProgressChart()}
           {this.renderWeightProgress()}
@@ -449,6 +475,10 @@ const styles = StyleSheet.create({
     color: appTheme.greyC,
     fontFamily: fonts.CenturyGothicBold,
     fontSize: fontSizes.bigTitle
+  },
+  copilotWrapper: {
+    height: 10,
+    width: "30%"
   },
   title: {
     color: appTheme.textPrimary,
@@ -532,20 +562,31 @@ const styles = StyleSheet.create({
     width: 220,
     textAlign: 'center',
     marginTop: spacing.medium_lg
-  },
+  }
 });
 
 const mapStateToProps = (state) => ({
   userData: state.user.userData,
   bmiRecords: state.fitness.bmiRecords,
   targetWeight: state.fitness.targetWeight,
-  targetDate: state.fitness.targetDate
+  targetDate: state.fitness.targetDate,
+  copilotScreens: state.app.copilotScreen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  updateScreenCopilots: (screenName) => dispatch(actionCreators.updateScreenCopilots(screenName)),
   updateBmiRecords: () => dispatch(actionCreators.updateBmiRecords()),
   submitBmi: (bmi, weight) => dispatch(actionCreators.submitBmi(bmi, weight)),
   updateTarget: (weight, date) => dispatch(actionCreators.updateTarget(weight, date))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(BMI);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  copilot({
+    verticalOffset: 27,
+    overlay: "svg", // or 'view'
+    animated: true, // or false
+  })(BMI)
+);
