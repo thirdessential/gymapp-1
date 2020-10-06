@@ -54,9 +54,18 @@ class Activity extends PureComponent {
       syncSubscriptions(); // update my subscriptions
       syncSessions(); // Update my session data
       userType === userTypes.TRAINER && getCallbacks(); // get my call requests
-      this.updateLocalSessionData();
-      this.updateLocalStreamData()
-      this.updateLocalStatsData();
+      this.setState({
+        loading:true
+      })
+      setTimeout(()=>{
+        this.updateLocalSessionData();
+        this.updateLocalStreamData()
+        this.updateLocalStatsData();
+        this.setState({
+          loading:false
+        })
+      },5000)
+     
       this.unsubscribeFocus = navigation.addListener('focus', e => {
         this.updateLocalStatsData();
       })
