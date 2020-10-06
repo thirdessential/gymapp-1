@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "284208119571-55ijf70m426ij6o05725hl764ta4ii8i.apps.googleusercontent.com",
+          "client_id": "284208119571-njv0f0ob838anqeisssq67m2uejc100m.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.thirdessential.gymadda",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+            "certificate_hash": "6424cd3ee3a95267f6068fc8423060e27d09ea74"
           }
         },
         {
