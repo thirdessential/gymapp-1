@@ -287,7 +287,7 @@ class CalorieCounter extends PureComponent {
               <Text style={styles.foodText}>{this.capitalize(item.item)}</Text>
             </View>
             <View style={styles.foodQuantityFlex}>
-              <Text style={styles.foodQuantity}>{item.quantity} {item.quantity % 100 === 0 ? "g" : "qty"}</Text>
+              <Text style={styles.foodQuantity}>{item.quantity} {item.measure}</Text>
             </View>
             <View style={styles.foodQuantityFlex}>
               <Text style={styles.foodCal}>

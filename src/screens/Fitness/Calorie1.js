@@ -44,7 +44,6 @@ class Calorie1 extends PureComponent {
   async componentDidMount() {
     const type = this.props.route.params.type;//type i.e Breakfast lunh dinner snacks
         //to show copilot walkthrough
-        this.props.start();
         const { copilotScreens, updateScreenCopilots } = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
         if (!!!copilotScreens[RouteNames.Calorie1]) {
           this.props.start();
@@ -91,6 +90,7 @@ class Calorie1 extends PureComponent {
           newFoodItem = {
             id: result.foodItem._id,
             type: this.state.type,
+            measure : "Qty",
             item: this.state.food,
             quantity: 1,//user can increase quantity
             total: result.foodItem.totalEnergy,
@@ -106,6 +106,7 @@ class Calorie1 extends PureComponent {
           newFoodItem = {
             id: result.foodItem._id,
             type: this.state.type,
+            measure : "grams",
             item: this.state.food,
             quantity: 100,//user can increase quantity
             total: result.foodItem.totalEnergy,
