@@ -85,40 +85,22 @@ class Calorie1 extends PureComponent {
       if (result.foodItem) {
         //we get this data from API edaMam
         //orefats precarbs varible are to get initial values so that we can increase pr decrease by that quantity 
-        let newFoodItem = {}
-        if(active){
-          newFoodItem = {
-            id: result.foodItem._id,
-            type: this.state.type,
-            measure : "Qty",
-            item: this.state.food,
-            quantity: 1,//user can increase quantity
-            total: result.foodItem.totalEnergy,
-            pretotal: result.foodItem.totalEnergy,
-            prefats: result.foodItem.fats,
-            fats: result.foodItem.fats,
-            precarbs: result.foodItem.carbs,
-            carbs: result.foodItem.carbs,
-            preproteins: result.foodItem.proteins,
-            proteins: result.foodItem.proteins,
-          };
-        }else{
-          newFoodItem = {
-            id: result.foodItem._id,
-            type: this.state.type,
-            measure : "grams",
-            item: this.state.food,
-            quantity: 100,//user can increase quantity
-            total: result.foodItem.totalEnergy,
-            pretotal: result.foodItem.totalEnergy,
-            prefats: result.foodItem.fats,
-            fats: result.foodItem.fats,
-            precarbs: result.foodItem.carbs,
-            carbs: result.foodItem.carbs,
-            preproteins: result.foodItem.proteins,
-            proteins: result.foodItem.proteins,
-          };
-        }
+        const newFoodItem = {
+          id: result.foodItem._id,
+          type: this.state.type,
+          measure : active ? "Qty" : "grams",
+          item: this.state.food,
+          quantity: active ? 1 : 100,//user can increase quantity
+          total: result.foodItem.totalEnergy,
+          pretotal: result.foodItem.totalEnergy,
+          prefats: result.foodItem.fats,
+          fats: result.foodItem.fats,
+          precarbs: result.foodItem.carbs,
+          carbs: result.foodItem.carbs,
+          preproteins: result.foodItem.proteins,
+          proteins: result.foodItem.proteins,
+        };
+        
         const foods = [...this.state.foods];
         foods.push(newFoodItem);
         await this.setState({foods, food: ""});
