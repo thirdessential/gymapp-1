@@ -110,7 +110,7 @@ class CreatePost extends PureComponent {
   handleUpload = () => {  
     CropImagePicker.openPicker({
       width: 300,
-      height: 400,
+      height: 300,
       cropping: true
     }).then(response => {
       this.toggleModal()
@@ -125,7 +125,7 @@ class CreatePost extends PureComponent {
   handleCapture = () => {
     CropImagePicker.openCamera({
       width: 300,
-      height: 400,
+      height: 300,
       cropping: true,
     }).then(response => {
       this.toggleModal()
