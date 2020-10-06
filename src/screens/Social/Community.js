@@ -174,18 +174,20 @@ class Community extends Component {
   
   renderLiveStreams = () => {
     const { liveStreams } = this.props
-    if (!liveStreams || liveStreams.length === 0)
+    let liveStream = []
+    if (liveStreams){
+       liveStream = liveStreams.filter( stream => {
+        const endDate = new Date(stream.date).setMinutes(new Date(stream.date).getMinutes() + stream.duration)
+        const now = new Date()
+        if( !(now > endDate && stream.status === "SCHEDULED") )
+          return stream
+      })
+    }
+    if (!liveStreams || liveStream.length === 0)
       return <View style={styles.nodata}>
           <Image source={require('../../../assets/Icons/no_data/no-stream1x.png')}></Image>
           <Image style={styles.nodataText} source={require('../../../assets/Icons/no_data/no-stream-text1x.png')}></Image>
         </View>
-
-    const liveStream = liveStreams.filter( stream => {
-      const endDate = new Date(stream.date).setMinutes(new Date(stream.date).getMinutes() + stream.duration)
-      const now = new Date()
-      if( !(now > endDate && stream.status === "SCHEDULED") )
-        return stream
-    })
     return (
       <StreamList
         streams={liveStream}

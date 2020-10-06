@@ -202,14 +202,25 @@ class Activity extends PureComponent {
   }
   renderUpcomingStreams = () => {
     const {upcomingStreams} = this.state;
-    if (!upcomingStreams || upcomingStreams.length === 0) return (
+    
+    let upcomingStream = []
+    if (upcomingStreams){
+      upcomingStream = upcomingStreams.filter( stream => {
+        const endDate = new Date(stream.date).setMinutes(new Date(stream.date).getMinutes() + stream.duration)
+        const now = new Date()
+        if( !(now > endDate && stream.status === "SCHEDULED") )
+          return stream
+      })
+    }
+    if (!upcomingStreams || upcomingStream.length === 0) return (
       <View style={[styles.card, styles.noContentContainer]}>
         <Text style={styles.noContent}>{strings.NO_UPCOMING_STREAMS}</Text>
       </View>
     );
+    
     return (
       <StreamSwiper
-        streams={upcomingStreams}
+        streams={upcomingStream}
         onJoin={this.onJoinStream}
         onStart={this.onStartStream}
       />
