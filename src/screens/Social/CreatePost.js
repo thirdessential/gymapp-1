@@ -328,8 +328,8 @@ class CreatePost extends PureComponent {
         <Overlay overlayStyle = {{position : "absolute", bottom : "0%" , borderTopRightRadius : 15, borderTopLeftRadius : 15}} isVisible={this.state.isModalVisible} onBackdropPress={this.toggleModal}>
           <View style = {{width : 350}}>
             <Text style = {{fontSize : 15, textAlign : "center", padding : 10}}>Select Image</Text>
-            <Card.Divider/>
             <TouchableOpacity onPress={this.handleCapture}>
+              <Card.Divider/>
               <Card.Title>Take Photo</Card.Title>
               <Card.Divider/>
             </TouchableOpacity>

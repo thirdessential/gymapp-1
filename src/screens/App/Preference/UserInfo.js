@@ -10,7 +10,7 @@ import {
   KeyboardAvoidingView, ActivityIndicator
 } from 'react-native'
 import Modal from 'react-native-modal'
-import { Button, Overlay } from 'react-native-elements';
+import { Button, Overlay , Card} from 'react-native-elements';
 import CropImagePicker from 'react-native-image-crop-picker';
 import {spacing} from "../../../constants/dimension";
 import fontSizes from "../../../constants/fontSizes";
@@ -240,26 +240,22 @@ class UserInfo extends React.Component {
           </KeyboardAvoidingView>
         </ScrollView>
         <View style={{paddingTop: spacing.medium_sm, marginBottom: spacing.space_50}}/>
-        <Overlay  isVisible={this.state.isModalVisible} onBackdropPress={this.toggleModal}>
-          
-          <View style= {{padding : 5, width : 250}}>
-            <View style = {{borderBottomWidth : 1}}>
-              <Text  style = {{ fontSize : 20}}>Choose a option</Text>
-            </View>
-            <View style = {{marginTop : 10, marginBottom : 10}}>
-              <TouchableOpacity onPress={this.handleCapture}>
-                <Text  style = {{ fontSize : 20}}>Capture a image..</Text>
-              </TouchableOpacity>
-              <View style = {{marginTop : 7}}></View>
-              <TouchableOpacity onPress={this.handleUpload} >
-                <Text  style = {{fontSize : 20}}>Upload Image..</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={{width: "50%", margin: 5}}>
-              <Button title="Cancel" onPress={this.toggleModal} />
-            </View>
-          </View>
-
+        <Overlay overlayStyle = {{position : "absolute", bottom : "0%" , borderTopRightRadius : 15, borderTopLeftRadius : 15}} isVisible={this.state.isModalVisible} onBackdropPress={this.toggleModal}>
+          <View style = {{width : 350}}>
+            <Text style = {{fontSize : 15, textAlign : "center", padding : 10}}>Select Image</Text>
+            <TouchableOpacity onPress={this.handleCapture}>
+              <Card.Divider/>
+              <Card.Title>Take Photo</Card.Title>
+              <Card.Divider/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.handleUpload} >
+              <Card.Title>Choose from Library</Card.Title>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.toggleModal} >
+              <Card.Divider/>
+              <Card.Title>Cancel</Card.Title>
+            </TouchableOpacity>
+          </View>                   
         </Overlay>
       </>
     )
