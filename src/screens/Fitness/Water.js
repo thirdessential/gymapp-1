@@ -149,13 +149,13 @@ class Water extends PureComponent {
               <FontAwesome5Icon name="minus" size={30} color={appTheme.greyC}/>
             </TouchableOpacity>
           </View>
-          <View style={styles.totalCircle}>
+          <View  >
             <CopilotStep
               text="This shows percentage of your water intake"
               order={1}
               name="hello1"
             >
-              <WalkthroughableView>
+              <WalkthroughableView style = {{padding : 10}}  >
                 <HcdWaveView
                   surfaceWidth={200}
                   surfaceHeigth={200}
@@ -191,12 +191,12 @@ class Water extends PureComponent {
         <View style={{flex: 1, marginTop: 10}}>
         <View>
             <CopilotStep
-              text="You can add your water consumption from the options below"
+              text="You can add your water consumption from the options below buttons"
               order={2}
               name="hello2"
             >
               <WalkthroughableText
-                style={[styles.calorieText, {marginHorizontal: 20}]}
+               style = {{padding : 5}}
               >
                 <Text style={styles.quickAdd}>Quick add</Text>
               </WalkthroughableText>
