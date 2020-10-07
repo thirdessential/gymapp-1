@@ -57,13 +57,12 @@ class NotificationList extends PureComponent {
 
   handleAction = (item) => {
     const {id, read, data, type} = item;
-    // console.log(item);
     switch (type) {
       case notificationActionTypes.CALL_REQUEST:
         navigate(RouteNames.CallRequests);
         break;
       case notificationActionTypes.STREAM:
-        if (data && !read) {
+        if (Object.keys(data).length !== 0 && !read) {
           showInfo(strings.JOINING);
           joinMeeting(data.meetingNumber, data.meetingPassword, this.props.userName, data.clientKey, data.clientSecret);
         }
