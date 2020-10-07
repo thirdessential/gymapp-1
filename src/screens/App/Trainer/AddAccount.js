@@ -118,12 +118,13 @@ class AddAccount extends Component {
     );
   };
   renderItem = (item) => {
+
     return (
       <View style={styles.flatListCard}>
         <View style={styles.accAndIfsc}>
           <View style={styles.showAccountNumber}>
             <Text style={{color: "#CCC", paddingLeft: 6}}>
-              {item.accountNumber}
+              {"**********" + item.accountNumber.substr(item.accountNumber.length - 4 , item.accountNumber.length)}
             </Text>
           </View>
           <View style={styles.ifscFlatList}>
