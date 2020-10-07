@@ -325,7 +325,7 @@ class CreatePost extends PureComponent {
             {this.renderSubmit()}
           </ScrollView>
         </View>
-        <Overlay isVisible={this.state.isModalVisible} onBackdropPress={this.toggleModal}>
+        <Overlay overlayStyle = {{position : "absolute", bottom : "0%" , borderTopRightRadius : 15, borderTopLeftRadius : 15}} isVisible={this.state.isModalVisible} onBackdropPress={this.toggleModal}>
           <View style = {{width : 350}}>
             <Text style = {{fontSize : 15, textAlign : "center", padding : 10}}>Select Image</Text>
             <Card.Divider/>
@@ -334,7 +334,7 @@ class CreatePost extends PureComponent {
               <Card.Divider/>
             </TouchableOpacity>
             <TouchableOpacity onPress={this.handleUpload} >
-              <Card.Title>Upload Photo</Card.Title>
+              <Card.Title>Choose from Library</Card.Title>
             </TouchableOpacity>
             <TouchableOpacity onPress={this.toggleModal} >
               <Card.Divider/>
