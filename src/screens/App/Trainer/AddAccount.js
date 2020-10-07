@@ -73,7 +73,7 @@ class AddAccount extends Component {
               placeholder="Enter account number"
               style={{color: appTheme.brightContent, paddingLeft: 6}}
               placeholderTextColor="#CCC"
-              value={this.state.accountNumber}
+              //value={this.state.accountNumber}
               keyboardType={'numeric'}
               onChangeText={(text) => this.setState({accountNumber: text})}
             />
@@ -83,7 +83,7 @@ class AddAccount extends Component {
               placeholder="IFSC Code"
               style={{color: appTheme.brightContent, paddingLeft: 6}}
               placeholderTextColor="#CCC"
-              value={this.state.ifscCode}
+              //value={this.state.ifscCode}
               onChangeText={(text) =>
                 this.setState({ifscCode: text.toUpperCase()})
               }
@@ -96,7 +96,7 @@ class AddAccount extends Component {
               placeholder="Account holder name"
               style={{color: appTheme.brightContent, paddingLeft: 6}}
               placeholderTextColor="#CCC"
-              value={this.state.holderName}
+              //value={this.state.holderName}
               onChangeText={(text) =>
                 this.setState({holderName: text.toUpperCase()})
               }
@@ -106,7 +106,7 @@ class AddAccount extends Component {
             <TextInput
               placeholder="Bank name"
               placeholderTextColor="#CCC"
-              value={this.state.bankName}
+              //value={this.state.bankName}
               style={{color: appTheme.brightContent, paddingLeft: 6}}
               onChangeText={(text) =>
                 this.setState({bankName: text.toUpperCase()})
@@ -186,6 +186,17 @@ class AddAccount extends Component {
               {!this.state.submitting && <Entypo color={appTheme.textPrimary} name="plus" size={30}/>}
             </TouchableOpacity>
           </View>
+          <View style={styles.tncView}>
+            <CheckBox
+              value={this.state.checked}
+              onValueChange={this.handleCheckBox}
+              style={styles.checkbox}
+            />
+            <Text style={styles.agree}>{strings.AGREE} </Text>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate(RouteNames.WebView)}>
+              <Text style={styles.read}>{strings.CLICK_READ}</Text>
+            </TouchableOpacity>
+          </View>
           {this.props.accounts.length !== 0 && (
             <>
               <View style={[styles.extraTextCard, {marginBottom: 0}]}>
@@ -199,17 +210,7 @@ class AddAccount extends Component {
               />
             </>
           )}
-          <View style={styles.tncView}>
-            <CheckBox
-              value={this.state.checked}
-              onValueChange={this.handleCheckBox}
-              style={styles.checkbox}
-            />
-            <Text style={styles.agree}>{strings.AGREE} </Text>
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate(RouteNames.WebView)}>
-              <Text style={styles.read}>{strings.CLICK_READ}</Text>
-            </TouchableOpacity>
-          </View>
+          
         </ScrollView>
 
       </View>
