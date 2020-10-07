@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import Video from 'react-native-video';
-import { Button, Overlay } from 'react-native-elements';
+import { ListItem, Overlay, Card } from 'react-native-elements';
 import CropImagePicker from 'react-native-image-crop-picker';
 import ImagePicker from "react-native-image-crop-picker";
 import MediaMeta from 'react-native-media-meta';
@@ -208,7 +208,7 @@ class CreatePost extends PureComponent {
   };
 
   renderSubmit = () => {
-    const disabled = this.state.description.length < 5;
+    const disabled = this.state.description.length < 1;
     if (this.state.submitting)
       return <ActivityIndicator color={appTheme.brightContent} size={40} />;
     return (
@@ -325,26 +325,22 @@ class CreatePost extends PureComponent {
             {this.renderSubmit()}
           </ScrollView>
         </View>
-        <Overlay  isVisible={this.state.isModalVisible} onBackdropPress={this.toggleModal}>
-          
-          <View style= {{padding : 5, width : 250}}>
-            <View style = {{borderBottomWidth : 1}}>
-              <Text  style = {{ fontSize : 20}}>Choose a option</Text>
-            </View>
-            <View style = {{marginTop : 10, marginBottom : 10}}>
-              <TouchableOpacity onPress={this.handleCapture}>
-                <Text  style = {{ fontSize : 20}}>Capture a image..</Text>
-              </TouchableOpacity>
-              <View style = {{marginTop : 7}}></View>
-              <TouchableOpacity onPress={this.handleUpload} >
-                <Text  style = {{fontSize : 20}}>Upload Image..</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={{width: "50%", margin: 5}}>
-              <Button title="Cancel" onPress={this.toggleModal} />
-            </View>
-          </View>
-          
+        <Overlay isVisible={this.state.isModalVisible} onBackdropPress={this.toggleModal}>
+          <View style = {{width : 350}}>
+            <Text style = {{fontSize : 15, textAlign : "center", padding : 10}}>Select Image</Text>
+            <Card.Divider/>
+            <TouchableOpacity onPress={this.handleCapture}>
+              <Card.Title>Take Photo</Card.Title>
+              <Card.Divider/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.handleUpload} >
+              <Card.Title>Upload Photo</Card.Title>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.toggleModal} >
+              <Card.Divider/>
+              <Card.Title>Cancel</Card.Title>
+            </TouchableOpacity>
+          </View>                   
         </Overlay>
       </>
     );
