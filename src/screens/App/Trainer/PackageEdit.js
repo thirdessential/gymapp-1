@@ -136,7 +136,7 @@ class Packages extends PureComponent {
             this.props.updateUserData()
           this.props.navigation.goBack();
         } else {
-          showError(bookedday.toString() + ' ' + strings.SLOT_ALREADY_BOOKED)
+          showError(strings.SLOT_ALREADY_BOOKED)
           this.setState({ submitPending: false });
         }
 
