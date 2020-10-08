@@ -80,7 +80,8 @@ class LiveScheduler extends PureComponent {
       streamData = {
         title,
         date: new Date(),
-        duration
+        duration,
+        instantLive
       }
     else {
       const mergedDate = new Date(date);
@@ -90,7 +91,8 @@ class LiveScheduler extends PureComponent {
       streamData = {
         title,
         date: mergedDate,
-        duration
+        duration,
+        instantLive
       };
     }
 

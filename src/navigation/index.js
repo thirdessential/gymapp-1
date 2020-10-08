@@ -177,6 +177,14 @@ class App extends React.Component {
         }
       }
         break;
+        case remoteMessageTypes.COUPON_APPROVED: {
+          const {content, displayImage, sentDate} = data;
+          if (!!content)
+            showInfo(content);
+          // Add the notification to notification reducer
+          addNotification(content, displayImage, notificationActionTypes.COUPON_APPROVED, sentDate)
+        }
+          break;
       default:
         break;
     }

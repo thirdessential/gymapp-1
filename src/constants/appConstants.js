@@ -6,7 +6,7 @@ let apiUrl = 'https://gymaddaservices.herokuapp.com';
 if (__DEV__) {
   console.log('Development Server');
   apiUrl = 'https://gymaddaservices.herokuapp.com';
-  // apiUrl = 'http://192.168.211.1:3001';
+  // apiUrl = 'http://192.168.243.1:3001';
 } else {
   console.log('Production Server');
   apiUrl = 'https://gymaddaservices.herokuapp.com';
@@ -22,7 +22,7 @@ export const userTypes = {
 
 // Change this constant to change the apk type, will not affect flow when logging in with existing account
 // This constant will only affect new registrations
-export const INITIAL_USER_TYPE = userTypes.TRAINER;
+export const INITIAL_USER_TYPE = userTypes.USER;
 // Default Agora video config
 export const videoFeedConfig = {
   width: 360,
@@ -99,6 +99,7 @@ export const remoteMessageTypes = {
   CALLBACK_ACCEPT: 'CALLBACK_ACCEPT',
   SYNC_SESSIONS: 'SYNC_SESSIONS',
   SESSION_STARTED: 'SESSION_STARTED',
+  COUPON_APPROVED:'COUPON_APPROVED'
 }
 // Default pagination value
 export const INITIAL_PAGE = 'INITIAL_PAGE';
@@ -219,7 +220,8 @@ export const notificationActionTypes = {
   STREAM: 'STREAM',
   CALL_REQUEST: 'CALL_REQUEST',
   CALL_ACCEPT: 'CALL_ACCEPT',
-  AGORA_SESSION: 'AGORA_SESSION'
+  AGORA_SESSION: 'AGORA_SESSION',
+  COUPON_APPROVED:'COUPON_APPROVED'
 };
 
 export const foodTypes = {

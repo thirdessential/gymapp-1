@@ -61,7 +61,7 @@ const answer = (props) => {
         <TouchableOpacity activeOpacity={0.8} onPress={onProfilePress} style={styles.titleContainer}>
           <Text style={styles.displayName}>{createdBy}</Text>
         </TouchableOpacity>
-        <Text style={styles.textContent}>{text}</Text>
+        <Text numberOfLines={5} style={styles.textContent}>{text}</Text>
         <View style={styles.hitsContainer}>
         </View>
       </View>
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   textContent: {
     color: appTheme.textPrimary,
     fontSize: fontSizes.default,
-    width: '100%',
+    width: 300,
     fontFamily: fonts.CenturyGothicBold,
     marginTop: spacing.medium_sm
   },

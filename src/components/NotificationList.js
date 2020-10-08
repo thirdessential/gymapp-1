@@ -61,6 +61,9 @@ class NotificationList extends PureComponent {
       case notificationActionTypes.CALL_REQUEST:
         navigate(RouteNames.CallRequests);
         break;
+      case notificationActionTypes.COUPON_APPROVED:
+        navigate(RouteNames.CouponMachine);
+        break;
       case notificationActionTypes.STREAM:
         if (Object.keys(data).length !== 0 && !read) {
           showInfo(strings.JOINING);
