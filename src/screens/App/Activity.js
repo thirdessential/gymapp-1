@@ -202,7 +202,6 @@ class Activity extends PureComponent {
   }
   renderUpcomingStreams = () => {
     const {upcomingStreams} = this.state;
-    
     let upcomingStream = []
     if (upcomingStreams){
       upcomingStream = upcomingStreams.filter( stream => {
@@ -212,7 +211,7 @@ class Activity extends PureComponent {
           return stream
       })
     }
-    if (!upcomingStreams || upcomingStream.length === 0) return (
+    if (!upcomingStreams || upcomingStream.length === 0 || upcomingStreams.length === 0) return (
       <View style={[styles.card, styles.noContentContainer]}>
         <Text style={styles.noContent}>{strings.NO_UPCOMING_STREAMS}</Text>
       </View>
