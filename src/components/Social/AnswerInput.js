@@ -19,22 +19,30 @@ const answerInput = (props) => {
     setAnswerText('');
   }
   const submit = () => {
-    props.onSubmit(answerText);
+    console.log(answerText.length)
+    if(answerText.length !== 0){props.onSubmit(answerText)}
     close();
   }
   return (
     <View>
       {
         isAnswerOpen &&
-        <TextInput
-          numberOfLines={2}
-          multiline={true}
-          value={answerText}
-          onChangeText={setAnswerText}
-          style={[styles.title, styles.textInput]}
-          underlineColorAndroid={'transparent'}
-          maxLength={MAX_POST_LENGTH}
-        />
+          <View>
+            <View style = {{flexDirection:"row", justifyContent: "flex-end"}}>
+              <Text style={[styles.title, { color: appTheme.brightContent }]}>
+                {answerText.length}/{MAX_POST_LENGTH}
+              </Text>
+            </View>
+            <TextInput
+            numberOfLines={2}
+            multiline={true}
+            value={answerText}
+            onChangeText={setAnswerText}
+            style={[styles.title, styles.textInput]}
+            underlineColorAndroid={'transparent'}
+            maxLength={MAX_POST_LENGTH}
+          />
+        </View>
       }
       <View style={{flexDirection: 'row'}}>
         <TouchableOpacity onPress={isAnswerOpen ? submit : toggleAnswerOpen}>
