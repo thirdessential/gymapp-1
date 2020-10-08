@@ -65,17 +65,19 @@ class BMI extends PureComponent {
 
   componentDidMount() {
     const { navigation, updateBmiRecords } = this.props;
-    //to show copilot walkthrough
-    const { copilotScreens, updateScreenCopilots } = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
-    if (!!!copilotScreens[RouteNames.BMI]) {
-      this.props.start();
-    }
-    //copilot functions to track them
-    //this.props.copilotEvents.on("stepChange", this.handleStepChange);
-    this.props.copilotEvents.on("stop", () => {
-      //after finished set copilot as done in redux
-      updateScreenCopilots(RouteNames.BMI);
-    });
+    setTimeout(() => { //because the copilot screens should show up after the first animation or after the complete screen is visible
+      //to show copilot walkthrough
+      const { copilotScreens, updateScreenCopilots } = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
+      if (!!!copilotScreens[RouteNames.BMI]) {
+        this.props.start();
+      }
+      //copilot functions to track them
+      //this.props.copilotEvents.on("stepChange", this.handleStepChange);
+      this.props.copilotEvents.on("stop", () => {
+        //after finished set copilot as done in redux
+        updateScreenCopilots(RouteNames.BMI);
+      });
+    },1000)
 
     this.unsubscribeFocus = navigation.addListener('focus', e => {
       updateBmiRecords();

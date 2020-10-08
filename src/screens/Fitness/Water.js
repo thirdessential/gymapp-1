@@ -41,18 +41,6 @@ class Water extends PureComponent {
   }
 
   async componentDidMount() {
-    //to show copilot walkthrough
-    const {copilotScreens, updateScreenCopilots} = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
-    if (!!!copilotScreens[RouteNames.Water]) {
-      this.props.start();
-    }
-    //copilot functions to track them
-    //this.props.copilotEvents.on("stepChange", this.handleStepChange);
-    this.props.copilotEvents.on("stop", () => {
-      //after finished set copilot as done in redux
-      updateScreenCopilots(RouteNames.Water);
-    });
-
     let result = await this.props.getWaterIntake(); //get result i.e. array from redux
     await this.setState({data: result}); //set it to data
     const {bmiRecords, waterIntake} = this.props; //get bmi  and todays water intake from redux
@@ -81,6 +69,20 @@ class Water extends PureComponent {
       lengthOfData: lastSevenDays.length,
       totalIntakeAverage: total / (lastSevenDays.length || 1) //calculate avrage water intake
     });
+    setTimeout(()=>{
+      //to show copilot walkthrough
+      const {copilotScreens, updateScreenCopilots} = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
+      //this.props.start();
+      if (!!!copilotScreens[RouteNames.Water]) {
+        this.props.start();
+      }
+      //copilot functions to track them
+      //this.props.copilotEvents.on("stepChange", this.handleStepChange);
+      this.props.copilotEvents.on("stop", () => {
+        //after finished set copilot as done in redux
+        updateScreenCopilots(RouteNames.Water);
+      });
+    }, 1000)
   }
 
   componentWillUnmount() {
@@ -151,11 +153,11 @@ class Water extends PureComponent {
           </View>
           <View  >
             <CopilotStep
-              text="This shows percentage of your water intake"
+              text="This shows percentage of your water intake. You can track your water intake by adding your water consumptions"
               order={1}
               name="hello1"
             >
-              <WalkthroughableView style = {{padding : 10}}  >
+              <WalkthroughableView >
                 <HcdWaveView
                   surfaceWidth={200}
                   surfaceHeigth={200}
@@ -189,19 +191,7 @@ class Water extends PureComponent {
           </Text>
         </View>
         <View style={{flex: 1, marginTop: 10}}>
-        <View>
-            <CopilotStep
-              text="You can add your water consumption from the options below buttons"
-              order={2}
-              name="hello2"
-            >
-              <WalkthroughableText
-               style = {{padding : 5}}
-              >
                 <Text style={styles.quickAdd}>Quick add</Text>
-              </WalkthroughableText>
-            </CopilotStep>
-          </View>
         </View>
         <View style={styles.mainView}>
           <View style={styles.increaseTextView}>
