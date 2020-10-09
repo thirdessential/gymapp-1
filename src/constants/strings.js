@@ -1,12 +1,16 @@
 import {MAX_VIDEO_LENGTH} from "./appConstants";
-
+import moment from 'moment'
 export const coachedPeople = (amount) => `Coached ${amount} people`;
 export const durationBuilder = (duration) => `DURATION: ${duration} Weeks`;
 export const priceBuilder = (price) => `PRICE: ${price} INR`;
 export const subscribedSuccessBuilder = (trainerName, sessionCount) => `Successfully subscribed to ${trainerName} for ${sessionCount} sessions`;
 export const appointmentSuccessBuilder = () => `Appointment Booked`;
 export const appointmentErrorBuilder = () => `Booking error, try again`;
-export const couponShareBuilder = (couponCode, discount, validTill) => `Hello, use my coupon ${couponCode} to avail ${discount}% on all my packages! Valid till ${validTill}`;
+export const couponShareBuilder = (couponCode, discount, validTill) => {
+  const gmtDateTime = moment.utc(validTill)
+  const local = gmtDateTime.local().format('DD-MMM-YYYY h:mm A');
+  return `Hello, use my coupon ${couponCode} to avail ${discount}% on all my packages! Valid till ${local}`;
+}
 export const subscribersBuilder = (count) => {
   if (!count) return '';
   else if (count === 1)
