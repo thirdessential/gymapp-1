@@ -240,20 +240,26 @@ class UserInfo extends React.Component {
           </KeyboardAvoidingView>
         </ScrollView>
         <View style={{paddingTop: spacing.medium_sm, marginBottom: spacing.space_50}}/>
-        <Overlay overlayStyle = {{position : "absolute", bottom : "0%" , borderTopRightRadius : 15, borderTopLeftRadius : 15}} isVisible={this.state.isModalVisible} onBackdropPress={this.toggleModal}>
+        <Overlay 
+        overlayStyle = {{position : "absolute", bottom : "0%" , borderTopRightRadius : 15, borderTopLeftRadius : 15 , backgroundColor : appTheme.darkBackground}} 
+        isVisible={this.state.isModalVisible} 
+        onBackdropPress={this.toggleModal}>
           <View style = {{width : 350}}>
-            <Text style = {{fontSize : 15, textAlign : "center", padding : 10}}>Select Image</Text>
+            <Text 
+              style = {{fontSize : 15, textAlign : "center", padding : 10, color: appTheme.brightContent}}>
+              Select Image
+            </Text>
             <TouchableOpacity onPress={this.handleCapture}>
-              <Card.Divider/>
-              <Card.Title>Take Photo</Card.Title>
-              <Card.Divider/>
+              <Card.Divider style = {{backgroundColor : appTheme.grey}} />
+              <Card.Title style = {{color: appTheme.brightContent}}>Take Photo</Card.Title>
+              <Card.Divider style = {{backgroundColor : appTheme.grey}} />
             </TouchableOpacity>
             <TouchableOpacity onPress={this.handleUpload} >
-              <Card.Title>Choose from Library</Card.Title>
+              <Card.Title style = {{color: appTheme.brightContent}}>Choose from Library</Card.Title>
             </TouchableOpacity>
             <TouchableOpacity onPress={this.toggleModal} >
-              <Card.Divider/>
-              <Card.Title>Cancel</Card.Title>
+              <Card.Divider style = {{backgroundColor : appTheme.grey}} />
+              <Card.Title style = {{color: appTheme.brightContent}}>Cancel</Card.Title>
             </TouchableOpacity>
           </View>                   
         </Overlay>
