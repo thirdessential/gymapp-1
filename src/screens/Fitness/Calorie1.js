@@ -43,22 +43,24 @@ class Calorie1 extends PureComponent {
 
   async componentDidMount() {
     const type = this.props.route.params.type;//type i.e Breakfast lunh dinner snacks
-        //to show copilot walkthrough
-        const { copilotScreens, updateScreenCopilots } = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
-        if (!!!copilotScreens[RouteNames.Calorie1]) {
-          this.props.start();
-        }
-        //copilot functions to track them
-        //this.props.copilotEvents.on("stepChange", this.handleStepChange);
-        this.props.copilotEvents.on("stop", () => {
-          //after finished set copilot as done in redux
-          updateScreenCopilots(RouteNames.Calorie1);
-        });
     const recommendedFoods = this.props.route.params.recommendedFoods;//we get this from parent as navigation props
     if (recommendedFoods.length > 0) {
       this.setState({foods: recommendedFoods, recommendationText: true});
     }
     this.setState({type});//type   i.e Breakfast lunh dinner snacks for current food ITems
+    setTimeout(() => {
+      //to show copilot walkthrough
+      const { copilotScreens, updateScreenCopilots } = this.props;//copilot is for walkthrough updatescreencopilots make that screen true in redux so that it is shown only once
+      if (!!!copilotScreens[RouteNames.Calorie1]) {
+        this.props.start();
+      }
+      //copilot functions to track them
+      //this.props.copilotEvents.on("stepChange", this.handleStepChange);
+      this.props.copilotEvents.on("stop", () => {
+        //after finished set copilot as done in redux
+        updateScreenCopilots(RouteNames.Calorie1);
+      });
+    }, 1000);
   }
 
 
