@@ -21,12 +21,12 @@ import * as actionCreators from "../../../store/actions";
 
 class PhysicalData extends Component {
   state = {
-    weight: 60,
-    height: 160
+    weight: 0,
+    height: 0
   };
 
   componentDidMount() {
-    const {weight = 60, height = 160} = this.props.userData;
+    const {weight = 0, height = 0} = this.props.userData;
     this.setState({weight, height});
   }
 

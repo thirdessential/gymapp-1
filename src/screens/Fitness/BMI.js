@@ -41,6 +41,7 @@ import Avatar from "../../components/Avatar";
 import RouteNames from "../../navigation/RouteNames";
 import * as actionCreators from "../../store/actions";
 import { WEEK_DAYS } from "../../constants/appConstants";
+import { showError } from '../../utils/notification'
 
 const rbContentType = {
   WEIGHT: 'WEIGHT',
@@ -134,7 +135,7 @@ class BMI extends PureComponent {
                 <Entypo name={'edit'} size={14} style={{ marginLeft: spacing.small_sm }} color={appTheme.brightContent} />
               </TouchableOpacity>
             )}
-            {!height && (
+            {(!height || height == 0) && (
               <TouchableOpacity onPress={this.openHeightSetter}>
                 <Text style={styles.menuText}>{strings.SET_HEIGHT}</Text>
               </TouchableOpacity>
@@ -191,6 +192,7 @@ class BMI extends PureComponent {
   }
   renderWeightProgress = () => {
     const { bmiRecords, targetWeight, targetDate } = this.props;
+    console.log(bmiRecords,'........bmi')
     if (!bmiRecords || bmiRecords.length === 0)
       return null;
     const latestRecord = bmiRecords[0];
@@ -349,10 +351,14 @@ class BMI extends PureComponent {
     this.RBSheet.close();
   }
   submitBmi = async () => {
+    const { newWeight } = this.state;
+    if(newWeight == 0 ){
+      showError("Please enter appropriate weight");
+      return ;
+    }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ submitting: true });
     Keyboard.dismiss();
-    const { newWeight } = this.state;
     const { height } = this.props.userData;
     const bmi = calculateBmi(newWeight, height);
     await this.props.submitBmi(bmi, newWeight);
