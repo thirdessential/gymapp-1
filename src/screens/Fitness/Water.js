@@ -44,10 +44,12 @@ class Water extends PureComponent {
     let result = await this.props.getWaterIntake(); //get result i.e. array from redux
     await this.setState({data: result}); //set it to data
     const {bmiRecords, waterIntake} = this.props; //get bmi  and todays water intake from redux
+    /*
     //if not bmi show text otherwise screen
     bmiRecords.length > 0
       ? this.setState({show: true})
       : this.setState({show: false});
+      */
     if (waterIntake) {
       this.setState({waterIntake, final: waterIntake}); //if we have water consumption of today then set it otherwise 0
     }
