@@ -90,9 +90,8 @@ class UserInfo extends React.Component {
   }
   handleUpload = () => {  
     CropImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true
+      freeStyleCropEnabled : true,
+      cropping: true,
     }).then(response => {
        this.toggleModal()
       this.setState({
@@ -104,8 +103,7 @@ class UserInfo extends React.Component {
 
   handleCapture = () => {
     CropImagePicker.openCamera({
-      width: 300,
-      height: 400,
+      freeStyleCropEnabled : true,
       cropping: true,
     }).then(response => {
       this.setState({

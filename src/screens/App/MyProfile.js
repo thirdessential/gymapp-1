@@ -64,8 +64,7 @@ class MyProfile extends PureComponent {
   }
    handleUpload = () => {  
     CropImagePicker.openPicker({
-      width: screenWidth,
-      height: screenHeight * 2/3,
+      freeStyleCropEnabled : true,
       cropping: true
     }).then(async (response) => {
       this.toggleModal()
@@ -79,8 +78,7 @@ class MyProfile extends PureComponent {
   };
   handleCapture = () => {
     CropImagePicker.openCamera({
-      width: screenWidth,
-      height: screenHeight * 2/3,
+      freeStyleCropEnabled : true,
       cropping: true,
     }).then(async (response) => {
       this.toggleModal()

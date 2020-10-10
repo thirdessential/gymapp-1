@@ -109,9 +109,8 @@ class CreatePost extends PureComponent {
   }
   handleUpload = () => {  
     CropImagePicker.openPicker({
-      width: 300,
-      height: 300,
-      cropping: true
+      freeStyleCropEnabled : true,
+      cropping: true,
     }).then(response => {
       this.toggleModal()
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -124,8 +123,7 @@ class CreatePost extends PureComponent {
   };
   handleCapture = () => {
     CropImagePicker.openCamera({
-      width: 300,
-      height: 300,
+      freeStyleCropEnabled : true,
       cropping: true,
     }).then(response => {
       this.toggleModal()
@@ -257,7 +255,7 @@ class CreatePost extends PureComponent {
     if (result) {
       updatePosts();
       updateMyPosts();
-      showSuccess("Approval awaited");
+      showSuccess(strings.ADMIN_APPROVAL);
     } else {
       showError("Video upload failed, try again");
     }
@@ -281,7 +279,7 @@ class CreatePost extends PureComponent {
     if (result) {
       updatePosts();
       updateMyPosts();
-      showSuccess("Approval awaited");
+      showSuccess(strings.ADMIN_APPROVAL);
       navigation.goBack();
     } else {
       showError("Post creation failed, try again");
