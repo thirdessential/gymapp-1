@@ -8,9 +8,8 @@ import PackageOverview from '../../components/Package/PackageOverview';
 import {spacing} from "../../constants/dimension";
 
 const packageFlatList = (props) => {
-
   const renderPlan = (plan) => {
-    const {title, noOfSessions, sessionsPerWeek, price, description, category, group,totalSubscriptions, _id} = plan;
+    const {title, noOfSessions, sessionsPerWeek, price, description, category, group,totalSubscriptions, _id, slot} = plan;
     const editCallback = props.editCallback ? () => props.editCallback(_id) : null;
     const deleteCallback = props.deleteCallback ? () => props.deleteCallback(_id) : null;
     const enrollCallback = props.enrollCallback ? () => props.enrollCallback(_id) : null;
@@ -19,6 +18,7 @@ const packageFlatList = (props) => {
         <PackageOverview
           open={props.initialOpenId}
           title={title}
+          slot = {slot}
           sessionCount={noOfSessions}
           sessionsPerWeek={sessionsPerWeek}
           price={price}

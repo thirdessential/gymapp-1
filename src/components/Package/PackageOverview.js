@@ -15,7 +15,7 @@ import {getRandomImage} from "../../constants/images";
 import colors, {appTheme} from "../../constants/colors";
 import {hitSlop20} from "../../constants/styles";
 import {packageImages, packageTypes} from "../../constants/appConstants";
-
+import { militaryTimeToString, toTitleCase } from '../../utils/utils'
 const toggleAnimation = (callback, value) => {
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   callback(value)
@@ -53,16 +53,43 @@ const PackageOverview = (props) => {
   )
 
   const renderContent = () => {
+    const {days , time} = props.slot
+    const today = new Date().toLocaleDateString();
+    const endDate = new Date();
+    const estWeeks = Math.floor(props.sessionCount / days.length);
+    endDate.setDate(endDate.getDate() + estWeeks * 7);
     if (collapsed)
       return null;
     else return (
       <View style={styles.textContainer}>
         <Text style={styles.description}>{props.description}</Text>
         <Text style={styles.description}>{packageTypes[props.category]}</Text>
+        {
+          props.group && (
+            <View>
+              <Text style={styles.detail}>
+                {strings.TIMING}: {militaryTimeToString(time)}
+              </Text>
+              <Text style={styles.detail}>
+                {strings.DATE}: {today} - {endDate.toLocaleDateString()}
+              </Text>
+              <View style={styles.daysContainer}>
+              {days.map((day, i) => {
+                return (
+                  <View key={i}>
+                    <Text style={styles.dayBox}>
+                      {toTitleCase(day)}
+                    </Text>
+                  </View>
+                )  
+              })}
+              </View>
+            </View>
+          )
+        }
       </View>
     )
   }
-
   return (
     <TouchableOpacity activeOpacity={0.9} onPress={() => toggleAnimation(setCollapsed, !collapsed)}>
       <ImageBackground
@@ -90,6 +117,7 @@ const PackageOverview = (props) => {
           style={styles.description}>{props.totalSubscriptions} {props.totalSubscriptions === 1 ? strings.SUBSCRIPTION : strings.SUBSCRIPTIONS}</Text>
         {renderContent()}
         <Text style={styles.description}>{props.group ? strings.GROUP_PACKAGE : strings.SINGLE_PACKAGE}</Text>
+        
         <View style={styles.subtitleContainer}>
           <Text style={styles.subtitle}>{props.sessionCount} {strings.SESSIONS}</Text>
 
@@ -166,6 +194,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  detail: {
+    color: appTheme.textPrimary,
+    fontSize: fontSizes.h3,
+    fontFamily: fonts.CenturyGothic,
+    marginBottom: spacing.small_sm,
+    fontWeight : "bold"
+  },
+  dayBox: {
+    padding: spacing.small,
+    backgroundColor: appTheme.textPrimary,
+    borderWidth: 1,
+    borderRadius: 6,
+    borderColor: appTheme.brightContent,
+    fontFamily: fonts.Monospace,
+    fontWeight: "bold",
+    fontSize: fontSizes.h4,
+    textAlign: "center",
+    marginRight: spacing.small,
+  },
+  daysContainer: {
+    flexDirection: "row",
+    width: "100%",
+    marginTop: spacing.small,
+    marginBottom: spacing.medium,
+  }
 });
 
 export default React.memo(PackageOverview);
