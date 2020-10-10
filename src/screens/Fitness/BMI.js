@@ -353,7 +353,7 @@ class BMI extends PureComponent {
   submitBmi = async () => {
     const { newWeight } = this.state;
     if(newWeight == 0 ){
-      showError("Please enter appropriate weight");
+      showError(strings.APPROPRIATE_WEIGHT);
       return ;
     }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -366,10 +366,14 @@ class BMI extends PureComponent {
     this.setState({ newWeight: '', submitting: false });
   }
   submitTarget = async () => {
+    const { targetDate, targetWeight } = this.state;
+    if(targetWeight == 0 ){
+      showError(strings.APPROPRIATE_WEIGHT);
+      return ;
+    }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ submitting: true });
     Keyboard.dismiss();
-    const { targetDate, targetWeight } = this.state;
     const targetDateObj = new Date();
     const daysToAchieve = parseInt(targetDate) * 7;
     targetDateObj.setDate(targetDateObj.getDate() + daysToAchieve);

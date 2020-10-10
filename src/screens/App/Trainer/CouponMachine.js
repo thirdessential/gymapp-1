@@ -69,7 +69,7 @@ class CouponMachine extends PureComponent {
       this.setState({settingInitial: false, submitPending: false})
     }
      
-    showSuccess("Approval awaited");
+    showSuccess(strings.ADMIN_APPROVAL);
   }
 
   refreshCoupons = async () => {

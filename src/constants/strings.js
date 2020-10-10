@@ -295,7 +295,9 @@ const strings = {
   USERS: 'Users',
   SLOT_CREATION_FAILED: 'Slot creation failed, try again',
   FAILED_TO_START_STREAM: 'Failed to start live stream',
-  SLOT_ALREADY_BOOKED: 'Selected slots are pre-occupied. Select different slot to continue'
+  SLOT_ALREADY_BOOKED: 'Selected slots are pre-occupied. Select different slot to continue',
+  ADMIN_APPROVAL: "Approval awaited",
+  APPROPRIATE_WEIGHT : "Please enter appropriate weight"
 };
 
 export const bmiVerdicts = {
