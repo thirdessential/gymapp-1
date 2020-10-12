@@ -431,7 +431,7 @@ class BMI extends PureComponent {
       />
       <TextInput keyboardType={'numeric'} style={styles.textInput} placeholder='Weeks to achieve'
         placeholderTextColor={appTheme.brightContent}
-        value={this.state.targetDate} onChangeText={this.setTargetDate}
+        onChangeText={this.setTargetDate}
       />
 
       <View style={styles.inputContainer}>
