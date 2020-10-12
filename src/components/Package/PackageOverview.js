@@ -1,20 +1,20 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {useState} from 'react';
-import {ImageBackground, LayoutAnimation, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
+import React, { useState } from 'react';
+import { ImageBackground, LayoutAnimation, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import PropTypes from 'prop-types';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Entypo from "react-native-vector-icons/Entypo";
 
 import strings from "../../constants/strings";
-import {spacing} from "../../constants/dimension";
+import { spacing } from "../../constants/dimension";
 import fonts from "../../constants/fonts";
 import fontSizes from "../../constants/fontSizes";
-import {getRandomImage} from "../../constants/images";
-import colors, {appTheme} from "../../constants/colors";
-import {hitSlop20} from "../../constants/styles";
-import {packageImages, packageTypes} from "../../constants/appConstants";
+import { getRandomImage } from "../../constants/images";
+import colors, { appTheme } from "../../constants/colors";
+import { hitSlop20 } from "../../constants/styles";
+import { packageImages, packageTypes } from "../../constants/appConstants";
 import { militaryTimeToString, toTitleCase } from '../../utils/utils'
 const toggleAnimation = (callback, value) => {
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -22,11 +22,15 @@ const toggleAnimation = (callback, value) => {
 }
 
 const PackageOverview = (props) => {
-  const {open = false} = props;
+  const { open = false } = props;
   const [collapsed, setCollapsed] = useState(!open);
   const chevron = !collapsed ? 'chevron-up' : 'chevron-down';
   const [imageSrc] = useState(getRandomImage());
-
+  const { days, time } = props.slot
+  const today = new Date().toLocaleDateString();
+  const endDate = new Date();
+  const estWeeks = Math.floor(props.sessionCount / days.length);
+  endDate.setDate(endDate.getDate() + estWeeks * 7);
   const EditButtons = () => (
     <View style={styles.editContainer}>
       <TouchableOpacity
@@ -40,8 +44,8 @@ const PackageOverview = (props) => {
           size={24}
         />
       </TouchableOpacity>
-      <TouchableOpacity style={{marginLeft: spacing.medium}} onPress={props.deleteCallback}
-                        hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}
+      <TouchableOpacity style={{ marginLeft: spacing.medium }} onPress={props.deleteCallback}
+        hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
       >
         <FontAwesome
           name={'trash'}
@@ -53,11 +57,6 @@ const PackageOverview = (props) => {
   )
 
   const renderContent = () => {
-    const {days , time} = props.slot
-    const today = new Date().toLocaleDateString();
-    const endDate = new Date();
-    const estWeeks = Math.floor(props.sessionCount / days.length);
-    endDate.setDate(endDate.getDate() + estWeeks * 7);
     if (collapsed)
       return null;
     else return (
@@ -66,14 +65,7 @@ const PackageOverview = (props) => {
         <Text style={styles.description}>{packageTypes[props.category]}</Text>
         {
           props.group && (
-            <View>
-              <Text style={styles.detail}>
-                {strings.TIMING}: {militaryTimeToString(time)}
-              </Text>
-              <Text style={styles.detail}>
-                {strings.DATE}: {today} - {endDate.toLocaleDateString()}
-              </Text>
-              <View style={styles.daysContainer}>
+            <View style={styles.daysContainer}>
               {days.map((day, i) => {
                 return (
                   <View key={i}>
@@ -81,9 +73,8 @@ const PackageOverview = (props) => {
                       {toTitleCase(day)}
                     </Text>
                   </View>
-                )  
+                )
               })}
-              </View>
             </View>
           )
         }
@@ -97,14 +88,14 @@ const PackageOverview = (props) => {
         blurRadius={2}
         borderRadius={12}
         source={packageImages[props.category] || imageSrc}>
-        <View style={[styles.textContainer, {flexDirection: 'row', justifyContent: 'space-between'}]}>
+        <View style={[styles.textContainer, { flexDirection: 'row', justifyContent: 'space-between' }]}>
           <Text style={styles.title}>{props.title}</Text>
-          <View style={{flexDirection: 'row', marginTop: spacing.small}}>
+          <View style={{ flexDirection: 'row', marginTop: spacing.small }}>
             <FontAwesome
               name={props.group ? 'group' : 'user'}
               color={appTheme.textPrimary}
               size={12}
-              style={{marginRight: spacing.small_lg}}
+              style={{ marginRight: spacing.small_lg }}
             />
             <FontAwesome
               name={chevron}
@@ -115,9 +106,21 @@ const PackageOverview = (props) => {
         </View>
         <Text
           style={styles.description}>{props.totalSubscriptions} {props.totalSubscriptions === 1 ? strings.SUBSCRIPTION : strings.SUBSCRIPTIONS}</Text>
+        {
+          props.group && (
+            <View>
+        <Text style={styles.description}>
+          {strings.TIMING}: {militaryTimeToString(time)}
+        </Text>
+        <Text style={styles.description}>
+          {strings.DATE}: {today} - {endDate.toLocaleDateString()}
+        </Text>
+        </View>
+          )
+        }
         {renderContent()}
         <Text style={styles.description}>{props.group ? strings.GROUP_PACKAGE : strings.SINGLE_PACKAGE}</Text>
-        
+
         <View style={styles.subtitleContainer}>
           <Text style={styles.subtitle}>{props.sessionCount} {strings.SESSIONS}</Text>
 
@@ -131,7 +134,7 @@ const PackageOverview = (props) => {
           }
           {
             props.editCallback && !collapsed && (
-              <EditButtons/>
+              <EditButtons />
             )
           }
 
@@ -199,7 +202,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.h3,
     fontFamily: fonts.CenturyGothic,
     marginBottom: spacing.small_sm,
-    fontWeight : "bold"
+    fontWeight: "bold"
   },
   dayBox: {
     padding: spacing.small,
