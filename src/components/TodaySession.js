@@ -18,7 +18,7 @@ import {
 import {appTheme, bmiColors} from "../constants/colors";
 import fontSizes from "../constants/fontSizes";
 import fonts from "../constants/fonts";
-import {formatSeconds} from "../utils/utils";
+import {formatSeconds,convertdate,converteddate} from "../utils/utils";
 import strings, {subscribersBuilder} from "../constants/strings";
 
 class TodaySession extends React.Component {
@@ -32,19 +32,25 @@ class TodaySession extends React.Component {
   }
 
   initialise = () => {
-    const date = new Date(this.props.date);
-    // const date = new Date();
+    let date =this.props.date;
+    // console.log(date,"eeeee11")
+    
+    // date = new Date(date);
     // date.setMinutes(date.getMinutes() + 7); // use this commented code for testing, this'll enable start session button
-    const now = new Date();
+    let now =converteddate();
+    console.log(now,"noweeeee")
+
+    // now = new Date(now)
     if (!this.props.trainer && this.props.status === sessionStatus.LIVE) {
       this.setState({startEnabled: true});
     }
+    console.log(now -date,"callll")
     if ((date - now > 0)) {
       this.setState({countDown: formatSeconds((date - now) / 1000)});
       this.timer = setInterval(() => {
-        const now = new Date();
+        let now =converteddate();
         this.setState({countDown: formatSeconds((date - now) / 1000)});
-        const remainingSeconds = (date - now) / 1000;
+        let remainingSeconds = (date - now) / 1000;
         if (remainingSeconds < 5) {
           clearInterval(this.timer);
           this.timer = null;

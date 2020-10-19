@@ -11,7 +11,7 @@ import fontSizes from "../../constants/fontSizes";
 import strings from "../../constants/strings";
 import {getRandomImage} from "../../constants/images";
 import {streamStatus, streamStatusColor, streamText} from "../../constants/appConstants";
-import {formattedDayDate, formattedTime, toTitleCase} from "../../utils/utils";
+import {formattedDayDate, formattedTime, toTitleCase,convertdate} from "../../utils/utils";
 import Avatar from "../Avatar";
 
 const streamCard = ({title, status, duration, date, host, onJoin, onStart}) => {
@@ -19,8 +19,8 @@ const streamCard = ({title, status, duration, date, host, onJoin, onStart}) => {
 
   let _startEnabled = false;
   if (onStart) {
-    const streamDate = new Date(date);
-    const now = new Date();
+    const streamDate = convertdate(new Date(date));
+    const now = convertdate(new Date());
     if (now > streamDate) _startEnabled = true;
     if (Math.abs((now - streamDate) / 1000) < 600) // less than 600 secs or 10 mins
       _startEnabled = true;
@@ -30,8 +30,9 @@ const streamCard = ({title, status, duration, date, host, onJoin, onStart}) => {
   if (onStart) {
     useEffect(() => {
       const interval = setInterval(() => {
-        const streamDate = new Date(date);
-        const now = new Date();
+        const streamDate =convertdate(new Date(date))
+        console.log(streamDate)
+        const now = convertdate(new Date())
         let _startEnabled = false;
 
         if (now > streamDate) _startEnabled = true;

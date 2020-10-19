@@ -34,6 +34,7 @@ import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import StreamList from "../../components/Social/StreamList";
 import { joinMeeting } from "../../utils/zoomMeeting";
+import { convertdate } from "../../utils/utils";
 
 const initialLayout = { width: screenWidth };
 
@@ -177,8 +178,8 @@ class Community extends Component {
     let liveStream = []
     if (liveStreams){
        liveStream = liveStreams.filter( stream => {
-        const endDate = new Date(stream.date).setMinutes(new Date(stream.date).getMinutes() + stream.duration)
-        const now = new Date()
+        const endDate = convertdate(new Date(stream.date).setMinutes(convertdate(new Date(stream.date).getMinutes() + stream.duration)))
+        const now = convertdate(new Date())
         if( !(now > endDate && stream.status === "SCHEDULED") )
           return stream
       })

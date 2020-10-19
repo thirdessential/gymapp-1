@@ -2,7 +2,8 @@ import {cardBackgrounds} from "./images";
 import {appTheme, bmiColors} from "./colors";
 
 export const TermsURL = "https://gymadda-web.herokuapp.com/terms"
-let apiUrl = 'https://gymaddaservices.herokuapp.com';
+  // apiUrl = 'http://192.168.243.1:3001';
+  let apiUrl = 'https://gymaddaservices.herokuapp.com';
 if (__DEV__) {
   console.log('Development Server');
   apiUrl = 'https://gymaddaservices.herokuapp.com';
@@ -22,7 +23,8 @@ export const userTypes = {
 
 // Change this constant to change the apk type, will not affect flow when logging in with existing account
 // This constant will only affect new registrations
-export const INITIAL_USER_TYPE = userTypes.USER;
+// export const INITIAL_USER_TYPE = userTypes.USER;
+export const INITIAL_USER_TYPE = userTypes.TRAINER;
 // Default Agora video config
 export const videoFeedConfig = {
   width: 360,
@@ -208,7 +210,8 @@ export const sessionStatus = {
 export const streamText = {
   SCHEDULED: 'UPCOMING',
   LIVE: 'LIVE',
-  FINISHED: 'FINISHED'
+  FINISHED: 'FINISHED',
+  NOTHELD:"NOTHELD"
 }
 export const streamStatusColor = {
   SCHEDULED: bmiColors.redFaded,

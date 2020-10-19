@@ -31,7 +31,7 @@ import strings from "../../../constants/strings";
 import fonts from "../../../constants/fonts";
 import fontSizes from "../../../constants/fontSizes";
 import { validatePackage } from "../../../utils/validators";
-import { dateToString, groupBy } from "../../../utils/utils";
+import { dateToString, groupBy,convertdate } from "../../../utils/utils";
 import { showError, showSuccess } from "../../../utils/notification";
 import { cardSize } from "../../../components/ImageCard";
 import { packageImages, packageTypes, WEEK_DAYS } from "../../../constants/appConstants";

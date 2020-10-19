@@ -4,7 +4,7 @@ const PushNotification = require("react-native-push-notification");
 import messaging from '@react-native-firebase/messaging';
 import RNExitApp from "react-native-exit-app";
 import LaunchApplication from "react-native-bring-foreground";
-
+import {convertdate} from '../utils/utils'
 import {
   appPackageId,
   firebaseTopics,
@@ -26,7 +26,7 @@ export const callHandler = async (remoteMessage) => {
     case remoteMessageTypes.CALL:
       // Show a notification and save notification data to storage
       LocalCallNotification(data);
-      const modifiedData = {...data, receiveTime: new Date()};
+      const modifiedData = {...data, receiveTime: convertdate(new Date())};
       await saveToStorage(storageKeys.PENDING_CALL, modifiedData);
       // Attempt to launch application and bring to foreground, works only on some devices
       LaunchApplication.open(appPackageId);

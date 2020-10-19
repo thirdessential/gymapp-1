@@ -32,9 +32,10 @@ import VideoCall from "../screens/Call/VideoCall";
 import {drawerLabelStyle} from "../constants/styles";
 import strings from "../constants/strings";
 import {setWhatsappInstalled} from "../utils/share";
+import {convertdate} from "../utils/utils";
 import RootStack from "./RootStack";
 import TermsStack from "./stacks/TermsStack";
-
+// import * as RNLocalize from "react-native-localize";
 // This listener is responsible for receiving, handling FCM notification when the app is closed.
 messaging().setBackgroundMessageHandler(callHandler);
 configureFCMNotification();
@@ -55,7 +56,6 @@ class App extends React.Component {
 
   async componentDidMount() {
     const {setAuthenticated} = this.props;
-
     setAuthenticated(false);
     changeNavigationBarColor(appTheme.darkBackground);
     // Detect changes in auth state, fires when user is authenticated using either of auth methods
@@ -195,8 +195,8 @@ class App extends React.Component {
       deleteFromStorage(storageKeys.PENDING_CALL);
       // Check whether the call was received in the past 60 seconds
       // if yes, the call is classified as ringing, ignored otherwise
-      const receiveTime = new Date(callData.receiveTime);
-      const currentTime = new Date();
+      const receiveTime = convertdate(new Date(callData.receiveTime));
+      const currentTime = convertdate(new Date());
       if ((currentTime - receiveTime) / 1000 < 60) { // 60 secs
         this.props.setIncomingCall(callData);
         console.log("Set call data", callData);

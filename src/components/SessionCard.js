@@ -18,7 +18,7 @@ import {
 import {appTheme, bmiColors} from "../constants/colors";
 import fontSizes from "../constants/fontSizes";
 import fonts from "../constants/fonts";
-import {formatSeconds} from "../utils/utils";
+import {formatSeconds,convertdate,converteddate,militaryTimeToString} from "../utils/utils";
 import {subscribersBuilder} from "../constants/strings";
 
 class SessionCard extends React.Component {
@@ -28,12 +28,13 @@ class SessionCard extends React.Component {
   }
 
   componentDidMount() {
-    const date = new Date(this.props.date);
-    const now = new Date();
+    let date =  convertdate(this.props.date);
+    let now =  converteddate();
+    // console.log(date,now,'nooo')
     if ((date - now > 0) && (date - now) < MS_IN_DAY * 4) {
       this.setState({countDown: formatSeconds((date - now) / 1000)});
       this.timer = setInterval(() => {
-        const now = new Date();
+        let now = converteddate();
         this.setState({countDown: formatSeconds((date - now) / 1000)});
       }, 1000);
     }
@@ -44,6 +45,8 @@ class SessionCard extends React.Component {
   }
 
   render() {
+    // console.log(this.props.date)
+    // const date = convertdate(new Date(this.props.date));
     const date = new Date(this.props.date);
     const color = this.props.status === sessionStatus.SCHEDULED ? appTheme.brightContent : bmiColors.lightBlue;
     const statusStyle = {color};
@@ -69,7 +72,7 @@ class SessionCard extends React.Component {
           <Text style={[styles.subtitle, {color: bmiColors.red}]}>{subscribersBuilder(this.props.subscribers)}</Text>
           }
           <Text
-            style={[styles.subtitle, {color: appTheme.brightContent}]}>{this.props.time}, <Text><MaterialCommunityIcons
+            style={[styles.subtitle, {color: appTheme.brightContent}]}>{militaryTimeToString(this.props.time)}, <Text><MaterialCommunityIcons
             name={'timer-outline'}
             size={14}/> {this.props.duration}
           </Text></Text>

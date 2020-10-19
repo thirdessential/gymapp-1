@@ -12,7 +12,7 @@ import SessionCard from "../../components/SessionCard";
 import {spacing} from "../../constants/dimension";
 import {getHashedImage} from "../../constants/images";
 import moment from "moment";
-import {datesAreOnSameDay} from "../../utils/utils";
+import {datesAreOnSameDay,convertdate} from "../../utils/utils";
 import {subscriptionType, userTypes} from "../../constants/appConstants";
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import strings from "../../constants/strings";
@@ -44,11 +44,11 @@ class Sessions extends Component {
   updateLocalSessionData = async () => {
     // Local update is a common pattern in which we take data from redux store, transform it for our component
     const {sessions} = this.props;
-    const today = new Date();
+    const today = convertdate(new Date());
     if (!sessions || sessions.length === 0) return;
-    const todaySessions = sessions.filter(session => datesAreOnSameDay(new Date(session.date), today));
-    const pastSessions = sessions.filter(session => new Date(session.date) < today);
-    const futureSessions = sessions.filter(session => new Date(session.date) >= today);
+    const todaySessions = sessions.filter(session => datesAreOnSameDay(convertdate(new Date(session.date)), today));
+    const pastSessions = sessions.filter(session => convertdate(new Date(session.date)) < today);
+    const futureSessions = sessions.filter(session => convertdate(new Date(session.date)) >= today);
     this.setState({todaySessions, pastSessions, futureSessions});
   }
 
@@ -135,10 +135,11 @@ class Sessions extends Component {
 
   renderSession = ({item}) => {
     const date = new Date(item.date);
+    // console.log(item.date,date,"-------",moment(date).format('LT'))
     const hours = item.date.substr(11,2);
     const mins = item.date.substr(14,2);
     const time = hours + mins;
-    console.log(time)
+    // console.log(time)
     const thumbnail = getHashedImage(item._id); // Return same image for item id, image is same between re render cycles
     const {users} = item;
     return (
@@ -147,7 +148,7 @@ class Sessions extends Component {
         thumbnail={thumbnail}
         title={item.packageId.title}
         duration={item.duration}
-        time={militaryTimeToString(time)}
+        time={time}
         date={date}
         type={item.type}
         subscribers={users && users.length}

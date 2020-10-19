@@ -27,6 +27,7 @@ const PackageOverview = (props) => {
   const chevron = !collapsed ? 'chevron-up' : 'chevron-down';
   const [imageSrc] = useState(getRandomImage());
   const { days, time } = props.slot
+  console.log(new Date(time),"time")
   const today = new Date().toLocaleDateString();
   const endDate = new Date();
   const estWeeks = Math.floor(props.sessionCount / days.length);
@@ -57,24 +58,27 @@ const PackageOverview = (props) => {
   )
 
   const renderContent = () => {
-    if (collapsed)
+     if (collapsed)
       return null;
     else return (
       <View style={styles.textContainer}>
         <Text style={styles.description}>{props.description}</Text>
-        <Text style={styles.description}>{packageTypes[props.category]}</Text>
+        {/* <Text style={styles.description}>{packageTypes[props.category]}</Text> */}
         {
           props.group && (
             <View style={styles.daysContainer}>
+               <Text style={styles.dayBox}>
+
               {days.map((day, i) => {
                 return (
-                  <View key={i}>
-                    <Text style={styles.dayBox}>
-                      {toTitleCase(day)}
-                    </Text>
-                  </View>
-                )
-              })}
+                  // <View key={i}>
+                  // <Text style={styles.dayBox}>
+                  toTitleCase(day) + `${i == days.length - 1 ? "" : "|"}`
+                  // </Text>
+                  // </View>
+                  )
+                })}
+                </Text>
             </View>
           )
         }

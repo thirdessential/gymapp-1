@@ -21,7 +21,7 @@ import {appTheme} from "../../../constants/colors";
 import strings, {couponShareBuilder} from "../../../constants/strings";
 import fontSizes from "../../../constants/fontSizes";
 import fonts from "../../../constants/fonts";
-import {groupBy} from "../../../utils/utils";
+import {groupBy,convertdate} from "../../../utils/utils";
 import {showSuccess} from "../../../utils/notification";
 import Coupon from "../../../components/Coupon";
 import {textShare} from "../../../utils/share";
@@ -111,9 +111,9 @@ class CouponMachine extends PureComponent {
   }
   renderCoupon = (coupon) => {
     const {validTill, couponCode, percentageOff, redeemCount, total} = coupon;
-    const validTillDate = (new Date(validTill)).toLocaleDateString();
+    const validTillDate = (convertdate(new Date(validTill))).toLocaleDateString();
     let shareEnabled = true;
-    let now = new Date();
+    let now =convertdate(new Date());
     if (validTill > now) shareEnabled = false;
     if (redeemCount === total) shareEnabled = false;
     return <View style={{marginBottom: spacing.medium}}>

@@ -1,16 +1,17 @@
 import ImagePicker from "react-native-image-picker";
 
-import {navigate} from "../navigation/RootNavigation";
+import { navigate } from "../navigation/RootNavigation";
 import RouteNames from "../navigation/RouteNames";
-import {makeCall} from "../API";
-import strings, {bmiVerdicts} from "../constants/strings";
-import {defaultDP, MONTH_NAMES, userTypes, WEEK_DAY_NAMES, WEEK_DAYS} from "../constants/appConstants";
-import {showError} from "./notification";
-import {bmiColors} from "../constants/colors";
+import { makeCall } from "../API";
+import strings, { bmiVerdicts } from "../constants/strings";
+import { defaultDP, MONTH_NAMES, userTypes, WEEK_DAY_NAMES, WEEK_DAYS } from "../constants/appConstants";
+import { showError } from "./notification";
+import { bmiColors } from "../constants/colors";
 
 
 export const formattedTime = (date) => {
   let dateObj = new Date(date);
+  // dateObj = new Date(dateObj)
   const hours = dateObj.getHours();
   const minutes = dateObj.getMinutes();
   const AM_PM = hours >= 12 ? "PM" : "AM";
@@ -18,7 +19,8 @@ export const formattedTime = (date) => {
   return `${hours}:${minutes}${minZero} ${AM_PM}`;
 };
 export const formattedDayDate = (date) => {
-  const dateObj = new Date(date);
+  let dateObj = new Date(date);
+  // dateObj = new Date(dateObj)
   const dayName = WEEK_DAY_NAMES[dateObj.getDay()];
   const monthName = MONTH_NAMES[dateObj.getMonth()];
   return `${dayName}, ${monthName} ${dateObj.getDate()}`;
@@ -38,8 +40,8 @@ export const militaryTimeToString = (time) => {
   // Militart time expressed in HHMM, (1430, 1200 etc)
   if (!time) return "";
   const suffix = time >= 1200 ? "PM" : "AM";
-  const hours = parseInt(time.slice(0, 2)) ; 
-  return `${ hours > 12 ? hours - 12 : hours  }:${ time.slice(2) } ${suffix}`;
+  const hours = parseInt(time.slice(0, 2));
+  return `${hours > 12 ? hours - 12 : hours}:${time.slice(2)} ${suffix}`;
 };
 export const formattedMilitaryRange = (time, duration) => {
   const timeObj = new Date(time);
@@ -120,7 +122,7 @@ export const initialiseVideoCall = async (userId) => {
     return false;
   }
   console.log(result);
-  let {sessionId, agoraAppId, displayPictureUrl, displayName} = result;
+  let { sessionId, agoraAppId, displayPictureUrl, displayName } = result;
   if (!displayPictureUrl) displayPictureUrl = defaultDP;
   navigate(RouteNames.VideoCall, {
     AppID: agoraAppId,
@@ -156,7 +158,7 @@ export const groupBy = (objectArray, property) => {
   }, {});
 };
 
-export const generateTrainerHits = ({post, transformation, program, slot}) => [
+export const generateTrainerHits = ({ post, transformation, program, slot }) => [
   {
     title: strings.POSTS,
     count: post || 0,
@@ -175,7 +177,7 @@ export const generateTrainerHits = ({post, transformation, program, slot}) => [
   },
 ];
 
-export const generateUserHits = ({post, subscription}) => [
+export const generateUserHits = ({ post, subscription }) => [
   {
     title: strings.POSTS,
     count: post || 0,
@@ -193,7 +195,9 @@ export const pickImage = async (callback) => {
 
 export const getJoinDuration = (date) => {
   const now = new Date();
+  // now = convertdate(new Date(date));  new Date(now);
   const joinDate = new Date(date);
+  // joinDate = new Date(joinDate);
   return Math.floor((now.getTime() - joinDate.getTime()) / (1000 * 3600 * 24));
 };
 
@@ -218,11 +222,11 @@ export const sortDays = (arr) => {
 
 export const getBmiVerdict = (bmi) => {
   // Takes a bmi value and determines the status of user(healthy, obese etc)
-  if (bmi < 18.5) return {text: bmiVerdicts.low, color: bmiColors.blue};
+  if (bmi < 18.5) return { text: bmiVerdicts.low, color: bmiColors.blue };
   if (bmi < 25)
-    return {text: bmiVerdicts.healthy, color: bmiColors.lightBlue};
-  if (bmi < 30) return {text: bmiVerdicts.high, color: bmiColors.yellow};
-  else return {text: bmiVerdicts.unhealthy, color: bmiColors.red};
+    return { text: bmiVerdicts.healthy, color: bmiColors.lightBlue };
+  if (bmi < 30) return { text: bmiVerdicts.high, color: bmiColors.yellow };
+  else return { text: bmiVerdicts.unhealthy, color: bmiColors.red };
 };
 
 export function calculateBmi(weight, height) {
@@ -246,6 +250,7 @@ export const getCompressedLink = (url, height = 400, width = 400) => {
 
 export const getFormattedDate = (date = new Date()) => {
   date = new Date(date);
+  // date = new Date(date)
   let dd = date.getDate();
   let mm = date.getMonth() + 1;
   let yyyy = date.getFullYear();
@@ -262,19 +267,40 @@ export const getFormattedDate = (date = new Date()) => {
 const getDaysArray = function (start, end) {
   // get array of dates between start and end(both included)
   let a = [];
-  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-    a.push(new Date(d));
+  let d = convertdate(new Date(start));
+  for (d; d <= end; d.setDate(d.getDate() + 1)) {
+    a.push(convertdate(new Date(d)));
   }
   return a;
 };
 
 export const getPastWeekDates = () => {
-  const now = new Date();
-  const weekAgo = new Date();
+  const now = convertdate(new Date());
+  const weekAgo = convertdate(new Date());
   weekAgo.setDate(weekAgo.getDate() - 6);
   return getDaysArray(weekAgo, now);
 }
+export const convertdate = (date) => {
 
+  // let now = new Date();
+  let time = new Date(date);
+  let ofset = time.getTimezoneOffset()
+  let newmin = ofset % 60;
+  let newhrs = ofset / 60;
+  newhrs = time.getHours() - newhrs
+  newmin = time.getMinutes() - newmin
+  // console.log(date,"----------------------------",time,"---------------------",ofset,'ofset')
+  time.setDate(time.getDate())
+  time.setHours(newhrs);
+  time.setMinutes(newmin);
+  // console.log(time,'now-------------')
+  return time
+
+}
+export const converteddate = () => {
+  return convertdate(new Date())
+
+}
 export const getImageFromCloudinaryPdf = (url) => {
   // Input-> pdf url hosted on cloudinary
   // Output->First page of pdf as image

@@ -8,7 +8,7 @@ import {appTheme, bmiColors} from "../../constants/colors";
 import {streamStatus, userTypes} from "../../constants/appConstants";
 import * as actionCreators from "../../store/actions";
 import TodaySessionSwiper from "../../components/TodaySessionSwiper";
-import {datesAreOnSameDay, getFormattedDate, getPastWeekDates} from "../../utils/utils";
+import {datesAreOnSameDay, getFormattedDate, getPastWeekDates,convertdate,converteddate} from "../../utils/utils";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
@@ -77,9 +77,9 @@ class Activity extends PureComponent {
 
   updateLocalSessionData = () => {
     const {sessions} = this.props;
-    const today = new Date();
+    const today =converteddate();
     if (!sessions || sessions.length === 0) return;
-    const todaySessions = sessions.filter(session => datesAreOnSameDay(new Date(session.date), today));
+    const todaySessions = sessions.filter(session => datesAreOnSameDay(convertdate(new Date(session.date)), today));
     this.setState({todaySessions});
   }
   updateLocalStreamData = () => {
@@ -88,7 +88,7 @@ class Activity extends PureComponent {
     // Check which streams are scheduled and show them
     let upcomingStreams = liveStreams.filter(stream => stream.status === streamStatus.SCHEDULED);
     upcomingStreams = upcomingStreams.sort(function(a,b){
-      return new Date(a.date) - new Date(b.date);
+      return  convertdate(new Date(a.date)) - convertdate(new Date(b.date));
      }).map(stream => {
       if (myStreamIds.includes(stream._id))
         stream.isMyStream = true;
@@ -205,8 +205,8 @@ class Activity extends PureComponent {
     let upcomingStream = []
     if (upcomingStreams){
       upcomingStream = upcomingStreams.filter( stream => {
-        const endDate = new Date(stream.date).setMinutes(new Date(stream.date).getMinutes() + stream.duration)
-        const now = new Date()
+        const endDate = convertdate(new Date(stream.date)).setMinutes(convertdate(new Date(stream.date)).getMinutes() + stream.duration)
+        const now = converteddate();
         if( !(now > endDate && stream.status === "SCHEDULED") )
           return stream
       })
