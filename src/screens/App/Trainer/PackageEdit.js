@@ -362,7 +362,7 @@ class Packages extends PureComponent {
                 </View>
                 {this.state.pickerVisible && this.state.group && (
                   <DateTimePicker
-                    value={this.state.startDate}
+                    value={new Date(startDate)}
                     mode={'date'}
                     is24Hour={false}
                     display="default"

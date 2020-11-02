@@ -168,7 +168,8 @@ const styles = StyleSheet.create({
   title: {
     color: appTheme.textPrimary,
     fontFamily: fonts.RobotoRegular,
-    fontSize: fontSizes.h0
+    fontSize: fontSizes.h0,
+    width:"80%"
   },
   subtitleContainer: {
     flexDirection: 'row',
