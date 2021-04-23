@@ -1,7 +1,7 @@
 /**
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
@@ -10,17 +10,17 @@ import {
   ActivityIndicator,
   LayoutAnimation, Text, ScrollView, TextInput, TouchableOpacity, Keyboard,
 } from 'react-native'
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
-import {appTheme} from "../../constants/colors";
+import { appTheme } from "../../constants/colors";
 import * as actionCreators from '../../store/actions';
-import {spacing} from "../../constants/dimension";
+import { spacing } from "../../constants/dimension";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import Post from "../../components/Social/Post";
 import strings from "../../constants/strings";
 import store from "../../store/configureStore";
-import {MAX_POST_LENGTH} from "../../constants/appConstants";
+import { MAX_POST_LENGTH } from "../../constants/appConstants";
 import RouteNames from "../../navigation/RouteNames";
 import SingleImageViewer from "../../components/SingleImageViewer";
 
@@ -33,26 +33,24 @@ class PostViewer extends Component {
   }
 
   componentDidMount() {
-    const {updatePost, route} = this.props;
-    const {postId} = route.params;
+    const { updatePost, route } = this.props;
+    const { postId } = route.params;
     updatePost(postId);
   }
 
-  closeViewer = () => this.setState({viewerOpen: false, viewerImageUrl: ''})
-  openViewer = (imageUrl) => this.setState({viewerImageUrl: imageUrl, viewerOpen: true})
+  closeViewer = () => this.setState({ viewerOpen: false, viewerImageUrl: '' })
+  openViewer = (imageUrl) => this.setState({ viewerImageUrl: imageUrl, viewerOpen: true })
   getPost = () => {
-    const {route, postDetails} = this.props;
-    const {postId} = route.params;
-    // console.log(postDetails,'qqqqqqqqqqqqqqqqqqqqqq')
+    const { route, postDetails } = this.props;
+    const { postId } = route.params;
     if (!postDetails) return null;
     if (postDetails[postId])
       return postDetails[postId];
     else return null;
   }
   checkLiked = (likes) => {
-    console.log(likes,'---likes')
     if (!likes) return false;
-    const {userId} = store.getState().user;
+    const { userId } = store.getState().user;
     let liked = false;
     likes.map(like => {
       if (like.likedBy === userId)
@@ -61,31 +59,30 @@ class PostViewer extends Component {
     return liked;
   }
   reportPost = (postId) => {
-    const {navigation, reportPost} = this.props;
+    const { navigation, reportPost } = this.props;
     navigation.goBack();
     reportPost(postId);
   }
   deletePost = (postId) => {
-    const {navigation, deletePost} = this.props;
+    const { navigation, deletePost } = this.props;
     navigation.goBack();
     deletePost(postId);
   }
   openProfile = (userId) => {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     navigation.navigate(RouteNames.Profile, {
       userId: userId
     });
   }
   disableSelfProfileClick = (targetUserId) => {
-    const {userId} = store.getState().user;
+    const { userId } = store.getState().user;
     if (userId !== targetUserId) this.openProfile(targetUserId);
   }
   renderPost = (post) => {
     const isOwnPost = post.createdBy.userId === store.getState().user.userId; // TODO: can we improve this comparison?
-    const {likePost, unlikePost} = this.props;
-    // console.log(post)
+    const { likePost, unlikePost } = this.props;
     return (
-      <View style={{marginTop: spacing.medium}}>
+      <View style={{ marginTop: spacing.medium }}>
         <Post
           contentType={post.contentType}
           contentUrl={post.contentURL}
@@ -108,11 +105,11 @@ class PostViewer extends Component {
     )
   }
   renderComment = (comment) => {
-    const {route} = this.props;
-    const {postId} = route.params;
+    const { route } = this.props;
+    const { postId } = route.params;
     if (!comment.likes) return null;
     if (!comment.approved) return null;
-    const {likeComment, unlikeComment} = this.props;
+    const { likeComment, unlikeComment } = this.props;
     const isLiked = this.checkLiked(comment.likes);
     return <Post
       key={comment._id}
@@ -128,11 +125,11 @@ class PostViewer extends Component {
       onProfilePress={() => this.openProfile(comment.commentedBy.userId)}
     />
   }
-  itemSeparator = () => <View style={{marginTop: spacing.medium}}/>
+  itemSeparator = () => <View style={{ marginTop: spacing.medium }} />
 
   renderComments = () => {
-    const {route, commentsForPost} = this.props;
-    const {postId} = route.params;
+    const { route, commentsForPost } = this.props;
+    const { postId } = route.params;
 
     if (!commentsForPost[postId]) return null;
     return (
@@ -141,7 +138,7 @@ class PostViewer extends Component {
         {this.createComment()}
         <FlatList
           data={commentsForPost[postId]}
-          renderItem={({item}) => this.renderComment(item)}
+          renderItem={({ item }) => this.renderComment(item)}
           keyExtractor={(item) => item._id}
           ItemSeparatorComponent={this.itemSeparator}
           ListHeaderComponent={this.itemSeparator}
@@ -152,8 +149,8 @@ class PostViewer extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    const {route} = this.props;
-    const {postId} = route.params;
+    const { route } = this.props;
+    const { postId } = route.params;
     if (nextProps.postDetails[postId] !== this.props.postDetails[postId])
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     return true;
@@ -177,32 +174,32 @@ class PostViewer extends Component {
     )
   }
   onCommentChange = (commentText) => {
-    this.setState({commentText});
+    this.setState({ commentText });
   }
   submitComment = async () => {
-    const {route, commentOnPost} = this.props;
-    const {postId} = route.params;
+    const { route, commentOnPost } = this.props;
+    const { postId } = route.params;
     Keyboard.dismiss();
     let comment = this.state.commentText;
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({submitting: true, commentText: ''});
+    this.setState({ submitting: true, commentText: '' });
     await commentOnPost(postId, comment);
-    this.setState({submitting: false});
+    this.setState({ submitting: false });
     this.forceUpdate();
   }
   renderSubmit = () => {
     const disabled = this.state.commentText.length < 3;
     if (this.state.submitting)
       return (
-        <ActivityIndicator style={{marginTop: spacing.medium_sm}} color={appTheme.brightContent} size={30}/>
+        <ActivityIndicator style={{ marginTop: spacing.medium_sm }} color={appTheme.brightContent} size={30} />
       )
     return (
-      <View style={{flexDirection: 'row', marginTop: spacing.medium_sm}}>
+      <View style={{ flexDirection: 'row', marginTop: spacing.medium_sm }}>
         <TouchableOpacity
           onPress={this.submitComment}
           disabled={disabled}
-          style={[styles.submitButton, {backgroundColor: disabled ? appTheme.grey : appTheme.brightContent}]}>
-          <Text style={{color: appTheme.textPrimary, fontFamily: fonts.CenturyGothic}}>{strings.COMMENT}</Text>
+          style={[styles.submitButton, { backgroundColor: disabled ? appTheme.grey : appTheme.brightContent }]}>
+          <Text style={{ color: appTheme.textPrimary, fontFamily: fonts.CenturyGothic }}>{strings.COMMENT}</Text>
         </TouchableOpacity>
       </View>
     )
@@ -211,20 +208,20 @@ class PostViewer extends Component {
   render() {
     const post = this.getPost();
     return (<>
-        <StatusBar backgroundColor={appTheme.lightBackground}/>
-        <View
-          style={styles.container}>
-          <ScrollView keyboardShouldPersistTaps={'always'} style={{flex: 1}} showsVerticalScrollIndicator={false}>
-            {!post && <ActivityIndicator style={{position: 'absolute'}} color={appTheme.brightContent} size={50}/>}
-            {post && this.renderPost(post)}
-            {post && this.renderComments()}
-            <SingleImageViewer
-              imageUrl={this.state.viewerImageUrl}
-              close={this.closeViewer}
-              isOpen={this.state.viewerOpen}/>
-          </ScrollView>
-        </View>
-      </>
+      <StatusBar backgroundColor={appTheme.lightBackground} />
+      <View
+        style={styles.container}>
+        <ScrollView keyboardShouldPersistTaps={'always'} style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+          {!post && <ActivityIndicator style={{ position: 'absolute' }} color={appTheme.brightContent} size={50} />}
+          {post && this.renderPost(post)}
+          {post && this.renderComments()}
+          <SingleImageViewer
+            imageUrl={this.state.viewerImageUrl}
+            close={this.closeViewer}
+            isOpen={this.state.viewerOpen} />
+        </ScrollView>
+      </View>
+    </>
     );
   }
 }

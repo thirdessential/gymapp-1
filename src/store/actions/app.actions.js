@@ -1,7 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import * as API from "../../API";
 import FastImage from "react-native-fast-image";
-import {INITIAL_PAGE} from "../../constants/appConstants";
+import { INITIAL_PAGE } from "../../constants/appConstants";
 
 export const setUserList = (userList) => ({
   type: actionTypes.SET_USER_LIST,
@@ -27,8 +27,7 @@ export const updateUsersList = (page = '') => {
   return async (dispatch) => {
     try {
 
-      let {users, nextPage} = await API.listUsers(page === INITIAL_PAGE ? null : page);
-      console.log(users,'-------------------------------')
+      let { users, nextPage } = await API.listUsers(page === INITIAL_PAGE ? null : page);
       if (users) {
         if (page === INITIAL_PAGE)
           await dispatch(setUserList(users)); // initialise list from scratch
@@ -39,7 +38,7 @@ export const updateUsersList = (page = '') => {
         // Extract cover image urls and preload them
         users.map(user => {
           if (!!user.wallImageUrl)
-            wallPreloadData.push({uri: user.wallImageUrl});
+            wallPreloadData.push({ uri: user.wallImageUrl });
         });
         FastImage.preload(wallPreloadData);
         return nextPage;
@@ -62,7 +61,7 @@ export const setUserAction = (user) => ({
 export const setUser = (userId) => {
   return async (dispatch) => {
     try {
-      let {user} = await API.getUserInfo(userId);
+      let { user } = await API.getUserInfo(userId);
       if (user) {
         await dispatch(setUserAction(user));
       }

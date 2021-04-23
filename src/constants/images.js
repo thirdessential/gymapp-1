@@ -37,6 +37,7 @@ export const iconBackgrounds = {
   moneyBag: require('../../assets/Icons/moneyBag.png'),
   serverTable: require('../../assets/Icons/serverTable.png'),
   addAccount: require('../../assets/Icons/career_.png'),
+  workout: require('../../assets/Icons/Physical.png'),
 }
 
 export const getRandomImage = () => {

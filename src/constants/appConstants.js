@@ -3,14 +3,18 @@ import {appTheme, bmiColors} from "./colors";
 
 export const TermsURL = "https://gymadda-web.herokuapp.com/terms"
   // apiUrl = 'http://192.168.243.1:3001';
-  let apiUrl = 'https://gymaddaservices.herokuapp.com';
+  // let apiUrl = 'https://gymaddaservices.herokuapp.com';
+  let apiUrl = 'https://api.gymadda.in';
 if (__DEV__) {
   console.log('Development Server');
-  apiUrl = 'https://gymaddaservices.herokuapp.com';
+  // apiUrl = 'https://gymaddaservices.herokuapp.com';
+  apiUrl = 'https://api.gymadda.in';
   // apiUrl = 'http://192.168.243.1:3001';
 } else {
   console.log('Production Server');
-  apiUrl = 'https://gymaddaservices.herokuapp.com';
+  // apiUrl = 'http://192.168.243.1:3001';
+  apiUrl = 'https://api.gymadda.in';
+  // apiUrl = 'https://gymaddaservices.herokuapp.com';
   // apiUrl = 'https://fitness-first-services.herokuapp.com';
 }
 export const rootURL = apiUrl;
@@ -23,8 +27,8 @@ export const userTypes = {
 
 // Change this constant to change the apk type, will not affect flow when logging in with existing account
 // This constant will only affect new registrations
-// export const INITIAL_USER_TYPE = userTypes.USER;
-export const INITIAL_USER_TYPE = userTypes.TRAINER;
+export const INITIAL_USER_TYPE = userTypes.USER;
+// export const INITIAL_USER_TYPE = userTypes.TRAINER;
 // Default Agora video config
 export const videoFeedConfig = {
   width: 360,
@@ -88,7 +92,8 @@ export const imageTypes = {
 }
 export const defaultDP = 'https://i.stack.imgur.com/l60Hf.png';
 // Razorpay paymentKey
-export const paymentKey = 'rzp_test_BuIiL164HHvbBm';
+// export const paymentKey = 'rzp_test_BuIiL164HHvbBm'; //test mode
+export const paymentKey = 'rzp_live_jvoqjzEi0KTiLJ'; //live mode
 
 // Remote FCM notifications
 export const remoteMessageTypes = {
@@ -251,7 +256,7 @@ export const subscriptionTypeNames = {
   BATCH: 'Group Workout',
 }
 export const MS_IN_DAY = 86400000;// (1000 * 60 * 60 * 24)
-export const MAX_VIDEO_LENGTH = 120000; // 120 seconds, videos bigger than this are not allowed to be uploaded
+export const MAX_VIDEO_LENGTH = 1200000; // 120 seconds, videos bigger than this are not allowed to be uploaded
 export const DEFAULT_WATER_INTAKE_QUOTA = 4000; // in ml
 export const DEFAULT_CALORIE_INTAKE_QUOTA = 2000; // in cal
 export const paymentBackground = "https://about.wodup.com/wp-content/uploads/2018/11/a84f9b3b-a46c-4a3c-9ec9-ba87b216548a-300x300.jpg";

@@ -79,8 +79,11 @@ export default class SignUp extends Component {
       this.setState({loading: false});
       if (result) {
         this.setState({authLoading: true})
-      } else
+      } else{
+        console.log(result,"result")
         showError(strings.SIGNUP_FAILED)
+
+      }
 
       this.setState({loading: false});
     } else

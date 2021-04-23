@@ -56,6 +56,7 @@ const RouteNames = {
   ForgotPassword: 'ForgotPasswordScreen',
 
   WorkoutDays: 'WorkoutDays',
+  WorkoutVideos: 'WorkoutVideos',
   WorkoutPreference: 'WorkoutPreference',
   UserInfo: 'UserInfo',
   PreferenceSwiper: 'PreferenceSwiper',
@@ -72,6 +73,7 @@ const RouteNames = {
   RootTab: 'RootTab',
   LiveScheduler: 'LiveScheduler',
   MyStreams: 'MyStreams',
+  Jitsicall:'JitsiCall',
 
   CalorieCounter: 'CalorieCounter',
   RecipeRecommend: 'RecipeRecommend',

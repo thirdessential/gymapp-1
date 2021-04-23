@@ -8,12 +8,13 @@ import {packageImages} from "../constants/appConstants";
 
 class TodaySessionSwiper extends PureComponent {
   renderSession = (session) => {
-    const date = convertdate(session.date);
+    const date = session.date
+    console.log(date,"dateutil")
     const hours = session.date.substr(11,2);
     const mins = session.date.substr(14,2);
     const time = hours + mins;
     // console.log(moment(date).format('LT'),"dateeeee",date)
-    // console.log(convertdate(date),'convertdate',date)
+    // console.log('convertdatwwwe',date,session.date)
     const {users} = session;
     return <View key={session._id}>
       <TodaySession

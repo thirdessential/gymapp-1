@@ -18,7 +18,7 @@ import {
 import {appTheme, bmiColors} from "../constants/colors";
 import fontSizes from "../constants/fontSizes";
 import fonts from "../constants/fonts";
-import {formatSeconds,convertdate,converteddate,militaryTimeToString} from "../utils/utils";
+import {formatSeconds,convertdate,converteddate,militaryTimeToString,getDateString} from "../utils/utils";
 import {subscribersBuilder} from "../constants/strings";
 
 class SessionCard extends React.Component {
@@ -28,7 +28,7 @@ class SessionCard extends React.Component {
   }
 
   componentDidMount() {
-    let date =  convertdate(this.props.date);
+    let date =  this.props.date
     let now =  converteddate();
     // console.log(date,now,'nooo')
     if ((date - now > 0) && (date - now) < MS_IN_DAY * 4) {
@@ -76,7 +76,7 @@ class SessionCard extends React.Component {
             name={'timer-outline'}
             size={14}/> {this.props.duration}
           </Text></Text>
-          <Text style={[styles.subtitle, {color: bmiColors.blue}]}>{date.toLocaleDateString()}</Text>
+          <Text style={[styles.subtitle, {color: bmiColors.blue}]}>{date.toUTCString().substr(0,11)} </Text>
         </View>
         <View style={{justifyContent: 'space-between'}}>
           <View style={[styles.statusContainer, statusContainerStyle]}>

@@ -65,8 +65,10 @@ class NotificationList extends PureComponent {
         navigate(RouteNames.CouponMachine);
         break;
       case notificationActionTypes.STREAM:
+        console.log(data,"lenght")
         if (Object.keys(data).length !== 0 && !read) {
           showInfo(strings.JOINING);
+          if(data.meetingNumber && data.meetingPassword && this.props.userName && data.clientKey && data.clientSecret)
           joinMeeting(data.meetingNumber, data.meetingPassword, this.props.userName, data.clientKey, data.clientSecret);
         }
         break;

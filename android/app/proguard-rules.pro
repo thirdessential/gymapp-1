@@ -289,4 +289,23 @@
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
 }
+# Jisti Meet SDK
 
+-keep class org.jitsi.meet.** { *; }
+-keep class org.jitsi.meet.sdk.** { *; }
+
+# We added the following when we switched minifyEnabled on. Probably because we
+# ran the app and hit problems...
+
+-keep class com.facebook.react.bridge.CatalystInstanceImpl { *; }
+-keep class com.facebook.react.bridge.ExecutorToken { *; }
+-keep class com.facebook.react.bridge.JavaScriptExecutor { *; }
+-keep class com.facebook.react.bridge.ModuleRegistryHolder { *; }
+-keep class com.facebook.react.bridge.ReadableType { *; }
+-keep class com.facebook.react.bridge.queue.NativeRunnable { *; }
+-keep class com.facebook.react.devsupport.** { *; }
+
+-dontwarn com.facebook.react.devsupport.**
+-dontwarn com.google.appengine.**
+-dontwarn com.squareup.okhttp.**
+-dontwarn javax.servlet.*

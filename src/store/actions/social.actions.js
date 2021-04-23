@@ -13,6 +13,13 @@ export const setPosts = (posts, my = false) => ({
     my
   }
 });
+export const setYoutubevideos = (videos, my = false) => ({
+  type: actionTypes.Youtubevideos,
+  payload: {
+    videos,
+    my
+  }
+});
 export const appendPosts = (posts, my = false) => ({
   type: actionTypes.APPEND_POSTS,
   payload: {
@@ -360,3 +367,16 @@ export const setLiveStreamStatus = (streamId, status) => {
     }
   };
 };
+
+export const syncYoutubevideos = () =>{
+  return async (dispatch, getState) => {
+    try {
+    const youtubevideos = await API.listYoutubevideos()
+    // console.log(youtubevideos,"6VXcs45%#$")
+      dispatch(setYoutubevideos(youtubevideos));
+    } catch (error) {
+      console.log("stream status update failed", error);
+      return null;
+    }
+  };
+}

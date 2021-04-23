@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {LayoutAnimation, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 
 import strings from "../../constants/strings";
-import {MAX_POST_LENGTH} from "../../constants/appConstants";
+import {MAX_POST_LENGTH, userTypes,INITIAL_USER_TYPE} from "../../constants/appConstants";
 import {appTheme} from "../../constants/colors";
 import {spacing} from "../../constants/dimension";
 import fonts from "../../constants/fonts";
@@ -45,9 +45,9 @@ const answerInput = (props) => {
         </View>
       }
       <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity onPress={isAnswerOpen ? submit : toggleAnswerOpen}>
+      {userTypes.TRAINER ===INITIAL_USER_TYPE && <TouchableOpacity onPress={isAnswerOpen ? submit : toggleAnswerOpen}>
           <Text style={styles.answerButton}>{strings.ANSWER}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}  
         {
           isAnswerOpen && <TouchableOpacity onPress={close}>
             <Text style={[styles.answerButton, {color: appTheme.grey}]}>{strings.CANCEL}</Text>

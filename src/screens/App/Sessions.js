@@ -2,21 +2,24 @@
  * @author Yatanvesh Bhardwaj <yatan.vesh@gmail.com>
  */
 import React, {Component} from 'react';
-import {View, StyleSheet, FlatList, LayoutAnimation , ScrollView , RefreshControl} from 'react-native'
+import {View, StyleSheet, FlatList, LayoutAnimation , ScrollView , RefreshControl,Text} from 'react-native'
 import {connect} from "react-redux";
 import {TabView, TabBar} from "react-native-tab-view";
 import { militaryTimeToString } from "../../utils/utils";
 import * as actionCreators from '../../store/actions';
 import {appTheme} from "../../constants/colors";
 import SessionCard from "../../components/SessionCard";
+import fontSizes from "../../constants/fontSizes";
+import fonts from "../../constants/fonts";
+// import {, screenWidth} from '../utils/screenDimensions';
 import {spacing} from "../../constants/dimension";
 import {getHashedImage} from "../../constants/images";
 import moment from "moment";
-import {datesAreOnSameDay,convertdate} from "../../utils/utils";
+import {datesAreOnSameDay,convertdate,converteddate} from "../../utils/utils";
 import {subscriptionType, userTypes} from "../../constants/appConstants";
 import RouteNames, {TabRoutes} from "../../navigation/RouteNames";
 import strings from "../../constants/strings";
-import {screenWidth} from "../../utils/screenDimensions";
+import {screenWidth,screenHeight} from "../../utils/screenDimensions";
 import {hostMeeting, joinMeeting} from "../../utils/zoomMeeting";
 import TodaySessionSwiper from "../../components/TodaySessionSwiper";
 
@@ -44,11 +47,11 @@ class Sessions extends Component {
   updateLocalSessionData = async () => {
     // Local update is a common pattern in which we take data from redux store, transform it for our component
     const {sessions} = this.props;
-    const today = convertdate(new Date());
+    const today = converteddate();
     if (!sessions || sessions.length === 0) return;
-    const todaySessions = sessions.filter(session => datesAreOnSameDay(convertdate(new Date(session.date)), today));
-    const pastSessions = sessions.filter(session => convertdate(new Date(session.date)) < today);
-    const futureSessions = sessions.filter(session => convertdate(new Date(session.date)) >= today);
+    const todaySessions = sessions.filter(session => datesAreOnSameDay(new Date(session.date), today));
+    const pastSessions = sessions.filter(session => new Date(session.date) < today);
+    const futureSessions = sessions.filter(session => new Date(session.date) >= today);
     this.setState({todaySessions, pastSessions, futureSessions});
   }
 
@@ -135,11 +138,11 @@ class Sessions extends Component {
 
   renderSession = ({item}) => {
     const date = new Date(item.date);
-    // console.log(item.date,date,"-------",moment(date).format('LT'))
     const hours = item.date.substr(11,2);
     const mins = item.date.substr(14,2);
     const time = hours + mins;
     // console.log(time)
+    // console.log(item.date,date,"-------",time)
     const thumbnail = getHashedImage(item._id); // Return same image for item id, image is same between re render cycles
     const {users} = item;
     return (
@@ -159,7 +162,7 @@ class Sessions extends Component {
   keyExtractor = (item) => item._id
   separator = () => <View style={styles.separator}/>
   renderSessionList = (sessions) => {
-    return <FlatList
+    return sessions.length !==0 ?  <FlatList
       ref={(ref) => {
         this.flatListRef = ref;
       }}
@@ -169,7 +172,9 @@ class Sessions extends Component {
       ItemSeparatorComponent={this.separator}
       keyExtractor={this.keyExtractor}
       ListFooterComponent={this.separator}
-    />
+    /> :  <View style={styles.noPostsContainer}>
+    <Text numberOfLines={2} style={styles.sectionTitle}>{strings.NO_SESSIONS}</Text>
+  </View>
   }
 
   routes = [
@@ -256,7 +261,17 @@ const styles = StyleSheet.create({
   },
   tabView: {
     marginTop: -spacing.medium
-  }
+  },
+  noPostsContainer: {
+    height: screenHeight / 2,
+    alignItems: 'center',
+    justifyContent:'center'
+  },
+  sectionTitle: {
+    color: appTheme.textPrimary,
+    fontSize: fontSizes.h1,
+    fontFamily: fonts.CenturyGothic
+  },
 });
 
 const mapStateToProps = (state) => ({

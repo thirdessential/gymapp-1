@@ -88,6 +88,11 @@ target 'FitnessFirst' do
 
   pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
 
+  pod 'RNSentry', :path => '../node_modules/@sentry/react-native'
+
+  pod 'RCTYouTube', :path => '../node_modules/react-native-youtube'
+
+
   target 'FitnessFirstTests' do
     inherit! :complete
     # Pods for testing

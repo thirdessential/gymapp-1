@@ -16,7 +16,7 @@ export const formattedTime = (date) => {
   const minutes = dateObj.getMinutes();
   const AM_PM = hours >= 12 ? "PM" : "AM";
   let minZero = minutes === 0 ? "0" : "";
-  return `${hours}:${minutes}${minZero} ${AM_PM}`;
+  return `${hours >= 12 ? hours-12 : hours }:${minutes}${minZero} ${AM_PM}`;
 };
 export const formattedDayDate = (date) => {
   let dateObj = new Date(date);
@@ -38,6 +38,7 @@ export const roundTimeQuarterHour = (time) => {
 //hours fomate changed to 12 hours clock
 export const militaryTimeToString = (time) => {
   // Militart time expressed in HHMM, (1430, 1200 etc)
+  // console.log(time,"------------------")
   if (!time) return "";
   const suffix = time >= 1200 ? "PM" : "AM";
   const hours = parseInt(time.slice(0, 2));
@@ -285,12 +286,13 @@ export const convertdate = (date) => {
   // let now = new Date();
   let time = new Date(date);
   let ofset = time.getTimezoneOffset()
+  // console.log(ofset,'ofset')
   let newmin = ofset % 60;
   let newhrs = ofset / 60;
   newhrs = time.getHours() - newhrs
   newmin = time.getMinutes() - newmin
-  // console.log(date,"----------------------------",time,"---------------------",ofset,'ofset')
-  time.setDate(time.getDate())
+  // console.log(date,"----------------------------",time.getDate(),"---------------------",ofset,'ofset')
+  // time.setDate(time.getDate())
   time.setHours(newhrs);
   time.setMinutes(newmin);
   // console.log(time,'now-------------')
@@ -301,10 +303,39 @@ export const converteddate = () => {
   return convertdate(new Date())
 
 }
+export const  getDateString = function(date, format) {
+ date =convertdate(date)
+  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  getPaddedComp = function(comp) {
+      return ((parseInt(comp) < 10) ? ('0' + comp) : comp)
+  },
+  formattedDate = format,
+  o = {
+      "y+": date.getFullYear(), // year
+      "M+": months[date.getMonth()], //month
+      "d+": getPaddedComp(date.getDate()), //day
+      "h+": getPaddedComp((date.getHours() > 12) ? date.getHours() % 12 : date.getHours()), //hour
+       "H+": getPaddedComp(date.getHours()), //hour
+      "m+": getPaddedComp(date.getMinutes()), //minute
+      "s+": getPaddedComp(date.getSeconds()), //second
+      "S+": getPaddedComp(date.getMilliseconds()), //millisecond,
+      "b+": (date.getHours() >= 12) ? 'PM' : 'AM'
+  };
+
+  for (var k in o) {
+      if (new RegExp("(" + k + ")").test(format)) {
+          formattedDate = formattedDate.replace(RegExp.$1, o[k]);
+      }
+  }
+  // console.log(formattedDate,'getDateString')
+  return formattedDate;
+};
 export const getImageFromCloudinaryPdf = (url) => {
   // Input-> pdf url hosted on cloudinary
   // Output->First page of pdf as image
+  if(url.includes('.pdf'))
   return url.split("pdf")[0] + "jpg";
+  return url
 };
 
 export const fillArray = (value, len = 10) => {
@@ -331,5 +362,5 @@ export const formatSeconds = remainingSeconds => {
 export const datesAreOnSameDay = (first, second) =>
   first.getFullYear() === second.getFullYear() &&
   first.getMonth() === second.getMonth() &&
-  first.getDate() === second.getDate();
+  first.getUTCDate() === second.getUTCDate();
 

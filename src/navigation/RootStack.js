@@ -38,7 +38,10 @@ import CalorieCounter from "../screens/Fitness/CalorieCounter";
 import Calorie1 from "../screens/Fitness/Calorie1";
 import PdfViewer from "../screens/App/PdfViewer";
 import Sessions from "../screens/App/Sessions";
-import WebView from '../screens/webview'
+import WebView from '../screens/webview';
+import WorkoutVideos from "../screens/Social/WorkoutVideos";
+// import Jitsicall from "../screens/Call/jitsimeet";
+
 // All the application screens outside tab navigator are defined here
 // There are some user and some trainer specific screens defined
 const rootStack = () => {
@@ -295,6 +298,20 @@ const rootStack = () => {
           title: strings.SESSIONS,
         }}
       />
+      <Stack.Screen
+        name={RouteNames.WorkoutVideos}
+        component={WorkoutVideos}
+        options={{
+          title:"Previous Live Sessions",
+        }}
+      />
+      {/* <Stack.Screen
+        name={RouteNames.Jitsicall}
+        component={Jitsicall}
+        options={{
+          title:"Video Call",
+        }}
+      /> */}
     </Stack.Navigator>
   );
 }

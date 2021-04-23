@@ -1,18 +1,17 @@
 import React,{ useEffect } from 'react';
-import {Platform, SafeAreaView, StyleSheet, UIManager} from "react-native";
+import {Alert, BackHandler, Linking, Platform, SafeAreaView, StyleSheet, UIManager} from "react-native";
 import {Provider} from "react-redux";
 import {PersistGate} from 'redux-persist/lib/integration/react';
 import FlashMessage from "react-native-flash-message";
 import {MenuProvider} from 'react-native-popup-menu';
-// import VersionCheck from 'react-native-version-check';
+import { checkVersion } from "react-native-check-version";
+import { version } from './package.json';
 import store from './src/store/configureStore';
 import {persistor} from './src/store/configureStore';
 import AppStack from './src/navigation';
 import fonts from "./src/constants/fonts";
 import fontSizes from "./src/constants/fontSizes";
-// import {setUserCountry} from "./src/API/auth";
-// import moment from 'moment'
-// import moment from 'moment-timezone'
+import * as Sentry from "@sentry/react-native";
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -50,14 +49,52 @@ export default function App() {
 //   // console.log(dateParam)
 //   return new Date(...dateParam.replace(' ','T'))  
 // }
-  // useEffect(() => {
+  useEffect(() => {
+    Sentry.init({
+      dsn: "https://d8f224abea6c4330b1855e29c378f034@o475304.ingest.sentry.io/5513169",
+      enableNative:false,
+      enableAutoSessionTracking: true,
+    });
+    Sentry.nativeCrash();
+    // versionCheck()
+  },[]);
 
+  const versionCheck = async () =>{
+    try{
+      // fetch(
+      //   `https://play.google.com/store/apps/details?id=${
+      //     VersionCheck.getPackageName()
+      //   }&hl=en`,
+      // )
+      //   .then(res => res.text())
+      //   .then((text) => {
+      //     const match = text.match(/Current Version.+>([\d.]{4,10})<\/span>/);
+      //     if (match) {
+      //       const latestVersion = match[1].trim();
+      //       console.log(latestVersion,"https://play.google.com/store/apps/details?id=")
+      //       // return Promise.resolve(latestVersion);
+      //     }
+      //     // return Promise.reject();
+      //   });
+      let updateNeeded = await checkVersion({bundleId:'com.thirdessential.gymadda',currentVersion:version})
+      console.log("Got version info:", updateNeeded,version);
+      if(updateNeeded && updateNeeded.needsUpdate){
+        Alert.alert('New Update Available',
+        "You need to update app",
+        [{
+          text:'Update',
+          onPress:()=>{
+            BackHandler.exitApp();
+            Linking.openURL(updateNeeded.url);
+          }
    
-  // //   VersionCheck.getLatestVersion()
-  // // .then(latestVersion => {
-  // //   console.log(latestVersion,'--------------------------');    // 0.1.2
-  // // });
-  // },[]);
+        }
+        ]
+        )
+      }
+    }catch(err){}
+ 
+  }
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>

@@ -4,6 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+// import com.reactnativejitsimeet.JitsiMeetPackage;
+// import com.reactnativejitsimeet.RNJitsiMeetPackage;
+import io.sentry.react.RNSentryPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import io.xogus.reactnative.versioncheck.RNVersionCheckPackage;
@@ -19,6 +22,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import androidx.annotation.Nullable;
 
 
 public class MainApplication extends Application implements ReactApplication {
@@ -36,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // PackageList that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+          // packages.add( new RNJitsiMeetPackage());
           
           return packages;
         }
@@ -44,6 +49,10 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSMainModuleName() {
           return "index";
         }
+        //     @Override
+        // protected @Nullable String getBundleAssetName() {
+        //   return "index.bundle";
+        // }
       };
 
   @Override

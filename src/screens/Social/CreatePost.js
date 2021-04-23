@@ -19,7 +19,7 @@ import { connect } from "react-redux";
 import Video from 'react-native-video';
 import { ListItem, Overlay, Card } from 'react-native-elements';
 import CropImagePicker from 'react-native-image-crop-picker';
-import ImagePicker from "react-native-image-crop-picker";
+import ImagePicker from "react-native-image-picker";
 import MediaMeta from 'react-native-media-meta';
 
 import { appTheme } from "../../constants/colors";
@@ -97,6 +97,7 @@ class CreatePost extends PureComponent {
         // Finding duration differs on ios, related article:
         // https://dev.to/saadbashar/finding-video-duration-react-native-456f
         const metaData = await MediaMeta.get(response.path);
+        console.log(metaData.duration,"video")
         if (metaData.duration > MAX_VIDEO_LENGTH) {
           showError(strings.VIDEO_LENGTH_EXCEEDED); // TODO: derive video length in this string constant
         } else await

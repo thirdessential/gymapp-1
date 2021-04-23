@@ -174,8 +174,9 @@ class Community extends Component {
   }
   
   renderLiveStreams = () => {
-    const { liveStreams } = this.props
+    let { liveStreams,youtubeVideos } = this.props
     let liveStream = []
+    youtubeVideos = youtubeVideos.reverse()
     if (liveStreams){
        liveStream = liveStreams.filter( stream => {
         const endDate = convertdate(new Date(stream.date).setMinutes(convertdate(new Date(stream.date).getMinutes() + stream.duration)))
@@ -184,7 +185,8 @@ class Community extends Component {
           return stream
       })
     }
-    if (!liveStreams || liveStream.length === 0)
+    liveStream = [...liveStream,...youtubeVideos]
+    if (liveStream.length === 0)
       return <View style={styles.nodata}>
           <Image source={require('../../../assets/Icons/no_data/no-stream1x.png')}></Image>
           <Image style={styles.nodataText} source={require('../../../assets/Icons/no_data/no-stream-text1x.png')}></Image>
@@ -263,11 +265,12 @@ class Community extends Component {
           onPress={this.createQuestion}
           image={iconBackgrounds.appointments}
         />
-        <ImageCard
+        {/* Commented for now bcz facing issue in production mode */}
+        {/* <ImageCard
           title={strings.WORKOUT}
           onPress={this.createVideo}
           image={iconBackgrounds.coinMan}
-        />
+        /> */}
         {
           this.props.userType === userTypes.TRAINER && (
             <ImageCard
@@ -382,6 +385,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   posts: state.social.posts,
+  youtubeVideos: state.social.youtubeVideos,
   questions: state.social.questions,
   liveStreams: state.social.liveStreams,
   postDetails: state.social.postDetails,

@@ -48,6 +48,7 @@ export const socialState = {
   commentsForPost: {}, // keys are post ids and values are array of comments
   liveStreams: [], // List of all live streams
   myLiveStreams: [], // List of my live streams
+  youtubeVideos:[]
 }
 
 export const fitnessState = {

@@ -19,7 +19,7 @@ import {callHandler, configureFCMNotification, showInfo} from "../utils/notifica
 import {deleteFromStorage, readFromStorage} from "../utils/storage";
 import {appTheme} from "../constants/colors";
 import {navigationRef} from './RootNavigation';
-
+// import Jitsicall from '../screens/Call/jitsimeet'
 import Stack from "./stacks/stack";
 import VideoTest from './stacks/videoTestStack';
 import Splash from './stacks/splashStack';
@@ -52,6 +52,7 @@ class App extends React.Component {
   state = {
     loading: true, // when true, will show the splash screen
     videoTestMode, // set this to true to enter video testing mode,
+    jitsimode:false
   }
 
   async componentDidMount() {
@@ -303,13 +304,17 @@ class App extends React.Component {
             name={RouteNames.VideoCall}
             component={VideoCall}
           />
+          {/* <Stack.Screen
+            name={RouteNames.Jitsicall}
+            component={Jitsicall}
+          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     )
   }
 
   render() {
-    const {loading, videoTestMode} = this.state;
+    const {loading, videoTestMode,jitsimode} = this.state;
     const {authenticated, initialLogin, callData, callActive, termsAccepted, userType, userData} = this.props;
 
     if (loading)

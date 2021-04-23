@@ -32,19 +32,19 @@ class TodaySession extends React.Component {
   }
 
   initialise = () => {
-    let date =this.props.date;
+    let date =new Date(this.props.date);
     // console.log(date,"eeeee11")
     
     // date = new Date(date);
     // date.setMinutes(date.getMinutes() + 7); // use this commented code for testing, this'll enable start session button
     let now =converteddate();
-    console.log(now,"noweeeee")
+    // console.log(now,"noweeeee")
 
     // now = new Date(now)
     if (!this.props.trainer && this.props.status === sessionStatus.LIVE) {
       this.setState({startEnabled: true});
     }
-    console.log(now -date,"callll")
+    // console.log(now -date,"callll")
     if ((date - now > 0)) {
       this.setState({countDown: formatSeconds((date - now) / 1000)});
       this.timer = setInterval(() => {

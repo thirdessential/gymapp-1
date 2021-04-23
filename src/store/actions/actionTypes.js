@@ -40,6 +40,8 @@ export const SET_POSTS_FOR_USER = 'SET_POSTS_FOR_USER';
 export const SET_QUESTIONS = 'SET_QUESTIONS';
 export const SET_QUESTION = 'SET_QUESTION';
 export const APPEND_QUESTIONS = 'APPEND_QUESTIONS';
+export const Youtubevideos = 'Youtube';
+
 
 export const SET_BMI_RECORDS = 'SET_BMI_RECORDS';
 export const ADD_BMI_RECORD = 'ADD_BMI_RECORD';
@@ -57,9 +59,9 @@ export const GET_MY_ACCOUNTS = 'GET_MY_ACCOUNTS';
 export const RESET_APP = 'RESET_APP';
 
 //CALORIES
-export const ADD_CALORIE_DATA= 'ADD_CALORIE_DATA';
+export const ADD_CALORIE_DATA = 'ADD_CALORIE_DATA';
 export const ADD_WATER_INTAKE = 'ADD_WATER_INTAKE';
 
 
 //COPILOT
-export const COPILOT_SCREEN_DONE='COPILOT_SCREEN_DONE';
+export const COPILOT_SCREEN_DONE = 'COPILOT_SCREEN_DONE';

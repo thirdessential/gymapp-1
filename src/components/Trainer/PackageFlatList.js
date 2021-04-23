@@ -9,7 +9,10 @@ import {spacing} from "../../constants/dimension";
 
 const packageFlatList = (props) => {
   const renderPlan = (plan) => {
-    const {title, noOfSessions, sessionsPerWeek, price, description, category, group,totalSubscriptions, _id, slot} = plan;
+    console.log(plan)
+    let {title, noOfSessions, sessionsPerWeek, price, description, category, group,totalSubscriptions, _id, slot} = plan;
+    // slot = slot==null ? {days:[]} :slot
+    console.log(slot)
     const editCallback = props.editCallback ? () => props.editCallback(_id) : null;
     const deleteCallback = props.deleteCallback ? () => props.deleteCallback(_id) : null;
     const enrollCallback = props.enrollCallback ? () => props.enrollCallback(_id) : null;

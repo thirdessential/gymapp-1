@@ -23,6 +23,10 @@ const answer = (props) => {
   const [liked, setLiked] = useState(isLiked);
   const [disliked, setDisliked] = useState(false);
   const [localLikeCount, setLocalLikeCount] = useState(likeCount);
+  const [lines, setLines] = useState(5);
+  const [expandid, setexpand] = useState(false);
+  // const [lines, setLines] = useState(5);
+
   const like = () => {
     setLocalLikeCount(localLikeCount + 1);
     setLiked(true);
@@ -61,7 +65,15 @@ const answer = (props) => {
         <TouchableOpacity activeOpacity={0.8} onPress={onProfilePress} style={styles.titleContainer}>
           <Text style={styles.displayName}>{createdBy}</Text>
         </TouchableOpacity>
-        <Text numberOfLines={5} style={styles.textContent}>{text}</Text>
+  <Text numberOfLines={lines} style={styles.textContent}>{text}</Text>
+  {text.length >200 && expandid ===false &&<TouchableOpacity activeOpacity={0.8} onPress={()=>{setLines(10);setexpand(true)}} style={styles.titleContainer}>
+          <Text style={[styles.displayName, styles.postTime]}>Read More</Text>
+          {/* <Text style={[styles.displayName, styles.postTime]}>Read Less</Text> */}
+        </TouchableOpacity>}
+        {text.length >200 && expandid ===true &&  <TouchableOpacity activeOpacity={0.8} onPress={()=>{setLines(5);setexpand(false)}} style={styles.titleContainer}>
+          {/* <Text style={[styles.displayName, styles.postTime]}>Read More</Text> */}
+          <Text style={[styles.displayName, styles.postTime]}>Read Less</Text>
+        </TouchableOpacity>}
         <View style={styles.hitsContainer}>
         </View>
       </View>

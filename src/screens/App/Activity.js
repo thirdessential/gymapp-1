@@ -1,25 +1,26 @@
-import React, {PureComponent} from "react";
-import {StyleSheet, Text, View, ScrollView, LayoutAnimation, TouchableOpacity,RefreshControl} from "react-native";
-import {connect} from "react-redux";
-import {Menu, MenuOption, MenuOptions, MenuTrigger, renderers} from "react-native-popup-menu";
+import React, { PureComponent } from "react";
+import { StyleSheet, Text,Image, View, ScrollView, LayoutAnimation, Button, TouchableOpacity, RefreshControl } from "react-native";
+import { connect } from "react-redux";
+import { Menu, MenuOption, MenuOptions, MenuTrigger, renderers } from "react-native-popup-menu";
 
-import {spacing} from "../../constants/dimension";
-import {appTheme, bmiColors} from "../../constants/colors";
-import {streamStatus, userTypes} from "../../constants/appConstants";
+import { spacing } from "../../constants/dimension";
+import { appTheme, bmiColors } from "../../constants/colors";
+import { streamStatus, userTypes } from "../../constants/appConstants";
 import * as actionCreators from "../../store/actions";
 import TodaySessionSwiper from "../../components/TodaySessionSwiper";
-import {datesAreOnSameDay, getFormattedDate, getPastWeekDates,convertdate,converteddate} from "../../utils/utils";
+import { datesAreOnSameDay, getFormattedDate, getPastWeekDates, convertdate, converteddate } from "../../utils/utils";
 import fontSizes from "../../constants/fontSizes";
 import fonts from "../../constants/fonts";
 import strings from "../../constants/strings";
 import RouteNames from "../../navigation/RouteNames";
 import StreamSwiper from "../../components/Social/StreamSwiper";
-import {hostMeeting, joinMeeting} from "../../utils/zoomMeeting";
+import { hostMeeting, joinMeeting } from "../../utils/zoomMeeting";
 import FitnessSummary from "../../components/fitness/FitnessSummary";
-import {startStream} from "../../API";
+import { startStream } from "../../API";
 import Loader from "../../components/Loader";
-import {showError} from "../../utils/notification";
-
+import { showError } from "../../utils/notification";
+// import YouTube from 'react-native-youtube';
+import YoutubePlayer from "react-native-youtube-iframe";
 class Activity extends PureComponent {
   state = {
     todaySessions: null,
@@ -27,16 +28,18 @@ class Activity extends PureComponent {
     currentStats: null, // current and weekly calorie, water intake
     weeklyStats: null,
     currentSwitch: true, // when true, show current calorie stats, weekly otherwise,
-    loading: false
+    loading: false,
+    height: 301,
+    playing: false
   }
 
   setToday = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-    this.setState({currentSwitch: true})
+    this.setState({ currentSwitch: true })
   }
   setWeekly = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-    this.setState({currentSwitch: false})
+    this.setState({ currentSwitch: false })
   }
 
   componentDidMount() {
@@ -47,28 +50,33 @@ class Activity extends PureComponent {
       userType,
       syncSubscriptions,
       syncSessions,
-      navigation
+      navigation,
+      syncYoutubeVideos
     } = this.props;
     updateUserData(); // update my userData
-      userType === userTypes.TRAINER && syncCoupons(); // Update my coupons
-      syncSubscriptions(); // update my subscriptions
-      syncSessions(); // Update my session data
-      userType === userTypes.TRAINER && getCallbacks(); // get my call requests
+    userType === userTypes.TRAINER && syncCoupons(); // Update my coupons
+    syncYoutubeVideos(); //get's youtube videos
+    syncSubscriptions(); // update my subscriptions
+    syncSessions(); // Update my session data
+    userType === userTypes.TRAINER && getCallbacks(); // get my call requests
+    this.setState({
+      loading: true
+    })
+    setTimeout(() => {
+      this.updateLocalSessionData();
+      this.updateLocalStreamData()
+      this.updateLocalStatsData();
+      // console.log(this.props.youtubeVideos,"6VXcs45%#$------------------")
       this.setState({
-        loading:true
+        loading: false
       })
-      setTimeout(()=>{
-        this.updateLocalSessionData();
-        this.updateLocalStreamData()
-        this.updateLocalStatsData();
-        this.setState({
-          loading:false
-        })
-      },5000)
-     
-      this.unsubscribeFocus = navigation.addListener('focus', e => {
-        this.updateLocalStatsData();
-      })
+    // this.props.navigation.navigate(RouteNames.Jitsicall);
+
+    }, 5000)
+
+    this.unsubscribeFocus = navigation.addListener('focus', e => {
+      this.updateLocalStatsData();
+    })
   }
 
   componentWillUnmount() {
@@ -76,25 +84,44 @@ class Activity extends PureComponent {
   }
 
   updateLocalSessionData = () => {
-    const {sessions} = this.props;
-    const today =converteddate();
+    const { sessions } = this.props;
+    let today = converteddate();
+    // let today_date = today.getDate() + 1 
+    // today = today.setDate(today_date)
+    // today = new Date(today)
+    // console.log(today,"todYYY",new Date())
     if (!sessions || sessions.length === 0) return;
-    const todaySessions = sessions.filter(session => datesAreOnSameDay(convertdate(new Date(session.date)), today));
-    this.setState({todaySessions});
+    // console.log(session.date,'-----',convertdate(session.date))
+    // sessions.map(session=>{
+    //   // console.log(session.date,convertdate(session.date),"convertdate(session.date)")
+
+    //   // if(datesAreOnSameDay(convertdate(session.date), today)){
+    //   //   console.log(new Date(session.date).getUTCDate(),today.getUTCDate(),'------------------------')
+    //   //   console.log(session.date,'console',convertdate(session.date))
+    //   // }
+    // })
+    const todaySessions = sessions.filter(session => datesAreOnSameDay(new Date(session.date), today));
+    this.setState({ todaySessions });
   }
   updateLocalStreamData = () => {
-    const {liveStreams, myLiveStreams} = this.props;
-    const myStreamIds = myLiveStreams.map(stream => stream._id);
+    const { liveStreams, myLiveStreams, userData } = this.props;
+    let myStreamIds = liveStreams.filter(stream => stream.host._id === userData._id);
+    myStreamIds = myStreamIds.map(stream => stream.host._id)
     // Check which streams are scheduled and show them
     let upcomingStreams = liveStreams.filter(stream => stream.status === streamStatus.SCHEDULED);
-    upcomingStreams = upcomingStreams.sort(function(a,b){
-      return  convertdate(new Date(a.date)) - convertdate(new Date(b.date));
-     }).map(stream => {
-      if (myStreamIds.includes(stream._id))
+    upcomingStreams = upcomingStreams.sort(function (a, b) {
+      return new Date(a.date) - new Date(b.date);
+    }).map(stream => {
+      if (myStreamIds.includes(stream.host._id)) {
         stream.isMyStream = true;
-      return stream
+        return stream
+
+      } else {
+        stream.isMyStream = false;
+        return stream
+      }
     });
-    this.setState({upcomingStreams});
+    this.setState({ upcomingStreams });
   }
   reduceDayCalories = data => {
     let proteins = 0, carbs = 0, fats = 0, calories = 0;
@@ -108,11 +135,18 @@ class Activity extends PureComponent {
           calories += item.total;
         }
       );
-    return {proteins, carbs, fats, calories};
+    return { proteins, carbs, fats, calories };
+  }
+  onStateChange = (state) => {
+    if (state === "ended") {
+      this.setState({
+        playing: false
+      })
+    }
   }
   updateLocalStatsData = () => {
     const today = getFormattedDate();
-    const {calorieData, waterIntake} = this.props;
+    const { calorieData, waterIntake } = this.props;
     if (!calorieData) return;
     // Get today's stats
     const currentCalorie = calorieData[today];
@@ -138,7 +172,7 @@ class Activity extends PureComponent {
       const datedCalorieData = calorieData[formattedDate];
       if (datedCalorieData) {
         calorieDivider++;
-        const {proteins, carbs, fats, calories} = this.reduceDayCalories(datedCalorieData);
+        const { proteins, carbs, fats, calories } = this.reduceDayCalories(datedCalorieData);
         weeklyStats.proteins += proteins;
         weeklyStats.carbs += carbs;
         weeklyStats.fats += fats;
@@ -160,17 +194,21 @@ class Activity extends PureComponent {
     if (waterDivider)
       weeklyStats.water /= waterDivider;
 
-    this.setState({weeklyStats, currentStats});
+    this.setState({ weeklyStats, currentStats });
   }
   openSessions = () => {
     this.props.navigation.navigate(RouteNames.Sessions);
   }
   renderTodaySessions = () => {
-    const {todaySessions} = this.state;
+    const { todaySessions } = this.state;
     if (!todaySessions || todaySessions.length === 0) return (
+        <TouchableOpacity onPress={() => { this.props.navigation.navigate(RouteNames.WorkoutTab) }}>
       <View style={[styles.card, styles.noContentContainer]}>
-        <Text style={styles.noContent}>{strings.NO_UPCOMING_SESSIONS}</Text>
+          <Image style={{width:350,height:200}} source={require('../../../assets/Icons/workouts.png')}></Image>
+          <Text style={styles.noContent}>{strings.NO_SCHEDULED_WORKOUTS + ', ' +strings.Click_Workout}</Text>
+          {/* <Text style={styles.noContent}>{strings.Click_Workout}</Text> */}
       </View>
+        </TouchableOpacity>
     );
     return (
       <TodaySessionSwiper
@@ -182,15 +220,15 @@ class Activity extends PureComponent {
     )
   }
   onJoinStream = async (streamId) => {
-    this.setState({loading: true});
-    const {liveStreams, userName} = this.props;
+    this.setState({ loading: true });
+    const { liveStreams, userName } = this.props;
     const targetStream = liveStreams.filter(liveStream => liveStream._id === streamId)[0];
-    const {meetingNumber, meetingPassword, clientKey, clientSecret} = targetStream;
+    const { meetingNumber, meetingPassword, clientKey, clientSecret } = targetStream;
     await joinMeeting(meetingNumber, meetingPassword, userName, clientKey, clientSecret);
-    this.setState({loading: false});
+    this.setState({ loading: false });
   }
   onStartStream = async (stream) => {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     const res = await startStream(stream._id);
     if (res.success) {
       await hostMeeting(stream.meetingNumber, res.token, this.props.userName, stream.clientKey, stream.clientSecret);
@@ -198,28 +236,33 @@ class Activity extends PureComponent {
     } else {
       showError(strings.FAILED_TO_START_STREAM);
     }
-    this.setState({loading: false});
+    this.setState({ loading: false });
   }
   renderUpcomingStreams = () => {
-    const {upcomingStreams} = this.state;
+    const { upcomingStreams } = this.state;
+    let { youtubeVideos } = this.props;
+    youtubeVideos =youtubeVideos ? youtubeVideos.slice(0,7) :[]
     let upcomingStream = []
-    if (upcomingStreams){
-      upcomingStream = upcomingStreams.filter( stream => {
+    if (upcomingStreams) {
+      upcomingStream = upcomingStreams.filter(stream => {
         const endDate = convertdate(new Date(stream.date)).setMinutes(convertdate(new Date(stream.date)).getMinutes() + stream.duration)
         const now = converteddate();
-        if( !(now > endDate && stream.status === "SCHEDULED") )
+        if (!(now > endDate && stream.status === "SCHEDULED"))
           return stream
       })
     }
-    if (!upcomingStreams || upcomingStream.length === 0 || upcomingStreams.length === 0) return (
+    upcomingStream = [...upcomingStream, ...youtubeVideos]
+    upcomingStream.push({view_more:true})
+    if (upcomingStream.length === 0) return (
       <View style={[styles.card, styles.noContentContainer]}>
         <Text style={styles.noContent}>{strings.NO_UPCOMING_STREAMS}</Text>
       </View>
     );
-    
+
     return (
       <StreamSwiper
         streams={upcomingStream}
+        {...this.props}
         onJoin={this.onJoinStream}
         onStart={this.onStartStream}
       />
@@ -227,39 +270,39 @@ class Activity extends PureComponent {
   }
 
   renderHealthStats = () => {
-    const {currentStats, currentSwitch, weeklyStats} = this.state;
+    const { currentStats, currentSwitch, weeklyStats } = this.state;
     return (
       <View style={[styles.sessionContainer, styles.card]}>
         <View style={styles.row}>
           <Text style={styles.subtitle}>{strings.HEALTH_SUMMARY}</Text>
-          <View style={{flexDirection : 'row'}}>
-          <TouchableOpacity 
-            style={styles.calorieButton}
-            onPress={() => this.props.navigation.navigate(RouteNames.CalorieCounter)}>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity
+              style={styles.calorieButton}
+              onPress={() => this.props.navigation.navigate(RouteNames.CalorieCounter)}>
               <Text style={styles.calorieText}>Add</Text>
-          </TouchableOpacity>
-          <Menu
-            style={styles.menuContainer}
-            rendererProps={{
-              placement: 'bottom', anchorStyle: {
-                backgroundColor: appTheme.darkGrey,
-                marginTop: spacing.medium_sm
-              }
-            }}
-            renderer={renderers.Popover}
-          >
-            <MenuTrigger customStyles={{padding: spacing.small_lg}}>
-              <Text style={styles.menuTitle}>{currentSwitch ? strings.TODAY : strings.SEVEN_DAYS}</Text>
-            </MenuTrigger>
-            <MenuOptions customStyles={styles.menu}>
-              <MenuOption style={styles.menuButton} onSelect={this.setToday}>
-                <Text style={styles.menuText}>{strings.TODAY}</Text>
-              </MenuOption>
-              <MenuOption style={styles.menuButton} onSelect={this.setWeekly}>
-                <Text style={styles.menuText}>{strings.SEVEN_DAYS}</Text>
-              </MenuOption>
-            </MenuOptions>
-          </Menu>
+            </TouchableOpacity>
+            <Menu
+              style={styles.menuContainer}
+              rendererProps={{
+                placement: 'bottom', anchorStyle: {
+                  backgroundColor: appTheme.darkGrey,
+                  marginTop: spacing.medium_sm
+                }
+              }}
+              renderer={renderers.Popover}
+            >
+              <MenuTrigger customStyles={{ padding: spacing.small_lg }}>
+                <Text style={styles.menuTitle}>{currentSwitch ? strings.TODAY : strings.SEVEN_DAYS}</Text>
+              </MenuTrigger>
+              <MenuOptions customStyles={styles.menu}>
+                <MenuOption style={styles.menuButton} onSelect={this.setToday}>
+                  <Text style={styles.menuText}>{strings.TODAY}</Text>
+                </MenuOption>
+                <MenuOption style={styles.menuButton} onSelect={this.setWeekly}>
+                  <Text style={styles.menuText}>{strings.SEVEN_DAYS}</Text>
+                </MenuOption>
+              </MenuOptions>
+            </Menu>
           </View>
         </View>
         <FitnessSummary
@@ -270,31 +313,31 @@ class Activity extends PureComponent {
     )
   }
   _onRefresh = () => {
-    this.setState({refreshing: true});
+    this.setState({ refreshing: true });
     this.componentDidMount()
-   
+
   }
 
   render() {
     return (
       <ScrollView
-      refreshControl={
-        <RefreshControl
-          refreshing={false}
-          onRefresh={this._onRefresh}
-        />
-      }
-       showsVerticalScrollIndicator={false} style={styles.container}>
+        refreshControl={
+          <RefreshControl
+            refreshing={false}
+            onRefresh={this._onRefresh}
+          />
+        }
+        showsVerticalScrollIndicator={false} style={styles.container}>
         <View style={styles.sessionContainer}>
-          <Text style={styles.subtitle}>{strings.UPCOMING_STREAMS}</Text>
+          <Text style={styles.subtitle}>{strings.STREAMS}</Text>
           {this.renderUpcomingStreams()}
         </View>
         <View style={styles.sessionContainer}>
-          <Text style={styles.subtitle}>{strings.SESSIONS}</Text>
+          <Text style={styles.subtitle}>{strings.SCHEDULED_WORKOUTS}</Text>
           {this.renderTodaySessions()}
         </View>
         {this.renderHealthStats()}
-        <Loader loading={this.state.loading}/>
+        <Loader loading={this.state.loading} />
       </ScrollView>
     );
   }
@@ -327,9 +370,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: spacing.small,
     paddingHorizontal: spacing.small_lg,
-    marginLeft : 10
+    marginLeft: 10
   },
-  calorieButton : {
+  calorieButton: {
     borderColor: appTheme.grey,
     borderWidth: 1,
     borderRadius: 8,
@@ -343,7 +386,7 @@ const styles = StyleSheet.create({
     color: appTheme.brightContent,
     fontFamily: fonts.CenturyGothic,
     fontSize: fontSizes.h3,
-    fontWeight : "bold",
+    fontWeight: "bold",
     textAlign: 'center'
   },
   menuTitle: {
@@ -374,7 +417,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.large_lg
   },
   noContentContainer: {
-    minHeight: 100,
+    minHeight: 200,
     justifyContent: 'center',
   },
   noContent: {
@@ -390,6 +433,7 @@ const mapStateToProps = (state) => ({
   userType: state.user.userType,
   sessions: state.trainer.sessions,
   liveStreams: state.social.liveStreams,
+  youtubeVideos: state.social.youtubeVideos,
   myLiveStreams: state.social.myLiveStreams,
   userName: state.user.userData.name,
   calorieData: state.fitness.calorieData,
@@ -403,6 +447,7 @@ const mapDispatchToProps = (dispatch) => ({
   getCallbacks: () => dispatch(actionCreators.getCallbacks()),
   syncSubscriptions: () => dispatch(actionCreators.syncSubscriptions()),
   syncSessions: () => dispatch(actionCreators.syncSessions()),
+  syncYoutubeVideos: () => dispatch(actionCreators.syncYoutubevideos()),
   setStreamFinished: (streamId) => dispatch(actionCreators.setLiveStreamStatus(streamId, streamStatus.FINISHED))
 });
 

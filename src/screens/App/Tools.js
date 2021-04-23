@@ -29,9 +29,10 @@ class Tools extends PureComponent {
   openSpeech = () => this.props.navigation.navigate(RouteNames.Speech);
   openSelectExercise = () => this.props.navigation.navigate(RouteNames.SelectExercise);
   openMyStreams = () => this.props.navigation.navigate(RouteNames.MyStreams);
-  openWater = () => this.props.navigation.navigate(RouteNames.Water)
-  openCalorie = () => this.props.navigation.navigate(RouteNames.CalorieCounter)
-  openRecipe = () => this.props.navigation.navigate(RouteNames.RecipeRecommend)
+  openWater = () => this.props.navigation.navigate(RouteNames.Water);
+  openCalorie = () => this.props.navigation.navigate(RouteNames.CalorieCounter);
+  openRecipe = () => this.props.navigation.navigate(RouteNames.RecipeRecommend);
+  openworkout = () => this.props.navigation.navigate(RouteNames.WorkoutVideos);
   state = {
     toolsData: []
   }
@@ -104,6 +105,12 @@ class Tools extends PureComponent {
         title: strings.CALORIE_COUNTER,
         image: iconBackgrounds.calorie,
         callback: this.openCalorie,
+        enabled: true
+      },
+      {
+        title: strings.WORKOUT,
+        image: iconBackgrounds.workout,
+        callback: this.openworkout,
         enabled: true
       },
     ]

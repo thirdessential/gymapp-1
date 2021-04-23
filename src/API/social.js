@@ -3,7 +3,9 @@ import axios, { validateResponseCode } from "./config";
 import { imageTypes, rootURL } from '../constants/appConstants';
 import RNFetchBlob from "rn-fetch-blob";
 import { compressImage, getFileExtension } from "./storage";
-
+import VideoCompress from 'react-native-video-compressor'
+import { showInfo } from "../utils/notification";
+import strings from "../constants/strings";
 export const createTextPost = async (textContent) => {
   try {
     let response = await axios.post('/post', { textContent });
@@ -51,9 +53,7 @@ export const createImagePost = async (path, textContent, token) => {
     return false;
   }
 };
-import VideoCompress from 'react-native-video-compressor'
-import { showInfo } from "../utils/notification";
-import strings from "../constants/strings";
+
 
 
 export const createVideoPost = async (path, textContent, token, videoSrc) => {
@@ -328,6 +328,19 @@ export const listMyLiveStreams = async (url = '') => {
     let response = !!url ?
       await axios.get(url) :
       await axios.get('/live/listMy');
+    if (validateResponseCode(response.status))
+      return response.data;
+    else return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export const listYoutubevideos = async (url = '') => {
+  try {
+    let response = !!url ?
+      await axios.get(url) :
+      await axios.get('/youtube/getvideos');
     if (validateResponseCode(response.status))
       return response.data;
     else return false;

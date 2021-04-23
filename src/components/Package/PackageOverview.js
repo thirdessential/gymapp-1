@@ -26,12 +26,16 @@ const PackageOverview = (props) => {
   const [collapsed, setCollapsed] = useState(!open);
   const chevron = !collapsed ? 'chevron-up' : 'chevron-down';
   const [imageSrc] = useState(getRandomImage());
-  const { days, time } = props.slot
-  console.log(new Date(time),"time")
+  const days = props.group ? props.slot.days : []
+  const time = props.group ? props.slot.time : ''
+  // console.log(new Date(time),"time")
   const today = new Date().toLocaleDateString();
   const endDate = new Date();
-  const estWeeks = Math.floor(props.sessionCount / days.length);
-  endDate.setDate(endDate.getDate() + estWeeks * 7);
+  if(props.group){
+    const estWeeks = Math.floor(props.sessionCount / days.length);
+    endDate.setDate(endDate.getDate() + estWeeks * 7);
+
+  }
   const EditButtons = () => (
     <View style={styles.editContainer}>
       <TouchableOpacity

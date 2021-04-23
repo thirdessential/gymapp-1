@@ -82,6 +82,7 @@ export {
   reportQuestion,
   listLiveStreams,
   listMyLiveStreams,
+  listYoutubevideos
 } from './social';
 
 export {

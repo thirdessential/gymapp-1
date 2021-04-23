@@ -153,7 +153,7 @@ class Payment extends PureComponent {
                 <Text
                   style={styles.finalAmount}
                 >
-                  {strings.TOTAl}: {this.state.finalPrice}
+                  {strings.TOTAl}: {this.state.finalPrice.toFixed(2)}
                 </Text>
               </View>
             </View>
@@ -260,6 +260,7 @@ class Payment extends PureComponent {
         },
         theme: {color: appTheme.background, backgroundColor: appTheme.brightContent},
       };
+      console.log(options,"payment")
 
       RazorpayCheckout.open(options)
         .then((data) => {

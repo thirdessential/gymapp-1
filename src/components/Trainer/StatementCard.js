@@ -92,7 +92,7 @@ const statement = (props) => {
             </View>
             <View style={styles.row}>
               <Text style={styles.subtitleBold}>{strings.FINAL_AMOUNT}</Text>
-              <Text style={[styles.subtitleBold, {color: appTheme.brightContent}]}>{couponDetails.finalPrice} INR</Text>
+              <Text style={[styles.subtitleBold, {color: appTheme.brightContent}]}>{couponDetails.finalPrice.toFixed(2)} INR</Text>
             </View>
           </>
         )

@@ -63,6 +63,7 @@ export {
   reportQuestion,
   updateLiveStreams,
   setLiveStreamStatus,
+  syncYoutubevideos
 } from './social.actions';
 
 export {

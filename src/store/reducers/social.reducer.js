@@ -99,6 +99,12 @@ const reducer = (state = initialState, action) => {
       questions = idTransformer(questions);
       return updateObject(state, {questions: oldQuestions.concat(questions), postDetails});
     }
+    case actionTypes.Youtubevideos: {
+      let {videos} = action.payload;
+    // console.log(videos.videos)
+    let reversedVideos = videos.videos.reverse()
+      return updateObject(state, {youtubeVideos:reversedVideos});
+    }
     default:
       return state;
   }

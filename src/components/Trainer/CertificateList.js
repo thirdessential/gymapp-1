@@ -13,6 +13,7 @@ const certificateList = (props) => {
   const showImage = url => imageViewer.openViewer(url);
   const card = (data) => {
     const url = getImageFromCloudinaryPdf(data.contentUrl);
+    console.log(data.contentUrl,"++++",url)
     return (
       <TouchableOpacity onPress={() => showImage(url)}>
         <ImageBackground

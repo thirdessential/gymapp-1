@@ -13,7 +13,7 @@ const selectableButton = (props) => {
   const {textContent, selected, activeStyle, textStyle, disabled} = props;
 
   return (
-    <TouchableOpacity disabled={disabled} activeOpacity={0.7}  {...props} >
+    <TouchableOpacity disabled={disabled} activeOpacity={0.7} id={Math.random()} {...props} >
       {
         selected && (
           <View

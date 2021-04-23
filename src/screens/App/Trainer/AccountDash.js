@@ -42,7 +42,7 @@ class AccountDash extends PureComponent {
         media: require('../../../../assets/Icons/graphManMini.png')
       }, {
         subtitle: strings.PAID_AMOUNT,
-        title: this.props.claimedAmount,
+        title: this.props.claimedAmount.toFixed(0),
         buttonText: strings.GENERATE_INVOICE,
         callback: this.props.claimableAmount > 0 ? null : null,
         media: require('../../../../assets/Icons/moneyBagMini.png')
@@ -86,7 +86,7 @@ class AccountDash extends PureComponent {
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
         <View style={styles.headerContainer}>
           <Text style={styles.subtitle}>{strings.TOTAL_EARNING}</Text>
-          <Text style={styles.title}>{this.props.totalEarnings}<Text style={styles.subtitle}>{strings.INR}</Text></Text>
+          <Text style={styles.title}>{this.props.totalEarnings.toFixed(2)}<Text style={styles.subtitle}>{strings.INR}</Text></Text>
           <View style={{alignSelf: 'flex-start'}}>
             {/*<TouchableOpacity activeOpacity={0.6} style={styles.pillButton}>*/}
             {/*  <Text style={styles.boldSubtitle}>{strings.EXPORT_OVERVIEW}</Text>*/}

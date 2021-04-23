@@ -17,7 +17,7 @@ const authBar = (props) => {
           size={35}
         />
       </TouchableOpacity>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={props.facebookLogin}
         style={[styles.button, styles.rightButton]}
       >
@@ -26,7 +26,7 @@ const authBar = (props) => {
           color="white"
           size={35}
         />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   )
 }
@@ -39,15 +39,15 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 40,
     padding: spacing.medium_sm,
-    width: '50%',
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row'
   },
   leftButton: {
     backgroundColor: '#c33a09',
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0
+    // borderTopRightRadius: 0,
+    // borderBottomRightRadius: 0
   },
   rightButton: {
     backgroundColor: '#3b5998',
